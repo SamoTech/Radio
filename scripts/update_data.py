@@ -28,7 +28,7 @@ from pathlib import Path
 KIWI_MIRROR_URL = "https://cdn.aethersdr.com/kiwi.json"
 KIWI_LEGACY_URLS = ["http://rx.kiwisdr.com/json/", "https://rx.kiwisdr.com/json/"]
 RB_API = "https://de1.api.radio-browser.info/json/stations/search"
-RB_BATCH = 5000
+RB_BATCH = 1000
 RB_MAX = 500_000
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
