@@ -32,6 +32,7 @@ RB_BATCH = 1000
 RB_MAX = 500_000
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
 
 
 def fetch_json(url, params=None, attempts=3, timeout=90):
@@ -188,6 +189,16 @@ def fetch_kiwi():
     return None, [], None
 
 
+def load_official():
+    """Curated official/national broadcasters — always merged into the catalog."""
+    try:
+        raw = json.loads(OFFICIAL_PATH.read_text(encoding="utf-8"))
+        return [s for s in raw if isinstance(s, dict) and s.get("url")]
+    except Exception as e:  # noqa: BLE001
+        print(f"official stations file failed: {e}", file=sys.stderr)
+        return []
+
+
 def fetch_stations():
     """Fetch ALL non-broken Radio-Browser stations (offset pagination)."""
     out = []
@@ -207,6 +218,8 @@ def fetch_stations():
             break
         for s in raw:
             if not isinstance(s, dict):
+                continue
+            if s.get("countrycode", "").upper() == "IL":
                 continue
             url = s.get("url_resolved") or s.get("url", "")
             if not url:
@@ -258,7 +271,7 @@ def main():
         print("kiwisdr FAILED: no source worked, keeping last good snapshot", file=sys.stderr)
 
     try:
-        stations = fetch_stations()
+        stations = load_official() + fetch_stations()
         write_json(
             DATA_DIR / "stations.json",
             {"updated": now, "source": "https://www.radio-browser.info/", "count": len(stations), "stations": stations},
