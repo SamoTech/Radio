@@ -744,6 +744,7 @@ function setMedia(name) {
 }
 
 var hls = null;
+var easyBroadcastTokenCache = {};
 function isHlsUrl(u) {
   return /\.m3u8(?:\?|$)/i.test(u || '');
 }
@@ -764,13 +765,31 @@ function resolvePlaybackUrl(url, station) {
   var cleanUrl = new URL(url);
   ['token', 'expires', 'token_path'].forEach(function (key) { cleanUrl.searchParams.delete(key); });
   var unsignedUrl = cleanUrl.toString();
-  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(unsignedUrl);
-  return fetch(endpoint, { cache: 'no-store' }).then(function (response) {
+  var cacheKey = station.tokenEndpoint + '|' + station.url;
+  var cached = easyBroadcastTokenCache[cacheKey];
+  if (cached && cached.tokenText && cached.expires * 1000 > Date.now() + 30000) {
+    return Promise.resolve(appendEasyBroadcastToken(unsignedUrl, cached.tokenText));
+  }
+  if (cached && cached.promise) {
+    return cached.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
+  }
+  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(station.url || unsignedUrl);
+  var entry = { tokenText: '', expires: 0, promise: null };
+  entry.promise = fetch(endpoint, { cache: 'no-store' }).then(function (response) {
     if (!response.ok) throw new Error('Token endpoint HTTP ' + response.status);
     return response.text();
   }).then(function (tokenText) {
-    return appendEasyBroadcastToken(unsignedUrl, tokenText);
+    var values = new URLSearchParams(String(tokenText || '').trim().replace(/^\?/, ''));
+    entry.tokenText = tokenText;
+    entry.expires = Number(values.get('expires')) || 0;
+    entry.promise = null;
+    return tokenText;
+  }).catch(function (error) {
+    delete easyBroadcastTokenCache[cacheKey];
+    throw error;
   });
+  easyBroadcastTokenCache[cacheKey] = entry;
+  return entry.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
 }
 function loadHlsLib(cb) {
   if (window.Hls) { cb(true); return; }
