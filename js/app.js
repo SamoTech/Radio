@@ -761,12 +761,15 @@ function appendEasyBroadcastToken(url, tokenText) {
 }
 function resolvePlaybackUrl(url, station) {
   if (!station || !station.tokenEndpoint || station.tokenType !== 'easy_b') return Promise.resolve(url);
-  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(url);
+  var cleanUrl = new URL(url);
+  ['token', 'expires', 'token_path'].forEach(function (key) { cleanUrl.searchParams.delete(key); });
+  var unsignedUrl = cleanUrl.toString();
+  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(unsignedUrl);
   return fetch(endpoint, { cache: 'no-store' }).then(function (response) {
     if (!response.ok) throw new Error('Token endpoint HTTP ' + response.status);
     return response.text();
   }).then(function (tokenText) {
-    return appendEasyBroadcastToken(url, tokenText);
+    return appendEasyBroadcastToken(unsignedUrl, tokenText);
   });
 }
 function loadHlsLib(cb) {
