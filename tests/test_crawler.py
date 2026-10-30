@@ -25,9 +25,9 @@ class StationUrlTests(unittest.TestCase):
 
     def test_playlist_parser_accepts_only_https_streams(self):
         rows = module.parse_m3u(
-            "#EXTM3U\\n#EXTINF:-1,Secure\\nhttps://radio.test/live\\n"
-            "#EXTINF:-1,Insecure\\nhttp://radio.test/live\\n"
-            "#EXTINF:-1,Script\\njavascript:alert(1)\\n",
+            "#EXTM3U\n#EXTINF:-1,Secure\nhttps://radio.test/live\n"
+            "#EXTINF:-1,Insecure\nhttp://radio.test/live\n"
+            "#EXTINF:-1,Script\njavascript:alert(1)\n",
             "EG",
         )
         self.assertEqual([row["name"] for row in rows], ["Secure"])
