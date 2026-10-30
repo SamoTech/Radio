@@ -57,3 +57,20 @@ test('zero-result queries return an empty list without throwing', () => {
   sandbox.state.fmFilters.q = 'no-such-station';
   assert.equal(sandbox.filterFM().length, 0);
 });
+
+test('Live Search cancels a pending local debounce render', async () => {
+  const elements = { 'grid-fm': { innerHTML: '' } };
+  sandbox.document.getElementById = id => elements[id] || (elements[id] = {});
+  sandbox.fetch = () => new Promise(() => {});
+  sandbox.state.fmFilters = { q: 'Egypt', country: '', language: '', tag: '', chip: '' };
+
+  let localRenderCount = 0;
+  sandbox.fmClientRender = () => { localRenderCount += 1; };
+  sandbox.scheduleFMClientRender();
+
+  sandbox.searchFM();
+  await new Promise(resolve => setTimeout(resolve, 190));
+
+  assert.equal(localRenderCount, 0, 'the delayed local render must not supersede Live Search');
+  assert.equal(sandbox.fmSearchDebounceTimer, null);
+});
