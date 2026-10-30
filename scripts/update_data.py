@@ -59,6 +59,7 @@ EIBI_MAX_ROWS = 3000
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
+ARABIC_PATH = Path(__file__).resolve().parent / "arabic_stations.json"
 
 
 def fetch_json(url, params=None, attempts=3, timeout=90):
@@ -238,6 +239,16 @@ def load_official():
         return [s for s in raw if isinstance(s, dict) and s.get("url")]
     except Exception as e:  # noqa: BLE001
         print(f"official stations file failed: {e}", file=sys.stderr)
+        return []
+
+
+def load_arabic():
+    """Curated Arabic stations - merged after the official broadcasters."""
+    try:
+        raw = json.loads(ARABIC_PATH.read_text(encoding="utf-8"))
+        return [s for s in raw if isinstance(s, dict) and s.get("url")]
+    except Exception as e:  # noqa: BLE001
+        print(f"arabic stations file failed: {e}", file=sys.stderr)
         return []
 
 
@@ -447,7 +458,7 @@ def main():
         print("kiwisdr FAILED: no source worked, keeping last good snapshot", file=sys.stderr)
 
     try:
-        stations = load_official() + fetch_stations()
+        stations = load_official() + load_arabic() + fetch_stations()
         if len(stations) < 10_000:
             # A partial fetch must never wipe the full catalog snapshot.
             raise RuntimeError(f"suspiciously small catalog: {len(stations)}")
