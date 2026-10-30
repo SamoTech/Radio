@@ -339,6 +339,7 @@ function play(url, name) {
 
 function openSDR(url, name) {
   $('sdr-modal-name').textContent = '🎧 ' + (name || '');
+  $('sdr-open-ext').href = url;
   $('sdr-frame').src = url;
   $('sdr-modal').hidden = false;
 }

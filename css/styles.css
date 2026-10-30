@@ -3,6 +3,7 @@
   --text:#e6edf7; --muted:#8fa3c0; --accent:#22d3ee; --good:#34d399; --bad:#f87171;
 }
 *{box-sizing:border-box}
+[hidden]{display:none !important}
 body{margin:0;font-family:"Segoe UI",Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--text)}
 a{color:var(--accent)}
 .hero{padding:26px 16px 6px;text-align:center;background:radial-gradient(1100px 380px at 50% -220px,#16324f66,transparent),var(--bg)}
@@ -18,7 +19,7 @@ h1{margin:0;font-size:1.8rem}
 main{max-width:1200px;margin:0 auto;padding:14px 16px 40px}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5}
 #q,#qfm{flex:1 1 240px}
-input,select,button.btn{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font-size:.95rem;font-family:inherit}
+input,select,button.btn,a.btn{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font-size:.95rem;font-family:inherit;text-decoration:none}
 input:focus,select:focus{outline:1px solid var(--accent)}
 label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:.85rem;white-space:nowrap}
 .count{color:var(--muted);font-size:.85rem;margin-inline-start:auto}
@@ -47,7 +48,8 @@ label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size
 .modal{position:fixed;inset:0;background:rgba(2,8,20,.92);z-index:30;display:flex;flex-direction:column;padding:10px;gap:8px}
 .modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px}
 .modal-head strong{color:var(--accent);font-size:1rem}
+.modal-actions{display:flex;gap:8px;align-items:center}
 #sdr-frame{flex:1;width:100%;border:1px solid var(--line);border-radius:10px;background:#000}
 .empty{color:var(--muted);text-align:center;padding:40px 12px;grid-column:1/-1}
 footer{color:var(--muted);text-align:center;font-size:.8rem;padding:18px;border-top:1px solid var(--line);margin-top:20px}
-button.btn.ghost{background:transparent;color:var(--muted)}
+.btn.ghost{background:transparent;color:var(--muted)}
