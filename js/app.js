@@ -43,7 +43,7 @@ function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
   for(var key in LANGUAGE_ALIASES) if(LANGUAGE_ALIASES[key].indexOf(raw)!==-1)return key;
-  return raw.replace(/\\s+/g,' ');
+  return raw.replace(/\s+/g,' ');
 }
 function normalizeLanguages(value) {
   var seen={};
@@ -58,7 +58,7 @@ function normalizeCategories(value) {
   }).map(function(entry){return entry[0];}).join(', ');
 }
 function isOfficialStation(s) {
-  return s.official===true || /(^|[,;])\\s*(official|رسمي)\\s*([,;]|$)/i.test(String(s.tags||''));
+  return s.official===true || /(^|[,;])\s*(official|رسمي)\s*([,;]|$)/i.test(String(s.tags||''));
 }
 var CHIP_TAGS = {
   news: ['news', 'كل الأخبار', 'أخبار'],
