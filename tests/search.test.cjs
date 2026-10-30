@@ -124,3 +124,24 @@ test('EasyBroadcast token is reused for nested playlists until expiry', async ()
     sandbox.easyBroadcastTokenCache = {};
   }
 });
+
+
+test('URL validation rejects script and credential-bearing URLs', () => {
+  assert.equal(sandbox.safeHttpUrl('javascript:alert(1)'), '');
+  assert.equal(sandbox.safeHttpUrl('data:text/html,evil'), '');
+  assert.equal(sandbox.safeHttpUrl('https://user:pass@example.test/live'), '');
+  assert.match(sandbox.safeHttpUrl('https://example.test/live'), /^https:/);
+});
+
+test('HTTP streams are not offered to the in-page audio player', () => {
+  seedStations();
+  const html = sandbox.cardFm({ name: 'Legacy station', url: 'http://example.test/live', cc: 'EG', language: 'arabic', tags: 'news' });
+  assert.match(html, /open externally only|فتح خارجي فقط/);
+  assert.doesNotMatch(html, /class="open play"/);
+});
+
+test('Favorites and Arabic quick filters are present in the main UI', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  assert.match(html, /data-chip="fav"/);
+  assert.match(html, /data-chip="arabic"/);
+});
