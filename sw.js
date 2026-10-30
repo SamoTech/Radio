@@ -33,7 +33,7 @@ self.addEventListener('fetch', function (e) {
     e.respondWith(fetch(e.request).then(function (r) {
       if (r.ok) {
         var cp = r.clone();
-        e.waitUntil(caches.open(CACHE).then(function (c) { return c.put(e.request, cp); }));
+        return caches.open(CACHE).then(function (c) { return c.put(e.request, cp); }).then(function () { return r; });
       }
       return r;
     }).catch(function () {
