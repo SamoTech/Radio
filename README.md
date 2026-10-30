@@ -18,6 +18,8 @@ flowchart LR
 - **البيانات:** لقطات JSON محدثة تلقائيًا بواسطة `scripts/update_data.py` داخل GitHub Actions.
 - **البحث في محطات FM:** حي ومباشر من Radio-Browser API (CORS مفتوح)، مع snapshot احتياطي.
 
+> **ملاحظة تشغيل:** لو فشل سحب مصدر ما، السكربت يحتفظ بآخر لقطة ناجحة ولا يمسح البيانات — ويعيد المحاولة كل ٣٠ دقيقة تلقائيًا.
+
 ## الميزات (MVP)
 
 - 🛰️ دليل أجهزة KiwiSDR: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، GPS
@@ -29,7 +31,7 @@ flowchart LR
 
 ```bash
 python scripts/update_data.py   # سحب البيانات
-python -m http.server 8000       # ثم افتح http://localhost:8000
+python -m http.server 8000      # ثم افتح http://localhost:8000
 ```
 
 ## تفعيل النشر على GitHub Pages (مرة واحدة)
