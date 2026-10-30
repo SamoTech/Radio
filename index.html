@@ -10,7 +10,7 @@
 <meta property="og:description" content="دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين — بحث وتصنيف حسب الدولة واللغة والفئة.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://samotech.github.io/Radio/">
-<meta property="og:image" content="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/assistant/6a/11/aa/6a11aac8-c24f-43b6-bc6e-1ff46bb14190/0cb17ba6-415d-4c46-9b1c-b76d699bb532/a357ecfd-a2af-4123-8416-473d2e3a0f86/599bc25d-57fe-40cd-b20e-c37db9c30d3b.jpg">
+<meta property="og:image" content="https://samotech.github.io/Radio/icons/icon.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -92,13 +92,6 @@
       <div id="space-cond" class="space-cond"></div>
     </div>
 
-    <div id="eibi-panel" class="eibi-panel" hidden>
-      <div class="space-head">📡 <strong data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</strong> <span id="eibi-count" class="space-upd"></span></div>
-      <p class="hint" data-i18n="eibi_hint">من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.</p>
-      <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي…" data-i18n-ph="eibi_ph">
-      <div id="eibi-list" class="eibi-list"></div>
-    </div>
-
     <p class="hint" data-i18n="sdr_hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
     <div id="grid-sdr" class="grid"></div>
   </section>
@@ -122,7 +115,7 @@
       <button id="sdr-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
   </div>
-  <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay"></iframe>
+  <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 
 <footer>
@@ -137,7 +130,7 @@
     <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a> ·
     <a href="http://eibispace.de/" target="_blank" rel="noopener">EIBI</a>
   </p>
-  <p class="src-line"><span data-i18n="offline_footer">تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة.</span> SamoTech/Radio</p>
+  <p class="src-line"><span data-i18n="offline_footer">تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.</span> SamoTech/Radio</p>
 </footer>
 
 <div id="toast" class="toast" hidden></div>
