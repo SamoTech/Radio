@@ -454,7 +454,7 @@ function filterFacetOptions(kind) {
   if(!search||!select)return;
   var q=search.value.trim().toLocaleLowerCase(),selected=state.fmFilters[kind]||'';
   var options=FACET_OPTIONS[kind].filter(function(item){
-    return !q||item.label.toLocaleLowerCase().indexOf(q)!==-1||item.value.toLocaleLowerCase().indexOf(q)!==-1;
+    return item.value===selected||!q||item.label.toLocaleLowerCase().indexOf(q)!==-1||item.value.toLocaleLowerCase().indexOf(q)!==-1;
   });
   var placeholder=kind==='country'?t('all_countries'):(kind==='language'?t('all_languages'):t('all_tags'));
   fillSelect(select,placeholder,options);select.value=selected;
