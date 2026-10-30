@@ -2,10 +2,19 @@ name: Update data and deploy Radio Atlas
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    # Official and internet radio station catalog: once daily.
+    - cron: "17 2 * * *"
+    # SDR directory, space weather and shortwave schedule: every 6 hours.
+    - cron: "11 */6 * * *"
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Data group to refresh"
+        type: choice
+        options: [all, stations, sdr]
+        default: all
 
 permissions:
   contents: write
@@ -13,8 +22,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "radio-atlas-pipeline"
-  cancel-in-progress: true
+  group: radio-atlas-pipeline
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -29,10 +38,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Select refresh mode
+        id: mode
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            if [[ "${{ github.event.schedule }}" == "17 2 * * *" ]]; then
+              echo "mode=stations" >> "$GITHUB_OUTPUT"
+            else
+              echo "mode=sdr" >> "$GITHUB_OUTPUT"
+            fi
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "mode=${{ inputs.mode }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=all" >> "$GITHUB_OUTPUT"
+          fi
       - name: Validate frontend syntax
         run: node --check js/app.js
-      - name: Fetch latest data
-        run: python scripts/update_data.py
+      - name: Run selected data refresh
+        run: python scripts/update_data.py "${{ steps.mode.outputs.mode }}"
       - name: Commit data snapshot
         run: |
           git config user.name "radio-atlas-bot"
@@ -41,7 +65,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No data changes."
           else
-            git commit -m "chore(data): refresh receiver snapshot $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            git commit -m "chore(data): refresh ${{ steps.mode.outputs.mode }} snapshot $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
             git push
           fi
 
