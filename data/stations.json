@@ -4,231 +4,6 @@
  "count": 62190,
  "stations": [
   {
-   "name": "BBC World Service",
-   "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
-   "cc": "GB",
-   "language": "english",
-   "tags": "رسمي,news,world",
-   "codec": "AAC",
-   "bitrate": 96
-  },
-  {
-   "name": "France Inter",
-   "url": "https://icecast.radiofrance.fr/franceinter-midfi.mp3",
-   "cc": "FR",
-   "language": "french",
-   "tags": "رسمي,news",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "franceinfo",
-   "url": "https://icecast.radiofrance.fr/franceinfo-midfi.mp3",
-   "cc": "FR",
-   "language": "french",
-   "tags": "رسمي,news",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "RFI — Radio France Internationale",
-   "url": "https://rfimonde64k.ice.infomaniak.ch/rfimonde-64k.mp3",
-   "cc": "FR",
-   "language": "french",
-   "tags": "رسمي,world,news",
-   "codec": "MP3",
-   "bitrate": 64
-  },
-  {
-   "name": "Monte Carlo Doualiya — مونت كارلو دولي",
-   "url": "https://mcdu64k.ice.infomaniak.ch/mcdu-64k.mp3",
-   "cc": "FR",
-   "language": "arabic",
-   "tags": "رسمي,arabic,news",
-   "codec": "MP3",
-   "bitrate": 64
-  },
-  {
-   "name": "Deutschlandfunk",
-   "url": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3",
-   "cc": "DE",
-   "language": "german",
-   "tags": "رسمي,news",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "SWR3",
-   "url": "https://liveradio.swr.de/sw331ch/swr3/ch.mp3",
-   "cc": "DE",
-   "language": "german",
-   "tags": "رسمي,pop,music",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "NPO Radio 1",
-   "url": "https://icecast.omroep.nl/radio1-bb-mp3",
-   "cc": "NL",
-   "language": "dutch",
-   "tags": "رسمي,news",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "NPO Radio 2",
-   "url": "https://icecast.omroep.nl/radio2-bb-mp3",
-   "cc": "NL",
-   "language": "dutch",
-   "tags": "رسمي,music",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "ORF Radio Tirol",
-   "url": "https://orf-live.ors-shoutcast.at/tir-q1a",
-   "cc": "AT",
-   "language": "german",
-   "tags": "رسمي,regional",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "الإذاعة الوطنية — Al Idaa Al Watania",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_nationale/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,news",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "الإذاعة الأمازيغية — Al Idaa Al Amazighia",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_amazigh/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,amazigh",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة محمد السادس للقرآن الكريم",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_med_VI/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,quran,قرآن",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "شان إنتر — Chaîne Inter",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_inter/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic,french",
-   "tags": "رسمي,official,snrt,arabic,maroc,music",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة مراكش — Marrakech",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_marrakech/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة تطوان — Tétouan",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_tetouan/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة العيون — Laâyoune",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_laayoune/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة طنجة — Tanger",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_tanger/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة فاس — Fès",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_fes/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة وجدة — Oujda",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_oujda/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة الداخلة — Dakhla",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_dakhla/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة الدار البيضاء — Casablanca",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_casablanca/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة الحسيمة — Al Hoceima",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_houceima/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة أكادير — Agadir",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_agadir/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "إذاعة مكناس — Meknès",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_meknes/playlist.m3u8",
-   "cc": "MA",
-   "language": "arabic",
-   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
-   "codec": "AAC",
-   "bitrate": 0
-  },
-  {
    "name": "ميدى 1 طرب — Medi 1 Tarab",
    "url": "https://live.medi1.com/Tarab",
    "cc": "MA",
@@ -515,6 +290,231 @@
    "tags": "عربي,arabic,quran,قرآن",
    "codec": "MP3",
    "bitrate": 128
+  },
+  {
+   "name": "BBC World Service",
+   "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service",
+   "cc": "GB",
+   "language": "english",
+   "tags": "رسمي,news,world",
+   "codec": "AAC",
+   "bitrate": 96
+  },
+  {
+   "name": "France Inter",
+   "url": "https://icecast.radiofrance.fr/franceinter-midfi.mp3",
+   "cc": "FR",
+   "language": "french",
+   "tags": "رسمي,news",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "franceinfo",
+   "url": "https://icecast.radiofrance.fr/franceinfo-midfi.mp3",
+   "cc": "FR",
+   "language": "french",
+   "tags": "رسمي,news",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "RFI — Radio France Internationale",
+   "url": "https://rfimonde64k.ice.infomaniak.ch/rfimonde-64k.mp3",
+   "cc": "FR",
+   "language": "french",
+   "tags": "رسمي,world,news",
+   "codec": "MP3",
+   "bitrate": 64
+  },
+  {
+   "name": "Monte Carlo Doualiya — مونت كارلو دولي",
+   "url": "https://mcdu64k.ice.infomaniak.ch/mcdu-64k.mp3",
+   "cc": "FR",
+   "language": "arabic",
+   "tags": "رسمي,arabic,news",
+   "codec": "MP3",
+   "bitrate": 64
+  },
+  {
+   "name": "Deutschlandfunk",
+   "url": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "رسمي,news",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "SWR3",
+   "url": "https://liveradio.swr.de/sw331ch/swr3/ch.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "رسمي,pop,music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "NPO Radio 1",
+   "url": "https://icecast.omroep.nl/radio1-bb-mp3",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "رسمي,news",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "NPO Radio 2",
+   "url": "https://icecast.omroep.nl/radio2-bb-mp3",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "رسمي,music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "ORF Radio Tirol",
+   "url": "https://orf-live.ors-shoutcast.at/tir-q1a",
+   "cc": "AT",
+   "language": "german",
+   "tags": "رسمي,regional",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "الإذاعة الوطنية — Al Idaa Al Watania",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_nationale/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,news",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "الإذاعة الأمازيغية — Al Idaa Al Amazighia",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_amazigh/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,amazigh",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة محمد السادس للقرآن الكريم",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_med_VI/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,quran,قرآن",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "شان إنتر — Chaîne Inter",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_inter/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic,french",
+   "tags": "رسمي,official,snrt,arabic,maroc,music",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة مراكش — Marrakech",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_marrakech/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة تطوان — Tétouan",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_tetouan/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة العيون — Laâyoune",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_laayoune/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة طنجة — Tanger",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_tanger/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة فاس — Fès",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_fes/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة وجدة — Oujda",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_oujda/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة الداخلة — Dakhla",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_dakhla/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة الدار البيضاء — Casablanca",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_casablanca/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة الحسيمة — Al Hoceima",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_houceima/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة أكادير — Agadir",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_agadir/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة مكناس — Meknès",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_meknes/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
+   "codec": "AAC",
+   "bitrate": 0
   },
   {
    "name": "Radio Armisa",
