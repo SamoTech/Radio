@@ -1,0 +1,15 @@
+{
+  "name": "راديو أطلس",
+  "short_name": "راديو أطلس",
+  "description": "دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

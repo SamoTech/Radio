@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>راديو أطلس — دليل الاستقبال العالمي</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <h1>📻 راديو أطلس</h1>
+  <p>دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين</p>
+  <div class="stats">
+    <div class="stat"><span id="stat-total">–</span><label>جهاز استقبال</label></div>
+    <div class="stat"><span id="stat-online">–</span><label>أونلاين الآن</label></div>
+    <div class="stat"><span id="stat-listeners">–</span><label>مستمع حاليًا</label></div>
+    <div class="stat"><span id="stat-updated">–</span><label>آخر تحديث</label></div>
+  </div>
+  <nav class="tabs">
+    <button id="tab-sdr" class="tab active" type="button">أجهزة الاستقبال SDR</button>
+    <button id="tab-fm" class="tab" type="button">محطات البث</button>
+  </nav>
+</header>
+
+<main>
+  <!-- SDR -->
+  <section id="panel-sdr">
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…">
+      <select id="band" title="النطاق"></select>
+      <select id="sort" title="الترتيب">
+        <option value="snr">الأفضل SNR</option>
+        <option value="free">أكبر مساحة فاضية</option>
+        <option value="users">الأقل ازدحامًا</option>
+        <option value="name">الاسم</option>
+      </select>
+      <label class="check"><input type="checkbox" id="online-only" checked> أونلاين فقط</label>
+      <label class="check"><input type="checkbox" id="free-only"> فيه مكان فاضي</label>
+      <label class="check">SNR ≥ <input type="number" id="minsnr" value="0" min="0" max="60" style="width:64px"></label>
+      <span id="count-sdr" class="count"></span>
+    </div>
+    <div id="grid-sdr" class="grid"></div>
+  </section>
+
+  <!-- FM / Broadcast -->
+  <section id="panel-fm" hidden>
+    <div class="toolbar">
+      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، بلد، نوع… (بحث حي)">
+      <button id="fm-search-btn" class="btn" type="button">بحث</button>
+    </div>
+    <p class="hint">القائمة الافتراضية هي الأكثر استماعًا عالميًا (من Radio-Browser) — اكتب أي كلمة للبحث الحي المباشر.</p>
+    <div id="grid-fm" class="grid"></div>
+  </section>
+</main>
+
+<div id="player" class="player" hidden>
+  <button id="player-close" type="button" title="إغلاق">✕</button>
+  <div class="player-body">
+    <div id="player-name"></div>
+    <audio id="audio" controls></audio>
+  </div>
+</div>
+
+<footer>
+  المصادر: <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
+  <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> —
+  تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة. SamoTech/Radio
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
