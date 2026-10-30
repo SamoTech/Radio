@@ -1,4 +1,4 @@
-name: Update receiver data
+name: Update data and deploy Radio Atlas
 
 on:
   schedule:
@@ -9,9 +9,11 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
-  group: "update-data"
+  group: "radio-atlas-pipeline"
   cancel-in-progress: true
 
 jobs:
@@ -19,15 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate frontend syntax
+        run: node --check js/app.js
       - name: Fetch latest data
         run: python scripts/update_data.py
-
-      - name: Commit and push if changed
+      - name: Commit data snapshot
         run: |
           git config user.name "radio-atlas-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -38,3 +44,21 @@ jobs:
             git commit -m "chore(data): refresh receiver snapshot $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
             git push
           fi
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

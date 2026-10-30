@@ -84,3 +84,10 @@ footer{color:var(--muted);text-align:center;font-size:.8rem;padding:18px;border-
 .src-line{margin:.25rem 0}
 /* player external-open link (HLS stations) */
 #player-ext { flex: none; font-size: 13px; text-decoration: none; }
+
+.filter-field{display:flex;flex:1 1 190px;min-width:0;gap:6px;flex-direction:column}
+.filter-field input,.filter-field select{width:100%;min-width:0}
+#fm-country-search,#fm-language-search,#fm-tag-search{font-size:.86rem;padding:7px 10px}
+.visitor-box{min-height:44px;flex-direction:column;gap:6px}
+.visitor-note{font-size:.72rem;color:var(--muted)}
+#visitor-counter{display:inline-flex;align-items:center;justify-content:center;min-width:100px;min-height:32px;color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
