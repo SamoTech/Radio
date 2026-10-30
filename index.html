@@ -42,19 +42,19 @@
 <main>
   <!-- FM / Broadcast (default tab) -->
   <section id="panel-fm">
-    <div class="fm-toolbar" role="search" aria-label="البحث عن محطات الراديو">
+    <div class="fm-toolbar" role="search" data-i18n-aria="fm_search_aria" aria-label="البحث عن محطات الراديو">
       <div class="fm-search-row">
         <label class="sr-only" for="qfm">ابحث عن محطة أو دولة أو لغة أو فئة</label>
-        <input id="qfm" type="search" autocomplete="off" placeholder="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة…" data-i18n-ph="search_fm_ph" aria-label="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة">
+        <input id="qfm" type="search" autocomplete="off" placeholder="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة…" data-i18n-ph="search_fm_ph" data-i18n-aria="fm_search_input_aria" aria-label="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة">
         <button id="fm-search-btn" class="btn primary" type="button" data-i18n="live_search">بحث مباشر</button>
         <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
       </div>
       <div class="fm-filter-grid" aria-label="تصفية المحطات">
-        <div class="filter-field"><label for="fm-country-search">الدولة</label><input id="fm-country-search" type="search" autocomplete="off" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" aria-label="ابحث عن دولة"><select id="fm-country" title="الدولة" aria-label="اختر الدولة"></select></div>
-        <div class="filter-field"><label for="fm-language-search">اللغة</label><input id="fm-language-search" type="search" autocomplete="off" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" aria-label="ابحث عن لغة"><select id="fm-language" title="اللغة" aria-label="اختر اللغة"></select></div>
-        <div class="filter-field"><label for="fm-tag-search">الفئة</label><input id="fm-tag-search" type="search" autocomplete="off" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" aria-label="ابحث عن فئة"><select id="fm-tag" title="الفئة" aria-label="اختر الفئة"></select></div>
+        <div class="filter-field"><label for="fm-country-search" data-i18n="filter_country">الدولة</label><input id="fm-country-search" type="search" autocomplete="off" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" aria-label="ابحث عن دولة"><select id="fm-country" title="الدولة" aria-label="اختر الدولة"></select></div>
+        <div class="filter-field"><label for="fm-language-search" data-i18n="filter_language">اللغة</label><input id="fm-language-search" type="search" autocomplete="off" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" aria-label="ابحث عن لغة"><select id="fm-language" title="اللغة" aria-label="اختر اللغة"></select></div>
+        <div class="filter-field"><label for="fm-tag-search" data-i18n="filter_category">الفئة</label><input id="fm-tag-search" type="search" autocomplete="off" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" aria-label="ابحث عن فئة"><select id="fm-tag" title="الفئة" aria-label="اختر الفئة"></select></div>
       </div>
-      <div class="fm-results-row"><span id="count-fm" class="count" aria-live="polite"></span><span class="fm-search-note">البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.</span></div>
+      <div class="fm-results-row"><span id="count-fm" class="count" aria-live="polite"></span><span class="fm-search-note" data-i18n="fm_search_note">البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.</span></div>
     </div>
     <div id="quick-chips" class="quick-chips">
       <button class="qchip" data-chip="all" type="button" data-i18n="chip_all">✨ الكل</button>
