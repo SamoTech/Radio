@@ -439,12 +439,20 @@ def _eibi_validity_contains(start_value, stop_value, day):
     stop = _eibi_date_parts(stop_value)
     if start is None and stop is None:
         return True
+    # When both endpoints carry a year, honor the exact calendar dates.
+    if isinstance(start, date) and isinstance(stop, date):
+        return start <= day <= stop
+
     def key(value):
         return (value.month, value.day) if isinstance(value, date) else value
     current = (day.month, day.day)
     if start is not None and stop is not None:
         a, b = key(start), key(stop)
         return (a <= current <= b) if a <= b else (current >= a or current <= b)
+    if isinstance(start, date):
+        return day >= start
+    if isinstance(stop, date):
+        return day <= stop
     if start is not None:
         return current >= key(start)
     return current <= key(stop)
