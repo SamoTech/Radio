@@ -2,12 +2,17 @@
 
 /* راديو أطلس — Radio Atlas frontend (vanilla JS, no deps) */
 
+var RB_API = 'https://de1.api.radio-browser.info/json';
+
 var state = {
   receivers: [],
   updated: null,
   filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0 },
-  fm: []
+  fm: [],
+  fmFilters: { q: '', country: '', language: '', tag: '' }
 };
+
+var fmFacetsLoaded = false;
 
 function $(id) { return document.getElementById(id); }
 
@@ -148,11 +153,82 @@ function renderSDR() {
 
 /* ================= FM / Broadcast ================= */
 
+function flagOf(cc) {
+  if (!cc || !/^[a-zA-Z]{2}$/.test(cc)) return '';
+  var a = cc.toUpperCase();
+  try {
+    return String.fromCodePoint(0x1F1E6 + a.charCodeAt(0) - 65, 0x1F1E6 + a.charCodeAt(1) - 65);
+  } catch (e) { return ''; }
+}
+
+function regionNameAr(cc, fallback) {
+  if (!cc) return fallback;
+  try {
+    var dn = new Intl.DisplayNames(['ar'], { type: 'region' });
+    var n = dn.of(cc.toUpperCase());
+    return n && n !== cc.toUpperCase() ? n : fallback;
+  } catch (e) { return fallback; }
+}
+
+function fillSelect(sel, placeholder, items) {
+  sel.innerHTML = '<option value="">' + esc(placeholder) + '</option>' + items.map(function (it) {
+    return '<option value="' + esc(it.value) + '">' + esc(it.label) + '</option>';
+  }).join('');
+}
+
+function topFacets(list, minCount, maxItems) {
+  return list.filter(function (x) { return (x.stationcount || 0) >= minCount; })
+    .sort(function (a, b) { return (b.stationcount || 0) - (a.stationcount || 0); })
+    .slice(0, maxItems);
+}
+
+function loadFMFacets() {
+  if (fmFacetsLoaded) return;
+  fmFacetsLoaded = true;
+  Promise.all([
+    fetchJSON(RB_API + '/countries').catch(function () { return []; }),
+    fetchJSON(RB_API + '/languages').catch(function () { return []; }),
+    fetchJSON(RB_API + '/tags').catch(function () { return []; })
+  ]).then(function (res) {
+    var countries = topFacets(res[0], 10, 150).map(function (c) {
+      var cc = c.iso_3166_1 || '';
+      return { value: cc, label: (cc ? flagOf(cc) + ' ' : '') + regionNameAr(cc, c.name || cc) + ' (' + c.stationcount + ')' };
+    });
+    var langs = topFacets(res[1], 10, 120).map(function (l) {
+      return { value: l.name, label: l.name + ' (' + l.stationcount + ')' };
+    });
+    var tags = topFacets(res[2], 25, 120).map(function (t) {
+      return { value: t.name, label: t.name + ' (' + t.stationcount + ')' };
+    });
+    fillSelect($('fm-country'), '🌍 كل الدول', countries);
+    fillSelect($('fm-language'), '🗣 كل اللغات', langs);
+    fillSelect($('fm-tag'), '🏷 كل الفئات', tags);
+  }).catch(function (e) { console.warn('facets:', e); });
+}
+
+function normalizeFm(s) {
+  return {
+    name: s.name || 'محطة',
+    url: s.url_resolved || s.url || '',
+    country: s.country || '',
+    cc: s.countrycode || s.cc || '',
+    language: s.language || '',
+    tags: s.tags || '',
+    codec: s.codec || '',
+    bitrate: s.bitrate || 0
+  };
+}
+
 function cardFm(s) {
-  var meta = [s.country, s.language, (s.codec ? s.codec + (s.bitrate ? ' ' + s.bitrate + 'kbps' : '') : '')]
-    .filter(Boolean).join(' · ');
+  var chips = '';
+  if (s.country) chips += '<span class="chip">' + (s.cc ? flagOf(s.cc) + ' ' : '') + esc(s.country) + '</span>';
+  if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
+  var tags = String(s.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3);
+  tags.forEach(function (t) { chips += '<span class="chip tag">🏷 ' + esc(t) + '</span>'; });
+  var meta = [s.codec, s.bitrate ? s.bitrate + 'kbps' : ''].filter(Boolean).join(' · ');
   return '<article class="card">' +
-    '<div class="card-head"><h3>' + esc(s.name || 'محطة') + '</h3></div>' +
+    '<div class="card-head"><h3>' + esc(s.name) + '</h3></div>' +
+    (chips ? '<div class="chips">' + chips + '</div>' : '') +
     (meta ? '<div class="meta">' + esc(meta) + '</div>' : '') +
     '<button class="open play" type="button" data-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">▶ استمع</button>' +
     '</article>';
@@ -160,28 +236,49 @@ function cardFm(s) {
 
 function renderFM() {
   $('grid-fm').innerHTML = state.fm.length ? state.fm.map(cardFm).join('')
-    : '<div class="empty">مفيش محطات — جرب كلمة تانية.</div>';
+    : '<div class="empty">مفيش محطات — جرب فلتر أخف أو كلمة تانية.</div>';
+  $('count-fm').textContent = state.fm.length ? state.fm.length + ' محطة' : '';
 }
 
 function loadStations() {
   return fetchJSON('data/stations.json').then(function (data) {
-    if (data && Array.isArray(data.stations)) state.fm = data.stations;
+    if (data && Array.isArray(data.stations)) state.fm = data.stations.map(normalizeFm);
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(renderFM);
 }
 
-function searchFM(q) {
-  if (!q || !q.trim()) { loadStations(); return; }
+function fmActive() {
+  var f = state.fmFilters;
+  return !!(f.q || f.country || f.language || f.tag);
+}
+
+function searchFM() {
+  if (!fmActive()) { loadStations(); return; }
   $('grid-fm').innerHTML = '<div class="empty">جاري البحث…</div>';
-  var url = 'https://de1.api.radio-browser.info/json/stations/search?limit=60&hidebroken=true&name=' + encodeURIComponent(q.trim());
-  fetch(url).then(function (r) { return r.json(); }).then(function (rows) {
-    state.fm = rows.filter(function (s) { return s.url_resolved; }).map(function (s) {
-      return { name: s.name, url: s.url_resolved, country: s.country, language: s.language, codec: s.codec, bitrate: s.bitrate };
+  var f = state.fmFilters;
+  var params = ['limit=60', 'hidebroken=true', 'order=clickcount', 'reverse=true'];
+  if (f.q) params.push('name=' + encodeURIComponent(f.q));
+  if (f.country) params.push('countrycode=' + encodeURIComponent(f.country));
+  if (f.language) params.push('language=' + encodeURIComponent(f.language));
+  if (f.tag) params.push('tagList=' + encodeURIComponent(f.tag));
+  fetch(RB_API + '/stations/search?' + params.join('&'))
+    .then(function (r) { return r.json(); })
+    .then(function (rows) {
+      state.fm = rows.filter(function (s) { return s.url_resolved || s.url; }).map(normalizeFm);
+      renderFM();
+    })
+    .catch(function () {
+      $('grid-fm').innerHTML = '<div class="empty">البحث الحي فشل — رجعنا للقائمة المخزنة.</div>';
+      loadStations();
     });
-    renderFM();
-  }).catch(function () {
-    $('grid-fm').innerHTML = '<div class="empty">البحث الحي فشل — رجعنا للقائمة المخزنة.</div>';
-    loadStations();
-  });
+}
+
+function clearFMFilters() {
+  state.fmFilters = { q: '', country: '', language: '', tag: '' };
+  $('qfm').value = '';
+  $('fm-country').value = '';
+  $('fm-language').value = '';
+  $('fm-tag').value = '';
+  loadStations();
 }
 
 /* ================= Player ================= */
@@ -216,6 +313,7 @@ function switchTab(t) {
   $('tab-fm').classList.toggle('active', !sdr);
   $('panel-sdr').hidden = !sdr;
   $('panel-fm').hidden = sdr;
+  if (t === 'fm') loadFMFacets();
 }
 
 function initUI() {
@@ -238,9 +336,13 @@ function initUI() {
   $('qfm').addEventListener('input', function () {
     clearTimeout(fmTimer);
     var v = this.value;
-    fmTimer = setTimeout(function () { searchFM(v); }, 450);
+    fmTimer = setTimeout(function () { state.fmFilters.q = v; searchFM(); }, 450);
   });
-  $('fm-search-btn').addEventListener('click', function () { searchFM($('qfm').value); });
+  $('fm-search-btn').addEventListener('click', function () { searchFM(); });
+  $('fm-clear-btn').addEventListener('click', clearFMFilters);
+  $('fm-country').addEventListener('change', function () { state.fmFilters.country = this.value; searchFM(); });
+  $('fm-language').addEventListener('change', function () { state.fmFilters.language = this.value; searchFM(); });
+  $('fm-tag').addEventListener('change', function () { state.fmFilters.tag = this.value; searchFM(); });
 }
 
 function init() {

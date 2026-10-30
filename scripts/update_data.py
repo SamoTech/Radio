@@ -195,6 +195,7 @@ def fetch_stations():
             "url": s.get("url_resolved") or s.get("url", ""),
             "favicon": s.get("favicon", ""),
             "country": s.get("country", ""),
+            "cc": s.get("countrycode", ""),
             "language": s.get("language", ""),
             "tags": s.get("tags", ""),
             "codec": s.get("codec", ""),

@@ -34,6 +34,7 @@ label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chip{font-size:.72rem;background:#1d2a44;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
 .chip.gps{color:var(--accent)}
+.chip.tag{color:#fbbf24}
 .meta{display:flex;gap:14px;color:var(--muted);font-size:.82rem;flex-wrap:wrap}
 .meta.antenna{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .snr{color:var(--good);font-weight:700}
@@ -44,3 +45,4 @@ label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size
 #player-close{background:var(--card);color:var(--muted);border:1px solid var(--line);border-radius:8px;width:34px;height:34px;cursor:pointer}
 .empty{color:var(--muted);text-align:center;padding:40px 12px;grid-column:1/-1}
 footer{color:var(--muted);text-align:center;font-size:.8rem;padding:18px;border-top:1px solid var(--line);margin-top:20px}
+button.btn.ghost{background:transparent;color:var(--muted)}
