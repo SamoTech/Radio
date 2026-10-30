@@ -149,7 +149,7 @@ test('Favorites and Arabic quick filters are present in the main UI', () => {
 
 test('live search results include matching curated catalog stations', () => {
   seedStations();
-  sandbox.state.fmFilters.q = 'egypt';
+  sandbox.state.fmFilters.q = 'مصر';
   sandbox.state.fmLiveRows = [{ name: 'Live result', url: 'https://example.test/live', cc: 'EG', language: 'arabic', tags: 'news' }];
   sandbox.state.fmLive = true;
   const names = Array.from(sandbox.currentFMList(), s => s.name);
