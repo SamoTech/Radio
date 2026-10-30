@@ -15,9 +15,8 @@ Sources:
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
 
-Failures never wipe the last good snapshot: files are written only
-after a successful fetch, and the scheduled run retries every 30 min
-(mirroring the origin cache policy of max-age=1800).
+Failures never wipe the last good snapshot. Station catalogs refresh daily;
+KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
 """
 
 import gzip
