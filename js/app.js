@@ -123,7 +123,7 @@ var STR = {
     eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
-    visitors: 'إجمالي الزيارات', online_visitors: 'المتواجدون الآن', you_from: 'أنت تزور من',
+    visitors: 'إجمالي الزيارات', online_visitors: 'المتواجدون الآن', counter_unavailable: 'غير متاح', you_from: 'أنت تزور من',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     sources: 'المصادر:', offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
@@ -159,7 +159,7 @@ var STR = {
     eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
-    visitors: 'Total page views', online_visitors: 'Online now', you_from: 'You are visiting from',
+    visitors: 'Total page views', online_visitors: 'Online now', counter_unavailable: 'Unavailable', you_from: 'You are visiting from',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     sources: 'Sources:', offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
   }
@@ -1149,7 +1149,7 @@ function refreshOnlineVisitors() {
   }).catch(function (error) {
     console.warn('Radio Atlas online visitor count:', error);
     var el = $('visitor-online');
-    if (el && el.textContent === '—') el.textContent = 'غير متاح';
+    if (el && el.textContent === '—') el.textContent = t('counter_unavailable');
   });
 }
 
@@ -1169,7 +1169,7 @@ function initVisitorBox() {
     .catch(function (error) {
       console.warn('Radio Atlas total visitor counter:', error);
       var el = $('visitor-counter');
-      if (el) el.textContent = 'غير متاح';
+      if (el) el.textContent = t('counter_unavailable');
     });
 
   // A visible tab sends a heartbeat every minute. The 3-minute unique-event
