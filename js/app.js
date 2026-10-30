@@ -27,7 +27,7 @@ var STR = {
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
-    chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
+    chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
     all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم',
     online_only: 'أونلاين فقط', free_only: 'فيه مكان فاضي', snr_min: 'SNR ≥',
@@ -63,7 +63,7 @@ var STR = {
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
     fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
-    chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
+    chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
     search_sdr_ph: 'Search: name, country, callsign…',
     all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name',
     online_only: 'Online only', free_only: 'Has a free slot', snr_min: 'SNR ≥',
@@ -448,6 +448,11 @@ function filterFM() {
     if (f.language && splitList(s.language).indexOf(f.language) === -1) return false;
     if (f.tag && splitList(s.tags).indexOf(f.tag) === -1) return false;
     if (f.chip === 'fav' && !state.favs[s.url]) return false;
+    if (f.chip === 'arabic') {
+      var langA = (s.language || '').toLowerCase();
+      var tagsA = splitList(s.tags);
+      if (langA.indexOf('arabic') === -1 && tagsA.indexOf('عربي') === -1 && tagsA.indexOf('arabic') === -1) return false;
+    }
     if (f.chip && CHIP_TAGS[f.chip]) {
       var tags = splitList(s.tags);
       var hit = false;
@@ -519,13 +524,14 @@ function fetchRB(params) {
 
 function searchFM() {
   var f = state.fmFilters;
-  if (!(f.q || f.country || f.language || f.tag || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
+  if (!(f.q || f.country || f.language || f.tag || f.chip === 'arabic' || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
   $('grid-fm').innerHTML = '<div class="empty">' + esc(t('searching_live')) + '</div>';
   var params = ['limit=200', 'hidebroken=true', 'order=clickcount', 'reverse=true'];
   if (f.q) params.push('name=' + encodeURIComponent(f.q));
   if (f.country) params.push('countrycode=' + encodeURIComponent(f.country));
   if (f.language) params.push('language=' + encodeURIComponent(f.language));
   if (f.tag) params.push('tagList=' + encodeURIComponent(f.tag));
+  if (f.chip === 'arabic') params.push('language=arabic');
   if (f.chip && CHIP_TAGS[f.chip]) params.push('tagList=' + encodeURIComponent(CHIP_TAGS[f.chip][0]));
   fetchRB(params)
     .then(function (rows) {
@@ -642,13 +648,60 @@ function setMedia(name) {
   } catch (e) {}
 }
 
+var hls = null;
+function isHlsUrl(u) {
+  return /\.m3u8(\?|$)/i.test(u || '');
+}
+function destroyHls() {
+  if (hls) { try { hls.destroy(); } catch (e) {} hls = null; }
+}
+function loadHlsLib(cb) {
+  if (window.Hls) { cb(); return; }
+  if (loadHlsLib.queue) { loadHlsLib.queue.push(cb); return; }
+  loadHlsLib.queue = [cb];
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+  s.onload = function () {
+    var q = loadHlsLib.queue || [];
+    loadHlsLib.queue = null;
+    for (var i = 0; i < q.length; i++) q[i]();
+  };
+  s.onerror = s.onload;
+  document.head.appendChild(s);
+}
+function attachHls(url, autostart) {
+  var a = $('audio');
+  if (window.Hls && window.Hls.isSupported()) {
+    destroyHls();
+    a.removeAttribute('src');
+    hls = new window.Hls({ autoStartLoad: !!autostart });
+    hls.__raStarted = !!autostart;
+    hls.on(window.Hls.Events.ERROR, function (evt, data) {
+      if (data && data.fatal) toast(t('toast_broken'));
+    });
+    hls.loadSource(url);
+    hls.attachMedia(a);
+  } else {
+    a.src = url;
+  }
+}
 function play(url, name) {
   state.currentName = name || '';
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + (name || '');
   var a = $('audio');
-  a.src = url;
-  a.play().catch(function () {});
+  destroyHls();
+  var ext = $('player-ext');
+  if (ext) { ext.href = url; ext.hidden = false; }
+  if (isHlsUrl(url) && !a.canPlayType('application/vnd.apple.mpegurl')) {
+    loadHlsLib(function () {
+      attachHls(url, true);
+      a.play().catch(function () {});
+    });
+  } else {
+    a.src = url;
+    a.play().catch(function () {});
+  }
   try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: name || '' })); } catch (e) {}
   setMedia(name || '');
 }
@@ -671,8 +724,14 @@ function initResume() {
   if (!last || !last.url) return;
   state.currentName = last.name || '';
   var a = $('audio');
-  try { a.src = last.url; } catch (e) {}
-  a.preload = 'none';
+  if (isHlsUrl(last.url) && !a.canPlayType('application/vnd.apple.mpegurl')) {
+    loadHlsLib(function () { attachHls(last.url, false); });
+  } else {
+    try { a.src = last.url; } catch (e) {}
+    a.preload = 'none';
+  }
+  var ext = $('player-ext');
+  if (ext) { ext.href = last.url; ext.hidden = false; }
   $('player').hidden = false;
   $('player-name').textContent = '⏸ ' + state.currentName + ' — ' + t('resume');
   setMedia(state.currentName);
@@ -704,11 +763,20 @@ function initPlayers() {
     var a = $('audio');
     a.pause();
     a.removeAttribute('src');
+    destroyHls();
+    var ext = $('player-ext');
+    if (ext) ext.hidden = true;
     $('player').hidden = true;
   });
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('audio').addEventListener('error', function () {
     if ($('audio').getAttribute('src')) toast(t('toast_broken'));
+  });
+  $('audio').addEventListener('play', function () {
+    if (hls && !hls.__raStarted) {
+      hls.__raStarted = true;
+      try { hls.startLoad(); } catch (e) {}
+    }
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {

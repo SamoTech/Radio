@@ -82,3 +82,5 @@ footer{color:var(--muted);text-align:center;font-size:.8rem;padding:18px;border-
 .visitor-title{font-weight:600}
 .visitor-from{color:var(--accent);font-weight:600}
 .src-line{margin:.25rem 0}
+/* player external-open link (HLS stations) */
+#player-ext { flex: none; font-size: 13px; text-decoration: none; }
