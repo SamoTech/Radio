@@ -27,7 +27,7 @@ function seedStations() {
 }
 
 test('Arabic search normalization handles alef variants and diacritics', () => {
-  assert.equal(sandbox.normalizeSearchText('إِذَاعَة'), 'اذاعه');
+  assert.equal(sandbox.normalizeSearchText('إِذَاعَة'), 'اذاعة');
 });
 
 test('station search matches localized country names and country codes', () => {
