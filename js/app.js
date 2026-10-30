@@ -223,7 +223,7 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
-function fetchJSON(url) {
+function fmtNum(n) {
   try { return Number(n).toLocaleString(STR[state.lang].locale); } catch (e) { return String(n); }
 }
 
