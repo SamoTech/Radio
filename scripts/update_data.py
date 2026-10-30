@@ -578,10 +578,10 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"stations FAILED: {e} — trying curated merge into last good snapshot", file=sys.stderr)
         try:
-            merged = merge_curated_into_snapshot(load_official() + load_arabic(), DATA_DIR / "stations.json")
+            merged = merge_curated_into_snapshot(load_official() + load_arabic() + fetch_iprd_arab(), DATA_DIR / "stations.json")
             if merged:
                 write_json(DATA_DIR / "stations.json", merged)
-                print(f"stations: merged {len(load_official()) + len(load_arabic())} curated into last good snapshot ({merged['count']} total)")
+                print(f"stations: merged curated stations into last good snapshot ({merged['count']} total)")
             else:
                 print("stations: curated merge unavailable — keeping last good snapshot", file=sys.stderr)
         except Exception as e2:  # noqa: BLE001
