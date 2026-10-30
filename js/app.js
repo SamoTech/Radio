@@ -245,7 +245,10 @@ function cardFm(s) {
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionNameAr(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
-  var tags = String(s.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3);
+  var allTags = String(s.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+  var isOfficial = allTags.indexOf('رسمي') !== -1 || allTags.indexOf('official') !== -1;
+  if (isOfficial) chips += '<span class="chip official">🏛 رسمي</span>';
+  var tags = allTags.filter(function (t) { return t !== 'رسمي' && t !== 'official'; }).slice(0, 3);
   tags.forEach(function (t) { chips += '<span class="chip tag">🏷 ' + esc(t) + '</span>'; });
   var meta = [s.codec, s.bitrate ? s.bitrate + 'kbps' : ''].filter(Boolean).join(' · ');
   return '<article class="card">' +
@@ -294,7 +297,7 @@ function renderFM() {
 function loadStations() {
   return fetchJSON('data/stations.json').then(function (data) {
     if (data && Array.isArray(data.stations)) {
-      state.fm = data.stations.map(normalizeFm);
+      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
       buildFMFacets();
     }
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(renderFM);

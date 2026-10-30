@@ -1,0 +1,12 @@
+[
+  {"name": "BBC World Service", "url": "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service", "cc": "GB", "language": "english", "tags": "رسمي,news,world", "codec": "AAC", "bitrate": 96},
+  {"name": "France Inter", "url": "https://icecast.radiofrance.fr/franceinter-midfi.mp3", "cc": "FR", "language": "french", "tags": "رسمي,news", "codec": "MP3", "bitrate": 128},
+  {"name": "franceinfo", "url": "https://icecast.radiofrance.fr/franceinfo-midfi.mp3", "cc": "FR", "language": "french", "tags": "رسمي,news", "codec": "MP3", "bitrate": 128},
+  {"name": "RFI — Radio France Internationale", "url": "https://rfimonde64k.ice.infomaniak.ch/rfimonde-64k.mp3", "cc": "FR", "language": "french", "tags": "رسمي,world,news", "codec": "MP3", "bitrate": 64},
+  {"name": "Monte Carlo Doualiya — مونت كارلو دولي", "url": "https://mcdu64k.ice.infomaniak.ch/mcdu-64k.mp3", "cc": "FR", "language": "arabic", "tags": "رسمي,arabic,news", "codec": "MP3", "bitrate": 64},
+  {"name": "Deutschlandfunk", "url": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3", "cc": "DE", "language": "german", "tags": "رسمي,news", "codec": "MP3", "bitrate": 128},
+  {"name": "SWR3", "url": "https://liveradio.swr.de/sw331ch/swr3/ch.mp3", "cc": "DE", "language": "german", "tags": "رسمي,pop,music", "codec": "MP3", "bitrate": 128},
+  {"name": "NPO Radio 1", "url": "https://icecast.omroep.nl/radio1-bb-mp3", "cc": "NL", "language": "dutch", "tags": "رسمي,news", "codec": "MP3", "bitrate": 128},
+  {"name": "NPO Radio 2", "url": "https://icecast.omroep.nl/radio2-bb-mp3", "cc": "NL", "language": "dutch", "tags": "رسمي,music", "codec": "MP3", "bitrate": 128},
+  {"name": "ORF Radio Tirol", "url": "https://orf-live.ors-shoutcast.at/tir-q1a", "cc": "AT", "language": "german", "tags": "رسمي,regional", "codec": "MP3", "bitrate": 128}
+]
