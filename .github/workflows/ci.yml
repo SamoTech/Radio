@@ -3,6 +3,8 @@ name: Validate Radio Atlas
 on:
   pull_request:
     branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -25,3 +27,5 @@ jobs:
         run: node --test tests/*.test.cjs
       - name: Compile crawler
         run: python -m py_compile scripts/update_data.py
+      - name: Test crawler URL handling
+        run: python -m unittest discover -s tests -p 'test_*.py'

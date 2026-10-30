@@ -1,4 +1,4 @@
-var CACHE = 'radio-atlas-v3';
+var CACHE = 'radio-atlas-v4';
 var SHELL = ['./', './index.html', './offline.html', './css/styles.css', './js/app.js', './manifest.webmanifest', './icons/icon.svg'];
 
 self.addEventListener('install', function (e) {
@@ -31,18 +31,28 @@ self.addEventListener('fetch', function (e) {
 
   if (url.pathname.indexOf('/data/') !== -1) {
     e.respondWith(fetch(e.request).then(function (r) {
-      var cp = r.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, cp); });
+      if (r.ok) {
+        var cp = r.clone();
+        return caches.open(CACHE).then(function (c) { return c.put(e.request, cp); }).then(function () { return r; });
+      }
       return r;
-    }).catch(function () { return caches.match(e.request); }));
+    }).catch(function () {
+      return caches.match(e.request).then(function (hit) {
+        return hit || new Response('{}', { status: 503, headers: { 'Content-Type': 'application/json' } });
+      });
+    }));
     return;
   }
 
-  e.respondWith(caches.match(e.request).then(function (hit) {
-    return hit || fetch(e.request).then(function (r) {
+  e.respondWith(fetch(e.request).then(function (r) {
+    if (r.ok) {
       var cp = r.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, cp); });
-      return r;
-    }).catch(function () { return caches.match('./offline.html'); });
+      return caches.open(CACHE).then(function (c) { return c.put(e.request, cp); }).then(function () { return r; });
+    }
+    return r;
+  }).catch(function () {
+    return caches.match(e.request).then(function (hit) {
+      return hit || caches.match('./offline.html');
+    });
   }));
 });

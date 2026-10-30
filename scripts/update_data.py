@@ -245,7 +245,7 @@ def load_official():
     """Curated official/national broadcasters — always merged into the catalog."""
     try:
         raw = json.loads(OFFICIAL_PATH.read_text(encoding="utf-8"))
-        return [s for s in raw if isinstance(s, dict) and s.get("url")]
+        return [s for s in raw if isinstance(s, dict) and station_url_key(s.get("url"))]
     except Exception as e:  # noqa: BLE001
         print(f"official stations file failed: {e}", file=sys.stderr)
         return []
@@ -261,6 +261,22 @@ def load_arabic():
         return []
 
 
+
+def station_url_key(value):
+    """Canonicalize a station URL for catalog-level duplicate detection."""
+    try:
+        parsed = urllib.parse.urlsplit(str(value or '').strip())
+        if parsed.scheme.lower() not in {'http', 'https'} or not parsed.hostname or parsed.username or parsed.password:
+            return ''
+        host = parsed.hostname.lower()
+        port = parsed.port
+        if port and not ((parsed.scheme.lower() == 'http' and port == 80) or (parsed.scheme.lower() == 'https' and port == 443)):
+            host = f'{host}:{port}'
+        return urllib.parse.urlunsplit((parsed.scheme.lower(), host, parsed.path or '/', parsed.query, ''))
+    except (TypeError, ValueError):
+        return ''
+
+
 def fetch_stations():
     """Fetch ALL non-broken Radio-Browser stations.
 
@@ -269,6 +285,7 @@ def fetch_stations():
     last good full snapshot instead of writing a partial catalog.
     """
     out = []
+    seen_urls = set()
     offset = 0
     server = 0
     while offset < RB_MAX:
@@ -304,8 +321,10 @@ def fetch_stations():
             if s.get("countrycode", "").upper() == "IL":
                 continue
             url = s.get("url_resolved") or s.get("url", "")
-            if not url:
+            key = station_url_key(url)
+            if not key or key in seen_urls:
                 continue
+            seen_urls.add(key)
             out.append(
                 {
                     "name": s.get("name", ""),
@@ -448,16 +467,18 @@ def merge_curated_into_snapshot(curated, path):
     stations = old.get("stations")
     if not isinstance(stations, list) or len(stations) < 10_000:
         return None
-    fresh = [s for s in curated if isinstance(s, dict) and s.get("url")]
-    seen = {s.get("url") for s in fresh}
+    fresh = [s for s in curated if isinstance(s, dict) and station_url_key(s.get("url"))]
+    seen = {station_url_key(s.get("url")) for s in fresh}
     out = list(fresh)
     for s in stations:
         if (
             isinstance(s, dict)
             and s.get("url")
             and s.get("cc") != "IL"
-            and s.get("url") not in seen
+            and station_url_key(s.get("url"))
+            and station_url_key(s.get("url")) not in seen
         ):
+            seen.add(station_url_key(s.get("url")))
             out.append(s)
     return {
         "updated": old.get("updated"),
@@ -576,20 +597,7 @@ def main():
             print(f"space weather FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
         try:
-            eibi = fetch_eibi(now)
-            if eibi:
-                write_json(
-                    DATA_DIR / "eibi.json",
-                    {
-                        "updated": now_iso,
-                        "source": "EIBI (eibispace.de)",
-                        "count": len(eibi),
-                        "rows": eibi,
-                    },
-                )
-                print(f"eibi: {len(eibi)} on-air broadcasts")
-            else:
-                print("eibi: no data — keeping last good snapshot", file=sys.stderr)
+            print("eibi: disabled until a verified schedule source is available")
         except Exception as e:  # noqa: BLE001
             print(f"eibi FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
@@ -607,7 +615,13 @@ def main():
             arab_extra = [
                 s for s in arab_extra if s["url"] not in existing_urls
             ][:IPRD_MAX]
-            stations = officials + arabic + arab_extra + rb_stations
+            stations = []
+            seen_urls = set()
+            for station in officials + arabic + arab_extra + rb_stations:
+                key = station_url_key(station.get("url"))
+                if key and key not in seen_urls:
+                    seen_urls.add(key)
+                    stations.append(station)
             print(
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
