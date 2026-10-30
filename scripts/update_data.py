@@ -213,7 +213,7 @@ def from_legacy(rows):
 def fetch_kiwi():
     # 1) AetherSDR CDN mirror — primary (origin often down during server changes)
     try:
-        data = fetch_json(KIWI_MIRROR_URL)
+        data = fetch_json(KIWI_MIRROR_URL, attempts=2, timeout=30)
         if isinstance(data, dict) and isinstance(data.get("receivers"), list):
             receivers, fetched_at = from_mirror(data)
             return KIWI_MIRROR_URL, receivers, fetched_at
@@ -224,7 +224,7 @@ def fetch_kiwi():
     # 2) legacy origin endpoints — fallback
     for url in KIWI_LEGACY_URLS:
         try:
-            receivers, fetched_at = from_legacy(as_rows(fetch_json(url)))
+            receivers, fetched_at = from_legacy(as_rows(fetch_json(url, attempts=1, timeout=20)))
             return url, receivers, fetched_at
         except Exception as e:  # noqa: BLE001
             print(f"kiwi legacy {url} failed: {e}", file=sys.stderr)
@@ -264,6 +264,8 @@ def fetch_stations():
                         "reverse": "true",
                         "hidebroken": "true",
                     },
+                    attempts=2,
+                    timeout=45,
                 )
                 break
             except Exception as e:  # noqa: BLE001
@@ -318,7 +320,7 @@ def fetch_space():
     f107 = None
     for url in SWPC_KP_URLS:
         try:
-            rows = as_rows(fetch_json(url, attempts=1, timeout=30))
+            rows = as_rows(fetch_json(url, attempts=1, timeout=20))
             kp = _last_float(rows, ["kp_index", "estimated_kp", "kp"])
             if kp is not None:
                 break
@@ -326,7 +328,7 @@ def fetch_space():
             print(f"swpc kp {url} failed: {e}", file=sys.stderr)
     for url in SWPC_F107_URLS:
         try:
-            rows = as_rows(fetch_json(url, attempts=1, timeout=30))
+            rows = as_rows(fetch_json(url, attempts=1, timeout=20))
             f107 = _last_float(rows, ["f107", "flux", "observed", "value"])
             if f107 is not None:
                 break
@@ -398,7 +400,7 @@ def fetch_eibi(now):
     """Best-effort EIBI shortwave schedule download (try several URLs)."""
     for url in EIBI_URLS:
         try:
-            data = fetch_bytes(url, timeout=120)
+            data = fetch_bytes(url, timeout=25)
             if url.endswith(".zip"):
                 with zipfile.ZipFile(io.BytesIO(data)) as z:
                     names = sorted(n for n in z.namelist() if n.lower().endswith(".csv"))
