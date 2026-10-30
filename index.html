@@ -117,9 +117,15 @@
 
 <footer>
   <div class="visitor-box">
-    <span class="visitor-title" data-i18n="visitors">إجمالي الزيارات</span>
-    <div id="visitor-counter" class="counterapi" aria-live="polite" aria-label="إجمالي زيارات الموقع"></div>
-    <span class="visitor-note">عداد الزيارات مقدم من <a href="https://counterapi.com/" target="_blank" rel="noopener">CounterAPI</a>.</span>
+    <div class="visitor-metric">
+      <span class="visitor-title" data-i18n="visitors">إجمالي الزيارات</span>
+      <div id="visitor-counter" aria-live="polite" aria-label="إجمالي زيارات الموقع">—</div>
+    </div>
+    <div class="visitor-metric">
+      <span class="visitor-title" data-i18n="online_visitors">المتواجدون الآن</span>
+      <div id="visitor-online" aria-live="polite" aria-label="الزوار النشطون حاليًا">—</div>
+    </div>
+    <span class="visitor-note">إحصاءات الزيارات والتواجد مقدمة من <a href="https://counterapi.com/" target="_blank" rel="noopener">CounterAPI</a>.</span>
   </div>
   <p class="src-line"><span data-i18n="sources">المصادر:</span>
     <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
@@ -131,7 +137,6 @@
 
 <div id="toast" class="toast" hidden></div>
 
-<script src="https://counterapi.com/c.js?ns=samotech.github.io" async></script>
 <script src="js/app.js"></script>
 </body>
 </html>
