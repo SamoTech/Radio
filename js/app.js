@@ -201,21 +201,32 @@ function buildFMFacets() {
     splitList(s.language).forEach(function (l) { langs[l] = (langs[l] || 0) + 1; });
     splitList(s.tags).forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
   });
-  var countryItems = Object.keys(countries).filter(function (k) { return countries[k] >= 10; })
-    .sort(function (a, b) { return countries[b] - countries[a]; })
-    .slice(0, 150)
+
+  // الدول: ترتيب أبجدي بالاسم العربي
+  var countryItems = Object.keys(countries)
+    .filter(function (k) { return countries[k] >= 5; })
     .map(function (k) {
-      return { value: k, label: flagOf(k) + ' ' + regionNameAr(k, k) + ' (' + countries[k] + ')' };
-    });
-  function toItems(map, min, max) {
-    return Object.keys(map).filter(function (k) { return map[k] >= min; })
-      .sort(function (a, b) { return map[b] - map[a]; })
-      .slice(0, max)
-      .map(function (k) { return { value: k, label: k + ' (' + map[k] + ')' }; });
-  }
+      var name = regionNameAr(k, k);
+      return { value: k, name: name, label: flagOf(k) + ' ' + name + ' (' + countries[k] + ')' };
+    })
+    .sort(function (a, b) { return a.name.localeCompare(b.name, 'ar'); });
+
+  // اللغات: ترتيب أبجدي
+  var langItems = Object.keys(langs)
+    .filter(function (k) { return langs[k] >= 10; })
+    .sort(function (a, b) { return a.localeCompare(b, 'ar'); })
+    .map(function (k) { return { value: k, label: k + ' (' + langs[k] + ')' }; });
+
+  // الفئات: الأكثر شيوعًا
+  var tagItems = Object.keys(tags)
+    .filter(function (k) { return tags[k] >= 25; })
+    .sort(function (a, b) { return tags[b] - tags[a]; })
+    .slice(0, 120)
+    .map(function (k) { return { value: k, label: k + ' (' + tags[k] + ')' }; });
+
   fillSelect($('fm-country'), '🌍 كل الدول', countryItems);
-  fillSelect($('fm-language'), '🗣 كل اللغات', toItems(langs, 10, 120));
-  fillSelect($('fm-tag'), '🏷 كل الفئات', toItems(tags, 25, 120));
+  fillSelect($('fm-language'), '🗣 كل اللغات', langItems);
+  fillSelect($('fm-tag'), '🏷 كل الفئات', tagItems);
 }
 
 function normalizeFm(s) {
@@ -380,28 +391,16 @@ function initPlayers() {
 /* ================= UI ================= */
 
 function switchTab(t) {
-  var sdr = t === 'sdr';
-  $('tab-sdr').classList.toggle('active', sdr);
-  $('tab-fm').classList.toggle('active', !sdr);
-  $('panel-sdr').hidden = !sdr;
-  $('panel-fm').hidden = sdr;
+  var fm = t === 'fm';
+  $('tab-fm').classList.toggle('active', fm);
+  $('tab-sdr').classList.toggle('active', !fm);
+  $('panel-fm').hidden = !fm;
+  $('panel-sdr').hidden = fm;
 }
 
 function initUI() {
-  $('tab-sdr').addEventListener('click', function () { switchTab('sdr'); });
   $('tab-fm').addEventListener('click', function () { switchTab('fm'); });
-
-  var qTimer = null;
-  $('q').addEventListener('input', function () {
-    clearTimeout(qTimer);
-    var v = this.value;
-    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); }, 150);
-  });
-  $('band').addEventListener('change', function () { state.filters.band = this.value; renderSDR(); });
-  $('sort').addEventListener('change', function () { state.filters.sort = this.value; renderSDR(); });
-  $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
-  $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
-  $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
+  $('tab-sdr').addEventListener('click', function () { switchTab('sdr'); });
 
   var fmTimer = null;
   $('qfm').addEventListener('input', function () {
@@ -421,6 +420,18 @@ function initUI() {
       renderFM();
     }
   });
+
+  var qTimer = null;
+  $('q').addEventListener('input', function () {
+    clearTimeout(qTimer);
+    var v = this.value;
+    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); }, 150);
+  });
+  $('band').addEventListener('change', function () { state.filters.band = this.value; renderSDR(); });
+  $('sort').addEventListener('change', function () { state.filters.sort = this.value; renderSDR(); });
+  $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
+  $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
+  $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
 }
 
 function init() {
