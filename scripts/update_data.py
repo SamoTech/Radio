@@ -56,6 +56,16 @@ EIBI_URLS = [
     "http://eibispace.de/ds/ski.zip",
 ]
 EIBI_MAX_ROWS = 3000
+IPRD_BASE = "https://raw.githubusercontent.com/iprd-org/iprd/master/streams"
+ARAB_IPRD = {
+    "MA": ["ma.m3u"],
+    "EG": ["eg.m3u"], "SA": ["sa.m3u"], "DZ": ["dz.m3u"], "TN": ["tn.m3u"],
+    "LY": ["ly.m3u"], "SD": ["sd.m3u"], "AE": ["ae.m3u"], "QA": ["qa.m3u"],
+    "KW": ["kw.m3u"], "BH": ["bh.m3u"], "OM": ["om.m3u"], "JO": ["jo.m3u"],
+    "LB": ["lb.m3u"], "PS": ["ps.m3u"], "IQ": ["iq.m3u"], "YE": ["ye.m3u"],
+    "MR": ["mr.m3u"], "SO": ["so.m3u"],
+}
+IPRD_MAX = 1500
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
@@ -458,6 +468,64 @@ def merge_curated_into_snapshot(curated, path):
     }
 
 
+def _extinf_name(line):
+    """Extract the station title from an #EXTINF line (strip quoted attrs)."""
+    s = re.sub(r'[a-z-]+="[^"]*"', "", line)
+    s = s.replace("#EXTINF:-1", "")
+    return s.split(",", 1)[-1].strip()[:80]
+
+
+def parse_m3u(text, cc):
+    """Parse an M3U playlist into station dicts. HTTPS streams only (mixed content)."""
+    out = []
+    seen = set()
+    name = ""
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("#EXTINF"):
+            name = _extinf_name(line)
+            continue
+        if line.startswith("#"):
+            continue
+        url = line.split()[0] if line.split() else ""
+        if not url.lower().startswith("https://"):
+            continue
+        if url in seen:
+            continue
+        seen.add(url)
+        out.append(
+            {
+                "name": name or "—",
+                "url": url,
+                "cc": cc,
+                "language": "arabic",
+                "tags": "عربي,arab",
+                "codec": "",
+                "bitrate": 0,
+            }
+        )
+        name = ""
+    return out
+
+
+def fetch_iprd_arab():
+    """Curated Arab radio playlists from the IPRD community database (https-only)."""
+    out = []
+    for cc, files in ARAB_IPRD.items():
+        for fname in files:
+            url = f"{IPRD_BASE}/{cc.lower()}/{fname}"
+            try:
+                text = fetch_bytes(url, timeout=25).decode("utf-8", "replace")
+                rows = parse_m3u(text, cc)
+                out.extend(rows)
+                print(f"iprd {cc}/{fname}: {len(rows)} https streams")
+            except Exception as e:  # noqa: BLE001
+                print(f"iprd {cc}/{fname} failed: {e}", file=sys.stderr)
+    return out[:IPRD_MAX]
+
+
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -486,15 +554,26 @@ def main():
         print("kiwisdr FAILED: no source worked, keeping last good snapshot", file=sys.stderr)
 
     try:
-        stations = load_official() + load_arabic() + fetch_stations()
-        if len(stations) < 10_000:
+        officials = load_official()
+        arabic = load_arabic()
+        rb_stations = fetch_stations()
+        if len(officials) + len(arabic) + len(rb_stations) < 10_000:
             # A partial fetch must never wipe the full catalog snapshot.
-            raise RuntimeError(f"suspiciously small catalog: {len(stations)}")
+            raise RuntimeError(
+                f"suspiciously small catalog: {len(officials) + len(arabic) + len(rb_stations)}"
+            )
+        arab_extra = fetch_iprd_arab()
+        existing_urls = {s["url"] for s in officials + arabic + rb_stations}
+        arab_extra = [s for s in arab_extra if s["url"] not in existing_urls][:IPRD_MAX]
+        stations = officials + arabic + arab_extra + rb_stations
+        print(
+            f"stations: {len(stations)} total "
+            f"(officials {len(officials)} + arabic {len(arabic)} + iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)})"
+        )
         write_json(
             DATA_DIR / "stations.json",
             {"updated": now_iso, "source": "https://www.radio-browser.info/", "count": len(stations), "stations": stations},
         )
-        print(f"stations: {len(stations)} stations (full catalog)")
         ok = True
     except Exception as e:  # noqa: BLE001
         print(f"stations FAILED: {e} — trying curated merge into last good snapshot", file=sys.stderr)
