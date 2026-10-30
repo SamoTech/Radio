@@ -42,7 +42,9 @@ function normalizeRx(r) {
     maxUsers: Number(r.max_users) || 0,
     snr: r.snr == null ? null : Number(r.snr),
     gps: !!r.gps,
-    band: r.band || ''
+    band: r.band || '',
+    loc: r.loc || '',
+    antenna: r.antenna || ''
   };
 }
 
@@ -96,7 +98,7 @@ function applyFilters() {
     if (f.freeOnly && !(r.maxUsers > 0 && r.users < r.maxUsers)) return false;
     if (f.minSnr > 0 && !(r.snr != null && r.snr >= f.minSnr)) return false;
     if (q) {
-      var hay = (r.name + ' ' + r.url + ' ' + r.band).toLowerCase();
+      var hay = (r.name + ' ' + r.url + ' ' + r.band + ' ' + r.loc + ' ' + r.antenna).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
     }
     return true;
@@ -119,12 +121,14 @@ function cardRx(r) {
   var users = r.users + '/' + (r.maxUsers || '?');
   var chips = '';
   if (r.band) chips += '<span class="chip">' + esc(r.band) + '</span>';
+  if (r.loc) chips += '<span class="chip">📍 ' + esc(r.loc) + '</span>';
   if (r.gps) chips += '<span class="chip gps">📡 GPS</span>';
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
     '<h3>' + esc(r.name) + '</h3></div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     '<div class="meta"><span>👥 ' + users + '</span><span class="snr">📶 SNR ' + snr + '</span></div>' +
+    (r.antenna ? '<div class="meta antenna" title="' + esc(r.antenna) + '">🛰 ' + esc(r.antenna) + '</div>' : '') +
     (r.url ? '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">افتح الجهاز ↗</a>' : '') +
     '</article>';
 }

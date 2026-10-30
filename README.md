@@ -8,22 +8,26 @@
 
 ```mermaid
 flowchart LR
-    A[KiwiSDR JSON] --> C[Crawler]
+    A[KiwiSDR Directory — عبر مرآة AetherSDR CDN] --> C[Crawler]
     B[Radio-Browser API] --> C
     C[GitHub Actions — كل 30 دقيقة] --> D[(data/*.json)]
     D --> E[GitHub Pages — PWA]
 ```
 
+### مصادر بيانات أجهزة SDR
+
+1. **الأساسي:** `https://cdn.aethersdr.com/kiwi.json` — مرآة رسمية مفتوحة (CORS) لدليل KiwiSDR العام، بتجدد كل ساعة و بتشتغل حتى لو الأصل وقع (خلال فترة تغييرات سيرفرات KiwiSDR الحالية). حقل `ext_api` بيقول سياسة كل مشغل بخصوص الاتصال من تطبيات خارجية — مهم للمرحلة ٢.
+2. **احتياطي:** `rx.kiwisdr.com/json/` — الإندبوينت الأصلي (بيقع و يرجع).
+
 - **الواجهة:** PWA عربية (RTL)، بدون أي dependencies — HTML + CSS + vanilla JS + Service Worker.
-- **البيانات:** لقطات JSON محدثة تلقائيًا بواسطة `scripts/update_data.py` داخل GitHub Actions.
-- **البحث في محطات FM:** حي ومباشر من Radio-Browser API (CORS مفتوح)، مع snapshot احتياطي.
+- **البحث في محطات FM:** حي ومباشر من Radio-Browser API، مع snapshot احتياطي.
 
 > **ملاحظة تشغيل:** لو فشل سحب مصدر ما، السكربت يحتفظ بآخر لقطة ناجحة ولا يمسح البيانات — ويعيد المحاولة كل ٣٠ دقيقة تلقائيًا.
 
 ## الميزات (MVP)
 
-- 🛰️ دليل أجهزة KiwiSDR: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، GPS
-- 🔎 بحث فوري بالاسم/البلد/النداء + فلترة بالنطاق و SNR الأدنى و«فيه مكان فاضي»
+- 🛰️ دليل أجهزة KiwiSDR: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، الموقع، الهوائي، GPS
+- 🔎 بحث فوري بالاسم/البلد/الموقع/الهوائي + فلترة بالنطاق و SNR الأدنى و«فيه مكان فاضي»
 - 📻 محطات FM/إنترنت: الأكثر استماعًا عالميًا + بحث حي + مشغل صوتي داخلي
 - 📱 قابلة للتثبيت كتطبيق (PWA) و تعمل أوفلاين للواجهة
 
@@ -31,7 +35,7 @@ flowchart LR
 
 ```bash
 python scripts/update_data.py   # سحب البيانات
-python -m http.server 8000      # ثم افتح http://localhost:8000
+python -m http.server 8000       # ثم افتح http://localhost:8000
 ```
 
 ## تفعيل النشر على GitHub Pages (مرة واحدة)
@@ -40,14 +44,14 @@ python -m http.server 8000      # ثم افتح http://localhost:8000
 2. تحت **Build and deployment**: اختر **Source: GitHub Actions**
 3. شغّل workflow **Deploy to GitHub Pages** من تبويب Actions (أو دوس أي commit جديد)
 
-الموقع هيكون على: `https://samo-tech.github.io/Radio/`
+الموقع هيكون على: `https://samotech.github.io/Radio/`
 
 ## خطة المراحل
 
 | المرحلة | المحتوى |
 |---|---|
 | ✅ MVP | دليل KiwiSDR + محطات FM + crawler + Pages |
-| 2️⃣ | تشغيل صوتي داخلي لأجهزة Kiwi (WebSocket) + OpenWebRX |
+| 2️⃣ | تشغيل صوتي داخلي لأجهزة Kiwi (بروتوكول WebSocket — مع احترام `ext_api` لكل مشغل) + OpenWebRX |
 | 3️⃣ | WebSDR + جداول البث الدولي (EIBI) + نطاق الطيران |
 | 4️⃣ | تنبيهات «فتح النطاقات» (WSPRnet + تاريخ SNR) + SatNOGS + AIS/ADS-B |
 
