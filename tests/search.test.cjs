@@ -86,3 +86,34 @@ test('EasyBroadcast token response signs the playlist and child path', () => {
   assert.equal(signed.searchParams.get('token_path'), '/live/radio_med_VI');
   assert.equal(signed.searchParams.get('expires'), '1793391194');
 });
+
+test('EasyBroadcast token is reused for nested playlists until expiry', async () => {
+  const originalFetch = sandbox.fetch;
+  let requests = 0;
+  sandbox.easyBroadcastTokenCache = {};
+  sandbox.fetch = async () => {
+    requests += 1;
+    return {
+      ok: true,
+      text: async () => 'token=shared123&token_path=%2Flive%2Fradio_med_VI&expires=4102444800'
+    };
+  };
+  try {
+    const station = {
+      url: 'https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8',
+      tokenEndpoint: 'https://token.easybroadcast.io/all',
+      tokenType: 'easy_b'
+    };
+    const master = await sandbox.resolvePlaybackUrl(station.url, station);
+    const child = await sandbox.resolvePlaybackUrl(
+      'https://cdn.live.easybroadcast.io/live/radio_med_VI/chunks.m3u8',
+      station
+    );
+    assert.equal(new URL(master).searchParams.get('token'), 'shared123');
+    assert.equal(new URL(child).searchParams.get('token'), 'shared123');
+    assert.equal(requests, 1, 'one unexpired token should cover all nested playlists');
+  } finally {
+    sandbox.fetch = originalFetch;
+    sandbox.easyBroadcastTokenCache = {};
+  }
+});
