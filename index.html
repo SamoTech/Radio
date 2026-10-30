@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
 <title>راديو أطلس — دليل الاستقبال العالمي</title>
+<meta name="description" content="راديو أطلس: أكثر من 62,000 محطة بث وأجهزة استقبال SDR من كل العالم — بحث وتصنيف حسب الدولة واللغة والفئة، مع حالة النطاقات وجدول بث الموجات القصيرة على الهواء الآن.">
+<meta property="og:title" content="راديو أطلس — Radio Atlas">
+<meta property="og:description" content="دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين — بحث وتصنيف حسب الدولة واللغة والفئة.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://samotech.github.io/Radio/">
+<meta property="og:image" content="https://mistralaichatupprodswe.blob.core.windows.net/chat-images/assistant/6a/11/aa/6a11aac8-c24f-43b6-bc6e-1ff46bb14190/0cb17ba6-415d-4c46-9b1c-b76d699bb532/a357ecfd-a2af-4123-8416-473d2e3a0f86/599bc25d-57fe-40cd-b20e-c37db9c30d3b.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="stylesheet" href="css/styles.css">
@@ -12,17 +21,21 @@
 <body>
 
 <header class="hero">
-  <h1>📻 راديو أطلس</h1>
-  <p>دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين</p>
+  <div class="controls">
+    <button id="theme-btn" class="ctrl" type="button" title="Light / Dark">☀️</button>
+    <button id="lang-btn" class="ctrl" type="button" title="العربية / English">EN</button>
+  </div>
+  <h1 data-i18n="app_title">📻 راديو أطلس</h1>
+  <p data-i18n="tagline">دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين</p>
   <div class="stats">
-    <div class="stat"><span id="stat-total">–</span><label>جهاز استقبال</label></div>
-    <div class="stat"><span id="stat-online">–</span><label>أونلاين الآن</label></div>
-    <div class="stat"><span id="stat-listeners">–</span><label>مستمع حاليًا</label></div>
-    <div class="stat"><span id="stat-updated">–</span><label>آخر تحديث</label></div>
+    <div class="stat"><span id="stat-total">–</span><label data-i18n="stat_total">جهاز استقبال</label></div>
+    <div class="stat"><span id="stat-online">–</span><label data-i18n="stat_online">أونلاين الآن</label></div>
+    <div class="stat"><span id="stat-listeners">–</span><label data-i18n="stat_listeners">مستمع حاليًا</label></div>
+    <div class="stat"><span id="stat-updated">–</span><label data-i18n="stat_updated">آخر تحديث</label></div>
   </div>
   <nav class="tabs">
-    <button id="tab-fm" class="tab active" type="button">📻 محطات البث</button>
-    <button id="tab-sdr" class="tab" type="button">أجهزة الاستقبال SDR</button>
+    <button id="tab-fm" class="tab active" type="button" data-i18n="tab_fm">📻 محطات البث</button>
+    <button id="tab-sdr" class="tab" type="button" data-i18n="tab_sdr">أجهزة الاستقبال SDR</button>
   </nav>
 </header>
 
@@ -30,35 +43,57 @@
   <!-- FM / Broadcast (default tab) -->
   <section id="panel-fm">
     <div class="toolbar">
-      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، لغة، فئة… (فوري)">
+      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، لغة، فئة… (فوري)" data-i18n-ph="search_fm_ph">
       <select id="fm-country" title="الدولة"></select>
       <select id="fm-language" title="اللغة"></select>
       <select id="fm-tag" title="الفئة"></select>
-      <button id="fm-search-btn" class="btn" type="button">بحث مباشر</button>
-      <button id="fm-clear-btn" class="btn ghost" type="button">مسح الفلاتر</button>
+      <button id="fm-search-btn" class="btn" type="button" data-i18n="live_search">بحث مباشر</button>
+      <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
       <span id="count-fm" class="count"></span>
     </div>
-    <p class="hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري وبدون إنترنت. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
+    <div id="quick-chips" class="quick-chips">
+      <button class="qchip" data-chip="all" type="button" data-i18n="chip_all">✨ الكل</button>
+      <button class="qchip" data-chip="fav" type="button" data-i18n="chip_fav">⭐ المفضلة</button>
+      <button class="qchip" data-chip="news" type="button" data-i18n="chip_news">📰 أخبار</button>
+      <button class="qchip" data-chip="quran" type="button" data-i18n="chip_quran">🕌 قرآن</button>
+      <button class="qchip" data-chip="sports" type="button" data-i18n="chip_sports">⚽ رياضة</button>
+      <button class="qchip" data-chip="music" type="button" data-i18n="chip_music">🎵 موسيقى</button>
+    </div>
+    <p class="hint" data-i18n="fm_hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
     <div id="grid-fm" class="grid"></div>
   </section>
 
   <!-- SDR -->
   <section id="panel-sdr" hidden>
     <div class="toolbar">
-      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…">
+      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…" data-i18n-ph="search_sdr_ph">
       <select id="band" title="النطاق"></select>
       <select id="sort" title="الترتيب">
-        <option value="snr">الأفضل SNR</option>
-        <option value="free">أكبر مساحة فاضية</option>
-        <option value="users">الأقل ازدحامًا</option>
-        <option value="name">الاسم</option>
+        <option value="snr" data-i18n="sort_snr">الأفضل SNR</option>
+        <option value="free" data-i18n="sort_free">أكبر مساحة فاضية</option>
+        <option value="users" data-i18n="sort_users">الأقل ازدحامًا</option>
+        <option value="name" data-i18n="sort_name">الاسم</option>
       </select>
-      <label class="check"><input type="checkbox" id="online-only" checked> أونلاين فقط</label>
-      <label class="check"><input type="checkbox" id="free-only"> فيه مكان فاضي</label>
-      <label class="check">SNR ≥ <input type="number" id="minsnr" value="0" min="0" max="60" style="width:64px"></label>
+      <label class="check"><input type="checkbox" id="online-only" checked> <span data-i18n="online_only">أونلاين فقط</span></label>
+      <label class="check"><input type="checkbox" id="free-only"> <span data-i18n="free_only">فيه مكان فاضي</span></label>
+      <label class="check"><span data-i18n="snr_min">SNR ≥</span> <input type="number" id="minsnr" value="0" min="0" max="60" style="width:64px"></label>
       <span id="count-sdr" class="count"></span>
     </div>
-    <p class="hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
+
+    <div id="space-panel" class="space-panel" hidden>
+      <div class="space-head">☀️ <strong data-i18n="space_title">حالة النطاقات</strong> <span id="space-upd" class="space-upd"></span></div>
+      <div id="space-values" class="space-values"></div>
+      <div id="space-cond" class="space-cond"></div>
+    </div>
+
+    <div id="eibi-panel" class="eibi-panel" hidden>
+      <div class="space-head">📡 <strong data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</strong> <span id="eibi-count" class="space-upd"></span></div>
+      <p class="hint" data-i18n="eibi_hint">من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.</p>
+      <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي…" data-i18n-ph="eibi_ph">
+      <div id="eibi-list" class="eibi-list"></div>
+    </div>
+
+    <p class="hint" data-i18n="sdr_hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
     <div id="grid-sdr" class="grid"></div>
   </section>
 </main>
@@ -67,7 +102,7 @@
   <button id="player-close" type="button" title="إغلاق">✕</button>
   <div class="player-body">
     <div id="player-name"></div>
-    <audio id="audio" controls></audio>
+    <audio id="audio" controls preload="none"></audio>
   </div>
 </div>
 
@@ -75,18 +110,30 @@
   <div class="modal-head">
     <strong id="sdr-modal-name"></strong>
     <div class="modal-actions">
-      <a id="sdr-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#">فتح خارجي ↗</a>
-      <button id="sdr-modal-close" class="btn ghost" type="button">✕ إغلاق</button>
+      <a id="sdr-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
+      <button id="sdr-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
   </div>
   <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay"></iframe>
 </div>
 
 <footer>
-  المصادر: <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
-  <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> —
-  تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة. SamoTech/Radio
+  <div class="visitor-box">
+    <span class="visitor-title" data-i18n="visitors">إجمالي الزوار</span>
+    <img id="visit-badge" alt="visitors" width="104" height="20"
+      src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsamotech.github.io%2FRadio%2F&count_bg=%2322d3ee&title_bg=%230b1220&icon=radio.svg&icon_color=%23ffffff&title=visitors&edge_flat=false">
+    <span id="visitor-from" class="visitor-from"></span>
+  </div>
+  <p class="src-line"><span data-i18n="sources">المصادر:</span>
+    <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
+    <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> ·
+    <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a> ·
+    <a href="http://eibispace.de/" target="_blank" rel="noopener">EIBI</a>
+  </p>
+  <p class="src-line"><span data-i18n="offline_footer">تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة.</span> SamoTech/Radio</p>
 </footer>
+
+<div id="toast" class="toast" hidden></div>
 
 <script src="js/app.js"></script>
 </body>

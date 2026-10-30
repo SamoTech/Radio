@@ -1,22 +1,121 @@
 'use strict';
 
-/* راديو أطلس — Radio Atlas frontend (vanilla JS, no deps) */
+/* Radio Atlas frontend — vanilla JS, no deps */
 
-var RB_API = 'https://de1.api.radio-browser.info/json';
+var RB_APIS = [
+  'https://de1.api.radio-browser.info/json',
+  'https://de2.api.radio-browser.info/json',
+  'https://nl1.api.radio-browser.info/json'
+];
 var FM_PAGE = 120;
+var CHIP_TAGS = {
+  news: ['news', 'كل الأخبار', 'أخبار'],
+  quran: ['quran', 'quraan', 'koran', 'islam', 'islamic', 'religion', 'religious', 'قرآن', 'دين'],
+  sports: ['sport', 'sports', 'football', 'كرة', 'رياضة'],
+  music: ['music', 'موسيقى']
+};
+
+var STR = {
+  ar: {
+    locale: 'ar-EG', dateLocale: 'ar', dir: 'rtl',
+    doc_title: 'راديو أطلس — دليل الاستقبال العالمي',
+    app_title: '📻 راديو أطلس',
+    tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
+    stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
+    tab_fm: '📻 محطات البث', tab_sdr: 'أجهزة الاستقبال SDR',
+    search_fm_ph: 'ابحث عن محطة: اسم، لغة، فئة… (فوري)',
+    all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
+    live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
+    fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
+    chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
+    search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
+    all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم',
+    online_only: 'أونلاين فقط', free_only: 'فيه مكان فاضي', snr_min: 'SNR ≥',
+    sdr_hint: '🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.',
+    no_band: 'غير محدد', no_data: 'لا توجد بيانات بعد.',
+    no_match: 'مفيش نتائج مطابقة — جرب تخفف الفلاتر.',
+    no_match_fm: 'مفيش محطات مطابقة — جرب فلتر أخف أو كلمة تانية.',
+    searching_live: 'جاري البحث المباشر من المصدر…',
+    live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
+    more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة',
+    listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
+    resume: 'آخر محطة — دوس تشغيل للاستكمال',
+    space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
+    cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
+    cond_unstable: 'اضطراب متوسط — استقبل النطاقات المنخفضة (3–10 MHz).',
+    cond_storm: 'عاصفة مغناطيسية — النطاقات العليا مغلقة والمسارات القطبية مشوشة.',
+    eibi_title: 'بث موجات قصيرة على الهواء الآن',
+    eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
+    eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
+    more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
+    visitors: 'إجمالي الزوار', you_from: 'أنت تزور من',
+    toast_broken: 'المحطة مش شغالة حاليًا 😕', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
+    sources: 'المصادر:', offline_footer: 'تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة.'
+  },
+  en: {
+    locale: 'en-US', dateLocale: 'en', dir: 'ltr',
+    doc_title: 'Radio Atlas — Global Reception Directory',
+    app_title: '📻 Radio Atlas',
+    tagline: 'Smart search directory for online receivers and broadcast stations',
+    stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
+    tab_fm: '📻 Broadcast stations', tab_sdr: 'SDR Receivers',
+    search_fm_ph: 'Search a station: name, language, genre… (instant)',
+    all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
+    live_search: 'Live search', clear_filters: 'Clear filters',
+    fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
+    chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
+    search_sdr_ph: 'Search: name, country, callsign…',
+    all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name',
+    online_only: 'Online only', free_only: 'Has a free slot', snr_min: 'SNR ≥',
+    sdr_hint: '🎧 In-app listening works for HTTPS receivers only (browser security) — HTTP receivers open in a new window.',
+    no_band: 'Unspecified', no_data: 'No data yet.',
+    no_match: 'No matching results — try lighter filters.',
+    no_match_fm: 'No matching stations — try a lighter filter or another keyword.',
+    searching_live: 'Live search in progress…',
+    live_failed: 'Live search failed — use the instant local filtering.',
+    more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations',
+    listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
+    resume: 'Last station — press play to resume',
+    space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
+    cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
+    cond_unstable: 'Moderate disturbance — favor lower bands (3–10 MHz).',
+    cond_storm: 'Geomagnetic storm — high bands closed, polar paths disturbed.',
+    eibi_title: 'Shortwave broadcasts on air now',
+    eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
+    eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
+    more_eibi: 'Showing the first 60 — refine your search to see more.',
+    visitors: 'Total visitors', you_from: 'You are visiting from',
+    toast_broken: 'This station is not working right now 😕', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
+    sources: 'Sources:', offline_footer: 'Data refreshes automatically every 30 minutes.'
+  }
+};
 
 var state = {
+  lang: 'ar',
+  theme: 'dark',
+  favs: {},
   receivers: [],
   updated: null,
   filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0 },
   fm: [],
-  fmFilters: { q: '', country: '', language: '', tag: '' },
+  fmFilters: { q: '', country: '', language: '', tag: '', chip: '' },
   fmLimit: FM_PAGE,
   fmLive: false,
-  fmLiveRows: []
+  fmLiveRows: [],
+  eibi: [],
+  eibiQ: '',
+  space: null,
+  currentName: ''
 };
 
 function $(id) { return document.getElementById(id); }
+
+function t(key) {
+  var d = STR[state.lang] || STR.ar;
+  if (d[key] != null) return d[key];
+  if (STR.ar[key] != null) return STR.ar[key];
+  return key;
+}
 
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -31,15 +130,98 @@ function fetchJSON(url) {
   });
 }
 
+function fmtNum(n) {
+  try { return Number(n).toLocaleString(STR[state.lang].locale); } catch (e) { return String(n); }
+}
+
 function fmtDate(iso) {
   if (!iso) return '—';
   try {
-    return new Intl.DateTimeFormat('ar', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(iso));
+    return new Intl.DateTimeFormat(STR[state.lang].dateLocale, { dateStyle: 'short', timeStyle: 'short' }).format(new Date(iso));
   } catch (e) { return String(iso); }
 }
 
-function fmtNum(n) {
-  try { return Number(n).toLocaleString('ar-EG'); } catch (e) { return String(n); }
+/* ================= i18n / theme ================= */
+
+function applyI18n() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) els[i].textContent = t(els[i].getAttribute('data-i18n'));
+  var phs = document.querySelectorAll('[data-i18n-ph]');
+  for (var j = 0; j < phs.length; j++) phs[j].placeholder = t(phs[j].getAttribute('data-i18n-ph'));
+  $('lang-btn').textContent = state.lang === 'ar' ? 'EN' : 'ع';
+  document.title = t('doc_title');
+}
+
+function rebuildDynamic() {
+  buildBandFilter();
+  renderSDR();
+  buildFMFacets();
+  renderChips();
+  renderFM();
+  renderSpace();
+  renderEibi();
+  if (state.currentName && !$('player').hidden) {
+    $('player-name').textContent = '▶ ' + state.currentName;
+  }
+}
+
+function setLang(l) {
+  state.lang = l;
+  try { localStorage.setItem('ra-lang', l); } catch (e) {}
+  document.documentElement.lang = l;
+  document.documentElement.dir = STR[l] ? STR[l].dir : 'rtl';
+  applyI18n();
+  rebuildDynamic();
+}
+
+function setTheme(th) {
+  state.theme = th;
+  try { localStorage.setItem('ra-theme', th); } catch (e) {}
+  document.documentElement.setAttribute('data-theme', th);
+  $('theme-btn').textContent = th === 'dark' ? '☀️' : '🌙';
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', th === 'dark' ? '#0b1220' : '#f2f5fb');
+}
+
+/* ================= toast ================= */
+
+var toastTimer = null;
+function toast(msg) {
+  var el = $('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.hidden = true; }, 2600);
+}
+
+/* ================= favorites ================= */
+
+function loadFavs() {
+  try { return JSON.parse(localStorage.getItem('ra-favs') || '{}') || {}; } catch (e) { return {}; }
+}
+
+function saveFavs() {
+  try { localStorage.setItem('ra-favs', JSON.stringify(state.favs)); } catch (e) {}
+}
+
+function stationByUrl(url) {
+  for (var i = 0; i < state.fm.length; i++) {
+    if (state.fm[i].url === url) return state.fm[i];
+  }
+  return null;
+}
+
+function toggleFav(s) {
+  if (state.favs[s.url]) {
+    delete state.favs[s.url];
+    toast(t('fav_off'));
+  } else {
+    state.favs[s.url] = { name: s.name, cc: s.cc, language: s.language, tags: s.tags, url: s.url };
+    toast(t('fav_on'));
+  }
+  saveFavs();
+  renderFM();
 }
 
 /* ================= KiwiSDR ================= */
@@ -47,7 +229,7 @@ function fmtNum(n) {
 function normalizeRx(r) {
   var url = r.url || '';
   return {
-    name: r.name || 'بدون اسم',
+    name: r.name || '—',
     url: url,
     https: /^https:/i.test(url),
     online: !!r.online,
@@ -92,11 +274,11 @@ function buildBandFilter() {
   var sel = $('band');
   var bands = {};
   state.receivers.forEach(function (r) {
-    var b = r.band || 'غير محدد';
+    var b = r.band || t('no_band');
     bands[b] = (bands[b] || 0) + 1;
   });
   var keys = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });
-  sel.innerHTML = '<option value="all">كل النطاقات</option>' + keys.map(function (k) {
+  sel.innerHTML = '<option value="all">' + esc(t('all_bands')) + '</option>' + keys.map(function (k) {
     return '<option value="' + esc(k) + '">' + esc(k) + ' (' + bands[k] + ')</option>';
   }).join('');
   sel.value = state.filters.band;
@@ -107,7 +289,7 @@ function applyFilters() {
   var q = f.q.trim().toLowerCase();
   var list = state.receivers.filter(function (r) {
     if (f.onlineOnly && !r.online) return false;
-    if (f.band !== 'all' && (r.band || 'غير محدد') !== f.band) return false;
+    if (f.band !== 'all' && (r.band || t('no_band')) !== f.band) return false;
     if (f.freeOnly && !(r.maxUsers > 0 && r.users < r.maxUsers)) return false;
     if (f.minSnr > 0 && !(r.snr != null && r.snr >= f.minSnr)) return false;
     if (q) {
@@ -118,7 +300,7 @@ function applyFilters() {
   });
   list.sort(function (a, b) {
     if (a.online !== b.online) return a.online ? -1 : 1;
-    if (f.sort === 'name') return a.name.localeCompare(b.name, 'ar');
+    if (f.sort === 'name') return a.name.localeCompare(b.name, state.lang);
     if (f.sort === 'free') return (b.maxUsers - b.users) - (a.maxUsers - a.users);
     if (f.sort === 'users') return a.users - b.users;
     var sa = a.snr == null ? -1 : a.snr;
@@ -139,8 +321,8 @@ function cardRx(r) {
   var action = '';
   if (r.url) {
     action = r.https
-      ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">🎧 استمع داخل التطبيق</button>'
-      : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">افتح الجهاز ↗</a>';
+      ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
+      : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
   }
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
@@ -155,14 +337,14 @@ function cardRx(r) {
 function renderSDR() {
   var grid = $('grid-sdr');
   if (!state.receivers.length) {
-    grid.innerHTML = '<div class="empty">لا توجد بيانات بعد.<br>شغّل workflow «Update receiver data» من تبويب Actions، أو استنى أول تشغيل مجدول (كل ٣٠ دقيقة).</div>';
+    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
     $('count-sdr').textContent = '';
     return;
   }
   var list = applyFilters();
-  $('count-sdr').textContent = fmtNum(list.length) + ' نتيجة';
+  $('count-sdr').textContent = t('results').replace('{n}', fmtNum(list.length));
   grid.innerHTML = list.length ? list.map(cardRx).join('')
-    : '<div class="empty">مفيش نتائج مطابقة — جرب تخفف الفلاتر.</div>';
+    : '<div class="empty">' + esc(t('no_match')) + '</div>';
 }
 
 /* ================= FM / Broadcast ================= */
@@ -175,10 +357,10 @@ function flagOf(cc) {
   } catch (e) { return ''; }
 }
 
-function regionNameAr(cc, fallback) {
+function regionName(cc, fallback) {
   if (!cc) return fallback;
   try {
-    var dn = new Intl.DisplayNames(['ar'], { type: 'region' });
+    var dn = new Intl.DisplayNames([state.lang], { type: 'region' });
     var n = dn.of(cc.toUpperCase());
     return n && n !== cc.toUpperCase() ? n : fallback;
   } catch (e) { return fallback; }
@@ -191,7 +373,7 @@ function fillSelect(sel, placeholder, items) {
 }
 
 function splitList(v) {
-  return String(v || '').split(',').map(function (t) { return t.trim().toLowerCase(); }).filter(Boolean);
+  return String(v || '').split(',').map(function (x) { return x.trim().toLowerCase(); }).filter(Boolean);
 }
 
 function buildFMFacets() {
@@ -199,39 +381,36 @@ function buildFMFacets() {
   state.fm.forEach(function (s) {
     if (s.cc) countries[s.cc] = (countries[s.cc] || 0) + 1;
     splitList(s.language).forEach(function (l) { langs[l] = (langs[l] || 0) + 1; });
-    splitList(s.tags).forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
+    splitList(s.tags).forEach(function (x) { tags[x] = (tags[x] || 0) + 1; });
   });
 
-  // الدول: ترتيب أبجدي بالاسم العربي
   var countryItems = Object.keys(countries)
     .filter(function (k) { return countries[k] >= 5; })
     .map(function (k) {
-      var name = regionNameAr(k, k);
+      var name = regionName(k, k);
       return { value: k, name: name, label: flagOf(k) + ' ' + name + ' (' + countries[k] + ')' };
     })
-    .sort(function (a, b) { return a.name.localeCompare(b.name, 'ar'); });
+    .sort(function (a, b) { return a.name.localeCompare(b.name, state.lang); });
 
-  // اللغات: ترتيب أبجدي
   var langItems = Object.keys(langs)
     .filter(function (k) { return langs[k] >= 10; })
-    .sort(function (a, b) { return a.localeCompare(b, 'ar'); })
+    .sort(function (a, b) { return a.localeCompare(b, state.lang); })
     .map(function (k) { return { value: k, label: k + ' (' + langs[k] + ')' }; });
 
-  // الفئات: الأكثر شيوعًا
   var tagItems = Object.keys(tags)
     .filter(function (k) { return tags[k] >= 25; })
     .sort(function (a, b) { return tags[b] - tags[a]; })
     .slice(0, 120)
     .map(function (k) { return { value: k, label: k + ' (' + tags[k] + ')' }; });
 
-  fillSelect($('fm-country'), '🌍 كل الدول', countryItems);
-  fillSelect($('fm-language'), '🗣 كل اللغات', langItems);
-  fillSelect($('fm-tag'), '🏷 كل الفئات', tagItems);
+  fillSelect($('fm-country'), t('all_countries'), countryItems);
+  fillSelect($('fm-language'), t('all_languages'), langItems);
+  fillSelect($('fm-tag'), t('all_tags'), tagItems);
 }
 
 function normalizeFm(s) {
   return {
-    name: s.name || 'محطة',
+    name: s.name || '—',
     url: s.url_resolved || s.url || '',
     cc: s.countrycode || s.cc || '',
     language: s.language || '',
@@ -242,20 +421,22 @@ function normalizeFm(s) {
 }
 
 function cardFm(s) {
+  var isFav = !!state.favs[s.url];
+  var heart = '<button class="fav' + (isFav ? ' active' : '') + '" type="button" title="⭐" data-fav-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + (isFav ? '❤️' : '🤍') + '</button>';
   var chips = '';
-  if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionNameAr(s.cc, s.cc)) + '</span>';
+  if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
-  var allTags = String(s.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+  var allTags = String(s.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
   var isOfficial = allTags.indexOf('رسمي') !== -1 || allTags.indexOf('official') !== -1;
-  if (isOfficial) chips += '<span class="chip official">🏛 رسمي</span>';
-  var tags = allTags.filter(function (t) { return t !== 'رسمي' && t !== 'official'; }).slice(0, 3);
-  tags.forEach(function (t) { chips += '<span class="chip tag">🏷 ' + esc(t) + '</span>'; });
+  if (isOfficial) chips += '<span class="chip official">🏛 ' + esc(state.lang === 'ar' ? 'رسمي' : 'official') + '</span>';
+  var shownTags = allTags.filter(function (x) { return x !== 'رسمي' && x !== 'official'; }).slice(0, 3);
+  shownTags.forEach(function (x) { chips += '<span class="chip tag">🏷 ' + esc(x) + '</span>'; });
   var meta = [s.codec, s.bitrate ? s.bitrate + 'kbps' : ''].filter(Boolean).join(' · ');
   return '<article class="card">' +
-    '<div class="card-head"><h3>' + esc(s.name) + '</h3></div>' +
+    '<div class="card-head"><h3>' + esc(s.name) + '</h3>' + heart + '</div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     (meta ? '<div class="meta">' + esc(meta) + '</div>' : '') +
-    '<button class="open play" type="button" data-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">▶ استمع</button>' +
+    '<button class="open play" type="button" data-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + esc(t('listen')) + '</button>' +
     '</article>';
 }
 
@@ -266,6 +447,16 @@ function filterFM() {
     if (f.country && s.cc !== f.country) return false;
     if (f.language && splitList(s.language).indexOf(f.language) === -1) return false;
     if (f.tag && splitList(s.tags).indexOf(f.tag) === -1) return false;
+    if (f.chip === 'fav' && !state.favs[s.url]) return false;
+    if (f.chip && CHIP_TAGS[f.chip]) {
+      var tags = splitList(s.tags);
+      var hit = false;
+      var wanted = CHIP_TAGS[f.chip];
+      for (var i = 0; i < wanted.length; i++) {
+        if (tags.indexOf(wanted[i]) !== -1) { hit = true; break; }
+      }
+      if (!hit) return false;
+    }
     if (q) {
       if ((s.name + ' ' + s.language + ' ' + s.tags).toLowerCase().indexOf(q) === -1) return false;
     }
@@ -281,17 +472,17 @@ function renderFM() {
   var grid = $('grid-fm');
   var list = currentFMList();
   if (!list.length) {
-    grid.innerHTML = '<div class="empty">مفيش محطات مطابقة — جرب فلتر أخف أو كلمة تانية.</div>';
+    grid.innerHTML = '<div class="empty">' + esc(t('no_match_fm')) + '</div>';
     $('count-fm').textContent = '';
     return;
   }
   var shown = list.slice(0, state.fmLimit);
   var html = shown.map(cardFm).join('');
   if (list.length > state.fmLimit) {
-    html += '<div class="more-wrap"><button id="fm-more" class="btn ghost" type="button">عرض المزيد — باقي ' + fmtNum(list.length - state.fmLimit) + ' محطة</button></div>';
+    html += '<div class="more-wrap"><button id="fm-more" class="btn ghost" type="button">' + esc(t('more_btn').replace('{n}', fmtNum(list.length - state.fmLimit))) + '</button></div>';
   }
   grid.innerHTML = html;
-  $('count-fm').textContent = fmtNum(list.length) + ' محطة';
+  $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
 }
 
 function loadStations() {
@@ -307,33 +498,55 @@ function fmClientRender() {
   state.fmLive = false;
   state.fmLiveRows = [];
   state.fmLimit = FM_PAGE;
+  renderChips();
   renderFM();
+}
+
+function fetchRB(params) {
+  var i = 0;
+  function attempt() {
+    return fetch(RB_APIS[i] + '/stations/search?' + params.join('&')).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).catch(function (err) {
+      i += 1;
+      if (i >= RB_APIS.length) throw err;
+      return attempt();
+    });
+  }
+  return attempt();
 }
 
 function searchFM() {
   var f = state.fmFilters;
-  if (!(f.q || f.country || f.language || f.tag)) { fmClientRender(); return; }
-  $('grid-fm').innerHTML = '<div class="empty">جاري البحث المباشر من المصدر…</div>';
+  if (!(f.q || f.country || f.language || f.tag || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
+  $('grid-fm').innerHTML = '<div class="empty">' + esc(t('searching_live')) + '</div>';
   var params = ['limit=200', 'hidebroken=true', 'order=clickcount', 'reverse=true'];
   if (f.q) params.push('name=' + encodeURIComponent(f.q));
   if (f.country) params.push('countrycode=' + encodeURIComponent(f.country));
   if (f.language) params.push('language=' + encodeURIComponent(f.language));
   if (f.tag) params.push('tagList=' + encodeURIComponent(f.tag));
-  fetch(RB_API + '/stations/search?' + params.join('&'))
-    .then(function (r) { return r.json(); })
+  if (f.chip && CHIP_TAGS[f.chip]) params.push('tagList=' + encodeURIComponent(CHIP_TAGS[f.chip][0]));
+  fetchRB(params)
     .then(function (rows) {
       state.fmLive = true;
-      state.fmLiveRows = rows.filter(function (s) { return s.url_resolved || s.url; }).map(normalizeFm);
+      state.fmLiveRows = rows
+        .filter(function (s) { return (s.url_resolved || s.url) && (s.countrycode || '').toUpperCase() !== 'IL'; })
+        .map(normalizeFm);
+      if (f.chip === 'fav') {
+        state.fmLiveRows = state.fmLiveRows.filter(function (s) { return !!state.favs[s.url]; });
+      }
       state.fmLimit = FM_PAGE;
+      renderChips();
       renderFM();
     })
     .catch(function () {
-      $('grid-fm').innerHTML = '<div class="empty">البحث المباشر فشل — استنى شوية أو استخدم الفلترة المحلية الفورية.</div>';
+      $('grid-fm').innerHTML = '<div class="empty">' + esc(t('live_failed')) + '</div>';
     });
 }
 
 function clearFMFilters() {
-  state.fmFilters = { q: '', country: '', language: '', tag: '' };
+  state.fmFilters = { q: '', country: '', language: '', tag: '', chip: '' };
   $('qfm').value = '';
   $('fm-country').value = '';
   $('fm-language').value = '';
@@ -341,14 +554,103 @@ function clearFMFilters() {
   fmClientRender();
 }
 
-/* ================= Players ================= */
+/* ================= quick chips ================= */
+
+function renderChips() {
+  var chips = document.querySelectorAll('.qchip');
+  for (var i = 0; i < chips.length; i++) {
+    var c = chips[i];
+    var k = c.getAttribute('data-chip');
+    var active = (k === 'all') ? state.fmFilters.chip === '' : state.fmFilters.chip === k;
+    c.classList.toggle('active', active);
+  }
+}
+
+/* ================= space weather ================= */
+
+function loadSpace() {
+  fetchJSON('data/space_weather.json').then(function (d) {
+    if (d && (d.kp != null || d.f107 != null)) { state.space = d; renderSpace(); }
+  }).catch(function () {});
+  fetchJSON('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json').then(function (rows) {
+    if (!Array.isArray(rows) || !rows.length) return;
+    for (var i = rows.length - 1; i >= 0; i--) {
+      var v = rows[i] && (rows[i].kp_index != null ? rows[i].kp_index : rows[i].estimated_kp);
+      if (v != null) {
+        if (!state.space) state.space = {};
+        state.space.kp = Number(v);
+        state.space.updated = new Date().toISOString();
+        renderSpace();
+        return;
+      }
+    }
+  }).catch(function () {});
+}
+
+function renderSpace() {
+  var p = $('space-panel');
+  if (!state.space) { p.hidden = true; return; }
+  p.hidden = false;
+  $('space-upd').textContent = t('updated_at') + ': ' + fmtDate(state.space.updated);
+  var vals = '';
+  if (state.space.kp != null) vals += '<span class="chip">🧲 Kp ' + state.space.kp + '</span>';
+  if (state.space.f107 != null) vals += '<span class="chip">☀️ F10.7 ' + state.space.f107 + ' sfu</span>';
+  $('space-values').innerHTML = vals;
+  var kp = state.space.kp;
+  var cond = kp == null ? '' : (kp < 4 ? t('cond_good') : (kp < 6 ? t('cond_unstable') : t('cond_storm')));
+  $('space-cond').textContent = cond;
+}
+
+/* ================= EIBI on-air ================= */
+
+function loadEibi() {
+  fetchJSON('data/eibi.json').then(function (d) {
+    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); }
+  }).catch(function () {});
+}
+
+function eibiRow(x) {
+  var freq = (x.f / 1000).toFixed(3) + ' MHz';
+  return '<div class="eibi-row"><span class="eibi-time">' + esc(x.s + '–' + x.e + ' UTC') + '</span><strong>' + freq + '</strong><span class="eibi-name">' + esc(x.n || '') + '</span></div>';
+}
+
+function renderEibi() {
+  var p = $('eibi-panel');
+  if (!state.eibi.length) { p.hidden = true; return; }
+  p.hidden = false;
+  var q = state.eibiQ.trim().toLowerCase();
+  var rows = state.eibi.filter(function (x) {
+    if (!q) return true;
+    return ((x.n || '') + ' ' + x.f).toLowerCase().indexOf(q) !== -1;
+  });
+  $('eibi-count').textContent = fmtNum(rows.length) + ' ' + t('onair');
+  var html = rows.slice(0, 60).map(eibiRow).join('');
+  if (rows.length > 60) html += '<div class="hint" style="text-align:center">' + esc(t('more_eibi')) + '</div>';
+  $('eibi-list').innerHTML = html || ('<div class="hint">' + esc(t('no_match')) + '</div>');
+}
+
+/* ================= players ================= */
+
+function setMedia(name) {
+  if (!('mediaSession' in navigator)) return;
+  try {
+    navigator.mediaSession.metadata = new window.MediaMetadata({
+      title: name || 'Radio Atlas',
+      artist: 'Radio Atlas — راديو أطلس',
+      album: 'Radio Atlas'
+    });
+  } catch (e) {}
+}
 
 function play(url, name) {
+  state.currentName = name || '';
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + (name || '');
   var a = $('audio');
   a.src = url;
   a.play().catch(function () {});
+  try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: name || '' })); } catch (e) {}
+  setMedia(name || '');
 }
 
 function openSDR(url, name) {
@@ -363,16 +665,37 @@ function closeSDR() {
   $('sdr-modal').hidden = true;
 }
 
+function initResume() {
+  var last = null;
+  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
+  if (!last || !last.url) return;
+  state.currentName = last.name || '';
+  var a = $('audio');
+  try { a.src = last.url; } catch (e) {}
+  a.preload = 'none';
+  $('player').hidden = false;
+  $('player-name').textContent = '⏸ ' + state.currentName + ' — ' + t('resume');
+  setMedia(state.currentName);
+}
+
 function initPlayers() {
   document.addEventListener('click', function (e) {
-    var t = e.target;
-    if (!t || !t.closest) return;
-    var p = t.closest('button.play');
+    var el = e.target;
+    if (!el || !el.closest) return;
+    var fav = el.closest('button.fav');
+    if (fav) {
+      var url = fav.getAttribute('data-fav-url');
+      var s = stationByUrl(url);
+      if (!s) s = { name: fav.getAttribute('data-name') || '', url: url, cc: '', language: '', tags: '' };
+      toggleFav(s);
+      return;
+    }
+    var p = el.closest('button.play');
     if (p) {
       play(p.getAttribute('data-url'), p.getAttribute('data-name'));
       return;
     }
-    var sdr = t.closest('button.play-sdr');
+    var sdr = el.closest('button.play-sdr');
     if (sdr) {
       openSDR(sdr.getAttribute('data-url'), sdr.getAttribute('data-name'));
     }
@@ -384,6 +707,9 @@ function initPlayers() {
     $('player').hidden = true;
   });
   $('sdr-modal-close').addEventListener('click', closeSDR);
+  $('audio').addEventListener('error', function () {
+    if ($('audio').getAttribute('src')) toast(t('toast_broken'));
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       if (!$('sdr-modal').hidden) closeSDR();
@@ -391,10 +717,25 @@ function initPlayers() {
   });
 }
 
+/* ================= visitor box ================= */
+
+function initVisitorBox() {
+  var img = $('visit-badge');
+  if (img) img.addEventListener('error', function () { img.hidden = true; });
+  fetch('https://ipwho.is/').then(function (r) { return r.json(); }).then(function (d) {
+    if (!d || !d.success) return;
+    var flag = flagOf(d.country_code);
+    var bits = [];
+    if (d.city) bits.push(d.city);
+    if (d.country) bits.push(d.country);
+    if (bits.length) $('visitor-from').textContent = t('you_from') + ': ' + (flag ? flag + ' ' : '') + bits.join(', ');
+  }).catch(function () {});
+}
+
 /* ================= UI ================= */
 
-function switchTab(t) {
-  var fm = t === 'fm';
+function switchTab(x) {
+  var fm = x === 'fm';
   $('tab-fm').classList.toggle('active', fm);
   $('tab-sdr').classList.toggle('active', !fm);
   $('panel-fm').hidden = !fm;
@@ -404,6 +745,27 @@ function switchTab(t) {
 function initUI() {
   $('tab-fm').addEventListener('click', function () { switchTab('fm'); });
   $('tab-sdr').addEventListener('click', function () { switchTab('sdr'); });
+
+  $('theme-btn').addEventListener('click', function () {
+    setTheme(state.theme === 'dark' ? 'light' : 'dark');
+  });
+  $('lang-btn').addEventListener('click', function () {
+    setLang(state.lang === 'ar' ? 'en' : 'ar');
+  });
+
+  $('quick-chips').addEventListener('click', function (e) {
+    var c = e.target && e.target.closest ? e.target.closest('.qchip') : null;
+    if (!c) return;
+    var k = c.getAttribute('data-chip');
+    if (k === 'all') { state.fmFilters.chip = ''; }
+    else if (state.fmFilters.chip === k) { state.fmFilters.chip = ''; }
+    else { state.fmFilters.chip = k; }
+    state.fmLive = false;
+    state.fmLiveRows = [];
+    state.fmLimit = FM_PAGE;
+    renderChips();
+    renderFM();
+  });
 
   var fmTimer = null;
   $('qfm').addEventListener('input', function () {
@@ -417,11 +779,18 @@ function initUI() {
   $('fm-language').addEventListener('change', function () { state.fmFilters.language = this.value; fmClientRender(); });
   $('fm-tag').addEventListener('change', function () { state.fmFilters.tag = this.value; fmClientRender(); });
   $('grid-fm').addEventListener('click', function (e) {
-    var t = e.target;
-    if (t && t.closest && t.closest('#fm-more')) {
+    var el = e.target;
+    if (el && el.closest && el.closest('#fm-more')) {
       state.fmLimit += FM_PAGE;
       renderFM();
     }
+  });
+
+  var eibiTimer = null;
+  $('eibi-q').addEventListener('input', function () {
+    clearTimeout(eibiTimer);
+    var v = this.value;
+    eibiTimer = setTimeout(function () { state.eibiQ = v; renderEibi(); }, 200);
   });
 
   var qTimer = null;
@@ -438,10 +807,26 @@ function initUI() {
 }
 
 function init() {
+  state.favs = loadFavs();
   initUI();
   initPlayers();
+  setTheme('dark');
+  try {
+    var savedTheme = localStorage.getItem('ra-theme');
+    var savedLang = localStorage.getItem('ra-lang');
+    if (savedTheme === 'light' || savedTheme === 'dark') setTheme(savedTheme);
+    setLang(savedLang === 'en' ? 'en' : 'ar');
+  } catch (e) { setLang('ar'); }
   loadKiwi();
-  loadStations();
+  loadSpace();
+  loadEibi();
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(function () { loadStations(); });
+  } else {
+    setTimeout(loadStations, 300);
+  }
+  initResume();
+  initVisitorBox();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(function () {});
   }
