@@ -63,3 +63,12 @@ python -m http.server 8000       # ثم افتح http://localhost:8000
 
 ---
 **SamoTech/Radio** — Cairo 🇪🇬
+
+
+## Discovery and analytics improvements
+
+- Searchable country, language, and category filters.
+- Canonical language names and a curated list of common broadcast categories.
+- Official/national stations are prioritized in the station catalog.
+- A global page-view counter is embedded through CounterAPI.com. Country-level analytics require a separate analytics provider and are not inferred from the total counter.
+- The data refresh workflow deploys Pages in the same run after updating the snapshot, avoiding reliance on a second workflow triggered by a push made with the default GitHub Actions token.

@@ -8,6 +8,58 @@ var RB_APIS = [
   'https://nl1.api.radio-browser.info/json'
 ];
 var FM_PAGE = 120;
+var LANGUAGE_ALIASES = {
+  arabic:['arabic','ar','العربية','عربي','arab'], english:['english','en','انجليزي','إنجليزي','الانجليزية','الإنجليزية'],
+  french:['french','fr','فرنسي','فرنسية'], spanish:['spanish','es','español','اسباني','إسباني'],
+  german:['german','de','deutsch','الماني','ألماني'], portuguese:['portuguese','pt','português','برتغالي'],
+  russian:['russian','ru','русский','روسي'], turkish:['turkish','tr','türkçe','تركي'],
+  persian:['persian','farsi','fa','فارسي','فارسی'], urdu:['urdu','ur','اردو'], hindi:['hindi','hi','हिन्दी','هندي'],
+  chinese:['chinese','zh','中文','صيني'], japanese:['japanese','ja','日本語','ياباني'], korean:['korean','ko','한국어','كوري'],
+  italian:['italian','it','italiano','ايطالي','إيطالي'], dutch:['dutch','nl','nederlands','هولندي'],
+  polish:['polish','pl','polski','بولندي'], greek:['greek','el','ελληνικά','يوناني'], swahili:['swahili','sw','kiswahili'],
+  indonesian:['indonesian','id','bahasa indonesia'], malay:['malay','ms','bahasa melayu'], bengali:['bengali','bn','বাংলা'],
+  kurdish:['kurdish','ku','كردي'], ukrainian:['ukrainian','uk','українська'], romanian:['romanian','ro','română'],
+  swedish:['swedish','sv','svenska'], norwegian:['norwegian','no','norsk'], finnish:['finnish','fi','suomi'],
+  danish:['danish','da','dansk'], czech:['czech','cs','čeština'], hungarian:['hungarian','hu','magyar'],
+  serbian:['serbian','sr','српски'], croatian:['croatian','hr','hrvatski'], bulgarian:['bulgarian','bg','български'],
+  thai:['thai','th','ไทย'], vietnamese:['vietnamese','vi','tiếng việt']
+};
+var CORE_CATEGORIES = [
+  ['news',['news','اخبار','أخبار']],['music',['music','موسيقى','musique']],['talk',['talk','speech','spoken','حوار']],
+  ['sports',['sport','sports','football','كرة','رياضة']],['quran',['quran','quraan','koran','قرآن']],
+  ['religion',['religion','religious','islam','islamic','دين']],['classical',['classical','كلاسيك']],
+  ['pop',['pop','بوب']],['rock',['rock','روك']],['jazz',['jazz','جاز']],['culture',['culture','ثقافة']],
+  ['education',['education','educational','تعليم']],['business',['business','finance','اقتصاد']],
+  ['weather',['weather','طقس']],['children',['children','kids','أطفال']],['oldies',['oldies','retro','قديم']],
+  ['dance',['dance','electronic','دانس']],['folk',['folk','traditional','تراث','شعبي']],
+  ['world',['world','international','عالمي']],['traffic',['traffic','ترافيك','مرور']]
+];
+var CATEGORY_LABELS = {
+  ar:{news:'أخبار',music:'موسيقى',talk:'حوارات',sports:'رياضة',quran:'قرآن',religion:'ديني',classical:'كلاسيكي',pop:'بوب',rock:'روك',jazz:'جاز',culture:'ثقافة',education:'تعليم',business:'اقتصاد',weather:'طقس',children:'أطفال',oldies:'أغاني قديمة',dance:'رقص وإلكتروني',folk:'تراث وشعبي',world:'عالمي',traffic:'مرور'},
+  en:{news:'News',music:'Music',talk:'Talk',sports:'Sports',quran:'Quran',religion:'Religion',classical:'Classical',pop:'Pop',rock:'Rock',jazz:'Jazz',culture:'Culture',education:'Education',business:'Business',weather:'Weather',children:'Children',oldies:'Oldies',dance:'Dance / Electronic',folk:'Folk',world:'World',traffic:'Traffic'}
+};
+var FACET_OPTIONS = {country:[],language:[],tag:[]};
+function canonicalLanguage(value) {
+  var raw=String(value||'').trim().toLowerCase();
+  if(!raw)return '';
+  for(var key in LANGUAGE_ALIASES) if(LANGUAGE_ALIASES[key].indexOf(raw)!==-1)return key;
+  return raw.replace(/\\s+/g,' ');
+}
+function normalizeLanguages(value) {
+  var seen={};
+  return String(value||'').split(/[,;|]/).map(canonicalLanguage).filter(function(v){
+    if(!v||seen[v])return false;seen[v]=true;return true;
+  }).join(', ');
+}
+function normalizeCategories(value) {
+  var raw=String(value||'').split(/[,;|]/).map(function(x){return x.trim().toLowerCase();});
+  return CORE_CATEGORIES.filter(function(entry){
+    return raw.some(function(tag){return entry[1].indexOf(tag)!==-1;});
+  }).map(function(entry){return entry[0];}).join(', ');
+}
+function isOfficialStation(s) {
+  return s.official===true || /(^|[,;])\\s*(official|رسمي)\\s*([,;]|$)/i.test(String(s.tags||''));
+}
 var CHIP_TAGS = {
   news: ['news', 'كل الأخبار', 'أخبار'],
   quran: ['quran', 'quraan', 'koran', 'islam', 'islamic', 'religion', 'religious', 'قرآن', 'دين'],
@@ -23,7 +75,7 @@ var STR = {
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
     tab_fm: '📻 محطات البث', tab_sdr: 'أجهزة الاستقبال SDR',
-    search_fm_ph: 'ابحث عن محطة: اسم، لغة، فئة… (فوري)',
+    search_fm_ph: 'ابحث عن محطة: اسم، لغة، فئة… (فوري)', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
@@ -48,7 +100,7 @@ var STR = {
     eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
-    visitors: 'إجمالي الزوار', you_from: 'أنت تزور من',
+    visitors: 'إجمالي الزيارات', you_from: 'أنت تزور من',
     toast_broken: 'المحطة مش شغالة حاليًا 😕', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     sources: 'المصادر:', offline_footer: 'تُحدَّث البيانات تلقائيًا كل ٣٠ دقيقة.'
   },
@@ -59,7 +111,7 @@ var STR = {
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
     tab_fm: '📻 Broadcast stations', tab_sdr: 'SDR Receivers',
-    search_fm_ph: 'Search a station: name, language, genre… (instant)',
+    search_fm_ph: 'Search a station: name, language, genre… (instant)', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
     fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
@@ -84,7 +136,7 @@ var STR = {
     eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
-    visitors: 'Total visitors', you_from: 'You are visiting from',
+    visitors: 'Total visits', you_from: 'You are visiting from',
     toast_broken: 'This station is not working right now 😕', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     sources: 'Sources:', offline_footer: 'Data refreshes automatically every 30 minutes.'
   }
@@ -377,46 +429,41 @@ function splitList(v) {
 }
 
 function buildFMFacets() {
-  var countries = {}, langs = {}, tags = {};
-  state.fm.forEach(function (s) {
-    if (s.cc) countries[s.cc] = (countries[s.cc] || 0) + 1;
-    splitList(s.language).forEach(function (l) { langs[l] = (langs[l] || 0) + 1; });
-    splitList(s.tags).forEach(function (x) { tags[x] = (tags[x] || 0) + 1; });
+  var countries={},langs={},categories={};
+  state.fm.forEach(function(s){
+    if(s.cc)countries[s.cc]=(countries[s.cc]||0)+1;
+    splitList(s.language).forEach(function(l){var c=canonicalLanguage(l);if(c)langs[c]=(langs[c]||0)+1;});
+    splitList(normalizeCategories(s.tags)).forEach(function(tag){categories[tag]=(categories[tag]||0)+1;});
   });
-
-  var countryItems = Object.keys(countries)
-    .filter(function (k) { return countries[k] >= 5; })
-    .map(function (k) {
-      var name = regionName(k, k);
-      return { value: k, name: name, label: flagOf(k) + ' ' + name + ' (' + countries[k] + ')' };
-    })
-    .sort(function (a, b) { return a.name.localeCompare(b.name, state.lang); });
-
-  var langItems = Object.keys(langs)
-    .filter(function (k) { return langs[k] >= 10; })
-    .sort(function (a, b) { return a.localeCompare(b, state.lang); })
-    .map(function (k) { return { value: k, label: k + ' (' + langs[k] + ')' }; });
-
-  var tagItems = Object.keys(tags)
-    .filter(function (k) { return tags[k] >= 25; })
-    .sort(function (a, b) { return tags[b] - tags[a]; })
-    .slice(0, 120)
-    .map(function (k) { return { value: k, label: k + ' (' + tags[k] + ')' }; });
-
-  fillSelect($('fm-country'), t('all_countries'), countryItems);
-  fillSelect($('fm-language'), t('all_languages'), langItems);
-  fillSelect($('fm-tag'), t('all_tags'), tagItems);
+  var countryItems=Object.keys(countries).map(function(k){
+    var name=regionName(k,k);return {value:k,name:name,label:flagOf(k)+' '+name+' ('+countries[k]+')'};
+  }).sort(function(a,b){return a.name.localeCompare(b.name,state.lang);});
+  var langItems=Object.keys(langs).sort(function(a,b){return a.localeCompare(b,state.lang);})
+    .map(function(k){return {value:k,label:k.charAt(0).toUpperCase()+k.slice(1)+' ('+langs[k]+')'};});
+  var labels=CATEGORY_LABELS[state.lang]||CATEGORY_LABELS.en;
+  var tagItems=CORE_CATEGORIES.filter(function(entry){return categories[entry[0]]>0;})
+    .map(function(entry){return {value:entry[0],label:labels[entry[0]]+' ('+categories[entry[0]]+')'};});
+  FACET_OPTIONS={country:countryItems,language:langItems,tag:tagItems};
+  fillSelect($('fm-country'),t('all_countries'),countryItems);
+  fillSelect($('fm-language'),t('all_languages'),langItems);
+  fillSelect($('fm-tag'),t('all_tags'),tagItems);
+  filterFacetOptions('country');filterFacetOptions('language');filterFacetOptions('tag');
 }
-
+function filterFacetOptions(kind) {
+  var search=$('fm-'+kind+'-search'),select=$('fm-'+kind);
+  if(!search||!select)return;
+  var q=search.value.trim().toLocaleLowerCase(),selected=state.fmFilters[kind]||'';
+  var options=FACET_OPTIONS[kind].filter(function(item){
+    return !q||item.label.toLocaleLowerCase().indexOf(q)!==-1||item.value.toLocaleLowerCase().indexOf(q)!==-1;
+  });
+  var placeholder=kind==='country'?t('all_countries'):(kind==='language'?t('all_languages'):t('all_tags'));
+  fillSelect(select,placeholder,options);select.value=selected;
+}
 function normalizeFm(s) {
   return {
-    name: s.name || '—',
-    url: s.url_resolved || s.url || '',
-    cc: s.countrycode || s.cc || '',
-    language: s.language || '',
-    tags: s.tags || '',
-    codec: s.codec || '',
-    bitrate: s.bitrate || 0
+    name:s.name||'—',url:s.url_resolved||s.url||'',cc:String(s.countrycode||s.cc||'').toUpperCase(),
+    language:normalizeLanguages(s.language||''),tags:normalizeCategories(s.tags||''),official:isOfficialStation(s),
+    codec:s.codec||'',bitrate:s.bitrate||0
   };
 }
 
@@ -426,10 +473,10 @@ function cardFm(s) {
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
-  var allTags = String(s.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
-  var isOfficial = allTags.indexOf('رسمي') !== -1 || allTags.indexOf('official') !== -1;
-  if (isOfficial) chips += '<span class="chip official">🏛 ' + esc(state.lang === 'ar' ? 'رسمي' : 'official') + '</span>';
-  var shownTags = allTags.filter(function (x) { return x !== 'رسمي' && x !== 'official'; }).slice(0, 3);
+  var allTags=String(s.tags||'').split(',').map(function(x){return x.trim();}).filter(Boolean);
+  var isOfficial=isOfficialStation(s);
+  if(isOfficial)chips+='<span class="chip official">🏛 '+esc(state.lang==='ar'?'رسمي':'Official')+'</span>';
+  var shownTags=allTags.slice(0,3);
   shownTags.forEach(function (x) { chips += '<span class="chip tag">🏷 ' + esc(x) + '</span>'; });
   var meta = [s.codec, s.bitrate ? s.bitrate + 'kbps' : ''].filter(Boolean).join(' · ');
   return '<article class="card">' +
@@ -470,7 +517,11 @@ function filterFM() {
 }
 
 function currentFMList() {
-  return state.fmLive ? state.fmLiveRows : filterFM();
+  var list=state.fmLive?state.fmLiveRows.slice():filterFM();
+  return list.sort(function(a,b){
+    if(isOfficialStation(a)!==isOfficialStation(b))return isOfficialStation(a)?-1:1;
+    return 0;
+  });
 }
 
 function renderFM() {
@@ -554,6 +605,7 @@ function searchFM() {
 function clearFMFilters() {
   state.fmFilters = { q: '', country: '', language: '', tag: '', chip: '' };
   $('qfm').value = '';
+  ['country','language','tag'].forEach(function(kind){$('fm-'+kind+'-search').value='';filterFacetOptions(kind);});
   $('fm-country').value = '';
   $('fm-language').value = '';
   $('fm-tag').value = '';
@@ -788,16 +840,10 @@ function initPlayers() {
 /* ================= visitor box ================= */
 
 function initVisitorBox() {
-  var img = $('visit-badge');
-  if (img) img.addEventListener('error', function () { img.hidden = true; });
-  fetch('https://ipwho.is/').then(function (r) { return r.json(); }).then(function (d) {
-    if (!d || !d.success) return;
-    var flag = flagOf(d.country_code);
-    var bits = [];
-    if (d.city) bits.push(d.city);
-    if (d.country) bits.push(d.country);
-    if (bits.length) $('visitor-from').textContent = t('you_from') + ': ' + (flag ? flag + ' ' : '') + bits.join(', ');
-  }).catch(function () {});
+  // CounterAPI.com increments the global page-view counter through its embed script.
+  // The external provider may process request metadata; the app does not request city-level IP data.
+  var mount=$('visitor-counter');
+  if(mount)mount.setAttribute('data-counter-ready','true');
 }
 
 /* ================= UI ================= */
@@ -843,9 +889,13 @@ function initUI() {
   });
   $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
-  $('fm-country').addEventListener('change', function () { state.fmFilters.country = this.value; fmClientRender(); });
-  $('fm-language').addEventListener('change', function () { state.fmFilters.language = this.value; fmClientRender(); });
-  $('fm-tag').addEventListener('change', function () { state.fmFilters.tag = this.value; fmClientRender(); });
+  $('fm-country').addEventListener('change',function(){state.fmFilters.country=this.value;fmClientRender();});
+  $('fm-language').addEventListener('change',function(){state.fmFilters.language=this.value;fmClientRender();});
+  $('fm-tag').addEventListener('change',function(){state.fmFilters.tag=this.value;fmClientRender();});
+  ['country','language','tag'].forEach(function(kind){
+    var search=$('fm-'+kind+'-search');
+    if(search)search.addEventListener('input',function(){filterFacetOptions(kind);});
+  });
   $('grid-fm').addEventListener('click', function (e) {
     var el = e.target;
     if (el && el.closest && el.closest('#fm-more')) {

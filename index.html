@@ -44,9 +44,9 @@
   <section id="panel-fm">
     <div class="toolbar">
       <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، لغة، فئة… (فوري)" data-i18n-ph="search_fm_ph">
-      <select id="fm-country" title="الدولة"></select>
-      <select id="fm-language" title="اللغة"></select>
-      <select id="fm-tag" title="الفئة"></select>
+      <div class="filter-field"><input id="fm-country-search" type="search" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" aria-label="ابحث عن دولة"><select id="fm-country" title="الدولة"></select></div>
+      <div class="filter-field"><input id="fm-language-search" type="search" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" aria-label="ابحث عن لغة"><select id="fm-language" title="اللغة"></select></div>
+      <div class="filter-field"><input id="fm-tag-search" type="search" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" aria-label="ابحث عن فئة"><select id="fm-tag" title="الفئة"></select></div>
       <button id="fm-search-btn" class="btn" type="button" data-i18n="live_search">بحث مباشر</button>
       <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
       <span id="count-fm" class="count"></span>
@@ -121,10 +121,9 @@
 
 <footer>
   <div class="visitor-box">
-    <span class="visitor-title" data-i18n="visitors">إجمالي الزوار</span>
-    <img id="visit-badge" alt="visitors" width="104" height="20"
-      src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsamotech.github.io%2FRadio%2F&count_bg=%2322d3ee&title_bg=%230b1220&icon=radio.svg&icon_color=%23ffffff&title=visitors&edge_flat=false">
-    <span id="visitor-from" class="visitor-from"></span>
+    <span class="visitor-title" data-i18n="visitors">إجمالي الزيارات</span>
+    <div id="visitor-counter" class="counterapi" aria-live="polite" aria-label="إجمالي زيارات الموقع"></div>
+    <span class="visitor-note">عداد الزيارات مقدم من <a href="https://counterapi.com/" target="_blank" rel="noopener">CounterAPI</a>.</span>
   </div>
   <p class="src-line"><span data-i18n="sources">المصادر:</span>
     <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
@@ -137,6 +136,7 @@
 
 <div id="toast" class="toast" hidden></div>
 
+<script src="https://counterapi.com/c.js?ns=samotech.github.io" async></script>
 <script src="js/app.js"></script>
 </body>
 </html>
