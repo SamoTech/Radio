@@ -7,7 +7,9 @@ Sources:
   kiwisdr.com/public, schema 1). PRIMARY: the legacy rx.kiwisdr.com/json
   origin has been intermittently down during KiwiSDR server changes.
 - rx.kiwisdr.com/json/ — legacy origin endpoint, kept as fallback.
-- Radio-Browser top-click stations.
+- Radio-Browser: FULL catalog of all non-broken stations, fetched with
+  offset pagination and stored with trimmed fields so the whole
+  directory ships as one client-side-searchable snapshot.
 
 Failures never wipe the last good snapshot: files are written only
 after a successful fetch, and the scheduled run retries every 30 min
@@ -26,6 +28,8 @@ from pathlib import Path
 KIWI_MIRROR_URL = "https://cdn.aethersdr.com/kiwi.json"
 KIWI_LEGACY_URLS = ["http://rx.kiwisdr.com/json/", "https://rx.kiwisdr.com/json/"]
 RB_API = "https://de1.api.radio-browser.info/json/stations/search"
+RB_BATCH = 5000
+RB_MAX = 500_000
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -185,25 +189,46 @@ def fetch_kiwi():
 
 
 def fetch_stations():
-    raw = fetch_json(
-        RB_API,
-        {"limit": 1000, "order": "clickcount", "reverse": "true", "hidebroken": "true"},
-    )
-    return [
-        {
-            "name": s.get("name", ""),
-            "url": s.get("url_resolved") or s.get("url", ""),
-            "favicon": s.get("favicon", ""),
-            "country": s.get("country", ""),
-            "cc": s.get("countrycode", ""),
-            "language": s.get("language", ""),
-            "tags": s.get("tags", ""),
-            "codec": s.get("codec", ""),
-            "bitrate": s.get("bitrate", 0),
-        }
-        for s in raw
-        if isinstance(s, dict) and (s.get("url_resolved") or s.get("url"))
-    ]
+    """Fetch ALL non-broken Radio-Browser stations (offset pagination)."""
+    out = []
+    offset = 0
+    while True:
+        raw = fetch_json(
+            RB_API,
+            {
+                "limit": RB_BATCH,
+                "offset": offset,
+                "order": "clickcount",
+                "reverse": "true",
+                "hidebroken": "true",
+            },
+        )
+        if not isinstance(raw, list):
+            break
+        for s in raw:
+            if not isinstance(s, dict):
+                continue
+            url = s.get("url_resolved") or s.get("url", "")
+            if not url:
+                continue
+            out.append(
+                {
+                    "name": s.get("name", ""),
+                    "url": url,
+                    "cc": s.get("countrycode", ""),
+                    "language": s.get("language", ""),
+                    "tags": s.get("tags", ""),
+                    "codec": s.get("codec", ""),
+                    "bitrate": s.get("bitrate", 0) or 0,
+                }
+            )
+        print(f"radio-browser: fetched {len(out)} stations so far (offset {offset})")
+        if len(raw) < RB_BATCH:
+            break
+        offset += RB_BATCH
+        if offset >= RB_MAX:
+            break
+    return out
 
 
 def write_json(path, payload):
@@ -238,7 +263,7 @@ def main():
             DATA_DIR / "stations.json",
             {"updated": now, "source": "https://www.radio-browser.info/", "count": len(stations), "stations": stations},
         )
-        print(f"stations: {len(stations)} stations")
+        print(f"stations: {len(stations)} stations (full catalog)")
         ok = True
     except Exception as e:  # noqa: BLE001
         print(f"stations FAILED: {e} — keeping last good snapshot", file=sys.stderr)

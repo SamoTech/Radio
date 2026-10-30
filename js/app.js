@@ -3,16 +3,18 @@
 /* راديو أطلس — Radio Atlas frontend (vanilla JS, no deps) */
 
 var RB_API = 'https://de1.api.radio-browser.info/json';
+var FM_PAGE = 120;
 
 var state = {
   receivers: [],
   updated: null,
   filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0 },
   fm: [],
-  fmFilters: { q: '', country: '', language: '', tag: '' }
+  fmFilters: { q: '', country: '', language: '', tag: '' },
+  fmLimit: FM_PAGE,
+  fmLive: false,
+  fmLiveRows: []
 };
-
-var fmFacetsLoaded = false;
 
 function $(id) { return document.getElementById(id); }
 
@@ -36,12 +38,18 @@ function fmtDate(iso) {
   } catch (e) { return String(iso); }
 }
 
+function fmtNum(n) {
+  try { return Number(n).toLocaleString('ar-EG'); } catch (e) { return String(n); }
+}
+
 /* ================= KiwiSDR ================= */
 
 function normalizeRx(r) {
+  var url = r.url || '';
   return {
     name: r.name || 'بدون اسم',
-    url: r.url || '',
+    url: url,
+    https: /^https:/i.test(url),
     online: !!r.online,
     users: Number(r.users) || 0,
     maxUsers: Number(r.max_users) || 0,
@@ -74,9 +82,9 @@ function renderStats() {
   state.receivers.forEach(function (r) {
     if (r.online) { online++; listeners += r.users; }
   });
-  $('stat-total').textContent = total;
-  $('stat-online').textContent = online;
-  $('stat-listeners').textContent = listeners;
+  $('stat-total').textContent = fmtNum(total);
+  $('stat-online').textContent = fmtNum(online);
+  $('stat-listeners').textContent = fmtNum(listeners);
   $('stat-updated').textContent = fmtDate(state.updated);
 }
 
@@ -128,13 +136,19 @@ function cardRx(r) {
   if (r.band) chips += '<span class="chip">' + esc(r.band) + '</span>';
   if (r.loc) chips += '<span class="chip">📍 ' + esc(r.loc) + '</span>';
   if (r.gps) chips += '<span class="chip gps">📡 GPS</span>';
+  var action = '';
+  if (r.url) {
+    action = r.https
+      ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">🎧 استمع داخل التطبيق</button>'
+      : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">افتح الجهاز ↗</a>';
+  }
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
     '<h3>' + esc(r.name) + '</h3></div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     '<div class="meta"><span>👥 ' + users + '</span><span class="snr">📶 SNR ' + snr + '</span></div>' +
     (r.antenna ? '<div class="meta antenna" title="' + esc(r.antenna) + '">🛰 ' + esc(r.antenna) + '</div>' : '') +
-    (r.url ? '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">افتح الجهاز ↗</a>' : '') +
+    action +
     '</article>';
 }
 
@@ -146,7 +160,7 @@ function renderSDR() {
     return;
   }
   var list = applyFilters();
-  $('count-sdr').textContent = list.length + ' نتيجة';
+  $('count-sdr').textContent = fmtNum(list.length) + ' نتيجة';
   grid.innerHTML = list.length ? list.map(cardRx).join('')
     : '<div class="empty">مفيش نتائج مطابقة — جرب تخفف الفلاتر.</div>';
 }
@@ -176,41 +190,38 @@ function fillSelect(sel, placeholder, items) {
   }).join('');
 }
 
-function topFacets(list, minCount, maxItems) {
-  return list.filter(function (x) { return (x.stationcount || 0) >= minCount; })
-    .sort(function (a, b) { return (b.stationcount || 0) - (a.stationcount || 0); })
-    .slice(0, maxItems);
+function splitList(v) {
+  return String(v || '').split(',').map(function (t) { return t.trim().toLowerCase(); }).filter(Boolean);
 }
 
-function loadFMFacets() {
-  if (fmFacetsLoaded) return;
-  fmFacetsLoaded = true;
-  Promise.all([
-    fetchJSON(RB_API + '/countries').catch(function () { return []; }),
-    fetchJSON(RB_API + '/languages').catch(function () { return []; }),
-    fetchJSON(RB_API + '/tags').catch(function () { return []; })
-  ]).then(function (res) {
-    var countries = topFacets(res[0], 10, 150).map(function (c) {
-      var cc = c.iso_3166_1 || '';
-      return { value: cc, label: (cc ? flagOf(cc) + ' ' : '') + regionNameAr(cc, c.name || cc) + ' (' + c.stationcount + ')' };
+function buildFMFacets() {
+  var countries = {}, langs = {}, tags = {};
+  state.fm.forEach(function (s) {
+    if (s.cc) countries[s.cc] = (countries[s.cc] || 0) + 1;
+    splitList(s.language).forEach(function (l) { langs[l] = (langs[l] || 0) + 1; });
+    splitList(s.tags).forEach(function (t) { tags[t] = (tags[t] || 0) + 1; });
+  });
+  var countryItems = Object.keys(countries).filter(function (k) { return countries[k] >= 10; })
+    .sort(function (a, b) { return countries[b] - countries[a]; })
+    .slice(0, 150)
+    .map(function (k) {
+      return { value: k, label: flagOf(k) + ' ' + regionNameAr(k, k) + ' (' + countries[k] + ')' };
     });
-    var langs = topFacets(res[1], 10, 120).map(function (l) {
-      return { value: l.name, label: l.name + ' (' + l.stationcount + ')' };
-    });
-    var tags = topFacets(res[2], 25, 120).map(function (t) {
-      return { value: t.name, label: t.name + ' (' + t.stationcount + ')' };
-    });
-    fillSelect($('fm-country'), '🌍 كل الدول', countries);
-    fillSelect($('fm-language'), '🗣 كل اللغات', langs);
-    fillSelect($('fm-tag'), '🏷 كل الفئات', tags);
-  }).catch(function (e) { console.warn('facets:', e); });
+  function toItems(map, min, max) {
+    return Object.keys(map).filter(function (k) { return map[k] >= min; })
+      .sort(function (a, b) { return map[b] - map[a]; })
+      .slice(0, max)
+      .map(function (k) { return { value: k, label: k + ' (' + map[k] + ')' }; });
+  }
+  fillSelect($('fm-country'), '🌍 كل الدول', countryItems);
+  fillSelect($('fm-language'), '🗣 كل اللغات', toItems(langs, 10, 120));
+  fillSelect($('fm-tag'), '🏷 كل الفئات', toItems(tags, 25, 120));
 }
 
 function normalizeFm(s) {
   return {
     name: s.name || 'محطة',
     url: s.url_resolved || s.url || '',
-    country: s.country || '',
     cc: s.countrycode || s.cc || '',
     language: s.language || '',
     tags: s.tags || '',
@@ -221,7 +232,7 @@ function normalizeFm(s) {
 
 function cardFm(s) {
   var chips = '';
-  if (s.country) chips += '<span class="chip">' + (s.cc ? flagOf(s.cc) + ' ' : '') + esc(s.country) + '</span>';
+  if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionNameAr(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
   var tags = String(s.tags || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3);
   tags.forEach(function (t) { chips += '<span class="chip tag">🏷 ' + esc(t) + '</span>'; });
@@ -234,28 +245,62 @@ function cardFm(s) {
     '</article>';
 }
 
+function filterFM() {
+  var f = state.fmFilters;
+  var q = f.q.trim().toLowerCase();
+  return state.fm.filter(function (s) {
+    if (f.country && s.cc !== f.country) return false;
+    if (f.language && splitList(s.language).indexOf(f.language) === -1) return false;
+    if (f.tag && splitList(s.tags).indexOf(f.tag) === -1) return false;
+    if (q) {
+      if ((s.name + ' ' + s.language + ' ' + s.tags).toLowerCase().indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+}
+
+function currentFMList() {
+  return state.fmLive ? state.fmLiveRows : filterFM();
+}
+
 function renderFM() {
-  $('grid-fm').innerHTML = state.fm.length ? state.fm.map(cardFm).join('')
-    : '<div class="empty">مفيش محطات — جرب فلتر أخف أو كلمة تانية.</div>';
-  $('count-fm').textContent = state.fm.length ? state.fm.length + ' محطة' : '';
+  var grid = $('grid-fm');
+  var list = currentFMList();
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty">مفيش محطات مطابقة — جرب فلتر أخف أو كلمة تانية.</div>';
+    $('count-fm').textContent = '';
+    return;
+  }
+  var shown = list.slice(0, state.fmLimit);
+  var html = shown.map(cardFm).join('');
+  if (list.length > state.fmLimit) {
+    html += '<div class="more-wrap"><button id="fm-more" class="btn ghost" type="button">عرض المزيد — باقي ' + fmtNum(list.length - state.fmLimit) + ' محطة</button></div>';
+  }
+  grid.innerHTML = html;
+  $('count-fm').textContent = fmtNum(list.length) + ' محطة';
 }
 
 function loadStations() {
   return fetchJSON('data/stations.json').then(function (data) {
-    if (data && Array.isArray(data.stations)) state.fm = data.stations.map(normalizeFm);
+    if (data && Array.isArray(data.stations)) {
+      state.fm = data.stations.map(normalizeFm);
+      buildFMFacets();
+    }
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(renderFM);
 }
 
-function fmActive() {
-  var f = state.fmFilters;
-  return !!(f.q || f.country || f.language || f.tag);
+function fmClientRender() {
+  state.fmLive = false;
+  state.fmLiveRows = [];
+  state.fmLimit = FM_PAGE;
+  renderFM();
 }
 
 function searchFM() {
-  if (!fmActive()) { loadStations(); return; }
-  $('grid-fm').innerHTML = '<div class="empty">جاري البحث…</div>';
   var f = state.fmFilters;
-  var params = ['limit=60', 'hidebroken=true', 'order=clickcount', 'reverse=true'];
+  if (!(f.q || f.country || f.language || f.tag)) { fmClientRender(); return; }
+  $('grid-fm').innerHTML = '<div class="empty">جاري البحث المباشر من المصدر…</div>';
+  var params = ['limit=200', 'hidebroken=true', 'order=clickcount', 'reverse=true'];
   if (f.q) params.push('name=' + encodeURIComponent(f.q));
   if (f.country) params.push('countrycode=' + encodeURIComponent(f.country));
   if (f.language) params.push('language=' + encodeURIComponent(f.language));
@@ -263,12 +308,13 @@ function searchFM() {
   fetch(RB_API + '/stations/search?' + params.join('&'))
     .then(function (r) { return r.json(); })
     .then(function (rows) {
-      state.fm = rows.filter(function (s) { return s.url_resolved || s.url; }).map(normalizeFm);
+      state.fmLive = true;
+      state.fmLiveRows = rows.filter(function (s) { return s.url_resolved || s.url; }).map(normalizeFm);
+      state.fmLimit = FM_PAGE;
       renderFM();
     })
     .catch(function () {
-      $('grid-fm').innerHTML = '<div class="empty">البحث الحي فشل — رجعنا للقائمة المخزنة.</div>';
-      loadStations();
+      $('grid-fm').innerHTML = '<div class="empty">البحث المباشر فشل — استنى شوية أو استخدم الفلترة المحلية الفورية.</div>';
     });
 }
 
@@ -278,10 +324,10 @@ function clearFMFilters() {
   $('fm-country').value = '';
   $('fm-language').value = '';
   $('fm-tag').value = '';
-  loadStations();
+  fmClientRender();
 }
 
-/* ================= Player ================= */
+/* ================= Players ================= */
 
 function play(url, name) {
   $('player').hidden = false;
@@ -291,17 +337,42 @@ function play(url, name) {
   a.play().catch(function () {});
 }
 
-function initPlayer() {
+function openSDR(url, name) {
+  $('sdr-modal-name').textContent = '🎧 ' + (name || '');
+  $('sdr-frame').src = url;
+  $('sdr-modal').hidden = false;
+}
+
+function closeSDR() {
+  $('sdr-frame').src = 'about:blank';
+  $('sdr-modal').hidden = true;
+}
+
+function initPlayers() {
   document.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button.play') : null;
-    if (!b) return;
-    play(b.getAttribute('data-url'), b.getAttribute('data-name'));
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var p = t.closest('button.play');
+    if (p) {
+      play(p.getAttribute('data-url'), p.getAttribute('data-name'));
+      return;
+    }
+    var sdr = t.closest('button.play-sdr');
+    if (sdr) {
+      openSDR(sdr.getAttribute('data-url'), sdr.getAttribute('data-name'));
+    }
   });
   $('player-close').addEventListener('click', function () {
     var a = $('audio');
     a.pause();
     a.removeAttribute('src');
     $('player').hidden = true;
+  });
+  $('sdr-modal-close').addEventListener('click', closeSDR);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      if (!$('sdr-modal').hidden) closeSDR();
+    }
   });
 }
 
@@ -313,7 +384,6 @@ function switchTab(t) {
   $('tab-fm').classList.toggle('active', !sdr);
   $('panel-sdr').hidden = !sdr;
   $('panel-fm').hidden = sdr;
-  if (t === 'fm') loadFMFacets();
 }
 
 function initUI() {
@@ -336,18 +406,25 @@ function initUI() {
   $('qfm').addEventListener('input', function () {
     clearTimeout(fmTimer);
     var v = this.value;
-    fmTimer = setTimeout(function () { state.fmFilters.q = v; searchFM(); }, 450);
+    fmTimer = setTimeout(function () { state.fmFilters.q = v; fmClientRender(); }, 200);
   });
-  $('fm-search-btn').addEventListener('click', function () { searchFM(); });
+  $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
-  $('fm-country').addEventListener('change', function () { state.fmFilters.country = this.value; searchFM(); });
-  $('fm-language').addEventListener('change', function () { state.fmFilters.language = this.value; searchFM(); });
-  $('fm-tag').addEventListener('change', function () { state.fmFilters.tag = this.value; searchFM(); });
+  $('fm-country').addEventListener('change', function () { state.fmFilters.country = this.value; fmClientRender(); });
+  $('fm-language').addEventListener('change', function () { state.fmFilters.language = this.value; fmClientRender(); });
+  $('fm-tag').addEventListener('change', function () { state.fmFilters.tag = this.value; fmClientRender(); });
+  $('grid-fm').addEventListener('click', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('#fm-more')) {
+      state.fmLimit += FM_PAGE;
+      renderFM();
+    }
+  });
 }
 
 function init() {
   initUI();
-  initPlayer();
+  initPlayers();
   loadKiwi();
   loadStations();
   if ('serviceWorker' in navigator) {

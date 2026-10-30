@@ -43,21 +43,22 @@
       <label class="check">SNR ≥ <input type="number" id="minsnr" value="0" min="0" max="60" style="width:64px"></label>
       <span id="count-sdr" class="count"></span>
     </div>
+    <p class="hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
     <div id="grid-sdr" class="grid"></div>
   </section>
 
   <!-- FM / Broadcast -->
   <section id="panel-fm" hidden>
     <div class="toolbar">
-      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، بلد، نوع… (بحث حي)">
+      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، لغة، فئة… (فوري)">
       <select id="fm-country" title="الدولة"></select>
       <select id="fm-language" title="اللغة"></select>
       <select id="fm-tag" title="الفئة"></select>
-      <button id="fm-search-btn" class="btn" type="button">بحث</button>
+      <button id="fm-search-btn" class="btn" type="button">بحث مباشر</button>
       <button id="fm-clear-btn" class="btn ghost" type="button">مسح الفلاتر</button>
       <span id="count-fm" class="count"></span>
     </div>
-    <p class="hint">صنّف المحطات حسب الدولة أو اللغة أو الفئة — أو ادمج الفلاتر مع البحث الحي بالاسم. القائمة الافتراضية هي الأكثر استماعًا عالميًا (Radio-Browser).</p>
+    <p class="hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري وبدون إنترنت. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
     <div id="grid-fm" class="grid"></div>
   </section>
 </main>
@@ -68,6 +69,14 @@
     <div id="player-name"></div>
     <audio id="audio" controls></audio>
   </div>
+</div>
+
+<div id="sdr-modal" class="modal" hidden>
+  <div class="modal-head">
+    <strong id="sdr-modal-name"></strong>
+    <button id="sdr-modal-close" class="btn ghost" type="button">✕ إغلاق</button>
+  </div>
+  <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay"></iframe>
 </div>
 
 <footer>
