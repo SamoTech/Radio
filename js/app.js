@@ -518,6 +518,7 @@ function cardFm(s) {
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     (meta ? '<div class="meta">' + esc(meta) + '</div>' : '') +
     '<button class="open play" type="button" data-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + esc(t('listen')) + '</button>' +
+    (s.website ? '<a class="open official-link" href="' + esc(s.website) + '" target="_blank" rel="noopener noreferrer">' + esc(t('open_official_site')) + '</a>' : '') +
     '</article>';
 }
 

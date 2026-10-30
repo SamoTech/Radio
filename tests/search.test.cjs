@@ -77,6 +77,13 @@ test('Live Search cancels a pending local debounce render', async () => {
   assert.equal(sandbox.fmSearchDebounceTimer, null);
 });
 
+test('official station cards expose the broadcaster website link', () => {
+  seedStations();
+  const html = sandbox.cardFm({ name: 'Official Cairo Radio', url: 'https://example.test/live', cc: 'EG', language: 'arabic', tags: 'official', official: true, website: 'https://example.test/' });
+  assert.match(html, /official-link/);
+  assert.match(html, /https:\/\/example\.test\//);
+});
+
 test('EasyBroadcast token response signs the playlist and child path', () => {
   const signed = new URL(sandbox.appendEasyBroadcastToken(
     'https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8',

@@ -15,9 +15,8 @@ Sources:
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
 
-Failures never wipe the last good snapshot: files are written only
-after a successful fetch, and the scheduled run retries every 30 min
-(mirroring the origin cache policy of max-age=1800).
+Failures never wipe the last good snapshot. Station catalogs refresh daily;
+KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
 """
 
 import gzip
@@ -531,97 +530,112 @@ def write_json(path, payload):
 
 
 def main():
+    mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
+    if mode not in {"all", "stations", "sdr"}:
+        raise SystemExit("Usage: update_data.py [all|stations|sdr]")
+
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc)
     now_iso = now.isoformat(timespec="seconds")
     ok = False
 
-    src, receivers, fetched_at = fetch_kiwi()
-    if src:
-        write_json(
-            DATA_DIR / "kiwisdr.json",
-            {
-                "updated": now_iso,
-                "source": src,
-                "origin_fetched_at": fetched_at,
-                "count": len(receivers),
-                "receivers": receivers,
-            },
-        )
-        print(f"kiwisdr: {len(receivers)} receivers from {src}")
-        ok = True
-    else:
-        print("kiwisdr FAILED: no source worked, keeping last good snapshot", file=sys.stderr)
-
-    try:
-        officials = load_official()
-        arabic = load_arabic()
-        rb_stations = fetch_stations()
-        if len(officials) + len(arabic) + len(rb_stations) < 10_000:
-            # A partial fetch must never wipe the full catalog snapshot.
-            raise RuntimeError(
-                f"suspiciously small catalog: {len(officials) + len(arabic) + len(rb_stations)}"
+    if mode in {"all", "sdr"}:
+        src, receivers, fetched_at = fetch_kiwi()
+        if src and receivers:
+            write_json(
+                DATA_DIR / "kiwisdr.json",
+                {
+                    "updated": now_iso,
+                    "source": src,
+                    "origin_fetched_at": fetched_at,
+                    "count": len(receivers),
+                    "receivers": receivers,
+                },
             )
-        arab_extra = fetch_iprd_arab()
-        existing_urls = {s["url"] for s in officials + arabic + rb_stations}
-        arab_extra = [s for s in arab_extra if s["url"] not in existing_urls][:IPRD_MAX]
-        stations = officials + arabic + arab_extra + rb_stations
-        print(
-            f"stations: {len(stations)} total "
-            f"(officials {len(officials)} + arabic {len(arabic)} + iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)})"
-        )
-        write_json(
-            DATA_DIR / "stations.json",
-            {"updated": now_iso, "source": "https://www.radio-browser.info/", "count": len(stations), "stations": stations},
-        )
-        ok = True
-    except Exception as e:  # noqa: BLE001
-        print(f"stations FAILED: {e} — trying curated merge into last good snapshot", file=sys.stderr)
+            print(f"kiwisdr: {len(receivers)} receivers from {src}")
+            ok = True
+        else:
+            print("kiwisdr FAILED or empty: keeping last good snapshot", file=sys.stderr)
+
         try:
-            merged = merge_curated_into_snapshot(load_official() + load_arabic() + fetch_iprd_arab(), DATA_DIR / "stations.json")
-            if merged:
-                write_json(DATA_DIR / "stations.json", merged)
-                print(f"stations: merged curated stations into last good snapshot ({merged['count']} total)")
+            sw = fetch_space()
+            if sw:
+                write_json(
+                    DATA_DIR / "space_weather.json",
+                    {
+                        "updated": now_iso,
+                        "source": "NOAA SWPC (https://www.swpc.noaa.gov/)",
+                        "kp": sw["kp"],
+                        "f107": sw["f107"],
+                    },
+                )
+                print("space weather: ok")
             else:
-                print("stations: curated merge unavailable — keeping last good snapshot", file=sys.stderr)
-        except Exception as e2:  # noqa: BLE001
-            print(f"stations curated merge FAILED: {e2} — keeping last good snapshot", file=sys.stderr)
+                print("space weather: no data — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"space weather FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
-    try:
-        sw = fetch_space()
-        if sw:
+        try:
+            eibi = fetch_eibi(now)
+            if eibi:
+                write_json(
+                    DATA_DIR / "eibi.json",
+                    {
+                        "updated": now_iso,
+                        "source": "EIBI (eibispace.de)",
+                        "count": len(eibi),
+                        "rows": eibi,
+                    },
+                )
+                print(f"eibi: {len(eibi)} on-air broadcasts")
+            else:
+                print("eibi: no data — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"eibi FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
+    if mode in {"all", "stations"}:
+        try:
+            officials = load_official()
+            arabic = load_arabic()
+            rb_stations = fetch_stations()
+            total = len(officials) + len(arabic) + len(rb_stations)
+            if total < 10_000:
+                raise RuntimeError(f"suspiciously small catalog: {total}")
+
+            arab_extra = fetch_iprd_arab()
+            existing_urls = {s["url"] for s in officials + arabic + rb_stations}
+            arab_extra = [
+                s for s in arab_extra if s["url"] not in existing_urls
+            ][:IPRD_MAX]
+            stations = officials + arabic + arab_extra + rb_stations
+            print(
+                f"stations: {len(stations)} total "
+                f"(officials {len(officials)} + arabic {len(arabic)} + "
+                f"iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)})"
+            )
             write_json(
-                DATA_DIR / "space_weather.json",
+                DATA_DIR / "stations.json",
                 {
                     "updated": now_iso,
-                    "source": "NOAA SWPC (https://www.swpc.noaa.gov/)",
-                    "kp": sw["kp"],
-                    "f107": sw["f107"],
+                    "source": "https://www.radio-browser.info/",
+                    "count": len(stations),
+                    "stations": stations,
                 },
             )
-            print("space weather: ok")
-        else:
-            print("space weather: no data this run — keeping last good snapshot", file=sys.stderr)
-    except Exception as e:  # noqa: BLE001
-        print(f"space weather FAILED: {e} — keeping last good snapshot", file=sys.stderr)
-
-    try:
-        eibi = fetch_eibi(now)
-        if eibi:
-            write_json(
-                DATA_DIR / "eibi.json",
-                {
-                    "updated": now_iso,
-                    "source": "EIBI (eibispace.de)",
-                    "count": len(eibi),
-                    "rows": eibi,
-                },
-            )
-            print(f"eibi: {len(eibi)} on-air broadcasts")
-        else:
-            print("eibi: no data this run — keeping last good snapshot", file=sys.stderr)
-    except Exception as e:  # noqa: BLE001
-        print(f"eibi FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+            ok = True
+        except Exception as e:  # noqa: BLE001
+            print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
+            try:
+                curated = load_official() + load_arabic() + fetch_iprd_arab()
+                merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
+                if merged:
+                    write_json(DATA_DIR / "stations.json", merged)
+                    print(f"stations: merged curated data into existing snapshot ({merged['count']})")
+                    ok = True
+                else:
+                    print("stations: fallback merge unavailable — keeping last snapshot", file=sys.stderr)
+            except Exception as fallback_error:  # noqa: BLE001
+                print(f"stations fallback FAILED: {fallback_error}", file=sys.stderr)
 
     if not ok:
         sys.exit(1)

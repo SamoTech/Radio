@@ -10,7 +10,7 @@
 flowchart LR
     A[KiwiSDR Directory — عبر مرآة AetherSDR CDN] --> C[Crawler]
     B[Radio-Browser API] --> C
-    C[GitHub Actions — كل 30 دقيقة] --> D[(data/*.json)]
+    C[GitHub Actions — الإذاعات يوميًا وSDR كل 6 ساعات] --> D[(data/*.json)]
     D --> E[GitHub Pages — PWA]
 ```
 
@@ -20,9 +20,9 @@ flowchart LR
 2. **احتياطي:** `rx.kiwisdr.com/json/` — الإندبوينت الأصلي (بيقع و يرجع).
 
 - **الواجهة:** PWA عربية (RTL)، بدون أي dependencies — HTML + CSS + vanilla JS + Service Worker.
-- **البحث في محطات FM:** حي ومباشر من Radio-Browser API، مع snapshot احتياطي.
+- **البحث في محطات FM:** بحث محلي فوري من الكتالوج المحمّل؛ البحث المباشر من Radio-Browser اختياري.
 
-> **ملاحظة تشغيل:** لو فشل سحب مصدر ما، السكربت يحتفظ بآخر لقطة ناجحة ولا يمسح البيانات — ويعيد المحاولة كل ٣٠ دقيقة تلقائيًا.
+> **ملاحظة تشغيل:** كتالوج الإذاعات يتحدث يوميًا، وبيانات SDR والطقس الفضائي وجدول الموجات القصيرة كل 6 ساعات. عند فشل أي مصدر يحتفظ النظام بآخر لقطة ناجحة.
 
 ## الميزات (MVP)
 
@@ -34,7 +34,9 @@ flowchart LR
 ## التشغيل محليًا
 
 ```bash
-python scripts/update_data.py   # سحب البيانات
+python scripts/update_data.py all      # تحديث كل البيانات
+python scripts/update_data.py stations # كتالوج الإذاعات فقط
+python scripts/update_data.py sdr      # SDR والطقس والموجات القصيرة فقط
 python -m http.server 8000       # ثم افتح http://localhost:8000
 ```
 
