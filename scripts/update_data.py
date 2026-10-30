@@ -430,6 +430,34 @@ def fetch_eibi(now):
     return None
 
 
+def merge_curated_into_snapshot(curated, path):
+    """Radio-Browser unreachable: re-merge curated stations into the last good snapshot."""
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    stations = old.get("stations")
+    if not isinstance(stations, list) or len(stations) < 10_000:
+        return None
+    fresh = [s for s in curated if isinstance(s, dict) and s.get("url")]
+    seen = {s.get("url") for s in fresh}
+    out = list(fresh)
+    for s in stations:
+        if (
+            isinstance(s, dict)
+            and s.get("url")
+            and s.get("cc") != "IL"
+            and s.get("url") not in seen
+        ):
+            out.append(s)
+    return {
+        "updated": old.get("updated"),
+        "source": old.get("source"),
+        "count": len(out),
+        "stations": out,
+    }
+
+
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -469,7 +497,16 @@ def main():
         print(f"stations: {len(stations)} stations (full catalog)")
         ok = True
     except Exception as e:  # noqa: BLE001
-        print(f"stations FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+        print(f"stations FAILED: {e} — trying curated merge into last good snapshot", file=sys.stderr)
+        try:
+            merged = merge_curated_into_snapshot(load_official() + load_arabic(), DATA_DIR / "stations.json")
+            if merged:
+                write_json(DATA_DIR / "stations.json", merged)
+                print(f"stations: merged {len(load_official()) + len(load_arabic())} curated into last good snapshot ({merged['count']} total)")
+            else:
+                print("stations: curated merge unavailable — keeping last good snapshot", file=sys.stderr)
+        except Exception as e2:  # noqa: BLE001
+            print(f"stations curated merge FAILED: {e2} — keeping last good snapshot", file=sys.stderr)
 
     try:
         sw = fetch_space()
