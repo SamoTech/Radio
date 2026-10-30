@@ -40,6 +40,22 @@ var CATEGORY_LABELS = {
 };
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
 var fmSearchSequence = 0;
+var fmSearchDebounceTimer = null;
+
+function cancelFMClientRender() {
+  if (fmSearchDebounceTimer !== null) {
+    clearTimeout(fmSearchDebounceTimer);
+    fmSearchDebounceTimer = null;
+  }
+}
+
+function scheduleFMClientRender() {
+  cancelFMClientRender();
+  fmSearchDebounceTimer = setTimeout(function () {
+    fmSearchDebounceTimer = null;
+    fmClientRender();
+  }, 160);
+}
 function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
@@ -585,6 +601,7 @@ function fetchRB(params) {
 }
 
 function searchFM() {
+  cancelFMClientRender();
   var requestId = ++fmSearchSequence;
   var f = state.fmFilters;
   if (!(f.q || f.country || f.language || f.tag || f.chip === 'arabic' || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
@@ -895,12 +912,10 @@ function initUI() {
     renderFM();
   });
 
-  var fmTimer = null;
   $('qfm').addEventListener('input', function () {
-    clearTimeout(fmTimer);
     state.fmFilters.q = this.value;
     fmSearchSequence += 1;
-    fmTimer = setTimeout(function () { fmClientRender(); }, 160);
+    scheduleFMClientRender();
   });
   $('qfm').addEventListener('keydown',function(e){
     if(e.key==='Escape' && this.value){this.value='';state.fmFilters.q='';fmClientRender();}
