@@ -44,11 +44,15 @@ self.addEventListener('fetch', function (e) {
     return;
   }
 
-  e.respondWith(caches.match(e.request).then(function (hit) {
-    return hit || fetch(e.request).then(function (r) {
+  e.respondWith(fetch(e.request).then(function (r) {
+    if (r.ok) {
       var cp = r.clone();
-      caches.open(CACHE).then(function (c) { c.put(e.request, cp); });
-      return r;
-    }).catch(function () { return caches.match('./offline.html'); });
+      return caches.open(CACHE).then(function (c) { return c.put(e.request, cp); }).then(function () { return r; });
+    }
+    return r;
+  }).catch(function () {
+    return caches.match(e.request).then(function (hit) {
+      return hit || caches.match('./offline.html');
+    });
   }));
 });
