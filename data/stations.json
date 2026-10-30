@@ -1,7 +1,7 @@
 {
  "updated": "2026-10-30T19:59:38+00:00",
  "source": "https://www.radio-browser.info/",
- "count": 50849,
+ "count": 50857,
  "stations": [
   {
    "name": "BBC World Service",
@@ -596,6 +596,15 @@
    "bitrate": 128
   },
   {
+   "name": "Atlantic Radio 92.5",
+   "url": "https://atlantic-sonic.nindohost.net:9300/stream",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Chada 100.8",
    "url": "https://chadafm.ice.infomaniak.ch/chadafm-high.mp3",
    "cc": "MA",
@@ -632,6 +641,15 @@
    "bitrate": 0
   },
   {
+   "name": "Radio Azawan",
+   "url": "https://az-maroc.ice.infomaniak.ch/az-maroc-128.mp3",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "RIM Radio",
    "url": "https://streaming.rimradio.ma/live",
    "cc": "MA",
@@ -652,6 +670,24 @@
   {
    "name": "El Radio 90.9",
    "url": "https://9090video.mobtada.com/hls/0/stream.m3u8",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Holy Quran Distinctive Short Hymns",
+   "url": "https://qurango.net/radio/tarateel",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Abdulrasheed Soufi",
+   "url": "https://qurango.net/radio/abdulrasheed_soufi_assosi.mp3",
    "cc": "EG",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -686,8 +722,53 @@
    "bitrate": 0
   },
   {
+   "name": "Radio 9090 90.9",
+   "url": "https://9090streaming.mobtada.com/9090FMEGYPT",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Hits 88.2",
+   "url": "https://radiohits882.radioca.st/;",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Radio Sawa",
    "url": "https://n06.radiojar.com/vzvy3r5na3quv?download=1&rj-tok=AAABfd3qV00A73t9pItzdZ09qQ&rj-ttl=5",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Mahmoud Khalil Al-Hasr Radio",
+   "url": "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Yasser Al-Dosari Radio",
+   "url": "https://qurango.net/radio/yasser_aldosari",
+   "cc": "EG",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Sha3by 95.0",
+   "url": "https://radio95.radioca.st/;",
    "cc": "EG",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -706,6 +787,24 @@
   {
    "name": "Ahla Al Qaseed FM",
    "url": "https://ahlalqaseedfm-radio.mbc.net/ahlalqaseedfm-radio.m3u8",
+   "cc": "SA",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Al Arabiya 99.0",
+   "url": "https://fm.alarabiya.net/fm/myStream/playlist.m3u8",
+   "cc": "SA",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Alif Alif FM",
+   "url": "https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3",
    "cc": "SA",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -812,6 +911,33 @@
    "bitrate": 0
   },
   {
+   "name": "Radio Algerienne Chaine 3",
+   "url": "https://ch3.ice.infomaniak.ch/ch3-32.aac",
+   "cc": "DZ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Algerienne Chaine 1",
+   "url": "https://ch.ice.infomaniak.ch/ch1-32.aac",
+   "cc": "DZ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Algerienne Chaine 2",
+   "url": "https://ch2.ice.infomaniak.ch/ch2-32.aac",
+   "cc": "DZ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Radio Bechar",
    "url": "https://webradio.tda.dz/Bechar_64K.mp3",
    "cc": "DZ",
@@ -832,6 +958,15 @@
   {
    "name": "Radio Chlef",
    "url": "https://webradio.tda.dz/Chlef_64K.mp3",
+   "cc": "DZ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Hits 1 Algérie",
+   "url": "https://radio12.pro-fhi.net/listen/whmnrlow/stream",
    "cc": "DZ",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -1091,6 +1226,24 @@
    "bitrate": 0
   },
   {
+   "name": "Radio Mosaique FM",
+   "url": "https://radio.mosaiquefm.net/mosalive",
+   "cc": "TN",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Mosaique FM Tounsi",
+   "url": "https://radio.mosaiquefm.net/mosatounsi",
+   "cc": "TN",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "RM FM 99.8",
    "url": "https://stream.rm-fm.net/live",
    "cc": "TN",
@@ -1103,6 +1256,15 @@
    "name": "Radio IFM",
    "url": "https://live.ifm.tn/radio/8000/ifmlive",
    "cc": "TN",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Dubanga",
+   "url": "https://stream.dabangasudan.org/",
+   "cc": "SD",
    "language": "arabic",
    "tags": "عربي,arab",
    "codec": "",
@@ -1190,6 +1352,15 @@
    "bitrate": 0
   },
   {
+   "name": "Sharjah Quran 102.7",
+   "url": "https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio",
+   "cc": "AE",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Star FM 92.4",
    "url": "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/star_fm/DASH/master.mpd?expires=1734443869&md5=SEH5gxdBr5zlUQhfRsc5Uw",
    "cc": "AE",
@@ -1202,6 +1373,15 @@
    "name": "Zayed Radio 97.6",
    "url": "https://zayedquran.gov.ae/stream.php",
    "cc": "AE",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Al Jazeera",
+   "url": "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8",
+   "cc": "QA",
    "language": "arabic",
    "tags": "عربي,arab",
    "codec": "",
@@ -1325,6 +1505,15 @@
    "bitrate": 0
   },
   {
+   "name": "Quran Kareem 106.1",
+   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8",
+   "cc": "BH",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Traditional Radio 95.0",
    "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-95-0_all/media_w329864186_b981072_107757.aac",
    "cc": "BH",
@@ -1334,8 +1523,35 @@
    "bitrate": 0
   },
   {
+   "name": "Hala 102.7",
+   "url": "https://listen-halafm.sharp-stream.com/halafmlow.mp3",
+   "cc": "OM",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Hawa Diljah Radio",
+   "url": "https://listen.radioking.com/radio/96766/stream/136030",
+   "cc": "JO",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Husna FM 93.3",
    "url": "https://s2.voscast.com:10445/stream",
+   "cc": "JO",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Jordan 96.3",
+   "url": "https://jrtv-live.ercdn.net/jrradio/englishradiovideo.m3u8",
    "cc": "JO",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -1354,6 +1570,24 @@
   {
    "name": "Radio Albachaer",
    "url": "https://stream-169.zeno.fm/q3wqw4ahtuhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJxM3dxdzRhaHR1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNjkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjZxMXJEcFBkVG8yQTVjeXZfdzFSMVEiLCJpYXQiOjE3NDA2MDQxMjYsImV4cCI6MTc0MDYwNDE4Nn0.Ix9UYEjMMZvTpgStUkzyzuLq7q4ZZdgmpZywKdpY2Pc",
+   "cc": "LB",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Liban Libre",
+   "url": "https://edge.mixlr.com/channel/qtqeb",
+   "cc": "LB",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Voice of Lebanon Radio",
+   "url": "https://l3.itworkscdn.net/itwaudio/9054/stream",
    "cc": "LB",
    "language": "arabic",
    "tags": "عربي,arab",
@@ -1442,6 +1676,33 @@
    "bitrate": 0
   },
   {
+   "name": "Sumer FM 99.9",
+   "url": "https://l3.itworkscdn.net/itwaudio/9012/stream",
+   "cc": "IQ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Hawa Dijlah",
+   "url": "https://listen.radioking.com/radio/96766/stream/136030",
+   "cc": "IQ",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Sana'a 91.1",
+   "url": "https://dc5.serverse.com/proxy/pbmhbvxs/stream",
+   "cc": "YE",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Sam 99.1 FM",
    "url": "https://edge.mixlr.com/channel/kijwr",
    "cc": "YE",
@@ -1463,6 +1724,15 @@
    "name": "Radio Mauritanie",
    "url": "https://ec6.yesstreaming.net:2760/stream",
    "cc": "MR",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Idaacadda Subaxnimo VOA",
+   "url": "https://av.voanews.com/clips/VSO/2021/04/29/20210429-033000-VSO065-program_48k.mp3",
+   "cc": "SO",
    "language": "arabic",
    "tags": "عربي,arab",
    "codec": "",
@@ -3573,15 +3843,6 @@
    "tags": "folk",
    "codec": "AAC+",
    "bitrate": 64
-  },
-  {
-   "name": "إذاعة محمود خليل الحصري",
-   "url": "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh",
-   "cc": "EG",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "CNR-3 音乐之声",
@@ -6050,15 +6311,6 @@
    "bitrate": 128
   },
   {
-   "name": "SumerFm Iraq",
-   "url": "https://l3.itworkscdn.net/itwaudio/9012/stream",
-   "cc": "IQ",
-   "language": "arabic",
-   "tags": "arabic music,iraq,iraq radio,music,sumer,sumerfm",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
    "name": "TranceBase.FM - AAC HD 256k",
    "url": "http://listen.trancebase.fm/tunein-aac-hd-pls",
    "cc": "DE",
@@ -6120,15 +6372,6 @@
    "tags": "afrobeat,gospel,highlife,rnb",
    "codec": "MP3",
    "bitrate": 192
-  },
-  {
-   "name": "Sana’a Radio راديو صنعاء",
-   "url": "https://dc5.serverse.com/proxy/pbmhbvxs/stream",
-   "cc": "YE",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 96
   },
   {
    "name": "Radio X",
@@ -6309,15 +6552,6 @@
    "tags": "aac,jazz,public radio,radio france",
    "codec": "AAC",
    "bitrate": 192
-  },
-  {
-   "name": "Al Arabiya FM",
-   "url": "https://fm.alarabiya.net/fm/myStream/playlist.m3u8",
-   "cc": "SA",
-   "language": "arabic",
-   "tags": "news",
-   "codec": "AAC",
-   "bitrate": 128
   },
   {
    "name": "NEU RADIO",
@@ -6597,15 +6831,6 @@
    "tags": "light,misc,portuguese music",
    "codec": "AAC+",
    "bitrate": 128
-  },
-  {
-   "name": "Hits 1 Algérie",
-   "url": "https://radio12.pro-fhi.net/listen/whmnrlow/stream",
-   "cc": "DZ",
-   "language": "french",
-   "tags": "pop,top40",
-   "codec": "MP3",
-   "bitrate": 256
   },
   {
    "name": "WDR 5",
@@ -7220,15 +7445,6 @@
    "bitrate": 192
   },
   {
-   "name": "إذاعة ياسر الدوسري",
-   "url": "https://qurango.net/radio/yasser_aldosari",
-   "cc": "EG",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
    "name": "Cumbias Inmortales Radio (Monterrey) - Online - www.cumbiasinmortales.com - Grupo Digital Retroland - Monterrey, Nuevo León",
    "url": "https://panel.retrolandigital.com/listen/cumbias_inmortales_radio/listen",
    "cc": "MX",
@@ -7603,15 +7819,6 @@
    "cc": "RU",
    "language": "russian",
    "tags": "audiobooks,literature,talk,аудиокниги,литература",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "---تراتيل قصيرة متميزة---",
-   "url": "https://qurango.net/radio/tarateel",
-   "cc": "EG",
-   "language": "arabic",
-   "tags": "قران كريم",
    "codec": "MP3",
    "bitrate": 128
   },
@@ -8028,15 +8235,6 @@
    "tags": "electronic,melodic trance,music,trance,uplifting trance",
    "codec": "MP3",
    "bitrate": 320
-  },
-  {
-   "name": "Radio 9090",
-   "url": "https://9090streaming.mobtada.com/9090FMEGYPT",
-   "cc": "EG",
-   "language": "",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 64
   },
   {
    "name": "Psyndora Psytrance",
@@ -8525,15 +8723,6 @@
    "bitrate": 320
   },
   {
-   "name": "Radio Liban Libre",
-   "url": "https://edge.mixlr.com/channel/qtqeb",
-   "cc": "LB",
-   "language": "arabic",
-   "tags": "arabic music,general,local programming,news,talk",
-   "codec": "MP3",
-   "bitrate": 0
-  },
-  {
    "name": "90s FM",
    "url": "http://eu1.fastcast4u.com/proxy/prontofm",
    "cc": "EG",
@@ -8568,15 +8757,6 @@
    "tags": "breakbeat hardcore,drum and bass,drumfunk,dubstep,garage,hardcore,house,jump-up,jungle,liquid funk,neurofunk,old skool,rollers,techno,techstep,trance,uk bass,uk funky,uk garage,ukedm,ukg",
    "codec": "MP3",
    "bitrate": 192
-  },
-  {
-   "name": "SHA3BY FM",
-   "url": "https://radio95.radioca.st/;",
-   "cc": "EG",
-   "language": "",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "metal rock radio",
@@ -11675,15 +11855,6 @@
    "bitrate": 128
   },
   {
-   "name": "Mosaique FM",
-   "url": "https://radio.mosaiquefm.net/mosalive",
-   "cc": "TN",
-   "language": "",
-   "tags": "classical",
-   "codec": "MP3",
-   "bitrate": 90
-  },
-  {
    "name": "新西兰中文广播电台 FM90.6 Radio Chinese",
    "url": "https://s26.myradiostream.com:20274/listen.mp3",
    "cc": "NZ",
@@ -12197,15 +12368,6 @@
    "bitrate": 48
   },
   {
-   "name": "Radio Hits 88.2 Cairo",
-   "url": "https://radiohits882.radioca.st/;",
-   "cc": "EG",
-   "language": "arabic",
-   "tags": "arabic music",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
    "name": "98.8 Kiss FM",
    "url": "http://stream.kissfm.de/kissfm/mp3-128/internetradio/",
    "cc": "DE",
@@ -12521,15 +12683,6 @@
    "bitrate": 128
   },
   {
-   "name": "Quran Radio From Sharjah",
-   "url": "https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio",
-   "cc": "AE",
-   "language": "arabic",
-   "tags": "islam",
-   "codec": "AAC+",
-   "bitrate": 56
-  },
-  {
    "name": "Ellinikos 93.2",
    "url": "http://netradio.live24.gr/orange9320",
    "cc": "GR",
@@ -12699,15 +12852,6 @@
    "tags": "actualités,business,information,music",
    "codec": "AAC",
    "bitrate": 192
-  },
-  {
-   "name": "AlifAlif FM",
-   "url": "https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3",
-   "cc": "SA",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "101.1 Yes FM Manila",
@@ -17172,15 +17316,6 @@
    "tags": "",
    "codec": "MP3",
    "bitrate": 320
-  },
-  {
-   "name": "Dabanga Radio",
-   "url": "https://stream.dabangasudan.org/",
-   "cc": "SD",
-   "language": "",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 192
   },
   {
    "name": "إذاعة الأخبار كل 5 دقائق   REPLAY NEWS - العربية",
@@ -22254,15 +22389,6 @@
    "url": "https://broadcast.classicrock109.com/cr109",
    "cc": "US",
    "language": "us",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "Abdulrasheed Soufi",
-   "url": "https://qurango.net/radio/abdulrasheed_soufi_assosi.mp3",
-   "cc": "EG",
-   "language": "",
    "tags": "",
    "codec": "MP3",
    "bitrate": 128
@@ -31016,15 +31142,6 @@
    "bitrate": 104
   },
   {
-   "name": "Hala FM",
-   "url": "https://listen-halafm.sharp-stream.com/halafmlow.mp3",
-   "cc": "OM",
-   "language": "arabic",
-   "tags": "arabic,arabic music,arabic songs,muscat",
-   "codec": "MP3",
-   "bitrate": 64
-  },
-  {
    "name": "Громадське радіо / Hromadske radio",
    "url": "http://91.218.212.67:8000/stream",
    "cc": "UA",
@@ -36047,15 +36164,6 @@
    "bitrate": 0
   },
   {
-   "name": "Atlantic Radio Maroc",
-   "url": "https://atlantic-sonic.nindohost.net:9300/stream",
-   "cc": "MA",
-   "language": "arabic,french,moroccan arabic",
-   "tags": "actualités,business,economie,informations",
-   "codec": "MP3",
-   "bitrate": 64
-  },
-  {
    "name": "Record Minimal",
    "url": "https://radiorecord.hostingradio.ru/mini96.aacp",
    "cc": "RU",
@@ -36558,15 +36666,6 @@
    "tags": "80s,retro",
    "codec": "OGG",
    "bitrate": 1500
-  },
-  {
-   "name": "Bahrain 106.1 FM",
-   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/playlist.m3u8",
-   "cc": "BH",
-   "language": "arabic",
-   "tags": "bahrain,islam,quran",
-   "codec": "AAC",
-   "bitrate": 1066
   },
   {
    "name": "La Inolvidable",
@@ -45495,15 +45594,6 @@
    "tags": "",
    "codec": "MP3",
    "bitrate": 128
-  },
-  {
-   "name": "Idaacadda Subaxnimo VOA",
-   "url": "https://av.voanews.com/clips/VSO/2021/04/29/20210429-033000-VSO065-program_48k.mp3",
-   "cc": "SO",
-   "language": "",
-   "tags": "news",
-   "codec": "MP3",
-   "bitrate": 0
   },
   {
    "name": "Sawt El Shaeb",
@@ -55097,15 +55187,6 @@
    "language": "english",
    "tags": "pop,top 40",
    "codec": "AAC",
-   "bitrate": 0
-  },
-  {
-   "name": "Radio Jordan 96.3",
-   "url": "https://jrtv-live.ercdn.net/jrradio/englishradiovideo.m3u8",
-   "cc": "JO",
-   "language": "",
-   "tags": "",
-   "codec": "UNKNOWN",
    "bitrate": 0
   },
   {
@@ -71784,15 +71865,6 @@
    "tags": "hrt,public radio,split",
    "codec": "AAC+",
    "bitrate": 64
-  },
-  {
-   "name": "Mosaique FM Tounsi",
-   "url": "https://radio.mosaiquefm.net/mosatounsi",
-   "cc": "TN",
-   "language": "",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "Rádio Marginal",
