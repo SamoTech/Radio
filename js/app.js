@@ -39,12 +39,35 @@ var CATEGORY_LABELS = {
   en:{news:'News',music:'Music',talk:'Talk',sports:'Sports',quran:'Quran',religion:'Religion',classical:'Classical',pop:'Pop',rock:'Rock',jazz:'Jazz',culture:'Culture',education:'Education',business:'Business',weather:'Weather',children:'Children',oldies:'Oldies',dance:'Dance / Electronic',folk:'Folk',world:'World',traffic:'Traffic'}
 };
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
+var fmSearchSequence = 0;
+var fmSearchDebounceTimer = null;
+
+function cancelFMClientRender() {
+  if (fmSearchDebounceTimer !== null) {
+    clearTimeout(fmSearchDebounceTimer);
+    fmSearchDebounceTimer = null;
+  }
+}
+
+function scheduleFMClientRender() {
+  cancelFMClientRender();
+  fmSearchDebounceTimer = setTimeout(function () {
+    fmSearchDebounceTimer = null;
+    fmClientRender();
+  }, 160);
+}
 function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
   for(var key in LANGUAGE_ALIASES) if(LANGUAGE_ALIASES[key].indexOf(raw)!==-1)return key;
   return raw.replace(/\s+/g,' ');
 }
+function normalizeSearchText(value) {
+  var text=String(value||'').toLocaleLowerCase();
+  try { text=text.normalize('NFD').replace(/[\u0300-\u036f]/g,''); } catch(e) {}
+  return text.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/[\u064B-\u065F\u0670]/g,'').replace(/\s+/g,' ').trim();
+}
+
 function normalizeLanguages(value) {
   var seen={};
   return String(value||'').split(/[,;|]/).map(canonicalLanguage).filter(function(v){
@@ -75,7 +98,7 @@ var STR = {
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
     tab_fm: '📻 محطات البث', tab_sdr: 'أجهزة الاستقبال SDR',
-    search_fm_ph: 'ابحث عن محطة: اسم، لغة، فئة… (فوري)', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
+    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
@@ -111,7 +134,7 @@ var STR = {
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
     tab_fm: '📻 Broadcast stations', tab_sdr: 'SDR Receivers',
-    search_fm_ph: 'Search a station: name, language, genre… (instant)', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
+    search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_country:'Country', filter_language:'Language', filter_category:'Category', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
     fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
@@ -200,6 +223,8 @@ function applyI18n() {
   for (var i = 0; i < els.length; i++) els[i].textContent = t(els[i].getAttribute('data-i18n'));
   var phs = document.querySelectorAll('[data-i18n-ph]');
   for (var j = 0; j < phs.length; j++) phs[j].placeholder = t(phs[j].getAttribute('data-i18n-ph'));
+  var ariaEls = document.querySelectorAll('[data-i18n-aria]');
+  for (var k = 0; k < ariaEls.length; k++) ariaEls[k].setAttribute('aria-label', t(ariaEls[k].getAttribute('data-i18n-aria')));
   $('lang-btn').textContent = state.lang === 'ar' ? 'EN' : 'ع';
   document.title = t('doc_title');
 }
@@ -452,9 +477,9 @@ function buildFMFacets() {
 function filterFacetOptions(kind) {
   var search=$('fm-'+kind+'-search'),select=$('fm-'+kind);
   if(!search||!select)return;
-  var q=search.value.trim().toLocaleLowerCase(),selected=state.fmFilters[kind]||'';
+  var q=normalizeSearchText(search.value),selected=state.fmFilters[kind]||'';
   var options=FACET_OPTIONS[kind].filter(function(item){
-    return item.value===selected||!q||item.label.toLocaleLowerCase().indexOf(q)!==-1||item.value.toLocaleLowerCase().indexOf(q)!==-1;
+    return item.value===selected||!q||normalizeSearchText(item.label+' '+item.value).indexOf(q)!==-1;
   });
   var placeholder=kind==='country'?t('all_countries'):(kind==='language'?t('all_languages'):t('all_tags'));
   fillSelect(select,placeholder,options);select.value=selected;
@@ -489,7 +514,7 @@ function cardFm(s) {
 
 function filterFM() {
   var f = state.fmFilters;
-  var q = f.q.trim().toLowerCase();
+  var q = normalizeSearchText(f.q);
   return state.fm.filter(function (s) {
     if (f.country && s.cc !== f.country) return false;
     if (f.language && splitList(s.language).indexOf(f.language) === -1) return false;
@@ -510,7 +535,9 @@ function filterFM() {
       if (!hit) return false;
     }
     if (q) {
-      if ((s.name + ' ' + s.language + ' ' + s.tags).toLowerCase().indexOf(q) === -1) return false;
+      var country=regionName(s.cc,s.cc);
+      var haystack=normalizeSearchText([s.name,s.language,s.tags,s.cc,country].join(' '));
+      if (haystack.indexOf(q) === -1) return false;
     }
     return true;
   });
@@ -527,9 +554,9 @@ function currentFMList() {
 function renderFM() {
   var grid = $('grid-fm');
   var list = currentFMList();
+  $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
   if (!list.length) {
     grid.innerHTML = '<div class="empty">' + esc(t('no_match_fm')) + '</div>';
-    $('count-fm').textContent = '';
     return;
   }
   var shown = list.slice(0, state.fmLimit);
@@ -538,7 +565,6 @@ function renderFM() {
     html += '<div class="more-wrap"><button id="fm-more" class="btn ghost" type="button">' + esc(t('more_btn').replace('{n}', fmtNum(list.length - state.fmLimit))) + '</button></div>';
   }
   grid.innerHTML = html;
-  $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
 }
 
 function loadStations() {
@@ -551,6 +577,7 @@ function loadStations() {
 }
 
 function fmClientRender() {
+  fmSearchSequence += 1;
   state.fmLive = false;
   state.fmLiveRows = [];
   state.fmLimit = FM_PAGE;
@@ -574,6 +601,8 @@ function fetchRB(params) {
 }
 
 function searchFM() {
+  cancelFMClientRender();
+  var requestId = ++fmSearchSequence;
   var f = state.fmFilters;
   if (!(f.q || f.country || f.language || f.tag || f.chip === 'arabic' || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
   $('grid-fm').innerHTML = '<div class="empty">' + esc(t('searching_live')) + '</div>';
@@ -586,6 +615,7 @@ function searchFM() {
   if (f.chip && CHIP_TAGS[f.chip]) params.push('tagList=' + encodeURIComponent(CHIP_TAGS[f.chip][0]));
   fetchRB(params)
     .then(function (rows) {
+      if (requestId !== fmSearchSequence) return;
       state.fmLive = true;
       state.fmLiveRows = rows
         .filter(function (s) { return (s.url_resolved || s.url) && (s.countrycode || '').toUpperCase() !== 'IL'; })
@@ -598,6 +628,7 @@ function searchFM() {
       renderFM();
     })
     .catch(function () {
+      if (requestId !== fmSearchSequence) return;
       $('grid-fm').innerHTML = '<div class="empty">' + esc(t('live_failed')) + '</div>';
     });
 }
@@ -881,11 +912,13 @@ function initUI() {
     renderFM();
   });
 
-  var fmTimer = null;
   $('qfm').addEventListener('input', function () {
-    clearTimeout(fmTimer);
-    var v = this.value;
-    fmTimer = setTimeout(function () { state.fmFilters.q = v; fmClientRender(); }, 200);
+    state.fmFilters.q = this.value;
+    fmSearchSequence += 1;
+    scheduleFMClientRender();
+  });
+  $('qfm').addEventListener('keydown',function(e){
+    if(e.key==='Escape' && this.value){this.value='';state.fmFilters.q='';fmClientRender();}
   });
   $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);

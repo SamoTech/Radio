@@ -42,14 +42,19 @@
 <main>
   <!-- FM / Broadcast (default tab) -->
   <section id="panel-fm">
-    <div class="toolbar">
-      <input id="qfm" type="search" placeholder="ابحث عن محطة: اسم، لغة، فئة… (فوري)" data-i18n-ph="search_fm_ph">
-      <div class="filter-field"><input id="fm-country-search" type="search" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" aria-label="ابحث عن دولة"><select id="fm-country" title="الدولة"></select></div>
-      <div class="filter-field"><input id="fm-language-search" type="search" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" aria-label="ابحث عن لغة"><select id="fm-language" title="اللغة"></select></div>
-      <div class="filter-field"><input id="fm-tag-search" type="search" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" aria-label="ابحث عن فئة"><select id="fm-tag" title="الفئة"></select></div>
-      <button id="fm-search-btn" class="btn" type="button" data-i18n="live_search">بحث مباشر</button>
-      <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
-      <span id="count-fm" class="count"></span>
+    <div class="fm-toolbar" role="search" data-i18n-aria="fm_search_aria" aria-label="البحث عن محطات الراديو">
+      <div class="fm-search-row">
+        <label class="sr-only" for="qfm">ابحث عن محطة أو دولة أو لغة أو فئة</label>
+        <input id="qfm" type="search" autocomplete="off" placeholder="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة…" data-i18n-ph="search_fm_ph" data-i18n-aria="fm_search_input_aria" aria-label="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة">
+        <button id="fm-search-btn" class="btn primary" type="button" data-i18n="live_search">بحث مباشر</button>
+        <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
+      </div>
+      <div class="fm-filter-grid" aria-label="تصفية المحطات">
+        <div class="filter-field"><label for="fm-country-search" data-i18n="filter_country">الدولة</label><input id="fm-country-search" type="search" autocomplete="off" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" data-i18n-aria="search_country_aria"><select id="fm-country" title="الدولة" data-i18n-aria="select_country_aria"></select></div>
+        <div class="filter-field"><label for="fm-language-search" data-i18n="filter_language">اللغة</label><input id="fm-language-search" type="search" autocomplete="off" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" data-i18n-aria="search_language_aria"><select id="fm-language" title="اللغة" data-i18n-aria="select_language_aria"></select></div>
+        <div class="filter-field"><label for="fm-tag-search" data-i18n="filter_category">الفئة</label><input id="fm-tag-search" type="search" autocomplete="off" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" data-i18n-aria="search_category_aria"><select id="fm-tag" title="الفئة" data-i18n-aria="select_category_aria"></select></div>
+      </div>
+      <div class="fm-results-row"><span id="count-fm" class="count" aria-live="polite"></span><span class="fm-search-note" data-i18n="fm_search_note">البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.</span></div>
     </div>
     <div id="quick-chips" class="quick-chips">
       <button class="qchip" data-chip="all" type="button" data-i18n="chip_all">✨ الكل</button>
@@ -61,7 +66,7 @@
       <button class="qchip" data-chip="music" type="button" data-i18n="chip_music">🎵 موسيقى</button>
     </div>
     <p class="hint" data-i18n="fm_hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
-    <div id="grid-fm" class="grid"></div>
+    <div id="grid-fm" class="grid" aria-live="polite" aria-busy="false"></div>
   </section>
 
   <!-- SDR -->
