@@ -1,7 +1,7 @@
 {
  "updated": "2026-10-30T16:42:31+00:00",
  "source": "https://www.radio-browser.info/",
- "count": 62287,
+ "count": 62288,
  "stations": [
   {
    "name": "BBC World Service",
@@ -113,12 +113,15 @@
   },
   {
    "name": "إذاعة محمد السادس للقرآن الكريم",
-   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_med_VI/playlist.m3u8",
+   "url": "https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8",
    "cc": "MA",
    "language": "arabic",
    "tags": "رسمي,official,snrt,عربي,arabic,maroc,quran,قرآن",
    "codec": "AAC",
-   "bitrate": 0
+   "bitrate": 0,
+   "tokenEndpoint": "https://token.easybroadcast.io/all",
+   "tokenType": "easy_b",
+   "website": "https://snrtlive.ma/idaatmohammedassadiss"
   },
   {
    "name": "شان إنتر — Chaîne Inter",
@@ -230,12 +233,16 @@
   },
   {
    "name": "البرنامج العام — El Bernameg Al Aam",
-   "url": "https://livestreaming5.onlinehorizons.net/hls-live/pernamegaam/_definst_/liveevent/livestream.m3u8",
+   "url": "https://livestreaming5.onlinehorizons.net/hls-live/pernamegaam/_definst_/liveevent/liveevent.m3u8",
    "cc": "EG",
    "language": "arabic",
    "tags": "رسمي,official,عربي,arabic,egypt,ertu,news",
    "codec": "AAC",
-   "bitrate": 0
+   "bitrate": 0,
+   "fallbacks": [
+    "https://livestreaming5.onlinehorizons.net/hls-live/pernamegaam/_definst_/liveevent/livestream.m3u8"
+   ],
+   "website": "https://live.sis.gov.eg/live/"
   },
   {
    "name": "إذاعة الجزائر القناة الأولى — Chaîne 1",
@@ -1711,6 +1718,15 @@
    "language": "arabic",
    "tags": "عربي,arab",
    "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "إذاعة محمد السادس للقرآن الكريم",
+   "url": "https://cdn.live.easybroadcast.io/ts_live/radio_med_VI/playlist.m3u8",
+   "cc": "MA",
+   "language": "arabic",
+   "tags": "رسمي,official,snrt,عربي,arabic,maroc,quran,قرآن",
+   "codec": "AAC",
    "bitrate": 0
   },
   {
