@@ -8,6 +8,8 @@ const vm = require('node:vm');
 const sandbox = {
   console,
   Intl,
+  URL,
+  URLSearchParams,
   document: { addEventListener() {} },
   setTimeout,
   clearTimeout,
@@ -73,4 +75,14 @@ test('Live Search cancels a pending local debounce render', async () => {
 
   assert.equal(localRenderCount, 0, 'the delayed local render must not supersede Live Search');
   assert.equal(sandbox.fmSearchDebounceTimer, null);
+});
+
+test('EasyBroadcast token response signs the playlist and child path', () => {
+  const signed = new URL(sandbox.appendEasyBroadcastToken(
+    'https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8',
+    'token=abc123&token_path=%2Flive%2Fradio_med_VI&expires=1793391194'
+  ));
+  assert.equal(signed.searchParams.get('token'), 'abc123');
+  assert.equal(signed.searchParams.get('token_path'), '/live/radio_med_VI');
+  assert.equal(signed.searchParams.get('expires'), '1793391194');
 });
