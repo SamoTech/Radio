@@ -39,12 +39,19 @@ var CATEGORY_LABELS = {
   en:{news:'News',music:'Music',talk:'Talk',sports:'Sports',quran:'Quran',religion:'Religion',classical:'Classical',pop:'Pop',rock:'Rock',jazz:'Jazz',culture:'Culture',education:'Education',business:'Business',weather:'Weather',children:'Children',oldies:'Oldies',dance:'Dance / Electronic',folk:'Folk',world:'World',traffic:'Traffic'}
 };
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
+var fmSearchSequence = 0;
 function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
   for(var key in LANGUAGE_ALIASES) if(LANGUAGE_ALIASES[key].indexOf(raw)!==-1)return key;
   return raw.replace(/\s+/g,' ');
 }
+function normalizeSearchText(value) {
+  var text=String(value||'').toLocaleLowerCase();
+  try { text=text.normalize('NFD').replace(/[\u0300-\u036f]/g,''); } catch(e) {}
+  return text.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/[\u064B-\u065F\u0670]/g,'').replace(/\s+/g,' ').trim();
+}
+
 function normalizeLanguages(value) {
   var seen={};
   return String(value||'').split(/[,;|]/).map(canonicalLanguage).filter(function(v){
@@ -452,9 +459,9 @@ function buildFMFacets() {
 function filterFacetOptions(kind) {
   var search=$('fm-'+kind+'-search'),select=$('fm-'+kind);
   if(!search||!select)return;
-  var q=search.value.trim().toLocaleLowerCase(),selected=state.fmFilters[kind]||'';
+  var q=normalizeSearchText(search.value),selected=state.fmFilters[kind]||'';
   var options=FACET_OPTIONS[kind].filter(function(item){
-    return item.value===selected||!q||item.label.toLocaleLowerCase().indexOf(q)!==-1||item.value.toLocaleLowerCase().indexOf(q)!==-1;
+    return item.value===selected||!q||normalizeSearchText(item.label+' '+item.value).indexOf(q)!==-1;
   });
   var placeholder=kind==='country'?t('all_countries'):(kind==='language'?t('all_languages'):t('all_tags'));
   fillSelect(select,placeholder,options);select.value=selected;
@@ -489,7 +496,7 @@ function cardFm(s) {
 
 function filterFM() {
   var f = state.fmFilters;
-  var q = f.q.trim().toLowerCase();
+  var q = normalizeSearchText(f.q);
   return state.fm.filter(function (s) {
     if (f.country && s.cc !== f.country) return false;
     if (f.language && splitList(s.language).indexOf(f.language) === -1) return false;
@@ -510,7 +517,9 @@ function filterFM() {
       if (!hit) return false;
     }
     if (q) {
-      if ((s.name + ' ' + s.language + ' ' + s.tags).toLowerCase().indexOf(q) === -1) return false;
+      var country=regionName(s.cc,s.cc);
+      var haystack=normalizeSearchText([s.name,s.language,s.tags,s.cc,country].join(' '));
+      if (haystack.indexOf(q) === -1) return false;
     }
     return true;
   });
@@ -527,9 +536,9 @@ function currentFMList() {
 function renderFM() {
   var grid = $('grid-fm');
   var list = currentFMList();
+  $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
   if (!list.length) {
     grid.innerHTML = '<div class="empty">' + esc(t('no_match_fm')) + '</div>';
-    $('count-fm').textContent = '';
     return;
   }
   var shown = list.slice(0, state.fmLimit);
@@ -551,6 +560,7 @@ function loadStations() {
 }
 
 function fmClientRender() {
+  fmSearchSequence += 1;
   state.fmLive = false;
   state.fmLiveRows = [];
   state.fmLimit = FM_PAGE;
@@ -574,6 +584,7 @@ function fetchRB(params) {
 }
 
 function searchFM() {
+  var requestId = ++fmSearchSequence;
   var f = state.fmFilters;
   if (!(f.q || f.country || f.language || f.tag || f.chip === 'arabic' || (f.chip && CHIP_TAGS[f.chip]))) { fmClientRender(); return; }
   $('grid-fm').innerHTML = '<div class="empty">' + esc(t('searching_live')) + '</div>';
@@ -586,6 +597,7 @@ function searchFM() {
   if (f.chip && CHIP_TAGS[f.chip]) params.push('tagList=' + encodeURIComponent(CHIP_TAGS[f.chip][0]));
   fetchRB(params)
     .then(function (rows) {
+      if (requestId !== fmSearchSequence) return;
       state.fmLive = true;
       state.fmLiveRows = rows
         .filter(function (s) { return (s.url_resolved || s.url) && (s.countrycode || '').toUpperCase() !== 'IL'; })
@@ -598,6 +610,7 @@ function searchFM() {
       renderFM();
     })
     .catch(function () {
+      if (requestId !== fmSearchSequence) return;
       $('grid-fm').innerHTML = '<div class="empty">' + esc(t('live_failed')) + '</div>';
     });
 }
@@ -884,8 +897,11 @@ function initUI() {
   var fmTimer = null;
   $('qfm').addEventListener('input', function () {
     clearTimeout(fmTimer);
-    var v = this.value;
-    fmTimer = setTimeout(function () { state.fmFilters.q = v; fmClientRender(); }, 200);
+    state.fmFilters.q = this.value;
+    fmTimer = setTimeout(function () { fmClientRender(); }, 160);
+  });
+  $('qfm').addEventListener('keydown',function(e){
+    if(e.key==='Escape' && this.value){this.value='';state.fmFilters.q='';fmClientRender();}
   });
   $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
