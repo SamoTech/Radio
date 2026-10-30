@@ -256,7 +256,6 @@ function rebuildDynamic() {
   renderChips();
   renderFM();
   renderSpace();
-  renderEibi();
   if (state.currentName && !$('player').hidden) {
     $('player-name').textContent = '▶ ' + state.currentName;
   }
@@ -989,18 +988,24 @@ function play(url, name) {
   setMedia(state.currentName);
 }
 
+var previousSDRFocus = null;
+
 function openSDR(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
   $('sdr-modal-name').textContent = '🎧 ' + (name || '');
   $('sdr-open-ext').href = url;
+  previousSDRFocus = document.activeElement;
   $('sdr-frame').src = url;
   $('sdr-modal').hidden = false;
+  $('sdr-modal-close').focus();
 }
 
 function closeSDR() {
   $('sdr-frame').src = 'about:blank';
   $('sdr-modal').hidden = true;
+  if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
+  previousSDRFocus = null;
 }
 
 function initResume() {
@@ -1157,13 +1162,6 @@ function initUI() {
     }
   });
 
-  var eibiTimer = null;
-  $('eibi-q').addEventListener('input', function () {
-    clearTimeout(eibiTimer);
-    var v = this.value;
-    eibiTimer = setTimeout(function () { state.eibiQ = v; renderEibi(); }, 200);
-  });
-
   var qTimer = null;
   $('q').addEventListener('input', function () {
     clearTimeout(qTimer);
@@ -1190,7 +1188,6 @@ function init() {
   } catch (e) { setLang('ar'); }
   loadKiwi();
   loadSpace();
-  loadEibi();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {
