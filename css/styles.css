@@ -35,6 +35,7 @@ label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size
 .chip{font-size:.72rem;background:#1d2a44;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
 .chip.gps{color:var(--accent)}
 .meta{display:flex;gap:14px;color:var(--muted);font-size:.82rem;flex-wrap:wrap}
+.meta.antenna{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .snr{color:var(--good);font-weight:700}
 .open{margin-top:auto;align-self:flex-start;text-decoration:none;background:var(--accent);color:#04222b;font-weight:700;border-radius:9px;padding:7px 16px;font-size:.88rem;border:none;cursor:pointer;font-family:inherit}
 .player{position:fixed;bottom:0;right:0;left:0;background:var(--panel);border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;z-index:20}

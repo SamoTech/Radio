@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Radio Atlas — data updater.
 
-Pulls the KiwiSDR receiver directory (rx.kiwisdr.com/json) and the most
-listened-to stations from Radio-Browser, then writes compact snapshots
-into data/. Stdlib only — designed for GitHub Actions.
+Sources:
+- KiwiSDR public directory via the AetherSDR CDN mirror
+  (https://cdn.aethersdr.com/kiwi.json — CORS-open hourly mirror of
+  kiwisdr.com/public, schema 1). PRIMARY: the legacy rx.kiwisdr.com/json
+  origin has been intermittently down during KiwiSDR server changes.
+- rx.kiwisdr.com/json/ — legacy origin endpoint, kept as fallback.
+- Radio-Browser top-click stations.
 
 Failures never wipe the last good snapshot: files are written only
-after a successful fetch, and the scheduled run retries every 30 min.
+after a successful fetch, and the scheduled run retries every 30 min
+(mirroring the origin cache policy of max-age=1800).
 """
 
 import gzip
@@ -18,7 +23,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-KIWI_URLS = ["http://rx.kiwisdr.com/json/", "https://rx.kiwisdr.com/json/"]
+KIWI_MIRROR_URL = "https://cdn.aethersdr.com/kiwi.json"
+KIWI_LEGACY_URLS = ["http://rx.kiwisdr.com/json/", "https://rx.kiwisdr.com/json/"]
 RB_API = "https://de1.api.radio-browser.info/json/stations/search"
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -51,7 +57,7 @@ def fetch_json(url, params=None, attempts=3, timeout=90):
 
 
 def as_rows(raw):
-    """Normalize whatever the directory returns into a list of dicts."""
+    """Normalize whatever a source returns into a list of dicts."""
     if isinstance(raw, list):
         return [r for r in raw if isinstance(r, dict)]
     if isinstance(raw, dict):
@@ -65,18 +71,77 @@ def as_rows(raw):
     return []
 
 
-def write_json(path, payload):
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+def fmt_hz(hz):
+    if hz >= 1_000_000:
+        s = f"{hz / 1_000_000:.2f}".rstrip("0").rstrip(".")
+        return f"{s} MHz"
+    s = f"{hz / 1_000:.2f}".rstrip("0").rstrip(".")
+    return f"{s} kHz"
 
 
-def fetch_kiwi():
-    for url in KIWI_URLS:
-        try:
-            rows = as_rows(fetch_json(url))
-        except Exception as e:  # noqa: BLE001
-            print(f"kiwisdr source {url} failed: {e}", file=sys.stderr)
+def band_label(bands):
+    if not isinstance(bands, list) or len(bands) < 2:
+        return ""
+    low, high = bands[0], bands[1]
+    if not isinstance(low, (int, float)) or not isinstance(high, (int, float)):
+        return ""
+    if high <= low:
+        return ""
+    return f"{fmt_hz(low)}-{fmt_hz(high)}"
+
+
+def num(v):
+    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+
+def from_mirror(data):
+    """Map AetherSDR mirror schema 1 entries to our snapshot shape."""
+    receivers = []
+    for r in as_rows(data.get("receivers")):
+        if r.get("flagged"):
             continue
-        receivers = [
+        snr = None
+        s = r.get("snr")
+        if isinstance(s, list) and s and num(s[0]) is not None:
+            snr = s[0]
+        elif num(s) is not None:
+            snr = s
+        if snr is None:
+            snr = num(r.get("snr_all"))
+        if snr is None:
+            snr = num(r.get("snr_hf"))
+
+        gps = r.get("gps")
+        has_gps = False
+        if (
+            isinstance(gps, list)
+            and len(gps) == 2
+            and num(gps[0]) is not None
+            and num(gps[1]) is not None
+        ):
+            has_gps = abs(gps[0]) > 0.001 or abs(gps[1]) > 0.001
+
+        receivers.append(
+            {
+                "name": r.get("name", ""),
+                "url": r.get("url", ""),
+                "online": not bool(r.get("offline")),
+                "users": r.get("users") if isinstance(r.get("users"), int) else 0,
+                "max_users": r.get("users_max") if isinstance(r.get("users_max"), int) else 0,
+                "snr": snr,
+                "gps": has_gps,
+                "band": band_label(r.get("bands")),
+                "loc": r.get("loc", "") or "",
+                "antenna": r.get("antenna", "") or "",
+                "ext_api": r.get("ext_api") if isinstance(r.get("ext_api"), int) else None,
+            }
+        )
+    return receivers, data.get("fetched_at")
+
+
+def from_legacy(rows):
+    return (
+        [
             {
                 "name": r.get("name", ""),
                 "url": r.get("url", ""),
@@ -86,11 +151,35 @@ def fetch_kiwi():
                 "snr": r.get("snr"),
                 "gps": bool(r.get("gps")),
                 "band": r.get("band", ""),
+                "loc": "",
+                "antenna": "",
+                "ext_api": None,
             }
             for r in rows
-        ]
-        return url, receivers
-    return None, []
+        ],
+        None,
+    )
+
+
+def fetch_kiwi():
+    # 1) AetherSDR CDN mirror — primary (origin often down during server changes)
+    try:
+        data = fetch_json(KIWI_MIRROR_URL)
+        if isinstance(data, dict) and isinstance(data.get("receivers"), list):
+            receivers, fetched_at = from_mirror(data)
+            return KIWI_MIRROR_URL, receivers, fetched_at
+        raise ValueError("unexpected mirror payload shape")
+    except Exception as e:  # noqa: BLE001
+        print(f"kiwi mirror {KIWI_MIRROR_URL} failed: {e}", file=sys.stderr)
+
+    # 2) legacy origin endpoints — fallback
+    for url in KIWI_LEGACY_URLS:
+        try:
+            receivers, fetched_at = from_legacy(as_rows(fetch_json(url)))
+            return url, receivers, fetched_at
+        except Exception as e:  # noqa: BLE001
+            print(f"kiwi legacy {url} failed: {e}", file=sys.stderr)
+    return None, [], None
 
 
 def fetch_stations():
@@ -114,16 +203,26 @@ def fetch_stations():
     ]
 
 
+def write_json(path, payload):
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     ok = False
 
-    src, receivers = fetch_kiwi()
+    src, receivers, fetched_at = fetch_kiwi()
     if src:
         write_json(
             DATA_DIR / "kiwisdr.json",
-            {"updated": now, "source": src, "count": len(receivers), "receivers": receivers},
+            {
+                "updated": now,
+                "source": src,
+                "origin_fetched_at": fetched_at,
+                "count": len(receivers),
+                "receivers": receivers,
+            },
         )
         print(f"kiwisdr: {len(receivers)} receivers from {src}")
         ok = True
