@@ -245,7 +245,7 @@ def load_official():
     """Curated official/national broadcasters — always merged into the catalog."""
     try:
         raw = json.loads(OFFICIAL_PATH.read_text(encoding="utf-8"))
-        return [s for s in raw if isinstance(s, dict) and s.get("url")]
+        return [s for s in raw if isinstance(s, dict) and station_url_key(s.get("url"))]
     except Exception as e:  # noqa: BLE001
         print(f"official stations file failed: {e}", file=sys.stderr)
         return []
@@ -467,16 +467,18 @@ def merge_curated_into_snapshot(curated, path):
     stations = old.get("stations")
     if not isinstance(stations, list) or len(stations) < 10_000:
         return None
-    fresh = [s for s in curated if isinstance(s, dict) and s.get("url")]
-    seen = {s.get("url") for s in fresh}
+    fresh = [s for s in curated if isinstance(s, dict) and station_url_key(s.get("url"))]
+    seen = {station_url_key(s.get("url")) for s in fresh}
     out = list(fresh)
     for s in stations:
         if (
             isinstance(s, dict)
             and s.get("url")
             and s.get("cc") != "IL"
-            and s.get("url") not in seen
+            and station_url_key(s.get("url"))
+            and station_url_key(s.get("url")) not in seen
         ):
+            seen.add(station_url_key(s.get("url")))
             out.append(s)
     return {
         "updated": old.get("updated"),
