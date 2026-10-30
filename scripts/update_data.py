@@ -87,6 +87,8 @@ def band_label(bands):
         return ""
     if high <= low:
         return ""
+    if low <= 0:
+        return f"0-{fmt_hz(high)}"
     return f"{fmt_hz(low)}-{fmt_hz(high)}"
 
 
