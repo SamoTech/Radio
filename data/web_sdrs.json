@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T15:36:38+00:00",
+ "updated": "2026-10-31T15:41:25+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -199,6 +199,12 @@
    "https": false
   },
   {
+   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
+   "url": "http://el22.dyndns-blog.com:8080/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "WebSDR Maasbree Netherlands (Low): rural low noise level, 160m/80m/60m/40m/30m/20m/17m/15m band, CW segments included",
    "url": "http://sdr.websdrmaasbree.nl:8901/",
    "loc": "",
@@ -325,6 +331,12 @@
    "https": false
   },
   {
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "url": "http://108.196.236.231:8901/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "SBSA SiljansbygdensSandareamatorer, SK4KO, Mora, Sweden",
    "url": "http://websdr.sk4ko.com:8901/",
    "loc": "",
@@ -403,7 +415,7 @@
    "https": false
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false
