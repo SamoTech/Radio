@@ -104,15 +104,15 @@ var STR = {
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
     chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
-    all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم',
-    online_only: 'أونلاين فقط', free_only: 'فيه مكان فاضي', snr_min: 'SNR ≥',
+    all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم', sort_near: 'الأقرب لي',
+    online_only: 'أونلاين فقط', free_only: 'فيه مكان فاضي', snr_min: 'SNR ≥', https_only: 'شغال داخل التطبيق',
     sdr_hint: '🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.',
     no_band: 'غير محدد', no_data: 'لا توجد بيانات بعد.',
     no_match: 'مفيش نتائج مطابقة — جرب تخفف الفلاتر.',
     no_match_fm: 'مفيش محطات مطابقة — جرب فلتر أخف أو كلمة تانية.',
     searching_live: 'جاري البحث المباشر من المصدر…',
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
-    more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة',
+    more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
     wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
@@ -150,15 +150,15 @@ var STR = {
     fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
     chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
     search_sdr_ph: 'Search: name, country, callsign…',
-    all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name',
-    online_only: 'Online only', free_only: 'Has a free slot', snr_min: 'SNR ≥',
+    all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name', sort_near: 'Nearest to me',
+    online_only: 'Online only', free_only: 'Has a free slot', snr_min: 'SNR ≥', https_only: 'Playable in-app',
     sdr_hint: '🎧 In-app listening works for HTTPS receivers only (browser security) — HTTP receivers open in a new window.',
     no_band: 'Unspecified', no_data: 'No data yet.',
     no_match: 'No matching results — try lighter filters.',
     no_match_fm: 'No matching stations — try a lighter filter or another keyword.',
     searching_live: 'Live search in progress…',
     live_failed: 'Live search failed — use the instant local filtering.',
-    more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations',
+    more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
     wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers',
     resume: 'Last station — press play to resume',
@@ -191,7 +191,9 @@ var state = {
   favs: {},
   receivers: [],
   updated: null,
-  filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0 },
+  geo: null,
+  webLimits: { websdr: 150, owrx: 150 },
+  filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0, httpsOnly: false },
   fm: [],
   fmFilters: { q: '', country: '', language: '', tag: '', chip: '' },
   fmLimit: FM_PAGE,
@@ -360,6 +362,7 @@ function normalizeRx(r) {
     maxUsers: Number(r.max_users) || 0,
     snr: r.snr == null ? null : Number(r.snr),
     gps: !!r.gps,
+    gpsCoords: Array.isArray(r.gps) && r.gps.length === 2 ? [Number(r.gps[0]), Number(r.gps[1])] : null,
     band: r.band || '',
     loc: r.loc || '',
     antenna: r.antenna || '',
@@ -408,11 +411,38 @@ function buildBandFilter() {
   sel.value = state.filters.band;
 }
 
+var CAIRO = { lat: 30.0444, lon: 31.2357 };
+function havKm(a, b) {
+  var rad = Math.PI / 180;
+  var dLat = (b.lat - a.lat) * rad;
+  var dLon = (b.lon - a.lon) * rad;
+  var x = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return Math.round(2 * 6371 * Math.asin(Math.sqrt(x)));
+}
+function ensureGeo(cb) {
+  if (state.geo) return cb(state.geo);
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem('ra-geo') || 'null'); } catch (e) { saved = null; }
+  if (saved && typeof saved.lat === 'number' && typeof saved.lon === 'number') { state.geo = saved; return cb(state.geo); }
+  if (!navigator.geolocation) { state.geo = CAIRO; toast(t('geo_fallback')); return cb(state.geo); }
+  navigator.geolocation.getCurrentPosition(function (p) {
+    state.geo = { lat: p.coords.latitude, lon: p.coords.longitude };
+    try { localStorage.setItem('ra-geo', JSON.stringify(state.geo)); } catch (e) {}
+    cb(state.geo);
+  }, function () {
+    state.geo = CAIRO;
+    toast(t('geo_fallback')); // fallback center
+    cb(state.geo);
+  }, { timeout: 8000 });
+}
+
 function applyFilters() {
   var f = state.filters;
   var q = f.q.trim().toLowerCase();
   var list = state.receivers.filter(function (r) {
     if (f.onlineOnly && !r.online) return false;
+    if (f.httpsOnly && !r.https) return false;
+    if (state.geo && r.gpsCoords) r.dist = havKm(state.geo, { lat: r.gpsCoords[0], lon: r.gpsCoords[1] }); else r.dist = null;
     if (f.band !== 'all' && (r.band || t('no_band')) !== f.band) return false;
     if (f.freeOnly && !(r.maxUsers > 0 && r.users < r.maxUsers)) return false;
     if (f.minSnr > 0 && !(r.snr != null && r.snr >= f.minSnr)) return false;
@@ -425,6 +455,11 @@ function applyFilters() {
   list.sort(function (a, b) {
     if (a.online !== b.online) return a.online ? -1 : 1;
     if (f.sort === 'name') return a.name.localeCompare(b.name, state.lang);
+    if (f.sort === 'near') {
+      var da = a.dist == null ? Infinity : a.dist;
+      var db = b.dist == null ? Infinity : b.dist;
+      return da - db;
+    }
     if (f.sort === 'free') return (b.maxUsers - b.users) - (a.maxUsers - a.users);
     if (f.sort === 'users') return a.users - b.users;
     var sa = a.snr == null ? -1 : a.snr;
@@ -442,6 +477,7 @@ function cardRx(r) {
   if (r.band) chips += '<span class="chip">' + esc(r.band) + '</span>';
   if (r.loc) chips += '<span class="chip">📍 ' + esc(r.loc) + '</span>';
   if (r.gps) chips += '<span class="chip gps">📡 GPS</span>';
+  if (r.dist != null) chips += '<span class="chip">🧭 ' + fmtNum(r.dist) + ' km</span>';
   var action = '';
   if (r.url) {
     action = r.https
@@ -523,20 +559,42 @@ function webSdrCard(r) {
     '</article>';
 }
 
-function renderWebSdrGrid(gridId, countId, panelId, list) {
+function applyWebFilters(list) {
+  var f = state.filters;
+  var q = f.q.trim().toLowerCase();
+  return (list || []).filter(function (r) {
+    if (f.httpsOnly && !r.https) return false;
+    if (q) {
+      var hay = (r.name + ' ' + (r.loc || '') + ' ' + r.url).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  }).sort(function (a, b) {
+    var ha = a.https ? 1 : 0, hb = b.https ? 1 : 0;
+    return hb - ha || a.name.localeCompare(b.name, state.lang);
+  });
+}
+
+function renderWebSdrGrid(gridId, countId, panelId, list, kind) {
   var grid = $(gridId);
   var panel = $(panelId);
   if (!grid || !panel) return;
   if (!list || !list.length) { panel.hidden = true; return; }
   panel.hidden = false;
-  $(countId).textContent = t('results').replace('{n}', fmtNum(list.length));
-  grid.innerHTML = list.slice(0, 150).map(webSdrCard).join('');
+  var filtered = applyWebFilters(list);
+  var limit = state.webLimits[kind];
+  $(countId).textContent = t('results').replace('{n}', fmtNum(filtered.length));
+  if (!filtered.length) { grid.innerHTML = '<div class="empty">' + esc(t('no_match')) + '</div>'; return; }
+  grid.innerHTML = filtered.slice(0, limit).map(webSdrCard).join('') +
+    (filtered.length > limit
+      ? '<div class="more-wrap"><button class="btn ghost web-more" type="button" data-more-kind="' + esc(kind) + '">' + esc(t('more_rx').replace('{n}', fmtNum(filtered.length - limit))) + '</button></div>'
+      : '');
 }
 
 function renderWebSdrs() {
   if (!state.webSdrs) return;
-  renderWebSdrGrid('grid-websdr', 'websdr-count', 'websdr-panel', state.webSdrs.websdr);
-  renderWebSdrGrid('grid-owrx', 'owrx-count', 'owrx-panel', state.webSdrs.openwebrx);
+  renderWebSdrGrid('grid-websdr', 'websdr-count', 'websdr-panel', state.webSdrs.websdr, 'websdr');
+  renderWebSdrGrid('grid-owrx', 'owrx-count', 'owrx-panel', state.webSdrs.openwebrx, 'owrx');
 }
 
 function loadWebSdrs() {
@@ -1693,13 +1751,25 @@ function initUI() {
   $('q').addEventListener('input', function () {
     clearTimeout(qTimer);
     var v = this.value;
-    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); }, 150);
+    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); renderWebSdrs(); }, 150);
   });
   $('band').addEventListener('change', function () { state.filters.band = this.value; renderSDR(); });
-  $('sort').addEventListener('change', function () { state.filters.sort = this.value; renderSDR(); });
+  $('sort').addEventListener('change', function () {
+    state.filters.sort = this.value;
+    if (this.value === 'near' && !state.geo) ensureGeo(function () { renderSDR(); });
+    renderSDR();
+  });
   $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
   $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
   $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
+  $('https-only').addEventListener('change', function () { state.filters.httpsOnly = this.checked; renderSDR(); renderWebSdrs(); });
+  ['websdr', 'owrx'].forEach(function (kind) {
+    var g = $('grid-' + kind);
+    if (g) g.addEventListener('click', function (e) {
+      var el = e.target;
+      if (el && el.closest && el.closest('.web-more')) { state.webLimits[kind] += 150; renderWebSdrs(); }
+    });
+  });
   var alertBtn = $('space-alert-btn');
   if (alertBtn) alertBtn.addEventListener('click', toggleSpaceAlerts);
   var eibiSearch = $('eibi-q');
