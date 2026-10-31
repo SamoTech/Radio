@@ -59,5 +59,19 @@ class ReceiverbookParsingTests(unittest.TestCase):
         self.assertIn("FORMAT JSON", inspect.getsource(MODULE.fetch_wspr))
 
 
+    def test_wspr_top_paths_dedupe_by_pair_and_band(self):
+        import inspect
+        self.assertIn(
+            "GROUP BY tx_sign, tx_loc, rx_sign, rx_loc, band",
+            inspect.getsource(MODULE.fetch_wspr),
+        )
+
+    def test_web_sdr_exclusion_matches_israeli_callsigns(self):
+        import inspect
+        src = inspect.getsource(MODULE.fetch_web_sdrs)
+        self.assertIn('"israel" in blob', src)
+        self.assertIn("4[xz][0-9]", src)
+
+
 if __name__ == "__main__":
     unittest.main()
