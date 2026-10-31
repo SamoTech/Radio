@@ -196,5 +196,206 @@
     "tags": "عربي,arabic,quran,قرآن",
     "codec": "MP3",
     "bitrate": 128
+  },
+  {
+    "name": "نايل إف إم — Nile FM 104.2",
+    "url": "https://audio.nrpstream.com/listen/nile_fm/radio.mp3",
+    "cc": "EG",
+    "language": "english",
+    "tags": "عربي,arabic,egypt,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "نجوم إف إم — Nogoum FM 100.6",
+    "url": "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "إذاعة القرآن الكريم من القاهرة",
+    "url": "https://stream.radiojar.com/8s5u5tpdtwzuv",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,quran,قرآن",
+    "codec": "MP3",
+    "bitrate": 0
+  },
+  {
+    "name": "راديو 9090 — Radio 9090 FM",
+    "url": "https://9090streaming.mobtada.com/9090FMEGYPT",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,music,talk",
+    "codec": "MP3",
+    "bitrate": 64
+  },
+  {
+    "name": "أون سبورت إف إم — On Sport FM",
+    "url": "https://carina.streamerr.co:2020/stream/OnSportFM",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,sports,رياضة",
+    "codec": "MP3",
+    "bitrate": 96
+  },
+  {
+    "name": "راديو شعبي 95 — Sha3by FM",
+    "url": "https://radio95.radioca.st/;",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,shaabi,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "راديو هيتس 88.2 — Radio Hits",
+    "url": "https://radiohits882.radioca.st/;",
+    "cc": "EG",
+    "language": "arabic",
+    "tags": "عربي,arabic,egypt,hits,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "إذاعة العربية FM — Al Arabiya Radio",
+    "url": "https://fm.alarabiya.net/fm/myStream/playlist.m3u8",
+    "cc": "SA",
+    "language": "arabic",
+    "tags": "عربي,arabic,ksa,news,أخبار",
+    "codec": "AAC",
+    "bitrate": 0
+  },
+  {
+    "name": "أليف أليف إف إم — AlifAlif FM",
+    "url": "https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3",
+    "cc": "SA",
+    "language": "arabic",
+    "tags": "عربي,arabic,ksa,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "الجزيرة الإنجليزية — Al Jazeera English",
+    "url": "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8",
+    "cc": "QA",
+    "language": "english",
+    "tags": "عربي,arabic,qatar,news,أخبار",
+    "codec": "AAC",
+    "bitrate": 0
+  },
+  {
+    "name": "راديو أوليف 106.3 — Radio Olive",
+    "url": "https://osrnstream.olivesuno.com/olive1063.mp3",
+    "cc": "QA",
+    "language": "english",
+    "tags": "عربي,arabic,qatar,music",
+    "codec": "MP3",
+    "bitrate": 128,
+    "fallbacks": [
+      "https://playerservices.streamtheworld.com/api/livestream-redirect/OLIVE1063AAC.aac"
+    ]
+  },
+  {
+    "name": "زمن الوصل — Zaman Al Wasl Radio",
+    "url": "https://zamanalwaslradio.out.airtime.pro/zamanalwaslradio_a",
+    "cc": "SY",
+    "language": "arabic",
+    "tags": "عربي,arabic,syria,news",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "أرطة إف إم 99.5 — Arta FM",
+    "url": "https://edge.mixlr.com/channel/qtgru",
+    "cc": "SY",
+    "language": "arabic",
+    "tags": "عربي,arabic,syria,music",
+    "codec": "MP3",
+    "bitrate": 0
+  },
+  {
+    "name": "أسيما أون لاين 99.8 — Asima Online",
+    "url": "https://asima.out.airtime.pro/asima_a",
+    "cc": "SY",
+    "language": "arabic",
+    "tags": "عربي,arabic,syria,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "بسان إف إم 99.9 — Bissan FM",
+    "url": "https://eu10.fastcast4u.com/bissanraqqa2021",
+    "cc": "SY",
+    "language": "arabic",
+    "tags": "عربي,arabic,syria,news",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "إذاعة المسيرة — Almasirah",
+    "url": "https://svs.itworkscdn.net/almasiralive/almasira/playlist.m3u8",
+    "cc": "YE",
+    "language": "arabic",
+    "tags": "عربي,arabic,yemen,news",
+    "codec": "AAC",
+    "bitrate": 0
+  },
+  {
+    "name": "إذاعة الوصال 96.5 — Al Wisal FM",
+    "url": "https://securestreams3.autopo.st:1380/stream/1/",
+    "cc": "OM",
+    "language": "arabic",
+    "tags": "عربي,arabic,oman,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "صوت الهدى 92.1 — Sawt Al Hoda",
+    "url": "https://l3.itworkscdn.net/itwaudio/9032/stream",
+    "cc": "LB",
+    "language": "arabic",
+    "tags": "عربي,arabic,lebanon,talk",
+    "codec": "AAC",
+    "bitrate": 0
+  },
+  {
+    "name": "ميلو دياب — Melo Diab Radio",
+    "url": "https://melodiab.com:8000/radio.mp3",
+    "cc": "LB",
+    "language": "arabic",
+    "tags": "عربي,arabic,lebanon,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "راديو صوت الغد — Sawt Elghad FM",
+    "url": "https://streams.radio.co/sd1bcd1376/listen",
+    "cc": "LB",
+    "language": "arabic",
+    "tags": "عربي,arabic,lebanon,music",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "صوت الشعب 97.1 — Voice of the People",
+    "url": "https://sawtalshaab3.radioca.st/index",
+    "cc": "SD",
+    "language": "arabic",
+    "tags": "عربي,arabic,sudan,talk",
+    "codec": "MP3",
+    "bitrate": 128
+  },
+  {
+    "name": "راديو الجامعة الأردنية — JU FM",
+    "url": "https://jufmstreaming.ju.edu.jo/;",
+    "cc": "JO",
+    "language": "arabic",
+    "tags": "عربي,arabic,jordan,music",
+    "codec": "MP3",
+    "bitrate": 128
   }
 ]

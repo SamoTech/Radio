@@ -66,7 +66,7 @@ ARAB_IPRD = {
     "LY": ["ly.m3u"], "SD": ["sd.m3u"], "AE": ["ae.m3u"], "QA": ["qa.m3u"],
     "KW": ["kw.m3u"], "BH": ["bh.m3u"], "OM": ["om.m3u"], "JO": ["jo.m3u"],
     "LB": ["lb.m3u"], "PS": ["ps.m3u"], "IQ": ["iq.m3u"], "YE": ["ye.m3u"],
-    "MR": ["mr.m3u"], "SO": ["so.m3u"],
+    "MR": ["mr.m3u"], "SO": ["so.m3u"], "SY": ["sy.m3u"],
 }
 IPRD_MAX = 1500
 CHECK_THREADS = 16
@@ -83,6 +83,24 @@ DEAD_URL_PATTERNS = (
     "vo-live-media.cdb.cdn.orange.com/Content",
     "rj-tok=",
     "live.medi1.com",
+    "chadafm.ice.infomaniak.ch",
+    "jowradio",
+    "stream.alkafeel.net",
+    "ch1-32.aac",
+    "ch2-32.aac",
+    "ch3-32.aac",
+    "laghouat.ice.infomaniak.ch",
+    "bejaia.ice.infomaniak.ch",
+    "biskra.ice.infomaniak.ch",
+    "adrar.ice.infomaniak.ch",
+    "elbahdja.ice.infomaniak.ch",
+    "jil-fm.ice.infomaniak.ch",
+    "rai.ice.infomaniak.ch",
+    "coran.ice.infomaniak.ch",
+    "culture.ice.infomaniak.ch",
+    "5c7b683162943.streamlock.net",
+    "dcunilive93-lh.akamaihd.net",
+    "live-hls-audio-aje-ak.getaj.net",
 )
 
 

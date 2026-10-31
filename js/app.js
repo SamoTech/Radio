@@ -97,7 +97,7 @@ var STR = {
     app_title: '📻 راديو أطلس',
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
-    tab_fm: '📻 محطات البث', tab_ma: '🇲🇦 المغرب', tab_sdr: 'أجهزة الاستقبال SDR',
+    tab_fm: '📻 محطات البث', tab_ar: '🌍 عربي', tab_ma: '🇲🇦 المغرب', tab_sdr: 'أجهزة الاستقبال SDR',
     search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
@@ -131,7 +131,7 @@ var STR = {
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
     visitors: 'إجمالي الزيارات', you_from: 'أنت تزور من',
     stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
-    kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', ma_hint: 'الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.', ma_national: 'الإذاعات الوطنية', ma_regional: 'الإذاعات الجهوية', ma_source: 'SNRT Live ↗',
+    kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', ma_hint: 'الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.', ma_national: 'الإذاعات الوطنية', ma_regional: 'الإذاعات الجهوية', ma_source: 'SNRT Live ↗', ar_hint: 'كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.', ar_count: '{n} إذاعة عربية · {c} دولة', ar_top: 'أول {n} محطة من {m}',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
     random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏',
@@ -143,7 +143,7 @@ var STR = {
     app_title: '📻 Radio Atlas',
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
-    tab_fm: '📻 Broadcast stations', tab_ma: '🇲🇦 Morocco', tab_sdr: 'SDR Receivers',
+    tab_fm: '📻 Broadcast stations', tab_ar: '🌍 Arabic', tab_ma: '🇲🇦 Morocco', tab_sdr: 'SDR Receivers',
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_country:'Country', filter_language:'Language', filter_category:'Category', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
@@ -177,7 +177,7 @@ var STR = {
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     visitors: 'Total page views', you_from: 'You are visiting from',
     stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
-    kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', ma_hint: 'Official Moroccan radio from SNRT — 4 national and 11 regional stations, playing in-app via automatically signed HLS links.', ma_national: 'National radio', ma_regional: 'Regional radio', ma_source: 'SNRT Live ↗',
+    kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', ma_hint: 'Official Moroccan radio from SNRT — 4 national and 11 regional stations, playing in-app via automatically signed HLS links.', ma_national: 'National radio', ma_regional: 'Regional radio', ma_source: 'SNRT Live ↗', ar_hint: 'All Arabic radio from the catalog grouped by country — plays in-app, official stations first.', ar_count: '{n} Arabic stations · {c} countries', ar_top: 'First {n} of {m} stations',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
     random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏',
@@ -281,6 +281,7 @@ function rebuildDynamic() {
   renderChips();
   renderFM();
   renderMA();
+  renderAR();
   renderSpace();
   renderWspr();
   renderWebSdrs();
@@ -347,6 +348,7 @@ function toggleFav(s) {
   saveFavs();
   renderFM();
   renderMA();
+  renderAR();
 }
 
 /* ================= KiwiSDR ================= */
@@ -783,6 +785,7 @@ function loadStations() {
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
     renderFM();
     renderMA();
+    renderAR();
     initResume();
     loadStreamChecks();
     handleShareHash();
@@ -791,7 +794,7 @@ function loadStations() {
 
 function loadStreamChecks() {
   fetchJSON('data/stream_checks.json').then(function (d) {
-    if (d && d.results) { state.streamChecks = d.results; renderFM(); renderMA(); }
+    if (d && d.results) { state.streamChecks = d.results; renderFM(); renderMA(); renderAR(); }
   }).catch(function () {});
 }
 
@@ -830,6 +833,77 @@ function renderMA() {
   }
   if (regional.length) {
     html += '<h2 class="ma-group">' + esc(t('ma_regional')) + ' · ' + fmtNum(regional.length) + '</h2>' + regional.map(cardFm).join('');
+  }
+  grid.innerHTML = html;
+}
+
+/* ================= All-Arabic by country ================= */
+
+var ARAB_COUNTRIES = [
+  ['EG', 'مصر'], ['SA', 'السعودية'], ['MA', 'المغرب'], ['DZ', 'الجزائر'],
+  ['TN', 'تونس'], ['AE', 'الإمارات'], ['LB', 'لبنان'], ['SY', 'سوريا'],
+  ['IQ', 'العراق'], ['JO', 'الأردن'], ['QA', 'قطر'], ['YE', 'اليمن'],
+  ['KW', 'الكويت'], ['BH', 'البحرين'], ['OM', 'عُمان'], ['PS', 'فلسطين'],
+  ['LY', 'ليبيا'], ['SD', 'السودان'], ['SO', 'الصومال'], ['MR', 'موريتانيا'],
+  ['KM', 'جزر القمر'], ['DJ', 'جيبوتي']
+];
+var AR_PER_COUNTRY = 30;
+
+function flagOf(cc) {
+  try {
+    return String.fromCodePoint(0x1F1E6 + cc.charCodeAt(0) - 65, 0x1F1E6 + cc.charCodeAt(1) - 65);
+  } catch (e) { return ''; }
+}
+
+function arabCountryName(cc) {
+  for (var i = 0; i < ARAB_COUNTRIES.length; i++) {
+    if (ARAB_COUNTRIES[i][0] === cc) return ARAB_COUNTRIES[i][1];
+  }
+  return cc;
+}
+
+function arabStations() {
+  var set = {};
+  for (var i = 0; i < ARAB_COUNTRIES.length; i++) set[ARAB_COUNTRIES[i][0]] = true;
+  return state.fm.filter(function (s) { return !!set[s.cc]; });
+}
+
+function renderAR() {
+  var grid = $('grid-ar');
+  if (!grid) return;
+  var list = arabStations();
+  var count = $('ar-count');
+  if (!list.length) {
+    if (count) count.textContent = '';
+    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
+    return;
+  }
+  var groups = {};
+  for (var i = 0; i < list.length; i++) {
+    var cc = list[i].cc;
+    if (!groups[cc]) groups[cc] = [];
+    groups[cc].push(list[i]);
+  }
+  var order = Object.keys(groups).sort(function (a, b) {
+    return groups[b].length - groups[a].length;
+  });
+  if (count) {
+    count.textContent = t('ar_count').replace('{n}', fmtNum(list.length)).replace('{c}', fmtNum(order.length));
+  }
+  var html = '';
+  for (var g = 0; g < order.length; g++) {
+    var gcc = order[g];
+    groups[gcc].sort(function (a, b) {
+      var oa = a.official ? 0 : 1, ob = b.official ? 0 : 1;
+      if (oa !== ob) return oa - ob;
+      return String(a.name).localeCompare(String(b.name));
+    });
+    var shown = groups[gcc].slice(0, AR_PER_COUNTRY);
+    html += '<h2 class="ma-group">' + flagOf(gcc) + ' ' + esc(countryName(gcc, arabCountryName(gcc))) + ' · ' + fmtNum(groups[gcc].length) + '</h2>';
+    html += shown.map(cardFm).join('');
+    if (groups[gcc].length > shown.length) {
+      html += '<p class="ma-count">' + esc(t('ar_top').replace('{n}', fmtNum(shown.length)).replace('{m}', fmtNum(groups[gcc].length))) + '</p>';
+    }
   }
   grid.innerHTML = html;
 }
@@ -1687,7 +1761,7 @@ function openKiwiAudio(url, name) {
 /* ================= UI ================= */
 
 function switchTab(x) {
-  ['fm', 'ma', 'sdr'].forEach(function (k) {
+  ['fm', 'ar', 'ma', 'sdr'].forEach(function (k) {
     var tab = $('tab-' + k);
     var panel = $('panel-' + k);
     if (tab) tab.classList.toggle('active', x === k);
@@ -1697,6 +1771,7 @@ function switchTab(x) {
 
 function initUI() {
   $('tab-fm').addEventListener('click', function () { switchTab('fm'); });
+  $('tab-ar').addEventListener('click', function () { switchTab('ar'); });
   $('tab-ma').addEventListener('click', function () { switchTab('ma'); });
   $('tab-sdr').addEventListener('click', function () { switchTab('sdr'); });
 
