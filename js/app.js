@@ -894,7 +894,7 @@ function renderAR() {
       return String(a.name).localeCompare(String(b.name));
     });
     var shown = groups[gcc].slice(0, AR_PER_COUNTRY);
-    html += '<h2 class="ma-group">' + flagOf(gcc) + ' ' + esc(countryName(gcc, arabCountryName(gcc))) + ' · ' + fmtNum(groups[gcc].length) + '</h2>';
+    html += '<h2 class="ma-group">' + flagOf(gcc) + ' ' + esc(regionName(gcc, arabCountryName(gcc))) + ' · ' + fmtNum(groups[gcc].length) + '</h2>';
     html += shown.map(cardFm).join('');
     if (groups[gcc].length > shown.length) {
       html += '<p class="ma-count">' + esc(t('ar_top').replace('{n}', fmtNum(shown.length)).replace('{m}', fmtNum(groups[gcc].length))) + '</p>';
