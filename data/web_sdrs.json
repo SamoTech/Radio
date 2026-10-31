@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T20:14:54+00:00",
+ "updated": "2026-10-31T21:08:23+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -2497,6 +2497,14 @@
    "lon": 76.952126
   },
   {
+   "name": "<font color=white>P2000 WebSDR Ulft  </font><font color=red>DE 3.5 IS VERHUISD !! </font>👉👉👉👉👉 <a href=\"https://sdr.skyl",
+   "url": "https://ulft.vosrx.nl/",
+   "loc": "",
+   "https": true,
+   "lat": 51.893464,
+   "lon": 6.382
+  },
+  {
    "name": "M0LHI",
    "url": "http://radio.nkpa.co.uk/",
    "loc": "",
@@ -2543,6 +2551,14 @@
    "https": true,
    "lat": 52.645858,
    "lon": 4.759133
+  },
+  {
+   "name": "6K0FM",
+   "url": "http://6k2fsu.tplinkdns.com:7373/",
+   "loc": "",
+   "https": false,
+   "lat": 36.42954266060891,
+   "lon": 127.32278950737621
   },
   {
    "name": "VK2SKY",
@@ -2639,6 +2655,14 @@
    "https": true,
    "lat": 51.423584079553876,
    "lon": 0.8307115249043973
+  },
+  {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
   },
   {
    "name": "PI6EHV 2320 - 2321 MHz",
@@ -3039,14 +3063,6 @@
    "https": true,
    "lat": 34,
    "lon": -118
-  },
-  {
-   "name": "RundFunk Richard's OpenWebRX - HF/UHF/VHF/QO-100",
-   "url": "http://sdrmaarssen.nl:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 52.12904,
-   "lon": 5.0189
   },
   {
    "name": "SDR Multibandas CE3MRO",
@@ -4001,6 +4017,14 @@
    "lon": -49.07712530682808
   },
   {
+   "name": "VU3ZNG",
+   "url": "https://rx.siritech.net/",
+   "loc": "",
+   "https": true,
+   "lat": 12.2438083,
+   "lon": 75.4374209
+  },
+  {
    "name": "Farmington",
    "url": "https://receiver.elaptic.dev/",
    "loc": "",
@@ -4015,30 +4039,6 @@
    "https": true,
    "lat": 54.00334948205416,
    "lon": -1.3030173782748222
-  },
-  {
-   "name": "https://owrx.uk - HF RECEIVER 03 - SDRplay RSP1B - 41.7m EFLW - M7NXS",
-   "url": "https://hf3.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 53.96235105441253,
-   "lon": -1.0820809709781407
-  },
-  {
-   "name": "https://owrx.uk - AI HOPPER - RTL-SDR Blog V4 - Diamond D3000N Discone - M7NXS",
-   "url": "https://vhf1.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 54.5,
-   "lon": -1
-  },
-  {
-   "name": "Pulsar 3.5MTR (antenne Moxon richting noord horizontaal)",
-   "url": "https://pulsardx.nl/",
-   "loc": "",
-   "https": true,
-   "lat": 51.85320936891584,
-   "lon": 5.764880370406926
   }
  ]
 }
