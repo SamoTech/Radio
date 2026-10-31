@@ -61,10 +61,13 @@ class ReceiverbookParsingTests(unittest.TestCase):
 
     def test_wspr_top_paths_dedupe_by_pair_and_band(self):
         import inspect
+        src = inspect.getsource(MODULE.fetch_wspr)
         self.assertIn(
             "GROUP BY tx_sign, tx_loc, rx_sign, rx_loc, band",
-            inspect.getsource(MODULE.fetch_wspr),
+            src,
         )
+        self.assertIn("max(distance) AS max_km, max(snr) AS snr", src)
+        self.assertIn('"km": int(float(row.get("max_km") or 0)),', src)
 
     def test_web_sdr_exclusion_matches_israeli_callsigns(self):
         import inspect

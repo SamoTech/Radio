@@ -1019,11 +1019,11 @@ def fetch_wspr():
     )
     top_rows = _wspr_rows(
         "SELECT tx_sign, tx_loc, rx_sign, rx_loc, band, "
-        "max(distance) AS distance, max(snr) AS snr "
+        "max(distance) AS max_km, max(snr) AS snr "
         "FROM wspr.rx WHERE time >= " + cutoff
         + " AND distance >= " + str(WSPR_TOP_MIN_KM)
         + " GROUP BY tx_sign, tx_loc, rx_sign, rx_loc, band"
-        + " ORDER BY distance DESC LIMIT 12 FORMAT JSON"
+        + " ORDER BY max_km DESC LIMIT 12 FORMAT JSON"
     )
     if not bands_rows:
         return None
@@ -1043,7 +1043,7 @@ def fetch_wspr():
             "tx_loc": row.get("tx_loc") or "",
             "rx": row.get("rx_sign") or "",
             "rx_loc": row.get("rx_loc") or "",
-            "km": int(float(row.get("distance") or 0)),
+            "km": int(float(row.get("max_km") or 0)),
             "band": row.get("band"),
             "snr": row.get("snr"),
         }
