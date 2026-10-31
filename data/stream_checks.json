@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T12:08:36+00:00",
+ "updated": "2026-10-31T12:16:31+00:00",
  "checked": 102,
- "alive": 62,
+ "alive": 61,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -368,8 +368,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 404
   },
   "https://stream.alkafeel.net/live/radio/playlist.m3u8": {
    "alive": false,

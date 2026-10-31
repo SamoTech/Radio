@@ -1,12 +1,18 @@
 {
- "updated": "2026-10-31T12:14:46+00:00",
+ "updated": "2026-10-31T12:16:31+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1535,
+ "count": 1529,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
+  },
+  {
+   "f": 2054,
+   "s": "1215",
+   "e": "1230",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -2524,12 +2530,6 @@
    "n": "HWA | NMO USCG Honolulu | E | Oc"
   },
   {
-   "f": 6501,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
-  },
-  {
    "f": 6507,
    "s": "0800",
    "e": "2100",
@@ -3544,12 +3544,6 @@
    "n": "CAN | CHU Ottawa | -TS | NAm"
   },
   {
-   "f": 7906,
-   "s": "1205",
-   "e": "1215",
-   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
-  },
-  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3586,6 +3580,12 @@
    "n": "BOL | La Paz Volmet x15 | S | BOL"
   },
   {
+   "f": 8101,
+   "s": "1215",
+   "e": "1230",
+   "n": "VTN | Duyen Hai Information | T | SEA"
+  },
+  {
    "f": 8113,
    "s": "1000",
    "e": "2300",
@@ -3614,12 +3614,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 8294,
-   "s": "1205",
-   "e": "1215",
-   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
   },
   {
    "f": 8376,
@@ -3830,12 +3824,6 @@
    "s": "1200",
    "e": "1235",
    "n": "HWA | NMO USCG Honolulu | E | Oc"
-  },
-  {
-   "f": 8764,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 8776,
@@ -4798,12 +4786,6 @@
    "n": "CHN | China Radio Int. | E | Oc"
   },
   {
-   "f": 9765,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
    "f": 9770,
    "s": "1130",
    "e": "1230",
@@ -4952,12 +4934,6 @@
    "s": "1200",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 9860,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
   },
   {
    "f": 9885,
@@ -6041,18 +6017,6 @@
   },
   {
    "f": 11865,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 11865,
-   "s": "1045",
-   "e": "1215",
-   "n": "IND | AIR Akashvani Ext.Sce | TB | Tib"
-  },
-  {
-   "f": 11865,
    "s": "0900",
    "e": "1300",
    "n": "KRE | Voice of Korea | J | J"
@@ -6221,9 +6185,9 @@
   },
   {
    "f": 12120,
-   "s": "1200",
-   "e": "1215",
-   "n": "PHL | FEBC Manila | RWG | SEA"
+   "s": "1215",
+   "e": "1245",
+   "n": "PHL | FEBC Manila | AK | SEA"
   },
   {
    "f": 12120,
@@ -6596,12 +6560,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 13089,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 13092,
@@ -7796,6 +7754,12 @@
    "s": "2300",
    "e": "1400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 15410,
+   "s": "1215",
+   "e": "1315",
+   "n": "IND | AIR Akashvani Ext.Sce | SWA | EAf"
   },
   {
    "f": 15410,
