@@ -1,96 +1,96 @@
 {
- "updated": "2026-10-31T20:08:57+00:00",
+ "updated": "2026-10-31T20:14:54+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
    "band": 14,
-   "c": 190485,
-   "avg_km": 2321,
+   "c": 188279,
+   "avg_km": 2289,
    "max_km": 19783
   },
   {
    "band": 7,
-   "c": 120787,
-   "avg_km": 1205,
+   "c": 119658,
+   "avg_km": 1214,
    "max_km": 19679
   },
   {
    "band": 10,
-   "c": 64272,
-   "avg_km": 1531,
+   "c": 64859,
+   "avg_km": 1529,
    "max_km": 19885
   },
   {
    "band": 21,
-   "c": 53868,
-   "avg_km": 2889,
+   "c": 52057,
+   "avg_km": 2887,
    "max_km": 18173
   },
   {
    "band": 3,
-   "c": 44616,
-   "avg_km": 751,
+   "c": 44239,
+   "avg_km": 752,
    "max_km": 18256
   },
   {
    "band": 18,
-   "c": 44587,
-   "avg_km": 2884,
+   "c": 43213,
+   "avg_km": 2850,
    "max_km": 19593
   },
   {
    "band": 28,
-   "c": 23979,
-   "avg_km": 3114,
+   "c": 24070,
+   "avg_km": 3124,
    "max_km": 17766
   },
   {
    "band": 24,
-   "c": 12230,
-   "avg_km": 2843,
+   "c": 12148,
+   "avg_km": 2830,
    "max_km": 15949
   },
   {
    "band": 0,
-   "c": 11251,
-   "avg_km": 644,
+   "c": 11486,
+   "avg_km": 650,
    "max_km": 18380
   },
   {
    "band": 1,
-   "c": 9026,
-   "avg_km": 758,
+   "c": 9200,
+   "avg_km": 785,
    "max_km": 4850
   },
   {
    "band": 5,
-   "c": 6653,
-   "avg_km": 1028,
+   "c": 6165,
+   "avg_km": 1061,
    "max_km": 16212
   },
   {
    "band": 13,
-   "c": 856,
-   "avg_km": 1509,
+   "c": 877,
+   "avg_km": 1527,
    "max_km": 11855
   },
   {
    "band": -1,
-   "c": 687,
-   "avg_km": 550,
+   "c": 657,
+   "avg_km": 560,
    "max_km": 7370
   },
   {
    "band": 50,
-   "c": 551,
-   "avg_km": 61,
+   "c": 547,
+   "avg_km": 62,
    "max_km": 1233
   },
   {
    "band": 144,
-   "c": 195,
-   "avg_km": 231,
+   "c": 207,
+   "avg_km": 229,
    "max_km": 7188
   },
   {
@@ -180,7 +180,7 @@
    "rx_loc": "RE78jq",
    "km": 19679,
    "band": 7,
-   "snr": -23
+   "snr": -25
   },
   {
    "tx": "ZL1IM",
@@ -219,12 +219,12 @@
    "snr": -20
   },
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZLII",
-   "rx_loc": "RE78mu",
+   "tx": "KD9LVX",
+   "tx_loc": "FM61",
+   "rx": "VK6XT",
+   "rx_loc": "OF88ji",
    "km": 19651,
-   "band": 7,
+   "band": 14,
    "snr": -21
   }
  ]
