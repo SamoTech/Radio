@@ -111,6 +111,7 @@
         <option value="kiwi" data-i18n="kiwi_type">KiwiSDR</option>
         <option value="websdr" data-i18n="websdr_type">WebSDR</option>
         <option value="owrx" data-i18n="owrx_type">OpenWebRX</option>
+        <option value="satnogs" data-i18n="satnogs_type">SatNOGS</option>
       </select>
       <select id="sort" title="الترتيب">
         <option value="snr" data-i18n="sort_snr">الأفضل SNR</option>
@@ -187,6 +188,14 @@
       </div>
       <div id="grid-owrx" class="grid"></div>
     </div>
+
+    <div id="satnogs-panel" class="wsdr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="satnogs_title">محطات SatNOGS الأرضية</h2>
+        <span id="satnogs-count" class="count">—</span>
+      </div>
+      <div id="grid-satnogs" class="grid"></div>
+    </div>
   </section>
 </main>
 
@@ -246,6 +255,7 @@
     <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
     <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> ·
     <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a> ·
+    <a href="https://network.satnogs.org/" target="_blank" rel="noopener">SatNOGS</a> ·
   </p>
   <p class="src-line"><span data-i18n="offline_footer">تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.</span> SamoTech/Radio</p>
   <p class="src-line"><a href="countries/">🌍 تصفح المحطات حسب الدولة · Browse by country</a></p>

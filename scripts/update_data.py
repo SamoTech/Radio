@@ -20,6 +20,10 @@ Sources:
 - WebSDR + OpenWebRX receiver directories from receiverbook.de (map pages
   embed the full receiver list as a JSON variable), with the
   morria/multi-sdr receiver catalog as fallback.
+- SatNOGS online ground stations (network.satnogs.org API). Israeli
+  stations are excluded by name markers only: the API has no country
+  field and a lat/lng bounding box would wrongly drop nearby Palestinian
+  stations in the same region.
 
 Failures never wipe the last good snapshot. Station catalogs refresh daily;
 KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
@@ -1020,6 +1024,28 @@ WEB_SDR_FALLBACK_URL = (
 WSPR_WINDOW_SECONDS = 7200
 WSPR_TOP_MIN_KM = 15000
 WEB_SDR_MAX_PER_TYPE = 400
+SATNOGS_API_URL = "https://network.satnogs.org/api/stations/?format=json"
+SATNOGS_MAX = 400
+# The SatNOGS stations API has no country field. A lat/lng bounding box
+# would also exclude Palestinian stations in the same region, so Israeli
+# stations are excluded by explicit name markers only.
+SATNOGS_IL_MARKERS = (
+    "israel",
+    "tel aviv",
+    "tel-aviv",
+    "jerusalem",
+    "haifa",
+    "beersheba",
+    "beer-sheva",
+    "herzliya",
+    "herzliyya",
+    "herzlia",
+    "rishon lezion",
+    "petah tikva",
+    "rehovot",
+    "technion",
+    "tau ",
+)
 
 
 def _wspr_rows(query):
@@ -1160,6 +1186,47 @@ def fetch_web_sdrs():
     out["sources"] = sources
     return out
 
+def fetch_satnogs():
+    rows = fetch_json(SATNOGS_API_URL)
+    if not isinstance(rows, list):
+        return None
+    kept = []
+    seen_ids = set()
+    for st in rows:
+        if not isinstance(st, dict) or st.get("status") != "online":
+            continue
+        sid = st.get("id")
+        name = str(st.get("name") or "").strip()
+        if sid is None or sid in seen_ids or not name:
+            continue
+        blob = name.lower()
+        if any(m in blob for m in SATNOGS_IL_MARKERS):
+            continue
+        seen_ids.add(sid)
+        bands = []
+        for ant in st.get("antenna") or []:
+            band = str((ant or {}).get("band") or "").strip()
+            if band and band not in bands:
+                bands.append(band)
+        grid = str(st.get("qthlocator") or "").strip()
+        loc = " · ".join(x for x in (grid, " / ".join(bands[:4])) if x)
+        kept.append(
+            {
+                "id": sid,
+                "name": name,
+                "loc": loc or "—",
+                "lat": st.get("lat"),
+                "lng": st.get("lng"),
+                "alt": st.get("altitude"),
+                "url": f"https://network.satnogs.org/stations/{sid}/",
+                "https": False,
+            }
+        )
+        if len(kept) >= SATNOGS_MAX:
+            break
+    kept.sort(key=lambda s: s["name"].lower())
+    return kept
+
 def main():
     mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
     if mode not in {"all", "stations", "sdr"}:
@@ -1267,6 +1334,25 @@ def main():
                 print("web sdrs: no receivers — keeping last good snapshot", file=sys.stderr)
         except Exception as e:  # noqa: BLE001
             print(f"web sdrs FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
+        try:
+            satnogs = fetch_satnogs()
+            if satnogs:
+                write_json(
+                    DATA_DIR / "satnogs.json",
+                    {
+                        "updated": now_iso,
+                        "source": "SatNOGS network (https://network.satnogs.org/)",
+                        "count": len(satnogs),
+                        "stations": satnogs,
+                    },
+                )
+                print(f"satnogs: {len(satnogs)} online ground stations")
+                ok = True
+            else:
+                print("satnogs: no online stations — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"satnogs FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
     if mode in {"all", "stations"}:
         try:
