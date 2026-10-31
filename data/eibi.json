@@ -1,12 +1,18 @@
 {
- "updated": "2026-10-31T18:34:34+00:00",
+ "updated": "2026-10-31T18:58:20+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1040,
+ "count": 1029,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
+  },
+  {
+   "f": 2054,
+   "s": "1850",
+   "e": "1905",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -166,6 +172,12 @@
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
   },
   {
+   "f": 2598,
+   "s": "1837",
+   "e": "1903",
+   "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
+  },
+  {
    "f": 2600,
    "s": "0000",
    "e": "2400",
@@ -176,12 +188,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2628,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 2628,
@@ -242,12 +248,6 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | PFC Navy Den Helder | E | Eu"
-  },
-  {
-   "f": 2761,
-   "s": "1833",
-   "e": "1848",
-   "n": "BEL | OSU Oostende Radio | E | WEu"
   },
   {
    "f": 2789,
@@ -988,22 +988,10 @@
    "n": "USA | NMG Fax New Orleans | Car"
   },
   {
-   "f": 4357,
-   "s": "1833",
-   "e": "1848",
-   "n": "NOR | Telenor Kystradio North | NO | NEu"
-  },
-  {
    "f": 4363,
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 4375,
-   "s": "1815",
-   "e": "1845",
-   "n": "AFS | ZSC Cape Town Radio | E | SAf"
   },
   {
    "f": 4384,
@@ -1022,12 +1010,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 4405,
-   "s": "1820",
-   "e": "1840",
-   "n": "TUR | TAH Turk Radio Istanbul | E | ME"
   },
   {
    "f": 4414,
@@ -1268,12 +1250,6 @@
    "s": "0400",
    "e": "2400",
    "n": "AUS | Bay Islands Radio | E | AUS"
-  },
-  {
-   "f": 5100,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 5153,
@@ -1672,12 +1648,6 @@
    "n": "ISL | Reykjavik HFDL (ID3) | -HF | NAO"
   },
   {
-   "f": 5755,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
    "f": 5803,
    "s": "0000",
    "e": "2400",
@@ -1802,6 +1772,12 @@
    "s": "1800",
    "e": "0001",
    "n": "MLI | Radio Mali | BM | WAf"
+  },
+  {
+   "f": 5995,
+   "s": "1850",
+   "e": "1905",
+   "n": "MLI | Radio Mali | E | WAf"
   },
   {
    "f": 6005,
@@ -2716,6 +2692,12 @@
    "n": "HOL | Radio Piepzender | NL | Eu"
   },
   {
+   "f": 7410,
+   "s": "1850",
+   "e": "1905",
+   "n": "SWZ | Trans World Radio | UM | AGL"
+  },
+  {
    "f": 7415,
    "s": "1830",
    "e": "1900",
@@ -2800,12 +2782,6 @@
    "n": "RUS | Channel Marker A | -CW | RUS"
   },
   {
-   "f": 7535,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
    "f": 7565,
    "s": "1530",
    "e": "0300",
@@ -2888,6 +2864,12 @@
    "s": "1800",
    "e": "1947",
    "n": "D | DWD Pinneberg Met Fax | Eu"
+  },
+  {
+   "f": 7906,
+   "s": "1850",
+   "e": "1900",
+   "n": "VTN | Hue Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3113,8 +3095,8 @@
   },
   {
    "f": 8682,
-   "s": "1820",
-   "e": "1840",
+   "s": "1840",
+   "e": "2220",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
@@ -3122,12 +3104,6 @@
    "s": "0000",
    "e": "2400",
    "n": "USA | KLB Seattle, WA x15,x45 | E | WNA"
-  },
-  {
-   "f": 8740,
-   "s": "1815",
-   "e": "1845",
-   "n": "AFS | ZSC Cape Town Radio | E | SAf"
   },
   {
    "f": 8743,
@@ -3158,12 +3134,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 8764,
-   "s": "1800",
-   "e": "1835",
-   "n": "HWA | NMO USCG Honolulu | E | Oc"
   },
   {
    "f": 8779,
@@ -3205,12 +3175,6 @@
    "f": 8809,
    "s": "0000",
    "e": "2400",
-   "n": "TUR | TAH Turk Radio Istanbul | E | ME"
-  },
-  {
-   "f": 8812,
-   "s": "1820",
-   "e": "1840",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
   },
   {
@@ -4048,16 +4012,16 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 10213,
+   "s": "1850",
+   "e": "1900",
+   "n": "POL | S11a Polish Spy Numbers | R"
+  },
+  {
    "f": 10536,
    "s": "1000",
    "e": "2200",
    "n": "CAN | CFH Halifax Radio | -TY | NAm"
-  },
-  {
-   "f": 10555,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
    "f": 10871,
@@ -4106,12 +4070,6 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | Channel Marker M | -CW | FE"
-  },
-  {
-   "f": 11030,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 11039,
@@ -4354,6 +4312,12 @@
    "n": "USA | New York Radio | E | NAO"
   },
   {
+   "f": 11486,
+   "s": "1850",
+   "e": "1900",
+   "n": "POL | S11a Polish Spy Numbers | R"
+  },
+  {
    "f": 11575,
    "s": "1400",
    "e": "2000",
@@ -4388,12 +4352,6 @@
    "s": "1700",
    "e": "1900",
    "n": "HOL | Radio Dabanga | TIG | SDN"
-  },
-  {
-   "f": 11725,
-   "s": "1759",
-   "e": "1858",
-   "n": "NZL | RNZ Pacific | E | Oc"
   },
   {
    "f": 11730,
@@ -4564,12 +4522,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 12359,
-   "s": "1833",
-   "e": "1843",
-   "n": "VTN | Ho Chi Minh City R.XVS | E | SEA"
-  },
-  {
    "f": 12362,
    "s": "1000",
    "e": "2300",
@@ -4580,6 +4532,12 @@
    "s": "0800",
    "e": "2100",
    "n": "AUS | VMC Charleville QL | E | AUS"
+  },
+  {
+   "f": 12457,
+   "s": "1850",
+   "e": "1900",
+   "n": "POL | S11a Polish Spy Numbers | R"
   },
   {
    "f": 12520,
@@ -4667,8 +4625,8 @@
   },
   {
    "f": 12786,
-   "s": "1820",
-   "e": "1840",
+   "s": "1840",
+   "e": "2215",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
@@ -4720,12 +4678,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 13089,
-   "s": "1800",
-   "e": "1835",
-   "n": "HWA | NMO USCG Honolulu | E | Oc"
-  },
-  {
    "f": 13092,
    "s": "0000",
    "e": "2400",
@@ -4744,12 +4696,6 @@
    "n": "CHN | XSV Tianjin Radio | M | FE"
   },
   {
-   "f": 13128,
-   "s": "1820",
-   "e": "1840",
-   "n": "TUR | TAH Turk Radio Istanbul | E | ME"
-  },
-  {
    "f": 13137,
    "s": "0000",
    "e": "2400",
@@ -4760,12 +4706,6 @@
    "s": "0000",
    "e": "2400",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
-  },
-  {
-   "f": 13146,
-   "s": "1815",
-   "e": "1845",
-   "n": "AFS | ZSC Cape Town Radio | E | SAf"
   },
   {
    "f": 13149,
@@ -5224,12 +5164,6 @@
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
-   "f": 13920,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
-  },
-  {
    "f": 13988,
    "s": "0000",
    "e": "2400",
@@ -5428,12 +5362,6 @@
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
   },
   {
-   "f": 15615,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
    "f": 15730,
    "s": "0400",
    "e": "1900",
@@ -5621,8 +5549,8 @@
   },
   {
    "f": 17151,
-   "s": "1820",
-   "e": "1840",
+   "s": "1840",
+   "e": "2215",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
@@ -6146,6 +6074,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | -TY | FE"
+  },
+  {
+   "f": 22527,
+   "s": "1840",
+   "e": "2215",
+   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 22688,
