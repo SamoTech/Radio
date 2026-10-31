@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T15:51:27+00:00",
+ "updated": "2026-10-31T16:04:53+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1551,6 +1551,12 @@
    "https": false
   },
   {
+   "name": "IT9EWL - SICILIA - ITALIA",
+   "url": "http://it9ewl.ddns.net/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "LU5DA",
    "url": "http://186.13.27.90:8073/",
    "loc": "",
@@ -1811,6 +1817,12 @@
   {
    "name": "IU2PLZ, Masate, Milan ITA",
    "url": "http://openwebrx-iu2plz.ddns.net:8073/",
+   "loc": "",
+   "https": false
+  },
+  {
+   "name": "Loka Monitor SFR Ambon",
+   "url": "http://118.97.29.213:8073/",
    "loc": "",
    "https": false
   },
@@ -2799,6 +2811,12 @@
    "https": false
   },
   {
+   "name": "Magnitogorsk SDR",
+   "url": "https://sdr.ssergeym.ru/",
+   "loc": "",
+   "https": true
+  },
+  {
    "name": "CE4NBE SDR Curico Antena dipolo 7Mhz",
    "url": "http://sdrcurico.ddns.net:8073/",
    "loc": "",
@@ -2961,6 +2979,12 @@
    "https": false
   },
   {
+   "name": "Henrys SDR",
+   "url": "https://sdr.henry.lan64.de/",
+   "loc": "",
+   "https": true
+  },
+  {
    "name": "HF/VHF/UHF SDR de PIRAQUARA / PR",
    "url": "https://sdr.pu5mfh.com/",
    "loc": "",
@@ -3001,30 +3025,6 @@
    "url": "https://pulsardx.nl/",
    "loc": "",
    "https": true
-  },
-  {
-   "name": "SwR - Global Radio",
-   "url": "https://sdr.kruen.app/",
-   "loc": "",
-   "https": true
-  },
-  {
-   "name": "YO2CPS",
-   "url": "http://yo2cps.go.ro:8073/",
-   "loc": "",
-   "https": false
-  },
-  {
-   "name": "IA5ITY",
-   "url": "http://ia5itywebsdr.duckdns.org:8073/",
-   "loc": "",
-   "https": false
-  },
-  {
-   "name": "OK1ODC",
-   "url": "http://77.95.41.82:8073/",
-   "loc": "",
-   "https": false
   }
  ]
 }
