@@ -41,6 +41,9 @@ class CountryPagesTests(unittest.TestCase):
             sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
             self.assertIn("countries/eg.html", sitemap)
             robots = (root / "robots.txt").read_text(encoding="utf-8")
+            index_page = (root / "countries" / "index.html").read_text(encoding="utf-8")
+            self.assertIn("(120 محطة)", index_page)
+            self.assertLess(len(index_page), 50000)
             self.assertIn("Sitemap: https://samotech.github.io/Radio/sitemap.xml", robots)
 
     def test_skips_snapshots_that_are_too_small(self):
