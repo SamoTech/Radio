@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T13:13:11+00:00",
+ "updated": "2026-10-31T13:40:28+00:00",
  "checked": 102,
- "alive": 61,
+ "alive": 62,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -44,8 +44,8 @@
    "code": 206
   },
   "https://radiomars.ice.infomaniak.ch/radiomars-128.mp3": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://az-maroc.ice.infomaniak.ch/az-maroc-128.mp3": {
    "alive": true,
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 206
+   "code": 200
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -209,35 +209,35 @@
   },
   "https://laghouat.ice.infomaniak.ch/03.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://bejaia.ice.infomaniak.ch/06.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://biskra.ice.infomaniak.ch/07.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://adrar.ice.infomaniak.ch/01.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://ch3.ice.infomaniak.ch/ch3-32.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://ch.ice.infomaniak.ch/ch1-32.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://ch2.ice.infomaniak.ch/ch2-32.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://jil-fm.ice.infomaniak.ch/jilfm.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://str0.creacast.com/jowradio": {
    "alive": false,
@@ -245,19 +245,19 @@
   },
   "https://rai.ice.infomaniak.ch/rai-32.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://coran.ice.infomaniak.ch/coran.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://culture.ice.infomaniak.ch/culture.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://elbahdja.ice.infomaniak.ch/elbahdja-32.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://radio.elibana.org/radio/8000/tasfia1": {
    "alive": true,
