@@ -26,6 +26,7 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
@@ -62,6 +63,8 @@ ARAB_IPRD = {
     "MR": ["mr.m3u"], "SO": ["so.m3u"],
 }
 IPRD_MAX = 1500
+CHECK_THREADS = 16
+CHECK_TIMEOUT = 8
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
@@ -674,6 +677,51 @@ def fetch_iprd_arab():
     return out[:IPRD_MAX]
 
 
+def check_stream(url):
+    """Lightweight liveness probe for a stream URL (auth-gated servers count as alive)."""
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": UA, "Range": "bytes=0-511", "Icy-MetaData": "1"},
+        )
+        with urllib.request.urlopen(req, timeout=CHECK_TIMEOUT) as resp:
+            code = resp.getcode()
+            resp.read(64)
+            return {"alive": code < 400, "code": code}
+    except urllib.error.HTTPError as e:
+        # 401/403/405 usually mean the server exists but gates requests;
+        # the stream may still play fine in the browser.
+        return {"alive": e.code in (401, 403, 405), "code": e.code}
+    except Exception:  # noqa: BLE001
+        return {"alive": False, "code": 0}
+
+
+def run_stream_checks(stations):
+    """Probe curated stations concurrently; token-gated streams are skipped."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    urls, seen = [], set()
+    for s in stations:
+        if not isinstance(s, dict):
+            continue
+        url = str(s.get("url") or "")
+        if not url.lower().startswith("https://"):
+            continue
+        if "easybroadcast.io" in url or s.get("tokenType") == "easy_b":
+            continue
+        if url in seen:
+            continue
+        seen.add(url)
+        urls.append(url)
+    results = {}
+    if not urls:
+        return results
+    with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
+        for url, res in zip(urls, pool.map(check_stream, urls)):
+            results[url] = res
+    return results
+
+
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -778,6 +826,22 @@ def main():
                 },
             )
             ok = True
+            try:
+                checks = run_stream_checks(officials + arabic + arab_extra)
+                if checks:
+                    alive = sum(1 for v in checks.values() if v.get("alive"))
+                    write_json(
+                        DATA_DIR / "stream_checks.json",
+                        {
+                            "updated": now_iso,
+                            "checked": len(checks),
+                            "alive": alive,
+                            "results": checks,
+                        },
+                    )
+                    print(f"stream checks: {alive}/{len(checks)} streams alive")
+            except Exception as e:  # noqa: BLE001
+                print(f"stream checks FAILED: {e} — keeping last good snapshot", file=sys.stderr)
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
             try:

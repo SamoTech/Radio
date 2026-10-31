@@ -124,6 +124,8 @@ var STR = {
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
     visitors: 'إجمالي الزيارات', online_visitors: 'المتواجدون الآن', counter_unavailable: 'غير متاح', you_from: 'أنت تزور من',
+    stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
+    kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     sources: 'المصادر:', offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
@@ -160,6 +162,8 @@ var STR = {
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     visitors: 'Total page views', online_visitors: 'Online now', counter_unavailable: 'Unavailable', you_from: 'You are visiting from',
+    stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
+    kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     sources: 'Sources:', offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
   }
@@ -179,6 +183,7 @@ var state = {
   fmLiveRows: [],
   eibi: [],
   eibiQ: '',
+  streamChecks: {},
   space: null,
   currentName: '',
   playbackStation: null,
@@ -335,7 +340,8 @@ function normalizeRx(r) {
     gps: !!r.gps,
     band: r.band || '',
     loc: r.loc || '',
-    antenna: r.antenna || ''
+    antenna: r.antenna || '',
+    extApi: r.ext_api == null ? 0 : (Number(r.ext_api) || 0)
   };
 }
 
@@ -419,6 +425,9 @@ function cardRx(r) {
     action = r.https
       ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
       : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
+  }
+  if (r.url && r.https && r.extApi > 0) {
+    action += '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" title="' + esc(t('kiwi_audio')) + '">' + esc(t('kiwi_audio')) + '</button>';
   }
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
@@ -524,6 +533,9 @@ function cardFm(s) {
   var allTags=String(s.tags||'').split(',').map(function(x){return x.trim();}).filter(Boolean);
   var isOfficial=isOfficialStation(s);
   if(isOfficial)chips+='<span class="chip official">🏛 '+esc(state.lang==='ar'?'رسمي':'Official')+'</span>';
+  var check=state.streamChecks?state.streamChecks[s.url]:null;
+  if(check&&check.alive)chips+='<span class="chip ok" title="'+esc(t('stream_ok'))+'">'+esc(t('chip_alive'))+'</span>';
+  else if(check&&!check.alive)chips+='<span class="chip dead" title="'+esc(t('stream_dead'))+'">'+esc(t('chip_dead'))+'</span>';
   var shownTags=allTags.slice(0,3);
   shownTags.forEach(function (x) { chips += '<span class="chip tag">🏷 ' + esc(x) + '</span>'; });
   var meta = [s.codec, s.bitrate ? s.bitrate + 'kbps' : ''].filter(Boolean).join(' · ');
@@ -613,7 +625,14 @@ function loadStations() {
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
     renderFM();
     initResume();
+    loadStreamChecks();
   });
+}
+
+function loadStreamChecks() {
+  fetchJSON('data/stream_checks.json').then(function (d) {
+    if (d && d.results) { state.streamChecks = d.results; renderFM(); }
+  }).catch(function () {});
 }
 
 function fmClientRender() {
@@ -1060,6 +1079,11 @@ function initPlayers() {
     var sdr = el.closest('button.play-sdr');
     if (sdr) {
       openSDR(sdr.getAttribute('data-url'), sdr.getAttribute('data-name'));
+      return;
+    }
+    var kw = el.closest('button.kiwi-ws');
+    if (kw) {
+      openKiwiAudio(kw.getAttribute('data-url'), kw.getAttribute('data-name'));
     }
   });
   $('player-close').addEventListener('click', function () {
@@ -1077,6 +1101,13 @@ function initPlayers() {
     $('player').hidden = true;
   });
   $('sdr-modal-close').addEventListener('click', closeSDR);
+  $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
+  $('kiwi-freq').addEventListener('change', function () {
+    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET freq ' + (Number(this.value) || 7100));
+  });
+  $('kiwi-mode').addEventListener('change', function () {
+    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET mod ' + this.value);
+  });
   $('audio').addEventListener('error', function () {
     if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
   });
@@ -1089,6 +1120,7 @@ function initPlayers() {
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       if (!$('sdr-modal').hidden) closeSDR();
+      if (!$('kiwi-modal').hidden) closeKiwiAudio();
     }
   });
 }
@@ -1162,14 +1194,49 @@ function sendVisitorHeartbeat() {
     });
 }
 
+var VISITOR_CACHE_KEY = 'ra-views';
+var VISITOR_CACHE_TTL = 14 * 24 * 3600 * 1000;
+
+function visitorCachedTotal() {
+  try {
+    var cached = JSON.parse(localStorage.getItem(VISITOR_CACHE_KEY) || 'null');
+    if (cached && Number(cached.v) >= 0 && Date.now() - Number(cached.ts || 0) < VISITOR_CACHE_TTL) {
+      return Number(cached.v);
+    }
+  } catch (e) {}
+  return null;
+}
+
+function renderVisitorFallbackBadge() {
+  // CounterAPI down and nothing cached: show a live Moe-Counter badge
+  // instead of an unavailable label.
+  var el = $('visitor-counter');
+  if (!el || el.getAttribute('data-fallback-badge')) return;
+  el.setAttribute('data-fallback-badge', '1');
+  var img = document.createElement('img');
+  img.src = 'https://count.getloli.com/get/@samotech-radio-atlas';
+  img.alt = 'visitors';
+  img.height = 28;
+  img.style.verticalAlign = 'middle';
+  el.textContent = '';
+  el.appendChild(img);
+}
+
 function initVisitorBox() {
-  // Count page loads independently from active sessions.
+  // Show the last known total instantly, then refresh via JSONP.
+  var cachedTotal = visitorCachedTotal();
+  if (cachedTotal != null) renderVisitorValue('visitor-counter', cachedTotal);
   visitorCounterRequest('view', 'site-total', {})
-    .then(function (data) { renderVisitorValue('visitor-counter', data && data.value); })
+    .then(function (data) {
+      var value = Number(data && data.value);
+      renderVisitorValue('visitor-counter', value);
+      if (value >= 0) {
+        try { localStorage.setItem(VISITOR_CACHE_KEY, JSON.stringify({ v: value, ts: Date.now() })); } catch (e) {}
+      }
+    })
     .catch(function (error) {
       console.warn('Radio Atlas total visitor counter:', error);
-      var el = $('visitor-counter');
-      if (el) el.textContent = t('counter_unavailable');
+      if (visitorCachedTotal() == null) renderVisitorFallbackBadge();
     });
 
   // A visible tab sends a heartbeat every minute. The 3-minute unique-event
@@ -1180,6 +1247,121 @@ function initVisitorBox() {
   document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'visible') sendVisitorHeartbeat();
   });
+}
+
+/* ================= KiwiSDR WebSocket audio (experimental) ================= */
+
+var kiwiWs = null;
+var kiwiAudioCtx = null;
+var kiwiGain = null;
+var kiwiNextTime = 0;
+var kiwiKeepAlive = null;
+
+function kiwiSetStatus(text) {
+  var el = $('kiwi-status');
+  if (el) el.textContent = text;
+}
+
+function closeKiwiAudio() {
+  if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
+  if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
+  var audio = $('kiwi-audio');
+  if (audio) { try { audio.pause(); audio.srcObject = null; } catch (e) {} }
+  kiwiGain = null;
+  var modal = $('kiwi-modal');
+  if (modal) modal.hidden = true;
+}
+
+function kiwiFeedAudio(samples) {
+  // samples: Int16Array PCM at 11.025 kHz mono (KiwiSDR 'SET ar o-f s11').
+  if (!kiwiAudioCtx || !kiwiGain || !samples.length) return;
+  try {
+    var buffer = kiwiAudioCtx.createBuffer(1, samples.length, 11025);
+    var channel = buffer.getChannelData(0);
+    for (var i = 0; i < samples.length; i++) channel[i] = samples[i] / 32768;
+    var source = kiwiAudioCtx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(kiwiGain);
+    var now = kiwiAudioCtx.currentTime;
+    if (kiwiNextTime < now + 0.05) kiwiNextTime = now + 0.05;
+    source.start(kiwiNextTime);
+    kiwiNextTime += buffer.duration;
+  } catch (e) {}
+}
+
+function openKiwiAudio(url, name) {
+  // Experimental direct audio over the KiwiSDR WebSocket protocol for
+  // HTTPS receivers whose operator allows API connections (ext_api > 0).
+  // Any failure falls back to the embedded receiver web UI (openSDR).
+  var parsed = null;
+  try { parsed = new URL(url); } catch (e) {}
+  if (!parsed || parsed.protocol !== 'https:') { openSDR(url, name); return; }
+  closeKiwiAudio();
+  kiwiNextTime = 0;
+  $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
+  $('kiwi-open-ext').href = url;
+  $('kiwi-modal').hidden = false;
+  kiwiSetStatus(t('kiwi_connecting'));
+  var audio = $('kiwi-audio');
+  var failed = false;
+  var failTimer = null;
+  function fail() {
+    if (failed) return;
+    failed = true;
+    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
+    closeKiwiAudio();
+    toast(t('kiwi_failed'));
+    openSDR(url, name);
+  }
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) { fail(); return; }
+  try {
+    kiwiAudioCtx = new Ctx();
+    kiwiGain = kiwiAudioCtx.createGain();
+    var dest = kiwiAudioCtx.createMediaStreamDestination();
+    kiwiGain.connect(dest);
+    audio.srcObject = dest.stream;
+    audio.play().catch(function () {});
+  } catch (e) { fail(); return; }
+  failTimer = setTimeout(fail, 8000);
+  var ws = new WebSocket('wss://' + parsed.host + '/0');
+  ws.binaryType = 'arraybuffer';
+  kiwiWs = ws;
+  ws.onopen = function () { ws.send('SET auth t=1'); };
+  ws.onmessage = function (ev) {
+    if (typeof ev.data === 'string') {
+      var msg = ev.data;
+      if (msg.indexOf('BAD_AUTH') !== -1 || msg.indexOf('MSG fault') !== -1) { fail(); return; }
+      if (msg.indexOf('MSG auth') !== -1) {
+        var freqEl = $('kiwi-freq');
+        var modeEl = $('kiwi-mode');
+        ws.send('SET freq ' + (Number(freqEl && freqEl.value) || 7100));
+        ws.send('SET mod ' + ((modeEl && modeEl.value) || 'am'));
+        ws.send('SET ar o-f s11');
+        ws.send('SET sound out buf_size=512');
+      }
+      return;
+    }
+    if (!(ev.data instanceof ArrayBuffer)) return;
+    var bytes = new Uint8Array(ev.data);
+    if (bytes.length < 10) return;
+    var type = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
+    if (type !== 3) return;
+    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
+    kiwiSetStatus(t('kiwi_live'));
+    var sampleLen = (bytes.length - 9) >> 1;
+    if (sampleLen <= 0) return;
+    var samples = new Int16Array(sampleLen);
+    for (var i = 0; i < sampleLen; i++) {
+      samples[i] = bytes[9 + i * 2] | (bytes[10 + i * 2] << 8);
+    }
+    kiwiFeedAudio(samples);
+  };
+  ws.onerror = function () { fail(); };
+  ws.onclose = function () { if (!failed) fail(); };
+  kiwiKeepAlive = setInterval(function () {
+    if (ws && ws.readyState === 1) ws.send('SET keepalive');
+  }, 30000);
 }
 
 /* ================= UI ================= */

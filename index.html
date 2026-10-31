@@ -115,6 +115,29 @@
   <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
 </div>
 
+<div id="kiwi-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kiwi-modal-name" hidden>
+  <div class="modal-head">
+    <strong id="kiwi-modal-name"></strong>
+    <div class="modal-actions">
+      <a id="kiwi-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
+      <button id="kiwi-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+    </div>
+  </div>
+  <div class="kiwi-controls">
+    <label class="check"><span data-i18n="kiwi_freq">التردد (kHz)</span> <input type="number" id="kiwi-freq" value="7100" min="10" max="30000" step="1" style="width:96px"></label>
+    <label class="check"><span data-i18n="kiwi_mode">الوضع</span>
+      <select id="kiwi-mode">
+        <option value="am">AM</option>
+        <option value="usb">USB</option>
+        <option value="lsb">LSB</option>
+        <option value="cw">CW</option>
+      </select>
+    </label>
+    <span id="kiwi-status" class="kiwi-status"></span>
+  </div>
+  <audio id="kiwi-audio" controls></audio>
+</div>
+
 <footer>
   <div class="visitor-box">
     <div class="visitor-metric">
@@ -125,7 +148,7 @@
       <span class="visitor-title" data-i18n="online_visitors">المتواجدون الآن</span>
       <div id="visitor-online" aria-live="polite" aria-label="الزوار النشطون حاليًا">—</div>
     </div>
-    <span class="visitor-note">إحصاءات الزيارات والتواجد مقدمة من <a href="https://counterapi.com/" target="_blank" rel="noopener">CounterAPI</a>.</span>
+    <span class="visitor-note">إحصاءات الزيارات مقدمة من <a href="https://counterapi.com/" target="_blank" rel="noopener">CounterAPI</a> مع بديل تلقائي عند تعطل الخدمة.</span>
   </div>
   <p class="src-line"><span data-i18n="sources">المصادر:</span>
     <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
