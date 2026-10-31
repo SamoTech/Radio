@@ -46,8 +46,8 @@ class WebSdrCoordinateTests(unittest.TestCase):
             return (
                 [
                     {
-                        "name": "Map RX One",
-                        "url": "https://rx1.example/",
+                        "name": "Map RX " + kind,
+                        "url": "https://rx1." + kind + ".example/",
                         "loc": "Test City",
                         "lat": 52.5,
                         "lon": 13.4,
