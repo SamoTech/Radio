@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T17:14:36+00:00",
+ "updated": "2026-10-31T18:07:29+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -189,14 +189,6 @@
    "https": false,
    "lat": 42.5644,
    "lon": 1.54549
-  },
-  {
-   "name": "Websdr receiver by SV3YY in Rion GREECE",
-   "url": "http://sv3yy1.no-ip.org:8901/",
-   "loc": "",
-   "https": false,
-   "lat": 38.3014,
-   "lon": 21.7889
   },
   {
    "name": "0-30 MHz SDR KB5AVY WebSDR -NEW ORLEANS LOUISIANA- Rpi  FUNcube Pro+ 5 HF BANDS pls NOVA  0.000 - 30.000 MGz",
@@ -615,14 +607,6 @@
    "lon": 10.4622
   },
   {
-   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
-   "url": "http://el22.dyndns-blog.com:8081/",
-   "loc": "",
-   "https": false,
-   "lat": -34.1023,
-   "lon": -61.3712
-  },
-  {
    "name": "Red Pitaya SDR",
    "url": "http://es4o.ee:8901/",
    "loc": "",
@@ -1039,6 +1023,14 @@
    "https": false,
    "lat": 40.6131984296148,
    "lon": -3.71103033159163
+  },
+  {
+   "name": "OH6KK",
+   "url": "http://oh6kk.dy.fi:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 63.864949,
+   "lon": 23.158584
   },
   {
    "name": "PI4UTR WebSDR",
@@ -1577,14 +1569,6 @@
    "lon": 10.748903
   },
   {
-   "name": "LW6DSM",
-   "url": "http://lw6dsm.sytes.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -34.5903385739189,
-   "lon": -58.393383528043934
-  },
-  {
    "name": "M8YRT OWRX No.1",
    "url": "http://wr15.duckdns.org:8072/",
    "loc": "",
@@ -1615,6 +1599,14 @@
    "https": true,
    "lat": 53.1266645251309,
    "lon": 23.2208840678208
+  },
+  {
+   "name": "5B4CY",
+   "url": "https://sdrvu.remotemsi.com/",
+   "loc": "",
+   "https": true,
+   "lat": 35.09,
+   "lon": 32.88
   },
   {
    "name": "IU2 QDA",
@@ -2369,14 +2361,6 @@
    "lon": 12.533969088217125
   },
   {
-   "name": "F1SYH",
-   "url": "https://sdr.pulsraider.com/",
-   "loc": "",
-   "https": true,
-   "lat": 45.82840086060491,
-   "lon": 4.946219693369285
-  },
-  {
    "name": "S55UU",
    "url": "https://sdr.s55uu.si/",
    "loc": "",
@@ -2633,14 +2617,6 @@
    "lon": 0.8307115249043973
   },
   {
-   "name": "Maritime Radio",
-   "url": "http://maritime.nkpa.co.uk:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 51.473694431844116,
-   "lon": 0.07288181746124334
-  },
-  {
    "name": "PI6EHV 2320 - 2321 MHz",
    "url": "http://websdr.pi6ehv.ampr.org:8073/",
    "loc": "",
@@ -2871,6 +2847,22 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
+  },
+  {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
+  },
+  {
+   "name": "EastMO R3DKT Receiver",
+   "url": "https://sdr.vanish125.netcraze.pro/",
+   "loc": "",
+   "https": true,
+   "lat": 55.70267067829901,
+   "lon": 38.9587778063207
   },
   {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
@@ -4039,14 +4031,6 @@
    "https": true,
    "lat": 50.49,
    "lon": 15.52
-  },
-  {
-   "name": "YO2CPS",
-   "url": "http://yo2cps.go.ro:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.863523648352725,
-   "lon": 22.89565117516746
   }
  ]
 }
