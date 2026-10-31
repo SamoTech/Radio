@@ -119,6 +119,11 @@ var STR = {
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
     cond_unstable: 'اضطراب متوسط — استقبل النطاقات المنخفضة (3–10 MHz).',
     cond_storm: 'عاصفة مغناطيسية — النطاقات العليا مغلقة والمسارات القطبية مشوشة.',
+    alert_aria: 'تنبيهات حالة النطاقات', alert_unsupported: 'المتصفح ده مش بيدعم الإشعارات',
+    alert_on: '🔔 التنبيهات شغالة — هنبلغك لما ظروف الاستقبال تتغير', alert_off: '🔕 التنبيهات مقفولة',
+    alert_open_title: 'النطاقات العالية اتفتحت 🔥', alert_open_body: 'Kp {kp} — ظروف ممتازة للنطاقات العالية (14–28 MHz). فرصتك تسدّق دلوقتي!',
+    alert_storm_title: 'عاصفة مغناطيسية ⛈', alert_storm_body: 'Kp {kp} — النطاقات العليا اتقفلت؛ استقبل النطاقات المنخفضة (3–10 MHz).',
+    alert_toast_open: 'النطاقات اتفتحت (Kp {kp}) — ظروف ممتازة للنطاقات العالية 🔥', alert_toast_storm: 'عاصفة مغناطيسية (Kp {kp}) — النطاقات العليا مقفولة ⛈',
     eibi_title: 'بث موجات قصيرة على الهواء الآن',
     eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
@@ -157,6 +162,11 @@ var STR = {
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
     cond_unstable: 'Moderate disturbance — favor lower bands (3–10 MHz).',
     cond_storm: 'Geomagnetic storm — high bands closed, polar paths disturbed.',
+    alert_aria: 'Band condition alerts', alert_unsupported: 'This browser does not support notifications',
+    alert_on: '🔔 Alerts on — you will be notified when conditions change', alert_off: '🔕 Alerts off',
+    alert_open_title: 'High bands are open 🔥', alert_open_body: 'Kp {kp} — great conditions for high bands (14–28 MHz). Tune in now!',
+    alert_storm_title: 'Geomagnetic storm ⛈', alert_storm_body: 'Kp {kp} — high bands are closed; favor lower bands (3–10 MHz).',
+    alert_toast_open: 'Bands opened (Kp {kp}) — great high-band conditions 🔥', alert_toast_storm: 'Geomagnetic storm (Kp {kp}) — high bands closed ⛈',
     eibi_title: 'Shortwave broadcasts on air now',
     eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
@@ -789,6 +799,79 @@ function renderSpace() {
   var kp = state.space.kp;
   var cond = kp == null ? '' : (kp < 4 ? t('cond_good') : (kp < 6 ? t('cond_unstable') : t('cond_storm')));
   $('space-cond').textContent = cond;
+  maybeSpaceAlert();
+  renderSpaceAlertBtn();
+}
+
+/* ================= band-condition alerts ================= */
+
+var SPACE_ALERT_KEY = 'ra-space-alerts';
+var SPACE_LAST_KP = 'ra-space-last-kp';
+
+function spaceAlertsEnabled() {
+  try { return localStorage.getItem(SPACE_ALERT_KEY) === '1'; } catch (e) { return false; }
+}
+
+function renderSpaceAlertBtn() {
+  var btn = $('space-alert-btn');
+  if (!btn) return;
+  var supported = 'Notification' in window;
+  btn.hidden = !supported;
+  if (!supported) return;
+  var enabled = spaceAlertsEnabled();
+  btn.textContent = enabled ? '🔔' : '🔕';
+  btn.classList.toggle('active', enabled);
+}
+
+function notifySpace(title, body, fallbackToast) {
+  var ok = false;
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      var n = new Notification(title, { body: body, icon: 'icons/icon-192.png', tag: 'ra-space', lang: state.lang });
+      n.onclick = function () { try { window.focus(); n.close(); } catch (e) {} };
+      ok = true;
+    } catch (e) {}
+  }
+  if (!ok) toast(fallbackToast);
+}
+
+function maybeSpaceAlert() {
+  var kp = state.space && state.space.kp;
+  if (kp == null) return;
+  var last = null;
+  try { last = Number(localStorage.getItem(SPACE_LAST_KP)); } catch (e) {}
+  try { localStorage.setItem(SPACE_LAST_KP, String(kp)); } catch (e) {}
+  if (!spaceAlertsEnabled() || last == null || !isFinite(last) || last === kp) return;
+  var opened = last >= 4 && kp < 4;
+  var storm = last < 5 && kp >= 5;
+  if (!opened && !storm) return;
+  if (opened) {
+    notifySpace(t('alert_open_title'), t('alert_open_body').replace('{kp}', kp), t('alert_toast_open').replace('{kp}', kp));
+  } else {
+    notifySpace(t('alert_storm_title'), t('alert_storm_body').replace('{kp}', kp), t('alert_toast_storm').replace('{kp}', kp));
+  }
+}
+
+function toggleSpaceAlerts() {
+  if (!('Notification' in window)) { toast(t('alert_unsupported')); return; }
+  var enabling = !spaceAlertsEnabled();
+  if (!enabling) {
+    try { localStorage.setItem(SPACE_ALERT_KEY, '0'); } catch (e) {}
+    renderSpaceAlertBtn();
+    toast(t('alert_off'));
+    return;
+  }
+  if (Notification.permission === 'default') {
+    Notification.requestPermission().then(function () {
+      try { localStorage.setItem(SPACE_ALERT_KEY, '1'); } catch (e) {}
+      renderSpaceAlertBtn();
+      toast(t('alert_on'));
+    }).catch(function () {});
+    return;
+  }
+  try { localStorage.setItem(SPACE_ALERT_KEY, '1'); } catch (e) {}
+  renderSpaceAlertBtn();
+  toast(t('alert_on'));
 }
 
 /* ================= EIBI on-air ================= */
@@ -1449,6 +1532,8 @@ function initUI() {
   $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
   $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
   $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
+  var alertBtn = $('space-alert-btn');
+  if (alertBtn) alertBtn.addEventListener('click', toggleSpaceAlerts);
   var eibiSearch = $('eibi-q');
   if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
 }
