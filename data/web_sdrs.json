@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T18:58:20+00:00",
+ "updated": "2026-10-31T19:10:56+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1321,6 +1321,14 @@
    "lon": 10.8951926756091
   },
   {
+   "name": "SDR.Gudynas.lt",
+   "url": "https://sdr.gudynas.lt/",
+   "loc": "",
+   "https": true,
+   "lat": 55.370461,
+   "lon": 26.288438
+  },
+  {
    "name": "EA7CL - MÁLAGA  🚩SDR EXPERIMENTAL🚩 (2023-24/7) -  🟣🟢🎯🟡🔴⚪🔵 MULTIUSUARIO  SIMULTÁNEO",
    "url": "http://ea7cl.duckdns.org:8073/",
    "loc": "",
@@ -1561,6 +1569,14 @@
    "lon": 10.748903
   },
   {
+   "name": "LW6DSM",
+   "url": "http://lw6dsm.sytes.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -34.5903385739189,
+   "lon": -58.393383528043934
+  },
+  {
    "name": "M8YRT OWRX No.1",
    "url": "http://wr15.duckdns.org:8072/",
    "loc": "",
@@ -1711,14 +1727,6 @@
    "https": false,
    "lat": 50.793594,
    "lon": -2.076698
-  },
-  {
-   "name": "Funknetz.nrw",
-   "url": "http://freedmr.ddnss.de:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 51.58353546172424,
-   "lon": 7.143281367997134
   },
   {
    "name": "SDRPaderborn",
@@ -2081,6 +2089,14 @@
    "lon": -92.21
   },
   {
+   "name": "DM6CM",
+   "url": "http://s4wmv4hovyls5ebz.myfritz.net:8076/",
+   "loc": "",
+   "https": false,
+   "lat": 53.4908648097928,
+   "lon": 10.2537521748898
+  },
+  {
    "name": "ES4N",
    "url": "http://vhf.es4rvn.ee:8073/",
    "loc": "",
@@ -2353,6 +2369,14 @@
    "lon": 12.533969088217125
   },
   {
+   "name": "F1SYH",
+   "url": "https://sdr.pulsraider.com/",
+   "loc": "",
+   "https": true,
+   "lat": 45.82840086060491,
+   "lon": 4.946219693369285
+  },
+  {
    "name": "S55UU",
    "url": "https://sdr.s55uu.si/",
    "loc": "",
@@ -2609,6 +2633,14 @@
    "lon": 0.8307115249043973
   },
   {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
+  },
+  {
    "name": "PI6EHV 2320 - 2321 MHz",
    "url": "http://websdr.pi6ehv.ampr.org:8073/",
    "loc": "",
@@ -2841,14 +2873,6 @@
    "lon": -98.26422124919387
   },
   {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
-  },
-  {
    "name": "EastMO R3DKT Receiver",
    "url": "https://sdr.vanish125.netcraze.pro/",
    "loc": "",
@@ -3031,6 +3055,14 @@
    "https": true,
    "lat": -33.717848,
    "lon": -70.745233
+  },
+  {
+   "name": "SDR.Gudynas.lt",
+   "url": "http://sdr.gudynas.lt:2052/",
+   "loc": "",
+   "https": false,
+   "lat": 55.370461,
+   "lon": 26.288438
   },
   {
    "name": "SDRPT2 - WebSDR VHF/UHF/CB/10m",
@@ -3991,38 +4023,6 @@
    "https": true,
    "lat": 54.00334948205416,
    "lon": -1.3030173782748222
-  },
-  {
-   "name": "https://owrx.uk - HF RECEIVER 03 - SDRplay RSP1B - 41.7m EFLW - M7NXS",
-   "url": "https://hf3.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 53.96235105441253,
-   "lon": -1.0820809709781407
-  },
-  {
-   "name": "https://owrx.uk - AI HOPPER - RTL-SDR Blog V4 - Diamond D3000N Discone - M7NXS",
-   "url": "https://vhf1.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 54.5,
-   "lon": -1
-  },
-  {
-   "name": "Pulsar 3.5MTR (antenne ringdipool horizontaal)",
-   "url": "https://pulsardx.nl/",
-   "loc": "",
-   "https": true,
-   "lat": 51.85320936891584,
-   "lon": 5.764880370406926
-  },
-  {
-   "name": "SwR - Global Radio",
-   "url": "https://sdr.kruen.app/",
-   "loc": "",
-   "https": true,
-   "lat": 50.49,
-   "lon": 15.52
   }
  ]
 }
