@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T14:27:22+00:00",
+ "updated": "2026-10-31T14:34:53+00:00",
  "source": "https://www.radio-browser.info/",
  "count": 51609,
  "stations": [
@@ -620,11 +620,11 @@
    "bitrate": 128
   },
   {
-   "name": "بسان إف إم 99.9 — Bissan FM",
-   "url": "https://eu10.fastcast4u.com/bissanraqqa2021",
+   "name": "شام إف إم — Sham FM",
+   "url": "https://radioshamfm.grtvstream.com:8400/;",
    "cc": "SY",
    "language": "arabic",
-   "tags": "عربي,arabic,syria,news",
+   "tags": "عربي,arabic,syria,music,news",
    "codec": "MP3",
    "bitrate": 128
   },
@@ -1109,6 +1109,15 @@
    "name": "Radio Mugdisho 87.7",
    "url": "https://ap02.iqplay.tv:8082/g1/r14iomog/icecast.audio",
    "cc": "SO",
+   "language": "arabic",
+   "tags": "عربي,arab",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Bissan 99.9",
+   "url": "https://eu10.fastcast4u.com/bissanraqqa2021",
+   "cc": "SY",
    "language": "arabic",
    "tags": "عربي,arab",
    "codec": "",
@@ -10023,15 +10032,6 @@
    "tags": "rock",
    "codec": "MP3",
    "bitrate": 64
-  },
-  {
-   "name": "Sham FM",
-   "url": "https://radioshamfm.grtvstream.com:8400/;",
-   "cc": "SY",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "Gundi FM",

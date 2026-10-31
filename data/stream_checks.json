@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-31T14:27:22+00:00",
- "checked": 102,
+ "updated": "2026-10-31T14:34:53+00:00",
+ "checked": 103,
  "alive": 81,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
@@ -169,7 +169,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
    "alive": true,
@@ -187,9 +187,9 @@
    "alive": true,
    "code": 200
   },
-  "https://eu10.fastcast4u.com/bissanraqqa2021": {
+  "https://radioshamfm.grtvstream.com:8400/;": {
    "alive": false,
-   "code": 404
+   "code": 0
   },
   "https://svs.itworkscdn.net/almasiralive/almasira/playlist.m3u8": {
    "alive": true,
@@ -406,6 +406,10 @@
   "https://ap02.iqplay.tv:8082/g1/r14iomog/icecast.audio": {
    "alive": false,
    "code": 0
+  },
+  "https://eu10.fastcast4u.com/bissanraqqa2021": {
+   "alive": false,
+   "code": 404
   },
   "https://svs.itworkscdn.net/orientradiolive/orlive/playlist.m3u8": {
    "alive": true,
