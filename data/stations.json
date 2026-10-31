@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T14:34:53+00:00",
+ "updated": "2026-10-31T14:40:59+00:00",
  "source": "https://www.radio-browser.info/",
- "count": 51609,
+ "count": 51610,
  "stations": [
   {
    "name": "BBC World Service",
@@ -689,6 +689,33 @@
    "language": "arabic",
    "tags": "عربي,arabic,jordan,music",
    "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "راديو نسائم سوريا — Nasaem Syria Radio",
+   "url": "https://stream.zeno.fm/u1wbm3k7gxquv",
+   "cc": "SY",
+   "language": "arabic",
+   "tags": "عربي,arabic,syria,music",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "راديو طيف — Tayf FM",
+   "url": "https://stream.zeno.fm/xbohf8qf5uauv",
+   "cc": "SY",
+   "language": "arabic",
+   "tags": "عربي,arabic,syria,music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "إذاعة الكرمة — Al Karma FM",
+   "url": "https://broadcast.shoutstream.co.uk/stream/8112",
+   "cc": "SY",
+   "language": "arabic",
+   "tags": "عربي,arabic,syria,music",
+   "codec": "AAC",
    "bitrate": 128
   },
   {
@@ -1945,7 +1972,7 @@
   {
    "name": "Rai Radio 1",
    "url": "http://icestreaming.rai.it/1.mp3",
-   "cc": "IT",
+   "cc": "it",
    "language": "italian",
    "tags": "news,public radio,rai",
    "codec": "MP3",
@@ -5966,15 +5993,6 @@
    "bitrate": 128
   },
   {
-   "name": "Radio Nasaem راديو نسائم",
-   "url": "https://stream.zeno.fm/u1wbm3k7gxquv",
-   "cc": "SY",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 96
-  },
-  {
    "name": "Elshinta FM Jakarta",
    "url": "https://stream-ssl.arenastreaming.com:8000/jakarta",
    "cc": "ID",
@@ -6711,15 +6729,6 @@
    "tags": "independent,milano,news,non-commercial,popolare network",
    "codec": "MP3",
    "bitrate": 64
-  },
-  {
-   "name": "Tayf Fm - راديو طيف - صدى السوريين",
-   "url": "https://stream.zeno.fm/xbohf8qf5uauv",
-   "cc": "SY",
-   "language": "arabic",
-   "tags": "",
-   "codec": "MP3",
-   "bitrate": 128
   },
   {
    "name": "POWER TÜRK DANS TÜRKİYE",
@@ -9167,15 +9176,6 @@
    "language": "english",
    "tags": "acid,acid jazz,ambient,canada,classic jazz,free jazz,hip hop,instrumental music,instrumentales,jazz,jazz fusion,latin jazz,nu-jazz,piano jazz,relax,relaxing,smooth jazz,toronto,trumpeth",
    "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "Al Karma FM",
-   "url": "https://broadcast.shoutstream.co.uk/stream/8112",
-   "cc": "SY",
-   "language": "arabic",
-   "tags": "",
-   "codec": "AAC",
    "bitrate": 128
   },
   {
@@ -203617,7 +203617,7 @@
   {
    "name": "Radio Studio 104",
    "url": "https://onair7.xdevel.com/proxy/xautocloud_v8ss_1328?mp=/;1/",
-   "cc": "IT",
+   "cc": "it",
    "language": "italian",
    "tags": "pop,rock,soul,jazz,funk",
    "codec": "MP3",
@@ -342685,7 +342685,7 @@
   {
    "name": "Rádio Comunitária Aconchego",
    "url": "https://fm.radioaconchego.org",
-   "cc": "BR",
+   "cc": "br",
    "language": "portuguese",
    "tags": "autonomia, tecnologica,comunitaria,engenho do meio,livre,popular,recife,roda de fogo,saúde integral,serviço integrado de saúde,sitio das palmeiras,torrões",
    "codec": "MP3",
@@ -400622,6 +400622,15 @@
    "language": "",
    "tags": "",
    "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Kaleidoscope Online",
+   "url": "https://superagent-269bfe30.base44.app/functions/kaleidoscopeRadio?go=stream",
+   "cc": "ZA",
+   "language": "afrikaans,english",
+   "tags": "afrikaans,country,boeremusiek,dance,gospel,community,blind",
+   "codec": "",
    "bitrate": 0
   },
   {

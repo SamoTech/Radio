@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T14:34:53+00:00",
- "checked": 103,
- "alive": 81,
+ "updated": "2026-10-31T14:40:59+00:00",
+ "checked": 106,
+ "alive": 84,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -169,7 +169,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 206
+   "code": 200
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
    "alive": true,
@@ -216,6 +216,18 @@
    "code": 200
   },
   "https://jufmstreaming.ju.edu.jo/;": {
+   "alive": true,
+   "code": 200
+  },
+  "https://stream.zeno.fm/u1wbm3k7gxquv": {
+   "alive": true,
+   "code": 200
+  },
+  "https://stream.zeno.fm/xbohf8qf5uauv": {
+   "alive": true,
+   "code": 200
+  },
+  "https://broadcast.shoutstream.co.uk/stream/8112": {
    "alive": true,
    "code": 200
   },
