@@ -122,3 +122,12 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
   .fm-search-row #fm-clear-btn{grid-column:2}
   .fm-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* stream health badges + kiwi ws audio + visitor badge fallback */
+.chip.ok{color:var(--good);border-color:var(--good)}
+.chip.dead{color:var(--bad);border-color:var(--bad)}
+.open.kiwi-ws{margin-top:8px;background:var(--panel);color:var(--accent);border:1px solid var(--accent);font-weight:600}
+.kiwi-controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:2px 6px}
+.kiwi-status{color:var(--accent);font-size:.9rem;font-weight:600}
+#kiwi-audio{width:calc(100% - 24px);margin:0 12px 12px}
+#visitor-counter img{display:inline-block;vertical-align:middle}
