@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T12:16:31+00:00",
+ "updated": "2026-10-31T12:22:16+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1529,
+ "count": 1533,
  "rows": [
   {
    "f": 2054,
@@ -826,6 +826,12 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
+   "f": 4146,
+   "s": "1220",
+   "e": "1235",
+   "n": "CHL | CBM Magellanes Radio | S | CHL"
+  },
+  {
    "f": 4177,
    "s": "0000",
    "e": "2400",
@@ -920,18 +926,6 @@
    "s": "1120",
    "e": "1235",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
-  },
-  {
-   "f": 4357,
-   "s": "1205",
-   "e": "1220",
-   "n": "CHL | CBV Valparaíso Radio | S | CHL"
-  },
-  {
-   "f": 4357,
-   "s": "1203",
-   "e": "1218",
-   "n": "NOR | Telenor Kystradio North | E | NEu"
   },
   {
    "f": 4363,
@@ -2351,6 +2345,12 @@
   },
   {
    "f": 6180,
+   "s": "1220",
+   "e": "1232",
+   "n": "CHN | China National Radio 17 | E,R | CHN"
+  },
+  {
+   "f": 6180,
    "s": "1000",
    "e": "1600",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
@@ -3328,6 +3328,12 @@
    "n": "CHN | Xizang RTV | TB | CHN"
   },
   {
+   "f": 7396,
+   "s": "1220",
+   "e": "1225",
+   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
+  },
+  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3542,6 +3548,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | CHU Ottawa | -TS | NAm"
+  },
+  {
+   "f": 7906,
+   "s": "1220",
+   "e": "1230",
+   "n": "VTN | Vung Tau Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -4828,10 +4840,22 @@
    "n": "CHN | China Radio Int. | T | SEA"
   },
   {
+   "f": 9790,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
+  },
+  {
    "f": 9795,
    "s": "1200",
    "e": "1300",
    "n": "ALS | KNLS New Life Station | E | FE"
+  },
+  {
+   "f": 9795,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 9805,
@@ -5819,9 +5843,9 @@
   },
   {
    "f": 11660,
-   "s": "1200",
-   "e": "1220",
-   "n": "J | NHK Radio Japan | M | FE"
+   "s": "1220",
+   "e": "1240",
+   "n": "J | NHK Radio Japan | K | FE"
   },
   {
    "f": 11665,
@@ -5870,6 +5894,12 @@
    "s": "1200",
    "e": "1230",
    "n": "ROU | Radio Romania Int. | A | ME"
+  },
+  {
+   "f": 11710,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 11710,
@@ -6020,6 +6050,12 @@
    "s": "0900",
    "e": "1300",
    "n": "KRE | Voice of Korea | J | J"
+  },
+  {
+   "f": 11880,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 11885,
@@ -7588,12 +7624,6 @@
    "n": "B | Rádio Nacional Amazônia | P | B"
   },
   {
-   "f": 15150,
-   "s": "1150",
-   "e": "1220",
-   "n": "IRN | IRIB Voice of I.R.Iran | HB | ME"
-  },
-  {
    "f": 15180,
    "s": "1200",
    "e": "1300",
@@ -7766,12 +7796,6 @@
    "s": "1200",
    "e": "1300",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 15430,
-   "s": "1150",
-   "e": "1220",
-   "n": "IRN | IRIB Voice of I.R.Iran | HB | ME"
   },
   {
    "f": 15440,

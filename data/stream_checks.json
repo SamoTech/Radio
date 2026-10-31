@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T12:16:31+00:00",
+ "updated": "2026-10-31T12:22:16+00:00",
  "checked": 102,
- "alive": 61,
+ "alive": 62,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -368,8 +368,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404
+   "alive": true,
+   "code": 200
   },
   "https://stream.alkafeel.net/live/radio/playlist.m3u8": {
    "alive": false,
