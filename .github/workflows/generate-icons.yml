@@ -1,0 +1,45 @@
+name: Generate PNG app icons
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/generate-icons.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radio-atlas-icons
+  cancel-in-progress: false
+
+jobs:
+  icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install rasterizer tools
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin imagemagick
+      - name: Rasterize icon.svg to PNG sizes
+        run: |
+          cd icons
+          sed 's/rx="96"/rx="0"/g' icon.svg > /tmp/icon-flat.svg
+          rsvg-convert -w 192 -h 192 icon.svg > icon-192.png
+          rsvg-convert -w 512 -h 512 icon.svg > icon-512.png
+          rsvg-convert -w 4096 -h 4096 /tmp/icon-flat.svg > /tmp/icon-raw.png
+          convert /tmp/icon-raw.png -resize 400x400 -background "#0b1220" -gravity center -extent 512x512 icon-maskable-512.png
+          convert /tmp/icon-raw.png -resize 150x150 -background "#0b1220" -gravity center -extent 192x192 icon-maskable-192.png
+          convert /tmp/icon-raw.png -resize 160x160 -background "#0b1220" -gravity center -extent 180x180 apple-touch-icon.png
+          rm -f /tmp/icon-raw.png /tmp/icon-flat.svg
+      - name: Commit generated icons
+        run: |
+          git config user.name "radio-atlas-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add icons/
+          if git diff --cached --quiet; then
+            echo "No icon changes."
+          else
+            git commit -m "chore(icons): generate PNG app icons (192/512/maskable/apple-touch) from icon.svg"
+            git pull --rebase origin main
+            git push
+          fi
