@@ -205,6 +205,7 @@
       <h2 data-i18n="map_title">خريطة أجهزة الاستقبال العالمية</h2>
       <span id="map-count" class="count">—</span>
       <span id="map-clock" class="count"></span>
+      <span id="map-aircraft-count" class="count" hidden></span>
     </div>
     <p class="hint" data-i18n="map_hint">توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.</p>
     <div id="map-layers" class="chips">
@@ -213,6 +214,7 @@
       <button class="chip map-layer active" id="map-layer-owrx" type="button" data-layer="owrx" data-i18n="map_layer_owrx">OpenWebRX</button>
       <button class="chip map-layer active" id="map-layer-satnogs" type="button" data-layer="satnogs" data-i18n="map_layer_satnogs">SatNOGS</button>
       <button class="chip map-layer active" id="map-layer-gray" type="button" data-layer="gray" data-i18n="map_layer_gray">الخط الرمادي</button>
+      <button class="chip map-layer active" id="map-layer-aircraft" type="button" data-layer="aircraft" data-i18n="map_layer_aircraft">✈️ الطائرات</button>
     </div>
     <div id="map-wrap" class="map-wrap"></div>
   </section>
@@ -275,6 +277,7 @@
     <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> ·
     <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a> ·
     <a href="https://network.satnogs.org/" target="_blank" rel="noopener">SatNOGS</a> ·
+    <a href="https://www.adsb.lol/" target="_blank" rel="noopener">adsb.lol</a>
   </p>
   <p class="src-line"><span data-i18n="offline_footer">تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.</span> SamoTech/Radio</p>
   <p class="src-line"><a href="countries/">🌍 تصفح المحطات حسب الدولة · Browse by country</a></p>
