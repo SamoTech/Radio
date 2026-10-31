@@ -98,7 +98,7 @@ var STR = {
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
     tab_fm: '📻 محطات البث', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
-    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
+    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
@@ -144,7 +144,7 @@ var STR = {
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
     tab_fm: '📻 Broadcast stations', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
-    search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_country:'Country', filter_language:'Language', filter_category:'Category', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
+    search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
     fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
@@ -193,7 +193,7 @@ var state = {
   updated: null,
   geo: null,
   webLimits: { websdr: 150, owrx: 150 },
-  filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0, httpsOnly: false },
+  filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0, httpsOnly: false, rxType: 'all' },
   fm: [],
   fmFilters: { q: '', country: '', language: '', tag: '', chip: '' },
   fmLimit: FM_PAGE,
@@ -370,7 +370,8 @@ function normalizeRx(r) {
     band: r.band || '',
     loc: r.loc || '',
     antenna: r.antenna || '',
-    extApi: r.ext_api == null ? 0 : (Number(r.ext_api) || 0)
+    extApi: r.ext_api == null ? 0 : (Number(r.ext_api) || 0),
+    type: 'kiwi'
   };
 }
 
@@ -453,6 +454,12 @@ function applyFilters() {
     if (q) {
       var hay = (r.name + ' ' + r.url + ' ' + r.band + ' ' + r.loc + ' ' + r.antenna).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
+    }
+    var rxType = f.rxType || 'all';
+    if (rxType !== 'all') {
+      if (rxType === 'kiwi' && r.type !== 'kiwi') return false;
+      if (rxType === 'websdr' && r.type !== 'websdr') return false;
+      if (rxType === 'owrx' && r.type !== 'owrx') return false;
     }
     return true;
   });
@@ -566,8 +573,10 @@ function webSdrCard(r) {
 function applyWebFilters(list) {
   var f = state.filters;
   var q = f.q.trim().toLowerCase();
+  var rxType = f.rxType || 'all';
   return (list || []).filter(function (r) {
     if (f.httpsOnly && !r.https) return false;
+    if (rxType !== 'all' && r.type !== rxType) return false;
     if (q) {
       var hay = (r.name + ' ' + (r.loc || '') + ' ' + r.url).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
@@ -1854,6 +1863,7 @@ function initUI() {
   $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
   $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
   $('https-only').addEventListener('change', function () { state.filters.httpsOnly = this.checked; renderSDR(); renderWebSdrs(); });
+  $('rx-type').addEventListener('change', function () { state.filters.rxType = this.value; renderSDR(); renderWebSdrs(); });
   ['websdr', 'owrx'].forEach(function (kind) {
     var g = $('grid-' + kind);
     if (g) g.addEventListener('click', function (e) {

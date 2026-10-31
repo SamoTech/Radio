@@ -98,6 +98,12 @@
     <div class="toolbar">
       <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…" data-i18n-ph="search_sdr_ph">
       <select id="band" title="النطاق"></select>
+      <select id="rx-type" title="نوع الاستقبال" data-i18n-aria="filter_rx_type_aria">
+        <option value="all" data-i18n="all_types">الكل</option>
+        <option value="kiwi" data-i18n="kiwi_type">KiwiSDR</option>
+        <option value="websdr" data-i18n="websdr_type">WebSDR</option>
+        <option value="owrx" data-i18n="owrx_type">OpenWebRX</option>
+      </select>
       <select id="sort" title="الترتيب">
         <option value="snr" data-i18n="sort_snr">الأفضل SNR</option>
         <option value="free" data-i18n="sort_free">أكبر مساحة فاضية</option>
