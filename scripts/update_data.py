@@ -811,6 +811,8 @@ def parse_eibi(text, now):
             continue
 
         itu = parts[3].strip()
+        if itu.upper() == "ISR":
+            continue
         station = parts[4].strip()
         language = parts[5].strip()
         target = parts[6].strip()
@@ -1016,9 +1018,11 @@ def fetch_wspr():
         + " GROUP BY band ORDER BY c DESC FORMAT JSON"
     )
     top_rows = _wspr_rows(
-        "SELECT tx_sign, tx_loc, rx_sign, rx_loc, distance, band, snr "
+        "SELECT tx_sign, tx_loc, rx_sign, rx_loc, band, "
+        "max(distance) AS distance, max(snr) AS snr "
         "FROM wspr.rx WHERE time >= " + cutoff
         + " AND distance >= " + str(WSPR_TOP_MIN_KM)
+        + " GROUP BY tx_sign, tx_loc, rx_sign, rx_loc, band"
         + " ORDER BY distance DESC LIMIT 12 FORMAT JSON"
     )
     if not bands_rows:
@@ -1124,7 +1128,7 @@ def fetch_web_sdrs():
         for rx in rows:
             url = rx["url"]
             blob = (rx["name"] + " " + rx["loc"]).lower()
-            if url in seen or "israel" in blob:
+            if url in seen or "israel" in blob or re.search(r"(?:^|[^a-z0-9])4[xz][0-9]", blob):
                 continue
             seen.add(url)
             kept.append(

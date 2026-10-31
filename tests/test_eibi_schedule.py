@@ -74,5 +74,16 @@ class EiBiScheduleTests(unittest.TestCase):
         self.assertEqual(MODULE.parse_eibi(data, now), [])
 
 
+    def test_isr_country_code_rows_are_excluded(self):
+        now = datetime(2026, 10, 30, 12, 30, tzinfo=timezone.utc)
+        isr_row = ";".join([
+            "15000", "1200-1300", "5", "ISR", "4XZ Israeli Navy Haifa", "CW",
+            "NA", "Test schedule", "100", "01Oct", "31Oct",
+        ])
+        parsed = MODULE.parse_eibi(isr_row + "\n" + row(15000, "1200-1300", "5"), now)
+        self.assertEqual(len(parsed), 1)
+        self.assertTrue(parsed[0]["n"].startswith("EG "))
+
+
 if __name__ == "__main__":
     unittest.main()
