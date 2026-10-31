@@ -21,7 +21,7 @@ h1{margin:0;font-size:1.8rem}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 18px;min-width:104px}
 .stat span{display:block;font-size:1.12rem;font-weight:700;color:var(--accent)}
 .stat label{font-size:.72rem;color:var(--muted)}
-.tabs{display:flex;gap:8px;justify-content:center;margin:14px 0 0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 0}
 .tab{background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 20px;cursor:pointer;font-size:.95rem;font-family:inherit}
 .tab.active{background:var(--accent);color:var(--accent-text);border-color:var(--accent);font-weight:700}
 main{max-width:1200px;margin:0 auto;padding:14px 16px 40px}
@@ -175,3 +175,11 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 [data-theme="light"] .map-sea{fill:#c3d5ec}
 [data-theme="light"] .map-land{fill:#9fb3cf;stroke:#7d92b3}
 [data-theme="light"] .map-dot:hover{stroke:#111}
+
+/* Mobile: 7 tabs wrap into rows; map touch targets bigger */
+@media(max-width:720px){
+  .tabs{gap:6px;margin:10px 0 0}
+  .tab{padding:7px 12px;font-size:.85rem}
+  .map-wrap svg{min-width:480px}
+  .map-dot{r:3}
+}
