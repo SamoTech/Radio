@@ -174,6 +174,7 @@ var STR = {
     eibi_title: 'Shortwave broadcasts on air now',
     eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
+    eibi_band_aria: 'Select broadcast band', all_bands: 'All bands',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     visitors: 'Total page views', you_from: 'You are visiting from',
     stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
@@ -201,6 +202,7 @@ var state = {
   fmLiveRows: [],
   eibi: [],
   eibiQ: '',
+  eibiBand: 'all',
   streamChecks: {},
   space: null,
   wspr: null,
@@ -1138,7 +1140,25 @@ function renderEibi() {
   if (!state.eibi.length) { p.hidden = true; return; }
   p.hidden = false;
   var q = state.eibiQ.trim().toLowerCase();
+  var band = state.eibiBand;
   var rows = state.eibi.filter(function (x) {
+    if (band !== 'all') {
+      var freq = x.f / 1000;
+      if (band === '120' && (freq < 2300 || freq >= 2495)) return false;
+      if (band === '90' && (freq < 3200 || freq >= 3400)) return false;
+      if (band === '75' && (freq < 3900 || freq >= 4000)) return false;
+      if (band === '60' && (freq < 4750 || freq >= 5060)) return false;
+      if (band === '49' && (freq < 5900 || freq >= 6200)) return false;
+      if (band === '41' && (freq < 7200 || freq >= 7600)) return false;
+      if (band === '31' && (freq < 9400 || freq >= 9900)) return false;
+      if (band === '25' && (freq < 11600 || freq >= 12100)) return false;
+      if (band === '22' && (freq < 13570 || freq >= 13870)) return false;
+      if (band === '19' && (freq < 15100 || freq >= 15800)) return false;
+      if (band === '16' && (freq < 17480 || freq >= 17900)) return false;
+      if (band === '15' && (freq < 18900 || freq >= 19020)) return false;
+      if (band === '13' && (freq < 21450 || freq >= 21850)) return false;
+      if (band === '11' && (freq < 25600 || freq >= 26100)) return false;
+    }
     if (!q) return true;
     return ((x.n || '') + ' ' + x.f).toLowerCase().indexOf(q) !== -1;
   });
