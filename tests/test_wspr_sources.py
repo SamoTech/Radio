@@ -54,6 +54,10 @@ class ReceiverbookParsingTests(unittest.TestCase):
             kept.append(rx)
         self.assertEqual(kept, [])
 
+    def test_wspr_queries_request_json_output(self):
+        import inspect
+        self.assertIn("FORMAT JSON", inspect.getsource(MODULE.fetch_wspr))
+
 
 if __name__ == "__main__":
     unittest.main()
