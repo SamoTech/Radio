@@ -132,3 +132,8 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 #kiwi-audio{width:calc(100% - 24px);margin:0 12px 12px}
 #visitor-counter img{display:inline-block;vertical-align:middle}
 #visitor-counter,#visitor-online{min-height:28px}
+
+/* Morocco / SNRT tab */
+.ma-group{margin:20px 0 10px;font-size:1.05rem;font-weight:700;color:var(--accent)}
+#ma-count{color:var(--accent);font-weight:700;margin:0 0 10px}
+.ma-hint{margin:0 0 12px}
