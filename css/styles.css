@@ -131,3 +131,4 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 .kiwi-status{color:var(--accent);font-size:.9rem;font-weight:600}
 #kiwi-audio{width:calc(100% - 24px);margin:0 12px 12px}
 #visitor-counter img{display:inline-block;vertical-align:middle}
+#visitor-counter,#visitor-online{min-height:28px}
