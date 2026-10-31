@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T09:40:19+00:00",
+ "updated": "2026-10-31T09:45:00+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1469,
+ "count": 1461,
  "rows": [
   {
    "f": 2054,
@@ -32,12 +32,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
-  },
-  {
-   "f": 2226,
-   "s": "0930",
-   "e": "0945",
-   "n": "G | Aberdeen Coastguard Wx | E | WEu"
   },
   {
    "f": 2310,
@@ -164,12 +158,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
-  },
-  {
-   "f": 2586,
-   "s": "0933",
-   "e": "0943",
-   "n": "DNK | Lyngby Radio | E | NEu"
   },
   {
    "f": 2598,
@@ -1324,6 +1312,12 @@
    "n": "AUS | Bay Islands Radio | E | AUS"
   },
   {
+   "f": 5050,
+   "s": "0945",
+   "e": "1100",
+   "n": "CHN | Beibu Bay Radio | M | FE"
+  },
+  {
    "f": 5100,
    "s": "0900",
    "e": "0955",
@@ -2168,6 +2162,12 @@
    "s": "0625",
    "e": "0207",
    "n": "B | Rádio Nacional Amazônia | P | B"
+  },
+  {
+   "f": 6185,
+   "s": "0943",
+   "e": "1200",
+   "n": "CHN | China Huayi BC | M | TWN"
   },
   {
    "f": 6185,
@@ -3118,12 +3118,6 @@
    "n": "RUS | Channel Marker A | -CW | RUS"
   },
   {
-   "f": 7535,
-   "s": "0400",
-   "e": "0945",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
    "f": 7570,
    "s": "0100",
    "e": "1100",
@@ -3224,12 +3218,6 @@
    "s": "0638",
    "e": "1155",
    "n": "D | DWD Pinneberg Met Fax | Eu"
-  },
-  {
-   "f": 7906,
-   "s": "0935",
-   "e": "0945",
-   "n": "VTN | Phan Rang Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3464,12 +3452,6 @@
    "s": "0900",
    "e": "2400",
    "n": "KOR | HLW Seoul Radio | -CW | FE"
-  },
-  {
-   "f": 8658,
-   "s": "0930",
-   "e": "0945",
-   "n": "J | JFX Kagoshima Fish.Fax | WOc"
   },
   {
    "f": 8682,
@@ -4409,6 +4391,12 @@
   },
   {
    "f": 9820,
+   "s": "0945",
+   "e": "1100",
+   "n": "CHN | Beibu Bay Radio | M | FE"
+  },
+  {
+   "f": 9820,
    "s": "0900",
    "e": "1100",
    "n": "CHN | CNR 2 China Business R. | M | CHN"
@@ -4730,12 +4718,6 @@
    "s": "2200",
    "e": "1000",
    "n": "CAN | CFH Halifax Radio | -TY | NAm"
-  },
-  {
-   "f": 10555,
-   "s": "0400",
-   "e": "0945",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
    "f": 10819,
@@ -5603,9 +5585,9 @@
   },
   {
    "f": 11965,
-   "s": "0930",
-   "e": "0945",
-   "n": "AUS | Reach Beyond Australia | JV | INS"
+   "s": "0945",
+   "e": "1100",
+   "n": "AUS | Reach Beyond Australia | IN | INS"
   },
   {
    "f": 11970,
@@ -5764,12 +5746,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 12160,
-   "s": "0930",
-   "e": "0945",
-   "n": "USA | Trans World Radio | M | FE"
-  },
-  {
    "f": 12190,
    "s": "2200",
    "e": "1600",
@@ -5822,12 +5798,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 12359,
-   "s": "0933",
-   "e": "0943",
-   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
   },
   {
    "f": 12362,
@@ -6104,12 +6074,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 13074,
-   "s": "0930",
-   "e": "0945",
-   "n": "J | JFX Kagoshima Fish.Fax | WOc"
   },
   {
    "f": 13077,
@@ -7420,12 +7384,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 15615,
-   "s": "0400",
-   "e": "0945",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
    "f": 15620,
    "s": "0920",
    "e": "1250",
@@ -8342,12 +8300,6 @@
    "s": "0000",
    "e": "2400",
    "n": "ISL | Reykjavik HFDL (ID3) | -HF | NAO"
-  },
-  {
-   "f": 18060,
-   "s": "0400",
-   "e": "0945",
-   "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
    "f": 18180,
