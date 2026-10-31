@@ -170,6 +170,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 .map-dot-websdr{fill:#60a5fa}
 .map-dot-owrx{fill:#fbbf24}
 .map-dot-satnogs{fill:#c084fc}
+.map-dot-aircraft{fill:#f87171}
 .map-dot:hover{stroke:#fff;stroke-width:1}
 [data-theme="light"] .map-wrap{background:#d8e4f2}
 [data-theme="light"] .map-sea{fill:#c3d5ec}
@@ -187,4 +188,5 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 .map-night{fill:rgba(4,9,24,.45);pointer-events:none}
 .map-sun{fill:#ffd54d;stroke:#c9971c;stroke-width:.4;pointer-events:none}
 #map-clock{opacity:.75}
+#map-aircraft-count{opacity:.75}
 [data-theme="light"] .map-night{fill:rgba(60,80,130,.22)}

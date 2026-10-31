@@ -114,7 +114,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_count: '{n} جهاز على الخريطة',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -160,7 +160,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_count: '{n} receivers on the map',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -209,9 +209,11 @@ var state = {
   webSdrs: null,
   satnogs: null,
   landMap: null,
-  mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true },
+  mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true, aircraft: true },
   grayline: true,
   currentName: '',
+  activeTab: 'fm',
+  aircraft: [],
   playbackStation: null,
   playbackSources: [],
   playbackIndex: 0,
@@ -757,6 +759,42 @@ function mapItems() {
   return items;
 }
 
+var AIRCRAFT_APIS = ['https://api.adsb.lol', 'https://api.airplanes.live'];
+var AIRCRAFT_RADIUS_NM = 250;
+var lastAircraftFetch = 0;
+/* Live ADS-B aircraft near the map center — community aggregators, no key, 1 req/min max */
+function fetchAircraft() {
+  var nowMs = Date.now();
+  if (nowMs - lastAircraftFetch < 55000) return;
+  lastAircraftFetch = nowMs;
+  var g = state.geo || CAIRO;
+  var i = 0;
+  function attempt() {
+    if (i >= AIRCRAFT_APIS.length) return;
+    var base = AIRCRAFT_APIS[i++];
+    fetch(base + '/v2/point/' + Number(g.lat).toFixed(2) + '/' + Number(g.lon).toFixed(2) + '/' + AIRCRAFT_RADIUS_NM, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !Array.isArray(j.ac)) { attempt(); return; }
+        state.aircraft = j.ac.filter(function (a) {
+          return a && typeof a.lat === 'number' && typeof a.lon === 'number';
+        }).map(function (a) {
+          var nm = (a.flight || a.r || a.hex || '').toString().trim();
+          var det = [];
+          if (a.alt_baro != null) det.push(fmtNum(a.alt_baro) + ' ft');
+          if (a.gs != null) det.push(Math.round(a.gs) + ' kt');
+          if (a.t) det.push(a.t);
+          return { name: '✈️ ' + (nm || '?'), loc: det.join(' · '), lat: a.lat, lon: a.lon };
+        });
+        var ac = $('map-aircraft-count');
+        if (ac) { ac.textContent = '✈️ ' + fmtNum(state.aircraft.length); ac.hidden = false; }
+        if (state.activeTab === 'map') renderMap();
+      })
+      .catch(function () { attempt(); });
+  }
+  attempt();
+}
+
 function renderMap() {
   var wrap = $('map-wrap');
   if (!wrap) return;
@@ -771,6 +809,7 @@ function renderMap() {
     svg += '<path class="map-night" d="' + g.night + '"></path>';
     svg += '<circle class="map-sun" cx="' + g.sun[0] + '" cy="' + g.sun[1] + '" r="3"></circle>';
   }
+  if (state.mapLayers.aircraft && state.activeTab === 'map') fetchAircraft();
   var nowD = new Date();
   var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
   var ck = $('map-clock');
@@ -779,6 +818,12 @@ function renderMap() {
     var xy = mapXY(it.lat, it.lon);
     svg += '<circle class="map-dot map-dot-' + it.layer + '" data-map-idx="' + i + '" cx="' + xy[0] + '" cy="' + xy[1] + '" r="1.8"><title>' + esc(it.name + (it.loc ? ' — ' + it.loc : '')) + '</title></circle>';
   });
+  if (state.aircraft && state.mapLayers.aircraft) {
+    state.aircraft.forEach(function (a) {
+      var axy = mapXY(a.lat, a.lon);
+      svg += '<circle class="map-dot-aircraft" cx="' + axy[0] + '" cy="' + axy[1] + '" r="1.6"><title>' + esc(a.name + (a.loc ? ' — ' + a.loc : '')) + '</title></circle>';
+    });
+  }
   svg += '</svg>';
   wrap.innerHTML = svg;
 }
@@ -2006,6 +2051,8 @@ function openKiwiAudio(url, name) {
 /* ================= UI ================= */
 
 function switchTab(x) {
+  state.activeTab = x;
+  if (x === 'map') renderMap();
   ['fm', 'fav', 'ar', 'rel', 'eg', 'sdr', 'map'].forEach(function (k) {
     var tab = $('tab-' + k);
     var panel = $('panel-' + k);
@@ -2112,10 +2159,11 @@ function initUI() {
     var k = btn.getAttribute('data-layer');
     if (k === 'gray') { state.grayline = !state.grayline; }
     else { state.mapLayers[k] = !state.mapLayers[k]; }
+    if (k === 'aircraft' && state.mapLayers[k]) fetchAircraft();
     btn.classList.toggle('active', k === 'gray' ? state.grayline : state.mapLayers[k]);
     renderMap();
   });
-  setInterval(function () { if (state.currentName === 'map') renderMap(); }, 60000);
+  setInterval(function () { if (state.activeTab === 'map') renderMap(); }, 60000);
 }
 
 function init() {
