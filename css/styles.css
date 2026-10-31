@@ -155,3 +155,23 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 .chip.wspr-band{font-size:.8rem}
 .wsdr-panel{margin-top:22px}
 .wsdr-panel h2{font-size:1rem;margin:0}
+
+
+/* ================= Receiver world map ================= */
+#map-layers{margin:.4rem 0 .8rem;flex-wrap:wrap;gap:.4rem}
+#map-layers button{cursor:pointer}
+#map-layers button.map-layer{opacity:.55}
+#map-layers button.map-layer.active{opacity:1}
+.map-wrap{overflow-x:auto;border:1px solid var(--border,#2a3a52);border-radius:10px;background:#0b1220}
+.map-wrap svg{display:block;min-width:560px;width:100%;height:auto}
+.map-sea{fill:#0d1830}
+.map-land{fill:#22344e;stroke:#31435e;stroke-width:.4}
+.map-dot{fill:#4ade80;cursor:pointer}
+.map-dot-websdr{fill:#60a5fa}
+.map-dot-owrx{fill:#fbbf24}
+.map-dot-satnogs{fill:#c084fc}
+.map-dot:hover{stroke:#fff;stroke-width:1}
+[data-theme="light"] .map-wrap{background:#d8e4f2}
+[data-theme="light"] .map-sea{fill:#c3d5ec}
+[data-theme="light"] .map-land{fill:#9fb3cf;stroke:#7d92b3}
+[data-theme="light"] .map-dot:hover{stroke:#111}
