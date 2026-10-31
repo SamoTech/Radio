@@ -114,7 +114,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -160,7 +160,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -193,7 +193,7 @@ var state = {
   receivers: [],
   updated: null,
   geo: null,
-  webLimits: { websdr: 150, owrx: 150 },
+  webLimits: { websdr: 150, owrx: 150, satnogs: 150 },
   filters: { q: '', band: 'all', sort: 'snr', onlineOnly: true, freeOnly: false, minSnr: 0, httpsOnly: false, rxType: 'all' },
   fm: [],
   fmFilters: { q: '', country: '', language: '', tag: '', chip: '' },
@@ -207,6 +207,7 @@ var state = {
   space: null,
   wspr: null,
   webSdrs: null,
+  satnogs: null,
   currentName: '',
   playbackStation: null,
   playbackSources: [],
@@ -289,6 +290,7 @@ function rebuildDynamic() {
   renderSpace();
   renderWspr();
   renderWebSdrs();
+  renderSatnogs();
   if (state.currentName && !$('player').hidden) {
     $('player-name').textContent = '▶ ' + state.currentName;
   }
@@ -617,11 +619,30 @@ function renderWebSdrs() {
 function loadWebSdrs() {
   return fetchJSON('data/web_sdrs.json').then(function (data) {
     if (data && (Array.isArray(data.websdr) || Array.isArray(data.openwebrx))) {
+      (data.websdr || []).forEach(function (r) { r.type = 'websdr'; });
+      (data.openwebrx || []).forEach(function (r) { r.type = 'owrx'; });
       state.webSdrs = data;
       renderWebSdrs();
     }
   }).catch(function (e) {
     console.warn('web sdrs snapshot:', e);
+  });
+}
+
+function renderSatnogs() {
+  if (!state.satnogs) return;
+  renderWebSdrGrid('grid-satnogs', 'satnogs-count', 'satnogs-panel', state.satnogs.stations, 'satnogs');
+}
+
+function loadSatnogs() {
+  return fetchJSON('data/satnogs.json').then(function (data) {
+    if (data && Array.isArray(data.stations)) {
+      data.stations.forEach(function (r) { r.type = 'satnogs'; });
+      state.satnogs = data;
+      renderSatnogs();
+    }
+  }).catch(function (e) {
+    console.warn('satnogs snapshot:', e);
   });
 }
 
@@ -1904,7 +1925,7 @@ function initUI() {
   $('q').addEventListener('input', function () {
     clearTimeout(qTimer);
     var v = this.value;
-    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); renderWebSdrs(); }, 150);
+    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); renderWebSdrs(); renderSatnogs(); }, 150);
   });
   $('band').addEventListener('change', function () { state.filters.band = this.value; renderSDR(); });
   $('sort').addEventListener('change', function () {
@@ -1915,13 +1936,13 @@ function initUI() {
   $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
   $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
   $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
-  $('https-only').addEventListener('change', function () { state.filters.httpsOnly = this.checked; renderSDR(); renderWebSdrs(); });
-  $('rx-type').addEventListener('change', function () { state.filters.rxType = this.value; renderSDR(); renderWebSdrs(); });
-  ['websdr', 'owrx'].forEach(function (kind) {
+  $('https-only').addEventListener('change', function () { state.filters.httpsOnly = this.checked; renderSDR(); renderWebSdrs(); renderSatnogs(); });
+  $('rx-type').addEventListener('change', function () { state.filters.rxType = this.value; renderSDR(); renderWebSdrs(); renderSatnogs(); });
+  ['websdr', 'owrx', 'satnogs'].forEach(function (kind) {
     var g = $('grid-' + kind);
     if (g) g.addEventListener('click', function (e) {
       var el = e.target;
-      if (el && el.closest && el.closest('.web-more')) { state.webLimits[kind] += 150; renderWebSdrs(); }
+      if (el && el.closest && el.closest('.web-more')) { state.webLimits[kind] += 150; renderWebSdrs(); renderSatnogs(); }
     });
   });
   var alertBtn = $('space-alert-btn');
@@ -1946,6 +1967,7 @@ function init() {
   loadEibi();
   loadWspr();
   loadWebSdrs();
+  loadSatnogs();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {
