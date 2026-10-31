@@ -24,6 +24,9 @@ Sources:
   stations are excluded by name markers only: the API has no country
   field and a lat/lng bounding box would wrongly drop nearby Palestinian
   stations in the same region.
+- Receiver world map: Natural Earth land outlines (world-atlas land-110m
+  TopoJSON, public domain) via jsdelivr; GPS coordinates are now kept for
+  KiwiSDR and WebSDR/OpenWebRX entries instead of being reduced to a flag.
 
 Failures never wipe the last good snapshot. Station catalogs refresh daily;
 KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
@@ -437,6 +440,19 @@ def num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
+def gps_value(v):
+    """Keep [lat, lon] coordinates when the source provides them, else False."""
+    if (
+        isinstance(v, list)
+        and len(v) == 2
+        and num(v[0]) is not None
+        and num(v[1]) is not None
+        and (abs(v[0]) > 0.001 or abs(v[1]) > 0.001)
+    ):
+        return [v[0], v[1]]
+    return False
+
+
 def from_mirror(data):
     """Map AetherSDR mirror schema 1 entries to our snapshot shape."""
     receivers = []
@@ -454,15 +470,7 @@ def from_mirror(data):
         if snr is None:
             snr = num(r.get("snr_hf"))
 
-        gps = r.get("gps")
-        has_gps = False
-        if (
-            isinstance(gps, list)
-            and len(gps) == 2
-            and num(gps[0]) is not None
-            and num(gps[1]) is not None
-        ):
-            has_gps = abs(gps[0]) > 0.001 or abs(gps[1]) > 0.001
+        gps_val = gps_value(r.get("gps"))
 
         receivers.append(
             {
@@ -472,7 +480,7 @@ def from_mirror(data):
                 "users": r.get("users") if isinstance(r.get("users"), int) else 0,
                 "max_users": r.get("users_max") if isinstance(r.get("users_max"), int) else 0,
                 "snr": snr,
-                "gps": has_gps,
+                "gps": gps_val,
                 "band": band_label(r.get("bands")),
                 "loc": r.get("loc", "") or "",
                 "antenna": r.get("antenna", "") or "",
@@ -492,7 +500,7 @@ def from_legacy(rows):
                 "users": r.get("users", 0),
                 "max_users": r.get("max_users", 0),
                 "snr": r.get("snr"),
-                "gps": bool(r.get("gps")),
+                "gps": gps_value(r.get("gps")),
                 "band": r.get("band", ""),
                 "loc": "",
                 "antenna": "",
@@ -1046,6 +1054,7 @@ SATNOGS_IL_MARKERS = (
     "technion",
     "tau ",
 )
+LAND_MAP_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json"
 
 
 def _wspr_rows(query):
@@ -1175,9 +1184,13 @@ def fetch_web_sdrs():
             if url in seen or "israel" in blob or re.search(r"(?:^|[^a-z0-9])4[xz][0-9]", blob):
                 continue
             seen.add(url)
-            kept.append(
-                {"name": rx["name"], "url": url, "loc": rx["loc"], "https": url.startswith("https")}
-            )
+            entry = {"name": rx["name"], "url": url, "loc": rx["loc"], "https": url.startswith("https")}
+            entry_lat = num(rx.get("lat"))
+            entry_lon = num(rx.get("lon"))
+            if entry_lat is not None and entry_lon is not None:
+                entry["lat"] = entry_lat
+                entry["lon"] = entry_lon
+            kept.append(entry)
             if len(kept) >= WEB_SDR_MAX_PER_TYPE:
                 break
         out[kind] = kept
@@ -1226,6 +1239,12 @@ def fetch_satnogs():
             break
     kept.sort(key=lambda s: s["name"].lower())
     return kept
+
+def fetch_land_map():
+    topo = fetch_json(LAND_MAP_URL, attempts=2, timeout=60)
+    if not isinstance(topo, dict) or not isinstance(topo.get("arcs"), list) or not isinstance(topo.get("objects"), dict):
+        return None
+    return topo
 
 def main():
     mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
@@ -1354,6 +1373,23 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"satnogs FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
+        try:
+            land_topo = fetch_land_map()
+            if land_topo:
+                write_json(
+                    DATA_DIR / "land_map.json",
+                    {
+                        "updated": now_iso,
+                        "source": "world-atlas@2 land-110m (Natural Earth, public domain)",
+                        "topo": land_topo,
+                    },
+                )
+                print("land map: ok")
+            else:
+                print("land map: unexpected payload — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"land map FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
     if mode in {"all", "stations"}:
         try:
             officials = load_official()
@@ -1432,3 +1468,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -114,7 +114,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -160,7 +160,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -208,6 +208,8 @@ var state = {
   wspr: null,
   webSdrs: null,
   satnogs: null,
+  landMap: null,
+  mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true },
   currentName: '',
   playbackStation: null,
   playbackSources: [],
@@ -291,6 +293,7 @@ function rebuildDynamic() {
   renderWspr();
   renderWebSdrs();
   renderSatnogs();
+  renderMap();
   if (state.currentName && !$('player').hidden) {
     $('player-name').textContent = '▶ ' + state.currentName;
   }
@@ -386,6 +389,7 @@ function loadKiwi() {
     if (data && Array.isArray(data.receivers)) {
       state.receivers = data.receivers.map(normalizeRx);
       state.updated = data.updated;
+      renderMap();
     }
   }).catch(function (e) {
     console.warn('kiwisdr snapshot:', e);
@@ -623,6 +627,7 @@ function loadWebSdrs() {
       (data.openwebrx || []).forEach(function (r) { r.type = 'owrx'; });
       state.webSdrs = data;
       renderWebSdrs();
+      renderMap();
     }
   }).catch(function (e) {
     console.warn('web sdrs snapshot:', e);
@@ -640,9 +645,113 @@ function loadSatnogs() {
       data.stations.forEach(function (r) { r.type = 'satnogs'; });
       state.satnogs = data;
       renderSatnogs();
+      renderMap();
     }
   }).catch(function (e) {
     console.warn('satnogs snapshot:', e);
+  });
+}
+
+/* ================= Receiver world map ================= */
+
+function mapXY(lat, lon) {
+  var x = (Number(lon) + 180) / 360;
+  var y = (90 - Number(lat)) / 180;
+  return [Math.round(x * 7200) / 10, Math.round(y * 3600) / 10];
+}
+
+function mapTopoLand(topo) {
+  if (!topo || !topo.transform || !Array.isArray(topo.arcs) || !topo.objects) return '';
+  var tf = topo.transform;
+  var sx = tf.scale[0], sy = tf.scale[1], tx = tf.translate[0], ty = tf.translate[1];
+  var arcs = topo.arcs.map(function (arc) {
+    var x = 0, y = 0;
+    return arc.map(function (pt) {
+      x += pt[0]; y += pt[1];
+      return [x * sx + tx, y * sy + ty];
+    });
+  });
+  function ringPath(indices) {
+    var pts = [];
+    indices.forEach(function (idx) {
+      var rev = idx < 0;
+      var a = arcs[rev ? ~idx : idx] || [];
+      var seg = rev ? a.slice().reverse() : a;
+      seg.forEach(function (p) {
+        if (!pts.length || p[0] !== pts[pts.length - 1][0] || p[1] !== pts[pts.length - 1][1]) pts.push(p);
+      });
+    });
+    if (pts.length < 3) return '';
+    var d = 'M' + pts[0][0].toFixed(2) + ' ' + pts[0][1].toFixed(2);
+    for (var i = 1; i < pts.length; i++) d += 'L' + pts[i][0].toFixed(2) + ' ' + pts[i][1].toFixed(2);
+    return d + 'Z';
+  }
+  var dAll = [];
+  function walk(obj) {
+    if (!obj || typeof obj !== 'object') return;
+    if (obj.type === 'Polygon') {
+      (obj.arcs || []).forEach(function (r) { dAll.push(ringPath(r)); });
+    } else if (obj.type === 'MultiPolygon') {
+      (obj.arcs || []).forEach(function (poly) {
+        poly.forEach(function (r) { dAll.push(ringPath(r)); });
+      });
+    } else if (obj.type === 'GeometryCollection') {
+      (obj.geometries || []).forEach(walk);
+    }
+  }
+  walk(topo.objects.land || topo.objects.countries);
+  return dAll.join('');
+}
+
+function mapItems() {
+  var items = [];
+  function push(layer, r, lat, lon) {
+    if (lat == null || lon == null || isNaN(lat) || isNaN(lon)) return;
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return;
+    items.push({ layer: layer, name: r.name, loc: r.loc || '', url: r.url, lat: Number(lat), lon: Number(lon) });
+  }
+  if (state.mapLayers.kiwi) {
+    (state.receivers || []).forEach(function (r) {
+      if (r.gpsCoords) push('kiwi', r, r.gpsCoords[0], r.gpsCoords[1]);
+    });
+  }
+  if (state.webSdrs && state.mapLayers.websdr) {
+(state.webSdrs.websdr || []).forEach(function (r) { push('websdr', r, r.lat, r.lon); });
+  }
+  if (state.webSdrs && state.mapLayers.owrx) {
+(state.webSdrs.openwebrx || []).forEach(function (r) { push('owrx', r, r.lat, r.lon); });
+  }
+  if (state.satnogs && state.mapLayers.satnogs) {
+(state.satnogs.stations || []).forEach(function (r) { push('satnogs', r, r.lat, r.lng); });
+  }
+  return items;
+}
+
+function renderMap() {
+  var wrap = $('map-wrap');
+  if (!wrap) return;
+  $('map-count').textContent = t('map_count').replace('{n}', fmtNum(mapItems().length));
+  var items = mapItems();
+  var land = mapTopoLand(state.landMap);
+  var svg = '<svg id="map-svg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(t('map_title')) + '">';
+  svg += '<rect class="map-sea" x="0" y="0" width="720" height="360"></rect>';
+  if (land) svg += '<path class="map-land" d="' + land + '"></path>';
+  items.forEach(function (it, i) {
+    var xy = mapXY(it.lat, it.lon);
+    svg += '<circle class="map-dot map-dot-' + it.layer + '" data-map-idx="' + i + '" cx="' + xy[0] + '" cy="' + xy[1] + '" r="1.8"><title>' + esc(it.name + (it.loc ? ' — ' + it.loc : '')) + '</title></circle>';
+  });
+  svg += '</svg>';
+  wrap.innerHTML = svg;
+}
+
+function loadLand() {
+  return fetchJSON('data/land_map.json').then(function (data) {
+    if (data && data.topo) {
+      state.landMap = data.topo;
+      renderMap();
+    }
+  }).catch(function (e) {
+    console.warn('land map snapshot:', e);
   });
 }
 
@@ -1858,7 +1967,7 @@ function openKiwiAudio(url, name) {
 /* ================= UI ================= */
 
 function switchTab(x) {
-  ['fm', 'fav', 'ar', 'rel', 'eg', 'sdr'].forEach(function (k) {
+  ['fm', 'fav', 'ar', 'rel', 'eg', 'sdr', 'map'].forEach(function (k) {
     var tab = $('tab-' + k);
     var panel = $('panel-' + k);
     if (tab) tab.classList.toggle('active', x === k);
@@ -1873,6 +1982,7 @@ function initUI() {
   $('tab-rel').addEventListener('click', function () { switchTab('rel'); });
   $('tab-eg').addEventListener('click', function () { switchTab('eg'); });
   $('tab-sdr').addEventListener('click', function () { switchTab('sdr'); });
+  $('tab-map').addEventListener('click', function () { switchTab('map'); });
 
   $('theme-btn').addEventListener('click', function () {
     setTheme(state.theme === 'dark' ? 'light' : 'dark');
@@ -1949,6 +2059,22 @@ function initUI() {
   if (alertBtn) alertBtn.addEventListener('click', toggleSpaceAlerts);
   var eibiSearch = $('eibi-q');
   if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
+  var mapWrap = $('map-wrap');
+  if (mapWrap) mapWrap.addEventListener('click', function (e) {
+    var dot = e.target && e.target.closest ? e.target.closest('.map-dot') : null;
+    if (!dot) return;
+    var it = mapItems()[Number(dot.getAttribute('data-map-idx'))];
+    if (it && it.url && /^https?:/i.test(it.url)) window.open(it.url, '_blank', 'noopener');
+  });
+  var mapLayersBox = $('map-layers');
+  if (mapLayersBox) mapLayersBox.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('button.map-layer') : null;
+    if (!btn) return;
+    var k = btn.getAttribute('data-layer');
+    state.mapLayers[k] = !state.mapLayers[k];
+    btn.classList.toggle('active', state.mapLayers[k]);
+    renderMap();
+  });
 }
 
 function init() {
@@ -1968,6 +2094,7 @@ function init() {
   loadWspr();
   loadWebSdrs();
   loadSatnogs();
+  loadLand();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {
@@ -1980,4 +2107,5 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 

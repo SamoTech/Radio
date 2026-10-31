@@ -39,6 +39,7 @@
     <button id="tab-rel" class="tab" type="button" data-i18n="tab_rel">🕋 ديني</button>
     <button id="tab-eg" class="tab" type="button" data-i18n="tab_eg">🇪🇬 مصر</button>
     <button id="tab-sdr" class="tab" type="button" data-i18n="tab_sdr">أجهزة الاستقبال SDR</button>
+    <button id="tab-map" class="tab" type="button" data-i18n="tab_map">🗺️ الخريطة</button>
   </nav>
 </header>
 
@@ -197,6 +198,22 @@
       <div id="grid-satnogs" class="grid"></div>
     </div>
   </section>
+
+  <!-- Receiver world map -->
+  <section id="panel-map" hidden>
+    <div class="toolbar">
+      <h2 data-i18n="map_title">خريطة أجهزة الاستقبال العالمية</h2>
+      <span id="map-count" class="count">—</span>
+    </div>
+    <p class="hint" data-i18n="map_hint">توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.</p>
+    <div id="map-layers" class="chips">
+      <button class="chip map-layer active" id="map-layer-kiwi" type="button" data-layer="kiwi" data-i18n="map_layer_kiwi">KiwiSDR</button>
+      <button class="chip map-layer active" id="map-layer-websdr" type="button" data-layer="websdr" data-i18n="map_layer_websdr">WebSDR</button>
+      <button class="chip map-layer active" id="map-layer-owrx" type="button" data-layer="owrx" data-i18n="map_layer_owrx">OpenWebRX</button>
+      <button class="chip map-layer active" id="map-layer-satnogs" type="button" data-layer="satnogs" data-i18n="map_layer_satnogs">SatNOGS</button>
+    </div>
+    <div id="map-wrap" class="map-wrap"></div>
+  </section>
 </main>
 
 <div id="player" class="player" hidden>
@@ -266,3 +283,4 @@
 <script src="js/app.js"></script>
 </body>
 </html>
+
