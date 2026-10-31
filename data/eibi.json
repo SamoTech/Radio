@@ -1,8 +1,14 @@
 {
- "updated": "2026-10-31T09:45:00+00:00",
+ "updated": "2026-10-31T09:58:03+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1461,
+ "count": 1460,
  "rows": [
+  {
+   "f": 2054,
+   "s": "0950",
+   "e": "1210",
+   "n": "ALS | NOJ Fax Kodiak | WNA"
+  },
   {
    "f": 2054,
    "s": "0000",
@@ -176,12 +182,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2628,
-   "s": "0900",
-   "e": "0955",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 2628,
@@ -688,12 +688,6 @@
    "n": "J | JMH Japan Meteo Fax | FE"
   },
   {
-   "f": 3673,
-   "s": "0940",
-   "e": "0950",
-   "n": "HOL | Netherlands Coastgd Wx | E | WEu"
-  },
-  {
    "f": 3855,
    "s": "0638",
    "e": "1155",
@@ -886,6 +880,12 @@
    "n": "CAN | CFH Halifax Radio | -TY | NAm"
   },
   {
+   "f": 4298,
+   "s": "0950",
+   "e": "1210",
+   "n": "ALS | NOJ Fax Kodiak | WNA"
+  },
+  {
    "f": 4310,
    "s": "0430",
    "e": "1600",
@@ -950,6 +950,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
+  },
+  {
+   "f": 4405,
+   "s": "0955",
+   "e": "1020",
+   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 4414,
@@ -1144,6 +1150,12 @@
    "n": "RUS | Alarm Channel Marker | RUS"
   },
   {
+   "f": 4775,
+   "s": "0950",
+   "e": "1050",
+   "n": "PRU | Radio Tarma | S | PRU"
+  },
+  {
    "f": 4800,
    "s": "0900",
    "e": "1805",
@@ -1316,12 +1328,6 @@
    "s": "0945",
    "e": "1100",
    "n": "CHN | Beibu Bay Radio | M | FE"
-  },
-  {
-   "f": 5100,
-   "s": "0900",
-   "e": "0955",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 5153,
@@ -1960,6 +1966,12 @@
    "n": "USA | Radio Marti | S | CUB"
   },
   {
+   "f": 6035,
+   "s": "0946",
+   "e": "1000",
+   "n": "CHN | Yunnan Radio Int. | -MX | CHN"
+  },
+  {
    "f": 6040,
    "s": "0900",
    "e": "1505",
@@ -1967,8 +1979,8 @@
   },
   {
    "f": 6040,
-   "s": "0600",
-   "e": "0950",
+   "s": "0950",
+   "e": "1605",
    "n": "CHN | PBS Nei Menggu | MO | CHN"
   },
   {
@@ -2824,12 +2836,6 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
-   "f": 7220,
-   "s": "0900",
-   "e": "0950",
-   "n": "KRE | Voice of Korea KCBS | K | FE"
-  },
-  {
    "f": 7225,
    "s": "0000",
    "e": "2400",
@@ -2897,8 +2903,8 @@
   },
   {
    "f": 7270,
-   "s": "0600",
-   "e": "0950",
+   "s": "0950",
+   "e": "1605",
    "n": "CHN | PBS Nei Menggu | MO | CHN"
   },
   {
@@ -2930,12 +2936,6 @@
    "s": "0930",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 7290,
-   "s": "0600",
-   "e": "0955",
-   "n": "INS | RRI Nabire | IN | INS"
   },
   {
    "f": 7305,
@@ -2980,12 +2980,6 @@
    "n": "HOL | Radio Europa | NL | Eu"
   },
   {
-   "f": 7350,
-   "s": "0930",
-   "e": "0950",
-   "n": "J | NHK Radio Japan | R | FE"
-  },
-  {
    "f": 7365,
    "s": "0800",
    "e": "2000",
@@ -3023,8 +3017,8 @@
   },
   {
    "f": 7420,
-   "s": "0600",
-   "e": "0950",
+   "s": "0950",
+   "e": "1605",
    "n": "CHN | PBS Nei Menggu | M | CHN"
   },
   {
@@ -3220,6 +3214,12 @@
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
+   "f": 7906,
+   "s": "0950",
+   "e": "1000",
+   "n": "VTN | Phan Tiet Radio | VN | SEA"
+  },
+  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3362,6 +3362,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
+  },
+  {
+   "f": 8459,
+   "s": "0950",
+   "e": "1210",
+   "n": "ALS | NOJ Fax Kodiak | WNA"
   },
   {
    "f": 8484,
@@ -3542,6 +3548,12 @@
    "s": "0000",
    "e": "2400",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
+  },
+  {
+   "f": 8812,
+   "s": "0955",
+   "e": "1020",
+   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 8819,
@@ -4114,12 +4126,6 @@
    "n": "CHN | China National Radio 6 | HK | TWN"
   },
   {
-   "f": 9445,
-   "s": "0900",
-   "e": "0950",
-   "n": "KRE | Voice of Korea KCBS | K | FE"
-  },
-  {
    "f": 9460,
    "s": "0900",
    "e": "1100",
@@ -4157,8 +4163,8 @@
   },
   {
    "f": 9520,
-   "s": "0600",
-   "e": "0950",
+   "s": "0950",
+   "e": "1605",
    "n": "CHN | PBS Nei Menggu | M | CHN"
   },
   {
@@ -4349,8 +4355,8 @@
   },
   {
    "f": 9750,
-   "s": "0600",
-   "e": "0950",
+   "s": "0950",
+   "e": "1605",
    "n": "CHN | PBS Nei Menggu | MO | CHN"
   },
   {
@@ -4826,12 +4832,6 @@
    "s": "2130",
    "e": "1700",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 11030,
-   "s": "0900",
-   "e": "0955",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 11039,
@@ -5506,12 +5506,6 @@
    "n": "B | Rádio Brasil Central | P | B"
   },
   {
-   "f": 11825,
-   "s": "0700",
-   "e": "0950",
-   "n": "J | NHK Radio Japan | J | FE"
-  },
-  {
    "f": 11850,
    "s": "0000",
    "e": "1000",
@@ -5824,6 +5818,12 @@
    "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
+   "f": 12412,
+   "s": "0950",
+   "e": "1210",
+   "n": "ALS | NOJ Fax Kodiak | WNA"
+  },
+  {
    "f": 12430,
    "s": "2100",
    "e": "1700",
@@ -6098,6 +6098,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
+  },
+  {
+   "f": 13128,
+   "s": "0955",
+   "e": "1020",
+   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 13137,
@@ -6791,12 +6797,6 @@
   },
   {
    "f": 13920,
-   "s": "0900",
-   "e": "0955",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
-  },
-  {
-   "f": 13920,
    "s": "2200",
    "e": "1500",
    "n": "CHN | CNR1 Jammer/Firedrake | M | CHN"
@@ -7154,12 +7154,6 @@
    "s": "2100",
    "e": "1700",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 15280,
-   "s": "0700",
-   "e": "0950",
-   "n": "J | NHK Radio Japan | J | SEA"
   },
   {
    "f": 15280,
