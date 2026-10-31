@@ -83,7 +83,7 @@ git clone https://github.com/SamoTech/Radio.git
 cd Radio
 python scripts/update_data.py all       # تحديث كل البيانات
 python scripts/update_data.py stations  # كتالوج الإذاعات + فحص الروابط فقط
-python scripts/update_data.py sdr       # أجهزة SDR والطقع الفضائي والموجات القصيرة فقط
+python scripts/update_data.py sdr       # أجهزة SDR والطقس الفضائي والموجات القصيرة فقط
 python -m http.server 8000
 # ثم افتح http://localhost:8000
 ```
@@ -94,7 +94,7 @@ python -m http.server 8000
 
 كل حاجة بتتم في workflow واحد (.github/workflows/update-data.yml):
 
-1. **الجدول:** الإذاعات وفحص الروابط يوميًا (02:17 UTC) · أجهزة SDR والطقع الفضائي وEiBi كل 6 ساعات.
+1. **الجدول:** الإذاعات وفحص الروابط يوميًا (02:17 UTC) · أجهزة SDR والطقس الفضائي وEiBi كل 6 ساعات.
 2. **على كل push لـ main:** تحديث شامل (وضع all) + فحص syntax للواجهة (node --check).
 3. **الخطوات:** تحديث البيانات → commit لو حصل تغيير فعلي → نشر GitHub Pages في نفس الـ run.
 
