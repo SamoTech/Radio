@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T13:40:28+00:00",
+ "updated": "2026-10-31T14:27:22+00:00",
  "checked": 102,
- "alive": 62,
+ "alive": 81,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -131,9 +131,93 @@
    "alive": true,
    "code": 200
   },
-  "https://chadafm.ice.infomaniak.ch/chadafm-high.mp3": {
+  "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
+   "alive": true,
+   "code": 403
+  },
+  "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
+   "alive": true,
+   "code": 403
+  },
+  "https://stream.radiojar.com/8s5u5tpdtwzuv": {
+   "alive": true,
+   "code": 200
+  },
+  "https://9090streaming.mobtada.com/9090FMEGYPT": {
+   "alive": true,
+   "code": 200
+  },
+  "https://carina.streamerr.co:2020/stream/OnSportFM": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radio95.radioca.st/;": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radiohits882.radioca.st/;": {
+   "alive": true,
+   "code": 200
+  },
+  "https://fm.alarabiya.net/fm/myStream/playlist.m3u8": {
+   "alive": true,
+   "code": 206
+  },
+  "https://alifalifjobs.com/radio/8000/AlifAlifLive.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://osrnstream.olivesuno.com/olive1063.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://zamanalwaslradio.out.airtime.pro/zamanalwaslradio_a": {
+   "alive": true,
+   "code": 200
+  },
+  "https://edge.mixlr.com/channel/qtgru": {
+   "alive": true,
+   "code": 200
+  },
+  "https://asima.out.airtime.pro/asima_a": {
+   "alive": true,
+   "code": 200
+  },
+  "https://eu10.fastcast4u.com/bissanraqqa2021": {
    "alive": false,
    "code": 404
+  },
+  "https://svs.itworkscdn.net/almasiralive/almasira/playlist.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://securestreams3.autopo.st:1380/stream/1/": {
+   "alive": true,
+   "code": 200
+  },
+  "https://l3.itworkscdn.net/itwaudio/9032/stream": {
+   "alive": true,
+   "code": 200
+  },
+  "https://melodiab.com:8000/radio.mp3": {
+   "alive": true,
+   "code": 206
+  },
+  "https://streams.radio.co/sd1bcd1376/listen": {
+   "alive": true,
+   "code": 200
+  },
+  "https://sawtalshaab3.radioca.st/index": {
+   "alive": true,
+   "code": 200
+  },
+  "https://jufmstreaming.ju.edu.jo/;": {
+   "alive": true,
+   "code": 200
   },
   "https://radio12.pro-fhi.net/live/Hits1radio": {
    "alive": true,
@@ -142,10 +226,6 @@
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
    "code": 0
-  },
-  "https://dcunilive93-lh.akamaihd.net/i/dclive_1@835787/master.m3u8": {
-   "alive": false,
-   "code": 404
   },
   "https://streaming.rimradio.ma/live": {
    "alive": true,
@@ -162,18 +242,6 @@
   "https://ahmsamir.radioca.st/stream": {
    "alive": true,
    "code": 200
-  },
-  "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
-   "alive": true,
-   "code": 403
-  },
-  "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
-   "alive": true,
-   "code": 403
-  },
-  "https://live-hls-audio-aje-ak.getaj.net/VOICE-AJE/index.m3u8": {
-   "alive": false,
-   "code": 0
   },
   "https://ahlalqaseedfm-radio.mbc.net/ahlalqaseedfm-radio.m3u8": {
    "alive": false,
@@ -206,58 +274,6 @@
   "https://wanasahfm-radio.mbc.net/wanasahfm-radio.m3u8": {
    "alive": false,
    "code": 502
-  },
-  "https://laghouat.ice.infomaniak.ch/03.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://bejaia.ice.infomaniak.ch/06.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://biskra.ice.infomaniak.ch/07.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://adrar.ice.infomaniak.ch/01.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://ch3.ice.infomaniak.ch/ch3-32.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://ch.ice.infomaniak.ch/ch1-32.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://ch2.ice.infomaniak.ch/ch2-32.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://jil-fm.ice.infomaniak.ch/jilfm.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://str0.creacast.com/jowradio": {
-   "alive": false,
-   "code": 404
-  },
-  "https://rai.ice.infomaniak.ch/rai-32.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://coran.ice.infomaniak.ch/coran.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://culture.ice.infomaniak.ch/culture.aac": {
-   "alive": false,
-   "code": 404
-  },
-  "https://elbahdja.ice.infomaniak.ch/elbahdja-32.aac": {
-   "alive": false,
-   "code": 404
   },
   "https://radio.elibana.org/radio/8000/tasfia1": {
    "alive": true,
@@ -327,10 +343,6 @@
    "alive": true,
    "code": 206
   },
-  "https://5c7b683162943.streamlock.net/live/ngrp:radio-93-3_all/media_w1405944230_b981072_107711.aac": {
-   "alive": false,
-   "code": 404
-  },
   "https://listen-ssvcbfbs.sharp-stream.com/ssvcbfbs9.mp3": {
    "alive": true,
    "code": 200
@@ -338,14 +350,6 @@
   "https://l3.itworkscdn.net/itwaudio/9026/stream.mp3": {
    "alive": true,
    "code": 200
-  },
-  "https://5c7b683162943.streamlock.net/live/ngrp:radio-96-5_all/chunklist_w1103927351_b981072.m3u8": {
-   "alive": false,
-   "code": 404
-  },
-  "https://5c7b683162943.streamlock.net/live/ngrp:radio-95-0_all/media_w329864186_b981072_107757.aac": {
-   "alive": false,
-   "code": 404
   },
   "https://s2.voscast.com:10445/stream": {
    "alive": false,
@@ -371,10 +375,6 @@
    "alive": true,
    "code": 200
   },
-  "https://stream.alkafeel.net/live/radio/playlist.m3u8": {
-   "alive": false,
-   "code": 404
-  },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
    "alive": true,
    "code": 200
@@ -399,10 +399,6 @@
    "alive": true,
    "code": 200
   },
-  "https://sawtalshaab3.radioca.st/index": {
-   "alive": true,
-   "code": 200
-  },
   "https://ec6.yesstreaming.net:2760/stream": {
    "alive": true,
    "code": 200
@@ -410,6 +406,10 @@
   "https://ap02.iqplay.tv:8082/g1/r14iomog/icecast.audio": {
    "alive": false,
    "code": 0
+  },
+  "https://svs.itworkscdn.net/orientradiolive/orlive/playlist.m3u8": {
+   "alive": true,
+   "code": 200
   }
  }
 }

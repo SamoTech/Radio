@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T13:40:28+00:00",
+ "updated": "2026-10-31T14:27:22+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -767,12 +767,6 @@
   {
    "name": "DL4MDW",
    "url": "http://websdr.tkrahn.net:8073/",
-   "loc": "",
-   "https": false
-  },
-  {
-   "name": "YB3RDW MF|HF|AirBand|VHF|UHF",
-   "url": "http://yd3rdw.cloudns.asia:8073/",
    "loc": "",
    "https": false
   },
@@ -2157,6 +2151,12 @@
    "https": false
   },
   {
+   "name": "EastMO R3DKT Receiver",
+   "url": "https://sdr.vanish125.netcraze.pro/",
+   "loc": "",
+   "https": true
+  },
+  {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
    "url": "https://rtlsdr.yo3bn.ro/",
    "loc": "",
@@ -2835,12 +2835,6 @@
    "https": true
   },
   {
-   "name": "BOGOR.ID.1",
-   "url": "https://sdr.starncrescentmoon.com/",
-   "loc": "",
-   "https": true
-  },
-  {
    "name": "Los Gallinas",
    "url": "http://losgallinas.ddns.net:8073/",
    "loc": "",
@@ -3037,6 +3031,12 @@
    "url": "http://77.95.41.82:8073/",
    "loc": "",
    "https": false
+  },
+  {
+   "name": "websdr64",
+   "url": "https://owrx.websdr64.ru/",
+   "loc": "",
+   "https": true
   }
  ]
 }
