@@ -114,7 +114,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_count: '{n} جهاز على الخريطة',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -160,7 +160,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_count: '{n} receivers on the map',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -210,6 +210,7 @@ var state = {
   satnogs: null,
   landMap: null,
   mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true },
+  grayline: true,
   currentName: '',
   playbackStation: null,
   playbackSources: [],
@@ -703,6 +704,35 @@ function mapTopoLand(topo) {
   return dAll.join('');
 }
 
+function subSolar(d) {
+  var start = Date.UTC(d.getUTCFullYear(), 0, 0);
+  var day = Math.floor((d.getTime() - start) / 86400000);
+  var decl = -23.44 * Math.cos((2 * Math.PI / 365) * (day + 10));
+  var utcH = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
+  var lon = -15 * (utcH - 12);
+  while (lon <= -180) lon += 360;
+  while (lon > 180) lon -= 360;
+  return [decl, lon];
+}
+
+function mapNightPath() {
+  var s = subSolar(new Date());
+  var dec = s[0], lonSun = s[1];
+  var rad = Math.PI / 180;
+  var tanDec = Math.tan(dec * rad);
+  var pts = [];
+  for (var lon = -180; lon <= 180; lon += 3) {
+    var t = -Math.cos((lon - lonSun) * rad) / tanDec;
+    if (isNaN(t)) t = 0;
+    pts.push(mapXY(Math.atan(t) / rad, lon));
+  }
+  var d = 'M' + pts[0][0] + ' ' + pts[0][1];
+  for (var i = 1; i < pts.length; i++) d += 'L' + pts[i][0] + ' ' + pts[i][1];
+  var edgeY = mapXY(dec >= 0 ? -90 : 90, 0)[1];
+  d += 'L720 ' + edgeY + 'L0 ' + edgeY + 'Z';
+  return { night: d, sun: mapXY(dec, lonSun) };
+}
+
 function mapItems() {
   var items = [];
   function push(layer, r, lat, lon) {
@@ -736,6 +766,15 @@ function renderMap() {
   var svg = '<svg id="map-svg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(t('map_title')) + '">';
   svg += '<rect class="map-sea" x="0" y="0" width="720" height="360"></rect>';
   if (land) svg += '<path class="map-land" d="' + land + '"></path>';
+  if (state.grayline) {
+    var g = mapNightPath();
+    svg += '<path class="map-night" d="' + g.night + '"></path>';
+    svg += '<circle class="map-sun" cx="' + g.sun[0] + '" cy="' + g.sun[1] + '" r="3"></circle>';
+  }
+  var nowD = new Date();
+  var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
+  var ck = $('map-clock');
+  if (ck) ck.textContent = p2(nowD.getUTCHours()) + ':' + p2(nowD.getUTCMinutes()) + ' UTC';
   items.forEach(function (it, i) {
     var xy = mapXY(it.lat, it.lon);
     svg += '<circle class="map-dot map-dot-' + it.layer + '" data-map-idx="' + i + '" cx="' + xy[0] + '" cy="' + xy[1] + '" r="1.8"><title>' + esc(it.name + (it.loc ? ' — ' + it.loc : '')) + '</title></circle>';
@@ -2071,10 +2110,12 @@ function initUI() {
     var btn = e.target && e.target.closest ? e.target.closest('button.map-layer') : null;
     if (!btn) return;
     var k = btn.getAttribute('data-layer');
-    state.mapLayers[k] = !state.mapLayers[k];
-    btn.classList.toggle('active', state.mapLayers[k]);
+    if (k === 'gray') { state.grayline = !state.grayline; }
+    else { state.mapLayers[k] = !state.mapLayers[k]; }
+    btn.classList.toggle('active', k === 'gray' ? state.grayline : state.mapLayers[k]);
     renderMap();
   });
+  setInterval(function () { if (state.currentName === 'map') renderMap(); }, 60000);
 }
 
 function init() {

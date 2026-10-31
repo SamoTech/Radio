@@ -183,3 +183,8 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
   .map-wrap svg{min-width:480px}
   .map-dot{r:3}
 }
+
+.map-night{fill:rgba(4,9,24,.45);pointer-events:none}
+.map-sun{fill:#ffd54d;stroke:#c9971c;stroke-width:.4;pointer-events:none}
+#map-clock{opacity:.75}
+[data-theme="light"] .map-night{fill:rgba(60,80,130,.22)}
