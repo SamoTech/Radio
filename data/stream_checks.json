@@ -1,0 +1,587 @@
+{
+ "updated": "2026-10-31T08:11:01+00:00",
+ "checked": 145,
+ "alive": 60,
+ "results": {
+  "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
+   "alive": true,
+   "code": 200
+  },
+  "https://icecast.radiofrance.fr/franceinter-midfi.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://icecast.radiofrance.fr/franceinfo-midfi.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://rfimonde64k.ice.infomaniak.ch/rfimonde-64k.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://mcdu64k.ice.infomaniak.ch/mcdu-64k.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://liveradio.swr.de/sw331ch/swr3/ch.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://icecast.omroep.nl/radio1-bb-mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://icecast.omroep.nl/radio2-bb-mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://orf-live.ors-shoutcast.at/tir-q1a": {
+   "alive": true,
+   "code": 206
+  },
+  "https://livestreaming5.onlinehorizons.net/hls-live/pernamegaam/_definst_/liveevent/liveevent.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://ch.ice.infomaniak.ch/ch1-32.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://ch2.ice.infomaniak.ch/ch2-32.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://ch3.ice.infomaniak.ch/ch3-32.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://live.medi1.com/Tarab": {
+   "alive": false,
+   "code": 404
+  },
+  "https://live.medi1.com/Francaise": {
+   "alive": false,
+   "code": 404
+  },
+  "https://live.medi1.com/Acoustic": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radiomars.ice.infomaniak.ch/radiomars-128.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://az-maroc.ice.infomaniak.ch/az-maroc-128.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://streamer.radio.co/s6cba51492/listen": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radioelbahdja.ice.infomaniak.ch/elbahdja.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radioannaba.ice.infomaniak.ch/annaba.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radioguelma.ice.infomaniak.ch/guelma.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radiolaghouat.ice.infomaniak.ch/laghouat.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radiotiaret.ice.infomaniak.ch/tiaret.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radiobouira.ice.infomaniak.ch/bouira.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radiotissemssilt.ice.infomaniak.ch/tissemssilt.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://l3.itworkscdn.net/itwaudio/9054/stream": {
+   "alive": true,
+   "code": 200
+  },
+  "https://audio-edge-qse4n.yyz.g.radiomast.io/69a2563f-dc86-4b76-a823-a4c314b08bdf": {
+   "alive": true,
+   "code": 200
+  },
+  "https://s2.yesstreaming.net:17153/stream": {
+   "alive": true,
+   "code": 206
+  },
+  "https://listen.radioking.com/radio/96766/stream/136030": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radio.radiosotak.com/sotak_128": {
+   "alive": true,
+   "code": 200
+  },
+  "https://a2.asurahosting.com:6790/sudan.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
+   "alive": true,
+   "code": 200
+  },
+  "https://svs.itworkscdn.net/pulse95live/pulse96/playlist.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://svs.itworkscdn.net/ksuperstationlive/ksuper/playlist.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://jrtv-live.ercdn.net/jrradio/quranradio.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://dwamdstream103.akamaized.net/hls/live/2015526/dwstream103/stream03/streamPlaylist.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://qurango.net/radio/mix": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/hani_arrifai": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/nabil_al_rifay": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/ali_alhuthaifi": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/mohammed_allohaidan": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/abdulmohsen_alqasim": {
+   "alive": true,
+   "code": 200
+  },
+  "https://Qurango.net/radio/ahmed_amer": {
+   "alive": true,
+   "code": 200
+  },
+  "https://chadafm.ice.infomaniak.ch/chadafm-high.mp3": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radio12.pro-fhi.net/live/Hits1radio": {
+   "alive": true,
+   "code": 200
+  },
+  "https://stream.bodkas.com/playlist?id=mfmradio": {
+   "alive": false,
+   "code": 500
+  },
+  "https://dcunilive93-lh.akamaihd.net/i/dclive_1@835787/master.m3u8": {
+   "alive": false,
+   "code": 404
+  },
+  "https://streaming.rimradio.ma/live": {
+   "alive": true,
+   "code": 200
+  },
+  "https://livestreaming5.onlinehorizons.net/hls-live/pernamegaam/_definst_/liveevent/livestream.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://9090video.mobtada.com/hls/0/stream.m3u8": {
+   "alive": true,
+   "code": 206
+  },
+  "https://ahmsamir.radioca.st/stream": {
+   "alive": true,
+   "code": 200
+  },
+  "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
+   "alive": true,
+   "code": 403
+  },
+  "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
+   "alive": true,
+   "code": 403
+  },
+  "https://n06.radiojar.com/vzvy3r5na3quv?download=1&rj-tok=AAABfd3qV00A73t9pItzdZ09qQ&rj-ttl=5": {
+   "alive": false,
+   "code": 404
+  },
+  "https://live-hls-audio-aje-ak.getaj.net/VOICE-AJE/index.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://ahlalqaseedfm-radio.mbc.net/ahlalqaseedfm-radio.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://node33.obviousapproach.com:9000/stream": {
+   "alive": false,
+   "code": 0
+  },
+  "https://mbcfm-radio.mbc.net/mbcfm-radio.m3u8": {
+   "alive": false,
+   "code": 502
+  },
+  "https://moodfm-radio.mbc.net/moodfm-radio.m3u8": {
+   "alive": false,
+   "code": 502
+  },
+  "https://panoramafm-radio.mbc.net/panoramafm-radio.m3u8": {
+   "alive": false,
+   "code": 502
+  },
+  "https://quraanfm-radio.mbc.net/quraanfm-radio.m3u8": {
+   "alive": false,
+   "code": 502
+  },
+  "https://svs.itworkscdn.net/asharqradiovlive/asharqradiov/playlist.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://wanasahfm-radio.mbc.net/wanasahfm-radio.m3u8": {
+   "alive": false,
+   "code": 502
+  },
+  "https://laghouat.ice.infomaniak.ch/03.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://bejaia.ice.infomaniak.ch/06.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://biskra.ice.infomaniak.ch/07.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://adrar.ice.infomaniak.ch/01.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://webradio.tda.dz/Bechar_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Bejaia_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Chlef_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://jil-fm.ice.infomaniak.ch/jilfm.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://str0.creacast.com/jowradio": {
+   "alive": false,
+   "code": 404
+  },
+  "https://rai.ice.infomaniak.ch/rai-32.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://webradio.tda.dz/Adrar_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Biskra_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/BordjBouArreridj_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/ouedSouf_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Taref_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Ghardaia_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Guelma_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Illizi_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Khenchela_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Laghouat_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Medea_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Oran_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Ouargla_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/OumBouaghi_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Setif_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Tamanrasset_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Tindouf_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Tipaza_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://webradio.tda.dz/Tlemcen_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://coran.ice.infomaniak.ch/coran.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://culture.ice.infomaniak.ch/culture.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://elbahdja.ice.infomaniak.ch/elbahdja-32.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://radio.elibana.org/radio/8000/tasfia1": {
+   "alive": true,
+   "code": 206
+  },
+  "https://webradio.tda.dz/Zamen_64K.mp3": {
+   "alive": false,
+   "code": 0
+  },
+  "https://mfmtunisie.toutech.net/mfmlive": {
+   "alive": true,
+   "code": 200
+  },
+  "https://stream.rm-fm.net/live": {
+   "alive": true,
+   "code": 200
+  },
+  "https://live.ifm.tn/radio/8000/ifmlive": {
+   "alive": false,
+   "code": 0
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/abu_dhabi_fm/DASH/master.mpd?expires=1734440680&md5=R9dE5Y057eHmfwLybi0GCw": {
+   "alive": false,
+   "code": 0
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/classic_fm/DASH/master.mpd?expires=1734441066&md5=5yiYwF9LCSpOygMQKBr-IQ": {
+   "alive": false,
+   "code": 0
+  },
+  "https://dmithrvllta.cdn.mgmlcdn.com/dubairdo/dubairdo_aac/chunklist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/emarat_fm/DASH/master.mpd?expires=1734441766&md5=4Cc-gSJzxvDi_ltqd6nTRA": {
+   "alive": false,
+   "code": 0
+  },
+  "https://live.kwikmotion.com/fujairahradiolive/fujairahradio/chunks.m3u8": {
+   "alive": true,
+   "code": 403
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/kadak_fm/DASH/master.mpd?expires=1734442365&md5=M4FDB57SkWxQYphj0YQPoA": {
+   "alive": false,
+   "code": 0
+  },
+  "https://svs.itworkscdn.net/pulse95live/pulse96/chunks.m3u8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/quran_kareem/DASH/master.mpd?expires=1734443037&md5=bmG5yVSYxwAFMXAUrkT2vg": {
+   "alive": false,
+   "code": 0
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/Radio1/DASH/master.mpd?expires=1734443257&md5=-P8IwxAMqAtFzFigWUG5LQ": {
+   "alive": false,
+   "code": 0
+  },
+  "https://vo-live-media.cdb.cdn.orange.com/Content/Channel/star_fm/DASH/master.mpd?expires=1734443869&md5=SEH5gxdBr5zlUQhfRsc5Uw": {
+   "alive": false,
+   "code": 0
+  },
+  "https://zayedquran.gov.ae/stream.php": {
+   "alive": true,
+   "code": 200
+  },
+  "https://67c7c75ff03cf.streamlock.net/SPANISH/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://67c7c75ff03cf.streamlock.net/QURAN/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://67c7c75ff03cf.streamlock.net/QURAN2/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://67c7c75ff03cf.streamlock.net/ORYX/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://65ec766567528.streamlock.net/QRS/myStream/chunklist_w109216624.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://67c7c75ff03cf.streamlock.net/QBS/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://67c7c75ff03cf.streamlock.net/URDU/myStream/playlist.m3u8": {
+   "alive": false,
+   "code": 0
+  },
+  "https://kwtkrdota.cdn.mangomolo.com/suprdo/suprdo.stream_aac/chunklist.m3u8": {
+   "alive": true,
+   "code": 206
+  },
+  "https://playerservices.streamtheworld.com/api/livestream-redirect/AFNE_BHN_SC": {
+   "alive": true,
+   "code": 206
+  },
+  "https://5c7b683162943.streamlock.net/live/ngrp:radio-93-3_all/media_w1405944230_b981072_107711.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://listen-ssvcbfbs.sharp-stream.com/ssvcbfbs9.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://l3.itworkscdn.net/itwaudio/9026/stream.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://5c7b683162943.streamlock.net/live/ngrp:radio-96-5_all/chunklist_w1103927351_b981072.m3u8": {
+   "alive": false,
+   "code": 404
+  },
+  "https://5c7b683162943.streamlock.net/live/ngrp:radio-95-0_all/media_w329864186_b981072_107757.aac": {
+   "alive": false,
+   "code": 404
+  },
+  "https://s2.voscast.com:10445/stream": {
+   "alive": false,
+   "code": 0
+  },
+  "https://playerservices.streamtheworld.com/api/livestream-redirect/LIGHTFMAAC_SC": {
+   "alive": true,
+   "code": 206
+  },
+  "https://stream-169.zeno.fm/q3wqw4ahtuhvv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJxM3dxdzRhaHR1aHZ2IiwiaG9zdCI6InN0cmVhbS0xNjkuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjZxMXJEcFBkVG8yQTVjeXZfdzFSMVEiLCJpYXQiOjE3NDA2MDQxMjYsImV4cCI6MTc0MDYwNDE4Nn0.Ix9UYEjMMZvTpgStUkzyzuLq7q4ZZdgmpZywKdpY2Pc": {
+   "alive": true,
+   "code": 200
+  },
+  "https://mars.streamerr.co/8342/stream": {
+   "alive": true,
+   "code": 206
+  },
+  "https://pbc.furrera.ps/voiceofpalestine/tracks-a1/mono.m3u8": {
+   "alive": true,
+   "code": 206
+  },
+  "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
+   "alive": true,
+   "code": 200
+  },
+  "https://stream.alkafeel.net/live/radio/playlist.m3u8": {
+   "alive": false,
+   "code": 404
+  },
+  "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
+   "alive": true,
+   "code": 200
+  },
+  "https://s2.radio.co/sd3c7f8539/listen": {
+   "alive": true,
+   "code": 200
+  },
+  "https://a8.asurahosting.com:7850/radio.mp3": {
+   "alive": true,
+   "code": 206
+  },
+  "https://anadolu.liderhost.com.tr:10939/": {
+   "alive": true,
+   "code": 200
+  },
+  "https://l3.itworkscdn.net/itwaudio/9006/stream": {
+   "alive": true,
+   "code": 401
+  },
+  "https://edge.mixlr.com/channel/kijwr": {
+   "alive": true,
+   "code": 200
+  },
+  "https://sawtalshaab3.radioca.st/index": {
+   "alive": true,
+   "code": 200
+  },
+  "https://ec6.yesstreaming.net:2760/stream": {
+   "alive": true,
+   "code": 200
+  },
+  "https://ap02.iqplay.tv:8082/g1/r14iomog/icecast.audio": {
+   "alive": false,
+   "code": 0
+  },
+  "https://n08.radiojar.com/sgbs60fgq3quv?rj-ttl=5&rj-tok=AAABfdr2G2EADxu-4bkpX2oQ_Q": {
+   "alive": false,
+   "code": 404
+  }
+ }
+}
