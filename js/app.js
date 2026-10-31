@@ -1230,6 +1230,10 @@ function initVisitorBox() {
     .then(function (data) {
       var value = Number(data && data.value);
       renderVisitorValue('visitor-counter', value);
+      if (data && data.statsUrl) {
+        var statsLink = $('visitor-stats');
+        if (statsLink) statsLink.href = String(data.statsUrl);
+      }
       if (value >= 0) {
         try { localStorage.setItem(VISITOR_CACHE_KEY, JSON.stringify({ v: value, ts: Date.now() })); } catch (e) {}
       }
