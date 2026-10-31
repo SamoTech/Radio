@@ -13,15 +13,15 @@ FAKE_STATIONS = [
     {
         "id": 1,
         "name": "Cairo Ground Station",
-        "status": "online",
+        "status": "Online",
         "qthlocator": "KM72ts",
         "lat": 30.0,
         "lng": 31.2,
         "altitude": 75,
         "antenna": [{"band": "UHF"}, {"band": "VHF"}, {"band": "UHF"}],
     },
-    {"id": 2, "name": "Sleepy RX", "status": "offline", "qthlocator": "JO01", "antenna": []},
-    {"id": 3, "name": "Tel Aviv Uni Rooftop", "status": "online", "qthlocator": "KM72", "antenna": []},
+    {"id": 2, "name": "Sleepy RX", "status": "Offline", "qthlocator": "JO01", "antenna": []},
+    {"id": 3, "name": "Tel Aviv Uni Rooftop", "status": "Online", "qthlocator": "KM72", "antenna": []},
 ]
 
 
@@ -52,6 +52,7 @@ class SatnogsSourceTests(unittest.TestCase):
         src = inspect.getsource(MODULE.fetch_satnogs)
         self.assertIn("SATNOGS_API_URL", src)
         self.assertIn('!= "online"', src)
+        self.assertIn(".lower()", src)  # case-insensitive: live API sends "Online"
         self.assertIn("SATNOGS_IL_MARKERS", src)
         self.assertIn("israel", inspect.getsource(MODULE))
 
