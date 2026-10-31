@@ -70,6 +70,15 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
 ARABIC_PATH = Path(__file__).resolve().parent / "arabic_stations.json"
 
+# URL patterns of streams known to be permanently dead (expired signatures,
+# unreachable hosts) — skipped in community playlist merges (IPRD).
+DEAD_URL_PATTERNS = (
+    "webradio.tda.dz",
+    "vo-live-media.cdb.cdn.orange.com/Content",
+    "rj-tok=",
+    "live.medi1.com",
+)
+
 
 def fetch_json(url, params=None, attempts=3, timeout=90):
     if params:
@@ -642,6 +651,8 @@ def parse_m3u(text, cc):
             continue
         url = line.split()[0] if line.split() else ""
         if not url.lower().startswith("https://"):
+            continue
+        if any(p in url for p in DEAD_URL_PATTERNS):
             continue
         if url in seen:
             continue
