@@ -133,6 +133,7 @@ var STR = {
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', ma_hint: 'الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.', ma_national: 'الإذاعات الوطنية', ma_regional: 'الإذاعات الجهوية', ma_source: 'SNRT Live ↗',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
+    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏',
     sources: 'المصادر:', offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
   en: {
@@ -177,6 +178,7 @@ var STR = {
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', ma_hint: 'Official Moroccan radio from SNRT — 4 national and 11 regional stations, playing in-app via automatically signed HLS links.', ma_national: 'National radio', ma_regional: 'Regional radio', ma_source: 'SNRT Live ↗',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
+    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏',
     sources: 'Sources:', offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
   }
 };
@@ -542,6 +544,7 @@ function cardFm(s) {
   var isFav = !!state.favs[s.url];
   var heart = '<button class="fav' + (isFav ? ' active' : '') + '" type="button" title="⭐" data-fav-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + (isFav ? '❤️' : '🤍') + '</button>';
   var shareBtn = '<button class="share" type="button" title="🔗" data-share-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">🔗</button>';
+  var reportBtn = '<button class="report" type="button" title="🚩" data-report-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '" aria-label="' + esc(t('report_aria')) + '">🚩</button>';
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
@@ -559,7 +562,7 @@ function cardFm(s) {
     ? '<button class="open play" type="button" data-url="' + esc(streamUrl) + '" data-name="' + esc(s.name) + '">' + esc(t('listen')) + '</button>'
     : (streamUrl ? '<a class="open http-warning" href="' + esc(streamUrl) + '" target="_blank" rel="noopener noreferrer">HTTP — ' + esc(state.lang==='ar'?'فتح خارجي فقط':'open externally only') + '</a>' : '<span class="meta">' + esc(state.lang==='ar'?'رابط البث غير صالح':'Invalid stream URL') + '</span>');
   return '<article class="card">' +
-    '<div class="card-head"><h3>' + esc(s.name) + '</h3>' + heart + shareBtn + '</div>' +
+    '<div class="card-head"><h3>' + esc(s.name) + '</h3>' + heart + shareBtn + reportBtn + '</div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     (meta ? '<div class="meta">' + esc(meta) + '</div>' : '') +
     streamAction +
@@ -1183,6 +1186,28 @@ function handleShareHash() {
   } catch (e) {}
 }
 
+/* ================= random station + broken-station report ================= */
+
+var ISSUE_URL = 'https://github.com/SamoTech/Radio/issues/new';
+
+function playRandomStation() {
+  var list = currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
+  if (!list.length) { toast(t('random_none')); return; }
+  var s = list[Math.floor(Math.random() * list.length)];
+  play(s.url, s.name);
+  toast(t('random_toast').replace('{name}', s.name));
+}
+
+function reportStation(url, name) {
+  url = safeHttpUrl(url);
+  if (!url) { toast(t('toast_broken')); return; }
+  var title = t('report_title').replace('{name}', name || '');
+  var body = t('report_body').replace('{url}', url);
+  var link = ISSUE_URL + '?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+  try { window.open(link, '_blank', 'noopener'); } catch (e) { location.href = link; }
+  toast(t('report_toast'));
+}
+
 var previousSDRFocus = null;
 
 function openSDR(url, name) {
@@ -1242,6 +1267,11 @@ function initPlayers() {
     var shBtn = el.closest('button.share');
     if (shBtn) {
       shareStation(shBtn.getAttribute('data-share-url'), shBtn.getAttribute('data-name'));
+      return;
+    }
+    var repBtn = el.closest('button.report');
+    if (repBtn) {
+      reportStation(repBtn.getAttribute('data-report-url'), repBtn.getAttribute('data-name'));
       return;
     }
     var fav = el.closest('button.fav');
@@ -1560,6 +1590,7 @@ function initUI() {
     if(e.key==='Escape' && this.value){this.value='';state.fmFilters.q='';fmClientRender();}
   });
   $('fm-search-btn').addEventListener('click', searchFM);
+  $('fm-random-btn').addEventListener('click', playRandomStation);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
   $('fm-country').addEventListener('change',function(){state.fmFilters.country=this.value;fmClientRender();});
   $('fm-language').addEventListener('change',function(){state.fmFilters.language=this.value;fmClientRender();});
