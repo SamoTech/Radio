@@ -123,7 +123,7 @@ var STR = {
     eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
-    visitors: 'إجمالي الزيارات', online_visitors: 'المتواجدون الآن', counter_unavailable: 'غير متاح', you_from: 'أنت تزور من',
+    visitors: 'إجمالي الزيارات', you_from: 'أنت تزور من',
     stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', ma_hint: 'الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.', ma_national: 'الإذاعات الوطنية', ma_regional: 'الإذاعات الجهوية', ma_source: 'SNRT Live ↗',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
@@ -161,7 +161,7 @@ var STR = {
     eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
     eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
-    visitors: 'Total page views', online_visitors: 'Online now', counter_unavailable: 'Unavailable', you_from: 'You are visiting from',
+    visitors: 'Total page views', you_from: 'You are visiting from',
     stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', ma_hint: 'Official Moroccan radio from SNRT — 4 national and 11 regional stations, playing in-app via automatically signed HLS links.', ma_national: 'National radio', ma_regional: 'Regional radio', ma_source: 'SNRT Live ↗',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
@@ -1170,10 +1170,11 @@ function initPlayers() {
 /* ================= visitor box ================= */
 
 var visitorJsonpSequence = 0;
-var visitorHeartbeatTimer = null;
-var VISITOR_NAMESPACE = 'samotech.github.io';
+var ABACUS_BASE = 'https://abacus.jasoncameron.dev';
+var ABACUS_NAMESPACE = 'samotech.github.io';
+var ABACUS_KEY = 'radio-atlas-views';
 
-function visitorCounterRequest(action, key, params) {
+function visitorCounterRequest(action, params) {
   return new Promise(function (resolve, reject) {
     var callbackName = '__radioAtlasCounter' + (++visitorJsonpSequence);
     var script = document.createElement('script');
@@ -1193,14 +1194,13 @@ function visitorCounterRequest(action, key, params) {
       if (error) reject(error); else resolve(data);
     }
     window[callbackName] = function (data) { finish(null, data); };
-    script.onerror = function () { finish(new Error('CounterAPI request failed')); };
+    script.onerror = function () { finish(new Error('Abacus request failed')); };
     var timeout = setTimeout(function () {
-      finish(new Error('CounterAPI request timed out'));
+      finish(new Error('Abacus request timed out'));
     }, 10000);
-    script.src = 'https://counterapi.com/api/' +
-      encodeURIComponent(VISITOR_NAMESPACE) + '/' +
-      encodeURIComponent(action) + '/' +
-      encodeURIComponent(key) + '?' + queryString;
+    script.src = ABACUS_BASE + '/' + action + '/' +
+      encodeURIComponent(ABACUS_NAMESPACE) + '/' +
+      encodeURIComponent(ABACUS_KEY) + (queryString ? '?' + queryString : '');
     script.async = true;
     document.head.appendChild(script);
   });
@@ -1211,29 +1211,6 @@ function renderVisitorValue(elementId, value) {
   if (!el) return;
   var number = Number(value);
   el.textContent = Number.isFinite(number) && number >= 0 ? fmtNum(number) : '—';
-}
-
-function refreshOnlineVisitors() {
-  return visitorCounterRequest('any', 'any', {
-    timeline: '3m',
-    unique: 'true',
-    readOnly: 'true'
-  }).then(function (data) {
-    renderVisitorValue('visitor-online', data && data.value);
-  }).catch(function (error) {
-    console.warn('Radio Atlas online visitor count:', error);
-    var el = $('visitor-online');
-    if (el && el.textContent === '—') el.textContent = t('counter_unavailable');
-  });
-}
-
-function sendVisitorHeartbeat() {
-  if (document.visibilityState === 'hidden') return Promise.resolve();
-  return visitorCounterRequest('presence', 'site', { trackOnly: 'true' })
-    .then(function () { return refreshOnlineVisitors(); })
-    .catch(function (error) {
-      console.warn('Radio Atlas visitor heartbeat:', error);
-    });
 }
 
 var VISITOR_CACHE_KEY = 'ra-views';
@@ -1250,7 +1227,7 @@ function visitorCachedTotal() {
 }
 
 function renderVisitorFallbackBadge() {
-  // CounterAPI down and nothing cached: show a live Moe-Counter badge
+  // Abacus down and nothing cached: show a live Moe-Counter badge
   // instead of an unavailable label.
   var el = $('visitor-counter');
   if (!el || el.getAttribute('data-fallback-badge')) return;
@@ -1265,17 +1242,14 @@ function renderVisitorFallbackBadge() {
 }
 
 function initVisitorBox() {
-  // Show the last known total instantly, then refresh via JSONP.
+  // Show the last known total instantly, then count this visit via
+  // Abacus (free counting API, jasoncameron.dev) using JSONP.
   var cachedTotal = visitorCachedTotal();
   if (cachedTotal != null) renderVisitorValue('visitor-counter', cachedTotal);
-  visitorCounterRequest('view', 'site-total', {})
+  visitorCounterRequest('hit', {})
     .then(function (data) {
       var value = Number(data && data.value);
       renderVisitorValue('visitor-counter', value);
-      if (data && data.statsUrl) {
-        var statsLink = $('visitor-stats');
-        if (statsLink) statsLink.href = String(data.statsUrl);
-      }
       if (value >= 0) {
         try { localStorage.setItem(VISITOR_CACHE_KEY, JSON.stringify({ v: value, ts: Date.now() })); } catch (e) {}
       }
@@ -1284,15 +1258,6 @@ function initVisitorBox() {
       console.warn('Radio Atlas total visitor counter:', error);
       if (visitorCachedTotal() == null) renderVisitorFallbackBadge();
     });
-
-  // A visible tab sends a heartbeat every minute. The 3-minute unique-event
-  // aggregation is the online estimate; inactive/closed tabs expire naturally.
-  sendVisitorHeartbeat();
-  if (visitorHeartbeatTimer !== null) clearInterval(visitorHeartbeatTimer);
-  visitorHeartbeatTimer = setInterval(sendVisitorHeartbeat, 60000);
-  document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible') sendVisitorHeartbeat();
-  });
 }
 
 /* ================= KiwiSDR WebSocket audio (experimental) ================= */
