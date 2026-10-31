@@ -222,11 +222,11 @@ def _cp_station_li(station):
 
 def _cp_index_page(ranked):
     items = []
-    for cc, count in ranked:
+    for cc, group in ranked:
         items.append(
             '<li><a href="./' + cc.lower() + '.html">' + _cp_flag(cc) + " "
             + _cp_escape(COUNTRY_NAMES_AR[cc])
-            + ' <span class="cnt">(' + str(count) + " محطة)</span></a></li>"
+            + ' <span class="cnt">(' + str(len(group)) + " محطة)</span></a></li>"
         )
     title = "محطات الراديو حسب الدولة — دليل عربي | راديو أطلس"
     description = (
