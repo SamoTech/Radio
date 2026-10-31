@@ -1895,6 +1895,8 @@ function initUI() {
   if (alertBtn) alertBtn.addEventListener('click', toggleSpaceAlerts);
   var eibiSearch = $('eibi-q');
   if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
+  var eibiBandSel = $('eibi-band');
+  if (eibiBandSel) eibiBandSel.addEventListener('change', function () { state.eibiBand = this.value; renderEibi(); });
 }
 
 function init() {
