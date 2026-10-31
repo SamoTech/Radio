@@ -19,6 +19,7 @@ Failures never wipe the last good snapshot. Station catalogs refresh daily;
 KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
 """
 
+import csv
 import gzip
 import io
 import json
@@ -28,7 +29,7 @@ import time
 import urllib.parse
 import urllib.request
 import zipfile
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 KIWI_MIRROR_URL = "https://cdn.aethersdr.com/kiwi.json"
@@ -48,12 +49,8 @@ SWPC_F107_URLS = [
     "https://services.swpc.noaa.gov/json/f107_cm_flux.json",
     "https://services.swpc.noaa.gov/json/f_10_7_cm_flux.json",
 ]
-EIBI_URLS = [
-    "http://eibispace.de/ski/b22.csv",
-    "http://eibispace.de/ski/b21.csv",
-    "http://www.eibispace.de/ds/ski.zip",
-    "http://eibispace.de/ds/ski.zip",
-]
+EIBI_BASE = "http://www.eibispace.de/dx"
+EIBI_FALLBACK_URL = f"{EIBI_BASE}/eibi.txt"
 EIBI_MAX_ROWS = 3000
 IPRD_BASE = "https://raw.githubusercontent.com/iprd-org/iprd/master/streams"
 ARAB_IPRD = {
@@ -379,84 +376,215 @@ def fetch_space():
 
 
 def _hhmm_to_min(s):
-    s = str(s).strip().replace(":", "")
-    if len(s) != 4 or not s.isdigit():
+    """Convert EiBi HHMM to minutes; 2400 is valid as an end time."""
+    value = str(s).strip().replace(":", "")
+    if not value.isdigit() or len(value) not in (3, 4):
         return None
-    return int(s[:2]) * 60 + int(s[2:])
+    value = value.zfill(4)
+    hour, minute = int(value[:2]), int(value[2:])
+    if minute > 59 or hour > 24 or (hour == 24 and minute != 0):
+        return None
+    return hour * 60 + minute
+
+
+def _last_sunday(year, month):
+    from calendar import monthrange
+    last_day = monthrange(year, month)[1]
+    return date(year, month, last_day) - timedelta(days=(date(year, month, last_day).weekday() + 1) % 7)
+
+
+def eibi_season_candidates(now):
+    """Return current EiBi season, previous season, then the timeless text feed."""
+    summer_start = _last_sunday(now.year, 3)
+    summer_end = _last_sunday(now.year, 10)
+    if summer_start <= now.date() < summer_end:
+        current = ("a", now.year)
+        previous = ("b", now.year - 1)
+    elif now.date() >= summer_end:
+        current = ("b", now.year)
+        previous = ("a", now.year)
+    else:
+        current = ("b", now.year - 1)
+        previous = ("a", now.year - 1)
+    urls = [
+        f"{EIBI_BASE}/sked-{code}{year % 100:02d}.csv"
+        for code, year in (current, previous)
+    ]
+    urls.append(EIBI_FALLBACK_URL)
+    return urls
+
+
+def _eibi_date_parts(value):
+    """Parse EiBi date fields, including yearless DDMon values."""
+    value = str(value or "").strip()
+    if not value:
+        return None
+    for fmt in ("%Y-%m-%d", "%Y%m%d", "%d.%m.%Y", "%d/%m/%Y",
+                "%d-%b-%Y", "%d%b%Y", "%d.%m.%y", "%d/%m/%y"):
+        try:
+            return datetime.strptime(value, fmt).date()
+        except ValueError:
+            pass
+    for fmt in ("%d%b", "%d-%b", "%d.%m", "%d/%m"):
+        try:
+            parsed = datetime.strptime(value.title(), fmt)
+            return (parsed.month, parsed.day)
+        except ValueError:
+            pass
+    return None
+
+
+def _eibi_validity_contains(start_value, stop_value, day):
+    start = _eibi_date_parts(start_value)
+    stop = _eibi_date_parts(stop_value)
+    if start is None and stop is None:
+        return True
+    # When both endpoints carry a year, honor the exact calendar dates.
+    if isinstance(start, date) and isinstance(stop, date):
+        return start <= day <= stop
+
+    def key(value):
+        return (value.month, value.day) if isinstance(value, date) else value
+    current = (day.month, day.day)
+    if start is not None and stop is not None:
+        a, b = key(start), key(stop)
+        return (a <= current <= b) if a <= b else (current >= a or current <= b)
+    if isinstance(start, date):
+        return day >= start
+    if isinstance(stop, date):
+        return day <= stop
+    if start is not None:
+        return current >= key(start)
+    return current <= key(stop)
+
+
+def _eibi_days_match(value, day):
+    """Accept EiBi weekday abbreviations, numeric weekdays, and DDMon dates."""
+    token = re.sub(r"\s+", "", str(value or "")).strip()
+    if not token:
+        return True
+    # Date-specific entries such as 24Oct. Multiple DDMon tokens are accepted.
+    dates = re.findall(r"(?i)(\d{1,2})(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)", token)
+    if dates:
+        return any(int(d) == day.day and m.lower() == day.strftime("%b").lower()
+                   for d, m in dates)
+
+    # Numeric weekday notation: 1=Monday ... 7=Sunday; ranges such as 1-5.
+    if re.fullmatch(r"[1-7,-]+", token):
+        selected = set()
+        for item in token.split(","):
+            if "-" in item:
+                a, b = item.split("-", 1)
+                if a.isdigit() and b.isdigit():
+                    lo, hi = int(a), int(b)
+                    selected.update(range(lo, hi + 1) if lo <= hi else list(range(lo, 8)) + list(range(1, hi + 1)))
+            else:
+                selected.update(int(ch) for ch in item if ch.isdigit())
+        return day.isoweekday() in selected
+
+    names = {"mo": 1, "tu": 2, "we": 3, "th": 4, "fr": 5, "sa": 6, "su": 7}
+    normalized = token.title()
+    selected = set()
+    # Expand explicit weekday ranges, including wrap-around ranges.
+    range_pattern = re.compile(r"(?i)(Mo|Tu|We|Th|Fr|Sa|Su)-(Mo|Tu|We|Th|Fr|Sa|Su)")
+    for match in range_pattern.finditer(normalized):
+        a, b = names[match.group(1).lower()], names[match.group(2).lower()]
+        selected.update(range(a, b + 1) if a <= b else list(range(a, 8)) + list(range(1, b + 1)))
+    without_ranges = range_pattern.sub("", normalized)
+    selected.update(names[m.lower()] for m in re.findall(r"(?i)Mo|Tu|We|Th|Fr|Sa|Su", without_ranges))
+    if selected:
+        return day.isoweekday() in selected
+    # Unknown special codes are not silently interpreted as daily.
+    return False
 
 
 def parse_eibi(text, now):
-    """Parse an EIBI schedule CSV and keep only on-air rows.
-
-    Tolerant parser: first column = frequency in kHz, then start (HHMM),
-    end (HHMM), an optional 7-char day pattern, then free text that
-    carries language/station details.
-    """
-    wd = now.weekday()  # 0 = Monday
-    nowm = now.hour * 60 + now.minute
-    seen = set()
-    rows = []
-    for line in text.splitlines():
-        parts = re.split(r"[,;	]", line.strip())
-        if len(parts) < 4:
+    """Parse the real semicolon-separated EiBi schedule and keep broadcasts on air now."""
+    if isinstance(text, bytes):
+        text = text.decode("latin-1", "replace")
+    now = now.astimezone(timezone.utc) if now.tzinfo else now.replace(tzinfo=timezone.utc)
+    now_day = now.date()
+    now_minutes = now.hour * 60 + now.minute
+    rows, seen = [], set()
+    reader = csv.reader(io.StringIO(text), delimiter=";", quotechar='"')
+    for parts in reader:
+        if len(parts) < 11:
             continue
         try:
-            freq = int(float(parts[0]))
-        except ValueError:
+            freq = int(float(parts[0].strip().replace(",", ".")))
+        except (ValueError, TypeError):
             continue
-        if not (2000 <= freq <= 30000):
+        if not 2000 <= freq <= 30000:
             continue
-        st = _hhmm_to_min(parts[1])
-        en = _hhmm_to_min(parts[2])
-        if st is None or en is None:
+        time_match = re.fullmatch(r"\s*(\d{3,4})\s*-\s*(\d{3,4})\s*", parts[1])
+        if not time_match:
             continue
-        on_air = (st <= nowm < en) if st <= en else (nowm >= st or nowm < en)
+        start_text, end_text = time_match.groups()
+        start_min, end_min = _hhmm_to_min(start_text), _hhmm_to_min(end_text)
+        if start_min is None or end_min is None or start_min == end_min:
+            continue
+
+        # For an overnight transmission, the post-midnight segment belongs
+        # to the previous UTC broadcast day and validity date.
+        if start_min < end_min:
+            schedule_day = now_day
+            on_air = start_min <= now_minutes < end_min
+        elif now_minutes >= start_min:
+            schedule_day = now_day
+            on_air = True
+        elif now_minutes < end_min:
+            schedule_day = now_day - timedelta(days=1)
+            on_air = True
+        else:
+            schedule_day = now_day
+            on_air = False
         if not on_air:
             continue
-        days = parts[3].strip()
-        if len(days) == 7 and set(days) <= {"0", "1"}:
-            if days[wd] != "1":
-                continue
-        rest = [p.strip() for p in parts[4:] if p.strip()]
-        name = " | ".join(rest)[:90]
-        key = (freq, parts[1].strip(), parts[2].strip(), name)
+        if not _eibi_days_match(parts[2], schedule_day):
+            continue
+        if not _eibi_validity_contains(parts[9], parts[10], schedule_day):
+            continue
+
+        itu = parts[3].strip()
+        station = parts[4].strip()
+        language = parts[5].strip()
+        target = parts[6].strip()
+        name_parts = [p for p in (itu, station, language) if p]
+        if target and target.lower() not in {"all", "ww", "world"}:
+            name_parts.append(target)
+        name = " | ".join(name_parts)[:110] or "Unknown station"
+        start_out = start_text.zfill(4)
+        end_out = end_text.zfill(4)
+        key = (freq, start_out, end_out, name)
         if key in seen:
             continue
         seen.add(key)
-        rows.append(
-            {
-                "f": freq,
-                "s": parts[1].strip(),
-                "e": parts[2].strip(),
-                "n": name,
-            }
-        )
-    rows.sort(key=lambda r: r["f"])
-    return rows[:EIBI_MAX_ROWS]
+        rows.append({"f": freq, "s": start_out, "e": end_out, "n": name})
+        if len(rows) >= EIBI_MAX_ROWS:
+            break
+    rows.sort(key=lambda row: row["f"])
+    return rows
 
 
 def fetch_eibi(now):
-    """Best-effort EIBI shortwave schedule download (try several URLs)."""
-    for url in EIBI_URLS:
-        try:
-            data = fetch_bytes(url, timeout=25)
-            if url.endswith(".zip"):
-                with zipfile.ZipFile(io.BytesIO(data)) as z:
-                    names = sorted(n for n in z.namelist() if n.lower().endswith(".csv"))
-                    if not names:
-                        continue
-                    text = z.read(names[0]).decode("utf-8", "replace")
-            else:
-                text = data.decode("utf-8", "replace")
-            if not text or len(text) < 1000:
-                continue
-            rows = parse_eibi(text, now)
-            if rows:
-                return rows
-        except Exception as e:  # noqa: BLE001
-            print(f"eibi {url} failed: {e}", file=sys.stderr)
-    return None
-
+    """Fetch the current EiBi season, previous season, then eibi.txt over HTTP."""
+    for url in eibi_season_candidates(now):
+        for attempt in range(3):
+            try:
+                data = fetch_bytes(url, timeout=25)
+                if len(data) < 1000:
+                    raise ValueError(f"schedule payload too small ({len(data)} bytes)")
+                text = data.decode("latin-1", "replace")
+                rows = parse_eibi(text, now)
+                if not rows:
+                    raise ValueError("no active EiBi rows parsed")
+                print(f"eibi: {len(rows)} active rows from {url}")
+                return url, rows
+            except Exception as e:  # noqa: BLE001
+                print(f"eibi {url} attempt {attempt + 1}/3 failed: {e}", file=sys.stderr)
+                if attempt < 2:
+                    time.sleep(2 * (attempt + 1))
+    return None, None
 
 def merge_curated_into_snapshot(curated, path):
     """Radio-Browser unreachable: re-merge curated stations into the last good snapshot."""
@@ -597,7 +725,20 @@ def main():
             print(f"space weather FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
         try:
-            print("eibi: disabled until a verified schedule source is available")
+            eibi_source, eibi_rows = fetch_eibi(now)
+            if eibi_source and eibi_rows:
+                write_json(
+                    DATA_DIR / "eibi.json",
+                    {
+                        "updated": now_iso,
+                        "source": "EiBi (eibispace.de)",
+                        "count": len(eibi_rows),
+                        "rows": eibi_rows,
+                    },
+                )
+                print(f"eibi: wrote {len(eibi_rows)} active rows from {eibi_source}")
+            else:
+                print("eibi: no usable active schedule — keeping last good snapshot", file=sys.stderr)
         except Exception as e:  # noqa: BLE001
             print(f"eibi FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
