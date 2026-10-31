@@ -1422,8 +1422,8 @@ function initPlayers() {
 
 var visitorJsonpSequence = 0;
 var ABACUS_BASE = 'https://abacus.jasoncameron.dev';
-var ABACUS_NAMESPACE = 'samotech.github.io';
-var ABACUS_KEY = 'radio-atlas-views';
+var ABACUS_NAMESPACE = 'radio-atlas';
+var ABACUS_KEY = 'views';
 
 function visitorCounterRequest(action, params) {
   return new Promise(function (resolve, reject) {
