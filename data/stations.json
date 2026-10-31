@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T10:16:16+00:00",
+ "updated": "2026-10-31T10:25:30+00:00",
  "source": "https://www.radio-browser.info/",
- "count": 51651,
+ "count": 51650,
  "stations": [
   {
    "name": "BBC World Service",
@@ -35,22 +35,22 @@
   },
   {
    "name": "RFI — Radio France Internationale",
-   "url": "https://rfimonde64k.ice.infomaniak.ch/rfimonde-64k.mp3",
+   "url": "https://rfimonde-96k.ice.infomaniak.ch/rfimonde-96k.mp3",
    "cc": "FR",
    "language": "french",
    "tags": "رسمي,world,news",
    "codec": "MP3",
-   "bitrate": 64,
+   "bitrate": 96,
    "website": "https://www.rfi.fr/"
   },
   {
    "name": "Monte Carlo Doualiya — مونت كارلو دولي",
-   "url": "https://mcdu64k.ice.infomaniak.ch/mcdu-64k.mp3",
+   "url": "https://montecarlodoualiya128k.ice.infomaniak.ch/mc-doualiya.mp3",
    "cc": "FR",
    "language": "arabic",
    "tags": "رسمي,arabic,news",
    "codec": "MP3",
-   "bitrate": 64,
+   "bitrate": 128,
    "website": "https://www.mc-doualiya.com/"
   },
   {
@@ -15083,15 +15083,6 @@
    "cc": "DK",
    "language": "",
    "tags": "talk",
-   "codec": "MP3",
-   "bitrate": 128
-  },
-  {
-   "name": "Monte Carlo Doualiya",
-   "url": "https://montecarlodoualiya128k.ice.infomaniak.ch/mc-doualiya.mp3",
-   "cc": "FR",
-   "language": "arabic",
-   "tags": "arabic,entertainment,news,talk",
    "codec": "MP3",
    "bitrate": 128
   },
@@ -140419,15 +140410,6 @@
    "tags": "local news,news,talk",
    "codec": "MP3",
    "bitrate": 64
-  },
-  {
-   "name": "RFI",
-   "url": "https://rfimonde-96k.ice.infomaniak.ch/rfimonde-96k.mp3",
-   "cc": "HT",
-   "language": "",
-   "tags": "news",
-   "codec": "MP3",
-   "bitrate": 96
   },
   {
    "name": "L0ves0n9scafe",
@@ -387343,6 +387325,15 @@
    "tags": "",
    "codec": "MP3",
    "bitrate": 128
+  },
+  {
+   "name": "101.ru Italo Disco",
+   "url": "https://srv01.gpmradio.ru/stream/pro/aac/64/161",
+   "cc": "RU",
+   "language": "english,russian",
+   "tags": "italo disco,dance,euro disco",
+   "codec": "",
+   "bitrate": 0
   },
   {
    "name": "VTC",

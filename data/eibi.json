@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T10:16:16+00:00",
+ "updated": "2026-10-31T10:25:30+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1505,
+ "count": 1514,
  "rows": [
   {
    "f": 2054,
@@ -784,6 +784,12 @@
    "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
+   "f": 3990,
+   "s": "1020",
+   "e": "1410",
+   "n": "CHN | PBS Gannan | TB | CHN"
+  },
+  {
    "f": 3995,
    "s": "0400",
    "e": "2200",
@@ -938,12 +944,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 4405,
-   "s": "0955",
-   "e": "1020",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 4414,
@@ -1916,6 +1916,12 @@
    "s": "1000",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 5970,
+   "s": "1020",
+   "e": "1410",
+   "n": "CHN | PBS Gannan | TB | CHN"
   },
   {
    "f": 5975,
@@ -3130,6 +3136,12 @@
    "n": "CHN | China Radio Int. | R | Sib"
   },
   {
+   "f": 7396,
+   "s": "1020",
+   "e": "1100",
+   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
+  },
+  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3326,6 +3338,12 @@
    "s": "0638",
    "e": "1155",
    "n": "D | DWD Pinneberg Met Fax | Eu"
+  },
+  {
+   "f": 7906,
+   "s": "1020",
+   "e": "1030",
+   "n": "VTN | Kien Giang Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3659,9 +3677,9 @@
   },
   {
    "f": 8812,
-   "s": "0955",
-   "e": "1020",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
+   "s": "1020",
+   "e": "1030",
+   "n": "TUR | TAH Turk Radio Istanbul | E | ME"
   },
   {
    "f": 8819,
@@ -5747,9 +5765,9 @@
   },
   {
    "f": 11855,
-   "s": "1000",
-   "e": "1020",
-   "n": "J | NHK Radio Japan | M | FE"
+   "s": "1020",
+   "e": "1040",
+   "n": "J | NHK Radio Japan | K | FE"
   },
   {
    "f": 11865,
@@ -6353,9 +6371,9 @@
   },
   {
    "f": 13128,
-   "s": "0955",
-   "e": "1020",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
+   "s": "1020",
+   "e": "1030",
+   "n": "TUR | TAH Turk Radio Istanbul | E | ME"
   },
   {
    "f": 13137,
@@ -7565,6 +7583,12 @@
   },
   {
    "f": 15430,
+   "s": "1020",
+   "e": "1150",
+   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
+  },
+  {
+   "f": 15430,
    "s": "1000",
    "e": "1100",
    "n": "USA | Adventist World Radio | M | FE"
@@ -7616,6 +7640,18 @@
    "s": "0100",
    "e": "1100",
    "n": "CHN | CNR 7 Greater Bay Area | CA | CHN"
+  },
+  {
+   "f": 15550,
+   "s": "1020",
+   "e": "1150",
+   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
+  },
+  {
+   "f": 15560,
+   "s": "1020",
+   "e": "1150",
+   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
   },
   {
    "f": 15570,
@@ -8224,10 +8260,28 @@
    "n": "USA | Voice of America | M | FE"
   },
   {
+   "f": 17520,
+   "s": "1020",
+   "e": "1100",
+   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
+  },
+  {
+   "f": 17525,
+   "s": "1020",
+   "e": "1200",
+   "n": "CVA | Radio Vaticana | F | WAf"
+  },
+  {
    "f": 17530,
    "s": "0900",
    "e": "1100",
    "n": "CHN | China Radio Int. | M | SEA"
+  },
+  {
+   "f": 17540,
+   "s": "1020",
+   "e": "1200",
+   "n": "CVA | Radio Vaticana | E | CAf"
   },
   {
    "f": 17550,
