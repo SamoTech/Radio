@@ -1017,7 +1017,21 @@ function renderFM() {
 }
 
 function loadStations() {
-  return fetchJSON('data/stations.json').then(function (data) {
+  return fetchJSON('data/stations_head.json').then(function (data) {
+    if (data && Array.isArray(data.stations)) {
+      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      buildFMFacets();
+      renderFM();
+      renderFav();
+      renderEG();
+      renderAR();
+      renderRel();
+    }
+  }).catch(function (e) {
+    console.warn('stations head:', e);
+  }).then(function () {
+    return fetchJSON('data/stations.json');
+  }).then(function (data) {
     if (data && Array.isArray(data.stations)) {
       state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
       buildFMFacets();
