@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T16:04:53+00:00",
+ "updated": "2026-10-31T16:09:53+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1291,
+ "count": 1258,
  "rows": [
   {
    "f": 2054,
@@ -164,6 +164,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
+  },
+  {
+   "f": 2598,
+   "s": "1607",
+   "e": "1630",
+   "n": "CAN | VCP Placentia NL | E | ENA"
   },
   {
    "f": 2600,
@@ -845,12 +851,6 @@
   },
   {
    "f": 3985,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 3985,
    "s": "1500",
    "e": "2400",
    "n": "HOL | Radio Delta Int. | NL | Eu"
@@ -968,12 +968,6 @@
    "s": "0430",
    "e": "2000",
    "n": "RUS | Goose Channel Marker | EEu"
-  },
-  {
-   "f": 4316,
-   "s": "1530",
-   "e": "1605",
-   "n": "USA | NMG USCG New Orleans | E | NAm"
   },
   {
    "f": 4346,
@@ -1931,18 +1925,6 @@
   },
   {
    "f": 6010,
-   "s": "1000",
-   "e": "1605",
-   "n": "CHN | China National Radio 11 | TB | CHN"
-  },
-  {
-   "f": 6010,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | China National Radio 11 | TB | CHN"
-  },
-  {
-   "f": 6010,
    "s": "1600",
    "e": "1700",
    "n": "CHN | China Radio Int. | VN | SEA"
@@ -1979,12 +1961,6 @@
   },
   {
    "f": 6030,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 6030,
    "s": "0253",
    "e": "2015",
    "n": "ETH | Radio Oromiya | OO | EAf"
@@ -1994,12 +1970,6 @@
    "s": "1600",
    "e": "1700",
    "n": "CHN | China Radio Int. | R | EEu"
-  },
-  {
-   "f": 6040,
-   "s": "0950",
-   "e": "1605",
-   "n": "CHN | PBS Nei Menggu | MO | CHN"
   },
   {
    "f": 6040,
@@ -2032,12 +2002,6 @@
    "n": "HOL | Radio Casanova | NL | Eu"
   },
   {
-   "f": 6065,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
    "f": 6070,
    "s": "0000",
    "e": "2400",
@@ -2054,12 +2018,6 @@
    "s": "1400",
    "e": "1700",
    "n": "CHN | China National Radio 1 | M | FE"
-  },
-  {
-   "f": 6075,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | China National Radio 11 | TB | CHN"
   },
   {
    "f": 6075,
@@ -2090,12 +2048,6 @@
    "s": "1600",
    "e": "1700",
    "n": "CHN | China Radio Int. | HK | EAf"
-  },
-  {
-   "f": 6090,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 6090,
@@ -2222,12 +2174,6 @@
    "s": "1600",
    "e": "2400",
    "n": "USA | WBCQ The Planet | E | NAm"
-  },
-  {
-   "f": 6165,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | China National Radio 6 | M | TWN"
   },
   {
    "f": 6165,
@@ -2974,12 +2920,6 @@
    "n": "CHN | China Radio Int. | SWA | EAf"
   },
   {
-   "f": 7245,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
    "f": 7255,
    "s": "1600",
    "e": "1700",
@@ -3005,21 +2945,9 @@
   },
   {
    "f": 7265,
-   "s": "1230",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 7265,
    "s": "0000",
    "e": "2400",
    "n": "HOL | Radio Europa | NL | Eu"
-  },
-  {
-   "f": 7270,
-   "s": "0950",
-   "e": "1605",
-   "n": "CHN | PBS Nei Menggu | MO | CHN"
   },
   {
    "f": 7275,
@@ -3112,22 +3040,10 @@
    "n": "CHN | China Radio Int. | VN | SEA"
   },
   {
-   "f": 7315,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
    "f": 7325,
    "s": "1600",
    "e": "1700",
    "n": "CHN | China Radio Int. | HK | SAf"
-  },
-  {
-   "f": 7335,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 7340,
@@ -3140,12 +3056,6 @@
    "s": "1100",
    "e": "1805",
    "n": "CHN | CNR 7 Greater Bay Area | CA | CHN"
-  },
-  {
-   "f": 7350,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | China National Radio 11 | TB | CHN"
   },
   {
    "f": 7350,
@@ -3170,18 +3080,6 @@
    "s": "1200",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 7370,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 7375,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 7380,
@@ -3242,18 +3140,6 @@
    "s": "1600",
    "e": "1700",
    "n": "CHN | China Radio Int. | E | WAf"
-  },
-  {
-   "f": 7420,
-   "s": "0950",
-   "e": "1605",
-   "n": "CHN | PBS Nei Menggu | M | CHN"
-  },
-  {
-   "f": 7425,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 7433,
@@ -3466,6 +3352,12 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 7906,
+   "s": "1605",
+   "e": "1615",
+   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
+  },
+  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3524,6 +3416,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 8294,
+   "s": "1605",
+   "e": "1615",
+   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
   },
   {
    "f": 8297,
@@ -3680,12 +3578,6 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | Channel Marker L | -CW | RUS"
-  },
-  {
-   "f": 8502,
-   "s": "1530",
-   "e": "1605",
-   "n": "USA | NMG USCG New Orleans | E | NAm"
   },
   {
    "f": 8514,
@@ -4331,12 +4223,6 @@
   },
   {
    "f": 9420,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | China National Radio 6 | M | TWN"
-  },
-  {
-   "f": 9420,
    "s": "1600",
    "e": "1805",
    "n": "CHN | China National Radio 13 | UI | CHN"
@@ -4372,12 +4258,6 @@
    "n": "G | BBC | SO | EAf"
   },
   {
-   "f": 9480,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | China National Radio 11 | TB | CHN"
-  },
-  {
    "f": 9490,
    "s": "1600",
    "e": "1700",
@@ -4397,21 +4277,9 @@
   },
   {
    "f": 9515,
-   "s": "0900",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 9515,
    "s": "1500",
    "e": "1700",
    "n": "KOR | KBS World Radio | E | Eu"
-  },
-  {
-   "f": 9520,
-   "s": "0950",
-   "e": "1605",
-   "n": "CHN | PBS Nei Menggu | M | CHN"
   },
   {
    "f": 9525,
@@ -4460,12 +4328,6 @@
    "s": "1600",
    "e": "1730",
    "n": "TUR | Voice of Turkey | AFG | AFG"
-  },
-  {
-   "f": 9620,
-   "s": "1300",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 9630,
@@ -4570,40 +4432,10 @@
    "n": "KOR | KBS World Radio | K | ME"
   },
   {
-   "f": 9750,
-   "s": "0950",
-   "e": "1605",
-   "n": "CHN | PBS Nei Menggu | MO | CHN"
-  },
-  {
-   "f": 9755,
-   "s": "1000",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
    "f": 9765,
    "s": "1600",
    "e": "1620",
    "n": "J | NHK Radio Japan | UR | PAK"
-  },
-  {
-   "f": 9775,
-   "s": "0900",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 9775,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 9780,
-   "s": "1130",
-   "e": "1605",
-   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 9805,
@@ -4622,12 +4454,6 @@
    "s": "0000",
    "e": "2400",
    "n": "B | Rádio 9 de Julho | P | SAm"
-  },
-  {
-   "f": 9820,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
    "f": 9830,
@@ -5518,18 +5344,6 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
-   "f": 11740,
-   "s": "1000",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 11740,
-   "s": "1100",
-   "e": "1605",
-   "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
    "f": 11750,
    "s": "0000",
    "e": "2400",
@@ -5552,12 +5366,6 @@
    "s": "1600",
    "e": "1700",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 11775,
-   "s": "1200",
-   "e": "1605",
-   "n": "CHN | China National Radio 6 | M | CHN"
   },
   {
    "f": 11775,
@@ -5930,12 +5738,6 @@
    "s": "1400",
    "e": "1615",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
-  },
-  {
-   "f": 12788,
-   "s": "1530",
-   "e": "1605",
-   "n": "USA | NMG USCG New Orleans | E | NAm"
   },
   {
    "f": 12822,
