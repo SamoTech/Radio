@@ -806,6 +806,7 @@ function eibiRow(x) {
 
 function renderEibi() {
   var p = $('eibi-panel');
+  if (!p) return;
   if (!state.eibi.length) { p.hidden = true; return; }
   p.hidden = false;
   var q = state.eibiQ.trim().toLowerCase();
@@ -1448,6 +1449,8 @@ function initUI() {
   $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
   $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
   $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
+  var eibiSearch = $('eibi-q');
+  if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
 }
 
 function init() {
@@ -1463,6 +1466,7 @@ function init() {
   } catch (e) { setLang('ar'); }
   loadKiwi();
   loadSpace();
+  loadEibi();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {

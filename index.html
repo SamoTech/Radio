@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1220">
 <title>راديو أطلس — دليل الاستقبال العالمي</title>
-<meta name="description" content="راديو أطلس: أكثر من 62,000 محطة بث وأجهزة استقبال SDR من كل العالم — بحث وتصنيف حسب الدولة واللغة والفئة، مع حالة النطاقات وجدول بث الموجات القصيرة على الهواء الآن.">
+<meta name="description" content="راديو أطلس: أكثر من 50,000 محطة بث وأجهزة استقبال SDR من كل العالم — بحث وتصنيف حسب الدولة واللغة والفئة، مع حالة النطاقات وجدول بث الموجات القصيرة على الهواء الآن.">
 <meta property="og:title" content="راديو أطلس — Radio Atlas">
 <meta property="og:description" content="دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين — بحث وتصنيف حسب الدولة واللغة والفئة.">
 <meta property="og:type" content="website">
@@ -95,6 +95,16 @@
       <div class="space-head">☀️ <strong data-i18n="space_title">حالة النطاقات</strong> <span id="space-upd" class="space-upd"></span></div>
       <div id="space-values" class="space-values"></div>
       <div id="space-cond" class="space-cond"></div>
+    </div>
+
+    <div id="eibi-panel" class="eibi-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</h2>
+        <span id="eibi-count" class="count">—</span>
+        <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي: اسم، تردد…" data-i18n-ph="eibi_ph">
+      </div>
+      <p class="hint" data-i18n="eibi_hint">من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.</p>
+      <div id="eibi-list" class="eibi-list"></div>
     </div>
 
     <p class="hint" data-i18n="sdr_hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
