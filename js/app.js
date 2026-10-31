@@ -97,8 +97,8 @@ var STR = {
     app_title: '📻 راديو أطلس',
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
-    tab_fm: '📻 محطات البث', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
-    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
+    tab_fm: '📻 محطات البث', tab_fav: '⭐ المفضلة', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
+    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
@@ -143,7 +143,7 @@ var STR = {
     app_title: '📻 Radio Atlas',
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
-    tab_fm: '📻 Broadcast stations', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
+    tab_fm: '📻 Broadcast stations', tab_fav: '⭐ Favorites', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
@@ -1958,3 +1958,4 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
