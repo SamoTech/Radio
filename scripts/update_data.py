@@ -14,6 +14,12 @@ Sources:
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
+- WSPR spots via the public wspr.live ClickHouse endpoint (db1.wspr.live)
+  — observed HF propagation: per-band spot counts over the last 2 hours
+  plus the longest heard paths.
+- WebSDR + OpenWebRX receiver directories from receiverbook.de (map pages
+  embed the full receiver list as a JSON variable), with the
+  morria/multi-sdr receiver catalog as fallback.
 
 Failures never wipe the last good snapshot. Station catalogs refresh daily;
 KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
@@ -984,6 +990,154 @@ def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+# ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
+
+WSPR_DB_URL = "https://db1.wspr.live/"
+RECEIVERBOOK_BASE = "https://www.receiverbook.de/map?type="
+WEB_SDR_FALLBACK_URL = (
+    "https://raw.githubusercontent.com/morria/multi-sdr/main/data/receivers-full.json"
+)
+WSPR_WINDOW_SECONDS = 7200
+WSPR_TOP_MIN_KM = 15000
+WEB_SDR_MAX_PER_TYPE = 400
+
+
+def _wspr_rows(query):
+    payload = fetch_json(WSPR_DB_URL, params={"query": query}, attempts=2, timeout=25)
+    rows = payload.get("data") if isinstance(payload, dict) else None
+    return rows if isinstance(rows, list) else []
+
+
+def fetch_wspr():
+    cutoff = str(int(time.time()) - WSPR_WINDOW_SECONDS)
+    bands_rows = _wspr_rows(
+        "SELECT band, count() AS c, round(avg(distance), 0) AS avg_km, "
+        "max(distance) AS max_km FROM wspr.rx WHERE time >= " + cutoff
+        + " GROUP BY band ORDER BY c DESC"
+    )
+    top_rows = _wspr_rows(
+        "SELECT tx_sign, tx_loc, rx_sign, rx_loc, distance, band, snr "
+        "FROM wspr.rx WHERE time >= " + cutoff
+        + " AND distance >= " + str(WSPR_TOP_MIN_KM)
+        + " ORDER BY distance DESC LIMIT 12"
+    )
+    if not bands_rows:
+        return None
+    bands = [
+        {
+            "band": row.get("band"),
+            "c": int(row.get("c") or 0),
+            "avg_km": int(float(row.get("avg_km") or 0)),
+            "max_km": int(float(row.get("max_km") or 0)),
+        }
+        for row in bands_rows
+        if isinstance(row, dict)
+    ]
+    top = [
+        {
+            "tx": row.get("tx_sign") or "",
+            "tx_loc": row.get("tx_loc") or "",
+            "rx": row.get("rx_sign") or "",
+            "rx_loc": row.get("rx_loc") or "",
+            "km": int(float(row.get("distance") or 0)),
+            "band": row.get("band"),
+            "snr": row.get("snr"),
+        }
+        for row in top_rows
+        if isinstance(row, dict)
+    ]
+    return {"bands": bands, "top": top}
+
+
+def _receiverbook_rows(html):
+    match = re.search(r"var\s+receivers\s*=\s*(\[[\s\S]*?\]);", html)
+    if not match:
+        return []
+    try:
+        sites = json.loads(match.group(1))
+    except (ValueError, TypeError):
+        return []
+    if not isinstance(sites, list):
+        return []
+    rows = []
+    for site in sites:
+        if not isinstance(site, dict):
+            continue
+        label = str(site.get("label") or "").strip()
+        coords = (site.get("location") or {}).get("coordinates") or []
+        if not isinstance(coords, list) or len(coords) < 2:
+            coords = [None, None]
+        for rx in site.get("receivers") or [site]:
+            if not isinstance(rx, dict):
+                continue
+            name = str(rx.get("label") or label).strip()
+            url = str(rx.get("url") or site.get("url") or "").strip()
+            if not name or not url.startswith("http"):
+                continue
+            rows.append(
+                {
+                    "name": name[:120],
+                    "url": url,
+                    "loc": (label if label and label != name else "")[:80],
+                    "lat": coords[1],
+                    "lon": coords[0],
+                }
+            )
+    return rows
+
+
+def _multi_sdr_rows(kind):
+    data = fetch_json(WEB_SDR_FALLBACK_URL, attempts=2, timeout=30)
+    rows = []
+    for rx in data if isinstance(data, list) else []:
+        if not isinstance(rx, dict) or str(rx.get("type") or "").lower() != kind:
+            continue
+        name = str(rx.get("name") or "").strip()
+        url = str(rx.get("url") or "").strip()
+        if not name or not url.startswith("http"):
+            continue
+        rows.append(
+            {"name": name[:120], "url": url, "loc": "", "lat": rx.get("lat"), "lon": rx.get("lon")}
+        )
+    return rows
+
+
+def _web_sdr_type_rows(kind):
+    try:
+        html = fetch_bytes(RECEIVERBOOK_BASE + kind, timeout=25).decode("utf-8", "replace")
+        rows = _receiverbook_rows(html)
+        if rows:
+            return rows, "receiverbook.de"
+    except Exception as e:  # noqa: BLE001
+        print(f"receiverbook {kind} FAILED: {e}", file=sys.stderr)
+    return _multi_sdr_rows(kind), "morria/multi-sdr"
+
+
+def fetch_web_sdrs():
+    out = {"websdr": [], "openwebrx": []}
+    sources = {}
+    seen = set()
+    for kind in ("websdr", "openwebrx"):
+        rows, src = _web_sdr_type_rows(kind)
+        sources[kind] = src
+        kept = []
+        for rx in rows:
+            url = rx["url"]
+            blob = (rx["name"] + " " + rx["loc"]).lower()
+            if url in seen or "israel" in blob:
+                continue
+            seen.add(url)
+            kept.append(
+                {"name": rx["name"], "url": url, "loc": rx["loc"], "https": url.startswith("https")}
+            )
+            if len(kept) >= WEB_SDR_MAX_PER_TYPE:
+                break
+        out[kind] = kept
+    if not out["websdr"] and not out["openwebrx"]:
+        return None
+    out["sources"] = sources
+    return out
+
 def main():
     mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
     if mode not in {"all", "stations", "sdr"}:
@@ -1047,6 +1201,50 @@ def main():
                 print("eibi: no usable active schedule — keeping last good snapshot", file=sys.stderr)
         except Exception as e:  # noqa: BLE001
             print(f"eibi FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
+        try:
+            wspr = fetch_wspr()
+            if wspr:
+                write_json(
+                    DATA_DIR / "wspr.json",
+                    {
+                        "updated": now_iso,
+                        "source": "wspr.live (db1.wspr.live ClickHouse)",
+                        "window_hours": WSPR_WINDOW_SECONDS // 3600,
+                        "bands": wspr["bands"],
+                        "top": wspr["top"],
+                    },
+                )
+                print(f"wspr: {len(wspr['bands'])} active bands")
+                ok = True
+            else:
+                print("wspr: no rows — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"wspr FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
+        try:
+            web_sdrs = fetch_web_sdrs()
+            if web_sdrs:
+                write_json(
+                    DATA_DIR / "web_sdrs.json",
+                    {
+                        "updated": now_iso,
+                        "source": "receiverbook.de + morria/multi-sdr fallback",
+                        "sources": web_sdrs["sources"],
+                        "websdr": web_sdrs["websdr"],
+                        "openwebrx": web_sdrs["openwebrx"],
+                    },
+                )
+                print(
+                    "web sdrs: "
+                    + str(len(web_sdrs["websdr"])) + " websdr, "
+                    + str(len(web_sdrs["openwebrx"])) + " openwebrx"
+                )
+                ok = True
+            else:
+                print("web sdrs: no receivers — keeping last good snapshot", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001
+            print(f"web sdrs FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
     if mode in {"all", "stations"}:
         try:

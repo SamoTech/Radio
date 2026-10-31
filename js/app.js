@@ -114,6 +114,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -159,6 +160,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -199,6 +201,8 @@ var state = {
   eibiQ: '',
   streamChecks: {},
   space: null,
+  wspr: null,
+  webSdrs: null,
   currentName: '',
   playbackStation: null,
   playbackSources: [],
@@ -276,6 +280,8 @@ function rebuildDynamic() {
   renderFM();
   renderMA();
   renderSpace();
+  renderWspr();
+  renderWebSdrs();
   if (state.currentName && !$('player').hidden) {
     $('player-name').textContent = '▶ ' + state.currentName;
   }
@@ -466,6 +472,82 @@ function renderSDR() {
   $('count-sdr').textContent = t('results').replace('{n}', fmtNum(list.length));
   grid.innerHTML = list.length ? list.map(cardRx).join('')
     : '<div class="empty">' + esc(t('no_match')) + '</div>';
+}
+
+/* ================= WSPR observed propagation ================= */
+
+var WSPR_BAND_LABELS = { 0.136: '2200m', 0.474: '630m', 1: '160m', 3: '80m', 5: '60m', 7: '40m', 10: '30m', 14: '20m', 18: '17m', 21: '15m', 24: '12m', 28: '10m', 50: '6m', 70: '4m', 144: '2m', 432: '70cm' };
+
+function wsprBandLabel(b) {
+  var key = Number(b);
+  return WSPR_BAND_LABELS[key] || (key + ' MHz');
+}
+
+function renderWspr() {
+  var panel = $('wspr-panel');
+  if (!panel || !state.wspr) return;
+  panel.hidden = false;
+  var bands = state.wspr.bands || [];
+  $('wspr-bands').innerHTML = bands.slice(0, 12).map(function (b) {
+    return '<span class="chip wspr-band"><b>' + esc(wsprBandLabel(b.band)) + '</b> ' + esc(fmtNum(b.c)) + ' 📶 · ↑ ' + esc(fmtNum(b.max_km)) + ' km</span>';
+  }).join('');
+  var top = state.wspr.top || [];
+  $('wspr-top').innerHTML = top.map(function (s) {
+    var path = esc(s.tx) + (s.tx_loc ? ' (' + esc(s.tx_loc) + ')' : '') + ' → ' + esc(s.rx) + (s.rx_loc ? ' (' + esc(s.rx_loc) + ')' : '');
+    return '<div class="eibi-row"><span>📡 ' + path + '</span><span class="snr">' + esc(fmtNum(s.km)) + ' km · ' + esc(wsprBandLabel(s.band)) + '</span></div>';
+  }).join('');
+  if (state.wspr.updated) $('wspr-updated').textContent = t('updated_at') + ': ' + fmtDate(state.wspr.updated);
+}
+
+function loadWspr() {
+  return fetchJSON('data/wspr.json').then(function (data) {
+    if (data && Array.isArray(data.bands) && data.bands.length) {
+      state.wspr = data;
+      renderWspr();
+    }
+  }).catch(function (e) {
+    console.warn('wspr snapshot:', e);
+  });
+}
+
+/* ================= WebSDR / OpenWebRX directories ================= */
+
+function webSdrCard(r) {
+  var action = r.https
+    ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
+    : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
+  return '<article class="card">' +
+    '<div class="card-head"><h3>' + esc(r.name) + '</h3></div>' +
+    (r.loc ? '<div class="chips"><span class="chip">📍 ' + esc(r.loc) + '</span></div>' : '') +
+    action +
+    '</article>';
+}
+
+function renderWebSdrGrid(gridId, countId, panelId, list) {
+  var grid = $(gridId);
+  var panel = $(panelId);
+  if (!grid || !panel) return;
+  if (!list || !list.length) { panel.hidden = true; return; }
+  panel.hidden = false;
+  $(countId).textContent = t('results').replace('{n}', fmtNum(list.length));
+  grid.innerHTML = list.slice(0, 150).map(webSdrCard).join('');
+}
+
+function renderWebSdrs() {
+  if (!state.webSdrs) return;
+  renderWebSdrGrid('grid-websdr', 'websdr-count', 'websdr-panel', state.webSdrs.websdr);
+  renderWebSdrGrid('grid-owrx', 'owrx-count', 'owrx-panel', state.webSdrs.openwebrx);
+}
+
+function loadWebSdrs() {
+  return fetchJSON('data/web_sdrs.json').then(function (data) {
+    if (data && (Array.isArray(data.websdr) || Array.isArray(data.openwebrx))) {
+      state.webSdrs = data;
+      renderWebSdrs();
+    }
+  }).catch(function (e) {
+    console.warn('web sdrs snapshot:', e);
+  });
 }
 
 /* ================= FM / Broadcast ================= */
@@ -1638,6 +1720,8 @@ function init() {
   loadKiwi();
   loadSpace();
   loadEibi();
+  loadWspr();
+  loadWebSdrs();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {

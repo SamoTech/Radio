@@ -100,6 +100,16 @@
       <div id="space-cond" class="space-cond"></div>
     </div>
 
+    <div id="wspr-panel" class="wspr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="wspr_title">نشاط الانتشار الفعلي — WSPR (آخر ساعتين)</h2>
+        <span id="wspr-updated" class="count"></span>
+      </div>
+      <p class="hint" data-i18n="wspr_hint">عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق.</p>
+      <div id="wspr-bands" class="wspr-bands"></div>
+      <div id="wspr-top" class="eibi-list"></div>
+    </div>
+
     <div id="eibi-panel" class="eibi-panel" hidden>
       <div class="toolbar">
         <h2 data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</h2>
@@ -112,6 +122,22 @@
 
     <p class="hint" data-i18n="sdr_hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
     <div id="grid-sdr" class="grid"></div>
+
+    <div id="websdr-panel" class="wsdr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="websdr_title">أجهزة WebSDR</h2>
+        <span id="websdr-count" class="count">—</span>
+      </div>
+      <div id="grid-websdr" class="grid"></div>
+    </div>
+
+    <div id="owrx-panel" class="wsdr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="owrx_title">أجهزة OpenWebRX</h2>
+        <span id="owrx-count" class="count">—</span>
+      </div>
+      <div id="grid-owrx" class="grid"></div>
+    </div>
   </section>
 </main>
 
