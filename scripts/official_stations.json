@@ -107,7 +107,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,news",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/"
+    "website": "https://snrtlive.ma/fr/alidaa-alwatania",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "الإذاعة الأمازيغية — Al Idaa Al Amazighia",
@@ -117,11 +119,13 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,amazigh",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/"
+    "website": "https://snrtlive.ma/fr/alidaa-alamazighia",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة محمد السادس للقرآن الكريم",
-    "url": "https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8",
+    "url": "https://cdn.live.easybroadcast.io/ts_live/radio_med_VI/playlist.m3u8",
     "cc": "MA",
     "language": "arabic",
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,quran,قرآن",
@@ -129,7 +133,7 @@
     "bitrate": 0,
     "tokenEndpoint": "https://token.easybroadcast.io/all",
     "tokenType": "easy_b",
-    "website": "https://snrtlive.ma/idaatmohammedassadiss"
+    "website": "https://snrtlive.ma/fr/idaat-mohammed-assadiss"
   },
   {
     "name": "شان إنتر — Chaîne Inter",
@@ -139,7 +143,9 @@
     "tags": "رسمي,official,snrt,arabic,maroc,music",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/"
+    "website": "https://snrtlive.ma/fr/chaine-inter",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة مراكش — Marrakech",
@@ -149,7 +155,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة تطوان — Tétouan",
@@ -159,7 +167,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة العيون — Laâyoune",
@@ -169,7 +179,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة طنجة — Tanger",
@@ -179,7 +191,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة فاس — Fès",
@@ -189,7 +203,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة وجدة — Oujda",
@@ -199,7 +215,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة الداخلة — Dakhla",
@@ -209,7 +227,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة الدار البيضاء — Casablanca",
@@ -219,7 +239,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة الحسيمة — Al Hoceima",
@@ -229,7 +251,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة أكادير — Agadir",
@@ -239,7 +263,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "إذاعة مكناس — Meknès",
@@ -249,7 +275,9 @@
     "tags": "رسمي,official,snrt,عربي,arabic,maroc,regional",
     "codec": "AAC",
     "bitrate": 0,
-    "website": "https://snrtlive.ma/fr/radio-regionale"
+    "website": "https://snrtlive.ma/fr/radio-regionale",
+    "tokenEndpoint": "https://token.easybroadcast.io/all",
+    "tokenType": "easy_b"
   },
   {
     "name": "البرنامج العام — El Bernameg Al Aam",
