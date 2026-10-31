@@ -55,5 +55,12 @@ class StationUrlTests(unittest.TestCase):
         self.assertEqual([row["name"] for row in rows], ["Alive"])
 
 
+class HeadSnapshotTests(unittest.TestCase):
+    def test_main_writes_head_snapshot_for_fast_first_paint(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn('DATA_DIR / "stations_head.json"', source)
+        self.assertIn("head = stations[:2500]", source)
+
+
 if __name__ == "__main__":
     unittest.main()

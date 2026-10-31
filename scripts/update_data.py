@@ -1427,6 +1427,16 @@ def main():
                     "stations": stations,
                 },
             )
+            head = stations[:2500]
+            write_json(
+                DATA_DIR / "stations_head.json",
+                {
+                    "updated": now_iso,
+                    "source": "https://www.radio-browser.info/",
+                    "count": len(head),
+                    "stations": head,
+                },
+            )
             ok = True
             try:
                 checks = run_stream_checks(officials + arabic + arab_extra)
