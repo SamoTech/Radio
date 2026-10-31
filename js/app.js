@@ -132,6 +132,7 @@ var STR = {
     stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', ma_hint: 'الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.', ma_national: 'الإذاعات الوطنية', ma_regional: 'الإذاعات الجهوية', ma_source: 'SNRT Live ↗',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
+    share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
     sources: 'المصادر:', offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
   en: {
@@ -175,6 +176,7 @@ var STR = {
     stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', ma_hint: 'Official Moroccan radio from SNRT — 4 national and 11 regional stations, playing in-app via automatically signed HLS links.', ma_national: 'National radio', ma_regional: 'Regional radio', ma_source: 'SNRT Live ↗',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
+    share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
     sources: 'Sources:', offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
   }
 };
@@ -539,6 +541,7 @@ function normalizeFm(s) {
 function cardFm(s) {
   var isFav = !!state.favs[s.url];
   var heart = '<button class="fav' + (isFav ? ' active' : '') + '" type="button" title="⭐" data-fav-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + (isFav ? '❤️' : '🤍') + '</button>';
+  var shareBtn = '<button class="share" type="button" title="🔗" data-share-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">🔗</button>';
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';
   if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
@@ -556,7 +559,7 @@ function cardFm(s) {
     ? '<button class="open play" type="button" data-url="' + esc(streamUrl) + '" data-name="' + esc(s.name) + '">' + esc(t('listen')) + '</button>'
     : (streamUrl ? '<a class="open http-warning" href="' + esc(streamUrl) + '" target="_blank" rel="noopener noreferrer">HTTP — ' + esc(state.lang==='ar'?'فتح خارجي فقط':'open externally only') + '</a>' : '<span class="meta">' + esc(state.lang==='ar'?'رابط البث غير صالح':'Invalid stream URL') + '</span>');
   return '<article class="card">' +
-    '<div class="card-head"><h3>' + esc(s.name) + '</h3>' + heart + '</div>' +
+    '<div class="card-head"><h3>' + esc(s.name) + '</h3>' + heart + shareBtn + '</div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     (meta ? '<div class="meta">' + esc(meta) + '</div>' : '') +
     streamAction +
@@ -639,6 +642,7 @@ function loadStations() {
     renderMA();
     initResume();
     loadStreamChecks();
+    handleShareHash();
   });
 }
 
@@ -1131,6 +1135,52 @@ function play(url, name) {
   startCurrentPlayback(generation);
   try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: state.currentName })); } catch (e) {}
   setMedia(state.currentName);
+  try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
+}
+
+/* ================= station sharing / deep links ================= */
+
+var shareHashHandled = false;
+
+function stationShareLink(url) {
+  try {
+    return location.origin + location.pathname + '#play=' + encodeURIComponent(url);
+  } catch (e) { return ''; }
+}
+
+function shareStation(url, name) {
+  url = safeHttpUrl(url);
+  if (!url) { toast(t('toast_broken')); return; }
+  var link = stationShareLink(url);
+  if (!link) { toast(t('toast_broken')); return; }
+  if (navigator.share) {
+    try {
+      navigator.share({ title: name || t('doc_title'), text: name || '', url: link }).catch(function () {});
+      return;
+    } catch (e) {}
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link).then(function () {
+      toast(t('share_copied'));
+    }).catch(function () {
+      toast(link);
+    });
+    return;
+  }
+  toast(link);
+}
+
+function handleShareHash() {
+  if (shareHashHandled) return;
+  shareHashHandled = true;
+  try {
+    var h = location.hash || '';
+    if (h.indexOf('#play=') !== 0) return;
+    var url = decodeURIComponent(h.slice(6));
+    if (!safeHttpsUrl(url)) return;
+    var station = stationByUrl(url);
+    play(url, station ? station.name : '');
+  } catch (e) {}
 }
 
 var previousSDRFocus = null;
@@ -1189,6 +1239,11 @@ function initPlayers() {
   document.addEventListener('click', function (e) {
     var el = e.target;
     if (!el || !el.closest) return;
+    var shBtn = el.closest('button.share');
+    if (shBtn) {
+      shareStation(shBtn.getAttribute('data-share-url'), shBtn.getAttribute('data-name'));
+      return;
+    }
     var fav = el.closest('button.fav');
     if (fav) {
       var url = fav.getAttribute('data-fav-url');

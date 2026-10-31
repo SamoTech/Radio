@@ -143,3 +143,6 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 /* band condition alerts */
 #space-alert-btn{font-size:.9rem;padding:4px 10px}
 #space-alert-btn.active{border-color:var(--accent);color:var(--accent)}
+
+/* station sharing */
+.share{background:none;border:none;cursor:pointer;font-size:.95rem;padding:0 2px;flex:none;line-height:1.4}
