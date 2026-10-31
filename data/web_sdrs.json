@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T12:54:11+00:00",
+ "updated": "2026-10-31T13:13:11+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1323,6 +1323,12 @@
    "https": false
   },
   {
+   "name": "EA8DJF",
+   "url": "http://ea8djfsdr.ddns.net:8090/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "EA3KZ  sdr.astroradio.com",
    "url": "http://sdr.astroradio.com/",
    "loc": "",
@@ -1471,12 +1477,6 @@
    "url": "https://gwinnovation.dynv6.net/websdr/",
    "loc": "",
    "https": true
-  },
-  {
-   "name": "4X1FK_Nir",
-   "url": "http://94.159.134.215:8073/",
-   "loc": "",
-   "https": false
   },
   {
    "name": "SP6PWT SDR",
@@ -2163,12 +2163,6 @@
    "https": false
   },
   {
-   "name": "EastMO R3DKT Receiver",
-   "url": "https://sdr.vanish125.netcraze.pro/",
-   "loc": "",
-   "https": true
-  },
-  {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
    "url": "https://rtlsdr.yo3bn.ro/",
    "loc": "",
@@ -2641,6 +2635,12 @@
    "url": "http://93.47.89.55:8073/",
    "loc": "",
    "https": false
+  },
+  {
+   "name": "Receiver",
+   "url": "https://sdr.surrealservers.net/",
+   "loc": "",
+   "https": true
   },
   {
    "name": "S59EKL",
