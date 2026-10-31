@@ -1,83 +1,134 @@
 # 📻 Radio Atlas — راديو أطلس
 
-دليل بحث ذكي يجمع أجهزة الاستقبال (SDR) ومحطات البث المتاحة أونلاين في مكان واحد، مع تحديث تلقائي مستمر للبيانات.
+> 🔗 **الموقع المباشر:** <https://samotech.github.io/Radio/>
 
-> **المرحلة الحالية: MVP** — دليل KiwiSDR كامل + محطات FM/إنترنت بتشغيل مباشر من الموقع.
+دليل بحث ذكي بيجمع أجهزة الاستقبال (SDR) ومحطات البث المتاحة أونلاين في مكان واحد، مع تحديث تلقائي مستمر للبيانات — موقع ثابت بالكامل (static PWA) بدون أي خادم خارجي.
 
-## المعمارية
+## 📊 نظرة سريعة
+
+| البند | التفاصيل |
+|---|---|
+| 🌐 الموقع | [https://samotech.github.io/Radio/](https://samotech.github.io/Radio/) |
+| 📻 محطات البث | أكثر من 50,000 محطة من كل العالم + قوائم منسّقة للإذاعات الرسمية والعربية |
+| 🛰️ أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
+| 🔄 التحديث | الإذاعات وفحص الروابط يوميًا · أجهزة SDR والطقس الفضائي والموجات القصيرة كل 6 ساعات |
+| 🧱 التقنية | HTML + CSS + Vanilla JS بدون أي مكتبات · Python stdlib للـ crawler · GitHub Pages |
+| 🌍 اللغات | عربي (RTL) + English (LTR) |
+
+## ✨ المزايا
+
+### 📻 محطات البث
+
+- كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة) مدموج بالأولوية: الإذاعات الرسمية → المحطات العربية المنسّقة → IPRD → بقية الكتالوج.
+- بحث فوري داخل المتصفح بالاسم أو الدولة أو اللغة أو الفئة، مع تطبيع نص عربي (أ/إ/آ، ى/ي، والتشكيل).
+- فلاتر قوائم قابلة للبحث (دولة / لغة / فئة) + شرائح سريعة: الكل، المفضلة، عربي، رسمي، أخبار، قرآن، رياضة، موسيقى.
+- تشغيل داخلي: بث مباشر MP3/AAC + بث HLS عبر hls.js (بتحميل عند الحاجة، مع تبديل تلقائي بين CDN).
+- سلسلة بدائل تلقائية: لو الرابط الأساسي فشل، التطبيق بيجرب بدائل الرابط واحدًا واحدًا بدون تدخل.
+- محطات SNRT المغربية (15 إذاعة): توكن EasyBroadcast موقّع تلقائيًا في المتصفح مع تجديد قبل انتهاء صلاحيته.
+- شارات حالة الاستجابة من الفحص اليومي: ✔ شغال أو ✖ لا يستجيب (الروابط المحمية بـ 401/403/405 تُحسب شغالة، والمحطات المحمية بتوكن مستثناة من الفحص).
+- مفضلة محلية + استكمال آخر محطة كنت بتسمعها + أزرار Media Session + فتح الرابط أو الموقع الرسمي خارجيًا.
+
+### 🛰️ أجهزة الاستقبال SDR
+
+- دليل KiwiSDR الكامل: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، الموقع، الهوائي، إحداثيات GPS.
+- فلترة بالنطاق و SNR الأدنى و«فيه مكان فاضي» وفرز بمختلف المعايير.
+- استماع داخل التطبيق لواجهة الجهاز (iframe) لأجهزة HTTPS.
+- **صوت مباشر تجريبي عبر WebSocket** (بروتوكول KiwiSDR): للأجهزة اللي بتسمح بالاتصال الخارجي (ext_api مفتوح) — مودال بتغيير التردد والوضع AM/USB/LSB/CW، ولو الاتصال فشل خلال 8 ثواني التطبيق بيفتح واجهة الجهاز المدمجة تلقائيًا.
+
+### 📡 أدوات هواة اللاسلكي
+
+- حالة النطاقات: مؤشر Kp وتدفق شمسي F10.7 من NOAA SWPC مع تقييم فتح النطاقات العالية.
+- جدول بث الموجات القصيرة النشطة الآن (حتى 3000 إرسال) من جدول EiBi الموسمي.
+- عداد زوار متين: إجمالي الزيارات + المتواجدون الآن (نبضات كل دقيقة) — مع كاش محلي 14 يوم وبديل تلقائي لو خدمة العداد وقعت.
+
+### 📱 الواجهة
+
+- عربي/إنجليزي بتبديل فوري (RTL/LTR) + ثيم داكن/فاتح.
+- PWA قابلة للتثبيت على الموبايل والديسكتوب، ووضع أوفلاين: network-first مع كاش للبيانات وصفحة أوفلاين احتياطية.
+
+## 🏗️ المعمارية
 
 ```mermaid
 flowchart LR
-    A[KiwiSDR Directory — عبر مرآة AetherSDR CDN] --> C[Crawler]
-    B[Radio-Browser API] --> C
-    C[GitHub Actions — الإذاعات يوميًا وSDR كل 6 ساعات] --> D[(data/*.json)]
-    D --> E[GitHub Pages — PWA]
+    subgraph مصادر البيانات
+      A[AetherSDR CDN — دليل KiwiSDR] --> G
+      B[Radio-Browser — de1 وde2 وnl1] --> G
+      C[NOAA SWPC — Kp وF10.7] --> G
+      D[EiBi — جدول موسمي للموجات القصيرة] --> G
+      E[IPRD — قوائم M3U لعشرين دولة عربية] --> G
+      F[official_stations وarabic_stations — قوائم منسقة يدويًا] --> G
+    end
+    G[scripts/update_data.py — Python stdlib فقط] --> H[(data/*.json)]
+    G --> S[فحص صحة روابط المحطات المنسقة]
+    S --> H
+    H --> I[GitHub Pages — PWA بدون خادم]
 ```
 
-### مصادر بيانات أجهزة SDR
+> أي فشل في أي مصدر بيخلي النظام يحتفظ بآخر لقطة ناجحة — البيانات ما بتتمسش أبدًا عند الفشل.
 
-1. **الأساسي:** `https://cdn.aethersdr.com/kiwi.json` — مرآة رسمية مفتوحة (CORS) لدليل KiwiSDR العام، بتجدد كل ساعة و بتشتغل حتى لو الأصل وقع (خلال فترة تغييرات سيرفرات KiwiSDR الحالية). حقل `ext_api` بيقول سياسة كل مشغل بخصوص الاتصال من تطبيات خارجية — مهم للمرحلة ٢.
-2. **احتياطي:** `rx.kiwisdr.com/json/` — الإندبوينت الأصلي (بيقع و يرجع).
+## 🗃️ ملفات البيانات (data/)
 
-- **الواجهة:** PWA عربية (RTL)، بدون أي dependencies — HTML + CSS + vanilla JS + Service Worker.
-- **البحث في محطات FM:** بحث محلي فوري من الكتالوج المحمّل؛ البحث المباشر من Radio-Browser اختياري.
+| الملف | المحتوى |
+|---|---|
+| stations.json | الكتالوج الكامل (~12MB) — ترتيب: رسمية/عربية/IPRD أولاً؛ الحقول: name, url, cc, language, tags, codec, bitrate + حقول اختيارية: fallbacks, website, tokenEndpoint, tokenType |
+| kiwisdr.json | ~830 جهاز استقبال (gps, bands, loc, antenna, ext_api) |
+| space_weather.json | مؤشر Kp وتدفق F10.7 الشمسي |
+| eibi.json | إرسالات الموجات القصيرة النشطة وقت الزحف |
+| stream_checks.json | نتائج فحص الروابط اليومي — لكل رابط: alive وcode |
 
-> **ملاحظة تشغيل:** كتالوج الإذاعات يتحدث يوميًا، وبيانات SDR والطقس الفضائي تتحدث كل 6 ساعات. عند فشل أي مصدر يحتفظ النظام بآخر لقطة ناجحة. بيانات EiBi مجانية للاستخدام وإعادة التوزيع وفق شروط `README.TXT`، مع الإبقاء على نسبة المصدر إلى EiBi.
-
-## الميزات (MVP)
-
-- 🛰️ دليل أجهزة KiwiSDR: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، الموقع، الهوائي، GPS
-- 🔎 بحث فوري بالاسم/البلد/الموقع/الهوائي + فلترة بالنطاق و SNR الأدنى و«فيه مكان فاضي»
-- 📻 محطات FM/إنترنت: الأكثر استماعًا عالميًا + بحث حي + مشغل صوتي داخلي
-- 📱 قابلة للتثبيت كتطبيق (PWA) وتعمل أوفلاين للواجهة والبيانات التي سبق تحميلها
-- روابط HTTP تُعرض كفتح خارجي فقط؛ التشغيل داخل التطبيق يقتصر على HTTPS
-- جدول EIBI للموجات القصيرة يعرض الإرسالات النشطة حاليًا اعتمادًا على جدول EiBi الموسمي
-
-## التشغيل محليًا
+## 🖥️ التشغيل محليًا
 
 ```bash
-python scripts/update_data.py all      # تحديث كل البيانات
-python scripts/update_data.py stations # كتالوج الإذاعات فقط
-python scripts/update_data.py sdr      # SDR والطقس والموجات القصيرة فقط
-python -m http.server 8000       # ثم افتح http://localhost:8000
+git clone https://github.com/SamoTech/Radio.git
+cd Radio
+python scripts/update_data.py all       # تحديث كل البيانات
+python scripts/update_data.py stations  # كتالوج الإذاعات + فحص الروابط فقط
+python scripts/update_data.py sdr       # أجهزة SDR والطقع الفضائي والموجات القصيرة فقط
+python -m http.server 8000
+# ثم افتح http://localhost:8000
 ```
 
-## تفعيل النشر على GitHub Pages (مرة واحدة)
+الـ crawler يعتمد على Python stdlib فقط — لا يحتاج أي مكتبات خارجية.
 
-1. من صفحة الريبو: **Settings → Pages**
-2. تحت **Build and deployment**: اختر **Source: GitHub Actions**
-3. شغّل workflow **Deploy to GitHub Pages** من تبويب Actions (أو دوس أي commit جديد)
+## 🚀 النشر والتحديث التلقائي
 
-الموقع هيكون على: `https://samotech.github.io/Radio/`
+كل حاجة بتتم في workflow واحد (.github/workflows/update-data.yml):
 
-## قيود معروفة
+1. **الجدول:** الإذاعات وفحص الروابط يوميًا (02:17 UTC) · أجهزة SDR والطقع الفضائي وEiBi كل 6 ساعات.
+2. **على كل push لـ main:** تحديث شامل (وضع all) + فحص syntax للواجهة (node --check).
+3. **الخطوات:** تحديث البيانات → commit لو حصل تغيير فعلي → نشر GitHub Pages في نفس الـ run.
 
-- جدول EIBI يُجلب من `http://www.eibispace.de/dx/` عبر HTTP فقط؛ شهادة HTTPS للمصدر غير موثوقة، لذلك لا يستخدم crawler اتصال HTTPS أو يتجاوز التحقق من TLS. يحسب crawler موسم A/B تلقائيًا، ويحاول ملف الموسم الحالي ثم الموسم السابق ثم `eibi.txt`؛ وقد يتأخر نشر ملف الموسم الجديد، وعند فشل كل المصادر يحتفظ بآخر لقطة ناجحة دون إنشاء ملف فارغ.
-- كتالوج المحطات ما زال ملف JSON واحدًا كبيرًا؛ تقسيمه إلى ملفات حسب الدولة يحتاج تغييرًا متوافقًا في آلية النشر والتحميل، لذلك لم يُنفذ ضمن إصلاحات الأمان والتشغيل الحالية.
+(.github/workflows/deploy.yml موجود للتشغيل اليدوي في الطوارئ فقط.)
 
-## خطة المراحل
+## ⚠️ قيود معروفة
+
+- الصوت المباشر عبر WebSocket **تجريبي** — بروتوكول KiwiSDR مُطبّق بأفضل اجتهاد، وبعض الأجهزة بتحتاج باسورد أو بتمنع الاتصالات الخارجية (التطبيق بيرجع للواجهة المدمجة تلقائيًا).
+- أجهزة الاستقبال HTTP بتفتح خارجيًا فقط — قيود mixed content بتمنع تضمينها في صفحة HTTPS.
+- عداد الزوار من خدمة خارجية (CounterAPI) — الواجهة بتتحمل وقوفه بالكاش والبديل، لكن القيم وقت التقط ممكن تبقى قديمة.
+- كتالوج المحطات لسه ملف JSON واحد كبير؛ تقسيمه حسب الدولة محتاج تغيير متوافق في آلية التحميل.
+- جدول EiBi بيُجلب من مصدر HTTP فقط، والـ crawler بيحدد الموسم تلقائيًا وبيجرب الموسم الحالي ثم السابق ثم ملف تجميعي.
+- فحص الروابط بيتخطى المحطات المحمية بتوكن (مثل easybroadcast) لأن الفحص من سيرفرات GitHub ما بيعرفش يوقّع توكنات.
+
+## 🗺️ خطة المراحل
 
 | المرحلة | المحتوى |
 |---|---|
-| ✅ MVP | دليل KiwiSDR + محطات FM + crawler + Pages |
-| 2️⃣ | تشغيل صوتي داخلي لأجهزة Kiwi (بروتوكول WebSocket — مع احترام `ext_api` لكل مشغل) + OpenWebRX |
+| ✅ MVP | دليل KiwiSDR + محطات FM + تشغيل داخلي + crawler + Pages |
+| ✅ المرحلة ٢ (جزئيًا) | صوت KiwiSDR عبر WebSocket (تجريبي، مع احترام ext_api) — باقي: OpenWebRX |
 | 3️⃣ | WebSDR + نطاق الطيران |
 | 4️⃣ | تنبيهات «فتح النطاقات» (WSPRnet + تاريخ SNR) + SatNOGS + AIS/ADS-B |
 
-## بروتوكول التطوير
+## 🔧 بروتوكول التطوير
 
-- أي تعديل يتعمل على branch منفصل + Pull Request
-- رسائل الـ commits بصيغة conventional (`feat:`, `fix:`, `chore:`)
-- البيانات المولدة لا تُعدل يدويًا أبدًا — فقط عن طريق الـ crawler
+- أي تعديل على branch منفصل + Pull Request + دمج squash.
+- رسائل الـ commits بصيغة conventional: feat / fix / chore / docs.
+- البيانات المولّدة لا تُعدّل يدويًا أبدًا — فقط عن طريق الـ crawler.
+- الـ crawler عمره ما يمسح آخر لقطة ناجحة عند فشل أي مصدر.
+- المحطات الإسرائيلية مستبعدة من الكتالوج نهائيًا (سياسة محتوى).
+
+## 📄 التراخيص والمصادر
+
+بيانات EiBi مجانية للاستخدام وإعادة التوزيع وفق شروط المصدر، مع الإبقاء على نسبة المصدر إلى EiBi. باقي المصادر (KiwiSDR عبر مرآة AetherSDR، Radio-Browser، NOAA SWPC، IPRD) APIs ومنشورات عامة.
 
 ---
 **SamoTech/Radio** — Cairo 🇪🇬
-
-
-## Discovery and analytics improvements
-
-- Searchable country, language, and category filters.
-- Canonical language names and a curated list of common broadcast categories.
-- Official/national stations are prioritized in the station catalog.
-- Global page views and estimated currently active visitors are tracked through CounterAPI.com. Active visitors are estimated from visible-tab heartbeats in a rolling 3-minute window; this is not a real-time authenticated-user count. Country-level analytics require a separate analytics provider and are not inferred from the total counter.
-- The data refresh workflow deploys Pages in the same run after updating the snapshot, avoiding reliance on a second workflow triggered by a push made with the default GitHub Actions token.
