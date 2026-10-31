@@ -36,3 +36,223 @@
     <button id="tab-fm" class="tab active" type="button" data-i18n="tab_fm">📻 محطات البث</button>
     <button id="tab-fav" class="tab" type="button" data-i18n="tab_fav">⭐ المفضلة</button>
     <button id="tab-ar" class="tab" type="button" data-i18n="tab_ar">🌍 عربي</button>
+    <button id="tab-rel" class="tab" type="button" data-i18n="tab_rel">🕋 ديني</button>
+    <button id="tab-eg" class="tab" type="button" data-i18n="tab_eg">🇪🇬 مصر</button>
+    <button id="tab-sdr" class="tab" type="button" data-i18n="tab_sdr">أجهزة الاستقبال SDR</button>
+  </nav>
+</header>
+
+<main>
+  <!-- FM / Broadcast (default tab) -->
+  <section id="panel-fm">
+    <div class="fm-toolbar" role="search" data-i18n-aria="fm_search_aria" aria-label="البحث عن محطات الراديو">
+      <div class="fm-search-row">
+        <label class="sr-only" for="qfm">ابحث عن محطة أو دولة أو لغة أو فئة</label>
+        <input id="qfm" type="search" autocomplete="off" placeholder="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة…" data-i18n-ph="search_fm_ph" data-i18n-aria="fm_search_input_aria" aria-label="ابحث باسم المحطة أو الدولة أو اللغة أو الفئة">
+        <button id="fm-search-btn" class="btn primary" type="button" data-i18n="live_search">بحث مباشر</button>
+        <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
+        <button id="fm-random-btn" class="btn ghost" type="button" data-i18n="random_station" data-i18n-aria="random_aria" title="🎲">🎲 محطة عشوائية</button>
+      </div>
+      <div class="fm-filter-grid" aria-label="تصفية المحطات">
+        <div class="filter-field"><label for="fm-country-search" data-i18n="filter_country">الدولة</label><input id="fm-country-search" type="search" autocomplete="off" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" data-i18n-aria="search_country_aria"><select id="fm-country" title="الدولة" data-i18n-aria="select_country_aria"></select></div>
+        <div class="filter-field"><label for="fm-language-search" data-i18n="filter_language">اللغة</label><input id="fm-language-search" type="search" autocomplete="off" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" data-i18n-aria="search_language_aria"><select id="fm-language" title="اللغة" data-i18n-aria="select_language_aria"></select></div>
+        <div class="filter-field"><label for="fm-tag-search" data-i18n="filter_category">الفئة</label><input id="fm-tag-search" type="search" autocomplete="off" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" data-i18n-aria="search_category_aria"><select id="fm-tag" title="الفئة" data-i18n-aria="select_category_aria"></select></div>
+      </div>
+      <div class="fm-results-row"><span id="count-fm" class="count" aria-live="polite"></span><span class="fm-search-note" data-i18n="fm_search_note">البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.</span></div>
+    </div>
+    <div id="quick-chips" class="quick-chips">
+      <button class="qchip" data-chip="all" type="button" data-i18n="chip_all">✨ الكل</button>
+      <button class="qchip" data-chip="fav" type="button" data-i18n="chip_fav">⭐ المفضلة</button>
+      <button class="qchip" data-chip="arabic" type="button" data-i18n="chip_arabic">🎙 عربي</button>
+      <button class="qchip" data-chip="news" type="button" data-i18n="chip_news">📰 أخبار</button>
+      <button class="qchip" data-chip="quran" type="button" data-i18n="chip_quran">🕌 قرآن</button>
+      <button class="qchip" data-chip="sports" type="button" data-i18n="chip_sports">⚽ رياضة</button>
+      <button class="qchip" data-chip="music" type="button" data-i18n="chip_music">🎵 موسيقى</button>
+    </div>
+    <p class="hint" data-i18n="fm_hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
+    <div id="grid-fm" class="grid" aria-live="polite" aria-busy="false"></div>
+  </section>
+
+  <!-- SDR -->
+    <!-- All-Arabic radio grouped by country -->
+  <section id="panel-ar" hidden>
+    <p class="hint ma-hint" data-i18n="ar_hint">كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.</p>
+    <p id="ar-count" class="ma-count"></p>
+    <div id="grid-ar" class="grid"></div>
+  </section>
+
+  <!-- Religious radio -->
+  <section id="panel-rel" hidden>
+    <p class="hint ma-hint" data-i18n="rel_hint">كل المحطات الدينية من الكتالوج في مكان واحد — قرآن وبرامج دينية، والاستماع مباشر من الموقع.</p>
+    <p id="rel-count" class="ma-count"></p>
+    <div id="grid-rel" class="grid"></div>
+  </section>
+
+  <!-- Favorites -->
+  <section id="panel-fav" hidden>
+    <p class="hint ma-hint" data-i18n="fav_hint">جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.</p>
+    <p id="fav-count" class="ma-count"></p>
+    <div id="grid-fav" class="grid"></div>
+  </section>
+
+  <!-- Egypt radio -->
+  <section id="panel-eg" hidden>
+    <p class="hint ma-hint"><span data-i18n="eg_hint">كل إذاعات مصر من الكتالوج في مكان واحد — الاستماع مباشر من الموقع، والمحطات الرسمية والمنتقاة في الأول.</span> <a href="https://maspero.eg/" target="_blank" rel="noopener" data-i18n="eg_source">إذاعات مصر الرسمية ↗</a></p>
+    <p id="eg-count" class="ma-count"></p>
+    <div id="grid-eg" class="grid"></div>
+  </section>
+
+<section id="panel-sdr" hidden>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…" data-i18n-ph="search_sdr_ph">
+      <select id="band" title="النطاق"></select>
+      <select id="rx-type" title="نوع الاستقبال" data-i18n-aria="filter_rx_type_aria">
+        <option value="all" data-i18n="all_types">الكل</option>
+        <option value="kiwi" data-i18n="kiwi_type">KiwiSDR</option>
+        <option value="websdr" data-i18n="websdr_type">WebSDR</option>
+        <option value="owrx" data-i18n="owrx_type">OpenWebRX</option>
+      </select>
+      <select id="sort" title="الترتيب">
+        <option value="snr" data-i18n="sort_snr">الأفضل SNR</option>
+        <option value="free" data-i18n="sort_free">أكبر مساحة فاضية</option>
+        <option value="users" data-i18n="sort_users">الأقل ازدحامًا</option>
+        <option value="name" data-i18n="sort_name">الاسم</option>
+        <option value="near" data-i18n="sort_near">الأقرب لي</option>
+      </select>
+      <label class="check"><input type="checkbox" id="online-only" checked> <span data-i18n="online_only">أونلاين فقط</span></label>
+      <label class="check"><input type="checkbox" id="free-only"> <span data-i18n="free_only">فيه مكان فاضي</span></label>
+      <label class="check"><input type="checkbox" id="https-only"> <span data-i18n="https_only">شغال داخل التطبيق</span></label>
+      <label class="check"><span data-i18n="snr_min">SNR ≥</span> <input type="number" id="minsnr" value="0" min="0" max="60" style="width:64px"></label>
+      <span id="count-sdr" class="count"></span>
+    </div>
+
+    <div id="space-panel" class="space-panel" hidden>
+      <div class="space-head">☀️ <strong data-i18n="space_title">حالة النطاقات</strong> <span id="space-upd" class="space-upd"></span><button id="space-alert-btn" class="ctrl" type="button" hidden data-i18n-aria="alert_aria" title="🔔">🔕</button></div>
+      <div id="space-values" class="space-values"></div>
+      <div id="space-cond" class="space-cond"></div>
+    </div>
+
+    <div id="wspr-panel" class="wspr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="wspr_title">نشاط الانتشار الفعلي — WSPR (آخر ساعتين)</h2>
+        <span id="wspr-updated" class="count"></span>
+      </div>
+      <p class="hint" data-i18n="wspr_hint">عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق.</p>
+      <div id="wspr-bands" class="wspr-bands"></div>
+      <div id="wspr-top" class="eibi-list"></div>
+    </div>
+
+    <div id="eibi-panel" class="eibi-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</h2>
+        <span id="eibi-count" class="count">—</span>
+        <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي: اسم، تردد…" data-i18n-ph="eibi_ph">
+        <select id="eibi-band" data-i18n-aria="eibi_band_aria">
+          <option value="all" data-i18n="all_bands">الكل النطاقات</option>
+          <option value="120">120m</option>
+          <option value="90">90m</option>
+          <option value="75">75m</option>
+          <option value="60">60m</option>
+          <option value="49">49m</option>
+          <option value="41">41m</option>
+          <option value="31">31m</option>
+          <option value="25">25m</option>
+          <option value="22">22m</option>
+          <option value="19">19m</option>
+          <option value="16">16m</option>
+          <option value="15">15m</option>
+          <option value="13">13m</option>
+          <option value="11">11m</option>
+        </select>
+      </div>
+      <p class="hint" data-i18n="eibi_hint">من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.</p>
+      <div id="eibi-list" class="eibi-list"></div>
+    </div>
+
+    <p class="hint" data-i18n="sdr_hint">🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.</p>
+    <div id="grid-sdr" class="grid"></div>
+
+    <div id="websdr-panel" class="wsdr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="websdr_title">أجهزة WebSDR</h2>
+        <span id="websdr-count" class="count">—</span>
+      </div>
+      <div id="grid-websdr" class="grid"></div>
+    </div>
+
+    <div id="owrx-panel" class="wsdr-panel" hidden>
+      <div class="toolbar">
+        <h2 data-i18n="owrx_title">أجهزة OpenWebRX</h2>
+        <span id="owrx-count" class="count">—</span>
+      </div>
+      <div id="grid-owrx" class="grid"></div>
+    </div>
+  </section>
+</main>
+
+<div id="player" class="player" hidden>
+  <button id="player-close" type="button" title="إغلاق">✕</button>
+  <a id="player-ext" class="btn ghost" target="_blank" rel="noopener" href="#" hidden data-i18n="open_ext2">فتح خارجي ↗</a>
+  <a id="player-official" class="btn ghost" target="_blank" rel="noopener noreferrer" href="#" hidden data-i18n="open_official_site">الموقع الرسمي ↗</a>
+  <div class="player-body">
+    <div id="player-name"></div>
+    <audio id="audio" controls preload="none"></audio>
+  </div>
+</div>
+
+<div id="sdr-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="sdr-modal-name" hidden>
+  <div class="modal-head">
+    <strong id="sdr-modal-name"></strong>
+    <div class="modal-actions">
+      <a id="sdr-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
+      <button id="sdr-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+    </div>
+  </div>
+  <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+</div>
+
+<div id="kiwi-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kiwi-modal-name" hidden>
+  <div class="modal-head">
+    <strong id="kiwi-modal-name"></strong>
+    <div class="modal-actions">
+      <a id="kiwi-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
+      <button id="kiwi-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+    </div>
+  </div>
+  <div class="kiwi-controls">
+    <label class="check"><span data-i18n="kiwi_freq">التردد (kHz)</span> <input type="number" id="kiwi-freq" value="7100" min="10" max="30000" step="1" style="width:96px"></label>
+    <label class="check"><span data-i18n="kiwi_mode">الوضع</span>
+      <select id="kiwi-mode">
+        <option value="am">AM</option>
+        <option value="usb">USB</option>
+        <option value="lsb">LSB</option>
+        <option value="cw">CW</option>
+      </select>
+    </label>
+    <span id="kiwi-status" class="kiwi-status"></span>
+  </div>
+  <audio id="kiwi-audio" controls></audio>
+</div>
+
+<footer>
+  <div class="visitor-box">
+    <div class="visitor-metric">
+      <span class="visitor-title" data-i18n="visitors">إجمالي الزيارات</span>
+      <div id="visitor-counter" aria-live="polite" aria-label="إجمالي زيارات الموقع">—</div>
+    </div>
+    <span class="visitor-note">إحصاءات الزيارات مقدمة من <a href="https://jasoncameron.dev/abacus/" target="_blank" rel="noopener">Abacus</a> مع بديل تلقائي عند تعطل الخدمة.</span>
+  </div>
+  <p class="src-line"><span data-i18n="sources">المصادر:</span>
+    <a href="http://rx.kiwisdr.com/" target="_blank" rel="noopener">KiwiSDR</a> ·
+    <a href="https://www.radio-browser.info/" target="_blank" rel="noopener">Radio-Browser</a> ·
+    <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA SWPC</a> ·
+  </p>
+  <p class="src-line"><span data-i18n="offline_footer">تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.</span> SamoTech/Radio</p>
+  <p class="src-line"><a href="countries/">🌍 تصفح المحطات حسب الدولة · Browse by country</a></p>
+</footer>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
