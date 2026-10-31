@@ -80,6 +80,253 @@ DEAD_URL_PATTERNS = (
 )
 
 
+# ---------------------------------------------------------------------------
+# Static country landing pages (SEO): generated from the stations snapshot
+# into countries/, plus sitemap.xml and robots.txt at the repo root. Pages
+# are regenerated on every stations refresh and committed by the workflow.
+# ---------------------------------------------------------------------------
+
+SITE_URL = "https://samotech.github.io/Radio/"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+COUNTRY_PAGE_STATIONS = 60
+
+# Countries that get a landing page: the Arab world plus the biggest
+# broadcast markets. Countries not in this map simply get no page.
+COUNTRY_NAMES_AR = {
+    "EG": "مصر", "SA": "السعودية", "AE": "الإمارات", "KW": "الكويت",
+    "QA": "قطر", "BH": "البحرين", "OM": "عُمان", "JO": "الأردن",
+    "LB": "لبنان", "PS": "فلسطين", "SY": "سوريا", "IQ": "العراق",
+    "YE": "اليمن", "SD": "السودان", "LY": "ليبيا", "TN": "تونس",
+    "DZ": "الجزائر", "MA": "المغرب", "MR": "موريتانيا", "SO": "الصومال",
+    "DJ": "جيبوتي", "KM": "جزر القمر",
+    "US": "الولايات المتحدة", "GB": "المملكة المتحدة", "FR": "فرنسا",
+    "DE": "ألمانيا", "IT": "إيطاليا", "ES": "إسبانيا", "PT": "البرتغال",
+    "NL": "هولندا", "BE": "بلجيكا", "CH": "سويسرا", "AT": "النمسا",
+    "SE": "السويد", "NO": "النرويج", "DK": "الدنمارك", "FI": "فنلندا",
+    "IE": "أيرلندا", "PL": "بولندا", "CZ": "التشيك", "GR": "اليونان",
+    "RU": "روسيا", "TR": "تركيا", "UA": "أوكرانيا", "RO": "رومانيا",
+    "RS": "صربيا", "HR": "كرواتيا", "BG": "بلغاريا", "HU": "المجر",
+    "CA": "كندا", "MX": "المكسيك", "BR": "البرازيل", "AR": "الأرجنتين",
+    "CL": "تشيلي", "CO": "كولومبيا", "PE": "بيرو", "VE": "فنزويلا",
+    "IN": "الهند", "PK": "باكستان", "BD": "بنغلاديش", "LK": "سريلانكا",
+    "NP": "نيبال", "AF": "أفغانستان", "IR": "إيران", "CN": "الصين",
+    "JP": "اليابان", "KR": "كوريا الجنوبية", "ID": "إندونيسيا",
+    "MY": "ماليزيا", "TH": "تايلاند", "VN": "فيتنام", "PH": "الفلبين",
+    "SG": "سنغافورة", "AU": "أستراليا", "NZ": "نيوزيلندا",
+    "HK": "هونغ كونغ", "TW": "تايوان",
+    "ZA": "جنوب أفريقيا", "NG": "نيجيريا", "KE": "كينيا", "GH": "غانا",
+    "TZ": "تنزانيا", "ET": "إثيوبيا", "SN": "السنغال", "ML": "مالي",
+    "NE": "النيجر", "TD": "تشاد", "CM": "الكاميرون",
+    "CI": "ساحل العاج", "UG": "أوغندا", "CD": "الكونغو الديمقراطية",
+    "AO": "أنغولا", "MZ": "موزمبيق", "ZM": "زامبيا", "ZW": "زيمبابوي",
+    "NA": "ناميبيا", "BW": "بوتسوانا", "MG": "مدغشقر",
+}
+
+
+def _cp_escape(value):
+    return (
+        str(value or "")
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&#39;")
+    )
+
+
+def _cp_flag(cc):
+    cc = (cc or "").upper()
+    if len(cc) != 2 or not cc.isalpha():
+        return ""
+    return chr(0x1F1E6 + ord(cc[0]) - 65) + chr(0x1F1E6 + ord(cc[1]) - 65)
+
+
+_CP_STYLE = (
+    ":root{--bg:#0b1220;--panel:#111a2c;--line:#22304d;--text:#e6edf7;"
+    "--muted:#8fa3c0;--accent:#22d3ee;--accent-text:#04222b}"
+    "*{box-sizing:border-box}"
+    "body{margin:0;font-family:'Segoe UI',Tahoma,system-ui,sans-serif;"
+    "background:var(--bg);color:var(--text);line-height:1.7}"
+    "a{color:var(--accent)}"
+    ".hero{padding:26px 16px 10px;text-align:center;border-bottom:1px solid var(--line)}"
+    "h1{margin:0 0 6px;font-size:1.5rem}"
+    "h1 .n{color:var(--accent);font-size:1rem}"
+    ".tag{color:var(--muted);margin:.2rem 0 1rem;font-size:.95rem}"
+    ".cta{margin:0 0 10px}"
+    ".btn{display:inline-block;background:var(--accent);color:var(--accent-text);"
+    "border-radius:10px;padding:9px 18px;text-decoration:none;font-weight:700}"
+    ".btn.ghost{background:var(--panel);color:var(--text);border:1px solid var(--line)}"
+    "main{max-width:860px;margin:0 auto;padding:16px}"
+    "ol.stations{margin:0;padding:0 20px}"
+    "ol.stations li{padding:10px 4px;border-bottom:1px solid var(--line);"
+    "display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}"
+    ".nm{flex:1;min-width:200px;font-weight:600}"
+    ".mt{color:var(--muted);font-size:.82rem}"
+    ".go{font-size:.85rem;font-weight:700;white-space:nowrap}"
+    ".more,.upd{color:var(--muted);font-size:.85rem;margin:14px 0}"
+    ".countries{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));"
+    "gap:10px;padding:0;margin:0;list-style:none}"
+    ".countries a{display:block;background:var(--panel);border:1px solid var(--line);"
+    "border-radius:10px;padding:10px 14px;text-decoration:none}"
+    ".countries .cnt{color:var(--muted);font-size:.8rem}"
+    "footer{color:var(--muted);text-align:center;font-size:.8rem;"
+    "padding:16px;border-top:1px solid var(--line)}"
+)
+
+
+def _cp_head(title, description, canonical):
+    return (
+        '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n'
+        '<meta charset="UTF-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<meta name="theme-color" content="#0b1220">\n'
+        "<title>" + _cp_escape(title) + "</title>\n"
+        '<meta name="description" content="' + _cp_escape(description) + '">\n'
+        '<link rel="canonical" href="' + canonical + '">\n'
+        '<meta property="og:title" content="' + _cp_escape(title) + '">\n'
+        '<meta property="og:description" content="' + _cp_escape(description) + '">\n'
+        '<meta property="og:type" content="website">\n'
+        '<meta property="og:url" content="' + canonical + '">\n'
+        '<link rel="icon" type="image/svg+xml" href="../icons/icon.svg">\n'
+        "<style>" + _CP_STYLE + "</style>\n"
+        "</head>\n<body>\n"
+    )
+
+
+def _cp_station_li(station):
+    name = station.get("name") or "—"
+    url = str(station.get("url") or "")
+    bits = []
+    codec = str(station.get("codec") or "").strip()
+    if codec:
+        bits.append(codec.upper())
+    bitrate = station.get("bitrate") or 0
+    if bitrate:
+        bits.append(str(bitrate) + " kbps")
+    language = str(station.get("language") or "").split(",")[0].strip()
+    if language:
+        bits.append(language)
+    meta = " · ".join(bits)
+    play = ""
+    if url.lower().startswith("https://"):
+        deep = urllib.parse.quote(url, safe="")
+        play = (
+            ' <a class="go" href="' + SITE_URL + '#play=' + deep
+            + '">استمع مباشر ↗</a>'
+        )
+    line = '<li><span class="nm">' + _cp_escape(name) + "</span>"
+    if meta:
+        line += '<span class="mt">' + _cp_escape(meta) + "</span>"
+    return line + play + "</li>"
+
+
+def _cp_index_page(ranked):
+    items = []
+    for cc, count in ranked:
+        items.append(
+            '<li><a href="./' + cc.lower() + '.html">' + _cp_flag(cc) + " "
+            + _cp_escape(COUNTRY_NAMES_AR[cc])
+            + ' <span class="cnt">(' + str(count) + " محطة)</span></a></li>"
+        )
+    title = "محطات الراديو حسب الدولة — دليل عربي | راديو أطلس"
+    description = (
+        "تصفح محطات البث الإذاعي حسب الدولة: مصر، السعودية، المغرب، الجزائر،"
+        " تونس ودول أخرى — مع تشغيل مباشر على راديو أطلس."
+    )
+    return (
+        _cp_head(title, description, SITE_URL + "countries/")
+        + '<header class="hero"><h1>🌍 محطات الراديو حسب الدولة</h1>'
+        + '<p class="tag">صفحات لكل دولة مع أشهر المحطات وروابط تشغيل مباشر داخل التطبيق.</p>'
+        + '<p class="cta"><a class="btn" href="' + SITE_URL + '">📻 افتح راديو أطلس</a></p></header>'
+        + '<main><ul class="countries">\n' + "\n".join(items) + "\n</ul></main>"
+        + '<footer>صفحات متولدة آليًا من كتالوج <a href="' + SITE_URL + '">راديو أطلس</a></footer>'
+        + "</body>\n</html>\n"
+    )
+
+
+def generate_country_pages(snapshot_path, out_root=None):
+    """Generate static country landing pages, sitemap.xml and robots.txt."""
+    snapshot = json.loads(Path(snapshot_path).read_text(encoding="utf-8"))
+    stations = snapshot.get("stations") or []
+    if len(stations) < 100:
+        print("country pages: snapshot too small — skipping", file=sys.stderr)
+        return
+    root = Path(out_root) if out_root else REPO_ROOT
+    countries_dir = root / "countries"
+    by_cc = {}
+    for station in stations:
+        cc = str(station.get("cc") or station.get("countrycode") or "").upper()
+        if cc == "IL" or cc not in COUNTRY_NAMES_AR:
+            continue
+        by_cc.setdefault(cc, []).append(station)
+    if not by_cc:
+        print("country pages: no mapped countries found — skipping", file=sys.stderr)
+        return
+    updated = str(snapshot.get("updated") or "")
+    ranked = sorted(by_cc.items(), key=lambda kv: len(kv[1]), reverse=True)
+
+    countries_dir.mkdir(parents=True, exist_ok=True)
+    sitemap_urls = [SITE_URL, SITE_URL + "countries/"]
+    for cc, group in ranked:
+        count = len(group)
+        name_ar = COUNTRY_NAMES_AR[cc]
+        title = (
+            "راديو " + name_ar + " مباشر — " + str(count)
+            + " محطة إذاعة | راديو أطلس"
+        )
+        description = (
+            "استمع لأشهر محطات الراديو من " + name_ar + " مباشرة: " + str(count)
+            + " محطة إذاعية مع تشغيل فوري وبحث وتصنيف حسب اللغة والفئة على راديو أطلس."
+        )
+        shown = group[:COUNTRY_PAGE_STATIONS]
+        items = "\n".join(_cp_station_li(s) for s in shown)
+        more = ""
+        if count > len(shown):
+            more = (
+                '<p class="more">تُعرض أشهر ' + str(len(shown))
+                + " محطة من أصل " + str(count) + ' — كل المحطات متاحة في <a href="'
+                + SITE_URL + '">التطبيق الرئيسي</a>.</p>'
+            )
+        canonical = SITE_URL + "countries/" + cc.lower() + ".html"
+        page = (
+            _cp_head(title, description, canonical)
+            + '<header class="hero"><h1>' + _cp_flag(cc) + " راديو "
+            + _cp_escape(name_ar) + ' <span class="n">' + str(count)
+            + " محطة بث مباشر</span></h1>"
+            + '<p class="tag">دليل محطات الإذاعة من ' + _cp_escape(name_ar)
+            + " — روابط تشغيل مباشر تعمل داخل التطبيق مع مؤشر حالة البث.</p>"
+            + '<p class="cta"><a class="btn" href="' + SITE_URL + '">📻 افتح راديو أطلس</a> '
+            + '<a class="btn ghost" href="./">كل الدول</a></p></header>'
+            + '<main><ol class="stations">\n' + items + "\n</ol>" + more
+            + '<p class="upd">آخر تحديث للكتالوج: ' + _cp_escape(updated) + "</p></main>"
+            + '<footer>صفحة متولدة آليًا من كتالوج <a href="' + SITE_URL
+            + '">راديو أطلس</a></footer>'
+            + "</body>\n</html>\n"
+        )
+        (countries_dir / (cc.lower() + ".html")).write_text(page, encoding="utf-8")
+        sitemap_urls.append(canonical)
+
+    (countries_dir / "index.html").write_text(
+        _cp_index_page(ranked), encoding="utf-8"
+    )
+
+    lastmod = updated[:10] if len(updated) >= 10 else ""
+    sitemap = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for url in sitemap_urls:
+        entry = "<url><loc>" + url + "</loc>"
+        if lastmod:
+            entry += "<lastmod>" + lastmod + "</lastmod>"
+        sitemap.append(entry + "</url>")
+    sitemap.append("</urlset>")
+    (root / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
+
+    robots = "User-agent: *\nAllow: /\n\nSitemap: " + SITE_URL + "sitemap.xml\n"
+    (root / "robots.txt").write_text(robots, encoding="utf-8")
+    print("country pages: " + str(len(ranked)) + " country pages + sitemap + robots")
+
 def fetch_json(url, params=None, attempts=3, timeout=90):
     if params:
         url = f"{url}?{urllib.parse.urlencode(params)}"
@@ -866,6 +1113,12 @@ def main():
                     print("stations: fallback merge unavailable — keeping last snapshot", file=sys.stderr)
             except Exception as fallback_error:  # noqa: BLE001
                 print(f"stations fallback FAILED: {fallback_error}", file=sys.stderr)
+
+    if mode in {"all", "stations"}:
+        try:
+            generate_country_pages(DATA_DIR / "stations.json")
+        except Exception as e:  # noqa: BLE001
+            print(f"country pages FAILED: {e} — keeping last generated pages", file=sys.stderr)
 
     if not ok:
         sys.exit(1)
