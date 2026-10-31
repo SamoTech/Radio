@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T14:48:36+00:00",
+ "updated": "2026-10-31T15:04:18+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -747,6 +747,12 @@
    "https": false
   },
   {
+   "name": "YB3RDW MF|HF|AirBand|VHF|UHF",
+   "url": "http://yd3rdw.cloudns.asia:8073/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "EA4FVQ MultiBand SDR (sdr4fun.es & sdr4fun.com) as part of SDR4FUN network",
    "url": "http://tecnorama.homeip.net:8095/",
    "loc": "",
@@ -1155,6 +1161,12 @@
    "https": false
   },
   {
+   "name": "LW6DSM",
+   "url": "http://lw6dsm.sytes.net:8073/",
+   "loc": "",
+   "https": false
+  },
+  {
    "name": "M8YRT OWRX No.1",
    "url": "http://wr15.duckdns.org:8072/",
    "loc": "",
@@ -1527,12 +1539,6 @@
    "https": false
   },
   {
-   "name": "IT9EWL - SICILIA - ITALIA",
-   "url": "http://it9ewl.ddns.net/",
-   "loc": "",
-   "https": false
-  },
-  {
    "name": "LU5DA",
    "url": "http://186.13.27.90:8073/",
    "loc": "",
@@ -1793,12 +1799,6 @@
   {
    "name": "IU2PLZ, Masate, Milan ITA",
    "url": "http://openwebrx-iu2plz.ddns.net:8073/",
-   "loc": "",
-   "https": false
-  },
-  {
-   "name": "Loka Monitor SFR Ambon",
-   "url": "http://118.97.29.213:8073/",
    "loc": "",
    "https": false
   },
@@ -2113,6 +2113,12 @@
    "url": "http://openwebrx.sq6ncc.eu/",
    "loc": "",
    "https": false
+  },
+  {
+   "name": "SR4DON OLSZTYN/POLAND 70cm/2m/4m/6m/8m/10-15m",
+   "url": "https://1.websdr.jestok.com/",
+   "loc": "",
+   "https": true
   },
   {
    "name": "Серпуховский WEB SDR",
@@ -2781,12 +2787,6 @@
    "https": false
   },
   {
-   "name": "Magnitogorsk SDR",
-   "url": "https://sdr.ssergeym.ru/",
-   "loc": "",
-   "https": true
-  },
-  {
    "name": "CE4NBE SDR Curico Antena dipolo 7Mhz",
    "url": "http://sdrcurico.ddns.net:8073/",
    "loc": "",
@@ -2849,6 +2849,12 @@
   {
    "name": "Waves from Hiroshima BC:0-30,HAM:50,BC:76-96MHz,AIR:118-138,HAM:144,HAM:430,HAM:1200,ADS-B:1090(MHz)",
    "url": "http://hirolin.duckdns.org:8074/",
+   "loc": "",
+   "https": false
+  },
+  {
+   "name": "M0BAH - 1KHz-2000 MHz SDRPlay RSP-dx ~ 80 Metre EFHW ~ Diamond XL510 ~ RTL Active 1525-1660MHz L Band antenna",
+   "url": "http://m0bah.ddns.net:8073/",
    "loc": "",
    "https": false
   },
@@ -3007,12 +3013,6 @@
    "url": "http://77.95.41.82:8073/",
    "loc": "",
    "https": false
-  },
-  {
-   "name": "websdr64",
-   "url": "https://owrx.websdr64.ru/",
-   "loc": "",
-   "https": true
   }
  ]
 }
