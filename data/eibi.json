@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T14:40:59+00:00",
+ "updated": "2026-10-31T14:48:36+00:00",
  "source": "EiBi (eibispace.de)",
  "count": 1456,
  "rows": [
@@ -248,12 +248,6 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | PFC Navy Den Helder | E | Eu"
-  },
-  {
-   "f": 2761,
-   "s": "1433",
-   "e": "1448",
-   "n": "BEL | OSU Oostende Radio | E | WEu"
   },
   {
    "f": 2789,
@@ -938,12 +932,6 @@
    "s": "1400",
    "e": "1615",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
-  },
-  {
-   "f": 4357,
-   "s": "1433",
-   "e": "1448",
-   "n": "NOR | Telenor Kystradio North | NO | NEu"
   },
   {
    "f": 4363,
@@ -2422,6 +2410,12 @@
    "n": "CHN | XSG Shanghai Radio | -TY | FE"
   },
   {
+   "f": 6328,
+   "s": "1445",
+   "e": "1510",
+   "n": "RUS | RBW Murmansk Meteo Fax | NEu"
+  },
+  {
    "f": 6340,
    "s": "1400",
    "e": "1500",
@@ -2939,9 +2933,9 @@
   },
   {
    "f": 7210,
-   "s": "1400",
-   "e": "1445",
-   "n": "CHN | PBS Yunnan Minority Sce | LAH | CHN"
+   "s": "1445",
+   "e": "1500",
+   "n": "CHN | PBS Yunnan Minority Sce | M | CHN"
   },
   {
    "f": 7210,
@@ -3250,12 +3244,6 @@
    "n": "NZL | RNZ Pacific | E | Oc"
   },
   {
-   "f": 7396,
-   "s": "1440",
-   "e": "1445",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
-  },
-  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3356,6 +3344,12 @@
    "s": "0000",
    "e": "2400",
    "n": "USA | Radio Farda | FS | IRN"
+  },
+  {
+   "f": 7480,
+   "s": "1445",
+   "e": "1500",
+   "n": "USA | Trans World Radio | KZ | CAs"
   },
   {
    "f": 7490,
@@ -3488,12 +3482,6 @@
    "s": "1236",
    "e": "1551",
    "n": "D | DWD Pinneberg Met Fax | Eu"
-  },
-  {
-   "f": 7906,
-   "s": "1435",
-   "e": "1445",
-   "n": "VTN | Quy Nhon Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3638,6 +3626,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
+  },
+  {
+   "f": 8444,
+   "s": "1445",
+   "e": "1510",
+   "n": "RUS | RBW Murmansk Meteo Fax | NEu"
   },
   {
    "f": 8484,
@@ -4919,6 +4913,12 @@
   },
   {
    "f": 9950,
+   "s": "1445",
+   "e": "1500",
+   "n": "USA | Trans World Radio | KZ | CAs"
+  },
+  {
+   "f": 9950,
    "s": "1400",
    "e": "1500",
    "n": "USA | Voice of America | M | FE"
@@ -5855,9 +5855,9 @@
   },
   {
    "f": 11750,
-   "s": "1430",
-   "e": "1445",
-   "n": "PHL | FEBC Manila | RUM | SEA"
+   "s": "1445",
+   "e": "1500",
+   "n": "PHL | FEBC Manila | SHT | SEA"
   },
   {
    "f": 11760,
@@ -8141,9 +8141,9 @@
   },
   {
    "f": 17700,
-   "s": "1415",
-   "e": "1445",
-   "n": "USA | Trans World Radio | HI | SAs"
+   "s": "1445",
+   "e": "1500",
+   "n": "USA | Trans World Radio | DES | SAs"
   },
   {
    "f": 17715,
