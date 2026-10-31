@@ -26,6 +26,7 @@
   <div class="controls">
     <button id="theme-btn" class="ctrl" type="button" title="Light / Dark">☀️</button>
     <button id="lang-btn" class="ctrl" type="button" title="العربية / English">EN</button>
+    <button id="palette-btn" class="ctrl" type="button" data-i18n-aria="palette_aria" title="Ctrl+K">🔎</button>
   </div>
   <h1 data-i18n="app_title">📻 راديو أطلس</h1>
   <p data-i18n="tagline">دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين</p>
@@ -74,6 +75,7 @@
       <button class="qchip" data-chip="music" type="button" data-i18n="chip_music">🎵 موسيقى</button>
     </div>
     <p class="hint" data-i18n="fm_hint">الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.</p>
+    <div id="history-row" class="history-row" hidden></div>
     <div id="grid-fm" class="grid" aria-live="polite" aria-busy="false"></div>
   </section>
 
@@ -227,6 +229,9 @@
   <button id="player-close" type="button" title="إغلاق">✕</button>
   <a id="player-ext" class="btn ghost" target="_blank" rel="noopener" href="#" hidden data-i18n="open_ext2">فتح خارجي ↗</a>
   <a id="player-official" class="btn ghost" target="_blank" rel="noopener noreferrer" href="#" hidden data-i18n="open_official_site">الموقع الرسمي ↗</a>
+  <canvas id="player-vis" width="56" height="30" aria-hidden="true"></canvas>
+  <button id="sleep-btn" class="player-tool" type="button" data-i18n-aria="sleep_aria" title="⏱">⏱</button>
+  <button id="alarm-btn" class="player-tool" type="button" data-i18n-aria="alarm_aria" title="⏰">⏰</button>
   <div class="player-body">
     <div id="player-name"></div>
     <audio id="audio" controls preload="none"></audio>
@@ -285,6 +290,33 @@
   <p class="src-line"><span data-i18n="offline_footer">تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.</span> SamoTech/Radio</p>
   <p class="src-line"><a href="countries/">🌍 تصفح المحطات حسب الدولة · Browse by country</a></p>
 </footer>
+
+<div id="alarm-modal" class="modal modal-box" role="dialog" aria-modal="true" aria-labelledby="alarm-title" hidden>
+  <div class="box-card">
+    <div class="box-head">
+      <strong id="alarm-title" data-i18n="alarm_title">⏰ منبه الراديو</strong>
+      <button id="alarm-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+    </div>
+    <p class="hint" data-i18n="alarm_hint">المنبه يشغّل آخر محطة استمعت لها — الصفحة لازم تفضل مفتوحة.</p>
+    <div class="alarm-row"><input id="alarm-time" type="time" value="06:00"><span id="alarm-station" class="hint"></span></div>
+    <div class="box-actions">
+      <button id="alarm-save" class="btn primary" type="button" data-i18n="alarm_save">✓ ضبط المنبه</button>
+      <button id="alarm-clear" class="btn ghost" type="button" data-i18n="alarm_clear">✕ إلغاء المنبه</button>
+    </div>
+  </div>
+</div>
+
+<div id="palette-modal" class="modal modal-box" role="dialog" aria-modal="true" aria-labelledby="palette-title" hidden>
+  <div class="box-card">
+    <div class="box-head">
+      <strong id="palette-title" data-i18n="palette_title">بحث سريع</strong>
+      <button id="palette-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+    </div>
+    <input id="palette-q" type="search" autocomplete="off" data-i18n-ph="palette_ph" placeholder="ابحث…">
+    <div id="palette-list" class="pal-list"></div>
+    <div class="hint pal-hint" data-i18n="palette_hint">Enter يشغّل أول نتيجة · Esc للإغلاق</div>
+  </div>
+</div>
 
 <div id="toast" class="toast" hidden></div>
 
