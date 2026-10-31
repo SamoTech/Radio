@@ -1013,13 +1013,13 @@ def fetch_wspr():
     bands_rows = _wspr_rows(
         "SELECT band, count() AS c, round(avg(distance), 0) AS avg_km, "
         "max(distance) AS max_km FROM wspr.rx WHERE time >= " + cutoff
-        + " GROUP BY band ORDER BY c DESC"
+        + " GROUP BY band ORDER BY c DESC FORMAT JSON"
     )
     top_rows = _wspr_rows(
         "SELECT tx_sign, tx_loc, rx_sign, rx_loc, distance, band, snr "
         "FROM wspr.rx WHERE time >= " + cutoff
         + " AND distance >= " + str(WSPR_TOP_MIN_KM)
-        + " ORDER BY distance DESC LIMIT 12"
+        + " ORDER BY distance DESC LIMIT 12 FORMAT JSON"
     )
     if not bands_rows:
         return None
