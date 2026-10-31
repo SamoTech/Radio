@@ -1,12 +1,18 @@
 {
- "updated": "2026-10-31T19:10:56+00:00",
+ "updated": "2026-10-31T19:24:32+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1044,
+ "count": 1051,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
+  },
+  {
+   "f": 2054,
+   "s": "1915",
+   "e": "1930",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -227,9 +233,9 @@
   },
   {
    "f": 2677,
-   "s": "1910",
-   "e": "1915",
-   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
+   "s": "1915",
+   "e": "1930",
+   "n": "F | CROSS Corsen Radio Wx | F | WEu"
   },
   {
    "f": 2680,
@@ -946,12 +952,6 @@
    "n": "CAN | VFF Iqaluit Radio | -TY | NAm"
   },
   {
-   "f": 4181,
-   "s": "1910",
-   "e": "1920",
-   "n": "POL | E11 Polish Spy Numbers | E"
-  },
-  {
    "f": 4207,
    "s": "0000",
    "e": "2400",
@@ -992,6 +992,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
+  },
+  {
+   "f": 4228,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
   },
   {
    "f": 4259,
@@ -1046,12 +1052,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 4505,
-   "s": "1910",
-   "e": "1920",
-   "n": "POL | E11 Polish Spy Numbers | E"
   },
   {
    "f": 4557,
@@ -1222,12 +1222,6 @@
    "n": "RUS | Alarm Channel Marker | RUS"
   },
   {
-   "f": 4783,
-   "s": "1910",
-   "e": "1920",
-   "n": "POL | E11 Polish Spy Numbers | E"
-  },
-  {
    "f": 4835,
    "s": "0000",
    "e": "2400",
@@ -1298,6 +1292,12 @@
    "s": "0400",
    "e": "2400",
    "n": "AUS | Bay Islands Radio | E | AUS"
+  },
+  {
+   "f": 5100,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 5153,
@@ -1696,6 +1696,12 @@
    "n": "ISL | Reykjavik HFDL (ID3) | -HF | NAO"
   },
   {
+   "f": 5755,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMW Wiluna Met Fax | Oc"
+  },
+  {
    "f": 5803,
    "s": "0000",
    "e": "2400",
@@ -1762,12 +1768,6 @@
    "n": "TWN | Radio Taiwan Int. | D | Eu"
   },
   {
-   "f": 5905,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | AL | Eu"
-  },
-  {
    "f": 5910,
    "s": "0000",
    "e": "2400",
@@ -1814,12 +1814,6 @@
    "s": "1900",
    "e": "1930",
    "n": "ROU | Radio Romania DIGITAL | I | SEu"
-  },
-  {
-   "f": 5970,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | AL | Eu"
   },
   {
    "f": 5980,
@@ -2896,6 +2890,12 @@
    "n": "USA | Trans World Radio | K | FE"
   },
   {
+   "f": 7535,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMW Wiluna Met Fax | Oc"
+  },
+  {
    "f": 7540,
    "s": "1900",
    "e": "2000",
@@ -2987,9 +2987,9 @@
   },
   {
    "f": 7906,
-   "s": "1905",
-   "e": "1915",
-   "n": "VTN | Hon Gai Radio | VN | SEA"
+   "s": "1920",
+   "e": "1930",
+   "n": "VTN | Phu Yen Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3212,6 +3212,12 @@
    "s": "0900",
    "e": "2400",
    "n": "KOR | HLW Seoul Radio | -CW | FE"
+  },
+  {
+   "f": 8677,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
   },
   {
    "f": 8682,
@@ -3856,18 +3862,6 @@
    "n": "CHN | China Radio Int. | P | SEu"
   },
   {
-   "f": 9740,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
-  },
-  {
-   "f": 9750,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
-  },
-  {
    "f": 9770,
    "s": "1900",
    "e": "2000",
@@ -3916,16 +3910,16 @@
    "n": "MDG | MWV New Life Station | R | EEu"
   },
   {
+   "f": 9855,
+   "s": "1920",
+   "e": "2020",
+   "n": "IRN | IRIB Voice of I.R.Iran | E | SAf"
+  },
+  {
    "f": 9865,
    "s": "1830",
    "e": "1930",
    "n": "TUR | Voice of Turkey | F | Af"
-  },
-  {
-   "f": 9870,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
   },
   {
    "f": 9875,
@@ -4156,6 +4150,12 @@
    "n": "CAN | CFH Halifax Radio | -TY | NAm"
   },
   {
+   "f": 10555,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMW Wiluna Met Fax | Oc"
+  },
+  {
    "f": 10871,
    "s": "0000",
    "e": "2400",
@@ -4202,6 +4202,12 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | Channel Marker M | -CW | FE"
+  },
+  {
+   "f": 11030,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 11039,
@@ -4486,6 +4492,12 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 11740,
+   "s": "1920",
+   "e": "2020",
+   "n": "IRN | IRIB Voice of I.R.Iran | E | SAf"
+  },
+  {
    "f": 11750,
    "s": "0000",
    "e": "2400",
@@ -4532,6 +4544,12 @@
    "s": "1900",
    "e": "1930",
    "n": "CUB | Radio Habana Cuba | F | CAm"
+  },
+  {
+   "f": 11880,
+   "s": "1920",
+   "e": "2020",
+   "n": "IRN | IRIB Voice of I.R.Iran | E | SAf"
   },
   {
    "f": 11885,
@@ -5302,6 +5320,12 @@
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
+   "f": 13920,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMC Charleville Met Fax | Oc"
+  },
+  {
    "f": 13988,
    "s": "0000",
    "e": "2400",
@@ -5422,16 +5446,16 @@
    "n": "F | Radio France Int. | F | WAf"
   },
   {
+   "f": 15320,
+   "s": "1920",
+   "e": "2020",
+   "n": "IRN | IRIB Voice of I.R.Iran | E | SAf"
+  },
+  {
    "f": 15340,
    "s": "0000",
    "e": "2400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 15360,
-   "s": "1820",
-   "e": "1920",
-   "n": "IRN | IRIB Voice of I.R.Iran | HA | WAf"
   },
   {
    "f": 15380,
@@ -5474,6 +5498,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 15615,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
    "f": 15745,
@@ -5642,6 +5672,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | -TY | FE"
+  },
+  {
+   "f": 17146,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
   },
   {
    "f": 17146,
@@ -6020,6 +6056,12 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | Channel Marker M | -CW | FE"
+  },
+  {
+   "f": 20469,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 21490,
