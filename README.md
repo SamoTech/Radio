@@ -1,134 +1,234 @@
 # 📻 Radio Atlas — راديو أطلس
 
-> 🔗 **الموقع المباشر:** <https://samotech.github.io/Radio/>
+> ⭐ **الموقع الرسمي:** <https://samotech.github.io/Radio/>
 
-دليل بحث ذكي بيجمع أجهزة الاستقبال (SDR) ومحطات البث المتاحة أونلاين في مكان واحد، مع تحديث تلقائي مستمر للبيانات — موقع ثابت بالكامل (static PWA) بدون أي خادم خارجي.
+دليل بحث ذكي لأجهزة الاستقبال (SDR) ومحطات البث الإذاعي أونلاين في مكان واحد — بتقنية PWA بدون مكتبات خارجية. أكثر من 62,000 محطة من كل العالم + 830 جهاز KiwiSDR حول العالم + قوائم EIBI + WSPR + WebSDR/OpenWebRX.
 
-## 📊 نظرة سريعة
+## 🌍 نظرة عامة
 
 | البند | التفاصيل |
 |---|---|
-| 🌐 الموقع | [https://samotech.github.io/Radio/](https://samotech.github.io/Radio/) |
-| 📻 محطات البث | أكثر من 50,000 محطة من كل العالم + قوائم منسّقة للإذاعات الرسمية والعربية |
-| 🛰️ أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
-| 🔄 التحديث | الإذاعات وفحص الروابط يوميًا · أجهزة SDR والطقس الفضائي والموجات القصيرة كل 6 ساعات |
-| 🧱 التقنية | HTML + CSS + Vanilla JS بدون أي مكتبات · Python stdlib للـ crawler · GitHub Pages |
-| 🌍 اللغات | عربي (RTL) + English (LTR) |
+| 📡 الموقع | [https://samotech.github.io/Radio/](https://samotech.github.io/Radio/) |
+| 📻 محطات البث | أكثر من 62,000 محطة من كل العالم + قوائم منسقة للمحطات العربية (~1,301 محطة في 21 دولة) + المحطات المصرية (62 محطة) |
+| 🌍 أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
+| 🔭 التغطية | الفحص والتحليل لأكثر من 50,000 محطة + 6 مصادر بيانات خارجية |
+| 🎨 التقنية | HTML + CSS + Vanilla JS بدون مكتبات + Python stdlib للـ crawler + GitHub Pages |
+| 🌐 اللغات | عربي (RTL) + English (LTR) |
 
-## ✨ المزايا
+## 📡 الميزات الرئيسية
 
 ### 📻 محطات البث
 
-- كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة) مدموج بالأولوية: الإذاعات الرسمية → المحطات العربية المنسّقة → IPRD → بقية الكتالوج.
-- بحث فوري داخل المتصفح بالاسم أو الدولة أو اللغة أو الفئة، مع تطبيع نص عربي (أ/إ/آ، ى/ي، والتشكيل).
-- فلاتر قوائم قابلة للبحث (دولة / لغة / فئة) + شرائح سريعة: الكل، المفضلة، عربي، رسمي، أخبار، قرآن، رياضة، موسيقى.
-- تشغيل داخلي: بث مباشر MP3/AAC + بث HLS عبر hls.js (بتحميل عند الحاجة، مع تبديل تلقائي بين CDN).
-- سلسلة بدائل تلقائية: لو الرابط الأساسي فشل، التطبيق بيجرب بدائل الرابط واحدًا واحدًا بدون تدخل.
-- محطات SNRT المغربية (15 إذاعة): توكن EasyBroadcast موقّع تلقائيًا في المتصفح مع تجديد قبل انتهاء صلاحيته.
-- شارات حالة الاستجابة من الفحص اليومي: ✔ شغال أو ✖ لا يستجيب (الروابط المحمية بـ 401/403/405 تُحسب شغالة، والمحطات المحمية بتوكن مستثناة من الفحص).
-- مفضلة محلية + استكمال آخر محطة كنت بتسمعها + أزرار Media Session + فتح الرابط أو الموقع الرسمي خارجيًا.
+- كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة ~62,286، ترتيب: سمعية/عربية/IPRD + الكتالوج الكامل) + في البحث المباشر في FM tab أيضا
+- بحث فوري في ~9MB JSON (لا حاجة للإنترنت بعد التحميل الأول)
+- فلترة حسب الدولة/اللغة/الفئة (FACET_OPTIONS + filterFacetOptions(kind) — يحتفظ بالخيار المحدد أثناء التصفية)
+- LANGUAGE_ALIASES canonicalizes ~35 languages incl. Arabic variants
+- CORE_CATEGORIES consolidates genres to 20 with ar/en labels
+- normalizeSearchText() normalizes NFD diacritics + alef variants (أإآ→ا, ى→ي)
+- isOfficialStation() → officials sorted first in results
+- local search matches name/language/tags/cc/localized country name (Intl.DisplayNames)
 
-### 🛰️ أجهزة الاستقبال SDR
+### 🌍 تبويب عربي
+- تبويب مستقل «🌍 عربي» يعرض جميع المحطات العربية في 22 دولة عربية
+- ترتيبا حسب الدولة مع الأعلام وعدد المحطات
+- المحطات الرسمية أولا + ترتيب حسب الاسم
+- حد أقصى 30 محطة لكل دولة مع ملاحظة «أول N محطة من M»
 
-- دليل KiwiSDR الكامل: الحالة (أونلاين/أوفلاين)، عدد المستخدمين، SNR، النطاق، الموقع، الهوائي، إحداثيات GPS.
-- فلترة بالنطاق و SNR الأدنى و«فيه مكان فاضي» وفرز بمختلف المعايير.
-- استماع داخل التطبيق لواجهة الجهاز (iframe) لأجهزة HTTPS.
-- **صوت مباشر تجريبي عبر WebSocket** (بروتوكول KiwiSDR): للأجهزة اللي بتسمح بالاتصال الخارجي (ext_api مفتوح) — مودال بتغيير التردد والوضع AM/USB/LSB/CW، ولو الاتصال فشل خلال 8 ثواني التطبيق بيفتح واجهة الجهاز المدمجة تلقائيًا.
+### 🇪🇬 تبويب مصر
+- عرض جميع محطات البث المصرية
+- الترتيبا: المحطات الرسمية أولا + حسب الحالة (alive-rank)
+- رابط للموقع الرسمي (maspero.eg)
 
-### 📡 أدوات هواة اللاسلكي
+### 🔭 أجهزة الاستقبال SDR
 
-- حالة النطاقات: مؤشر Kp وتدفق شمسي F10.7 من NOAA SWPC مع تقييم فتح النطاقات العالية.
-- جدول بث الموجات القصيرة النشطة الآن (حتى 3000 إرسال) من جدول EiBi الموسمي.
-- عداد زوار متين: إجمالي الزيارات عبر Abacus — مع كاش محلي 14 يوم وبديل تلقائي (شارة صور) لو خدمة العداد وقعت.
+- **KiwiSDR**: 817-834 جهاز حول العالم (AetherSDR CDN mirror، CORS-open، hourly)
+  - الحالة (أونلاين/غير متصل)
+  - SNR
+  - عدد المستخدمين
+  - الموقع الجغرافي + هوائي
+  - ext_api (للاتصال المباشر)
+- **WebSDR/OpenWebRX**: قواميس من receiverbook.de + morria/multi-sdr
+  - فلترة حسب النوع
+  - عرض على الخريطة
+  - استماع داخل التطبيق (HTTPS فقط)
+- **WSPR**: نشاط الانتشار الراديوي (db1.wspr.live)
+  - أحزمة التردد
+  - المسافات القصوى
+  - أفضل المسارات
+- **EIBI**: جدول البث القصير للموجات (eibispace.de)
+  - 3000 إدخال كحد أقصى
+  - فلترة حسب التردد والوقت
+  - البحث في الجدول
 
-### 📱 الواجهة
+### ⚡ ميزات إضافية
 
-- عربي/إنجليزي بتبديل فوري (RTL/LTR) + ثيم داكن/فاتح.
-- PWA قابلة للتثبيت على الموبايل والديسكتوب، ووضع أوفلاين: network-first مع كاش للبيانات وصفحة أوفلاين احتياطية.
+- **البحث المباشر**: بحث فوري في كتالوج Radio-Browser عبر API
+- **المفضلة**: حفظ المحطات المفضلة في localStorage
+- **استئناف الاستماع**: استئناف آخر محطة استمعت إليها
+- **Media Session API**: متوافق مع أجهزة التحكم الخارجية
+- **PWA**: تثبيت على الهاتف كتطبيق مستقل
+- **الوضع الداكن/الفاتح**: تبديل سهل
+- **الترجمة**: عربي/إنجليزي كامل
+- **الاشتراكات**: توست عند حدوث خطأ في البث
+- **الروابط العميقة**: #play=URL لفتح محطة مباشرة
+- **المشاركة**: زر مشاركة لكل محطة
+- **الإبلاغ**: زر للإبلاغ عن محطة معطلة
+- **عشوائي**: زر لاختيار محطة عشوائية
 
-## 🏗️ المعمارية
+## 🛠 التقنيات المستخدمة
 
-```mermaid
-flowchart LR
-    subgraph مصادر البيانات
-      A[AetherSDR CDN — دليل KiwiSDR] --> G
-      B[Radio-Browser — de1 وde2 وnl1] --> G
-      C[NOAA SWPC — Kp وF10.7] --> G
-      D[EiBi — جدول موسمي للموجات القصيرة] --> G
-      E[IPRD — قوائم M3U لعشرين دولة عربية] --> G
-      F[official_stations وarabic_stations — قوائم منسقة يدويًا] --> G
-    end
-    G[scripts/update_data.py — Python stdlib فقط] --> H[(data/*.json)]
-    G --> S[فحص صحة روابط المحطات المنسقة]
-    S --> H
-    H --> I[GitHub Pages — PWA بدون خادم]
+### Frontend
+- **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
+- **Service Worker** (sw.js v22) لـ caching و offline
+- **HLS.js** (1.6.10) لدعم HLS
+- **hls.js CDN**: jsdelivr → unpkg fallback
+
+### Backend (Crawler)
+- **Python 3 + stdlib فقط** (لا dependencies خارجية)
+- **Radio-Browser API** (de1/de2/nl1)
+- **AetherSDR CDN** (KiwiSDR mirror)
+- **NOAA SWPC** (Kp, F10.7)
+- **WSPR.live** (ClickHouse)
+- **EiBi** (eibispace.de)
+- **IPRD** (iprd-org/iprd)
+
+### Hosting
+- **GitHub Pages** (static hosting)
+- **GitHub Actions** (CI/CD + data refresh)
+
+## 📁 هيكل المشروع
+
+```
+Radio/
+├── index.html          # الصفحة الرئيسية
+├── js/
+│   └── app.js          # منطق التطبيق الرئيسي (~85KB)
+├── css/
+│   └── styles.css      # أنماط CSS
+├── sw.js               # Service Worker (v22)
+├── manifest.webmanifest # PWA Manifest
+├── offline.html        # صفحة offline
+├── robots.txt          # robots.txt
+├── sitemap.xml         # sitemap
+├── countries/          # صفحات الدول (SEO)
+│   ├── index.html
+│   ├── eg.html
+│   ├── sa.html
+│   └── ...
+├── data/               # بيانات المحطات
+│   ├── stations.json   # ~12MB (62,286 محطة)
+│   ├── kiwisdr.json    # ~830 جهاز
+│   ├── space_weather.json
+│   ├── eibi.json       # ~142KB
+│   ├── wspr.json
+│   ├── web_sdrs.json
+│   └── stream_checks.json
+├── scripts/            # نصوص Python
+│   ├── update_data.py  # crawler رئيسي
+│   ├── official_stations.json
+│   ├── arabic_stations.json
+│   └── generate_icons.py
+└── tests/              # اختبارات
+    ├── test_crawler.py
+    ├── test_country_pages.py
+    └── test_wspr_sources.py
 ```
 
-> أي فشل في أي مصدر بيخلي النظام يحتفظ بآخر لقطة ناجحة — البيانات ما بتتمسش أبدًا عند الفشل.
-
-## 🗃️ ملفات البيانات (data/)
-
-| الملف | المحتوى |
-|---|---|
-| stations.json | الكتالوج الكامل (~12MB) — ترتيب: رسمية/عربية/IPRD أولاً؛ الحقول: name, url, cc, language, tags, codec, bitrate + حقول اختيارية: fallbacks, website, tokenEndpoint, tokenType |
-| kiwisdr.json | ~830 جهاز استقبال (gps, bands, loc, antenna, ext_api) |
-| space_weather.json | مؤشر Kp وتدفق F10.7 الشمسي |
-| eibi.json | إرسالات الموجات القصيرة النشطة وقت الزحف |
-| stream_checks.json | نتائج فحص الروابط اليومي — لكل رابط: alive وcode |
-
-## 🖥️ التشغيل محليًا
+## 🚀 كيفية التثبيت والتشغيل محليا
 
 ```bash
 git clone https://github.com/SamoTech/Radio.git
 cd Radio
 python scripts/update_data.py all       # تحديث كل البيانات
-python scripts/update_data.py stations  # كتالوج الإذاعات + فحص الروابط فقط
-python scripts/update_data.py sdr       # أجهزة SDR والطقس الفضائي والموجات القصيرة فقط
+python scripts/update_data.py stations  # تحديث المحطات + فلترة البث
+python scripts/update_data.py sdr       # تحديث أجهزة SDR + الطقس الفضائي + EIBI
 python -m http.server 8000
-# ثم افتح http://localhost:8000
+# افتح http://localhost:8000
 ```
 
-الـ crawler يعتمد على Python stdlib فقط — لا يحتاج أي مكتبات خارجية.
+الـ crawler يعتمد على Python stdlib فقط — لا يحتاج لأي مكتبات خارجية.
 
-## 🚀 النشر والتحديث التلقائي
+## ⚙ الآلية
 
-كل حاجة بتتم في workflow واحد (.github/workflows/update-data.yml):
+كل 6 ساعات:
+1. **التحديث**: البيانات (KiwiSDR + الطقس الفضائي + EIBI + WSPR + WebSDR) تتحديث كل 6 ساعات
+2. **التحقق**: يتم فحص syntax لـ app.js (node --check)
+3. **النشر**: يتم نشر البيانات على GitHub Pages
 
-1. **الجدول:** الإذاعات وفحص الروابط يوميًا (02:17 UTC) · أجهزة SDR والطقس الفضائي وEiBi كل 6 ساعات.
-2. **على كل push لـ main:** تحديث شامل (وضع all) + فحص syntax للواجهة (node --check).
-3. **الخطوات:** تحديث البيانات → commit لو حصل تغيير فعلي → نشر GitHub Pages في نفس الـ run.
+(.github/workflows/update-data.yml + deploy.yml)
 
-(.github/workflows/deploy.yml موجود للتشغيل اليدوي في الطوارئ فقط.)
+## ✅ الحالة الحالية
 
-## ⚠️ قيود معروفة
-
-- الصوت المباشر عبر WebSocket **تجريبي** — بروتوكول KiwiSDR مُطبّق بأفضل اجتهاد، وبعض الأجهزة بتحتاج باسورد أو بتمنع الاتصالات الخارجية (التطبيق بيرجع للواجهة المدمجة تلقائيًا).
-- أجهزة الاستقبال HTTP بتفتح خارجيًا فقط — قيود mixed content بتمنع تضمينها في صفحة HTTPS.
-- عداد الزوار من خدمة خارجية (Abacus) — الواجهة بتتحمل وقوفه بالكاش والبديل، لكن القيم وقت التقط ممكن تبقى قديمة.
-- كتالوج المحطات لسه ملف JSON واحد كبير؛ تقسيمه حسب الدولة محتاج تغيير متوافق في آلية التحميل.
-- جدول EiBi بيُجلب من مصدر HTTP فقط، والـ crawler بيحدد الموسم تلقائيًا وبيجرب الموسم الحالي ثم السابق ثم ملف تجميعي.
-- فحص الروابط بيتخطى المحطات المحمية بتوكن (مثل easybroadcast) لأن الفحص من سيرفرات GitHub ما بيعرفش يوقّع توكنات.
-
-## 🗺️ خطة المراحل
-
-| المرحلة | المحتوى |
+| الميزة | الحالة |
 |---|---|
-| ✅ MVP | دليل KiwiSDR + محطات FM + تشغيل داخلي + crawler + Pages |
-| ✅ المرحلة ٢ (جزئيًا) | صوت KiwiSDR عبر WebSocket (تجريبي، مع احترام ext_api) — باقي: OpenWebRX |
-| 3️⃣ | WebSDR + نطاق الطيران |
-| 4️⃣ | تنبيهات «فتح النطاقات» (WSPRnet + تاريخ SNR) + SatNOGS + AIS/ADS-B |
+| ✅ MVP | دليل KiwiSDR + محطات FM + تشغل خارجي + crawler + Pages |
+| ✅ الميزة 2 | صوت KiwiSDR تجريبي عبر WebSocket (مطلوب ext_api) — بديل OpenWebRX |
+| ✅ WebSDR | دمج WebSDR + OpenWebRX |
+| ✅ WSPR | نشاط الانتشار الراديوي + أفضل المسارات |
+| ✅ EIBI | جدول البث القصير للموجات |
 
-## 🔧 بروتوكول التطوير
+## 🎯 الخارطة المستقبلية
 
-- أي تعديل على branch منفصل + Pull Request + دمج squash.
-- رسائل الـ commits بصيغة conventional: feat / fix / chore / docs.
-- البيانات المولّدة لا تُعدّل يدويًا أبدًا — فقط عن طريق الـ crawler.
-- الـ crawler عمره ما يمسح آخر لقطة ناجحة عند فشل أي مصدر.
-- المحطات الإسرائيلية مستبعدة من الكتالوج نهائيًا (سياسة محتوى).
+### 🔜 على قائمة الانتظار
+- **الخريطة التفاعلية**: عرض المحطات وأجهزة SDR على الخريطة (Leaflet.js)
+- **دعم البودكاست**: دمج مع Listen API أو PodcastIndex
+- **تحليلات**: إضافة Google Analytics أو Plausible
+- **Heatmap**: إضافة Microsoft Clarity لتتبع سلوك المستخدمين
 
-## 📄 التراخيص والمصادر
+### 💡 أفكار مستقبلية
+- **نظام تسجيل** (اختياري): حفظ المفضلة على السحابة + التاريخ + إحصائيات
+- ** leaderboard**: أفضل الدول/المحطات من حيث الاستماع
+- **WSPRnet**: دمج مع WSPRnet
+- **SatNOGS**: تتبع الأقمار الصناعية
+- **AIS/ADS-B**: تتبع الطائرات والسفن
 
-بيانات EiBi مجانية للاستخدام وإعادة التوزيع وفق شروط المصدر، مع الإبقاء على نسبة المصدر إلى EiBi. باقي المصادر (KiwiSDR عبر مرآة AetherSDR، Radio-Browser، NOAA SWPC، IPRD) APIs ومنشورات عامة.
+## ⚠ قيود معروفة
+
+- **المحطات المصرية (maspero.eg)**: الموقع الرسمي يحجب الوصول الآلي — روابط البث المباشرة غير متاحة حاليا
+- **Sham FM (SY)**: https://radioshamfm.grtvstream.com:8400/; تعطي كود 0 من US CI runners (geo-gate) لكن jina-verified live — محفوظة عمدا، تظهر علامة dead badge لكن من المحتمل أن تعمل من MENA
+- **MBC/Qatar streamlock**: كود 0/502 — محفوظة عمدا (قد تكون geo-gated لمستخدمي MENA; crawler يعمل على US runners)
+- **العداد**: Abacus (ns: radio-atlas, key: views, admin: 67c46ff9-4f23-43e8-b729-546225e283dc)
+- **البيانات**: raw.githubusercontent يعرض cache لمدة ~5 دقائق — التحقق من التحديثات عبر cache-buster query
+
+## 📚 مصادر البيانات المفيدة
+
+- **Radio-Browser**: [https://de1.api.radio-browser.info/json/stations/search](https://de1.api.radio-browser.info/json/stations/search)
+- **AetherSDR KiwiSDR Mirror**: [https://cdn.aethersdr.com/kiwi.json](https://cdn.aethersdr.com/kiwi.json)
+- **NOAA SWPC**: [https://services.swpc.noaa.gov/json/](https://services.swpc.noaa.gov/json/)
+- **WSPR.live**: [https://db1.wspr.live/](https://db1.wspr.live/)
+- **EiBi**: [http://eibispace.de/](http://eibispace.de/)
+- **IPRD**: [https://github.com/iprd-org/iprd](https://github.com/iprd-org/iprd)
+- **alondrilich radio-playlists**: [https://alondrilich.github.io/radio-playlists/](https://alondrilich.github.io/radio-playlists/)
+- **junguler m3u-radio-music-playlists**: [https://github.com/junguler/m3u-radio-music-playlists](https://github.com/junguler/m3u-radio-music-playlists)
+
+## 🔒 سياسة المحتوى
+
+- **استبعاد إسرائيل (IL)**: المحطات الإسرائيلية مستبعدة بشكل دائم من الكتالوج (crawler-side skip + client-side filter)
+- **المحطات غير الآمنة (HTTP)**: لا يتم عرضها في iframes (mixed content policy)
+- **المحطات المكررة**: يتم إزالة التكرارات بواسطة URL
+
+## 🤝 المساهمة
+
+- أي تعليق على branch من فصل + Pull Request + دمج squash
+- رسائل commits بتقليد conventional: feat / fix / chore / docs
+- البياتات لا تفصل عن الكود — crawler يعمل في نفس الملف
+- المحطات الرسمية لا تفصل عن الكتالوج — يتم دمجها دائما في الأعلى
+- **لا تستخدم backticks** أو `${` في الكود
+
+## 📊 إحصائيات
+
+- **عدد المحطات**: ~62,286 محطة (Radio-Browser + IPRD + official + arabic)
+- **أجهزة KiwiSDR**: ~830 جهاز
+- **أجهزة WebSDR/OpenWebRX**: ~400 جهاز
+- **EIBI**: ~3000 إدخال
+- **WSPR**: ~200,000 نقطه في 72 ساعة
+
+## 🎨 التصميم
+
+- **RTL Support**: دعم كامل للغة العربية
+- **Responsive**: متوافق مع جميع الأحجام
+- **Dark Mode**: وضع داكن/فاتح
+- **PWA**: تثبيت على الهاتف
 
 ---
 **SamoTech/Radio** — Cairo 🇪🇬

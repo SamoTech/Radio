@@ -34,6 +34,7 @@
   </div>
   <nav class="tabs">
     <button id="tab-fm" class="tab active" type="button" data-i18n="tab_fm">📻 محطات البث</button>
+    <button id="tab-fav" class="tab" type="button" data-i18n="tab_fav">⭐ المفضلة</button>
     <button id="tab-ar" class="tab" type="button" data-i18n="tab_ar">🌍 عربي</button>
     <button id="tab-eg" class="tab" type="button" data-i18n="tab_eg">🇪🇬 مصر</button>
     <button id="tab-sdr" class="tab" type="button" data-i18n="tab_sdr">أجهزة الاستقبال SDR</button>
@@ -77,6 +78,13 @@
     <p class="hint ma-hint" data-i18n="ar_hint">كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.</p>
     <p id="ar-count" class="ma-count"></p>
     <div id="grid-ar" class="grid"></div>
+  </section>
+
+  <!-- Favorites -->
+  <section id="panel-fav" hidden>
+    <p class="hint ma-hint" data-i18n="fav_hint">جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.</p>
+    <p id="fav-count" class="ma-count"></p>
+    <div id="grid-fav" class="grid"></div>
   </section>
 
   <!-- Egypt radio -->
