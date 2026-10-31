@@ -34,6 +34,7 @@
   </div>
   <nav class="tabs">
     <button id="tab-fm" class="tab active" type="button" data-i18n="tab_fm">📻 محطات البث</button>
+    <button id="tab-ar" class="tab" type="button" data-i18n="tab_ar">🌍 عربي</button>
     <button id="tab-ma" class="tab" type="button" data-i18n="tab_ma">🇲🇦 المغرب</button>
     <button id="tab-sdr" class="tab" type="button" data-i18n="tab_sdr">أجهزة الاستقبال SDR</button>
   </nav>
@@ -71,7 +72,14 @@
   </section>
 
   <!-- SDR -->
-    <!-- Morocco / SNRT official radio -->
+    <!-- All-Arabic radio grouped by country -->
+  <section id="panel-ar" hidden>
+    <p class="hint ma-hint" data-i18n="ar_hint">كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.</p>
+    <p id="ar-count" class="ma-count"></p>
+    <div id="grid-ar" class="grid"></div>
+  </section>
+
+  <!-- Morocco / SNRT official radio -->
   <section id="panel-ma" hidden>
     <p class="hint ma-hint"><span data-i18n="ma_hint">الإذاعات الرسمية المغربية من SNRT — ٤ وطنية و١١ جهوية، بتشتغل مباشرة من الموقع عبر روابط HLS موقّعة تلقائيًا.</span> <a href="https://snrtlive.ma/fr/radio-regionale" target="_blank" rel="noopener" data-i18n="ma_source">SNRT Live ↗</a></p>
     <p id="ma-count" class="ma-count"></p>
