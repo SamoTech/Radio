@@ -1,103 +1,103 @@
 {
- "updated": "2026-10-31T16:09:53+00:00",
+ "updated": "2026-10-31T16:32:16+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
    "band": 14,
-   "c": 286211,
-   "avg_km": 2435,
-   "max_km": 19683
+   "c": 272982,
+   "avg_km": 2481,
+   "max_km": 19604
   },
   {
    "band": 7,
-   "c": 228923,
-   "avg_km": 942,
-   "max_km": 19204
+   "c": 221189,
+   "avg_km": 921,
+   "max_km": 19679
   },
   {
    "band": 10,
-   "c": 117639,
-   "avg_km": 1450,
-   "max_km": 18709
+   "c": 113653,
+   "avg_km": 1442,
+   "max_km": 18644
   },
   {
    "band": 21,
-   "c": 61320,
-   "avg_km": 3636,
+   "c": 60623,
+   "avg_km": 3667,
    "max_km": 18870
   },
   {
    "band": 18,
-   "c": 57244,
-   "avg_km": 3562,
+   "c": 54650,
+   "avg_km": 3576,
    "max_km": 18599
   },
   {
    "band": 3,
-   "c": 28436,
-   "avg_km": 613,
+   "c": 30869,
+   "avg_km": 640,
    "max_km": 18256
   },
   {
    "band": 28,
-   "c": 19897,
-   "avg_km": 3792,
+   "c": 20640,
+   "avg_km": 3760,
    "max_km": 16776
   },
   {
    "band": 24,
-   "c": 13810,
+   "c": 14101,
    "avg_km": 3566,
-   "max_km": 19330
+   "max_km": 15419
   },
   {
    "band": 5,
-   "c": 7075,
-   "avg_km": 792,
+   "c": 8963,
+   "avg_km": 755,
    "max_km": 15338
   },
   {
    "band": 1,
-   "c": 3658,
-   "avg_km": 741,
-   "max_km": 13764
+   "c": 3747,
+   "avg_km": 666,
+   "max_km": 13552
   },
   {
    "band": 0,
-   "c": 1885,
-   "avg_km": 315,
-   "max_km": 1742
+   "c": 1896,
+   "avg_km": 321,
+   "max_km": 2397
   },
   {
    "band": 13,
-   "c": 1025,
-   "avg_km": 1454,
-   "max_km": 4003
+   "c": 945,
+   "avg_km": 1455,
+   "max_km": 3222
   },
   {
    "band": 50,
-   "c": 475,
-   "avg_km": 48,
+   "c": 469,
+   "avg_km": 49,
    "max_km": 217
   },
   {
    "band": -1,
-   "c": 252,
-   "avg_km": 409,
+   "c": 269,
+   "avg_km": 447,
    "max_km": 6242
   },
   {
    "band": 144,
-   "c": 145,
-   "avg_km": 215,
+   "c": 160,
+   "avg_km": 211,
    "max_km": 449
   },
   {
    "band": 40,
-   "c": 118,
-   "avg_km": 0,
-   "max_km": 0
+   "c": 119,
+   "avg_km": 377,
+   "max_km": 15694
   },
   {
    "band": 430,
@@ -107,20 +107,56 @@
   },
   {
    "band": 1296,
-   "c": 9,
-   "avg_km": 55,
-   "max_km": 335
+   "c": 8,
+   "avg_km": 20,
+   "max_km": 20
   }
  ],
  "top": [
   {
-   "tx": "EA5RKP",
-   "tx_loc": "IM99",
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2CB",
+   "rx_loc": "RE78jq",
+   "km": 19679,
+   "band": 7,
+   "snr": -25
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZLII",
+   "rx_loc": "RE78mu",
+   "km": 19651,
+   "band": 7,
+   "snr": -23
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2BCI",
+   "rx_loc": "RE79nd",
+   "km": 19624,
+   "band": 7,
+   "snr": -26
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2BBR",
+   "rx_loc": "RE78rv",
+   "km": 19621,
+   "band": 7,
+   "snr": -26
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
    "rx": "ZL2J",
    "rx_loc": "RE79sb",
-   "km": 19683,
-   "band": 14,
-   "snr": -24
+   "km": 19604,
+   "band": 7,
+   "snr": -27
   },
   {
    "tx": "EB1A",
@@ -132,15 +168,6 @@
    "snr": -21
   },
   {
-   "tx": "KD9LVX",
-   "tx_loc": "FM53",
-   "rx": "VK6PVL",
-   "rx_loc": "OF88bc",
-   "km": 19501,
-   "band": 14,
-   "snr": -25
-  },
-  {
    "tx": "KC9WTM",
    "tx_loc": "FM98",
    "rx": "VK6QS",
@@ -148,24 +175,6 @@
    "km": 19439,
    "band": 14,
    "snr": -25
-  },
-  {
-   "tx": "KD9LVX",
-   "tx_loc": "FM53",
-   "rx": "VK6XT",
-   "rx_loc": "OF88ji",
-   "km": 19432,
-   "band": 14,
-   "snr": -23
-  },
-  {
-   "tx": "F4LAX",
-   "tx_loc": "JN13jr",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19343,
-   "band": 14,
-   "snr": -16
   },
   {
    "tx": "F4WCV",
@@ -177,29 +186,11 @@
    "snr": -15
   },
   {
-   "tx": "HK9DPN",
-   "tx_loc": "AD55",
-   "rx": "DL0PF",
-   "rx_loc": "JN68rn",
-   "km": 19330,
-   "band": 24,
-   "snr": -24
-  },
-  {
    "tx": "F4WCV",
    "tx_loc": "JN13",
    "rx": "ZL2BKW",
    "rx_loc": "RE79tr",
    "km": 19311,
-   "band": 14,
-   "snr": -23
-  },
-  {
-   "tx": "F4LAX",
-   "tx_loc": "JN13jr",
-   "rx": "ZL2BCI",
-   "rx_loc": "RE79nd",
-   "km": 19308,
    "band": 14,
    "snr": -23
   },
@@ -220,6 +211,15 @@
    "km": 19204,
    "band": 7,
    "snr": -27
+  },
+  {
+   "tx": "LS2JKE",
+   "tx_loc": "BF71",
+   "rx": "SWL-SV-PAROS",
+   "rx_loc": "KM27",
+   "km": 19132,
+   "band": 7,
+   "snr": -30
   }
  ]
 }
