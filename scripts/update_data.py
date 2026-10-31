@@ -1206,7 +1206,9 @@ def fetch_satnogs():
     kept = []
     seen_ids = set()
     for st in rows:
-        if not isinstance(st, dict) or st.get("status") != "online":
+        # The live API returns capitalized statuses ("Online"/"Testing"/
+        # "Offline"); compare case-insensitively so real payloads are kept.
+        if not isinstance(st, dict) or str(st.get("status") or "").lower() != "online":
             continue
         sid = st.get("id")
         name = str(st.get("name") or "").strip()
