@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T15:04:18+00:00",
+ "updated": "2026-10-31T15:32:43+00:00",
  "source": "https://www.radio-browser.info/",
- "count": 51612,
+ "count": 51613,
  "stations": [
   {
    "name": "BBC World Service",
@@ -402185,8 +402185,8 @@
    "name": "Holland Country Radio",
    "url": "https://caster.hosting078.nl:1405/stream",
    "cc": "NL",
-   "language": "english,dutch",
-   "tags": "country,country radio,holland country,country mix",
+   "language": "dutch,english",
+   "tags": "country,country mix,country radio,holland country",
    "codec": "",
    "bitrate": 0
   },
@@ -404178,6 +404178,15 @@
    "tags": "",
    "codec": "AAC+",
    "bitrate": 320
+  },
+  {
+   "name": "Cool FM Belfast",
+   "url": "https://stream-al.hellorayo.co.uk/coolfm.mp3?direct=true&aw_0_1st.skey=1602676850&rp_source=1",
+   "cc": "IE",
+   "language": "",
+   "tags": "pop",
+   "codec": "",
+   "bitrate": 0
   },
   {
    "name": "Sam Cloud Radio",
