@@ -136,6 +136,9 @@ CHECK_TIMEOUT = 8
 # catalog head (the merge order makes the head the most-clicked stations),
 # so the FM view can surface working stations first.
 CHECK_HEAD_MAX = 1200
+# When Radio-Browser is unreachable the fallback merge path still
+# refreshes the liveness snapshot for a bounded curated head.
+CHECK_FALLBACK_MAX = 300
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
@@ -1302,6 +1305,26 @@ def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+def write_stream_checks(stations, now_iso):
+    """Probe streams and refresh the liveness snapshot (last good kept)."""
+    try:
+        checks = run_stream_checks(stations)
+        if checks:
+            alive = sum(1 for v in checks.values() if v.get("alive"))
+            write_json(
+                DATA_DIR / "stream_checks.json",
+                {
+                    "updated": now_iso,
+                    "checked": len(checks),
+                    "alive": alive,
+                    "results": checks,
+                },
+            )
+            print(f"stream checks: {alive}/{len(checks)} streams alive")
+    except Exception as e:  # noqa: BLE001
+        print(f"stream checks FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+
+
 # ================= Website stream scraper (own source extractor) =================
 
 # Our own scraper: broadcaster websites are fetched and scanned for direct
@@ -2055,24 +2078,13 @@ def main():
                 },
             )
             ok = True
-            try:
-                checks = run_stream_checks(officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX])
-                if checks:
-                    alive = sum(1 for v in checks.values() if v.get("alive"))
-                    write_json(
-                        DATA_DIR / "stream_checks.json",
-                        {
-                            "updated": now_iso,
-                            "checked": len(checks),
-                            "alive": alive,
-                            "results": checks,
-                        },
-                    )
-                    print(f"stream checks: {alive}/{len(checks)} streams alive")
-            except Exception as e:  # noqa: BLE001
-                print(f"stream checks FAILED: {e} — keeping last good snapshot", file=sys.stderr)
+            write_stream_checks(
+                officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX],
+                now_iso,
+            )
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
+            curated = None
             try:
                 curated = (
                     load_official()
@@ -2092,6 +2104,8 @@ def main():
                     print("stations: fallback merge unavailable — keeping last snapshot", file=sys.stderr)
             except Exception as fallback_error:  # noqa: BLE001
                 print(f"stations fallback FAILED: {fallback_error}", file=sys.stderr)
+            if curated:
+                write_stream_checks(curated[:CHECK_FALLBACK_MAX], now_iso)
 
     if mode in {"all", "stations"}:
         try:
