@@ -332,7 +332,15 @@ def generate_country_pages(snapshot_path, out_root=None):
     ranked = sorted(by_cc.items(), key=lambda kv: len(kv[1]), reverse=True)
 
     countries_dir.mkdir(parents=True, exist_ok=True)
-    sitemap_urls = [SITE_URL, SITE_URL + "countries/"]
+    sitemap_urls = [
+        SITE_URL,
+        SITE_URL + "countries/",
+        SITE_URL + "about.html",
+        SITE_URL + "contact.html",
+        SITE_URL + "terms.html",
+        SITE_URL + "privacy.html",
+        SITE_URL + "dmca.html",
+    ]
     for cc, group in ranked:
         count = len(group)
         name_ar = COUNTRY_NAMES_AR[cc]
