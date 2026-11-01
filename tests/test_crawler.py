@@ -95,7 +95,7 @@ class CommunityPlaylistTests(unittest.TestCase):
         self.assertIn("junguler/m3u-radio-music-playlists", source)
         self.assertIn("COMMUNITY_MAX = 5000", source)
         self.assertIn("COMMUNITY_IL_MARKERS", source)
-        self.assertIn("officials + arabic + arab_extra + discovered + community + rb_stations", source)
+        self.assertIn("officials + arabic + arab_extra + discovered + dm_entries + community + rb_stations", source)
 
 
 class ScraperTests(unittest.TestCase):
@@ -158,6 +158,59 @@ class ScraperTests(unittest.TestCase):
         self.assertIn("SCRAPER_DYNAMIC_MAX = 60", source)
         self.assertIn("discovered_streams.json", source)
         self.assertIn("status-json.xsl", source)
+
+
+class DailymotionTests(unittest.TestCase):
+    def test_parse_json_accepts_jina_preamble(self):
+        text = (
+            "Title: \n\nURL Source: https://www.dailymotion.com/x\n\n"
+            'Markdown Content:\n{"url":"https://www.dailymotion.com/video/x1","qualities":{}}'
+        )
+        data = module._dailymotion_parse_json(text)
+        self.assertEqual(data["url"], "https://www.dailymotion.com/video/x1")
+
+    def test_parse_json_rejects_missing_payload(self):
+        with self.assertRaises(ValueError):
+            module._dailymotion_parse_json("no payload here")
+
+    def test_qualities_parser_dedupes_manifests(self):
+        metadata = {
+            "qualities": {
+                "auto": [
+                    {"type": "application/x-mpegURL", "url": "https://cdn.example.com/live/video/x1.m3u8?sec=abc"},
+                    {"type": "application/x-mpegURL", "url": "https://cdn.example.com/live/video/x1.m3u8?sec=abc"},
+                ],
+                "480": [{"type": "application/x-mpegURL", "url": "https://other.example.com/live.m3u8"}],
+                "junk": "not-a-list",
+            }
+        }
+        urls = module._dailymotion_qualities(metadata)
+        self.assertEqual(
+            urls,
+            [
+                "https://cdn.example.com/live/video/x1.m3u8?sec=abc",
+                "https://other.example.com/live.m3u8",
+            ],
+        )
+
+    def test_resolve_builds_entries_and_skips_dead_videos(self):
+        live = {"qualities": {"auto": [{"type": "application/x-mpegURL", "url": "https://cdn.example.com/live.m3u8?sec=abc"}]}}
+        with mock.patch.object(module, "_dailymotion_metadata", side_effect=lambda v: live), \
+             mock.patch.object(module, "check_stream", side_effect=lambda u: {"alive": ".m3u8" in u, "code": 200}):
+            entries = module.resolve_dailymotion_radios()
+        self.assertEqual(len(entries), len(module.DAILYMOTION_RADIOS))
+        self.assertEqual(entries[0]["name"], module.DAILYMOTION_RADIOS[0]["name"])
+        self.assertEqual(entries[0]["url"], "https://cdn.example.com/live.m3u8?sec=abc")
+        self.assertEqual(entries[0]["cc"], "EG")
+        self.assertEqual(entries[0]["official"], True)
+        self.assertIn("dailymotion", entries[0]["tags"])
+
+    def test_dailymotion_resolver_is_pinned(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("DAILYMOTION_RADIOS", source)
+        self.assertIn("player/metadata/video/", source)
+        self.assertIn("resolve_dailymotion_radios()", source)
+        self.assertIn("dailymotion FAILED", source)
 
 
 if __name__ == "__main__":
