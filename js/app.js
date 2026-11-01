@@ -138,7 +138,7 @@ var STR = {
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', fav_hint: 'جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.', eg_hint: 'كل إذاعات مصر من الكتالوج في مكان واحد — الاستماع مباشر من الموقع، والمحطات الرسمية والمنتقاة في الأول.', eg_source: 'إذاعات مصر الرسمية ↗', ar_hint: 'كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.', ar_count: '{n} إذاعة عربية · {c} دولة', ar_top: 'أول {n} محطة من {m}', rel_hint: 'كل المحطات الدينية من الكتالوج في مكان واحد — قرآن وبرامج دينية، والمحطات الرسمية في الأول.',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
-    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏',
+    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏', dm_notice_title: 'بث إذاعات ماسبيرو', dm_notice_body: 'قناة ماسبيرو الرسمية على Dailymotion بتسمح بتشغيل بث الإذاعات من موقعها بس، فمش بنقدر نشغّلها داخل التطبيق. افتحها على Dailymotion في نافذة جديدة وهتبث معاك فورًا 🎧', dm_notice_btn: 'افتح البث على Dailymotion ↗',
     history_title: 'سجل الاستماع', history_aria: 'تشغيل من سجل الاستماع',
     sleep_aria: 'مؤقت النوم', sleep_set: '⏱ البث هيقف بعد {n} دقيقة', sleep_done: '⏱ خلص المؤقت — اتوقف البث', sleep_clear: '⏱ اتلغى مؤقت النوم',
     alarm_aria: 'منبه الراديو', alarm_title: '⏰ منبه الراديو', alarm_hint: 'المنبه يشغّل آخر محطة استمعت لها — الصفحة لازم تفضل مفتوحة.', alarm_station: 'المحطة: {name}', alarm_save: '✓ ضبط المنبه', alarm_clear: '✕ إلغاء المنبه', alarm_set: '⏰ المنبه اتحط على {time} — {name}', alarm_cleared: '⏰ اتلغى المنبه', alarm_fired: '⏰ دقّ المنبه — شغّلنا {name}', alarm_no_station: 'شغّل أي محطة الأول عشان المنبه يعرف يشغّلها.',
@@ -193,7 +193,7 @@ var STR = {
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', fav_hint: 'All your favorite stations in one place. Manage favorites from any station using the heart button ❤️.', eg_hint: 'Every Egyptian station from the catalog in one place — plays in-app, official and curated stations first.', eg_source: 'Official Egyptian radio ↗', ar_hint: 'All Arabic radio from the catalog grouped by country — plays in-app, official stations first.', ar_count: '{n} Arabic stations · {c} countries', ar_top: 'First {n} of {m} stations', rel_hint: 'All religious stations from the catalog in one place — Quran and religious programming, official stations first.',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
-    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏',
+    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏', dm_notice_title: 'Maspero radios broadcast', dm_notice_body: 'Maspero\\u2019s official Dailymotion channel only allows playback on its own website, so the stream cannot run inside the app. Open it on Dailymotion in a new tab and it will play right away 🎧', dm_notice_btn: 'Open stream on Dailymotion ↗',
     history_title: 'Recently played', history_aria: 'Play from history',
     sleep_aria: 'Sleep timer', sleep_set: '⏱ Playback stops in {n} min', sleep_done: '⏱ Timer finished — playback stopped', sleep_clear: '⏱ Sleep timer cleared',
     alarm_aria: 'Radio alarm', alarm_title: '⏰ Radio alarm', alarm_hint: 'The alarm plays your last station — keep this page open.', alarm_station: 'Station: {name}', alarm_save: '✓ Set alarm', alarm_clear: '✕ Clear alarm', alarm_set: '⏰ Alarm set for {time} — {name}', alarm_cleared: '⏰ Alarm cleared', alarm_fired: '⏰ Alarm rang — playing {name}', alarm_no_station: 'Play any station first so the alarm has one to play.',
@@ -1754,14 +1754,50 @@ function playStepStation(dir) {
 }
 
 function isDmEmbed(url) {
-  return /dailymotion\.com\/(?:embed\/video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
+  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
+}
+
+function dmVideoUrl(url) {
+  var m = String(url || '').match(/dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html\?video=)([a-z0-9]+)/i);
+  return m ? 'https://www.dailymotion.com/video/' + m[1] : String(url || '');
+}
+
+function dmNoticeHtml(link) {
+  var esc = function (s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+  return '<!DOCTYPE html><html dir="rtl" lang="'
+    + (state.lang === 'en' ? 'en' : 'ar')
+    + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<style>body{margin:0;font-family:Segoe UI,Tahoma,system-ui,sans-serif;background:#0f0e13;color:#f4f1e8;'
+    + 'display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}'
+    + '.box{max-width:430px;padding:26px 18px}h2{margin:0 0 12px;font-size:1.15rem;color:#d4af37;font-weight:700}'
+    + 'p{margin:0 0 20px;line-height:1.9;color:#c9c2b2;font-size:.95rem}'
+    + 'a.btn{display:inline-block;background:#d4af37;color:#1a1405;border-radius:10px;padding:12px 26px;'
+    + 'text-decoration:none;font-weight:700;font-size:1rem}</style></head><body><div class="box">'
+    + '<h2>📻 ' + esc(t('dm_notice_title')) + '</h2>'
+    + '<p>' + esc(t('dm_notice_body')) + '</p>'
+    + '<a class="btn" href="' + esc(link) + '" target="_blank" rel="noopener">▶ ' + esc(t('dm_notice_btn')) + '</a>'
+    + '</div></body></html>';
+}
+
+function openDmNotice(url, name) {
+  var link = dmVideoUrl(safeHttpsUrl(url));
+  if (!/^https:\/\//.test(link)) { toast(t('toast_broken')); return; }
+  $('sdr-modal-name').textContent = '📻 ' + (name || '');
+  $('sdr-open-ext').href = link;
+  previousSDRFocus = document.activeElement;
+  $('sdr-frame').removeAttribute('src');
+  try { $('sdr-frame').srcdoc = dmNoticeHtml(link); } catch (e) { $('sdr-frame').src = link; }
+  $('sdr-modal').hidden = false;
+  $('sdr-modal-close').focus();
 }
 
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
   if (isDmEmbed(url)) {
-    openSDR(url, name);
+    openDmNotice(url, name);
     pushHistory(url, name);
     try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
     return;
@@ -2196,6 +2232,7 @@ function openSDR(url, name) {
 
 function closeSDR() {
   $('sdr-frame').src = 'about:blank';
+  try { $('sdr-frame').removeAttribute('srcdoc'); } catch (e) {}
   $('sdr-modal').hidden = true;
   if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
   previousSDRFocus = null;
