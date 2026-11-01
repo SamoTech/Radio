@@ -1753,9 +1753,19 @@ function playStepStation(dir) {
   play(st.url, st.name);
 }
 
+function isDmEmbed(url) {
+  return /dailymotion\.com\/(?:embed\/video\/|player\.html)/.test(String(url || ''));
+}
+
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  if (isDmEmbed(url)) {
+    openSDR(url, name);
+    pushHistory(url, name);
+    try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
+    return;
+  }
   var station = stationByUrl(url);
   if (!station) {
     for (var i = 0; i < state.fmLiveRows.length; i++) {
@@ -2195,6 +2205,7 @@ function initResume() {
   var last = null;
   try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
   if (!last || !safeHttpsUrl(last.url)) return;
+  if (isDmEmbed(last.url)) return;
   var station = stationByUrl(last.url);
   state.playbackStation = station || { name: last.name || '', url: last.url };
   state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
