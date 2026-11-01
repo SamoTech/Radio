@@ -38,6 +38,10 @@ class CountryPagesTests(unittest.TestCase):
             self.assertIn("#play=", page)
             self.assertIn("G-1NG4ZXNVGD", page)
             self.assertIn("ad_storage", page)
+            self.assertLess(
+                page.index("regions:"),
+                page.index('analytics_storage:"granted"'),
+            )
             self.assertIn('name="keywords"', page)
             self.assertNotIn("il.example", page)
             self.assertEqual(len(page.split("<li>")) - 1, 60)
