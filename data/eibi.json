@@ -1,14 +1,8 @@
 {
- "updated": "2026-11-01T12:02:04+00:00",
+ "updated": "2026-11-01T12:15:41+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1505,
+ "count": 1499,
  "rows": [
-  {
-   "f": 2054,
-   "s": "0950",
-   "e": "1210",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
-  },
   {
    "f": 2054,
    "s": "0000",
@@ -166,6 +160,12 @@
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
   },
   {
+   "f": 2598,
+   "s": "1207",
+   "e": "1233",
+   "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
+  },
+  {
    "f": 2600,
    "s": "0000",
    "e": "2400",
@@ -212,6 +212,12 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
+  },
+  {
+   "f": 2677,
+   "s": "1203",
+   "e": "1218",
+   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
   },
   {
    "f": 2680,
@@ -368,6 +374,12 @@
    "s": "0000",
    "e": "2400",
    "n": "IRL | Shannon Aeradio H | E | NAO"
+  },
+  {
+   "f": 2965,
+   "s": "1210",
+   "e": "2245",
+   "n": "THA | Bangkok Volmet x10,x40 | E | SAs"
   },
   {
    "f": 2971,
@@ -790,12 +802,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 4146,
-   "s": "1150",
-   "e": "1205",
-   "n": "CHL | CBP Puerto Montt R. | S | CHL"
-  },
-  {
    "f": 4177,
    "s": "0000",
    "e": "2400",
@@ -850,12 +856,6 @@
    "n": "CHN | XSG Shanghai Radio | M | FE"
   },
   {
-   "f": 4298,
-   "s": "0950",
-   "e": "1210",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
-  },
-  {
    "f": 4310,
    "s": "0430",
    "e": "1600",
@@ -892,6 +892,18 @@
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
+   "f": 4357,
+   "s": "1205",
+   "e": "1220",
+   "n": "CHL | CBV Valparaíso Radio | S | CHL"
+  },
+  {
+   "f": 4357,
+   "s": "1203",
+   "e": "1218",
+   "n": "NOR | Telenor Kystradio North | E | NEu"
+  },
+  {
    "f": 4363,
    "s": "0000",
    "e": "2400",
@@ -926,6 +938,12 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
+  },
+  {
+   "f": 4500,
+   "s": "1210",
+   "e": "1800",
+   "n": "CHN | PBS Xinjiang | MO | CHN"
   },
   {
    "f": 4557,
@@ -1256,12 +1274,6 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | RJD59 Russian Navy | -TY | EEu"
-  },
-  {
-   "f": 5020,
-   "s": "0500",
-   "e": "1203",
-   "n": "SLM | Solomon Islands B.C. | E | SLM"
   },
   {
    "f": 5035,
@@ -2476,12 +2488,6 @@
    "n": "HWA | NMO USCG Honolulu | E | Oc"
   },
   {
-   "f": 6501,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
-  },
-  {
    "f": 6507,
    "s": "0800",
    "e": "2100",
@@ -3262,12 +3268,6 @@
    "n": "CHN | China Radio Int. | M | FE"
   },
   {
-   "f": 7396,
-   "s": "1200",
-   "e": "1205",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
-  },
-  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3508,6 +3508,12 @@
    "n": "BOL | La Paz Volmet x15 | S | BOL"
   },
   {
+   "f": 8101,
+   "s": "1215",
+   "e": "1230",
+   "n": "VTN | Duyen Hai Information | T | SEA"
+  },
+  {
    "f": 8113,
    "s": "1000",
    "e": "2300",
@@ -3608,12 +3614,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
-  },
-  {
-   "f": 8459,
-   "s": "0950",
-   "e": "1210",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
   },
   {
    "f": 8484,
@@ -3752,12 +3752,6 @@
    "s": "1200",
    "e": "1235",
    "n": "HWA | NMO USCG Honolulu | E | Oc"
-  },
-  {
-   "f": 8764,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 8776,
@@ -4750,12 +4744,6 @@
    "n": "CHN | China Radio Int. | E | Oc"
   },
   {
-   "f": 9765,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
    "f": 9770,
    "s": "1130",
    "e": "1230",
@@ -4892,12 +4880,6 @@
    "s": "1200",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 9860,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
   },
   {
    "f": 9885,
@@ -5963,18 +5945,6 @@
   },
   {
    "f": 11865,
-   "s": "1045",
-   "e": "1215",
-   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 11865,
-   "s": "1045",
-   "e": "1215",
-   "n": "IND | AIR Akashvani Ext.Sce | TB | Tib"
-  },
-  {
-   "f": 11865,
    "s": "0900",
    "e": "1300",
    "n": "KRE | Voice of Korea | J | J"
@@ -6143,9 +6113,9 @@
   },
   {
    "f": 12120,
-   "s": "1200",
-   "e": "1215",
-   "n": "PHL | FEBC Manila | RWG | SEA"
+   "s": "1215",
+   "e": "1245",
+   "n": "PHL | FEBC Manila | AK | SEA"
   },
   {
    "f": 12120,
@@ -6254,12 +6224,6 @@
    "s": "1200",
    "e": "1300",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 12412,
-   "s": "0950",
-   "e": "1210",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
   },
   {
    "f": 12430,
@@ -6518,12 +6482,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 13089,
-   "s": "1115",
-   "e": "1215",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 13092,
@@ -7664,6 +7622,12 @@
    "s": "2300",
    "e": "1400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 15410,
+   "s": "1215",
+   "e": "1315",
+   "n": "IND | AIR Akashvani Ext.Sce | SWA | EAf"
   },
   {
    "f": 15410,

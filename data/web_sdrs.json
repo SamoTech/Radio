@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T12:02:04+00:00",
+ "updated": "2026-11-01T12:15:41+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1145,6 +1145,14 @@
    "lon": -117.205936111
   },
   {
+   "name": "G0XBU",
+   "url": "http://g0xbuwebsdr.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.23,
+   "lon": -2.313
+  },
+  {
    "name": "LF MF HF VHF UHF - SDR an der Burg Haag, Deutschland - DL2RN",
    "url": "https://openwebrx.rahsmann.de/",
    "loc": "",
@@ -1521,14 +1529,6 @@
    "lon": 11.337835135229621
   },
   {
-   "name": "SK3GK Kungsberget",
-   "url": "http://webrx.sk3gk.se:8074/",
-   "loc": "",
-   "https": false,
-   "lat": 60.75091784750988,
-   "lon": 16.490742078387893
-  },
-  {
    "name": "SR4DON JASTRZĘBIA GÓRA / POLAND LW-MW-SW-VHF-UHF",
    "url": "https://3.websdr.jestok.com/",
    "loc": "",
@@ -1559,14 +1559,6 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
-  },
-  {
-   "name": "LW6DSM",
-   "url": "http://lw6dsm.sytes.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -34.5903385739189,
-   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -1737,14 +1729,6 @@
    "lon": 12.016223679116091
   },
   {
-   "name": "EA8DJF",
-   "url": "http://ea8djfsdr.ddns.net:8090/",
-   "loc": "",
-   "https": false,
-   "lat": 28.335854,
-   "lon": -16.396304
-  },
-  {
    "name": "EA3KZ  sdr.astroradio.com",
    "url": "http://sdr.astroradio.com/",
    "loc": "",
@@ -1799,14 +1783,6 @@
    "https": true,
    "lat": 53.07151,
    "lon": 8.79351
-  },
-  {
-   "name": "Web SDR | Bremen Tenever, Germany | DL9BQ",
-   "url": "https://websdr.dl0ht.de/otesdr/",
-   "loc": "",
-   "https": true,
-   "lat": 53.0632,
-   "lon": 8.96239
   },
   {
    "name": "ZL3BCJ",
@@ -2209,6 +2185,14 @@
    "lon": 9.1027427
   },
   {
+   "name": "ni5f-2",
+   "url": "http://72.170.239.252:8082/",
+   "loc": "",
+   "https": false,
+   "lat": 30.859234,
+   "lon": -85.520026
+  },
+  {
    "name": "SP2SDK-RTLSDR",
    "url": "https://sp2sdk.pl/",
    "loc": "",
@@ -2407,6 +2391,22 @@
    "https": false,
    "lat": 47.3612918469974,
    "lon": 9.45042583424259
+  },
+  {
+   "name": "IU2MCH HF-VHF-UHF-Air Band",
+   "url": "http://www.iu2mch.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.464805,
+   "lon": 9.094794
+  },
+  {
+   "name": "IU2MCH HF-VHF-UHF-Air Band",
+   "url": "http://iu2mch.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.464805,
+   "lon": 9.094794
   },
   {
    "name": "IU2PLZ, Masate, Milan ITA",
@@ -3521,6 +3521,14 @@
    "lon": 13.46749
   },
   {
+   "name": "SDR Pescara 500 Khz - 1700 Mhz Antenna AOR SA-7000",
+   "url": "http://rnestoe.myddns.me:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 42.4768714735401,
+   "lon": 14.1814866065979
+  },
+  {
    "name": "WebSDR Merkelbeek",
    "url": "https://hydra-cloud.synology.me:8073/",
    "loc": "",
@@ -3855,14 +3863,6 @@
    "https": true,
    "lat": 45.65109,
    "lon": 9.204841
-  },
-  {
-   "name": "VU2OHM",
-   "url": "http://136.185.17.232:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 11.739996,
-   "lon": 79.753494
   },
   {
    "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
