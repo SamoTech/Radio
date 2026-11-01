@@ -19,6 +19,10 @@ Sources:
   fetched and scanned for direct HTTPS stream URLs (audio manifests,
   icecast status-json.xsl mounts), verified live, saved to
   data/discovered_streams.json; named seeds join the catalog merge.
+- Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): fresh
+  signed HLS manifests are resolved at crawl time from the Dailymotion
+  player metadata endpoint — signatures expire within hours, so URLs are
+  never hardcoded — verified live, merged into the catalog.
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -1278,6 +1282,142 @@ def scraper_dynamic_seeds():
         seeds.append({"name": str(station.get("name") or ""), "cc": str(station.get("cc") or ""), "site": site})
     return seeds[:SCRAPER_DYNAMIC_MAX]
 
+# ============ Dailymotion live radios (maspero/ERTU simulcasts) ============
+
+# ERTU (بوابة ماسبيرو) simulcasts its radio channels live on Dailymotion
+# (channel NMA). The player metadata endpoint hands out a fresh, signed
+# HLS manifest per request; signatures expire within hours, so the m3u8
+# URLs are resolved at crawl time — never hardcoded. Direct metadata
+# requests are tried first; the r.jina.ai text proxy is the fallback for
+# datacenter IPs that Dailymotion blocks, all inside a time budget.
+DAILYMOTION_RADIOS = (
+    {"name": "إذاعة الأغاني", "video": "x8n6dyz"},
+    {"name": "إذاعة القرآن الكريم", "video": "x84wyku"},
+    {"name": "البرنامج العام", "video": "x8n6dt3"},
+    {"name": "إذاعة البرنامج الثقافي", "video": "x8n6eci"},
+    {"name": "راديو مصر", "video": "x8n6dpk"},
+    {"name": "إذاعة الشرق الأوسط", "video": "x8n6drt"},
+    {"name": "إذاعة الشباب والرياضة", "video": "x8n6dzo"},
+    {"name": "إذاعة القاهرة الكبرى", "video": "x8n6ebs"},
+    {"name": "إذاعة صوت العرب", "video": "x8n6dqq"},
+    {"name": "إذاعة الوادي الجديد", "video": "x9p4ebk"},
+    {"name": "الإذاعة التعليمية", "video": "xakfzv2"},
+    {"name": "البرنامج الأوروبي", "video": "x8n6e6w"},
+    {"name": "الإذاعات الموجهة 1", "video": "x8n6ea6"},
+    {"name": "الإذاعات الموجهة 2", "video": "x8of06x"},
+    {"name": "الإذاعات الموجهة 8", "video": "x8n6e96"},
+)
+DAILYMOTION_TIMEOUT = 20
+DAILYMOTION_BUDGET = 180
+DAILYMOTION_UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+)
+
+
+def _dailymotion_parse_json(text):
+    """Parse a metadata payload that may be wrapped in a Markdown preamble."""
+    start = text.find("{")
+    if start < 0:
+        raise ValueError("no JSON payload in response")
+    return json.loads(text[start:])
+
+
+def _dailymotion_metadata(video_id):
+    """Fetch the player metadata JSON for one Dailymotion live video.
+
+    Direct first, then through the r.jina.ai text proxy (the proxy wraps
+    the JSON in a Markdown preamble, hence the first-brace parse).
+    """
+    target = (
+        "https://www.dailymotion.com/player/metadata/video/" + video_id
+        + "?embedder=" + urllib.parse.quote("https://www.dailymotion.com", safe="")
+        + "&locale=en-US"
+    )
+    last = None
+    for url in (target, "https://r.jina.ai/" + target):
+        try:
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": DAILYMOTION_UA,
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Encoding": "identity",
+                },
+            )
+            with urllib.request.urlopen(req, timeout=DAILYMOTION_TIMEOUT) as r:
+                text = r.read().decode("utf-8", "replace")
+            data = _dailymotion_parse_json(text)
+            if isinstance(data, dict) and not data.get("error"):
+                return data
+            last = ValueError(str(data.get("error") or "metadata error payload"))
+        except Exception as e:  # noqa: BLE001
+            last = e
+    print(f"dailymotion {video_id} metadata failed: {last}", file=sys.stderr)
+    return None
+
+
+def _dailymotion_qualities(metadata):
+    """Collect signed HLS manifest URLs from player metadata qualities."""
+    urls = []
+    qualities = metadata.get("qualities")
+    if not isinstance(qualities, dict):
+        return urls
+    for streams in qualities.values():
+        if not isinstance(streams, list):
+            continue
+        for stream in streams:
+            if not isinstance(stream, dict):
+                continue
+            url = str(stream.get("url") or "")
+            if url.startswith("https://") and ".m3u8" in url and url not in urls:
+                urls.append(url)
+    return urls
+
+
+def resolve_dailymotion_radios():
+    """Resolve a fresh signed manifest for every Dailymotion live radio.
+
+    Sequential on purpose (the proxy fallback is rate-limited), with a
+    total time budget so a slow crawl never stalls the data refresh.
+    """
+    entries = []
+    started = time.time()
+    for seed in DAILYMOTION_RADIOS:
+        if time.time() - started > DAILYMOTION_BUDGET:
+            print("dailymotion: time budget reached — stopping early", file=sys.stderr)
+            break
+        video_id = str(seed.get("video") or "")
+        name = str(seed.get("name") or "").strip()
+        metadata = _dailymotion_metadata(video_id)
+        if not metadata:
+            continue
+        seen, alive = set(), []
+        for url in _dailymotion_qualities(metadata):
+            key = station_url_key(url)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            if check_stream(url).get("alive"):
+                alive.append(url)
+            if len(alive) >= SCRAPER_CANDIDATE_MAX:
+                break
+        if not name or not alive:
+            continue
+        entry = {
+            "name": name,
+            "url": alive[0],
+            "cc": "EG",
+            "language": "arabic",
+            "tags": "رسمي,official,dailymotion",
+            "official": True,
+        }
+        if len(alive) > 1:
+            entry["fallbacks"] = alive[1:]
+        entries.append(entry)
+        print(f"dailymotion {name}: live manifest ok ({video_id})")
+    return entries
+
 # ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
 
 WSPR_DB_URL = "https://db1.wspr.live/"
@@ -1682,9 +1822,16 @@ def main():
                 print(f"scraper: {len(discovered)} catalog streams from websites")
             except Exception as e:  # noqa: BLE001
                 print(f"scraper FAILED: {e} — continuing without discovered streams", file=sys.stderr)
+            dm_entries = []
+            try:
+                dm_entries = resolve_dailymotion_radios()
+                if dm_entries:
+                    print(f"dailymotion: {len(dm_entries)} live radios resolved")
+            except Exception as e:  # noqa: BLE001
+                print(f"dailymotion FAILED: {e} — continuing without dailymotion radios", file=sys.stderr)
             stations = []
             seen_urls = set()
-            for station in officials + arabic + arab_extra + discovered + community + rb_stations:
+            for station in officials + arabic + arab_extra + discovered + dm_entries + community + rb_stations:
                 key = station_url_key(station.get("url"))
                 if key and key not in seen_urls:
                     seen_urls.add(key)
@@ -1693,7 +1840,8 @@ def main():
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
                 f"iprd-arab {len(arab_extra)} + community {len(community)} + "
-                f"scraper {len(discovered)} + radio-browser {len(rb_stations)})"
+                f"scraper {len(discovered)} + dailymotion {len(dm_entries)} + "
+                f"radio-browser {len(rb_stations)})"
             )
             write_json(
                 DATA_DIR / "stations.json",
