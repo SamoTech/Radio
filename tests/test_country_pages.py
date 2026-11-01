@@ -36,6 +36,7 @@ class CountryPagesTests(unittest.TestCase):
             self.assertIn("راديو مصر", page)
             self.assertIn("Radio 0", page)
             self.assertIn("#play=", page)
+            self.assertIn("G-1NG4ZXNVGD", page)
             self.assertNotIn("il.example", page)
             self.assertEqual(len(page.split("<li>")) - 1, 60)
             sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
@@ -58,3 +59,4 @@ class CountryPagesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
