@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T12:57:52+00:00",
+ "updated": "2026-11-01T13:12:02+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1513,6 +1513,14 @@
    "lon": 10.770587
   },
   {
+   "name": "K4MBD",
+   "url": "https://sdr.backyard.stream/",
+   "loc": "",
+   "https": true,
+   "lat": 36.148751336174364,
+   "lon": -82.69378453297419
+  },
+  {
    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
    "url": "http://nieuwkerke.on4ipr.be:8074/",
    "loc": "",
@@ -1729,6 +1737,14 @@
    "lon": 12.016223679116091
   },
   {
+   "name": "EA8DJF",
+   "url": "http://ea8djfsdr.ddns.net:8090/",
+   "loc": "",
+   "https": false,
+   "lat": 28.335854,
+   "lon": -16.396304
+  },
+  {
    "name": "EA3KZ  sdr.astroradio.com",
    "url": "http://sdr.astroradio.com/",
    "loc": "",
@@ -1929,14 +1945,6 @@
    "lon": 17.086449
   },
   {
-   "name": "SV6SYQ's HF-VHF-UHF SDR",
-   "url": "http://sv6syq.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 38.98175203074477,
-   "lon": 20.745048840740704
-  },
-  {
    "name": "🇮🇹📻ANCONA SDR  📻🇮🇹",
    "url": "http://local.ir6t.com:8073/",
    "loc": "",
@@ -2073,14 +2081,6 @@
    "lon": 28.1903479469811
   },
   {
-   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
-   "url": "http://e25wop.thddns.net:2253/",
-   "loc": "",
-   "https": false,
-   "lat": 13.5955566,
-   "lon": 100.5617591
-  },
-  {
    "name": "Montanaro SDR",
    "url": "http://cbfenis.ddns.net:43510/",
    "loc": "",
@@ -2151,14 +2151,6 @@
    "https": false,
    "lat": 52.01013427597713,
    "lon": 5.053865780281797
-  },
-  {
-   "name": "[IW9GTR]",
-   "url": "http://arascatania.ns0.it:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 37.5727,
-   "lon": 15.0391
   },
   {
    "name": "S55UU",
@@ -2481,14 +2473,6 @@
    "lon": 6.382
   },
   {
-   "name": "M0LHI",
-   "url": "http://radio.nkpa.co.uk/",
-   "loc": "",
-   "https": false,
-   "lat": 52.22609520584887,
-   "lon": -0.9268577317469995
-  },
-  {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
    "url": "http://wm9h.asuscomm.com/",
    "loc": "",
@@ -2625,14 +2609,6 @@
    "lon": 7.672333699585585
   },
   {
-   "name": "BRFM",
-   "url": "https://radio2.nkpa.co.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 51.423584079553876,
-   "lon": 0.8307115249043973
-  },
-  {
    "name": "Maritime Radio",
    "url": "http://maritime.nkpa.co.uk:8073/",
    "loc": "",
@@ -2671,6 +2647,14 @@
    "https": true,
    "lat": -38.757281,
    "lon": -62.26511
+  },
+  {
+   "name": "M0GUC HF/ VHF/UHF/ RX/ FM",
+   "url": "http://185.138.197.168:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 52.491233233195736,
+   "lon": -2.1578113631963314
   },
   {
    "name": "9V1KG",
@@ -2857,12 +2841,12 @@
    "lon": -98.26422124919387
   },
   {
-   "name": "EastMO R3DKT Receiver",
-   "url": "https://sdr.vanish125.netcraze.pro/",
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
    "loc": "",
-   "https": true,
-   "lat": 55.70267067829901,
-   "lon": 38.9587778063207
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
   },
   {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
@@ -2871,6 +2855,14 @@
    "https": true,
    "lat": 44.488821632862596,
    "lon": 27.46728429273056
+  },
+  {
+   "name": "XplorePilots",
+   "url": "http://xplorepilots.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 41.585439204302304,
+   "lon": -4.722918726927474
   },
   {
    "name": "SA7SVR",
@@ -3865,6 +3857,14 @@
    "lon": 9.204841
   },
   {
+   "name": "VU2OHM",
+   "url": "http://136.185.17.232:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 11.739996,
+   "lon": 79.753494
+  },
+  {
    "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
    "url": "http://7t6jathcgfomlh3u.myfritz.net:8073/",
    "loc": "",
@@ -3961,14 +3961,6 @@
    "lon": 8.780547154258626
   },
   {
-   "name": "Henrys SDR",
-   "url": "https://sdr.henry.lan64.de/",
-   "loc": "",
-   "https": true,
-   "lat": 50.9450462296244,
-   "lon": 13.6703080233291
-  },
-  {
    "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
    "url": "http://hispalis-sdr.hopto.org:8073/",
    "loc": "",
@@ -4047,6 +4039,14 @@
    "https": false,
    "lat": 45.863523648352725,
    "lon": 22.89565117516746
+  },
+  {
+   "name": "IA5ITY",
+   "url": "http://ia5itywebsdr.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 42.748471127688326,
+   "lon": 10.12352887691887
   }
  ]
 }
