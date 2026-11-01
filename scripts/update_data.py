@@ -238,16 +238,18 @@ _CP_STYLE = (
 )
 
 
-def _cp_head(title, description, canonical):
+def _cp_head(title, description, canonical, keywords=""):
     return (
         '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n'
         '<meta charset="UTF-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="theme-color" content="#0b1220">\n'
+        '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">\n'
         '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("consent","default",{ad_storage:"granted",ad_user_data:"granted",ad_personalization:"granted",analytics_storage:"granted",functionality_storage:"granted",personalization_storage:"granted",security_storage:"granted"});gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",functionality_storage:"denied",personalization_storage:"denied",security_storage:"granted",regions:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB"]});gtag("set","url_passthrough",true);gtag("set","ads_data_redaction",true);gtag("js",new Date());gtag("config","G-1NG4ZXNVGD");</script>\n'
         '<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NG4ZXNVGD"></script>\n'
         "<title>" + _cp_escape(title) + "</title>\n"
         '<meta name="description" content="' + _cp_escape(description) + '">\n'
+        '<meta name="keywords" content="' + _cp_escape(keywords) + '">\n'
         '<link rel="canonical" href="' + canonical + '">\n'
         '<meta property="og:title" content="' + _cp_escape(title) + '">\n'
         '<meta property="og:description" content="' + _cp_escape(description) + '">\n'
@@ -299,8 +301,13 @@ def _cp_index_page(ranked):
         "تصفح محطات البث الإذاعي حسب الدولة: مصر، السعودية، المغرب، الجزائر،"
         " تونس ودول أخرى — مع تشغيل مباشر على راديو أطلس."
     )
+    keywords_index = (
+        "محطات راديو حسب الدولة, راديو كل الدول, دليل محطات الإذاعة,"
+        " بث مباشر, راديو اونلاين, محطات FM حول العالم, راديو عربي,"
+        " راديو عالمي, استماع مباشر, راديو مباشر"
+    )
     return (
-        _cp_head(title, description, SITE_URL + "countries/")
+        _cp_head(title, description, SITE_URL + "countries/", keywords_index)
         + '<header class="hero"><h1>🌍 محطات الراديو حسب الدولة</h1>'
         + '<p class="tag">صفحات لكل دولة مع أشهر المحطات وروابط تشغيل مباشر داخل التطبيق.</p>'
         + '<p class="cta"><a class="btn" href="' + SITE_URL + '">📻 افتح راديو أطلس</a></p></header>'
@@ -362,8 +369,14 @@ def generate_country_pages(snapshot_path, out_root=None):
                 + SITE_URL + '">التطبيق الرئيسي</a>.</p>'
             )
         canonical = SITE_URL + "countries/" + cc.lower() + ".html"
+        keywords = (
+            "راديو " + name_ar + " مباشر, إذاعة " + name_ar
+            + ", استماع راديو " + name_ar + " اونلاين, محطات راديو "
+            + name_ar + ", ترددات " + name_ar + ", بث مباشر"
+            + ", راديو اونلاين, راديو مباشر, استماع مباشر"
+        )
         page = (
-            _cp_head(title, description, canonical)
+            _cp_head(title, description, canonical, keywords)
             + '<header class="hero"><h1>' + _cp_flag(cc) + " راديو "
             + _cp_escape(name_ar) + ' <span class="n">' + str(count)
             + " محطة بث مباشر</span></h1>"
