@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T14:13:13+00:00",
+ "updated": "2026-11-01T15:02:09+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 301,
+ "count": 300,
  "stations": [
   {
    "id": 3944,
@@ -31,16 +31,6 @@
    "lng": 18.16456,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
-   "id": 5065,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.843131,
-   "lng": 18.164306,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5065/",
    "https": false
   },
   {
@@ -351,6 +341,16 @@
    "lng": -79.011117,
    "alt": 22,
    "url": "https://network.satnogs.org/stations/3582/",
+   "https": false
+  },
+  {
+   "id": 40,
+   "name": "CGBSAT-UHF",
+   "loc": "JO32eu · UHF",
+   "lat": 52.834,
+   "lng": 6.379,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/40/",
    "https": false
   },
   {
@@ -2284,26 +2284,6 @@
    "https": false
   },
   {
-   "id": 2830,
-   "name": "SM0TGU - L and S-Band",
-   "loc": "JO89wk · L / S",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
-   "id": 858,
-   "name": "SM0TGU - VHF UHF",
-   "loc": "JO89wk · UHF / VHF",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/858/",
-   "https": false
-  },
-  {
    "id": 4260,
    "name": "smithsonian-7799",
    "loc": "FM18ar · UHF",
@@ -2621,6 +2601,16 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
+   "https": false
+  },
+  {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {

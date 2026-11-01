@@ -1,135 +1,126 @@
 {
- "updated": "2026-11-01T14:13:13+00:00",
+ "updated": "2026-11-01T15:02:09+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
+   "band": 14,
+   "c": 264567,
+   "avg_km": 2377,
+   "max_km": 19683
+  },
+  {
    "band": 7,
-   "c": 232712,
-   "avg_km": 1169,
+   "c": 230074,
+   "avg_km": 1033,
    "max_km": 18628
   },
   {
-   "band": 14,
-   "c": 227954,
-   "avg_km": 2534,
-   "max_km": 19711
-  },
-  {
    "band": 10,
-   "c": 105554,
-   "avg_km": 1599,
+   "c": 114711,
+   "avg_km": 1495,
    "max_km": 18805
   },
   {
-   "band": 18,
-   "c": 34323,
-   "avg_km": 3745,
-   "max_km": 18503
-  },
-  {
-   "band": 3,
-   "c": 30900,
-   "avg_km": 808,
-   "max_km": 18256
-  },
-  {
    "band": 21,
-   "c": 30405,
-   "avg_km": 3566,
+   "c": 44357,
+   "avg_km": 3209,
    "max_km": 18597
   },
   {
+   "band": 18,
+   "c": 43334,
+   "avg_km": 3371,
+   "max_km": 18355
+  },
+  {
+   "band": 3,
+   "c": 25430,
+   "avg_km": 634,
+   "max_km": 18256
+  },
+  {
    "band": 28,
-   "c": 11491,
-   "avg_km": 2751,
+   "c": 15604,
+   "avg_km": 2685,
    "max_km": 16053
   },
   {
    "band": 24,
-   "c": 5718,
-   "avg_km": 3106,
-   "max_km": 17033
+   "c": 9154,
+   "avg_km": 2875,
+   "max_km": 14949
   },
   {
    "band": 5,
-   "c": 5189,
-   "avg_km": 872,
+   "c": 5540,
+   "avg_km": 781,
    "max_km": 13981
   },
   {
-   "band": 0,
-   "c": 2240,
-   "avg_km": 444,
-   "max_km": 10317
-  },
-  {
    "band": 1,
-   "c": 2139,
-   "avg_km": 567,
+   "c": 1962,
+   "avg_km": 516,
    "max_km": 13764
   },
   {
+   "band": 0,
+   "c": 1612,
+   "avg_km": 315,
+   "max_km": 10317
+  },
+  {
    "band": 13,
-   "c": 672,
-   "avg_km": 1356,
+   "c": 961,
+   "avg_km": 1379,
    "max_km": 4003
   },
   {
    "band": 50,
-   "c": 489,
-   "avg_km": 60,
-   "max_km": 2173
+   "c": 502,
+   "avg_km": 55,
+   "max_km": 279
   },
   {
    "band": -1,
-   "c": 388,
-   "avg_km": 877,
+   "c": 314,
+   "avg_km": 978,
    "max_km": 14812
   },
   {
    "band": 144,
-   "c": 208,
-   "avg_km": 193,
-   "max_km": 608
+   "c": 218,
+   "avg_km": 200,
+   "max_km": 487
   },
   {
    "band": 40,
-   "c": 120,
-   "avg_km": 42,
-   "max_km": 1259
+   "c": 129,
+   "avg_km": 136,
+   "max_km": 1393
   },
   {
    "band": 1296,
-   "c": 17,
-   "avg_km": 205,
+   "c": 16,
+   "avg_km": 178,
    "max_km": 335
   },
   {
    "band": 430,
-   "c": 13,
-   "avg_km": 35,
+   "c": 14,
+   "avg_km": 36,
    "max_km": 58
   }
  ],
  "top": [
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL4JL",
-   "rx_loc": "RE54gd",
-   "km": 19711,
+   "tx": "EA5RKP",
+   "tx_loc": "IM99",
+   "rx": "ZL2J",
+   "rx_loc": "RE79sb",
+   "km": 19683,
    "band": 14,
-   "snr": -28
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL2P",
-   "rx_loc": "RE79tb",
-   "km": 19598,
-   "band": 14,
-   "snr": -19
+   "snr": -18
   },
   {
    "tx": "423KVF",
@@ -156,7 +147,7 @@
    "rx_loc": "RE79nd",
    "km": 19483,
    "band": 14,
-   "snr": -19
+   "snr": -21
   },
   {
    "tx": "KD9LVX",
@@ -177,6 +168,24 @@
    "snr": -19
   },
   {
+   "tx": "EA6ALL",
+   "tx_loc": "JM19fn",
+   "rx": "ZL2BKW",
+   "rx_loc": "RE79tr",
+   "km": 19427,
+   "band": 14,
+   "snr": -23
+  },
+  {
+   "tx": "EA6ALL",
+   "tx_loc": "JM19fn",
+   "rx": "ZL2P",
+   "rx_loc": "RE79tb",
+   "km": 19416,
+   "band": 14,
+   "snr": -21
+  },
+  {
    "tx": "KD9LVX",
    "tx_loc": "GL08",
    "rx": "VK6PVL",
@@ -184,6 +193,15 @@
    "km": 19415,
    "band": 14,
    "snr": -24
+  },
+  {
+   "tx": "EA6ALL",
+   "tx_loc": "JM19fn",
+   "rx": "ZL2J",
+   "rx_loc": "RE79sb",
+   "km": 19409,
+   "band": 14,
+   "snr": -15
   },
   {
    "tx": "F4MIZ",
@@ -202,24 +220,6 @@
    "km": 19342,
    "band": 14,
    "snr": -20
-  },
-  {
-   "tx": "F4WCV",
-   "tx_loc": "JN13",
-   "rx": "ZL2BKW",
-   "rx_loc": "RE79tr",
-   "km": 19311,
-   "band": 14,
-   "snr": -23
-  },
-  {
-   "tx": "F5HGF",
-   "tx_loc": "JN25ud",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19067,
-   "band": 14,
-   "snr": -23
   }
  ]
 }
