@@ -1,0 +1,39 @@
+name: Maspero embed probe
+on:
+  push:
+    branches: [probe/maspero-embed]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe maspero pages
+        run: |
+          cat > probe.py <<'PY'
+          import re
+          import urllib.request
+          UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+          def fetch(url):
+              req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "ar,en;q=0.8"})
+              return urllib.request.urlopen(req, timeout=25).read().decode("utf-8", "replace")
+          for n in [7, 8, 9, 10, 11, 12, 13, 14, 16]:
+              try:
+                  html = fetch("https://www.maspero.eg/stream/" + str(n))
+                  dm = sorted(set(re.findall(r"(?:[a-z]+\.)?dailymotion\.com/[A-Za-z0-9_\-./?=&%]+", html)))
+                  iframes = re.findall(r"<iframe[^>]+src=\"([^\"]+)\"", html)
+                  print("PAGE", n, "len", len(html))
+                  for d in dm[:12]:
+                      print(" DM", d)
+                  for s in iframes[:12]:
+                      print(" IFRAME", s)
+              except Exception as e:
+                  print("PAGE", n, "ERROR", e)
+          try:
+              html = fetch("https://www.dailymotion.com/video/x8n6eci")
+              players = sorted(set(re.findall(r"geo\.dailymotion\.com/player/[A-Za-z0-9_\-]+", html)))
+              print("WATCHPAGE len", len(html))
+              for p in players[:12]:
+                  print(" WP", p)
+          except Exception as e:
+              print("WATCHPAGE ERROR", e)
+          PY
+          python3 probe.py
