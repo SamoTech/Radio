@@ -244,6 +244,8 @@ def _cp_head(title, description, canonical):
         '<meta charset="UTF-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="theme-color" content="#0b1220">\n'
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NG4ZXNVGD"></script>\n'
+        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-1NG4ZXNVGD");</script>\n'
         "<title>" + _cp_escape(title) + "</title>\n"
         '<meta name="description" content="' + _cp_escape(description) + '">\n'
         '<link rel="canonical" href="' + canonical + '">\n'
@@ -1906,4 +1908,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
