@@ -1,4 +1,4 @@
-var CACHE = 'radio-atlas-v40';
+var CACHE = 'radio-atlas-v41';
 var SHELL = ['./', './index.html', './offline.html', './css/styles.css', './js/app.js', './manifest.webmanifest', './icons/icon.svg'];
 
 self.addEventListener('install', function (e) {
@@ -56,5 +56,6 @@ self.addEventListener('fetch', function (e) {
     });
   }));
 });
+
 
 
