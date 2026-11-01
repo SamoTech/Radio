@@ -278,3 +278,7 @@ footer{border-top:1px solid rgba(212,175,55,.14);letter-spacing:.3px}
   #player-vis{display:none}
   .player-tool{padding:5px 8px;font-size:.78rem;min-width:38px}
 }
+
+/* Featured home row (most famous stations) */
+.featured-title{font-size:1rem;margin:14px 0 8px;color:var(--accent)}
+.featured-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:4px}

@@ -98,6 +98,7 @@ var STR = {
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
     tab_fm: '📻 محطات البث', tab_fav: '⭐ المفضلة', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
+    featured_title: 'الأشهر عالميًا وعربيًا',
     search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
@@ -148,6 +149,7 @@ var STR = {
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
     tab_fm: '📻 Broadcast stations', tab_fav: '⭐ Favorites', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
+    featured_title: 'Most popular worldwide & Arabic',
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
@@ -1001,6 +1003,7 @@ function currentFMList() {
 }
 
 function renderFM() {
+renderFeatured();
   var grid = $('grid-fm');
   var list = currentFMList();
   $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
@@ -1020,6 +1023,7 @@ function loadStations() {
   return fetchJSON('data/stations_head.json').then(function (data) {
     if (data && Array.isArray(data.stations)) {
       state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
       buildFMFacets();
       renderFM();
       renderFav();
@@ -1034,6 +1038,7 @@ function loadStations() {
   }).then(function (data) {
     if (data && Array.isArray(data.stations)) {
       state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
       buildFMFacets();
     }
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
@@ -1927,6 +1932,71 @@ function visStop() {
     try { cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); } catch (e) {}
   }
 }
+
+/* ================= featured home row (most famous stations) ================= */
+
+var FEATURED = [
+  { m: ['قرآن الكريم'] },
+  { m: ['محمد السادس'] },
+  { m: ['مونت كارلو', 'monte carlo'] },
+  { m: ['الجزيرة الصوتية'] },
+  { m: ['dw عربي', 'دويتشه'] },
+  { m: ['bbc arabic', 'بي بي سي'] },
+  { m: ['راديو سوا', 'radio sawa'] },
+  { m: ['شام'] },
+  { m: ['alarabiya', 'العربية'] },
+  { m: ['nile fm'] },
+  { m: ['نوجوم', 'nogoum'] },
+  { m: ['9090'] },
+  { m: ['bbc world service'] },
+  { m: ['france inter'] },
+  { m: ['radio france internationale', 'rfi'] },
+  { m: ['deutschlandfunk'] },
+  { m: ['npo radio 1', 'npo 1'] },
+  { m: ['fip'] },
+  { m: ['europe 1'] },
+  { m: ['radio swiss jazz'] },
+  { m: ['radio paradise'] },
+  { m: ['groove salad'] },
+  { m: ['kbs world'] },
+  { m: ['vatican', 'الفاتيكان'] }
+];
+
+function featuredList() {
+  if (state.featuredCache) return state.featuredCache;
+  var out = [];
+  var seen = {};
+  var st = state.fm || [];
+  for (var i = 0; i < FEATURED.length; i++) {
+    var pats = FEATURED[i].m;
+    for (var j = 0; j < st.length; j++) {
+      var s = st[j];
+      if (seen[s.url]) continue;
+      if (!safeHttpUrl(s.url) || !/^https:/i.test(s.url)) continue;
+      var nm = String(s.name || '').toLowerCase();
+      var hit = false;
+      for (var k = 0; k < pats.length; k++) { if (nm.indexOf(pats[k].toLowerCase()) >= 0) { hit = true; break; } }
+      if (!hit) continue;
+      seen[s.url] = 1;
+      out.push(s);
+      break;
+    }
+  }
+  state.featuredCache = out;
+  return out;
+}
+
+function renderFeatured() {
+  var wrap = $('featured-wrap');
+  if (!wrap) return;
+  var list = featuredList();
+  if (!list.length) { wrap.hidden = true; return; }
+  var html = '';
+  for (var i = 0; i < list.length; i++) html += cardFm(list[i]);
+  $('featured-row').innerHTML = html;
+  wrap.hidden = false;
+}
+
 
 /* ================= station sharing / deep links ================= */
 
