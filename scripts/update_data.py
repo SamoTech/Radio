@@ -8,16 +8,26 @@ Sources:
   origin has been intermittently down during KiwiSDR server changes.
 - rx.kiwisdr.com/json/ — legacy origin endpoint, kept as fallback.
 - Radio-Browser: FULL catalog of all non-broken stations, fetched with
-  offset pagination and server failover (de1 -> de2 -> nl1 -> at1 -> fi1), stored with
+  offset pagination and server failover (de1 -> de2 -> nl1), stored with
   trimmed fields so the whole directory ships as one client-side
   searchable snapshot.
-- IPRD community playlists: the Arab countries feed the curated Arab tier and
-  every other country in the directory (discovered dynamically from the IPRD
-  summary index) is merged as a global community tier.
-- eyalev/verified-radio-streams: audio-verified https-only global snapshot
-  (independent Radio Browser rebuild — also covers Radio-Browser outages).
-- Icecast YP (dir.xiph.org/yp.xml): the public Icecast directory, https listen
-  URLs only (mixed content).
+- Community world playlists (junguler/m3u-radio-music-playlists on GitHub):
+  extra worldwide HTTPS streams from community-checked aggregate playlists,
+  merged after the curated lists with URL dedupe (they carry no country
+  metadata; Israeli entries are excluded by name markers).
+- Own website scraper: broadcaster portals and curated station sites are
+  fetched and scanned for direct HTTPS stream URLs (audio manifests,
+  icecast status-json.xsl mounts), verified live, saved to
+  data/discovered_streams.json; named seeds join the catalog merge.
+- Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): each
+  radio is cataloged as its official Dailymotion video page — NMA
+  restricts embedding to maspero.eg domains only (their player API
+  answers "NMA has limited its access to Dailymotion" for any other
+  embedder), so in-app embeds are impossible and the app opens the
+  video page instead; their signed HLS manifests are bound to the
+  requesting IP and expire within hours, so raw m3u8 URLs can never be
+  shared with visitors; the player metadata endpoint serves as a soft
+  liveness gate only.
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -50,7 +60,6 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -60,8 +69,6 @@ RB_APIS = [
     "https://de1.api.radio-browser.info/json/stations/search",
     "https://de2.api.radio-browser.info/json/stations/search",
     "https://nl1.api.radio-browser.info/json/stations/search",
-    "https://at1.api.radio-browser.info/json/stations/search",
-    "https://fi1.api.radio-browser.info/json/stations/search",
 ]
 RB_BATCH = 1000
 RB_MAX = 500_000
@@ -86,16 +93,22 @@ ARAB_IPRD = {
     "MR": ["mr.m3u"], "SO": ["so.m3u"], "SY": ["sy.m3u"],
 }
 IPRD_MAX = 1500
-IPRD_SUMMARY_URL = "https://iprd-org.github.io/iprd/site_data/summary.json"
-IPRD_WORLD_MAX = 4000
-ARAB_CC = set(ARAB_IPRD) | {"DJ", "KM"}
-VERIFIED_STREAMS_URL = (
-    "https://raw.githubusercontent.com/eyalev/verified-radio-streams"
-    "/main/stations/all.json"
+
+COMMUNITY_PLAYLISTS = (
+    "https://raw.githubusercontent.com/junguler/m3u-radio-music-playlists/main/---everything-checked-repo.m3u",
 )
-VERIFIED_MAX = 6000
-ICECAST_YP_URL = "http://dir.xiph.org/yp.xml"
-ICECAST_MAX = 1500
+COMMUNITY_MAX = 5000
+# Community playlists carry no country metadata, so Israeli entries are
+# excluded by name/URL markers only (same good-faith policy as SatNOGS).
+COMMUNITY_IL_MARKERS = (
+    "israel",
+    "tel aviv",
+    "tel-aviv",
+    "jerusalem",
+    "haifa",
+    "\u05d9\u05e9\u05e8\u05d0\u05dc",
+)
+
 CHECK_THREADS = 16
 CHECK_TIMEOUT = 8
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
@@ -225,14 +238,18 @@ _CP_STYLE = (
 )
 
 
-def _cp_head(title, description, canonical):
+def _cp_head(title, description, canonical, keywords=""):
     return (
         '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n'
         '<meta charset="UTF-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="theme-color" content="#0b1220">\n'
+        '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">\n'
+        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("consent","default",{ad_storage:"granted",ad_user_data:"granted",ad_personalization:"granted",analytics_storage:"granted",functionality_storage:"granted",personalization_storage:"granted",security_storage:"granted"});gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",functionality_storage:"denied",personalization_storage:"denied",security_storage:"granted",regions:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB"]});gtag("set","url_passthrough",true);gtag("set","ads_data_redaction",true);gtag("js",new Date());gtag("config","G-1NG4ZXNVGD");</script>\n'
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NG4ZXNVGD"></script>\n'
         "<title>" + _cp_escape(title) + "</title>\n"
         '<meta name="description" content="' + _cp_escape(description) + '">\n'
+        '<meta name="keywords" content="' + _cp_escape(keywords) + '">\n'
         '<link rel="canonical" href="' + canonical + '">\n'
         '<meta property="og:title" content="' + _cp_escape(title) + '">\n'
         '<meta property="og:description" content="' + _cp_escape(description) + '">\n'
@@ -284,8 +301,13 @@ def _cp_index_page(ranked):
         "تصفح محطات البث الإذاعي حسب الدولة: مصر، السعودية، المغرب، الجزائر،"
         " تونس ودول أخرى — مع تشغيل مباشر على راديو أطلس."
     )
+    keywords_index = (
+        "محطات راديو حسب الدولة, راديو كل الدول, دليل محطات الإذاعة,"
+        " بث مباشر, راديو اونلاين, محطات FM حول العالم, راديو عربي,"
+        " راديو عالمي, استماع مباشر, راديو مباشر"
+    )
     return (
-        _cp_head(title, description, SITE_URL + "countries/")
+        _cp_head(title, description, SITE_URL + "countries/", keywords_index)
         + '<header class="hero"><h1>🌍 محطات الراديو حسب الدولة</h1>'
         + '<p class="tag">صفحات لكل دولة مع أشهر المحطات وروابط تشغيل مباشر داخل التطبيق.</p>'
         + '<p class="cta"><a class="btn" href="' + SITE_URL + '">📻 افتح راديو أطلس</a></p></header>'
@@ -317,7 +339,15 @@ def generate_country_pages(snapshot_path, out_root=None):
     ranked = sorted(by_cc.items(), key=lambda kv: len(kv[1]), reverse=True)
 
     countries_dir.mkdir(parents=True, exist_ok=True)
-    sitemap_urls = [SITE_URL, SITE_URL + "countries/"]
+    sitemap_urls = [
+        SITE_URL,
+        SITE_URL + "countries/",
+        SITE_URL + "about.html",
+        SITE_URL + "contact.html",
+        SITE_URL + "terms.html",
+        SITE_URL + "privacy.html",
+        SITE_URL + "dmca.html",
+    ]
     for cc, group in ranked:
         count = len(group)
         name_ar = COUNTRY_NAMES_AR[cc]
@@ -339,8 +369,14 @@ def generate_country_pages(snapshot_path, out_root=None):
                 + SITE_URL + '">التطبيق الرئيسي</a>.</p>'
             )
         canonical = SITE_URL + "countries/" + cc.lower() + ".html"
+        keywords = (
+            "راديو " + name_ar + " مباشر, إذاعة " + name_ar
+            + ", استماع راديو " + name_ar + " اونلاين, محطات راديو "
+            + name_ar + ", ترددات " + name_ar + ", بث مباشر"
+            + ", راديو اونلاين, راديو مباشر, استماع مباشر"
+        )
         page = (
-            _cp_head(title, description, canonical)
+            _cp_head(title, description, canonical, keywords)
             + '<header class="hero"><h1>' + _cp_flag(cc) + " راديو "
             + _cp_escape(name_ar) + ' <span class="n">' + str(count)
             + " محطة بث مباشر</span></h1>"
@@ -940,7 +976,7 @@ def _extinf_name(line):
     return s.split(",", 1)[-1].strip()[:80]
 
 
-def parse_m3u(text, cc, language="arabic", tags="عربي,arab"):
+def parse_m3u(text, cc):
     """Parse an M3U playlist into station dicts. HTTPS streams only (mixed content)."""
     out = []
     seen = set()
@@ -967,8 +1003,8 @@ def parse_m3u(text, cc, language="arabic", tags="عربي,arab"):
                 "name": name or "—",
                 "url": url,
                 "cc": cc,
-                "language": language,
-                "tags": tags,
+                "language": "arabic",
+                "tags": "عربي,arab",
                 "codec": "",
                 "bitrate": 0,
             }
@@ -993,128 +1029,68 @@ def fetch_iprd_arab():
     return out[:IPRD_MAX]
 
 
-def fetch_iprd_world():
-    """IPRD community playlists for the rest of the world (non-Arab countries).
-
-    Country files are discovered from the IPRD summary index so no hardcoded
-    country list can go stale. HTTPS streams only (mixed content).
-    """
-    out = []
-    try:
-        summary = fetch_json(IPRD_SUMMARY_URL, attempts=2, timeout=30)
-        rows_raw = summary.get("countries") if isinstance(summary, dict) else None
-    except Exception as e:  # noqa: BLE001
-        print(f"iprd world summary failed: {e}", file=sys.stderr)
-        return []
-    countries = [c for c in rows_raw if isinstance(c, dict)] if isinstance(rows_raw, list) else []
-    for row in countries:
-        cc = str(row.get("code") or "").strip().upper()
-        if len(cc) != 2 or cc in ARAB_IPRD or cc == "IL":
-            continue
-        url = f"{IPRD_BASE}/{cc.lower()}/{cc.lower()}.m3u"
-        try:
-            text = fetch_bytes(url, timeout=25).decode("utf-8", "replace")
-            if cc in ARAB_CC:
-                rows = parse_m3u(text, cc, language="arabic", tags="عربي,arab,iprd")
-            else:
-                rows = parse_m3u(text, cc, language="", tags="iprd,community")
-            out.extend(rows)
-        except Exception as e:  # noqa: BLE001
-            print(f"iprd world {cc} failed: {e}", file=sys.stderr)
-    print(f"iprd world: {len(out)} streams from {len(countries)} listed countries")
-    return out[:IPRD_WORLD_MAX]
+def _community_group_title(line):
+    m = re.search(r'group-title="([^"]*)"', line)
+    return m.group(1).strip()[:40] if m else ""
 
 
-def fetch_verified_streams():
-    """Audio-verified https-only global snapshot (eyalev/verified-radio-streams)."""
-    data = fetch_json(VERIFIED_STREAMS_URL, attempts=2, timeout=90)
-    countries = data.get("countries") if isinstance(data, dict) else None
+def parse_community_m3u(text):
+    """Parse a worldwide community playlist: HTTPS streams only, EXTINF names."""
     out = []
     seen = set()
-    for country in countries if isinstance(countries, list) else []:
-        if not isinstance(country, dict):
+    name = ""
+    group = ""
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
             continue
-        cc = str(country.get("countryCode") or "").strip().upper()
-        if cc == "IL":
+        if line.startswith("#EXTINF"):
+            name = _extinf_name(line)
+            group = _community_group_title(line)
             continue
-        for st in country.get("stations") or []:
-            if not isinstance(st, dict):
-                continue
-            name = str(st.get("name") or "").strip()
-            url = str(st.get("stream") or "").strip()
-            if not name or not url.lower().startswith("https://"):
-                continue
-            if any(p in url for p in DEAD_URL_PATTERNS):
-                continue
-            key = station_url_key(url)
-            if not key or key in seen:
-                continue
-            seen.add(key)
-            langs = ",".join(x for x in st.get("langs") or [] if isinstance(x, str))[:40]
-            genres = ",".join(x for x in st.get("genre") or [] if isinstance(x, str))[:60]
-            bitrate = st.get("bitrate")
-            out.append(
-                {
-                    "name": name[:80],
-                    "url": url,
-                    "cc": cc,
-                    "language": langs,
-                    "tags": ("verified," + genres)[:80],
-                    "codec": str(st.get("codec") or "").upper()[:8],
-                    "bitrate": bitrate if isinstance(bitrate, int) else 0,
-                }
-            )
-            if len(out) >= VERIFIED_MAX:
-                break
-        if len(out) >= VERIFIED_MAX:
-            break
-    print(f"verified streams: {len(out)} stations")
-    return out
-
-
-def fetch_icecast_yp():
-    """Icecast public directory (dir.xiph.org YP). HTTPS listen URLs only."""
-    data = fetch_bytes(ICECAST_YP_URL, timeout=90)
-    out = []
-    seen = set()
-    for entry in ET.fromstring(data).iter("entry"):
-        name = (entry.findtext("server_name") or "").strip()
-        url = (entry.findtext("listen_url") or "").strip()
-        if not name or not url.lower().startswith("https://"):
+        if line.startswith("#"):
+            continue
+        url = line.split()[0] if line.split() else ""
+        if not url.lower().startswith("https://"):
             continue
         if any(p in url for p in DEAD_URL_PATTERNS):
             continue
-        key = station_url_key(url)
-        if not key or key in seen:
+        if url in seen:
             continue
-        seen.add(key)
+        blob = (name + " " + url).lower()
+        if ".il/" in url or any(m in blob for m in COMMUNITY_IL_MARKERS):
+            continue
+        if re.search(r"(?:^|[^a-z0-9])4[xz][0-9]", blob):
+            continue
+        seen.add(url)
         out.append(
             {
-                "name": name[:80],
+                "name": name or "\u2014",
                 "url": url,
                 "cc": "",
                 "language": "",
-                "tags": "icecast,yp",
+                "tags": group or "community",
                 "codec": "",
                 "bitrate": 0,
             }
         )
-        if len(out) >= ICECAST_MAX:
-            break
-    print(f"icecast yp: {len(out)} https streams")
+        name = ""
+        group = ""
     return out
 
 
-def safe_fetch(label, fn):
-    """Fetch a community source; one failing source never breaks the catalog."""
-    try:
-        rows = fn()
-        print(f"{label}: {len(rows)} stations")
-        return rows
-    except Exception as e:  # noqa: BLE001
-        print(f"{label} FAILED: {e} — skipping source", file=sys.stderr)
-        return []
-
+def fetch_community_stations():
+    """Extra worldwide stations from community-checked playlists (GitHub raw)."""
+    out = []
+    for url in COMMUNITY_PLAYLISTS:
+        try:
+            text = fetch_bytes(url, timeout=120).decode("utf-8", "replace")
+            rows = parse_community_m3u(text)
+            out.extend(rows)
+            print(f"community {url.rsplit('/', 1)[-1]}: {len(rows)} https streams")
+        except Exception as e:  # noqa: BLE001
+            print(f"community playlist {url} failed: {e}", file=sys.stderr)
+    return out[:COMMUNITY_MAX]
 
 def check_stream(url):
     """Lightweight liveness probe for a stream URL (auth-gated servers count as alive)."""
@@ -1164,6 +1140,307 @@ def run_stream_checks(stations):
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
+
+# ================= Website stream scraper (own source extractor) =================
+
+# Our own scraper: broadcaster websites are fetched and scanned for direct
+# HTTPS stream URLs (audio manifests, icecast mounts, status-json.xsl feeds).
+# Seeds are portals that never publish direct URLs to the aggregate
+# directories. Extend via the maintenance workflow: hunt stream links per
+# country / language / category, always excluding Israeli sources.
+SCRAPER_SEEDS = (
+    {"name": "صوت العرب", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/9", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "البرنامج العام", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/10", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الشرق الأوسط", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/16", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة القرآن الكريم", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/7", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "راديو مصر", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/8", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الشباب والرياضة", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/11", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة القاهرة الكبرى", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/14", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الأغاني", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/13", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة البرنامج الثقافي", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/12", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "بوابة ماسبيرو", "cc": "EG", "site": "https://maspero.eg/", "catalog": False},
+    {"name": "بوابة الإذاعة السعودية", "cc": "SA", "site": "https://sba.sa/", "catalog": False},
+)
+SCRAPER_DYNAMIC_MAX = 60
+SCRAPER_TIMEOUT = 20
+SCRAPER_CANDIDATE_MAX = 6
+# Hints that a scraped URL points at an audio stream rather than an asset.
+SCRAPER_HINTS = (
+    ".mp3", ".aac", ".ogg", ".m3u8", ".mpd", "/stream", "/listen", "/live",
+    ";stream", "/radio", ":8000", ":8443", ":8080", "icecast", "broadcast",
+)
+SCRAPER_SKIP = (
+    ".js", ".css", ".png", ".jpg", ".jpeg", ".svg", ".gif", ".woff", ".woff2",
+    ".ttf", ".pdf", ".mp4", "facebook", "twitter", "x.com", "youtube",
+    "apple.com", "googletagmanager", "google-analytics", "w3.org", "schema.org",
+)
+STREAM_URL_RE = re.compile(r"https://[^\s\x22\x27<>]+")
+
+
+def extract_stream_candidates(html):
+    """Pull direct HTTPS stream URLs out of a station website's HTML."""
+    candidates, seen = [], set()
+    for url in STREAM_URL_RE.findall((html or "").replace("&amp;", "&")):
+        url = url.rstrip(",);.'")
+        low = url.lower()
+        try:
+            host = urllib.parse.urlsplit(url).hostname or ""
+        except ValueError:
+            host = ""
+        if host.endswith(".il") or any(m in low for m in COMMUNITY_IL_MARKERS):
+            continue
+        if any(p in low for p in DEAD_URL_PATTERNS):
+            continue
+        if any(p in low for p in SCRAPER_SKIP):
+            continue
+        if not any(h in low for h in SCRAPER_HINTS):
+            continue
+        key = station_url_key(url)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        candidates.append(url)
+    return candidates
+
+
+def _icecast_mounts(site):
+    """Probe a site for an icecast status-json.xsl feed of live mounts."""
+    try:
+        origin = urllib.parse.urlsplit(site)
+        status_url = f"{origin.scheme}://{origin.netloc}/status-json.xsl"
+        data = json.loads(fetch_bytes(status_url, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace"))
+        mounts = data.get("icestats", {}).get("source") or []
+        if isinstance(mounts, dict):
+            mounts = [mounts]
+        urls = []
+        for mount in mounts:
+            if not isinstance(mount, dict):
+                continue
+            url = str(mount.get("listenurl") or "")
+            if url.lower().startswith("https://") and "easybroadcast.io" not in url.lower():
+                urls.append(url)
+        return urls
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def scrape_site(seed):
+    """Scrape one broadcaster website for direct stream candidates."""
+    site = str(seed.get("site") or "")
+    if not site.lower().startswith("https://"):
+        return None
+    html = ""
+    try:
+        html = fetch_bytes(site, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        html = ""
+    candidates = extract_stream_candidates(html) + _icecast_mounts(site)
+    deduped, seen = [], set()
+    for url in candidates:
+        if "easybroadcast.io" in url.lower():
+            continue
+        key = station_url_key(url)
+        if key and key not in seen:
+            seen.add(key)
+            deduped.append(url)
+    return {
+        "site": site,
+        "name": str(seed.get("name") or ""),
+        "cc": str(seed.get("cc") or ""),
+        "lang": str(seed.get("language") or ""),
+        "tags": str(seed.get("tags") or ""),
+        "official": bool(seed.get("official")),
+        "catalog": bool(seed.get("catalog")),
+        "candidates": deduped[:SCRAPER_CANDIDATE_MAX],
+    }
+
+
+def scrape_website_streams(seeds):
+    """Scrape all seeds concurrently, then verify every candidate stream."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
+        rows = [r for r in pool.map(scrape_site, list(seeds)) if r]
+    urls, seen = [], set()
+    for row in rows:
+        for url in row["candidates"]:
+            if url not in seen:
+                seen.add(url)
+                urls.append(url)
+    results = {}
+    if urls:
+        with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
+            for url, res in zip(urls, pool.map(check_stream, urls)):
+                results[url] = res
+    for row in rows:
+        row["streams"] = [u for u in row["candidates"] if results.get(u, {}).get("alive")]
+        del row["candidates"]
+    return rows
+
+
+def scraper_catalog_entries(rows):
+    """Catalog station entries for the named scraper seeds with live streams."""
+    entries = []
+    for row in rows:
+        if not row.get("catalog"):
+            continue
+        name = str(row.get("name") or "").strip()
+        streams = [u for u in (row.get("streams") or []) if str(u).lower().startswith("https://")]
+        if not name or not streams:
+            continue
+        entry = {"name": name, "url": streams[0], "cc": str(row.get("cc") or ""), "language": str(row.get("lang") or "")}
+        if len(streams) > 1:
+            entry["fallbacks"] = streams[1:]
+        if row.get("official"):
+            entry["official"] = True
+        if row.get("tags"):
+            entry["tags"] = str(row["tags"])
+        entries.append(entry)
+    return entries
+
+
+def scraper_dynamic_seeds():
+    """Curated stations that link their own websites become extra seeds."""
+    seeds, seen = [], set()
+    for station in load_official() + load_arabic():
+        site = str(station.get("website") or station.get("officialUrl") or "")
+        if not site.lower().startswith("https://") or site in seen:
+            continue
+        seen.add(site)
+        seeds.append({"name": str(station.get("name") or ""), "cc": str(station.get("cc") or ""), "site": site})
+    return seeds[:SCRAPER_DYNAMIC_MAX]
+
+# ============ Dailymotion live radios (maspero/ERTU simulcasts) ============
+
+# ERTU (بوابة ماسبيرو) simulcasts its radio channels live on Dailymotion
+# (channel NMA). Their signed HLS manifests are bound to the requesting
+# client IP and expire within hours, so raw m3u8 URLs resolved at crawl
+# time can never be shared with site visitors. Embedding their Dailymotion
+# player is ALSO impossible: NMA restricts its videos to maspero.eg
+# domains — the player metadata endpoint answers "The video you requested
+# cannot be displayed on this website. NMA has limited its access to
+# Dailymotion." for every embedder except maspero.eg (verified with
+# embedder=samotech.github.io vs embedder=maspero.eg). Each radio is
+# therefore cataloged as its official Dailymotion VIDEO PAGE URL
+# (www.dailymotion.com/video/<id>), which always works for every visitor;
+# the app shows a notice modal with a direct open button. The player
+# metadata endpoint is used only as a soft liveness gate (direct fetch
+# first, r.jina.ai text proxy as the fallback for datacenter IPs that
+# Dailymotion blocks), inside a time budget; if metadata is unreachable
+# the entry still ships (unverified), but a definite "video unavailable"
+# payload skips the radio.
+DAILYMOTION_RADIOS = (
+    {"name": "إذاعة الأغاني", "video": "x8n6dyz"},
+    {"name": "إذاعة القرآن الكريم", "video": "x84wyku"},
+    {"name": "البرنامج العام", "video": "x8n6dt3"},
+    {"name": "إذاعة البرنامج الثقافي", "video": "x8n6eci"},
+    {"name": "راديو مصر", "video": "x8n6dpk"},
+    {"name": "إذاعة الشرق الأوسط", "video": "x8n6drt"},
+    {"name": "إذاعة الشباب والرياضة", "video": "x8n6dzo"},
+    {"name": "إذاعة القاهرة الكبرى", "video": "x8n6ebs"},
+    {"name": "إذاعة صوت العرب", "video": "x8n6dqq"},
+    {"name": "إذاعة الوادي الجديد", "video": "x9p4ebk"},
+    {"name": "الإذاعة التعليمية", "video": "xakfzv2"},
+    {"name": "البرنامج الأوروبي", "video": "x8n6e6w"},
+    {"name": "الإذاعات الموجهة 1", "video": "x8n6ea6"},
+    {"name": "الإذاعات الموجهة 2", "video": "x8of06x"},
+    {"name": "الإذاعات الموجهة 8", "video": "x8n6e96"},
+)
+DAILYMOTION_TIMEOUT = 20
+DAILYMOTION_BUDGET = 180
+DAILYMOTION_UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+)
+
+
+def _dailymotion_parse_json(text):
+    """Parse a metadata payload that may be wrapped in a Markdown preamble."""
+    start = text.find("{")
+    if start < 0:
+        raise ValueError("no JSON payload in response")
+    return json.loads(text[start:])
+
+
+def _dailymotion_metadata(video_id):
+    """Fetch the player metadata JSON for one Dailymotion live video.
+
+    Direct first, then through the r.jina.ai text proxy (the proxy wraps
+    the JSON in a Markdown preamble, hence the first-brace parse). Returns
+    the Dailymotion payload — including an error payload, which still
+    proves the endpoint answered — or None when both fetches fail.
+    """
+    target = (
+        "https://www.dailymotion.com/player/metadata/video/" + video_id
+        + "?embedder=" + urllib.parse.quote("https://www.dailymotion.com", safe="")
+        + "&locale=en-US"
+    )
+    last = None
+    for url in (target, "https://r.jina.ai/" + target):
+        try:
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": DAILYMOTION_UA,
+                    "Accept": "application/json, text/plain, */*",
+                    "Accept-Encoding": "identity",
+                },
+            )
+            with urllib.request.urlopen(req, timeout=DAILYMOTION_TIMEOUT) as r:
+                text = r.read().decode("utf-8", "replace")
+            data = _dailymotion_parse_json(text)
+            # Accept Dailymotion payloads only: an error payload still
+            # proves the video endpoint answered (the caller decides
+            # what to do with it), but the text proxy's own error JSON
+            # (no qualities and no error field) counts as a failed fetch.
+            if isinstance(data, dict) and ("qualities" in data or data.get("error")):
+                return data
+            last = ValueError("unexpected metadata payload")
+        except Exception as e:  # noqa: BLE001
+            last = e
+    print(f"dailymotion {video_id} metadata failed: {last}", file=sys.stderr)
+    return None
+
+
+def resolve_dailymotion_radios():
+    """Catalog every maspero radio as its official Dailymotion video page.
+
+    The signed manifests are IP-bound and short-lived, and NMA forbids
+    embedding outside maspero.eg, so the catalog stores the video page
+    URL instead (the app opens it with a notice); the metadata endpoint
+    serves as a soft liveness gate only. Sequential on purpose (the proxy
+    fallback is rate-limited), with a total time budget so a slow crawl
+    never stalls the data refresh.
+    """
+    entries = []
+    started = time.time()
+    for seed in DAILYMOTION_RADIOS:
+        if time.time() - started > DAILYMOTION_BUDGET:
+            print("dailymotion: time budget reached — stopping early", file=sys.stderr)
+            break
+        video_id = str(seed.get("video") or "")
+        name = str(seed.get("name") or "").strip()
+        if not video_id or not name:
+            continue
+        metadata = _dailymotion_metadata(video_id)
+        if metadata is not None and metadata.get("error"):
+            print(f"dailymotion {name}: video unavailable — skipping", file=sys.stderr)
+            continue
+        entry = {
+            "name": name,
+            "url": "https://www.dailymotion.com/video/" + video_id,
+            "cc": "EG",
+            "language": "arabic",
+            "tags": "رسمي,official,dailymotion",
+            "official": True,
+            "website": "https://www.dailymotion.com/video/" + video_id,
+        }
+        entries.append(entry)
+        if metadata is None:
+            print(f"dailymotion {name}: unverified (metadata unreachable) — entry kept", file=sys.stderr)
+        else:
+            print(f"dailymotion {name}: live entry ready ({video_id})")
+    return entries
 
 # ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
 
@@ -1545,20 +1822,40 @@ def main():
                 raise RuntimeError(f"suspiciously small catalog: {total}")
 
             arab_extra = fetch_iprd_arab()
-            world_extra = (
-                safe_fetch("iprd-world", fetch_iprd_world)
-                + safe_fetch("verified-streams", fetch_verified_streams)
-                + safe_fetch("icecast-yp", fetch_icecast_yp)
-            )
             existing_urls = {s["url"] for s in officials + arabic + rb_stations}
             arab_extra = [
                 s for s in arab_extra if s["url"] not in existing_urls
             ][:IPRD_MAX]
-            known_urls = existing_urls | {s["url"] for s in arab_extra}
-            world_extra = [s for s in world_extra if s["url"] not in known_urls]
+            community = fetch_community_stations()
+            community = [
+                s for s in community if s["url"] not in existing_urls
+            ][:COMMUNITY_MAX]
+            discovered = []
+            try:
+                scrape_rows = scrape_website_streams(SCRAPER_SEEDS + tuple(scraper_dynamic_seeds()))
+                write_json(
+                    DATA_DIR / "discovered_streams.json",
+                    {
+                        "updated": now_iso,
+                        "source": "own website scraper (broadcaster portals + curated station sites)",
+                        "count": sum(len(r.get("streams") or []) for r in scrape_rows),
+                        "sites": scrape_rows,
+                    },
+                )
+                discovered = scraper_catalog_entries(scrape_rows)
+                print(f"scraper: {len(discovered)} catalog streams from websites")
+            except Exception as e:  # noqa: BLE001
+                print(f"scraper FAILED: {e} — continuing without discovered streams", file=sys.stderr)
+            dm_entries = []
+            try:
+                dm_entries = resolve_dailymotion_radios()
+                if dm_entries:
+                    print(f"dailymotion: {len(dm_entries)} live radios resolved")
+            except Exception as e:  # noqa: BLE001
+                print(f"dailymotion FAILED: {e} — continuing without dailymotion radios", file=sys.stderr)
             stations = []
             seen_urls = set()
-            for station in officials + arabic + arab_extra + rb_stations + world_extra:
+            for station in officials + arabic + arab_extra + discovered + dm_entries + community + rb_stations:
                 key = station_url_key(station.get("url"))
                 if key and key not in seen_urls:
                     seen_urls.add(key)
@@ -1566,8 +1863,9 @@ def main():
             print(
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
-                f"iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)} + "
-                f"community {len(world_extra)})"
+                f"iprd-arab {len(arab_extra)} + community {len(community)} + "
+                f"scraper {len(discovered)} + dailymotion {len(dm_entries)} + "
+                f"radio-browser {len(rb_stations)})"
             )
             write_json(
                 DATA_DIR / "stations.json",
@@ -1608,14 +1906,7 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
             try:
-                curated = (
-                    load_official()
-                    + load_arabic()
-                    + safe_fetch("iprd-arab", fetch_iprd_arab)
-                    + safe_fetch("iprd-world", fetch_iprd_world)
-                    + safe_fetch("verified-streams", fetch_verified_streams)
-                    + safe_fetch("icecast-yp", fetch_icecast_yp)
-                )
+                curated = load_official() + load_arabic() + fetch_iprd_arab() + fetch_community_stations()
                 merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
                 if merged:
                     write_json(DATA_DIR / "stations.json", merged)
@@ -1638,4 +1929,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
