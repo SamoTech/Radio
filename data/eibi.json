@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T12:15:41+00:00",
+ "updated": "2026-11-01T12:29:00+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1499,
+ "count": 1503,
  "rows": [
   {
    "f": 2054,
@@ -212,12 +212,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2677,
-   "s": "1203",
-   "e": "1218",
-   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
   },
   {
    "f": 2680,
@@ -767,8 +761,8 @@
   },
   {
    "f": 3990,
-   "s": "1200",
-   "e": "1225",
+   "s": "1225",
+   "e": "1800",
    "n": "CHN | PBS Xinjiang | UI | CHN"
   },
   {
@@ -800,6 +794,18 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 4146,
+   "s": "1220",
+   "e": "1235",
+   "n": "CHL | CBM Magellanes Radio | S | CHL"
+  },
+  {
+   "f": 4159,
+   "s": "1225",
+   "e": "1715",
+   "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
   },
   {
    "f": 4177,
@@ -890,18 +896,6 @@
    "s": "1120",
    "e": "1235",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
-  },
-  {
-   "f": 4357,
-   "s": "1205",
-   "e": "1220",
-   "n": "CHL | CBV Valparaíso Radio | S | CHL"
-  },
-  {
-   "f": 4357,
-   "s": "1203",
-   "e": "1218",
-   "n": "NOR | Telenor Kystradio North | E | NEu"
   },
   {
    "f": 4363,
@@ -1223,8 +1217,8 @@
   },
   {
    "f": 4980,
-   "s": "1200",
-   "e": "1225",
+   "s": "1225",
+   "e": "1800",
    "n": "CHN | PBS Xinjiang | UI | CHN"
   },
   {
@@ -2309,6 +2303,12 @@
   },
   {
    "f": 6180,
+   "s": "1220",
+   "e": "1232",
+   "n": "CHN | China National Radio 17 | E,R | CHN"
+  },
+  {
+   "f": 6180,
    "s": "1000",
    "e": "1600",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
@@ -2345,9 +2345,9 @@
   },
   {
    "f": 6190,
-   "s": "1200",
-   "e": "1220",
-   "n": "J | NHK Radio Japan | M | FE"
+   "s": "1220",
+   "e": "1240",
+   "n": "J | NHK Radio Japan | K | FE"
   },
   {
    "f": 6200,
@@ -2950,6 +2950,12 @@
    "n": "CHN | China Radio Int. | M | SAs"
   },
   {
+   "f": 7205,
+   "s": "1225",
+   "e": "1800",
+   "n": "CHN | PBS Xinjiang | UI | CHN"
+  },
+  {
    "f": 7210,
    "s": "1145",
    "e": "1230",
@@ -3478,6 +3484,12 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 7906,
+   "s": "1220",
+   "e": "1230",
+   "n": "VTN | Vung Tau Radio | VN | SEA"
+  },
+  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3542,6 +3554,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 8310,
+   "s": "1225",
+   "e": "1715",
+   "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
   },
   {
    "f": 8376,
@@ -4786,6 +4804,12 @@
    "n": "CHN | China Radio Int. | T | SEA"
   },
   {
+   "f": 9790,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
+  },
+  {
    "f": 9810,
    "s": "0900",
    "e": "1230",
@@ -5591,12 +5615,6 @@
   },
   {
    "f": 11387,
-   "s": "2250",
-   "e": "1225",
-   "n": "SNG | SingaporeVolmet x20,x50 | E | SAs"
-  },
-  {
-   "f": 11387,
    "s": "0000",
    "e": "2400",
    "n": "USA | Riverhead HFDL (ID4) | -HF | ENA"
@@ -5789,6 +5807,12 @@
   },
   {
    "f": 11710,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
+  },
+  {
+   "f": 11710,
    "s": "1200",
    "e": "1250",
    "n": "KRE | Voice of Korea KCBS | K | LAm"
@@ -5948,6 +5972,12 @@
    "s": "0900",
    "e": "1300",
    "n": "KRE | Voice of Korea | J | J"
+  },
+  {
+   "f": 11880,
+   "s": "1220",
+   "e": "1320",
+   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 11885,
@@ -6224,6 +6254,12 @@
    "s": "1200",
    "e": "1300",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 12375,
+   "s": "1225",
+   "e": "1715",
+   "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
   },
   {
    "f": 12430,
@@ -7020,12 +7056,6 @@
   {
    "f": 13670,
    "s": "1200",
-   "e": "1225",
-   "n": "CHN | PBS Xinjiang | UI | CHN"
-  },
-  {
-   "f": 13670,
-   "s": "1200",
    "e": "1400",
    "n": "CHN | PBS Xinjiang | UI | CHN"
   },
@@ -7570,12 +7600,6 @@
    "n": "USA | Trans World Radio | M | CHN"
   },
   {
-   "f": 15320,
-   "s": "1150",
-   "e": "1220",
-   "n": "IRN | IRIB Voice of I.R.Iran | HB | ME"
-  },
-  {
    "f": 15340,
    "s": "0000",
    "e": "2400",
@@ -7634,12 +7658,6 @@
    "s": "1200",
    "e": "1300",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 15430,
-   "s": "1150",
-   "e": "1220",
-   "n": "IRN | IRIB Voice of I.R.Iran | HB | ME"
   },
   {
    "f": 15430,
@@ -8042,6 +8060,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 16562,
+   "s": "1225",
+   "e": "1715",
+   "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
   },
   {
    "f": 16600,
