@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T10:53:26+00:00",
+ "updated": "2026-11-01T11:39:50+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 297,
+ "count": 300,
  "stations": [
   {
    "id": 3944,
@@ -11,6 +11,16 @@
    "lng": -0.354,
    "alt": 53,
    "url": "https://network.satnogs.org/stations/3944/",
+   "https": false
+  },
+  {
+   "id": 3056,
+   "name": "2E0sud-VHF",
+   "loc": "IO83qp · VHF",
+   "lat": 53.642,
+   "lng": -2.646,
+   "alt": 75,
+   "url": "https://network.satnogs.org/stations/3056/",
    "https": false
   },
   {
@@ -241,6 +251,16 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
+   "https": false
+  },
+  {
+   "id": 106,
+   "name": "BEEGND-1",
+   "loc": "JO62fb · UHF",
+   "lat": 52.073657,
+   "lng": 12.462608,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -2891,6 +2911,16 @@
    "lng": 17.037027,
    "alt": 139,
    "url": "https://network.satnogs.org/stations/4924/",
+   "https": false
+  },
+  {
+   "id": 4355,
+   "name": "YC8UMD",
+   "loc": "PJ21ji · UHF",
+   "lat": 1.365176,
+   "lng": 124.827774,
+   "alt": 675,
+   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T10:53:26+00:00",
+ "updated": "2026-11-01T11:39:50+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -985,6 +985,14 @@
    "lon": 15.178531063564318
   },
   {
+   "name": "CB0BED WebSDR - LK Mittelsachsen / Brand-Erbisdorf",
+   "url": "http://cb0bed.selfhost.co:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.85174,
+   "lon": 13.301789
+  },
+  {
    "name": "SDR-Alaró (Mallorca)",
    "url": "https://sdr.alaro.ovh/",
    "loc": "",
@@ -1135,14 +1143,6 @@
    "https": false,
    "lat": 32.9551333,
    "lon": -117.205936111
-  },
-  {
-   "name": "G0XBU",
-   "url": "http://g0xbuwebsdr.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.23,
-   "lon": -2.313
   },
   {
    "name": "LF MF HF VHF UHF - SDR an der Burg Haag, Deutschland - DL2RN",
@@ -2209,14 +2209,6 @@
    "lon": 9.1027427
   },
   {
-   "name": "ni5f-2",
-   "url": "http://72.170.239.252:8082/",
-   "loc": "",
-   "https": false,
-   "lat": 30.859234,
-   "lon": -85.520026
-  },
-  {
    "name": "SP2SDK-RTLSDR",
    "url": "https://sp2sdk.pl/",
    "loc": "",
@@ -2681,14 +2673,6 @@
    "lon": -62.26511
   },
   {
-   "name": "M0GUC HF/ VHF/UHF/ RX/ FM",
-   "url": "http://185.138.197.168:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 52.491233233195736,
-   "lon": -2.1578113631963314
-  },
-  {
    "name": "9V1KG",
    "url": "http://9v1kg.bpmsg.com:8074/",
    "loc": "",
@@ -2873,20 +2857,20 @@
    "lon": -98.26422124919387
   },
   {
+   "name": "EastMO R3DKT Receiver",
+   "url": "https://sdr.vanish125.netcraze.pro/",
+   "loc": "",
+   "https": true,
+   "lat": 55.70267067829901,
+   "lon": 38.9587778063207
+  },
+  {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
    "url": "https://rtlsdr.yo3bn.ro/",
    "loc": "",
    "https": true,
    "lat": 44.488821632862596,
    "lon": 27.46728429273056
-  },
-  {
-   "name": "XplorePilots",
-   "url": "http://xplorepilots.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 41.585439204302304,
-   "lon": -4.722918726927474
   },
   {
    "name": "SA7SVR",
@@ -3985,6 +3969,14 @@
    "lon": 13.6703080233291
   },
   {
+   "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
+   "url": "http://hispalis-sdr.hopto.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 37.38336155470133,
+   "lon": -6.05557026752054
+  },
+  {
    "name": "HF/VHF/UHF SDR de PIRAQUARA / PR",
    "url": "https://sdr.pu5mfh.com/",
    "loc": "",
@@ -4047,6 +4039,14 @@
    "https": true,
    "lat": 50.49,
    "lon": 15.52
+  },
+  {
+   "name": "YO2CPS",
+   "url": "http://yo2cps.go.ro:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.863523648352725,
+   "lon": 22.89565117516746
   }
  ]
 }
