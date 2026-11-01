@@ -20,13 +20,14 @@ Sources:
   icecast status-json.xsl mounts), verified live, saved to
   data/discovered_streams.json; named seeds join the catalog merge.
 - Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): each
-  radio is cataloged as its official Dailymotion embed player URL
-  (geo.dailymotion.com/player/<player_id>.html — Dailymotion made the
-  Player ID mandatory in embed URLs; the current ID is read from
-  maspero.eg at crawl time, with a pinned fallback) — their signed HLS
-  manifests are bound to the requesting IP and expire within hours, so
-  raw m3u8 URLs can never be shared with visitors; the player metadata
-  endpoint serves as a soft liveness gate only.
+  radio is cataloged as its official Dailymotion video page — NMA
+  restricts embedding to maspero.eg domains only (their player API
+  answers "NMA has limited its access to Dailymotion" for any other
+  embedder), so in-app embeds are impossible and the app opens the
+  video page instead; their signed HLS manifests are bound to the
+  requesting IP and expire within hours, so raw m3u8 URLs can never be
+  shared with visitors; the player metadata endpoint serves as a soft
+  liveness gate only.
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -1291,18 +1292,19 @@ def scraper_dynamic_seeds():
 # ERTU (بوابة ماسبيرو) simulcasts its radio channels live on Dailymotion
 # (channel NMA). Their signed HLS manifests are bound to the requesting
 # client IP and expire within hours, so raw m3u8 URLs resolved at crawl
-# time can never be shared with site visitors. Each radio is therefore
-# cataloged as its official embed player URL. Since 2026 Dailymotion
-# requires the Player ID inside embed URLs
-# (geo.dailymotion.com/player/<player_id>.html?video=<id>); the legacy
-# player.html?video= endpoint answers HTTP 403, so the exact player URL
-# maspero itself embeds is read from the portal at crawl time (the
-# stream pages render it server-side and are reachable from GitHub
-# Actions runners), with a pinned fallback player ID. The player
+# time can never be shared with site visitors. Embedding their Dailymotion
+# player is ALSO impossible: NMA restricts its videos to maspero.eg
+# domains — the player metadata endpoint answers "The video you requested
+# cannot be displayed on this website. NMA has limited its access to
+# Dailymotion." for every embedder except maspero.eg (verified with
+# embedder=samotech.github.io vs embedder=maspero.eg). Each radio is
+# therefore cataloged as its official Dailymotion VIDEO PAGE URL
+# (www.dailymotion.com/video/<id>), which always works for every visitor;
+# the app shows a notice modal with a direct open button. The player
 # metadata endpoint is used only as a soft liveness gate (direct fetch
 # first, r.jina.ai text proxy as the fallback for datacenter IPs that
 # Dailymotion blocks), inside a time budget; if metadata is unreachable
-# the embed still ships (unverified), but a definite "video unavailable"
+# the entry still ships (unverified), but a definite "video unavailable"
 # payload skips the radio.
 DAILYMOTION_RADIOS = (
     {"name": "إذاعة الأغاني", "video": "x8n6dyz"},
@@ -1326,16 +1328,6 @@ DAILYMOTION_BUDGET = 180
 DAILYMOTION_UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-)
-# maspero.eg embeds its radios with one shared Dailymotion player; the
-# pinned ID is the fallback when the portal probe below fails.
-DAILYMOTION_PLAYER_ID = "xi5eg"
-DAILYMOTION_PLAYER_PROBES = (
-    ("https://www.maspero.eg/stream/12", "x8n6eci"),
-    ("https://www.maspero.eg/stream/13", "x8n6dyz"),
-)
-DAILYMOTION_EMBED_RE = re.compile(
-    r"geo\.dailymotion\.com/player/([a-z0-9]+)\.html\?video=([a-z0-9]+)"
 )
 
 
@@ -1387,53 +1379,18 @@ def _dailymotion_metadata(video_id):
     return None
 
 
-def _dailymotion_player_id():
-    """Resolve the Dailymotion Player ID used by maspero.eg's own embeds.
-
-    Dailymotion now requires the Player ID in embed URLs; maspero's
-    stream pages carry the current embed URL in their served HTML. Each
-    probe pairs a stream page with the video ID expected on it, so a
-    stale or hijacked page cannot smuggle a mismatched player. When
-    every probe fails the pinned fallback ID ships instead.
-    """
-    for probe_url, probe_video in DAILYMOTION_PLAYER_PROBES:
-        try:
-            req = urllib.request.Request(
-                probe_url,
-                headers={
-                    "User-Agent": DAILYMOTION_UA,
-                    "Accept-Encoding": "identity",
-                },
-            )
-            with urllib.request.urlopen(req, timeout=DAILYMOTION_TIMEOUT) as r:
-                html = r.read(5242880).decode("utf-8", "replace")
-            for match in DAILYMOTION_EMBED_RE.finditer(html):
-                player_id, video_id = match.group(1), match.group(2)
-                if player_id and video_id == probe_video:
-                    return player_id
-            print(f"dailymotion: no embed URL on {probe_url}", file=sys.stderr)
-        except Exception as e:  # noqa: BLE001
-            print(f"dailymotion: player probe failed ({probe_url}): {e}", file=sys.stderr)
-    print(
-        f"dailymotion: portal probe exhausted — using pinned player {DAILYMOTION_PLAYER_ID}",
-        file=sys.stderr,
-    )
-    return DAILYMOTION_PLAYER_ID
-
-
 def resolve_dailymotion_radios():
-    """Catalog every maspero radio as its official Dailymotion embed.
+    """Catalog every maspero radio as its official Dailymotion video page.
 
-    The signed manifests are IP-bound and short-lived, so the catalog
-    stores the embed player URL (player/<id>.html?video=<vid>) instead;
-    the metadata endpoint serves as a soft liveness gate only. Sequential
-    on purpose (the proxy fallback is rate-limited), with a total time
-    budget so a slow crawl never stalls the data refresh.
+    The signed manifests are IP-bound and short-lived, and NMA forbids
+    embedding outside maspero.eg, so the catalog stores the video page
+    URL instead (the app opens it with a notice); the metadata endpoint
+    serves as a soft liveness gate only. Sequential on purpose (the proxy
+    fallback is rate-limited), with a total time budget so a slow crawl
+    never stalls the data refresh.
     """
     entries = []
     started = time.time()
-    player_id = _dailymotion_player_id()
-    print(f"dailymotion: using player {player_id}", file=sys.stderr)
     for seed in DAILYMOTION_RADIOS:
         if time.time() - started > DAILYMOTION_BUDGET:
             print("dailymotion: time budget reached — stopping early", file=sys.stderr)
@@ -1448,10 +1405,7 @@ def resolve_dailymotion_radios():
             continue
         entry = {
             "name": name,
-            "url": "https://geo.dailymotion.com/player/"
-            + player_id
-            + ".html?video="
-            + video_id,
+            "url": "https://www.dailymotion.com/video/" + video_id,
             "cc": "EG",
             "language": "arabic",
             "tags": "رسمي,official,dailymotion",
@@ -1460,9 +1414,9 @@ def resolve_dailymotion_radios():
         }
         entries.append(entry)
         if metadata is None:
-            print(f"dailymotion {name}: unverified (metadata unreachable) — embed kept", file=sys.stderr)
+            print(f"dailymotion {name}: unverified (metadata unreachable) — entry kept", file=sys.stderr)
         else:
-            print(f"dailymotion {name}: live embed ready ({player_id}/{video_id})")
+            print(f"dailymotion {name}: live entry ready ({video_id})")
     return entries
 
 # ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
