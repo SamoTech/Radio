@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T12:37:45+00:00",
+ "updated": "2026-11-01T12:57:52+00:00",
  "checked": 106,
- "alive": 83,
+ "alive": 84,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -384,8 +384,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404
+   "alive": true,
+   "code": 200
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
    "alive": true,
@@ -393,7 +393,7 @@
   },
   "https://s2.radio.co/sd3c7f8539/listen": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://a8.asurahosting.com:7850/radio.mp3": {
    "alive": true,
