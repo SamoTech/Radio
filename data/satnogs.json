@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T15:02:09+00:00",
+ "updated": "2026-11-01T20:17:14+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 300,
+ "count": 303,
  "stations": [
   {
    "id": 3944,
@@ -31,6 +31,16 @@
    "lng": 18.16456,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5065,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.843131,
+   "lng": 18.164306,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5065/",
    "https": false
   },
   {
@@ -251,16 +261,6 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
-   "https": false
-  },
-  {
-   "id": 106,
-   "name": "BEEGND-1",
-   "loc": "JO62fb · UHF",
-   "lat": 52.073657,
-   "lng": 12.462608,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -2194,16 +2194,6 @@
    "https": false
   },
   {
-   "id": 3584,
-   "name": "sat-rx",
-   "loc": "IO51qv · UHF",
-   "lat": 51.904,
-   "lng": -8.664,
-   "alt": 101,
-   "url": "https://network.satnogs.org/stations/3584/",
-   "https": false
-  },
-  {
    "id": 4762,
    "name": "SatNogs CNLP",
    "loc": "GF15ac · VHF / UHF",
@@ -2284,6 +2274,26 @@
    "https": false
   },
   {
+   "id": 2830,
+   "name": "SM0TGU - L and S-Band",
+   "loc": "JO89wk · L / S",
+   "lat": 59.453,
+   "lng": 17.89,
+   "alt": 32,
+   "url": "https://network.satnogs.org/stations/2830/",
+   "https": false
+  },
+  {
+   "id": 858,
+   "name": "SM0TGU - VHF UHF",
+   "loc": "JO89wk · UHF / VHF",
+   "lat": 59.453,
+   "lng": 17.89,
+   "alt": 32,
+   "url": "https://network.satnogs.org/stations/858/",
+   "https": false
+  },
+  {
    "id": 4260,
    "name": "smithsonian-7799",
    "loc": "FM18ar · UHF",
@@ -2351,6 +2361,16 @@
    "lng": 18.513308,
    "alt": 56,
    "url": "https://network.satnogs.org/stations/3856/",
+   "https": false
+  },
+  {
+   "id": 3702,
+   "name": "SP4EVA",
+   "loc": "JO93us · VHF / UHF",
+   "lat": 53.7635,
+   "lng": 19.691,
+   "alt": 120,
+   "url": "https://network.satnogs.org/stations/3702/",
    "https": false
   },
   {
@@ -2921,6 +2941,16 @@
    "lng": 124.827774,
    "alt": 675,
    "url": "https://network.satnogs.org/stations/4355/",
+   "https": false
+  },
+  {
+   "id": 4615,
+   "name": "yellowstone_yagi",
+   "loc": "DN45js · UHF",
+   "lat": 45.776,
+   "lng": -111.177,
+   "alt": 1359,
+   "url": "https://network.satnogs.org/stations/4615/",
    "https": false
   },
   {
