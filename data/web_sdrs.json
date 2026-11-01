@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T13:55:42+00:00",
+ "updated": "2026-11-01T14:13:13+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1169,14 +1169,6 @@
    "lon": -46.7072826
   },
   {
-   "name": "KJ7ABK - Las Vegas Radio 📻",
-   "url": "https://websdr.kj7abk.com/",
-   "loc": "",
-   "https": true,
-   "lat": 36.035169543538125,
-   "lon": -115.1451676116747
-  },
-  {
    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
    "url": "https://websdr2.scotlandchat.co.uk/",
    "loc": "",
@@ -1753,14 +1745,6 @@
    "lon": 2.01652286801746
   },
   {
-   "name": "GRUPPO RADIOAMATORI ARGENTA",
-   "url": "http://vpn14585.unicoip.org:22528/",
-   "loc": "",
-   "https": false,
-   "lat": 44.60927,
-   "lon": 11.842558
-  },
-  {
    "name": "[C3D2]",
    "url": "https://sdr.hq.c3d2.de/",
    "loc": "",
@@ -1945,12 +1929,28 @@
    "lon": 17.086449
   },
   {
+   "name": "SV6SYQ's HF-VHF-UHF SDR",
+   "url": "http://sv6syq.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 38.98175203074477,
+   "lon": 20.745048840740704
+  },
+  {
    "name": "🇮🇹📻ANCONA SDR  📻🇮🇹",
    "url": "http://local.ir6t.com:8073/",
    "loc": "",
    "https": false,
    "lat": 43.5323925884872,
    "lon": 13.5257533209869
+  },
+  {
+   "name": "SDR001-France-Dept31-CB-Ham-PMR&DMR",
+   "url": "http://sdr001.zapto.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 43.1057703628723,
+   "lon": 0.719141014741638
   },
   {
    "name": "YU7OR   YT7ZT",
@@ -2081,6 +2081,14 @@
    "lon": 28.1903479469811
   },
   {
+   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
+   "url": "http://e25wop.thddns.net:2253/",
+   "loc": "",
+   "https": false,
+   "lat": 13.5955566,
+   "lon": 100.5617591
+  },
+  {
    "name": "Montanaro SDR",
    "url": "http://cbfenis.ddns.net:43510/",
    "loc": "",
@@ -2153,6 +2161,14 @@
    "lon": 5.053865780281797
   },
   {
+   "name": "[IW9GTR]",
+   "url": "http://arascatania.ns0.it:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 37.5727,
+   "lon": 15.0391
+  },
+  {
    "name": "S55UU",
    "url": "https://sdr.iw2nkv.it/",
    "loc": "",
@@ -2175,14 +2191,6 @@
    "https": false,
    "lat": 60.5680861,
    "lon": 9.1027427
-  },
-  {
-   "name": "ni5f-2",
-   "url": "http://72.170.239.252:8082/",
-   "loc": "",
-   "https": false,
-   "lat": 30.859234,
-   "lon": -85.520026
   },
   {
    "name": "SP2SDK-RTLSDR",
@@ -2473,6 +2481,14 @@
    "lon": 6.382
   },
   {
+   "name": "M0LHI",
+   "url": "http://radio.nkpa.co.uk/",
+   "loc": "",
+   "https": false,
+   "lat": 52.22609520584887,
+   "lon": -0.9268577317469995
+  },
+  {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
    "url": "http://wm9h.asuscomm.com/",
    "loc": "",
@@ -2609,6 +2625,14 @@
    "lon": 7.672333699585585
   },
   {
+   "name": "BRFM",
+   "url": "https://radio2.nkpa.co.uk/",
+   "loc": "",
+   "https": true,
+   "lat": 51.423584079553876,
+   "lon": 0.8307115249043973
+  },
+  {
    "name": "Maritime Radio",
    "url": "http://maritime.nkpa.co.uk:8073/",
    "loc": "",
@@ -2647,14 +2671,6 @@
    "https": true,
    "lat": -38.757281,
    "lon": -62.26511
-  },
-  {
-   "name": "M0GUC HF/ VHF/UHF/ RX/ FM",
-   "url": "http://185.138.197.168:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 52.491233233195736,
-   "lon": -2.1578113631963314
   },
   {
    "name": "9V1KG",
@@ -2839,14 +2855,6 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
-  },
-  {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
   },
   {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
@@ -3481,6 +3489,14 @@
    "lon": 12.60447
   },
   {
+   "name": "Receiver",
+   "url": "https://sdr.surrealservers.net/",
+   "loc": "",
+   "https": true,
+   "lat": 37.39837482690734,
+   "lon": -79.18129126969339
+  },
+  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3793,14 +3809,6 @@
    "lon": -78.76595
   },
   {
-   "name": "MIDLAND9BMI  ** WELCOME TO SATCOM-SYSTEMS **",
-   "url": "http://satcom-systems.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.38335646603124,
-   "lon": -2.2679786869505647
-  },
-  {
    "name": "YD1GGQ/JZ10BCX/Mang Cendol (HF Antenna sedang disempurnakan/ VHF / UHF / Airband / FM Broadcast / Experimental",
    "url": "https://yd1ggq.my.id/",
    "loc": "",
@@ -3961,6 +3969,14 @@
    "lon": 8.780547154258626
   },
   {
+   "name": "Henrys SDR",
+   "url": "https://sdr.henry.lan64.de/",
+   "loc": "",
+   "https": true,
+   "lat": 50.9450462296244,
+   "lon": 13.6703080233291
+  },
+  {
    "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
    "url": "http://hispalis-sdr.hopto.org:8073/",
    "loc": "",
@@ -4031,22 +4047,6 @@
    "https": true,
    "lat": 50.49,
    "lon": 15.52
-  },
-  {
-   "name": "YO2CPS",
-   "url": "http://yo2cps.go.ro:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.863523648352725,
-   "lon": 22.89565117516746
-  },
-  {
-   "name": "IA5ITY",
-   "url": "http://ia5itywebsdr.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 42.748471127688326,
-   "lon": 10.12352887691887
   }
  ]
 }
