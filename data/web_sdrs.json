@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T08:36:38+00:00",
+ "updated": "2026-11-01T09:07:09+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1513,14 +1513,6 @@
    "lon": 10.770587
   },
   {
-   "name": "K4MBD",
-   "url": "https://sdr.backyard.stream/",
-   "loc": "",
-   "https": true,
-   "lat": 36.148751336174364,
-   "lon": -82.69378453297419
-  },
-  {
    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
    "url": "http://nieuwkerke.on4ipr.be:8074/",
    "loc": "",
@@ -1575,6 +1567,14 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
+  },
+  {
+   "name": "LW6DSM",
+   "url": "http://lw6dsm.sytes.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -34.5903385739189,
+   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -2103,6 +2103,14 @@
    "https": false,
    "lat": 59.3740811914467,
    "lon": 28.1903479469811
+  },
+  {
+   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
+   "url": "http://e25wop.thddns.net:2253/",
+   "loc": "",
+   "https": false,
+   "lat": 13.5955566,
+   "lon": 100.5617591
   },
   {
    "name": "Montanaro SDR",
@@ -2873,14 +2881,6 @@
    "lon": -98.26422124919387
   },
   {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
-  },
-  {
    "name": "EastMO R3DKT Receiver",
    "url": "https://sdr.vanish125.netcraze.pro/",
    "loc": "",
@@ -3289,20 +3289,20 @@
    "lon": 14.1352609151616
   },
   {
+   "name": "14ALT266",
+   "url": "https://14alt266.freeboxos.fr/openwebrx/",
+   "loc": "",
+   "https": true,
+   "lat": 43.6228932497094,
+   "lon": 7.04648735875531
+  },
+  {
    "name": "ON1MS Michel SOFIA",
    "url": "https://sdr.on1ms.online/",
    "loc": "",
    "https": true,
    "lat": 50.406013930467914,
    "lon": 5.81356271883628
-  },
-  {
-   "name": "SDR São José do Rio Preto, SP, Brasil - PU2XZL -HF-CB-10m-VHF-2m",
-   "url": "http://sdrsjriopreto.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -20.7556479129044,
-   "lon": -49.3301090052156
   },
   {
    "name": "Experimental WebSDR by Z31ALN",
