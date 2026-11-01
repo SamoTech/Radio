@@ -292,3 +292,32 @@ footer{border-top:1px solid rgba(212,175,55,.14);letter-spacing:.3px}
 @media(max-width:720px){
   #vol-slider{width:64px}
 }
+
+/* ================= Mobile & player polish pass ================= */
+body{-webkit-tap-highlight-color:transparent}
+#player-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-body{min-width:0;display:flex;flex-direction:column;gap:4px}
+#player-ext,#player-official{white-space:nowrap}
+@media(max-width:720px){
+  html{-webkit-text-size-adjust:100%}
+  input,select{font-size:16px}
+  main{padding:12px 12px 180px}
+  .hero{padding:20px 12px 6px}
+  .stat{min-width:92px;padding:7px 12px}
+  .toast{top:74px;bottom:auto;left:12px;right:12px;transform:none}
+  .card{padding:12px}
+  .open{padding:9px 16px}
+  .fav,.share,.report{min-width:38px;min-height:38px;padding:4px 6px;font-size:1.15rem}
+  .player{flex-wrap:wrap;gap:8px;padding:8px 12px calc(10px + env(safe-area-inset-bottom))}
+  .player-body{flex:1 1 100%;order:10}
+  .player-tool{min-width:42px;min-height:42px}
+  #player-close{width:32px;height:32px}
+  #vol-slider{flex:1 1 60px;width:auto;min-width:60px}
+  #player-ext,#player-official{font-size:.8rem;padding:6px 9px}
+  #audio{max-width:100%}
+}
+@media(hover:none){
+  .card:hover{transform:none;box-shadow:none;border-color:rgba(212,175,55,.10)}
+  :root[data-theme="light"] .card:hover{border-color:rgba(161,124,31,.14);box-shadow:none}
+  .open:hover{transform:none}
+}
