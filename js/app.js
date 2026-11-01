@@ -1754,7 +1754,7 @@ function playStepStation(dir) {
 }
 
 function isDmEmbed(url) {
-  return /dailymotion\.com\/(?:embed\/video\/|player\.html)/.test(String(url || ''));
+  return /dailymotion\.com\/(?:embed\/video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
 }
 
 function play(url, name) {
