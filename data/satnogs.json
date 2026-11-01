@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T10:04:03+00:00",
+ "updated": "2026-11-01T10:53:26+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 299,
+ "count": 297,
  "stations": [
   {
    "id": 3944,
@@ -144,6 +144,16 @@
    "https": false
   },
   {
+   "id": 6,
+   "name": "Apomahon",
+   "loc": "KM18ub · UHF",
+   "lat": 38.048,
+   "lng": 23.739,
+   "alt": 104,
+   "url": "https://network.satnogs.org/stations/6/",
+   "https": false
+  },
+  {
    "id": 1492,
    "name": "Archenhold",
    "loc": "JO62rl · VHF",
@@ -231,16 +241,6 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
-   "https": false
-  },
-  {
-   "id": 106,
-   "name": "BEEGND-1",
-   "loc": "JO62fb · UHF",
-   "lat": 52.073657,
-   "lng": 12.462608,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -2604,16 +2604,6 @@
    "https": false
   },
   {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
-   "https": false
-  },
-  {
    "id": 1156,
    "name": "VA2WBT - Montréal, Canada",
    "loc": "FN35em · UHF",
@@ -2901,16 +2891,6 @@
    "lng": 17.037027,
    "alt": 139,
    "url": "https://network.satnogs.org/stations/4924/",
-   "https": false
-  },
-  {
-   "id": 4355,
-   "name": "YC8UMD",
-   "loc": "PJ21ji · UHF",
-   "lat": 1.365176,
-   "lng": 124.827774,
-   "alt": 675,
-   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {
