@@ -262,6 +262,13 @@ class ScraperTests(unittest.TestCase):
         self.assertIn("status-json.xsl", source)
 
 
+class StreamCheckTests(unittest.TestCase):
+    def test_stream_checks_cover_curated_plus_catalog_head(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("CHECK_HEAD_MAX = 1200", source)
+        self.assertIn("stations[:CHECK_HEAD_MAX]", source)
+
+
 class DailymotionTests(unittest.TestCase):
     def test_parse_json_accepts_jina_preamble(self):
         text = (
