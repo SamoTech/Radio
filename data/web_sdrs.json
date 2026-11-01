@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T09:39:54+00:00",
+ "updated": "2026-11-01T10:04:03+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -2393,6 +2393,14 @@
    "lon": 6.600642364312255
   },
   {
+   "name": "WebSDR Berlin - DO9MAD",
+   "url": "http://hirrkhq05e1w02ak.myfritz.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 52.507714510742,
+   "lon": 13.495903105278
+  },
+  {
    "name": "<font color=#000000>Welcome to DB0NMB in Naumburg/Saale, Germany</font> <font color=#FF0000>!!! Please disconnect when n",
    "url": "https://openwebrx.db0nmb.de/",
    "loc": "",
@@ -2817,14 +2825,6 @@
    "lon": -58.489485771164205
   },
   {
-   "name": "Oskar's RTL-SDR/OK1JOB",
-   "url": "https://sdr.666777123.xyz/",
-   "loc": "",
-   "https": true,
-   "lat": 50.005,
-   "lon": 14.409
-  },
-  {
    "name": "SDRPT2 - WebSDR VHF/UHF/CB/10m",
    "url": "http://sdrpt.dynip.sapo.pt:8073/",
    "loc": "",
@@ -2879,14 +2879,6 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
-  },
-  {
-   "name": "EastMO R3DKT Receiver",
-   "url": "https://sdr.vanish125.netcraze.pro/",
-   "loc": "",
-   "https": true,
-   "lat": 55.70267067829901,
-   "lon": 38.9587778063207
   },
   {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
@@ -3553,14 +3545,6 @@
    "lon": 13.46749
   },
   {
-   "name": "SDR Pescara 500 Khz - 1700 Mhz Antenna AOR SA-7000",
-   "url": "http://rnestoe.myddns.me:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 42.4768714735401,
-   "lon": 14.1814866065979
-  },
-  {
    "name": "WebSDR Merkelbeek",
    "url": "https://hydra-cloud.synology.me:8073/",
    "loc": "",
@@ -4055,6 +4039,22 @@
    "https": true,
    "lat": 54.5,
    "lon": -1
+  },
+  {
+   "name": "Pulsar 3.5MTR (antenne Moxon richting noord horizontaal)",
+   "url": "https://pulsardx.nl/",
+   "loc": "",
+   "https": true,
+   "lat": 51.85320936891584,
+   "lon": 5.764880370406926
+  },
+  {
+   "name": "SwR - Global Radio",
+   "url": "https://sdr.kruen.app/",
+   "loc": "",
+   "https": true,
+   "lat": 50.49,
+   "lon": 15.52
   }
  ]
 }
