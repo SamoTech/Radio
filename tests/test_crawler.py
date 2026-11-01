@@ -173,42 +173,39 @@ class DailymotionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             module._dailymotion_parse_json("no payload here")
 
-    def test_qualities_parser_dedupes_manifests(self):
-        metadata = {
-            "qualities": {
-                "auto": [
-                    {"type": "application/x-mpegURL", "url": "https://cdn.example.com/live/video/x1.m3u8?sec=abc"},
-                    {"type": "application/x-mpegURL", "url": "https://cdn.example.com/live/video/x1.m3u8?sec=abc"},
-                ],
-                "480": [{"type": "application/x-mpegURL", "url": "https://other.example.com/live.m3u8"}],
-                "junk": "not-a-list",
-            }
-        }
-        urls = module._dailymotion_qualities(metadata)
-        self.assertEqual(
-            urls,
-            [
-                "https://cdn.example.com/live/video/x1.m3u8?sec=abc",
-                "https://other.example.com/live.m3u8",
-            ],
-        )
-
-    def test_resolve_builds_entries_and_skips_dead_videos(self):
+    def test_resolve_builds_embed_entries(self):
         live = {"qualities": {"auto": [{"type": "application/x-mpegURL", "url": "https://cdn.example.com/live.m3u8?sec=abc"}]}}
-        with mock.patch.object(module, "_dailymotion_metadata", side_effect=lambda v: live), \
-             mock.patch.object(module, "check_stream", side_effect=lambda u: {"alive": ".m3u8" in u, "code": 200}):
+        with mock.patch.object(module, "_dailymotion_metadata", side_effect=lambda v: live):
             entries = module.resolve_dailymotion_radios()
         self.assertEqual(len(entries), len(module.DAILYMOTION_RADIOS))
         self.assertEqual(entries[0]["name"], module.DAILYMOTION_RADIOS[0]["name"])
-        self.assertEqual(entries[0]["url"], "https://cdn.example.com/live.m3u8?sec=abc")
+        self.assertEqual(
+            entries[0]["url"],
+            "https://geo.dailymotion.com/player.html?video=" + module.DAILYMOTION_RADIOS[0]["video"] + "&autoplay=1",
+        )
         self.assertEqual(entries[0]["cc"], "EG")
         self.assertEqual(entries[0]["official"], True)
+        self.assertEqual(entries[0]["website"], "https://www.dailymotion.com/video/" + module.DAILYMOTION_RADIOS[0]["video"])
         self.assertIn("dailymotion", entries[0]["tags"])
+        self.assertNotIn("fallbacks", entries[0])
+
+    def test_resolve_skips_videos_reported_unavailable(self):
+        dead = {"error": {"code": 404, "message": "Content not Available"}}
+        with mock.patch.object(module, "_dailymotion_metadata", side_effect=lambda v: dead):
+            entries = module.resolve_dailymotion_radios()
+        self.assertEqual(entries, [])
+
+    def test_resolve_keeps_embeds_when_metadata_unreachable(self):
+        with mock.patch.object(module, "_dailymotion_metadata", side_effect=lambda v: None):
+            entries = module.resolve_dailymotion_radios()
+        self.assertEqual(len(entries), len(module.DAILYMOTION_RADIOS))
+        self.assertTrue(all(e["url"].startswith("https://geo.dailymotion.com/player.html?video=") for e in entries))
 
     def test_dailymotion_resolver_is_pinned(self):
         source = MODULE_PATH.read_text(encoding="utf-8")
         self.assertIn("DAILYMOTION_RADIOS", source)
         self.assertIn("player/metadata/video/", source)
+        self.assertIn("geo.dailymotion.com/player.html", source)
         self.assertIn("resolve_dailymotion_radios()", source)
         self.assertIn("dailymotion FAILED", source)
 

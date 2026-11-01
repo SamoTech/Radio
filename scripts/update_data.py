@@ -19,10 +19,11 @@ Sources:
   fetched and scanned for direct HTTPS stream URLs (audio manifests,
   icecast status-json.xsl mounts), verified live, saved to
   data/discovered_streams.json; named seeds join the catalog merge.
-- Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): fresh
-  signed HLS manifests are resolved at crawl time from the Dailymotion
-  player metadata endpoint — signatures expire within hours, so URLs are
-  never hardcoded — verified live, merged into the catalog.
+- Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): each
+  radio is cataloged as its official Dailymotion embed player URL —
+  their signed HLS manifests are bound to the requesting IP and expire
+  within hours, so raw m3u8 URLs can never be shared with visitors; the
+  player metadata endpoint serves as a soft liveness gate only.
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -1285,11 +1286,17 @@ def scraper_dynamic_seeds():
 # ============ Dailymotion live radios (maspero/ERTU simulcasts) ============
 
 # ERTU (بوابة ماسبيرو) simulcasts its radio channels live on Dailymotion
-# (channel NMA). The player metadata endpoint hands out a fresh, signed
-# HLS manifest per request; signatures expire within hours, so the m3u8
-# URLs are resolved at crawl time — never hardcoded. Direct metadata
-# requests are tried first; the r.jina.ai text proxy is the fallback for
-# datacenter IPs that Dailymotion blocks, all inside a time budget.
+# (channel NMA). Their signed HLS manifests are bound to the requesting
+# client IP and expire within hours, so raw m3u8 URLs resolved at crawl
+# time can never be shared with site visitors. Each radio is therefore
+# cataloged as its official embed player URL
+# (geo.dailymotion.com/player.html), which streams for every visitor —
+# the Dailymotion player resolves its own tokens in-browser. The player
+# metadata endpoint is used only as a soft liveness gate (direct fetch
+# first, r.jina.ai text proxy as the fallback for datacenter IPs that
+# Dailymotion blocks), inside a time budget; if metadata is unreachable
+# the embed still ships (unverified), but a definite "video unavailable"
+# payload skips the radio.
 DAILYMOTION_RADIOS = (
     {"name": "إذاعة الأغاني", "video": "x8n6dyz"},
     {"name": "إذاعة القرآن الكريم", "video": "x84wyku"},
@@ -1327,7 +1334,9 @@ def _dailymotion_metadata(video_id):
     """Fetch the player metadata JSON for one Dailymotion live video.
 
     Direct first, then through the r.jina.ai text proxy (the proxy wraps
-    the JSON in a Markdown preamble, hence the first-brace parse).
+    the JSON in a Markdown preamble, hence the first-brace parse). Returns
+    the Dailymotion payload — including an error payload, which still
+    proves the endpoint answered — or None when both fetches fail.
     """
     target = (
         "https://www.dailymotion.com/player/metadata/video/" + video_id
@@ -1348,38 +1357,27 @@ def _dailymotion_metadata(video_id):
             with urllib.request.urlopen(req, timeout=DAILYMOTION_TIMEOUT) as r:
                 text = r.read().decode("utf-8", "replace")
             data = _dailymotion_parse_json(text)
-            if isinstance(data, dict) and not data.get("error"):
+            # Accept Dailymotion payloads only: an error payload still
+            # proves the video endpoint answered (the caller decides
+            # what to do with it), but the text proxy's own error JSON
+            # (no qualities and no error field) counts as a failed fetch.
+            if isinstance(data, dict) and ("qualities" in data or data.get("error")):
                 return data
-            last = ValueError(str(data.get("error") or "metadata error payload"))
+            last = ValueError("unexpected metadata payload")
         except Exception as e:  # noqa: BLE001
             last = e
     print(f"dailymotion {video_id} metadata failed: {last}", file=sys.stderr)
     return None
 
 
-def _dailymotion_qualities(metadata):
-    """Collect signed HLS manifest URLs from player metadata qualities."""
-    urls = []
-    qualities = metadata.get("qualities")
-    if not isinstance(qualities, dict):
-        return urls
-    for streams in qualities.values():
-        if not isinstance(streams, list):
-            continue
-        for stream in streams:
-            if not isinstance(stream, dict):
-                continue
-            url = str(stream.get("url") or "")
-            if url.startswith("https://") and ".m3u8" in url and url not in urls:
-                urls.append(url)
-    return urls
-
-
 def resolve_dailymotion_radios():
-    """Resolve a fresh signed manifest for every Dailymotion live radio.
+    """Catalog every maspero radio as its official Dailymotion embed.
 
-    Sequential on purpose (the proxy fallback is rate-limited), with a
-    total time budget so a slow crawl never stalls the data refresh.
+    The signed manifests are IP-bound and short-lived, so the catalog
+    stores the embed player URL instead; the metadata endpoint serves
+    as a soft liveness gate only. Sequential on purpose (the proxy
+    fallback is rate-limited), with a total time budget so a slow
+    crawl never stalls the data refresh.
     """
     entries = []
     started = time.time()
@@ -1389,33 +1387,26 @@ def resolve_dailymotion_radios():
             break
         video_id = str(seed.get("video") or "")
         name = str(seed.get("name") or "").strip()
-        metadata = _dailymotion_metadata(video_id)
-        if not metadata:
+        if not video_id or not name:
             continue
-        seen, alive = set(), []
-        for url in _dailymotion_qualities(metadata):
-            key = station_url_key(url)
-            if not key or key in seen:
-                continue
-            seen.add(key)
-            if check_stream(url).get("alive"):
-                alive.append(url)
-            if len(alive) >= SCRAPER_CANDIDATE_MAX:
-                break
-        if not name or not alive:
+        metadata = _dailymotion_metadata(video_id)
+        if metadata is not None and metadata.get("error"):
+            print(f"dailymotion {name}: video unavailable — skipping", file=sys.stderr)
             continue
         entry = {
             "name": name,
-            "url": alive[0],
+            "url": "https://geo.dailymotion.com/player.html?video=" + video_id + "&autoplay=1",
             "cc": "EG",
             "language": "arabic",
             "tags": "رسمي,official,dailymotion",
             "official": True,
+            "website": "https://www.dailymotion.com/video/" + video_id,
         }
-        if len(alive) > 1:
-            entry["fallbacks"] = alive[1:]
         entries.append(entry)
-        print(f"dailymotion {name}: live manifest ok ({video_id})")
+        if metadata is None:
+            print(f"dailymotion {name}: unverified (metadata unreachable) — embed kept", file=sys.stderr)
+        else:
+            print(f"dailymotion {name}: live embed ready ({video_id})")
     return entries
 
 # ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
