@@ -1120,6 +1120,12 @@ SCRAPER_SEEDS = (
     {"name": "صوت العرب", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/9", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
     {"name": "البرنامج العام", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/10", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
     {"name": "إذاعة الشرق الأوسط", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/16", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة القرآن الكريم", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/7", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "راديو مصر", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/8", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الشباب والرياضة", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/11", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة القاهرة الكبرى", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/14", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الأغاني", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/13", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة البرنامج الثقافي", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/12", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
     {"name": "بوابة ماسبيرو", "cc": "EG", "site": "https://maspero.eg/", "catalog": False},
     {"name": "بوابة الإذاعة السعودية", "cc": "SA", "site": "https://sba.sa/", "catalog": False},
 )
