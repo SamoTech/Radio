@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T20:17:14+00:00",
+ "updated": "2026-11-01T20:45:09+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 303,
+ "count": 304,
  "stations": [
   {
    "id": 3944,
@@ -261,6 +261,16 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
+   "https": false
+  },
+  {
+   "id": 106,
+   "name": "BEEGND-1",
+   "loc": "JO62fb · UHF",
+   "lat": 52.073657,
+   "lng": 12.462608,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -2234,6 +2244,16 @@
    "https": false
   },
   {
+   "id": 4882,
+   "name": "Shadi",
+   "loc": "KM18ua · VHF / UHF",
+   "lat": 38.0170436840529,
+   "lng": 23.732455911409634,
+   "alt": 210,
+   "url": "https://network.satnogs.org/stations/4882/",
+   "https": false
+  },
+  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2281,16 +2301,6 @@
    "lng": 17.89,
    "alt": 32,
    "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
-   "id": 858,
-   "name": "SM0TGU - VHF UHF",
-   "loc": "JO89wk · UHF / VHF",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/858/",
    "https": false
   },
   {
@@ -2431,16 +2441,6 @@
    "lng": 80.7251167196346,
    "alt": 470,
    "url": "https://network.satnogs.org/stations/5115/",
-   "https": false
-  },
-  {
-   "id": 2824,
-   "name": "ST-HN",
-   "loc": "OL21rc · VHF / UHF",
-   "lat": 21.1133,
-   "lng": 105.4475,
-   "alt": 10,
-   "url": "https://network.satnogs.org/stations/2824/",
    "https": false
   },
   {
@@ -2831,6 +2831,16 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
+   "https": false
+  },
+  {
+   "id": 4525,
+   "name": "VU2AQJ_SGS",
+   "loc": "NL05uk · UHF",
+   "lat": 25.451809,
+   "lng": 81.736291,
+   "alt": 98,
+   "url": "https://network.satnogs.org/stations/4525/",
    "https": false
   },
   {
