@@ -15,6 +15,10 @@ Sources:
   extra worldwide HTTPS streams from community-checked aggregate playlists,
   merged after the curated lists with URL dedupe (they carry no country
   metadata; Israeli entries are excluded by name markers).
+- Own website scraper: broadcaster portals and curated station sites are
+  fetched and scanned for direct HTTPS stream URLs (audio manifests,
+  icecast status-json.xsl mounts), verified live, saved to
+  data/discovered_streams.json; named seeds join the catalog merge.
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -1105,6 +1109,169 @@ def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+# ================= Website stream scraper (own source extractor) =================
+
+# Our own scraper: broadcaster websites are fetched and scanned for direct
+# HTTPS stream URLs (audio manifests, icecast mounts, status-json.xsl feeds).
+# Seeds are portals that never publish direct URLs to the aggregate
+# directories. Extend via the maintenance workflow: hunt stream links per
+# country / language / category, always excluding Israeli sources.
+SCRAPER_SEEDS = (
+    {"name": "صوت العرب", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/9", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "البرنامج العام", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/10", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "إذاعة الشرق الأوسط", "cc": "EG", "language": "arabic", "site": "https://maspero.eg/stream/16", "tags": "رسمي,official,scraper", "official": True, "catalog": True},
+    {"name": "بوابة ماسبيرو", "cc": "EG", "site": "https://maspero.eg/", "catalog": False},
+    {"name": "بوابة الإذاعة السعودية", "cc": "SA", "site": "https://sba.sa/", "catalog": False},
+)
+SCRAPER_DYNAMIC_MAX = 60
+SCRAPER_TIMEOUT = 20
+SCRAPER_CANDIDATE_MAX = 6
+# Hints that a scraped URL points at an audio stream rather than an asset.
+SCRAPER_HINTS = (
+    ".mp3", ".aac", ".ogg", ".m3u8", ".mpd", "/stream", "/listen", "/live",
+    ";stream", "/radio", ":8000", ":8443", ":8080", "icecast", "broadcast",
+)
+SCRAPER_SKIP = (
+    ".js", ".css", ".png", ".jpg", ".jpeg", ".svg", ".gif", ".woff", ".woff2",
+    ".ttf", ".pdf", ".mp4", "facebook", "twitter", "x.com", "youtube",
+    "apple.com", "googletagmanager", "google-analytics", "w3.org", "schema.org",
+)
+STREAM_URL_RE = re.compile(r"https://[^\s\x22\x27<>]+")
+
+
+def extract_stream_candidates(html):
+    """Pull direct HTTPS stream URLs out of a station website's HTML."""
+    candidates, seen = [], set()
+    for url in STREAM_URL_RE.findall((html or "").replace("&amp;", "&")):
+        url = url.rstrip(",);.'")
+        low = url.lower()
+        try:
+            host = urllib.parse.urlsplit(url).hostname or ""
+        except ValueError:
+            host = ""
+        if host.endswith(".il") or any(m in low for m in COMMUNITY_IL_MARKERS):
+            continue
+        if any(p in low for p in DEAD_URL_PATTERNS):
+            continue
+        if any(p in low for p in SCRAPER_SKIP):
+            continue
+        if not any(h in low for h in SCRAPER_HINTS):
+            continue
+        key = station_url_key(url)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        candidates.append(url)
+    return candidates
+
+
+def _icecast_mounts(site):
+    """Probe a site for an icecast status-json.xsl feed of live mounts."""
+    try:
+        origin = urllib.parse.urlsplit(site)
+        status_url = f"{origin.scheme}://{origin.netloc}/status-json.xsl"
+        data = json.loads(fetch_bytes(status_url, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace"))
+        mounts = data.get("icestats", {}).get("source") or []
+        if isinstance(mounts, dict):
+            mounts = [mounts]
+        urls = []
+        for mount in mounts:
+            if not isinstance(mount, dict):
+                continue
+            url = str(mount.get("listenurl") or "")
+            if url.lower().startswith("https://") and "easybroadcast.io" not in url.lower():
+                urls.append(url)
+        return urls
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def scrape_site(seed):
+    """Scrape one broadcaster website for direct stream candidates."""
+    site = str(seed.get("site") or "")
+    if not site.lower().startswith("https://"):
+        return None
+    html = ""
+    try:
+        html = fetch_bytes(site, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        html = ""
+    candidates = extract_stream_candidates(html) + _icecast_mounts(site)
+    deduped, seen = [], set()
+    for url in candidates:
+        if "easybroadcast.io" in url.lower():
+            continue
+        key = station_url_key(url)
+        if key and key not in seen:
+            seen.add(key)
+            deduped.append(url)
+    return {
+        "site": site,
+        "name": str(seed.get("name") or ""),
+        "cc": str(seed.get("cc") or ""),
+        "lang": str(seed.get("language") or ""),
+        "tags": str(seed.get("tags") or ""),
+        "official": bool(seed.get("official")),
+        "catalog": bool(seed.get("catalog")),
+        "candidates": deduped[:SCRAPER_CANDIDATE_MAX],
+    }
+
+
+def scrape_website_streams(seeds):
+    """Scrape all seeds concurrently, then verify every candidate stream."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
+        rows = [r for r in pool.map(scrape_site, list(seeds)) if r]
+    urls, seen = [], set()
+    for row in rows:
+        for url in row["candidates"]:
+            if url not in seen:
+                seen.add(url)
+                urls.append(url)
+    results = {}
+    if urls:
+        with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
+            for url, res in zip(urls, pool.map(check_stream, urls)):
+                results[url] = res
+    for row in rows:
+        row["streams"] = [u for u in row["candidates"] if results.get(u, {}).get("alive")]
+        del row["candidates"]
+    return rows
+
+
+def scraper_catalog_entries(rows):
+    """Catalog station entries for the named scraper seeds with live streams."""
+    entries = []
+    for row in rows:
+        if not row.get("catalog"):
+            continue
+        name = str(row.get("name") or "").strip()
+        streams = [u for u in (row.get("streams") or []) if str(u).lower().startswith("https://")]
+        if not name or not streams:
+            continue
+        entry = {"name": name, "url": streams[0], "cc": str(row.get("cc") or ""), "language": str(row.get("lang") or "")}
+        if len(streams) > 1:
+            entry["fallbacks"] = streams[1:]
+        if row.get("official"):
+            entry["official"] = True
+        if row.get("tags"):
+            entry["tags"] = str(row["tags"])
+        entries.append(entry)
+    return entries
+
+
+def scraper_dynamic_seeds():
+    """Curated stations that link their own websites become extra seeds."""
+    seeds, seen = [], set()
+    for station in load_official() + load_arabic():
+        site = str(station.get("website") or station.get("officialUrl") or "")
+        if not site.lower().startswith("https://") or site in seen:
+            continue
+        seen.add(site)
+        seeds.append({"name": str(station.get("name") or ""), "cc": str(station.get("cc") or ""), "site": site})
+    return seeds[:SCRAPER_DYNAMIC_MAX]
+
 # ================= WSPR observed propagation + WebSDR/OpenWebRX directories =================
 
 WSPR_DB_URL = "https://db1.wspr.live/"
@@ -1493,9 +1660,25 @@ def main():
             community = [
                 s for s in community if s["url"] not in existing_urls
             ][:COMMUNITY_MAX]
+            discovered = []
+            try:
+                scrape_rows = scrape_website_streams(SCRAPER_SEEDS + tuple(scraper_dynamic_seeds()))
+                write_json(
+                    DATA_DIR / "discovered_streams.json",
+                    {
+                        "updated": now_iso,
+                        "source": "own website scraper (broadcaster portals + curated station sites)",
+                        "count": sum(len(r.get("streams") or []) for r in scrape_rows),
+                        "sites": scrape_rows,
+                    },
+                )
+                discovered = scraper_catalog_entries(scrape_rows)
+                print(f"scraper: {len(discovered)} catalog streams from websites")
+            except Exception as e:  # noqa: BLE001
+                print(f"scraper FAILED: {e} — continuing without discovered streams", file=sys.stderr)
             stations = []
             seen_urls = set()
-            for station in officials + arabic + arab_extra + community + rb_stations:
+            for station in officials + arabic + arab_extra + discovered + community + rb_stations:
                 key = station_url_key(station.get("url"))
                 if key and key not in seen_urls:
                     seen_urls.add(key)
@@ -1504,7 +1687,7 @@ def main():
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
                 f"iprd-arab {len(arab_extra)} + community {len(community)} + "
-                f"radio-browser {len(rb_stations)})"
+                f"scraper {len(discovered)} + radio-browser {len(rb_stations)})"
             )
             write_json(
                 DATA_DIR / "stations.json",

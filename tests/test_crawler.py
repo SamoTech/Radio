@@ -1,5 +1,6 @@
 import importlib.util
 import unittest
+from unittest import mock
 from pathlib import Path
 
 MODULE_PATH = Path(__file__).resolve().parents[1] / "scripts" / "update_data.py"
@@ -94,7 +95,69 @@ class CommunityPlaylistTests(unittest.TestCase):
         self.assertIn("junguler/m3u-radio-music-playlists", source)
         self.assertIn("COMMUNITY_MAX = 5000", source)
         self.assertIn("COMMUNITY_IL_MARKERS", source)
-        self.assertIn("officials + arabic + arab_extra + community + rb_stations", source)
+        self.assertIn("officials + arabic + arab_extra + discovered + community + rb_stations", source)
+
+
+class ScraperTests(unittest.TestCase):
+    FAKE_HTML = (
+        "<html>https://stream.example.com/live.mp3 https://cdn.example.com/app.js "
+        "http://insecure.example.com/live.mp3 https://portal.example.co.il/stream "
+        "https://stream.example.com/live https://stream.example.com/live "
+        "https://webradio.tda.dz/one_64K.mp3 https://img.example.com/logo.png "
+        "https://radio.example.com:8000/mount</html>"
+    )
+
+    def test_extract_stream_candidates_filters_and_dedupes(self):
+        urls = module.extract_stream_candidates(self.FAKE_HTML)
+        self.assertEqual(
+            urls,
+            [
+                "https://stream.example.com/live.mp3",
+                "https://stream.example.com/live",
+                "https://radio.example.com:8000/mount",
+            ],
+        )
+
+    def test_icecast_mounts_keeps_https_and_skips_easybroadcast(self):
+        payload = (
+            '{"icestats":{"source":['
+            '{"listenurl":"https://radio.example.com/main.mp3"},'
+            '{"listenurl":"http://radio.example.com/relay.mp3"},'
+            '{"listenurl":"https://cdn.easybroadcast.io/ts_live/x/playlist.m3u8"}'
+            "]}}"
+        )
+        with mock.patch.object(module, "fetch_bytes", return_value=payload.encode("utf-8")):
+            urls = module._icecast_mounts("https://radio.example.com/")
+        self.assertEqual(urls, ["https://radio.example.com/main.mp3"])
+
+    def test_scraper_rows_flow_into_catalog_entries(self):
+        rows = [
+            {
+                "site": "https://a.test/",
+                "name": "صوت العرب",
+                "cc": "EG",
+                "lang": "arabic",
+                "tags": "رسمي,official,scraper",
+                "official": True,
+                "catalog": True,
+                "streams": ["https://a.test/one.mp3", "https://a.test/two.mp3"],
+            },
+            {"site": "https://b.test/", "name": "", "cc": "", "catalog": False, "streams": ["https://b.test/x.mp3"]},
+        ]
+        entries = module.scraper_catalog_entries(rows)
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0]["url"], "https://a.test/one.mp3")
+        self.assertEqual(entries[0]["fallbacks"], ["https://a.test/two.mp3"])
+        self.assertEqual(entries[0]["official"], True)
+        self.assertEqual(entries[0]["tags"], "رسمي,official,scraper")
+
+    def test_scraper_is_pinned(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("SCRAPER_SEEDS", source)
+        self.assertIn("maspero.eg", source)
+        self.assertIn("SCRAPER_DYNAMIC_MAX = 60", source)
+        self.assertIn("discovered_streams.json", source)
+        self.assertIn("status-json.xsl", source)
 
 
 if __name__ == "__main__":
