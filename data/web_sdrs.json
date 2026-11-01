@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T21:02:35+00:00",
+ "updated": "2026-11-01T21:14:06+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -993,14 +993,6 @@
    "lon": 15.178531063564318
   },
   {
-   "name": "CB0BED WebSDR - LK Mittelsachsen / Brand-Erbisdorf",
-   "url": "http://cb0bed.selfhost.co:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.85174,
-   "lon": 13.301789
-  },
-  {
    "name": "SDR-Alaró (Mallorca)",
    "url": "https://sdr.alaro.ovh/",
    "loc": "",
@@ -1505,6 +1497,14 @@
    "lon": 10.770587
   },
   {
+   "name": "K4MBD",
+   "url": "https://sdr.backyard.stream/",
+   "loc": "",
+   "https": true,
+   "lat": 36.148751336174364,
+   "lon": -82.69378453297419
+  },
+  {
    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
    "url": "http://nieuwkerke.on4ipr.be:8074/",
    "loc": "",
@@ -1719,6 +1719,14 @@
    "https": false,
    "lat": 50.793594,
    "lon": -2.076698
+  },
+  {
+   "name": "Funknetz.nrw",
+   "url": "http://freedmr.ddnss.de:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.58353546172424,
+   "lon": 7.143281367997134
   },
   {
    "name": "SDRPaderborn",
@@ -2657,6 +2665,14 @@
    "lon": 0.8307115249043973
   },
   {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
+  },
+  {
    "name": "PI6EHV 2320 - 2321 MHz",
    "url": "http://websdr.pi6ehv.ampr.org:8073/",
    "loc": "",
@@ -2927,14 +2943,6 @@
    "https": true,
    "lat": 45.483178856090866,
    "lon": -122.60469157415571
-  },
-  {
-   "name": "[KM7HJA] Treasure Valley SDR (VHF + HF)",
-   "url": "https://sdr.autumnishere.dev/",
-   "loc": "",
-   "https": true,
-   "lat": 43.598685,
-   "lon": -116.187425
   },
   {
    "name": "SV9TNF",
@@ -4039,14 +4047,6 @@
    "https": true,
    "lat": 12.2438083,
    "lon": 75.4374209
-  },
-  {
-   "name": "Farmington",
-   "url": "https://receiver.elaptic.dev/",
-   "loc": "",
-   "https": true,
-   "lat": 40.9805,
-   "lon": -111.8874
   }
  ]
 }
