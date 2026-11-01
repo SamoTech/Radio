@@ -244,8 +244,8 @@ def _cp_head(title, description, canonical):
         '<meta charset="UTF-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="theme-color" content="#0b1220">\n'
+        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("consent","default",{ad_storage:"granted",ad_user_data:"granted",ad_personalization:"granted",analytics_storage:"granted",functionality_storage:"granted",personalization_storage:"granted",security_storage:"granted"});gtag("consent","default",{ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",analytics_storage:"denied",functionality_storage:"denied",personalization_storage:"denied",security_storage:"granted",regions:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO","GB"]});gtag("set","url_passthrough",true);gtag("set","ads_data_redaction",true);gtag("js",new Date());gtag("config","G-1NG4ZXNVGD");</script>\n'
         '<script async src="https://www.googletagmanager.com/gtag/js?id=G-1NG4ZXNVGD"></script>\n'
-        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-1NG4ZXNVGD");</script>\n'
         "<title>" + _cp_escape(title) + "</title>\n"
         '<meta name="description" content="' + _cp_escape(description) + '">\n'
         '<link rel="canonical" href="' + canonical + '">\n'
