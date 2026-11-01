@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T13:21:48+00:00",
+ "updated": "2026-11-01T13:55:42+00:00",
  "checked": 106,
  "alive": 84,
  "results": {
@@ -133,11 +133,11 @@
   },
   "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://stream.radiojar.com/8s5u5tpdtwzuv": {
    "alive": true,
@@ -169,7 +169,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
    "alive": true,
