@@ -11,6 +11,10 @@ Sources:
   offset pagination and server failover (de1 -> de2 -> nl1), stored with
   trimmed fields so the whole directory ships as one client-side
   searchable snapshot.
+- Community world playlists (junguler/m3u-radio-music-playlists on GitHub):
+  extra worldwide HTTPS streams from community-checked aggregate playlists,
+  merged after the curated lists with URL dedupe (they carry no country
+  metadata; Israeli entries are excluded by name markers).
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -76,6 +80,22 @@ ARAB_IPRD = {
     "MR": ["mr.m3u"], "SO": ["so.m3u"], "SY": ["sy.m3u"],
 }
 IPRD_MAX = 1500
+
+COMMUNITY_PLAYLISTS = (
+    "https://raw.githubusercontent.com/junguler/m3u-radio-music-playlists/main/---everything-checked-repo.m3u",
+)
+COMMUNITY_MAX = 5000
+# Community playlists carry no country metadata, so Israeli entries are
+# excluded by name/URL markers only (same good-faith policy as SatNOGS).
+COMMUNITY_IL_MARKERS = (
+    "israel",
+    "tel aviv",
+    "tel-aviv",
+    "jerusalem",
+    "haifa",
+    "\u05d9\u05e9\u05e8\u05d0\u05dc",
+)
+
 CHECK_THREADS = 16
 CHECK_TIMEOUT = 8
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
@@ -973,6 +993,69 @@ def fetch_iprd_arab():
     return out[:IPRD_MAX]
 
 
+def _community_group_title(line):
+    m = re.search(r'group-title="([^"]*)"', line)
+    return m.group(1).strip()[:40] if m else ""
+
+
+def parse_community_m3u(text):
+    """Parse a worldwide community playlist: HTTPS streams only, EXTINF names."""
+    out = []
+    seen = set()
+    name = ""
+    group = ""
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("#EXTINF"):
+            name = _extinf_name(line)
+            group = _community_group_title(line)
+            continue
+        if line.startswith("#"):
+            continue
+        url = line.split()[0] if line.split() else ""
+        if not url.lower().startswith("https://"):
+            continue
+        if any(p in url for p in DEAD_URL_PATTERNS):
+            continue
+        if url in seen:
+            continue
+        blob = (name + " " + url).lower()
+        if ".il/" in url or any(m in blob for m in COMMUNITY_IL_MARKERS):
+            continue
+        if re.search(r"(?:^|[^a-z0-9])4[xz][0-9]", blob):
+            continue
+        seen.add(url)
+        out.append(
+            {
+                "name": name or "\u2014",
+                "url": url,
+                "cc": "",
+                "language": "",
+                "tags": group or "community",
+                "codec": "",
+                "bitrate": 0,
+            }
+        )
+        name = ""
+        group = ""
+    return out
+
+
+def fetch_community_stations():
+    """Extra worldwide stations from community-checked playlists (GitHub raw)."""
+    out = []
+    for url in COMMUNITY_PLAYLISTS:
+        try:
+            text = fetch_bytes(url, timeout=120).decode("utf-8", "replace")
+            rows = parse_community_m3u(text)
+            out.extend(rows)
+            print(f"community {url.rsplit('/', 1)[-1]}: {len(rows)} https streams")
+        except Exception as e:  # noqa: BLE001
+            print(f"community playlist {url} failed: {e}", file=sys.stderr)
+    return out[:COMMUNITY_MAX]
+
 def check_stream(url):
     """Lightweight liveness probe for a stream URL (auth-gated servers count as alive)."""
     try:
@@ -1406,9 +1489,13 @@ def main():
             arab_extra = [
                 s for s in arab_extra if s["url"] not in existing_urls
             ][:IPRD_MAX]
+            community = fetch_community_stations()
+            community = [
+                s for s in community if s["url"] not in existing_urls
+            ][:COMMUNITY_MAX]
             stations = []
             seen_urls = set()
-            for station in officials + arabic + arab_extra + rb_stations:
+            for station in officials + arabic + arab_extra + community + rb_stations:
                 key = station_url_key(station.get("url"))
                 if key and key not in seen_urls:
                     seen_urls.add(key)
@@ -1416,7 +1503,8 @@ def main():
             print(
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
-                f"iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)})"
+                f"iprd-arab {len(arab_extra)} + community {len(community)} + "
+                f"radio-browser {len(rb_stations)})"
             )
             write_json(
                 DATA_DIR / "stations.json",
@@ -1457,7 +1545,7 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
             try:
-                curated = load_official() + load_arabic() + fetch_iprd_arab()
+                curated = load_official() + load_arabic() + fetch_iprd_arab() + fetch_community_stations()
                 merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
                 if merged:
                     write_json(DATA_DIR / "stations.json", merged)
