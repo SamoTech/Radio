@@ -41,6 +41,7 @@ var CATEGORY_LABELS = {
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
 var fmSearchSequence = 0;
 var fmSearchDebounceTimer = null;
+var fmFacetAuto = {};
 
 function cancelFMClientRender() {
   if (fmSearchDebounceTimer !== null) {
@@ -921,6 +922,33 @@ function filterFacetOptions(kind) {
   var placeholder=kind==='country'?t('all_countries'):(kind==='language'?t('all_languages'):t('all_tags'));
   fillSelect(select,placeholder,options);select.value=selected;
 }
+function facetLiveApply(kind) {
+  var search = $('fm-' + kind + '-search');
+  if (!search) return;
+  var q = normalizeSearchText(search.value);
+  if (!q) {
+    if (fmFacetAuto[kind]) { fmFacetAuto[kind] = false; state.fmFilters[kind] = ''; scheduleFMClientRender(); }
+    return;
+  }
+  var opts = FACET_OPTIONS[kind] || [];
+  var match = null;
+  for (var i = 0; i < opts.length; i++) {
+    var hay = opts[i].label + ' ' + opts[i].value + ' ' + (LANGUAGE_ALIASES[opts[i].value] || []).join(' ');
+    if (normalizeSearchText(hay).indexOf(q) !== -1) { match = opts[i]; break; }
+  }
+  if (!match) {
+    if (fmFacetAuto[kind]) { fmFacetAuto[kind] = false; state.fmFilters[kind] = ''; scheduleFMClientRender(); }
+    return;
+  }
+  if (state.fmFilters[kind] !== match.value) {
+    state.fmFilters[kind] = match.value;
+    fmFacetAuto[kind] = true;
+    var sel = $('fm-' + kind);
+    if (sel) sel.value = match.value;
+    scheduleFMClientRender();
+  }
+}
+
 function normalizeFm(s) {
   return {
     name:s.name||'—',url:safeHttpUrl(s.url_resolved||s.url||''),cc:String(s.countrycode||s.cc||'').toUpperCase(),
@@ -1307,6 +1335,7 @@ function searchFM() {
 function clearFMFilters() {
   state.fmFilters = { q: '', country: '', language: '', tag: '', chip: '' };
   $('qfm').value = '';
+  fmFacetAuto = {};
   ['country','language','tag'].forEach(function(kind){$('fm-'+kind+'-search').value='';filterFacetOptions(kind);});
   $('fm-country').value = '';
   $('fm-language').value = '';
@@ -2662,12 +2691,12 @@ function initUI() {
   $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-random-btn').addEventListener('click', playRandomStation);
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
-  $('fm-country').addEventListener('change',function(){state.fmFilters.country=this.value;fmClientRender();});
-  $('fm-language').addEventListener('change',function(){state.fmFilters.language=this.value;fmClientRender();});
-  $('fm-tag').addEventListener('change',function(){state.fmFilters.tag=this.value;fmClientRender();});
+  $('fm-country').addEventListener('change',function(){fmFacetAuto.country=false;state.fmFilters.country=this.value;fmClientRender();});
+  $('fm-language').addEventListener('change',function(){fmFacetAuto.language=false;state.fmFilters.language=this.value;fmClientRender();});
+  $('fm-tag').addEventListener('change',function(){fmFacetAuto.tag=false;state.fmFilters.tag=this.value;fmClientRender();});
   ['country','language','tag'].forEach(function(kind){
     var search=$('fm-'+kind+'-search');
-    if(search)search.addEventListener('input',function(){filterFacetOptions(kind);});
+    if(search)search.addEventListener('input',function(){filterFacetOptions(kind);facetLiveApply(kind);});
   });
   $('grid-fm').addEventListener('click', function (e) {
     var el = e.target;
