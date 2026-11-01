@@ -62,5 +62,40 @@ class HeadSnapshotTests(unittest.TestCase):
         self.assertIn("head = stations[:2500]", source)
 
 
+class CommunityPlaylistTests(unittest.TestCase):
+    FAKE_M3U = (
+        "#EXTM3U\n"
+        '#EXTINF:-1 tvg-logo="x.png" group-title="Rock",Test Rock One\n'
+        "https://rock.example.com/stream\n"
+        "#EXTINF:-1,Plain Name\n"
+        "https://plain.example.com/aac\n"
+        "http://insecure.example.com/stream\n"
+        "#EXTINF:-1,Dup\n"
+        "https://rock.example.com/stream\n"
+        "#EXTINF:-1,Israel Radio\n"
+        "https://stream.example.co.il/live\n"
+        "#EXTINF:-1,Dead\n"
+        "https://webradio.tda.dz/x_64K.mp3\n"
+    )
+
+    def test_parse_community_m3u_https_names_groups(self):
+        rows = module.parse_community_m3u(self.FAKE_M3U)
+        self.assertEqual(
+            [row["url"] for row in rows],
+            ["https://rock.example.com/stream", "https://plain.example.com/aac"],
+        )
+        self.assertEqual(rows[0]["name"], "Test Rock One")
+        self.assertEqual(rows[0]["tags"], "Rock")
+        self.assertEqual(rows[1]["name"], "Plain Name")
+        self.assertEqual(rows[1]["tags"], "community")
+
+    def test_community_playlist_is_pinned_and_capped(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("junguler/m3u-radio-music-playlists", source)
+        self.assertIn("COMMUNITY_MAX = 5000", source)
+        self.assertIn("COMMUNITY_IL_MARKERS", source)
+        self.assertIn("officials + arabic + arab_extra + community + rb_stations", source)
+
+
 if __name__ == "__main__":
     unittest.main()
