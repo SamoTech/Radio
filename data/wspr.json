@@ -1,96 +1,96 @@
 {
- "updated": "2026-11-01T20:45:09+00:00",
+ "updated": "2026-11-01T20:59:15+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
    "band": 14,
-   "c": 205990,
-   "avg_km": 2084,
+   "c": 205030,
+   "avg_km": 2086,
    "max_km": 19875
   },
   {
    "band": 7,
-   "c": 159653,
-   "avg_km": 1195,
-   "max_km": 19651
+   "c": 158085,
+   "avg_km": 1222,
+   "max_km": 19508
   },
   {
    "band": 10,
-   "c": 76973,
-   "avg_km": 1568,
+   "c": 78078,
+   "avg_km": 1607,
    "max_km": 18728
   },
   {
    "band": 21,
-   "c": 52479,
-   "avg_km": 2765,
+   "c": 54411,
+   "avg_km": 2728,
    "max_km": 19150
   },
   {
    "band": 3,
-   "c": 47798,
-   "avg_km": 739,
+   "c": 48415,
+   "avg_km": 752,
    "max_km": 18256
   },
   {
    "band": 18,
-   "c": 44146,
-   "avg_km": 2738,
+   "c": 45807,
+   "avg_km": 2721,
    "max_km": 18093
   },
   {
    "band": 28,
-   "c": 21460,
-   "avg_km": 3146,
+   "c": 22863,
+   "avg_km": 3118,
    "max_km": 18999
   },
   {
    "band": 24,
-   "c": 13815,
+   "c": 14337,
    "avg_km": 2947,
-   "max_km": 14449
+   "max_km": 13803
   },
   {
    "band": 0,
-   "c": 12443,
-   "avg_km": 691,
+   "c": 12507,
+   "avg_km": 701,
    "max_km": 11893
   },
   {
    "band": 5,
-   "c": 7736,
-   "avg_km": 1002,
+   "c": 8097,
+   "avg_km": 1014,
    "max_km": 16318
   },
   {
    "band": 1,
-   "c": 7648,
-   "avg_km": 640,
+   "c": 7620,
+   "avg_km": 634,
    "max_km": 16859
   },
   {
    "band": 13,
-   "c": 1079,
-   "avg_km": 1368,
-   "max_km": 3222
+   "c": 1154,
+   "avg_km": 1353,
+   "max_km": 3501
   },
   {
    "band": -1,
-   "c": 417,
-   "avg_km": 533,
-   "max_km": 8123
+   "c": 440,
+   "avg_km": 596,
+   "max_km": 13415
   },
   {
    "band": 50,
-   "c": 415,
+   "c": 403,
    "avg_km": 59,
    "max_km": 293
   },
   {
    "band": 144,
-   "c": 210,
-   "avg_km": 196,
+   "c": 211,
+   "avg_km": 197,
    "max_km": 831
   },
   {
@@ -101,8 +101,8 @@
   },
   {
    "band": 1296,
-   "c": 16,
-   "avg_km": 197,
+   "c": 17,
+   "avg_km": 186,
    "max_km": 335
   },
   {
@@ -121,24 +121,6 @@
    "km": 19875,
    "band": 14,
    "snr": -24
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZLII",
-   "rx_loc": "RE78mu",
-   "km": 19651,
-   "band": 7,
-   "snr": -27
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19604,
-   "band": 7,
-   "snr": -16
   },
   {
    "tx": "QB9IUC",
@@ -177,49 +159,67 @@
    "snr": -12
   },
   {
-   "tx": "EA6FG",
-   "tx_loc": "JM19ip",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19391,
-   "band": 7,
-   "snr": -24
-  },
-  {
-   "tx": "EA6LA",
-   "tx_loc": "JM19",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19365,
-   "band": 7,
-   "snr": -22
-  },
-  {
-   "tx": "0E6EGL",
-   "tx_loc": "NF26",
-   "rx": "AC0G/B4",
-   "rx_loc": "EM38ww",
-   "km": 19359,
-   "band": 14,
-   "snr": -19
-  },
-  {
-   "tx": "F1ORG",
-   "tx_loc": "JN05",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19346,
-   "band": 7,
-   "snr": -26
-  },
-  {
    "tx": "KD9LVX",
    "tx_loc": "GL19",
    "rx": "VK6PVL",
    "rx_loc": "OF88bc",
    "km": 19309,
    "band": 14,
+   "snr": -21
+  },
+  {
+   "tx": "0E6EGM",
+   "tx_loc": "NE91",
+   "rx": "K9TRV-4",
+   "rx_loc": "EN82bi",
+   "km": 19295,
+   "band": 14,
    "snr": -19
+  },
+  {
+   "tx": "0E6EGM",
+   "tx_loc": "NE91",
+   "rx": "K9TRV",
+   "rx_loc": "EN82bi",
+   "km": 19295,
+   "band": 14,
+   "snr": -16
+  },
+  {
+   "tx": "0E6EGM",
+   "tx_loc": "NE91",
+   "rx": "K9TRV-2",
+   "rx_loc": "EN82bi",
+   "km": 19295,
+   "band": 14,
+   "snr": -19
+  },
+  {
+   "tx": "0E6EGM",
+   "tx_loc": "NE91",
+   "rx": "K9TRV-5",
+   "rx_loc": "EN82bi",
+   "km": 19295,
+   "band": 14,
+   "snr": -17
+  },
+  {
+   "tx": "CI1RX",
+   "tx_loc": "NF37",
+   "rx": "W0CL",
+   "rx_loc": "EM28tw",
+   "km": 19292,
+   "band": 7,
+   "snr": -20
+  },
+  {
+   "tx": "0E6EGM",
+   "tx_loc": "NF27",
+   "rx": "AC0G/B4",
+   "rx_loc": "EM38ww",
+   "km": 19255,
+   "band": 14,
+   "snr": -15
   }
  ]
 }
