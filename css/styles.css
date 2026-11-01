@@ -321,3 +321,8 @@ body{-webkit-tap-highlight-color:transparent}
   :root[data-theme="light"] .card:hover{border-color:rgba(161,124,31,.14);box-shadow:none}
   .open:hover{transform:none}
 }
+
+/* ---- v52: PWA install hint + hero quick-play ---- */
+#install-btn{font-size:15px}
+.hero-play{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;font-family:inherit;font-weight:600;margin:2px 0 16px;padding:12px 26px;font-size:1.05rem;border-radius:14px;background:var(--accent,#d4af37);color:var(--accent-text,#201604)}
+@media(max-width:720px){.hero-play{width:100%;justify-content:center}}
