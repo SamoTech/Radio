@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-31T21:08:23+00:00",
+ "updated": "2026-11-01T12:57:52+00:00",
  "checked": 106,
  "alive": 84,
  "results": {
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -237,7 +237,7 @@
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 0
+   "code": 500
   },
   "https://streaming.rimradio.ma/live": {
    "alive": true,
@@ -393,7 +393,7 @@
   },
   "https://s2.radio.co/sd3c7f8539/listen": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://a8.asurahosting.com:7850/radio.mp3": {
    "alive": true,

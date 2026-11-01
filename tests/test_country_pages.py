@@ -36,10 +36,14 @@ class CountryPagesTests(unittest.TestCase):
             self.assertIn("راديو مصر", page)
             self.assertIn("Radio 0", page)
             self.assertIn("#play=", page)
+            self.assertIn("G-1NG4ZXNVGD", page)
+            self.assertIn("ad_storage", page)
+            self.assertIn('name="keywords"', page)
             self.assertNotIn("il.example", page)
             self.assertEqual(len(page.split("<li>")) - 1, 60)
             sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
             self.assertIn("countries/eg.html", sitemap)
+            self.assertIn("about.html", sitemap)
             robots = (root / "robots.txt").read_text(encoding="utf-8")
             index_page = (root / "countries" / "index.html").read_text(encoding="utf-8")
             self.assertIn("(120 محطة)", index_page)
@@ -58,3 +62,4 @@ class CountryPagesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

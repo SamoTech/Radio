@@ -98,10 +98,14 @@ var STR = {
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
     stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
     tab_fm: '📻 محطات البث', tab_fav: '⭐ المفضلة', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
+    featured_title: 'الأشهر عالميًا وعربيًا',
+    home_grid_title: '🏛 الرسمية · 🇪🇬 مصر',
+    player_status_connecting: 'جارٍ الاتصال…', player_status_live: '● يبث الآن', player_status_paused: '⏸ متوقف مؤقتًا', player_status_dead: '✖ المحطة غير متاحة',
+    vol_aria: 'مستوى الصوت', mute_aria: 'كتم الصوت', prev_aria: 'المحطة السابقة', next_aria: 'المحطة التالية',
     search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
-    fm_hint: 'الكتالوج الكامل لكل محطات Radio-Browser المتاحة مخزن في التطبيق — البحث والتصنيف فوري. زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
+    fm_hint: 'الرئيسية تعرض الأشهر والرسمية ومحطات مصر فقط — ابحث أو استخدم الفلاتر لتصفح الكتالوج الكامل (أكثر من 56 ألف محطة). زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
     chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
     all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم', sort_near: 'الأقرب لي',
@@ -134,7 +138,7 @@ var STR = {
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', fav_hint: 'جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.', eg_hint: 'كل إذاعات مصر من الكتالوج في مكان واحد — الاستماع مباشر من الموقع، والمحطات الرسمية والمنتقاة في الأول.', eg_source: 'إذاعات مصر الرسمية ↗', ar_hint: 'كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.', ar_count: '{n} إذاعة عربية · {c} دولة', ar_top: 'أول {n} محطة من {m}', rel_hint: 'كل المحطات الدينية من الكتالوج في مكان واحد — قرآن وبرامج دينية، والمحطات الرسمية في الأول.',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
-    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏',
+    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏', dm_notice_title: 'بث إذاعات ماسبيرو', dm_notice_body: 'قناة ماسبيرو الرسمية على Dailymotion بتسمح بتشغيل بث الإذاعات من موقعها بس، فمش بنقدر نشغّلها داخل التطبيق. افتحها على Dailymotion في نافذة جديدة وهتبث معاك فورًا 🎧', dm_notice_btn: 'افتح البث على Dailymotion ↗',
     history_title: 'سجل الاستماع', history_aria: 'تشغيل من سجل الاستماع',
     sleep_aria: 'مؤقت النوم', sleep_set: '⏱ البث هيقف بعد {n} دقيقة', sleep_done: '⏱ خلص المؤقت — اتوقف البث', sleep_clear: '⏱ اتلغى مؤقت النوم',
     alarm_aria: 'منبه الراديو', alarm_title: '⏰ منبه الراديو', alarm_hint: 'المنبه يشغّل آخر محطة استمعت لها — الصفحة لازم تفضل مفتوحة.', alarm_station: 'المحطة: {name}', alarm_save: '✓ ضبط المنبه', alarm_clear: '✕ إلغاء المنبه', alarm_set: '⏰ المنبه اتحط على {time} — {name}', alarm_cleared: '⏰ اتلغى المنبه', alarm_fired: '⏰ دقّ المنبه — شغّلنا {name}', alarm_no_station: 'شغّل أي محطة الأول عشان المنبه يعرف يشغّلها.',
@@ -148,10 +152,14 @@ var STR = {
     tagline: 'Smart search directory for online receivers and broadcast stations',
     stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
     tab_fm: '📻 Broadcast stations', tab_fav: '⭐ Favorites', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
+    featured_title: 'Most popular worldwide & Arabic',
+    home_grid_title: '🏛 Official · 🇪🇬 Egypt',
+    player_status_connecting: 'Connecting…', player_status_live: '● On air', player_status_paused: '⏸ Paused', player_status_dead: '✖ Station unavailable',
+    vol_aria: 'Volume level', mute_aria: 'Mute', prev_aria: 'Previous station', next_aria: 'Next station',
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
-    fm_hint: 'The full Radio-Browser catalog is stored in the app — search and filtering are instant. Live search queries the source in real time.',
+    fm_hint: 'Home shows only the most famous, official and Egyptian stations — search or use the filters to browse the full 56k+ catalog. Live Search queries the source in real time.',
     chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
     search_sdr_ph: 'Search: name, country, callsign…',
     all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name', sort_near: 'Nearest to me',
@@ -185,7 +193,7 @@ var STR = {
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', fav_hint: 'All your favorite stations in one place. Manage favorites from any station using the heart button ❤️.', eg_hint: 'Every Egyptian station from the catalog in one place — plays in-app, official and curated stations first.', eg_source: 'Official Egyptian radio ↗', ar_hint: 'All Arabic radio from the catalog grouped by country — plays in-app, official stations first.', ar_count: '{n} Arabic stations · {c} countries', ar_top: 'First {n} of {m} stations', rel_hint: 'All religious stations from the catalog in one place — Quran and religious programming, official stations first.',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
-    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏',
+    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏', dm_notice_title: 'Maspero radios broadcast', dm_notice_body: 'Maspero\\u2019s official Dailymotion channel only allows playback on its own website, so the stream cannot run inside the app. Open it on Dailymotion in a new tab and it will play right away 🎧', dm_notice_btn: 'Open stream on Dailymotion ↗',
     history_title: 'Recently played', history_aria: 'Play from history',
     sleep_aria: 'Sleep timer', sleep_set: '⏱ Playback stops in {n} min', sleep_done: '⏱ Timer finished — playback stopped', sleep_clear: '⏱ Sleep timer cleared',
     alarm_aria: 'Radio alarm', alarm_title: '⏰ Radio alarm', alarm_hint: 'The alarm plays your last station — keep this page open.', alarm_station: 'Station: {name}', alarm_save: '✓ Set alarm', alarm_clear: '✕ Clear alarm', alarm_set: '⏰ Alarm set for {time} — {name}', alarm_cleared: '⏰ Alarm cleared', alarm_fired: '⏰ Alarm rang — playing {name}', alarm_no_station: 'Play any station first so the alarm has one to play.',
@@ -227,6 +235,9 @@ var state = {
   playbackIndex: 0,
   playbackGeneration: 0,
   playbackAttemptFailed: false,
+  playerQueue: [],
+  playerVolume: 100,
+  playerMuted: false,
   history: [],
   palette: { results: [] }
 };
@@ -1000,9 +1011,38 @@ function currentFMList() {
   });
 }
 
+function isHomeMode() {
+  var f = state.fmFilters;
+  return !f.q && !f.country && !f.language && !f.tag && !f.chip && !state.fmLive;
+}
+
+function homeList() {
+  var seen = {};
+  var feat = featuredList();
+  for (var i = 0; i < feat.length; i++) seen[feat[i].url] = 1;
+  var out = [];
+  var st = state.fm || [];
+  for (var j = 0; j < st.length; j++) {
+    var s = st[j];
+    if (seen[s.url]) continue;
+    if (isOfficialStation(s) || s.cc === 'EG') { seen[s.url] = 1; out.push(s); }
+  }
+  out.sort(function (a, b) {
+    if (isOfficialStation(a) !== isOfficialStation(b)) return isOfficialStation(a) ? -1 : 1;
+    return 0;
+  });
+  return out;
+}
+
+
 function renderFM() {
+renderFeatured();
   var grid = $('grid-fm');
-  var list = currentFMList();
+  var home = isHomeMode();
+  var list = home ? homeList() : currentFMList();
+  state.playerQueue = list.filter(function (s) { return !!safeHttpsUrl(s.url); });
+  var homeTitle = $('home-grid-title');
+  if (homeTitle) homeTitle.hidden = !home;
   $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
   if (!list.length) {
     grid.innerHTML = '<div class="empty">' + esc(t('no_match_fm')) + '</div>';
@@ -1020,6 +1060,7 @@ function loadStations() {
   return fetchJSON('data/stations_head.json').then(function (data) {
     if (data && Array.isArray(data.stations)) {
       state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
       buildFMFacets();
       renderFM();
       renderFav();
@@ -1034,6 +1075,7 @@ function loadStations() {
   }).then(function (data) {
     if (data && Array.isArray(data.stations)) {
       state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
       buildFMFacets();
     }
   }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
@@ -1541,6 +1583,7 @@ function failCurrentPlayback(generation, reason) {
   }
   var official = $('player-official');
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
+  setPlayerStatus('dead');
   toast(t('toast_broken'));
   console.warn('Radio playback failed:', reason || 'all sources exhausted');
 }
@@ -1645,9 +1688,120 @@ function startCurrentPlayback(generation) {
     });
   }
 }
+/* ================= professional player controls ================= */
+
+function applyVolume() {
+  var a = $('audio');
+  try { a.muted = state.playerMuted; a.volume = state.playerVolume / 100; } catch (e) {}
+  var btn = $('vol-mute');
+  if (btn) btn.textContent = (state.playerMuted || state.playerVolume === 0) ? '🔇' : (state.playerVolume < 40 ? '🔈' : '🔊');
+}
+
+function saveVolume() {
+  try { localStorage.setItem('ra-vol', JSON.stringify({ v: state.playerVolume, m: state.playerMuted })); } catch (e) {}
+}
+
+function loadVolume() {
+  try {
+    var saved = JSON.parse(localStorage.getItem('ra-vol') || 'null');
+    if (saved && typeof saved.v === 'number') {
+      state.playerVolume = Math.max(0, Math.min(100, Math.round(saved.v)));
+      state.playerMuted = !!saved.m;
+    }
+  } catch (e) {}
+  var slider = $('vol-slider');
+  if (slider) slider.value = String(state.playerVolume);
+  applyVolume();
+}
+
+function toggleMute() {
+  state.playerMuted = !state.playerMuted;
+  saveVolume();
+  applyVolume();
+}
+
+function setPlayerStatus(kind) {
+  var el = $('player-status');
+  if (!el) return;
+  var key = { connecting: 'player_status_connecting', live: 'player_status_live', paused: 'player_status_paused', dead: 'player_status_dead' }[kind] || 'player_status_connecting';
+  el.textContent = t(key);
+  el.classList.toggle('dead', kind === 'dead');
+}
+
+function renderPlayerMeta() {
+  var el = $('player-meta');
+  if (!el) return;
+  var s = state.playbackStation || {};
+  var bits = [];
+  if (s.cc) bits.push((flagOf(s.cc) || '') + ' ' + esc(regionName(s.cc, s.cc)));
+  if (s.bitrate) bits.push(String(s.bitrate) + ' kbps');
+  if (s.codec) bits.push(esc(String(s.codec).toUpperCase()));
+  if (s.official) bits.push('🏛');
+  if (!bits.length) { el.hidden = true; el.textContent = ''; return; }
+  el.textContent = bits.join(' · ');
+  el.hidden = false;
+}
+
+function playStepStation(dir) {
+  var list = (state.playerQueue && state.playerQueue.length) ? state.playerQueue : currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
+  if (!list.length) { toast(t('random_none')); return; }
+  var cur = state.playbackStation && state.playbackStation.url;
+  var idx = -1;
+  for (var i = 0; i < list.length; i++) { if (list[i].url === cur) { idx = i; break; } }
+  var next = idx < 0 ? (dir > 0 ? 0 : list.length - 1) : (idx + dir + list.length) % list.length;
+  var st = list[next];
+  play(st.url, st.name);
+}
+
+function isDmEmbed(url) {
+  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
+}
+
+function dmVideoUrl(url) {
+  var m = String(url || '').match(/dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html\?video=)([a-z0-9]+)/i);
+  return m ? 'https://www.dailymotion.com/video/' + m[1] : String(url || '');
+}
+
+function dmNoticeHtml(link) {
+  var esc = function (s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  };
+  return '<!DOCTYPE html><html dir="rtl" lang="'
+    + (state.lang === 'en' ? 'en' : 'ar')
+    + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<style>body{margin:0;font-family:Segoe UI,Tahoma,system-ui,sans-serif;background:#0f0e13;color:#f4f1e8;'
+    + 'display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}'
+    + '.box{max-width:430px;padding:26px 18px}h2{margin:0 0 12px;font-size:1.15rem;color:#d4af37;font-weight:700}'
+    + 'p{margin:0 0 20px;line-height:1.9;color:#c9c2b2;font-size:.95rem}'
+    + 'a.btn{display:inline-block;background:#d4af37;color:#1a1405;border-radius:10px;padding:12px 26px;'
+    + 'text-decoration:none;font-weight:700;font-size:1rem}</style></head><body><div class="box">'
+    + '<h2>📻 ' + esc(t('dm_notice_title')) + '</h2>'
+    + '<p>' + esc(t('dm_notice_body')) + '</p>'
+    + '<a class="btn" href="' + esc(link) + '" target="_blank" rel="noopener">▶ ' + esc(t('dm_notice_btn')) + '</a>'
+    + '</div></body></html>';
+}
+
+function openDmNotice(url, name) {
+  var link = dmVideoUrl(safeHttpsUrl(url));
+  if (!/^https:\/\//.test(link)) { toast(t('toast_broken')); return; }
+  $('sdr-modal-name').textContent = '📻 ' + (name || '');
+  $('sdr-open-ext').href = link;
+  previousSDRFocus = document.activeElement;
+  $('sdr-frame').removeAttribute('src');
+  try { $('sdr-frame').srcdoc = dmNoticeHtml(link); } catch (e) { $('sdr-frame').src = link; }
+  $('sdr-modal').hidden = false;
+  $('sdr-modal-close').focus();
+}
+
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  if (isDmEmbed(url)) {
+    openDmNotice(url, name);
+    pushHistory(url, name);
+    try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
+    return;
+  }
   var station = stationByUrl(url);
   if (!station) {
     for (var i = 0; i < state.fmLiveRows.length; i++) {
@@ -1664,6 +1818,9 @@ function play(url, name) {
   state.currentName = name || (station && station.name) || '';
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + state.currentName;
+  renderPlayerMeta();
+  setPlayerStatus('connecting');
+  applyVolume();
   startCurrentPlayback(generation);
   pushHistory(url, state.currentName);
   try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: state.currentName })); } catch (e) {}
@@ -1928,6 +2085,71 @@ function visStop() {
   }
 }
 
+/* ================= featured home row (most famous stations) ================= */
+
+var FEATURED = [
+  { m: ['قرآن الكريم'] },
+  { m: ['محمد السادس'] },
+  { m: ['مونت كارلو', 'monte carlo'] },
+  { m: ['الجزيرة الصوتية'] },
+  { m: ['dw عربي', 'دويتشه'] },
+  { m: ['bbc arabic', 'بي بي سي'] },
+  { m: ['راديو سوا', 'radio sawa'] },
+  { m: ['شام'] },
+  { m: ['alarabiya', 'العربية'] },
+  { m: ['nile fm'] },
+  { m: ['نوجوم', 'nogoum'] },
+  { m: ['9090'] },
+  { m: ['bbc world service'] },
+  { m: ['france inter'] },
+  { m: ['radio france internationale', 'rfi'] },
+  { m: ['deutschlandfunk'] },
+  { m: ['npo radio 1', 'npo 1'] },
+  { m: ['fip'] },
+  { m: ['europe 1'] },
+  { m: ['radio swiss jazz'] },
+  { m: ['radio paradise'] },
+  { m: ['groove salad'] },
+  { m: ['kbs world'] },
+  { m: ['vatican', 'الفاتيكان'] }
+];
+
+function featuredList() {
+  if (state.featuredCache) return state.featuredCache;
+  var out = [];
+  var seen = {};
+  var st = state.fm || [];
+  for (var i = 0; i < FEATURED.length; i++) {
+    var pats = FEATURED[i].m;
+    for (var j = 0; j < st.length; j++) {
+      var s = st[j];
+      if (seen[s.url]) continue;
+      if (!safeHttpUrl(s.url) || !/^https:/i.test(s.url)) continue;
+      var nm = String(s.name || '').toLowerCase();
+      var hit = false;
+      for (var k = 0; k < pats.length; k++) { if (nm.indexOf(pats[k].toLowerCase()) >= 0) { hit = true; break; } }
+      if (!hit) continue;
+      seen[s.url] = 1;
+      out.push(s);
+      break;
+    }
+  }
+  state.featuredCache = out;
+  return out;
+}
+
+function renderFeatured() {
+  var wrap = $('featured-wrap');
+  if (!wrap) return;
+  var list = featuredList();
+  if (!list.length) { wrap.hidden = true; return; }
+  var html = '';
+  for (var i = 0; i < list.length; i++) html += cardFm(list[i]);
+  $('featured-row').innerHTML = html;
+  wrap.hidden = false;
+}
+
+
 /* ================= station sharing / deep links ================= */
 
 var shareHashHandled = false;
@@ -2010,6 +2232,7 @@ function openSDR(url, name) {
 
 function closeSDR() {
   $('sdr-frame').src = 'about:blank';
+  try { $('sdr-frame').removeAttribute('srcdoc'); } catch (e) {}
   $('sdr-modal').hidden = true;
   if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
   previousSDRFocus = null;
@@ -2019,6 +2242,7 @@ function initResume() {
   var last = null;
   try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
   if (!last || !safeHttpsUrl(last.url)) return;
+  if (isDmEmbed(last.url)) return;
   var station = stationByUrl(last.url);
   state.playbackStation = station || { name: last.name || '', url: last.url };
   state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
@@ -2099,6 +2323,16 @@ function initPlayers() {
     if (official) official.hidden = true;
     $('player').hidden = true;
   });
+  $('vol-mute').addEventListener('click', toggleMute);
+  $('vol-slider').addEventListener('input', function () {
+    state.playerVolume = Math.max(0, Math.min(100, Number(this.value) || 0));
+    if (state.playerVolume > 0) state.playerMuted = false;
+    saveVolume();
+    applyVolume();
+  });
+  $('player-prev').addEventListener('click', function () { playStepStation(-1); });
+  $('player-next').addEventListener('click', function () { playStepStation(1); });
+  loadVolume();
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
   $('kiwi-freq').addEventListener('change', function () {
@@ -2108,11 +2342,15 @@ function initPlayers() {
     if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET mod ' + this.value);
   });
   $('audio').addEventListener('playing', function () {
+    setPlayerStatus('live');
     if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
   });
   $('audio').addEventListener('pause', function () {
+    setPlayerStatus('paused');
     visStop();
   });
+  $('audio').addEventListener('waiting', function () { setPlayerStatus('connecting'); });
+  $('audio').addEventListener('stalled', function () { setPlayerStatus('connecting'); });
   $('audio').addEventListener('error', function () {
     if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
   });
@@ -2129,6 +2367,30 @@ function initPlayers() {
       if (!$('palette-modal').hidden) paletteClose();
       if (!$('alarm-modal').hidden) closeAlarmModal();
     }
+    var ptag = ((e.target && e.target.tagName) || '').toLowerCase();
+    if (ptag === 'input' || ptag === 'select' || ptag === 'textarea') return;
+    if ($('player').hidden) return;
+    if (e.key === ' ' && ptag !== 'button') {
+      e.preventDefault();
+      try {
+        var au = $('audio');
+        if (au.paused) au.play().catch(function () {}); else au.pause();
+      } catch (err) {}
+      return;
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      state.playerVolume = Math.max(0, Math.min(100, state.playerVolume + (e.key === 'ArrowUp' ? 5 : -5)));
+      if (state.playerVolume > 0) state.playerMuted = false;
+      var sl = $('vol-slider');
+      if (sl) sl.value = String(state.playerVolume);
+      saveVolume();
+      applyVolume();
+      return;
+    }
+    if (e.key === 'ArrowLeft') { playStepStation(-1); return; }
+    if (e.key === 'ArrowRight') { playStepStation(1); return; }
+    if (e.key === 'm' || e.key === 'M') toggleMute();
   });
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K' || e.keyCode === 75)) {
@@ -2524,5 +2786,6 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
