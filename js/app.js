@@ -100,6 +100,8 @@ var STR = {
     tab_fm: '📻 محطات البث', tab_fav: '⭐ المفضلة', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
     featured_title: 'الأشهر عالميًا وعربيًا',
     home_grid_title: '🏛 الرسمية · 🇪🇬 مصر',
+    player_status_connecting: 'جارٍ الاتصال…', player_status_live: '● يبث الآن', player_status_paused: '⏸ متوقف مؤقتًا', player_status_dead: '✖ المحطة غير متاحة',
+    vol_aria: 'مستوى الصوت', mute_aria: 'كتم الصوت', prev_aria: 'المحطة السابقة', next_aria: 'المحطة التالية',
     search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
@@ -152,6 +154,8 @@ var STR = {
     tab_fm: '📻 Broadcast stations', tab_fav: '⭐ Favorites', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
     featured_title: 'Most popular worldwide & Arabic',
     home_grid_title: '🏛 Official · 🇪🇬 Egypt',
+    player_status_connecting: 'Connecting…', player_status_live: '● On air', player_status_paused: '⏸ Paused', player_status_dead: '✖ Station unavailable',
+    vol_aria: 'Volume level', mute_aria: 'Mute', prev_aria: 'Previous station', next_aria: 'Next station',
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
@@ -231,6 +235,9 @@ var state = {
   playbackIndex: 0,
   playbackGeneration: 0,
   playbackAttemptFailed: false,
+  playerQueue: [],
+  playerVolume: 100,
+  playerMuted: false,
   history: [],
   palette: { results: [] }
 };
@@ -1033,6 +1040,7 @@ renderFeatured();
   var grid = $('grid-fm');
   var home = isHomeMode();
   var list = home ? homeList() : currentFMList();
+  state.playerQueue = list.filter(function (s) { return !!safeHttpsUrl(s.url); });
   var homeTitle = $('home-grid-title');
   if (homeTitle) homeTitle.hidden = !home;
   $('count-fm').textContent = t('stations').replace('{n}', fmtNum(list.length));
@@ -1575,6 +1583,7 @@ function failCurrentPlayback(generation, reason) {
   }
   var official = $('player-official');
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
+  setPlayerStatus('dead');
   toast(t('toast_broken'));
   console.warn('Radio playback failed:', reason || 'all sources exhausted');
 }
@@ -1679,6 +1688,71 @@ function startCurrentPlayback(generation) {
     });
   }
 }
+/* ================= professional player controls ================= */
+
+function applyVolume() {
+  var a = $('audio');
+  try { a.muted = state.playerMuted; a.volume = state.playerVolume / 100; } catch (e) {}
+  var btn = $('vol-mute');
+  if (btn) btn.textContent = (state.playerMuted || state.playerVolume === 0) ? '🔇' : (state.playerVolume < 40 ? '🔈' : '🔊');
+}
+
+function saveVolume() {
+  try { localStorage.setItem('ra-vol', JSON.stringify({ v: state.playerVolume, m: state.playerMuted })); } catch (e) {}
+}
+
+function loadVolume() {
+  try {
+    var saved = JSON.parse(localStorage.getItem('ra-vol') || 'null');
+    if (saved && typeof saved.v === 'number') {
+      state.playerVolume = Math.max(0, Math.min(100, Math.round(saved.v)));
+      state.playerMuted = !!saved.m;
+    }
+  } catch (e) {}
+  var slider = $('vol-slider');
+  if (slider) slider.value = String(state.playerVolume);
+  applyVolume();
+}
+
+function toggleMute() {
+  state.playerMuted = !state.playerMuted;
+  saveVolume();
+  applyVolume();
+}
+
+function setPlayerStatus(kind) {
+  var el = $('player-status');
+  if (!el) return;
+  var key = { connecting: 'player_status_connecting', live: 'player_status_live', paused: 'player_status_paused', dead: 'player_status_dead' }[kind] || 'player_status_connecting';
+  el.textContent = t(key);
+  el.classList.toggle('dead', kind === 'dead');
+}
+
+function renderPlayerMeta() {
+  var el = $('player-meta');
+  if (!el) return;
+  var s = state.playbackStation || {};
+  var bits = [];
+  if (s.cc) bits.push((flagOf(s.cc) || '') + ' ' + esc(regionName(s.cc, s.cc)));
+  if (s.bitrate) bits.push(String(s.bitrate) + ' kbps');
+  if (s.codec) bits.push(esc(String(s.codec).toUpperCase()));
+  if (s.official) bits.push('🏛');
+  if (!bits.length) { el.hidden = true; el.textContent = ''; return; }
+  el.textContent = bits.join(' · ');
+  el.hidden = false;
+}
+
+function playStepStation(dir) {
+  var list = (state.playerQueue && state.playerQueue.length) ? state.playerQueue : currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
+  if (!list.length) { toast(t('random_none')); return; }
+  var cur = state.playbackStation && state.playbackStation.url;
+  var idx = -1;
+  for (var i = 0; i < list.length; i++) { if (list[i].url === cur) { idx = i; break; } }
+  var next = idx < 0 ? (dir > 0 ? 0 : list.length - 1) : (idx + dir + list.length) % list.length;
+  var st = list[next];
+  play(st.url, st.name);
+}
+
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
@@ -1698,6 +1772,9 @@ function play(url, name) {
   state.currentName = name || (station && station.name) || '';
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + state.currentName;
+  renderPlayerMeta();
+  setPlayerStatus('connecting');
+  applyVolume();
   startCurrentPlayback(generation);
   pushHistory(url, state.currentName);
   try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: state.currentName })); } catch (e) {}
@@ -2198,6 +2275,16 @@ function initPlayers() {
     if (official) official.hidden = true;
     $('player').hidden = true;
   });
+  $('vol-mute').addEventListener('click', toggleMute);
+  $('vol-slider').addEventListener('input', function () {
+    state.playerVolume = Math.max(0, Math.min(100, Number(this.value) || 0));
+    if (state.playerVolume > 0) state.playerMuted = false;
+    saveVolume();
+    applyVolume();
+  });
+  $('player-prev').addEventListener('click', function () { playStepStation(-1); });
+  $('player-next').addEventListener('click', function () { playStepStation(1); });
+  loadVolume();
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
   $('kiwi-freq').addEventListener('change', function () {
@@ -2207,11 +2294,15 @@ function initPlayers() {
     if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET mod ' + this.value);
   });
   $('audio').addEventListener('playing', function () {
+    setPlayerStatus('live');
     if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
   });
   $('audio').addEventListener('pause', function () {
+    setPlayerStatus('paused');
     visStop();
   });
+  $('audio').addEventListener('waiting', function () { setPlayerStatus('connecting'); });
+  $('audio').addEventListener('stalled', function () { setPlayerStatus('connecting'); });
   $('audio').addEventListener('error', function () {
     if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
   });
@@ -2228,6 +2319,30 @@ function initPlayers() {
       if (!$('palette-modal').hidden) paletteClose();
       if (!$('alarm-modal').hidden) closeAlarmModal();
     }
+    var ptag = ((e.target && e.target.tagName) || '').toLowerCase();
+    if (ptag === 'input' || ptag === 'select' || ptag === 'textarea') return;
+    if ($('player').hidden) return;
+    if (e.key === ' ' && ptag !== 'button') {
+      e.preventDefault();
+      try {
+        var au = $('audio');
+        if (au.paused) au.play().catch(function () {}); else au.pause();
+      } catch (err) {}
+      return;
+    }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      state.playerVolume = Math.max(0, Math.min(100, state.playerVolume + (e.key === 'ArrowUp' ? 5 : -5)));
+      if (state.playerVolume > 0) state.playerMuted = false;
+      var sl = $('vol-slider');
+      if (sl) sl.value = String(state.playerVolume);
+      saveVolume();
+      applyVolume();
+      return;
+    }
+    if (e.key === 'ArrowLeft') { playStepStation(-1); return; }
+    if (e.key === 'ArrowRight') { playStepStation(1); return; }
+    if (e.key === 'm' || e.key === 'M') toggleMute();
   });
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K' || e.keyCode === 75)) {
@@ -2623,5 +2738,6 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
