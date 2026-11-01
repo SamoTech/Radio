@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T09:07:09+00:00",
+ "updated": "2026-11-01T09:29:38+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1430,
+ "count": 1427,
  "rows": [
   {
    "f": 2054,
@@ -155,12 +155,6 @@
   },
   {
    "f": 2598,
-   "s": "0847",
-   "e": "0910",
-   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
-  },
-  {
-   "f": 2598,
    "s": "0907",
    "e": "0930",
    "n": "CAN | VOK Labrador Coastguard | E | ENA"
@@ -170,12 +164,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2624,
-   "s": "0903",
-   "e": "0913",
-   "n": "GRC | Olimpia Radio | E | SEE"
   },
   {
    "f": 2624,
@@ -238,18 +226,6 @@
    "n": "GRC | Olimpia Radio | -TY | SEE"
   },
   {
-   "f": 2730,
-   "s": "0903",
-   "e": "0913",
-   "n": "GRC | Olimpia Radio | E | SEE"
-  },
-  {
-   "f": 2749,
-   "s": "0847",
-   "e": "0910",
-   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
-  },
-  {
    "f": 2750,
    "s": "0000",
    "e": "2400",
@@ -266,18 +242,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2799,
-   "s": "0903",
-   "e": "0913",
-   "n": "GRC | Olimpia Radio | E | SEE"
-  },
-  {
-   "f": 2830,
-   "s": "0903",
-   "e": "0913",
-   "n": "GRC | Olimpia Radio | E | SEE"
   },
   {
    "f": 2860,
@@ -1943,6 +1907,12 @@
   },
   {
    "f": 6050,
+   "s": "0923",
+   "e": "1100",
+   "n": "EQA | HCJB Voice of Andes | Q | SAm"
+  },
+  {
+   "f": 6050,
    "s": "0555",
    "e": "1000",
    "n": "LBR | ELWA Radio | E | WAf"
@@ -2765,12 +2735,6 @@
   },
   {
    "f": 7250,
-   "s": "0810",
-   "e": "0920",
-   "n": "CVA | Radio Vaticana | RO | EEu"
-  },
-  {
-   "f": 7250,
    "s": "0800",
    "e": "1000",
    "n": "KWT | SuperStation 99.7 RK FM | E | ME"
@@ -3089,9 +3053,9 @@
   },
   {
    "f": 7906,
-   "s": "0905",
-   "e": "0915",
-   "n": "VTN | Ho Chi Minh City R.XVS | E | SEA"
+   "s": "0920",
+   "e": "0930",
+   "n": "VTN | Mong Cai Radio XVM | VN | SEA"
   },
   {
    "f": 8000,
@@ -3152,12 +3116,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 8294,
-   "s": "0905",
-   "e": "0915",
-   "n": "VTN | Ho Chi Minh City R.XVS | VN | SEA"
   },
   {
    "f": 8302,
@@ -3404,6 +3362,12 @@
    "s": "0000",
    "e": "2400",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
+  },
+  {
+   "f": 8812,
+   "s": "0915",
+   "e": "0935",
+   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 8819,
@@ -4196,12 +4160,6 @@
    "s": "0900",
    "e": "1000",
    "n": "INS | Voice of Indonesia | E | INS"
-  },
-  {
-   "f": 9710,
-   "s": "0810",
-   "e": "0920",
-   "n": "CVA | Radio Vaticana | RO | EEu"
   },
   {
    "f": 9720,
@@ -5330,6 +5288,12 @@
    "s": "0900",
    "e": "1800",
    "n": "B | Rádio Nacional Amazônia | P | B"
+  },
+  {
+   "f": 11780,
+   "s": "0920",
+   "e": "1250",
+   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 11785,
@@ -6910,6 +6874,12 @@
    "n": "CHN | China Radio Int. | E | Oc"
   },
   {
+   "f": 15230,
+   "s": "0920",
+   "e": "1250",
+   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
+  },
+  {
    "f": 15245,
    "s": "0900",
    "e": "1000",
@@ -7072,10 +7042,22 @@
    "n": "CHN | China Radio Int. | M | Oc"
   },
   {
+   "f": 15440,
+   "s": "0920",
+   "e": "1250",
+   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
+  },
+  {
    "f": 15450,
    "s": "0900",
    "e": "0930",
    "n": "PHL | FEBC Manila | KHA | SEA"
+  },
+  {
+   "f": 15470,
+   "s": "0920",
+   "e": "1250",
+   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 15480,
@@ -7172,6 +7154,12 @@
    "s": "0400",
    "e": "0945",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
+  },
+  {
+   "f": 15620,
+   "s": "0920",
+   "e": "1250",
+   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 15640,
@@ -8474,12 +8462,6 @@
    "s": "0000",
    "e": "2400",
    "n": "BOL | Santa Cruz HFDL (ID13) | -HF | SAm"
-  },
-  {
-   "f": 22376,
-   "s": "0900",
-   "e": "0910",
-   "n": "GUM | NRV NAVTEX Guam | E | WOc"
   },
   {
    "f": 22442,

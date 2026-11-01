@@ -1,0 +1,231 @@
+{
+ "updated": "2026-11-01T09:29:38+00:00",
+ "source": "own website scraper (broadcaster portals + curated station sites)",
+ "count": 17,
+ "sites": [
+  {
+   "site": "https://maspero.eg/stream/9",
+   "name": "صوت العرب",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/10",
+   "name": "البرنامج العام",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/16",
+   "name": "إذاعة الشرق الأوسط",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/",
+   "name": "بوابة ماسبيرو",
+   "cc": "EG",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://sba.sa/",
+   "name": "بوابة الإذاعة السعودية",
+   "cc": "SA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://www.bbc.com/ws",
+   "name": "BBC World Service",
+   "cc": "GB",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://www.radiofrance.fr/franceinter",
+   "name": "France Inter",
+   "cc": "FR",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://www.radiofrance.com/les-editions/radios/19/franceinter",
+    "https://radio-france.typeform.com/to/esIuCXdd?station=franceinter"
+   ]
+  },
+  {
+   "site": "https://www.franceinfo.fr/",
+   "name": "franceinfo",
+   "cc": "FR",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://france3-regions.franceinfo.fr/bretagne/ille-et-vilaine/saint-malo/live-route-du-rhum-2026-les-115-bateaux-engages-prennent-la-mer-direction-la-guadeloupe-suivez-le-grand-depart-3437001.html",
+    "https://www.franceinfo.fr/en-direct/radio.html"
+   ]
+  },
+  {
+   "site": "https://www.rfi.fr/",
+   "name": "RFI — Radio France Internationale",
+   "cc": "FR",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://www.linkedin.com/company/radio-france-internationale/"
+   ]
+  },
+  {
+   "site": "https://www.mc-doualiya.com/",
+   "name": "Monte Carlo Doualiya — مونت كارلو دولي",
+   "cc": "FR",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://www.deutschlandfunk.de/",
+   "name": "Deutschlandfunk",
+   "cc": "DE",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
+    "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/10/31/interview_johann_wadephul_cdu_aussenminister_zu_russland_und_dlf_20261031_0716_daa59e53.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/10/31/interview_johann_wadephul_cdu_aussenminister_zu_russland_und_dlf_20261031_0716_daa59e53.mp3"
+   ]
+  },
+  {
+   "site": "https://www.swr3.de/",
+   "name": "SWR3",
+   "cc": "DE",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://www.swr3.de/aktuell/live-blog/video-livestream-104.html",
+    "https://www.swr3.de/aktuell/live-blog/index.html"
+   ]
+  },
+  {
+   "site": "https://www.nporadio1.nl/",
+   "name": "NPO Radio 1",
+   "cc": "NL",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://www.nporadio2.nl/",
+   "name": "NPO Radio 2",
+   "cc": "NL",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://tirol.orf.at/",
+   "name": "ORF Radio Tirol",
+   "cc": "AT",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://tirol.orf.at/radio/",
+    "https://tirol.orf.at/radio/stories/sendeschema/",
+    "https://tirol.orf.at/radio/stories/podcast/",
+    "https://tirol.orf.at/radio/stories/3370278",
+    "https://tirol.orf.at/radio/stories/3377365/"
+   ]
+  },
+  {
+   "site": "https://snrtlive.ma/fr/alidaa-alwatania",
+   "name": "الإذاعة الوطنية — Al Idaa Al Watania",
+   "cc": "MA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://snrtlive.ma/fr/alidaa-alamazighia",
+   "name": "الإذاعة الأمازيغية — Al Idaa Al Amazighia",
+   "cc": "MA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://snrtlive.ma/fr/idaat-mohammed-assadiss",
+   "name": "إذاعة محمد السادس للقرآن الكريم",
+   "cc": "MA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://snrtlive.ma/fr/chaine-inter",
+   "name": "شان إنتر — Chaîne Inter",
+   "cc": "MA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://snrtlive.ma/fr/radio-regionale",
+   "name": "إذاعة مراكش — Marrakech",
+   "cc": "MA",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://snrtlive.ma/fr/radio-regionale"
+   ]
+  }
+ ]
+}
