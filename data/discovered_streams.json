@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T09:29:38+00:00",
+ "updated": "2026-11-01T09:39:54+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 17,
  "sites": [
@@ -26,6 +26,66 @@
   {
    "site": "https://maspero.eg/stream/16",
    "name": "إذاعة الشرق الأوسط",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/7",
+   "name": "إذاعة القرآن الكريم",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/8",
+   "name": "راديو مصر",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/11",
+   "name": "إذاعة الشباب والرياضة",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/14",
+   "name": "إذاعة القاهرة الكبرى",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/13",
+   "name": "إذاعة الأغاني",
+   "cc": "EG",
+   "lang": "arabic",
+   "tags": "رسمي,official,scraper",
+   "official": true,
+   "catalog": true,
+   "streams": []
+  },
+  {
+   "site": "https://maspero.eg/stream/12",
+   "name": "إذاعة البرنامج الثقافي",
    "cc": "EG",
    "lang": "arabic",
    "tags": "رسمي,official,scraper",
