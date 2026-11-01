@@ -42,6 +42,7 @@ class CountryPagesTests(unittest.TestCase):
             self.assertEqual(len(page.split("<li>")) - 1, 60)
             sitemap = (root / "sitemap.xml").read_text(encoding="utf-8")
             self.assertIn("countries/eg.html", sitemap)
+            self.assertIn("about.html", sitemap)
             robots = (root / "robots.txt").read_text(encoding="utf-8")
             index_page = (root / "countries" / "index.html").read_text(encoding="utf-8")
             self.assertIn("(120 محطة)", index_page)

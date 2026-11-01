@@ -1,5 +1,5 @@
-var CACHE = 'radio-atlas-v46';
-var SHELL = ['./', './index.html', './offline.html', './css/styles.css', './js/app.js', './manifest.webmanifest', './icons/icon.svg'];
+var CACHE = 'radio-atlas-v47';
+var SHELL = ['./', './index.html', './offline.html', './about.html', './contact.html', './terms.html', './privacy.html', './dmca.html', './css/styles.css', './js/app.js', './manifest.webmanifest', './icons/icon.svg'];
 
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
