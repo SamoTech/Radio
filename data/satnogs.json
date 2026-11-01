@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T05:51:54+00:00",
+ "updated": "2026-11-01T08:13:16+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 297,
+ "count": 301,
  "stations": [
   {
    "id": 3944,
@@ -24,6 +24,16 @@
    "https": false
   },
   {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -31,6 +41,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -954,6 +974,16 @@
    "https": false
   },
   {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
+   "https": false
+  },
+  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1021,6 +1051,16 @@
    "lng": 12.629148,
    "alt": 65,
    "url": "https://network.satnogs.org/stations/2861/",
+   "https": false
+  },
+  {
+   "id": 939,
+   "name": "IU3IOK",
+   "loc": "JN65co · VHF",
+   "lat": 45.605,
+   "lng": 12.243,
+   "alt": 15,
+   "url": "https://network.satnogs.org/stations/939/",
    "https": false
   },
   {
@@ -1821,6 +1861,16 @@
    "lng": 17.448,
    "alt": 134,
    "url": "https://network.satnogs.org/stations/2138/",
+   "https": false
+  },
+  {
+   "id": 5256,
+   "name": "ONBSPACE x ASCL",
+   "loc": "PM36qj · UHF",
+   "lat": 36.375,
+   "lng": 127.33722222,
+   "alt": 63,
+   "url": "https://network.satnogs.org/stations/5256/",
    "https": false
   },
   {
@@ -2771,16 +2821,6 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
-   "https": false
-  },
-  {
-   "id": 4525,
-   "name": "VU2AQJ_SGS",
-   "loc": "NL05uk · UHF",
-   "lat": 25.451809,
-   "lng": 81.736291,
-   "alt": 98,
-   "url": "https://network.satnogs.org/stations/4525/",
    "https": false
   },
   {
