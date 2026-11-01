@@ -8,9 +8,16 @@ Sources:
   origin has been intermittently down during KiwiSDR server changes.
 - rx.kiwisdr.com/json/ — legacy origin endpoint, kept as fallback.
 - Radio-Browser: FULL catalog of all non-broken stations, fetched with
-  offset pagination and server failover (de1 -> de2 -> nl1), stored with
+  offset pagination and server failover (de1 -> de2 -> nl1 -> at1 -> fi1), stored with
   trimmed fields so the whole directory ships as one client-side
   searchable snapshot.
+- IPRD community playlists: the Arab countries feed the curated Arab tier and
+  every other country in the directory (discovered dynamically from the IPRD
+  summary index) is merged as a global community tier.
+- eyalev/verified-radio-streams: audio-verified https-only global snapshot
+  (independent Radio Browser rebuild — also covers Radio-Browser outages).
+- Icecast YP (dir.xiph.org/yp.xml): the public Icecast directory, https listen
+  URLs only (mixed content).
 - NOAA SWPC: planetary Kp index + 10.7cm solar flux -> band conditions.
 - EIBI (eibispace.de): shortwave broadcast schedule, filtered to the
   broadcasts that are on air at crawl time.
@@ -43,6 +50,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
+import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -52,6 +60,8 @@ RB_APIS = [
     "https://de1.api.radio-browser.info/json/stations/search",
     "https://de2.api.radio-browser.info/json/stations/search",
     "https://nl1.api.radio-browser.info/json/stations/search",
+    "https://at1.api.radio-browser.info/json/stations/search",
+    "https://fi1.api.radio-browser.info/json/stations/search",
 ]
 RB_BATCH = 1000
 RB_MAX = 500_000
@@ -76,6 +86,16 @@ ARAB_IPRD = {
     "MR": ["mr.m3u"], "SO": ["so.m3u"], "SY": ["sy.m3u"],
 }
 IPRD_MAX = 1500
+IPRD_SUMMARY_URL = "https://iprd-org.github.io/iprd/site_data/summary.json"
+IPRD_WORLD_MAX = 4000
+ARAB_CC = set(ARAB_IPRD) | {"DJ", "KM"}
+VERIFIED_STREAMS_URL = (
+    "https://raw.githubusercontent.com/eyalev/verified-radio-streams"
+    "/main/stations/all.json"
+)
+VERIFIED_MAX = 6000
+ICECAST_YP_URL = "http://dir.xiph.org/yp.xml"
+ICECAST_MAX = 1500
 CHECK_THREADS = 16
 CHECK_TIMEOUT = 8
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
@@ -920,7 +940,7 @@ def _extinf_name(line):
     return s.split(",", 1)[-1].strip()[:80]
 
 
-def parse_m3u(text, cc):
+def parse_m3u(text, cc, language="arabic", tags="عربي,arab"):
     """Parse an M3U playlist into station dicts. HTTPS streams only (mixed content)."""
     out = []
     seen = set()
@@ -947,8 +967,8 @@ def parse_m3u(text, cc):
                 "name": name or "—",
                 "url": url,
                 "cc": cc,
-                "language": "arabic",
-                "tags": "عربي,arab",
+                "language": language,
+                "tags": tags,
                 "codec": "",
                 "bitrate": 0,
             }
@@ -971,6 +991,129 @@ def fetch_iprd_arab():
             except Exception as e:  # noqa: BLE001
                 print(f"iprd {cc}/{fname} failed: {e}", file=sys.stderr)
     return out[:IPRD_MAX]
+
+
+def fetch_iprd_world():
+    """IPRD community playlists for the rest of the world (non-Arab countries).
+
+    Country files are discovered from the IPRD summary index so no hardcoded
+    country list can go stale. HTTPS streams only (mixed content).
+    """
+    out = []
+    try:
+        summary = fetch_json(IPRD_SUMMARY_URL, attempts=2, timeout=30)
+        rows_raw = summary.get("countries") if isinstance(summary, dict) else None
+    except Exception as e:  # noqa: BLE001
+        print(f"iprd world summary failed: {e}", file=sys.stderr)
+        return []
+    countries = [c for c in rows_raw if isinstance(c, dict)] if isinstance(rows_raw, list) else []
+    for row in countries:
+        cc = str(row.get("code") or "").strip().upper()
+        if len(cc) != 2 or cc in ARAB_IPRD or cc == "IL":
+            continue
+        url = f"{IPRD_BASE}/{cc.lower()}/{cc.lower()}.m3u"
+        try:
+            text = fetch_bytes(url, timeout=25).decode("utf-8", "replace")
+            if cc in ARAB_CC:
+                rows = parse_m3u(text, cc, language="arabic", tags="عربي,arab,iprd")
+            else:
+                rows = parse_m3u(text, cc, language="", tags="iprd,community")
+            out.extend(rows)
+        except Exception as e:  # noqa: BLE001
+            print(f"iprd world {cc} failed: {e}", file=sys.stderr)
+    print(f"iprd world: {len(out)} streams from {len(countries)} listed countries")
+    return out[:IPRD_WORLD_MAX]
+
+
+def fetch_verified_streams():
+    """Audio-verified https-only global snapshot (eyalev/verified-radio-streams)."""
+    data = fetch_json(VERIFIED_STREAMS_URL, attempts=2, timeout=90)
+    countries = data.get("countries") if isinstance(data, dict) else None
+    out = []
+    seen = set()
+    for country in countries if isinstance(countries, list) else []:
+        if not isinstance(country, dict):
+            continue
+        cc = str(country.get("countryCode") or "").strip().upper()
+        if cc == "IL":
+            continue
+        for st in country.get("stations") or []:
+            if not isinstance(st, dict):
+                continue
+            name = str(st.get("name") or "").strip()
+            url = str(st.get("stream") or "").strip()
+            if not name or not url.lower().startswith("https://"):
+                continue
+            if any(p in url for p in DEAD_URL_PATTERNS):
+                continue
+            key = station_url_key(url)
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            langs = ",".join(x for x in st.get("langs") or [] if isinstance(x, str))[:40]
+            genres = ",".join(x for x in st.get("genre") or [] if isinstance(x, str))[:60]
+            bitrate = st.get("bitrate")
+            out.append(
+                {
+                    "name": name[:80],
+                    "url": url,
+                    "cc": cc,
+                    "language": langs,
+                    "tags": ("verified," + genres)[:80],
+                    "codec": str(st.get("codec") or "").upper()[:8],
+                    "bitrate": bitrate if isinstance(bitrate, int) else 0,
+                }
+            )
+            if len(out) >= VERIFIED_MAX:
+                break
+        if len(out) >= VERIFIED_MAX:
+            break
+    print(f"verified streams: {len(out)} stations")
+    return out
+
+
+def fetch_icecast_yp():
+    """Icecast public directory (dir.xiph.org YP). HTTPS listen URLs only."""
+    data = fetch_bytes(ICECAST_YP_URL, timeout=90)
+    out = []
+    seen = set()
+    for entry in ET.fromstring(data).iter("entry"):
+        name = (entry.findtext("server_name") or "").strip()
+        url = (entry.findtext("listen_url") or "").strip()
+        if not name or not url.lower().startswith("https://"):
+            continue
+        if any(p in url for p in DEAD_URL_PATTERNS):
+            continue
+        key = station_url_key(url)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(
+            {
+                "name": name[:80],
+                "url": url,
+                "cc": "",
+                "language": "",
+                "tags": "icecast,yp",
+                "codec": "",
+                "bitrate": 0,
+            }
+        )
+        if len(out) >= ICECAST_MAX:
+            break
+    print(f"icecast yp: {len(out)} https streams")
+    return out
+
+
+def safe_fetch(label, fn):
+    """Fetch a community source; one failing source never breaks the catalog."""
+    try:
+        rows = fn()
+        print(f"{label}: {len(rows)} stations")
+        return rows
+    except Exception as e:  # noqa: BLE001
+        print(f"{label} FAILED: {e} — skipping source", file=sys.stderr)
+        return []
 
 
 def check_stream(url):
@@ -1402,13 +1545,20 @@ def main():
                 raise RuntimeError(f"suspiciously small catalog: {total}")
 
             arab_extra = fetch_iprd_arab()
+            world_extra = (
+                safe_fetch("iprd-world", fetch_iprd_world)
+                + safe_fetch("verified-streams", fetch_verified_streams)
+                + safe_fetch("icecast-yp", fetch_icecast_yp)
+            )
             existing_urls = {s["url"] for s in officials + arabic + rb_stations}
             arab_extra = [
                 s for s in arab_extra if s["url"] not in existing_urls
             ][:IPRD_MAX]
+            known_urls = existing_urls | {s["url"] for s in arab_extra}
+            world_extra = [s for s in world_extra if s["url"] not in known_urls]
             stations = []
             seen_urls = set()
-            for station in officials + arabic + arab_extra + rb_stations:
+            for station in officials + arabic + arab_extra + rb_stations + world_extra:
                 key = station_url_key(station.get("url"))
                 if key and key not in seen_urls:
                     seen_urls.add(key)
@@ -1416,7 +1566,8 @@ def main():
             print(
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
-                f"iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)})"
+                f"iprd-arab {len(arab_extra)} + radio-browser {len(rb_stations)} + "
+                f"community {len(world_extra)})"
             )
             write_json(
                 DATA_DIR / "stations.json",
@@ -1457,7 +1608,14 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
             try:
-                curated = load_official() + load_arabic() + fetch_iprd_arab()
+                curated = (
+                    load_official()
+                    + load_arabic()
+                    + safe_fetch("iprd-arab", fetch_iprd_arab)
+                    + safe_fetch("iprd-world", fetch_iprd_world)
+                    + safe_fetch("verified-streams", fetch_verified_streams)
+                    + safe_fetch("icecast-yp", fetch_icecast_yp)
+                )
                 merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
                 if merged:
                     write_json(DATA_DIR / "stations.json", merged)
