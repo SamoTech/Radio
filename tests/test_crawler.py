@@ -101,7 +101,7 @@ class CommunityPlaylistTests(unittest.TestCase):
 class ScraperTests(unittest.TestCase):
     FAKE_HTML = (
         "<html>https://stream.example.com/live.mp3 https://cdn.example.com/app.js "
-        "https://insecure.example.com/live.mp3 https://portal.example.co.il/stream "
+        "http://insecure.example.com/live.mp3 https://portal.example.co.il/stream "
         "https://stream.example.com/live https://stream.example.com/live "
         "https://webradio.tda.dz/one_64K.mp3 https://img.example.com/logo.png "
         "https://radio.example.com:8000/mount</html>"
