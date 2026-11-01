@@ -56,6 +56,108 @@ class StationUrlTests(unittest.TestCase):
         self.assertEqual([row["name"] for row in rows], ["Alive"])
 
 
+class MultiSourceTests(unittest.TestCase):
+    def setUp(self):
+        self._orig_fetch_json = module.fetch_json
+        self._orig_fetch_bytes = module.fetch_bytes
+
+    def tearDown(self):
+        module.fetch_json = self._orig_fetch_json
+        module.fetch_bytes = self._orig_fetch_bytes
+
+    def test_radio_browser_failover_includes_extra_mirrors(self):
+        servers = " ".join(module.RB_APIS)
+        self.assertIn("at1.api.radio-browser.info", servers)
+        self.assertIn("fi1.api.radio-browser.info", servers)
+
+    def test_multi_source_tier_is_pinned(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("rb_stations + world_extra", source)
+        self.assertIn("IPRD_WORLD_MAX = 4000", source)
+        self.assertIn("VERIFIED_MAX = 6000", source)
+        self.assertIn("ICECAST_MAX = 1500", source)
+        self.assertIn("COMMUNITY_IL_MARKERS", source)
+
+    def test_iprd_world_discovers_countries_and_skips_arab_and_il(self):
+        def fake_fetch_json(url, params=None, attempts=3, timeout=90):
+            return {"countries": [
+                {"code": "US", "count": 10},
+                {"code": "IL", "count": 5},
+                {"code": "EG", "count": 5},
+                {"code": "DJ", "count": 3},
+            ]}
+
+        def fake_fetch_bytes(url, timeout=90):
+            return "#EXTM3U\n#EXTINF:-1,Dj Station\nhttps://dj.test/live\n".encode("utf-8")
+
+        module.fetch_json = fake_fetch_json
+        module.fetch_bytes = fake_fetch_bytes
+        rows = module.fetch_iprd_world()
+        self.assertEqual([row["cc"] for row in rows], ["US", "DJ"])
+        self.assertEqual(rows[0]["language"], "")
+        self.assertEqual(rows[0]["tags"], "iprd,community")
+        self.assertEqual(rows[1]["language"], "arabic")
+        self.assertIn("عربي", rows[1]["tags"])
+
+    def test_iprd_world_drops_il_stream_hosts(self):
+        def fake_fetch_json(url, params=None, attempts=3, timeout=90):
+            return {"countries": [{"code": "US", "count": 2}]}
+
+        def fake_fetch_bytes(url, timeout=90):
+            return (
+                "#EXTM3U\n#EXTINF:-1,Good\nhttps://ok.test/live\n"
+                "#EXTINF:-1,Host IL\nhttps://stream.example.co.il/live\n"
+            ).encode("utf-8")
+
+        module.fetch_json = fake_fetch_json
+        module.fetch_bytes = fake_fetch_bytes
+        rows = module.fetch_iprd_world()
+        self.assertEqual([row["name"] for row in rows], ["Good"])
+
+    def test_verified_streams_use_stream_url_and_skip_il(self):
+        def fake_fetch_json(url, params=None, attempts=3, timeout=90):
+            return {"countries": [
+                {"countryCode": "DE", "stations": [
+                    {"name": "Test FM", "stream": "https://t.test/live",
+                     "codec": "aac", "bitrate": 128, "langs": ["german"],
+                     "genre": ["pop"]},
+                    {"name": "No Stream", "url": "https://w.test/page"},
+                ]},
+                {"countryCode": "IL", "stations": [
+                    {"name": "Blocked", "stream": "https://il.test/live"}]},
+            ]}
+
+        module.fetch_json = fake_fetch_json
+        rows = module.fetch_verified_streams()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["url"], "https://t.test/live")
+        self.assertEqual(rows[0]["language"], "german")
+        self.assertIn("verified", rows[0]["tags"])
+
+    def test_icecast_yp_keeps_https_listen_urls_only(self):
+        fake_xml = (
+            "<yp><entry><server_name>Secure FM</server_name>"
+            "<listen_url>https://s.test/live</listen_url></entry>"
+            "<entry><server_name>Insecure FM</server_name>"
+            "<listen_url>http://i.test/live</listen_url></entry>"
+            "<entry><server_name>Israel Radio</server_name>"
+            "<listen_url>https://il1.test/live</listen_url></entry>"
+            "<entry><server_name>Tel Aviv FM</server_name>"
+            "<listen_url>https://il2.test/live</listen_url></entry>"
+            "<entry><server_name>Neutral Name</server_name>"
+            "<listen_url>https://stream.example.co.il:8000/live</listen_url></entry></yp>"
+        ).encode("utf-8")
+
+        def fake_fetch_bytes(url, timeout=90):
+            return fake_xml
+
+        module.fetch_bytes = fake_fetch_bytes
+        rows = module.fetch_icecast_yp()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["name"], "Secure FM")
+        self.assertEqual(rows[0]["tags"], "icecast,yp")
+
+
 class HeadSnapshotTests(unittest.TestCase):
     def test_main_writes_head_snapshot_for_fast_first_paint(self):
         source = MODULE_PATH.read_text(encoding="utf-8")
