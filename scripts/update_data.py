@@ -132,6 +132,10 @@ COMMUNITY_IL_MARKERS = (
 
 CHECK_THREADS = 16
 CHECK_TIMEOUT = 8
+# Daily liveness checks cover the curated stations plus the most popular
+# catalog head (the merge order makes the head the most-clicked stations),
+# so the FM view can surface working stations first.
+CHECK_HEAD_MAX = 1200
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
@@ -2052,7 +2056,7 @@ def main():
             )
             ok = True
             try:
-                checks = run_stream_checks(officials + arabic + arab_extra)
+                checks = run_stream_checks(officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX])
                 if checks:
                     alive = sum(1 for v in checks.values() if v.get("alive"))
                     write_json(

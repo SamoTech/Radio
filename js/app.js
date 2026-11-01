@@ -106,7 +106,7 @@ var STR = {
     search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
-    install_aria: 'ثبّت التطبيق على جهازك', install_done: '✅ تم تثبيت التطبيق', install_ios_hint: 'على الآيفون: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق', hero_play: '▶ شغّل آخر محطة', hero_play_aria: 'تشغيل آخر محطة استمعت إليها',
+    install_aria: 'ثبّت التطبيق على جهازك', install_done: '✅ تم تثبيت التطبيق', install_ios_hint: 'على الآيفون: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق', hero_play: '▶ شغّل آخر محطة', hero_play_aria: 'تشغيل آخر محطة استمعت إليها', alive_only: 'شغالة بس',
     fm_hint: 'الرئيسية تعرض الأشهر والرسمية ومحطات مصر فقط — ابحث أو استخدم الفلاتر لتصفح الكتالوج الكامل (أكثر من 56 ألف محطة). زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
     chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
@@ -161,7 +161,7 @@ var STR = {
     search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
-    install_aria: 'Install the app on your device', install_done: '✅ App installed', install_ios_hint: 'On iPhone: tap Share ⬆️ then "Add to Home Screen" to install the app', hero_play: '▶ Play last station', hero_play_aria: 'Play the last station you listened to',
+    install_aria: 'Install the app on your device', install_done: '✅ App installed', install_ios_hint: 'On iPhone: tap Share ⬆️ then "Add to Home Screen" to install the app', hero_play: '▶ Play last station', hero_play_aria: 'Play the last station you listened to', alive_only: 'Working only',
     fm_hint: 'Home shows only the most famous, official and Egyptian stations — search or use the filters to browse the full 56k+ catalog. Live Search queries the source in real time.',
     chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
     search_sdr_ph: 'Search: name, country, callsign…',
@@ -1069,7 +1069,7 @@ function renderFM() {
 renderFeatured();
   var grid = $('grid-fm');
   var home = isHomeMode();
-  var list = home ? homeList() : currentFMList();
+  var list = fmAliveSort(fmAliveFiltered(home ? homeList() : currentFMList()));
   state.playerQueue = list.filter(function (s) { return !!safeHttpsUrl(s.url); });
   var homeTitle = $('home-grid-title');
   if (homeTitle) homeTitle.hidden = !home;
@@ -1137,6 +1137,24 @@ function egAliveRank(s) {
   if (c && c.alive) return 0;
   if (!c) return 1;
   return 2;
+}
+
+function fmAliveFiltered(list) {
+  if (!state.fmFilters || !state.fmFilters.aliveOnly || !state.streamChecks) return list;
+  return list.filter(function (s) {
+    var c = state.streamChecks[s.url];
+    return !!(c && c.alive);
+  });
+}
+
+function fmAliveSort(list) {
+  if (!state.streamChecks) return list;
+  var any = false;
+  for (var i = 0; i < list.length; i++) {
+    if (state.streamChecks[list[i].url]) { any = true; break; }
+  }
+  if (!any) return list;
+  return list.slice().sort(function (a, b) { return egAliveRank(a) - egAliveRank(b); });
 }
 
 
@@ -1342,6 +1360,8 @@ function clearFMFilters() {
   $('fm-country').value = '';
   $('fm-language').value = '';
   $('fm-tag').value = '';
+  var aliveBox = $('alive-only');
+  if (aliveBox) aliveBox.checked = false;
   fmClientRender();
 }
 
@@ -2738,6 +2758,11 @@ function initUI() {
   });
   $('fm-search-btn').addEventListener('click', searchFM);
   $('fm-random-btn').addEventListener('click', playRandomStation);
+  var aliveOnlyBox = $('alive-only');
+  if (aliveOnlyBox) aliveOnlyBox.addEventListener('change', function () {
+    state.fmFilters.aliveOnly = this.checked;
+    renderFM();
+  });
   $('fm-clear-btn').addEventListener('click', clearFMFilters);
   $('fm-country').addEventListener('change',function(){fmFacetAuto.country=false;state.fmFilters.country=this.value;fmClientRender();});
   $('fm-language').addEventListener('change',function(){fmFacetAuto.language=false;state.fmFilters.language=this.value;fmClientRender();});

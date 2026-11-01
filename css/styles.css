@@ -326,3 +326,6 @@ body{-webkit-tap-highlight-color:transparent}
 #install-btn{font-size:15px}
 .hero-play{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;font-family:inherit;font-weight:600;margin:2px 0 16px;padding:12px 26px;font-size:1.05rem;border-radius:14px;background:var(--accent,#d4af37);color:var(--accent-text,#201604)}
 @media(max-width:720px){.hero-play{width:100%;justify-content:center}}
+
+/* ---- v53: alive-only filter ---- */
+.fm-alive-check{font-weight:600;color:var(--text)}
