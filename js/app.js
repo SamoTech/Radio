@@ -121,7 +121,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', visitor_lead_title: 'أكثر البلاد زيارةً', map_count: '{n} جهاز على الخريطة',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', visitor_lead_title: 'أكثر البلاد زيارةً', trending_title: '🔥 الأكثر سماعاً', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -177,7 +177,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', visitor_lead_title: 'Top visiting countries', map_count: '{n} receivers on the map',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', visitor_lead_title: 'Top visiting countries', trending_title: '🔥 Trending now', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -1136,6 +1136,7 @@ function loadStations() {
     renderEG();
     renderAR();
     renderRel();
+    initTrending();
     initResume();
     loadStreamChecks();
     handleShareHash();
@@ -1912,6 +1913,7 @@ function play(url, name) {
   applyVolume();
   startCurrentPlayback(generation);
   pushHistory(url, state.currentName);
+  countStationPlay(url);
   try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: state.currentName })); } catch (e) {}
   setMedia(state.currentName);
   try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
@@ -2745,6 +2747,107 @@ function renderVisitorLead() {
   });
   el.innerHTML = html;
   el.hidden = false;
+}
+
+/* ---- trending: per-station play counts (Abacus play-<host/path>) ---- */
+
+var PLAY_HEAT_CACHE_KEY = 'ra-play-heat';
+var PLAY_HEAT_TTL = 24 * 3600 * 1000;
+var playHeatBusy = false;
+var playHeatLastTry = 0;
+
+function playCountKey(url) {
+  // Stable short key for per-station play counting (host + path, no query).
+  try {
+    var u = new URL(url);
+    return 'play-' + u.hostname.replace(/^www\./, '') + u.pathname;
+  } catch (e) { return ''; }
+}
+
+function trendingList(candidates, counts, limit) {
+  // Candidate stations ranked by play count (pure helper; zeros masked).
+  var out = [];
+  var list = candidates || [];
+  for (var i = 0; i < list.length; i++) {
+    var s = list[i];
+    var k = playCountKey(s && s.url);
+    var n = k ? Number(counts && counts[k]) || 0 : 0;
+    if (n > 0) out.push({ station: s, n: n });
+  }
+  out.sort(function (a, b) { return b.n - a.n; });
+  return out.slice(0, limit || 10);
+}
+
+function countStationPlay(url) {
+  // Fire-and-forget: +1 on this station's Abacus play key.
+  var key = playCountKey(url);
+  if (!key) return;
+  state.playHeat = state.playHeat || {};
+  state.playHeat[key] = (Number(state.playHeat[key]) || 0) + 1;
+  renderTrending();
+  visitorCounterRequest('hit', {}, key)
+    .catch(function (error) { console.warn('Radio Atlas play counter:', error); });
+}
+
+function playHeatCached() {
+  try {
+    var cached = JSON.parse(localStorage.getItem(PLAY_HEAT_CACHE_KEY) || 'null');
+    if (cached && cached.data && Date.now() - Number(cached.ts || 0) < PLAY_HEAT_TTL) return cached.data;
+  } catch (e) {}
+  return null;
+}
+
+function fetchPlayHeat() {
+  // Play counts for the trending shelf candidates (the featured list).
+  // One JSONP get every 400ms respects the free Abacus rate limit; cached 24h.
+  var cached = playHeatCached();
+  if (cached) { state.playHeat = cached; renderTrending(); return; }
+  if (playHeatBusy || Date.now() - playHeatLastTry < 600000) return;
+  var candidates = featuredList();
+  if (!candidates.length) return;
+  playHeatBusy = true;
+  playHeatLastTry = Date.now();
+  var merged = {};
+  var chain = Promise.resolve();
+  candidates.forEach(function (s, i) {
+    var key = playCountKey(s.url);
+    if (!key) return;
+    chain = chain.then(function () {
+      return visitorCounterRequest('get', {}, key)
+        .then(function (data) {
+          var v = Number(data && data.value);
+          if (Number.isFinite(v) && v > 0) merged[key] = v;
+        })
+        .catch(function () {});
+    });
+    if (i < candidates.length - 1) {
+      chain = chain.then(function () { return new Promise(function (r) { setTimeout(r, 400); }); });
+    }
+  });
+  chain.then(function () {
+    playHeatBusy = false;
+    state.playHeat = merged;
+    try { localStorage.setItem(PLAY_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
+    renderTrending();
+  });
+}
+
+function renderTrending() {
+  var wrap = $('trending-wrap');
+  if (!wrap) return;
+  var counts = state.playHeat || playHeatCached() || {};
+  var rows = trendingList(featuredList(), counts, 10);
+  if (!rows.length) { wrap.hidden = true; return; }
+  var html = '';
+  for (var i = 0; i < rows.length; i++) html += cardFm(rows[i].station);
+  $('trending-row').innerHTML = html;
+  wrap.hidden = false;
+}
+
+function initTrending() {
+  // Called once the catalog is loaded: paint cached counts, refresh if stale.
+  renderTrending();
+  fetchPlayHeat();
 }
 
 /* ================= KiwiSDR WebSocket audio (experimental) ================= */
