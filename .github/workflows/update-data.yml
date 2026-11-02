@@ -38,6 +38,12 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v5
         with:
           node-version: "22"
+      # Optional last tier of the fetch strategy engine: a real Chrome TLS
+      # fingerprint for hosts that fingerprint the handshake. The crawler
+      # degrades gracefully when this install fails (the tier is skipped).
+      - name: Install the scraper's optional curl_cffi TLS tier
+        run: pip install "curl_cffi>=0.7"
+        continue-on-error: true
       - name: Select refresh mode
         id: mode
         shell: bash
