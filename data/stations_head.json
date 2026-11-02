@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T12:46:14+00:00",
+ "updated": "2026-11-02T12:54:30+00:00",
  "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
  "count": 2500,
  "stations": [
@@ -284,13 +284,13 @@
    "tokenType": "easy_b"
   },
   {
-   "name": "Ethiopian Tigrigna Radio",
-   "url": "http://linuxfreelancer.com:8000/listen.pls?sid=1",
-   "cc": "ET",
+   "name": "ሬድዮ ኤሪ-ወንጌል — Radio Eri-Wengel",
+   "url": "https://stream.zeno.fm/zhv190afaaeuv",
+   "cc": "ER",
    "language": "tigrinya",
-   "tags": "ethiopia,ethiopian,tigrigna,tigrinya,music",
+   "tags": "gospel,tigrinya,eritrea",
    "codec": "MP3",
-   "bitrate": 0
+   "bitrate": 128
   },
   {
    "name": "راديو مارس — Radio Mars",
@@ -785,6 +785,34 @@
    "codec": "MP3",
    "bitrate": 128,
    "website": "https://arn.ps/"
+  },
+  {
+   "name": "إذاعة موريتانيا — Radio Mauritanie",
+   "url": "https://stream.zeno.fm/pfwwfma8uwzuv",
+   "cc": "MR",
+   "language": "arabic",
+   "tags": "عربي,arabic,mauritania,موريتانيا,news",
+   "codec": "AAC",
+   "bitrate": 64,
+   "website": "http://www.radiomauritanie.mr/"
+  },
+  {
+   "name": "راديو RIM H24",
+   "url": "https://stream.zeno.fm/3ypw0vp2echvv",
+   "cc": "MR",
+   "language": "arabic",
+   "tags": "عربي,arabic,mauritania,موريتانيا,news",
+   "codec": "AAC",
+   "bitrate": 64
+  },
+  {
+   "name": "راديوما — RADIOMA",
+   "url": "https://stream.zeno.fm/du2izs2nmquvv",
+   "cc": "MR",
+   "language": "arabic,french",
+   "tags": "عربي,arabic,mauritania,موريتانيا,music,culture",
+   "codec": "MP3",
+   "bitrate": 128
   },
   {
    "name": "Hits 1 Maroc",
@@ -7206,6 +7234,15 @@
   {
    "name": "One FM - 2000s Radio",
    "url": "https://webradio0002.ice.infomaniak.ch/webradio0009-128.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "community",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "DFM Pop Gold 2010s Radio",
+   "url": "https://dfm-popgold10.hostingradio.ru/popgold1096.aacp",
    "cc": "",
    "language": "",
    "tags": "community",
@@ -22524,42 +22561,6 @@
   {
    "name": "RDL Fiesta Radio",
    "url": "https://stream.rcs.revma.com/bwhnbw5at18uv",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "RBI - Cruisin&#x27; Oldies Radio",
-   "url": "https://cruisinoldies.stream.laut.fm/cruisinoldies",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "RCA La Radio",
-   "url": "https://rcalessablesdolonne.ice.infomaniak.ch/rcalessablesdolonne-192.mp3",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "RCA La Radio",
-   "url": "https://rcachateaubriant.ice.infomaniak.ch/rcachateaubriant-192.mp3",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "RCA La Radio",
-   "url": "https://rcasaint-nazaire.ice.infomaniak.ch/rcasaint-nazaire-192.mp3",
    "cc": "",
    "language": "",
    "tags": "community",

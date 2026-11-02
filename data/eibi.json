@@ -1,12 +1,18 @@
 {
- "updated": "2026-11-02T12:46:14+00:00",
+ "updated": "2026-11-02T12:54:30+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1478,
+ "count": 1464,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
+  },
+  {
+   "f": 2054,
+   "s": "1250",
+   "e": "1305",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -2284,12 +2290,6 @@
    "n": "CHN | China Radio Int. | R | CAs"
   },
   {
-   "f": 6170,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | LAm"
-  },
-  {
    "f": 6180,
    "s": "1200",
    "e": "1500",
@@ -2312,12 +2312,6 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | Radio Piepzender | NL | Eu"
-  },
-  {
-   "f": 6185,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
   },
   {
    "f": 6190,
@@ -2744,6 +2738,12 @@
    "s": "0000",
    "e": "2400",
    "n": "PAK | Karachi Volmet x15,x45 | E | SAs"
+  },
+  {
+   "f": 6676,
+   "s": "1250",
+   "e": "2225",
+   "n": "SNG | SingaporeVolmet x20,x50 | E | SAs"
   },
   {
    "f": 6676,
@@ -3466,6 +3466,12 @@
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
+   "f": 7906,
+   "s": "1250",
+   "e": "1300",
+   "n": "VTN | Ben Thuy Radio | VN | SEA"
+  },
+  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3770,12 +3776,6 @@
    "s": "0000",
    "e": "2400",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
-  },
-  {
-   "f": 8812,
-   "s": "1246",
-   "e": "1248",
-   "n": "VTN | Ho Chi Minh City R.XVS | VN | SEA"
   },
   {
    "f": 8819,
@@ -4378,12 +4378,6 @@
    "n": "CHN | China National Radio 13 | UI | CHN"
   },
   {
-   "f": 9435,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | LAm"
-  },
-  {
    "f": 9440,
    "s": "1000",
    "e": "1805",
@@ -4472,12 +4466,6 @@
    "s": "1200",
    "e": "1300",
    "n": "TWN | Radio Taiwan Int. | M | FE"
-  },
-  {
-   "f": 9570,
-   "s": "1200",
-   "e": "1250",
-   "n": "CHN | China Radio Int. | CA | ENA"
   },
   {
    "f": 9570,
@@ -4790,12 +4778,6 @@
    "s": "0855",
    "e": "1600",
    "n": "CHN | PBS Qinghai | TB | CHN"
-  },
-  {
-   "f": 9850,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
   },
   {
    "f": 9850,
@@ -5740,12 +5722,6 @@
    "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
-   "f": 11710,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | LAm"
-  },
-  {
    "f": 11715,
    "s": "2100",
    "e": "1700",
@@ -5774,12 +5750,6 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | SunDance Radio | NL | Eu"
-  },
-  {
-   "f": 11735,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
   },
   {
    "f": 11740,
@@ -5852,12 +5822,6 @@
    "s": "0745",
    "e": "2000",
    "n": "B | Rádio Nacional Amazônia | P | B"
-  },
-  {
-   "f": 11780,
-   "s": "0920",
-   "e": "1250",
-   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 11785,
@@ -6940,12 +6904,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 13650,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
-  },
-  {
    "f": 13670,
    "s": "2100",
    "e": "1500",
@@ -7058,12 +7016,6 @@
    "s": "1200",
    "e": "1300",
    "n": "CLA | Mizzima Radio | BR | SEA"
-  },
-  {
-   "f": 13825,
-   "s": "1230",
-   "e": "1250",
-   "n": "CVA | Radio Vaticana | R | Sib"
   },
   {
    "f": 13840,
@@ -7444,12 +7396,6 @@
    "n": "CHN | China Radio Int. | SR | Eu"
   },
   {
-   "f": 15180,
-   "s": "1200",
-   "e": "1250",
-   "n": "KRE | Voice of Korea KCBS | K | LAm"
-  },
-  {
    "f": 15190,
    "s": "0000",
    "e": "2400",
@@ -7460,12 +7406,6 @@
    "s": "1200",
    "e": "1400",
    "n": "CUB | Radio Habana Cuba | S | WNA"
-  },
-  {
-   "f": 15230,
-   "s": "0920",
-   "e": "1250",
-   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 15240,
@@ -7576,34 +7516,16 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 15440,
-   "s": "0920",
-   "e": "1250",
-   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
-  },
-  {
    "f": 15460,
    "s": "1200",
    "e": "1300",
    "n": "ROU | Radio Romania Int. | E | WEu"
   },
   {
-   "f": 15470,
-   "s": "0920",
-   "e": "1250",
-   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
-  },
-  {
    "f": 15480,
    "s": "0900",
    "e": "1300",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 15490,
-   "s": "1230",
-   "e": "1250",
-   "n": "CVA | Radio Vaticana | R | Sib"
   },
   {
    "f": 15515,
@@ -7658,12 +7580,6 @@
    "s": "1100",
    "e": "1730",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
-  },
-  {
-   "f": 15620,
-   "s": "0920",
-   "e": "1250",
-   "n": "IRN | IRIB Voice of I.R.Iran | DR | CAs"
   },
   {
    "f": 15640,
