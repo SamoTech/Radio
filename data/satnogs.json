@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T15:38:20+00:00",
+ "updated": "2026-11-02T17:23:13+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 304,
+ "count": 303,
  "stations": [
   {
    "id": 3944,
@@ -1234,16 +1234,6 @@
    "https": false
   },
   {
-   "id": 2575,
-   "name": "KC3QNJ",
-   "loc": "FM18sh · VHF / UHF",
-   "lat": 38.308,
-   "lng": -76.474,
-   "alt": 14,
-   "url": "https://network.satnogs.org/stations/2575/",
-   "https": false
-  },
-  {
    "id": 1442,
    "name": "KC4LE 70cm Eggbeater",
    "loc": "EM63nh · UHF",
@@ -1826,7 +1816,7 @@
   {
    "id": 2694,
    "name": "OE6ISP_High_Gain_LimeSDR",
-   "loc": "JN77pa · UHF / S",
+   "loc": "JN77pa · UHF",
    "lat": 47.02,
    "lng": 15.263,
    "alt": 410,
@@ -2051,16 +2041,6 @@
    "lng": 19.548121,
    "alt": 138,
    "url": "https://network.satnogs.org/stations/5262/",
-   "https": false
-  },
-  {
-   "id": 2380,
-   "name": "Piszkesteto UHF",
-   "loc": "JN97ww · UHF",
-   "lat": 47.917,
-   "lng": 19.895,
-   "alt": 954,
-   "url": "https://network.satnogs.org/stations/2380/",
    "https": false
   },
   {
@@ -2461,6 +2441,16 @@
    "lng": 80.7251167196346,
    "alt": 470,
    "url": "https://network.satnogs.org/stations/5115/",
+   "https": false
+  },
+  {
+   "id": 2824,
+   "name": "ST-HN",
+   "loc": "OL21rc · VHF / UHF",
+   "lat": 21.1133,
+   "lng": 105.4475,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/2824/",
    "https": false
   },
   {

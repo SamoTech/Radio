@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T13:25:44+00:00",
+ "updated": "2026-11-02T17:23:13+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 6,
  "sites": [
@@ -11,6 +11,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -21,6 +23,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -31,6 +35,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -41,6 +47,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -51,6 +59,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -61,6 +71,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -71,6 +83,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -81,6 +95,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -91,6 +107,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -101,6 +119,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -111,6 +131,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [Errno 101] Network is unreachable>",
    "streams": []
   },
   {
@@ -121,6 +143,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -131,6 +155,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -141,6 +167,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -151,6 +179,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -161,6 +191,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -171,11 +203,13 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/02/shaping_ai_was_geht_noch_interview_mit_christoph_neuberger_dlf_20261102_0811_1e2aee2a.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/02/shaping_ai_was_geht_noch_interview_mit_christoph_neuberger_dlf_20261102_0811_1e2aee2a.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/02/gen_z_regelt_erst_friedliche_proteste_dann_randale_und_jetzt_dlf_20261102_1700_fcb07404.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/02/gen_z_regelt_erst_friedliche_proteste_dann_randale_und_jetzt_dlf_20261102_1700_fcb07404.mp3"
    ]
   },
   {
@@ -186,6 +220,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -196,6 +232,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -206,6 +244,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -216,6 +256,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -226,6 +268,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -236,6 +280,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -246,6 +292,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -256,6 +304,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -266,6 +316,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -276,6 +328,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "curl_cffi",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -286,6 +340,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -296,6 +352,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -306,6 +364,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": [
     "https://live1.nasapp.net/nas/live_audio.m3u8"
    ]
@@ -318,6 +378,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": [
     "https://streamer.mada.ps:8208/ajyal"
    ]
