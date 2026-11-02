@@ -27,9 +27,9 @@ jobs:
           rsvg-convert -w 192 -h 192 icon.svg > icon-192.png
           rsvg-convert -w 512 -h 512 icon.svg > icon-512.png
           rsvg-convert -w 4096 -h 4096 /tmp/icon-flat.svg > /tmp/icon-raw.png
-          convert /tmp/icon-raw.png -resize 400x400 -background "#0b1220" -gravity center -extent 512x512 icon-maskable-512.png
-          convert /tmp/icon-raw.png -resize 150x150 -background "#0b1220" -gravity center -extent 192x192 icon-maskable-192.png
-          convert /tmp/icon-raw.png -resize 160x160 -background "#0b1220" -gravity center -extent 180x180 apple-touch-icon.png
+          convert /tmp/icon-raw.png -resize 400x400 -background "#0f0e13" -gravity center -extent 512x512 icon-maskable-512.png
+          convert /tmp/icon-raw.png -resize 150x150 -background "#0f0e13" -gravity center -extent 192x192 icon-maskable-192.png
+          convert /tmp/icon-raw.png -resize 160x160 -background "#0f0e13" -gravity center -extent 180x180 apple-touch-icon.png
           rm -f /tmp/icon-raw.png /tmp/icon-flat.svg
       - name: Commit generated icons
         run: |

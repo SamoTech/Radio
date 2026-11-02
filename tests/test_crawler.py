@@ -320,5 +320,64 @@ class DailymotionTests(unittest.TestCase):
         self.assertIn("dailymotion FAILED", source)
 
 
+class _FakeStreamResp:
+    def __init__(self, code, ctype):
+        self.code = code
+        self.headers = {"Content-Type": ctype}
+
+    def getcode(self):
+        return self.code
+
+    def read(self, n=0):
+        return b""
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+class StreamContentTypeTests(unittest.TestCase):
+    def test_html_page_rejected_when_audio_required(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            return_value=_FakeStreamResp(200, "text/html; charset=utf-8"),
+        ):
+            res = module.check_stream("https://example.test/live", require_audio=True)
+        self.assertFalse(res["alive"])
+        self.assertEqual(res["code"], 200)
+
+    def test_audio_type_accepted_when_required(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            return_value=_FakeStreamResp(200, "audio/mpeg"),
+        ):
+            res = module.check_stream("https://example.test/live", require_audio=True)
+        self.assertTrue(res["alive"])
+
+    def test_octet_stream_accepted_when_required(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            return_value=_FakeStreamResp(200, "application/octet-stream"),
+        ):
+            res = module.check_stream("https://example.test/live", require_audio=True)
+        self.assertTrue(res["alive"])
+
+    def test_html_page_still_alive_without_the_flag(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            return_value=_FakeStreamResp(200, "text/html"),
+        ):
+            res = module.check_stream("https://example.test/live")
+        self.assertTrue(res["alive"])
+
+    def test_scraper_verify_pins_the_audio_content_type_gate(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("require_audio", source)
+        self.assertIn("AUDIO_CT_RE", source)
+        self.assertIn("pool.map(lambda u: check_stream(u, True), urls)", source)
+
+
 if __name__ == "__main__":
     unittest.main()
