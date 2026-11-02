@@ -329,3 +329,19 @@ body{-webkit-tap-highlight-color:transparent}
 
 /* ---- v53: alive-only filter ---- */
 .fm-alive-check{font-weight:600;color:var(--text)}
+
+/* ---- v54: listener experience pack ---- */
+#saver-btn.active{border-color:var(--accent);color:var(--accent)}
+.player-alt{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.alt-label{font-size:.75rem;color:var(--muted);font-weight:700}
+.alt-chip{cursor:pointer;font-family:inherit;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:color .18s,border-color .18s}
+.alt-chip:hover{color:var(--accent);border-color:rgba(212,175,55,.45)}
+.quick-bar{position:fixed;bottom:0;right:0;left:0;z-index:15;display:flex;align-items:center;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(212,175,55,.22);box-shadow:0 -8px 26px rgba(0,0,0,.4)}
+.qb-label{flex:none}
+.qb-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.qb-row::-webkit-scrollbar{display:none}
+.qb-chip{flex:none;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;font-family:inherit;font-size:.85rem;white-space:nowrap;transition:color .18s,border-color .18s}
+.qb-chip:hover{color:var(--accent);border-color:rgba(212,175,55,.45)}
+@media(min-width:721px){ main{padding-bottom:64px} }
+@media(max-width:720px){ .qb-chip{padding:8px 14px} }
+

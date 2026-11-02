@@ -68,6 +68,7 @@
     <button id="theme-btn" class="ctrl" type="button" title="Light / Dark">☀️</button>
     <button id="lang-btn" class="ctrl" type="button" title="العربية / English">EN</button>
     <button id="palette-btn" class="ctrl" type="button" data-i18n-aria="palette_aria" title="Ctrl+K">🔎</button>
+    <button id="saver-btn" class="ctrl" type="button" data-i18n-aria="saver_aria" title="🪫">🪫</button>
     <button id="install-btn" class="ctrl" type="button" data-i18n-aria="install_aria" hidden>📲</button>
   </div>
   <h1 data-i18n="app_title">📻 راديو أطلس</h1>
@@ -273,6 +274,11 @@
   </section>
 </main>
 
+<div id="quick-bar" class="quick-bar" hidden role="region" data-i18n-aria="quick_bar_aria" aria-label="الأشهر — تشغيل سريع">
+  <span class="qb-label" aria-hidden="true">🔥</span>
+  <div id="quick-bar-row" class="qb-row"></div>
+</div>
+
 <div id="player" class="player" hidden>
   <button id="player-close" type="button" title="إغلاق">✕</button>
   <button id="player-prev" class="player-tool" type="button" data-i18n-aria="prev_aria" title="⏮">⏮</button>
@@ -287,6 +293,7 @@
   <div class="player-body">
     <div id="player-name"></div>
     <div id="player-meta" class="player-meta" hidden></div>
+    <div id="player-alt" class="player-alt" hidden></div>
     <div id="player-status" class="player-status"></div>
     <audio id="audio" controls preload="none"></audio>
   </div>
@@ -378,6 +385,7 @@
 <script src="js/app.js"></script>
 </body>
 </html>
+
 
 
 
