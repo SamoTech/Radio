@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T12:54:30+00:00",
+ "updated": "2026-11-02T13:08:15+00:00",
  "checked": 1185,
- "alive": 1075,
+ "alive": 1074,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -85,7 +85,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -266,11 +266,11 @@
   },
   "https://stream.zeno.fm/pfwwfma8uwzuv": {
    "alive": false,
-   "code": 503
+   "code": 0
   },
   "https://stream.zeno.fm/3ypw0vp2echvv": {
    "alive": false,
-   "code": 503
+   "code": 0
   },
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
@@ -437,8 +437,8 @@
    "code": 200
   },
   "https://s2.radio.co/sd3c7f8539/listen": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://a8.asurahosting.com:7850/radio.mp3": {
    "alive": true,
@@ -865,8 +865,8 @@
    "code": 403
   },
   "https://s2.radio.co/s8e5dffe5e/listen": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://webprod.sipse.com.mx:8080/kissfm/": {
    "alive": true,
@@ -1085,8 +1085,8 @@
    "code": 200
   },
   "https://s2.radio.co/sf25229e16/listen?n=37f243963aa33cbbef97": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://sonic.mediacp.eu/8014/stream?n=7ef411fa68822aa4824d": {
    "alive": true,
@@ -1334,7 +1334,7 @@
   },
   "https://s2.radio.co/s44bb88930/listen": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://playoutonestreaming.com/proxy/forcewear?mp=/stream": {
    "alive": false,
@@ -1697,8 +1697,8 @@
    "code": 403
   },
   "https://925theranch.com/listen-live/popup/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://streamdb5web.securenetsystems.net/v5/index.cfm?stationCallSign=KXLS": {
    "alive": true,
@@ -2009,8 +2009,8 @@
    "code": 200
   },
   "https://mix1043fm.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://radio-mueritz.stream.laut.fm/radio-mueritz?t302=2026-06-10_07-58-42&uuid=0f320288-ce14-4620-ab0b-973276df2a11": {
    "alive": true,
@@ -2413,12 +2413,12 @@
    "code": 206
   },
   "https://925theranch.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://retro1025.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://streamdb4web.securenetsystems.net/v5/KWFB": {
    "alive": true,
@@ -3132,10 +3132,6 @@
    "alive": true,
    "code": 200
   },
-  "https://dfm-popgold10.hostingradio.ru/popgold1096.aacp": {
-   "alive": true,
-   "code": 200
-  },
   "https://streaming6.locucionar.com:24412/stream": {
    "alive": true,
    "code": 200
@@ -3418,7 +3414,7 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404
+   "code": 0
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -3609,8 +3605,8 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/tguub1aq5c3vv": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://deltaradio.streamabc.net/regc-deltaliveshsued-mp3-128-7035018?sABC=6n2919n1%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078433": {
    "alive": true,
@@ -3861,8 +3857,8 @@
    "code": 200
   },
   "https://s2.radio.co/scbfaf00d4/listen": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://fhhalle.streamabc.net/fhhal-rbhall-mp3-128-3225039": {
    "alive": true,
@@ -4741,6 +4737,10 @@
    "code": 200
   },
   "https://stream9.mexiserver.com/8206/stream:8206/stream?icy=http": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radioenhd.com/8126/stream": {
    "alive": true,
    "code": 200
   }

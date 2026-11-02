@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T12:54:30+00:00",
+ "updated": "2026-11-02T13:08:15+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 308,
+ "count": 305,
  "stations": [
   {
    "id": 3944,
@@ -11,16 +11,6 @@
    "lng": -0.354,
    "alt": 53,
    "url": "https://network.satnogs.org/stations/3944/",
-   "https": false
-  },
-  {
-   "id": 3056,
-   "name": "2E0sud-VHF",
-   "loc": "IO83qp · VHF",
-   "lat": 53.642,
-   "lng": -2.646,
-   "alt": 75,
-   "url": "https://network.satnogs.org/stations/3056/",
    "https": false
   },
   {
@@ -231,6 +221,16 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
+   "https": false
+  },
+  {
+   "id": 106,
+   "name": "BEEGND-1",
+   "loc": "JO62fb · UHF",
+   "lat": 52.073657,
+   "lng": 12.462608,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -1014,16 +1014,6 @@
    "https": false
   },
   {
-   "id": 5024,
-   "name": "INSTED-Ground Station(UHF)",
-   "loc": "OK03gt · UHF",
-   "lat": 13.823781779271652,
-   "lng": 100.51295302800892,
-   "alt": 60,
-   "url": "https://network.satnogs.org/stations/5024/",
-   "https": false
-  },
-  {
    "id": 4814,
    "name": "itera-GS3b",
    "loc": "OI24pp · UHF",
@@ -1741,16 +1731,6 @@
    "lng": -90.0,
    "alt": 175,
    "url": "https://network.satnogs.org/stations/1519/",
-   "https": false
-  },
-  {
-   "id": 4606,
-   "name": "NTU SaRC",
-   "loc": "OJ11ui · VHF",
-   "lat": 1.341722,
-   "lng": 103.680077,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/4606/",
    "https": false
   },
   {
@@ -2921,16 +2901,6 @@
    "lng": -117.87,
    "alt": 244,
    "url": "https://network.satnogs.org/stations/3355/",
-   "https": false
-  },
-  {
-   "id": 1438,
-   "name": "WB7BBU",
-   "loc": "CN85rp · VHF",
-   "lat": 45.65,
-   "lng": -122.542,
-   "alt": 55,
-   "url": "https://network.satnogs.org/stations/1438/",
    "https": false
   },
   {
