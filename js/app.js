@@ -9,21 +9,93 @@ var RB_APIS = [
 ];
 var FM_PAGE = 120;
 var LANGUAGE_ALIASES = {
-  arabic:['arabic','ar','العربية','عربي','arab'], english:['english','en','انجليزي','إنجليزي','الانجليزية','الإنجليزية'],
-  french:['french','fr','فرنسي','فرنسية'], spanish:['spanish','es','español','اسباني','إسباني'],
-  german:['german','de','deutsch','الماني','ألماني'], portuguese:['portuguese','pt','português','برتغالي'],
-  russian:['russian','ru','русский','روسي'], turkish:['turkish','tr','türkçe','تركي'],
-  persian:['persian','farsi','fa','فارسي','فارسی'], urdu:['urdu','ur','اردو'], hindi:['hindi','hi','हिन्दी','هندي'],
-  chinese:['chinese','zh','中文','صيني'], japanese:['japanese','ja','日本語','ياباني'], korean:['korean','ko','한국어','كوري'],
-  italian:['italian','it','italiano','ايطالي','إيطالي'], dutch:['dutch','nl','nederlands','هولندي'],
-  polish:['polish','pl','polski','بولندي'], greek:['greek','el','ελληνικά','يوناني'], swahili:['swahili','sw','kiswahili'],
-  indonesian:['indonesian','id','bahasa indonesia'], malay:['malay','ms','bahasa melayu'], bengali:['bengali','bn','বাংলা'],
-  kurdish:['kurdish','ku','كردي'], ukrainian:['ukrainian','uk','українська'], romanian:['romanian','ro','română'],
+  arabic:['arabic','ar','arab','العربية','العربيه','عربي','عربية'],
+  english:['english','en','انجليزي','انجليزيه','الانجليزيه','الانجليزية','إنجليزي','الإنجليزية'],
+  french:['french','fr','francais','فرنسي','فرنسيه','الفرنسيه','الفرنسية'],
+  spanish:['spanish','es','espanol','castellano','castilian','اسباني','إسباني','اسبانيه','الأسبانية'],
+  german:['german','de','deutsch','deutsche','الماني','ألماني','المانيه','الألمانية'],
+  portuguese:['portuguese','pt','portugues','برتغالي','برتغاليه'],
+  russian:['russian','ru','russkiy','rus','русский','روسي','روسيه'],
+  turkish:['turkish','tr','turkce','تركي','تركيه'],
+  persian:['persian','farsi','fa','dari','فارسي','فارسی','پارسي'],
+  urdu:['urdu','ur','اردو'], hindi:['hindi','hi','هندي','हिन्दी'],
+  chinese:['chinese','zh','mandarin','cantonese','putonghua','中文','صيني','صينيه'],
+  japanese:['japanese','ja','nihongo','日本語','ياباني','يابانيه'], korean:['korean','ko','hangul','한국어','كوري'],
+  italian:['italian','it','italiano','ايطالي','إيطالي','ايطاليه'],
+  dutch:['dutch','nl','nederlands','هولندي','هولنديه'],
+  polish:['polish','pl','polski','بولندي'], greek:['greek','el','ellinika','ελληνικα','ελληνικά','يوناني'],
+  swahili:['swahili','sw','kiswahili'],
+  indonesian:['indonesian','id','in','bahasa indonesia'], malay:['malay','ms','bahasa melayu','melayu'],
+  bengali:['bengali','bn','bangla','বাংলা'],
+  kurdish:['kurdish','ku','kurdi','sorani','كردي','كرديه'],
+  ukrainian:['ukrainian','uk','ukrainska','українська','اوكراني','أوكراني'],
+  romanian:['romanian','ro','romana','روماني'],
   swedish:['swedish','sv','svenska'], norwegian:['norwegian','no','norsk'], finnish:['finnish','fi','suomi'],
-  danish:['danish','da','dansk'], czech:['czech','cs','čeština'], hungarian:['hungarian','hu','magyar'],
-  serbian:['serbian','sr','српски'], croatian:['croatian','hr','hrvatski'], bulgarian:['bulgarian','bg','български'],
-  thai:['thai','th','ไทย'], vietnamese:['vietnamese','vi','tiếng việt']
+  danish:['danish','da','dansk'], czech:['czech','cs','cestina'], hungarian:['hungarian','hu','magyar'],
+  serbian:['serbian','sr','srpski','српски'], croatian:['croatian','hr','hrvatski'],
+  bulgarian:['bulgarian','bg','bulgarski','български'],
+  thai:['thai','th','ไทย'], vietnamese:['vietnamese','vi','tieng viet'],
+  hebrew:['hebrew','he','ivrit','עברית','عبري','عبريه'],
+  tigrinya:['tigrinya','tigrigna'], amharic:['amharic','am'], somali:['somali','so'],
+  hausa:['hausa','ha'], yoruba:['yoruba','yo'], igbo:['igbo','ig'],
+  zulu:['zulu','zu'], xhosa:['xhosa','xh'], wolof:['wolof'],
+  fula:['fula','fulfulde','peul'], oromo:['oromo','afaan oromo'],
+  filipino:['filipino','tagalog','tl','pilipino'],
+  tamil:['tamil','ta','تاميلي'], telugu:['telugu','te'], marathi:['marathi','mr'],
+  punjabi:['punjabi','pa'], gujarati:['gujarati','gu'], kannada:['kannada','kn'],
+  malayalam:['malayalam','ml'], nepali:['nepali','ne'], sinhala:['sinhala','si'],
+  pashto:['pashto','ps','pashtu','pushto','بشتو'],
+  azerbaijani:['azerbaijani','az','azeri'], kazakh:['kazakh','kk'], uzbek:['uzbek','uz','ozbek'],
+  georgian:['georgian','ka','kartuli'], armenian:['armenian','hy','hayeren','ارمني','أرمني'],
+  albanian:['albanian','sq','shqip'], macedonian:['macedonian','mk','makedonski'],
+  slovenian:['slovenian','sl','slovensko','slovene'], slovak:['slovak','sk','slovensky','slovencina'],
+  bosnian:['bosnian','bs','bosanski'], lithuanian:['lithuanian','lt','lietuviu'],
+  latvian:['latvian','lv','latviesu'], estonian:['estonian','et','eesti'],
+  icelandic:['icelandic','is','islenska'], irish:['irish','ga','gaeilge'],
+  welsh:['welsh','cy','cymraeg'], catalan:['catalan','ca','catala'],
+  galician:['galician','gl','galego'], basque:['basque','eu','euskara'],
+  maltese:['maltese','mt','malti'], afrikaans:['afrikaans','af'],
+  luxembourgish:['luxembourgish','lb','letzebuergesch'], esperanto:['esperanto','eo'],
+  amazigh:['amazigh','berber','tamazight','kabyle','tarifit','tachelhit','chleuh','أمازيغية'],
+  creole:['creole','kreyol','haitian creole','pidgin'],
+  quechua:['quechua','qu'], guarani:['guarani','gn'], aymara:['aymara','ay'],
+  burmese:['burmese','my'], khmer:['khmer','km'], lao:['lao','lo'], mongolian:['mongolian','mn']
 };
+/* Every alias entry is pre-normalized (lowercase, accents stripped) and folded
+   into one flat lookup so canonicalLanguage stays a single map access. */
+var LANGUAGE_ALIAS_INDEX = (function () {
+  var index = {};
+  for (var key in LANGUAGE_ALIASES) {
+    index[key] = key;
+    for (var i = 0; i < LANGUAGE_ALIASES[key].length; i++) {
+      index[LANGUAGE_ALIASES[key][i]] = key;
+    }
+  }
+  return index;
+})();
+var LANGUAGE_LABELS = {
+  ar:{arabic:'عربي',english:'إنجليزي',french:'فرنسي',spanish:'إسباني',german:'ألماني',portuguese:'برتغالي',
+    italian:'إيطالي',dutch:'هولندي',russian:'روسي',turkish:'تركي',persian:'فارسي',urdu:'أردو',hindi:'هندي',
+    chinese:'صيني',japanese:'ياباني',korean:'كوري',polish:'بولندي',greek:'يوناني',swahili:'سواحيلي',
+    indonesian:'إندونيسي',malay:'ملايوي',bengali:'بنغالي',kurdish:'كردي',ukrainian:'أوكراني',romanian:'روماني',
+    swedish:'سويدي',norwegian:'نرويجي',finnish:'فنلندي',danish:'دنماركي',czech:'تشيكي',hungarian:'مجري',
+    serbian:'صربي',croatian:'كرواتي',bulgarian:'بلغاري',thai:'تايلاندي',vietnamese:'فيتنامي',hebrew:'عبري',
+    tigrinya:'تجريني',amharic:'أمهري',somali:'صومالي',hausa:'هوسا',yoruba:'يوروبا',igbo:'إيبو',zulu:'زولو',
+    xhosa:'خوسا',wolof:'وولوف',fula:'فولاني',oromo:'أورومو',filipino:'فلبيني',tamil:'تاميلي',telugu:'تيلوغو',
+    marathi:'مراثي',punjabi:'بنجابي',gujarati:'غوجاراتي',kannada:'كانادي',malayalam:'ماليالامية',nepali:'نيبالي',
+    sinhala:'سنهالي',pashto:'باشتو',azerbaijani:'أذري',kazakh:'كازاخي',uzbek:'أوزبكي',georgian:'جورجي',
+    armenian:'أرميني',albanian:'ألباني',macedonian:'مقدوني',slovenian:'سلوفيني',slovak:'سلوفاكي',bosnian:'بوسني',
+    lithuanian:'ليتواني',latvian:'لاتفي',estonian:'إستوني',icelandic:'آيسلندي',irish:'أيرلندي',welsh:'ويلزي',
+    catalan:'كتالوني',galician:'غاليسي',basque:'باسكي',maltese:'مالطي',afrikaans:'أفريكانية',
+    luxembourgish:'لوكسمبورغي',esperanto:'إسبرانتو',amazigh:'أمازيغي',creole:'كريول',quechua:'كيتشوا',
+    guarani:'غواراني',aymara:'أيمارا',burmese:'بورمي',khmer:'خميري',lao:'لاوي',mongolian:'منغولي'},
+  en:{}
+};
+function languageLabel(key) {
+  var labels = LANGUAGE_LABELS[state.lang] || {};
+  if (labels[key]) return labels[key];
+  return key.charAt(0).toUpperCase() + key.slice(1);
+}
 var CORE_CATEGORIES = [
   ['news',['news','اخبار','أخبار']],['music',['music','موسيقى','musique']],['talk',['talk','speech','spoken','حوار']],
   ['sports',['sport','sports','football','كرة','رياضة']],['quran',['quran','quraan','koran','قرآن']],
@@ -60,8 +132,14 @@ function scheduleFMClientRender() {
 function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
-  for(var key in LANGUAGE_ALIASES) if(LANGUAGE_ALIASES[key].indexOf(raw)!==-1)return key;
-  return raw.replace(/\s+/g,' ');
+  /* Normalize hard before matching: strip Latin combining marks (Français →
+     francais, čeština → cestina, Türkçe → turkce), Arabic tashkeel, stray
+     apostrophes (O'zbek → ozbek) and collapse whitespace — so every spelling
+     of the same language lands on ONE canonical key instead of showing up
+     as several near-duplicate entries in the language filter. */
+  try { raw=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,''); } catch(e) {}
+  raw=raw.replace(/[\u064B-\u065F\u0670]/g,'').replace(/['\u2018\u2019`´]/g,'').replace(/\s+/g,' ').trim();
+  return LANGUAGE_ALIAS_INDEX[raw] || raw;
 }
 function normalizeSearchText(value) {
   var text=String(value||'').toLocaleLowerCase();
@@ -936,8 +1014,9 @@ function buildFMFacets() {
   var countryItems=Object.keys(countries).map(function(k){
     var name=regionName(k,k);return {value:k,name:name,label:flagOf(k)+' '+name+' ('+countries[k]+')'};
   }).sort(function(a,b){return a.name.localeCompare(b.name,state.lang);});
-  var langItems=Object.keys(langs).sort(function(a,b){return a.localeCompare(b,state.lang);})
-    .map(function(k){return {value:k,label:k.charAt(0).toUpperCase()+k.slice(1)+' ('+langs[k]+')'};});
+  var langItems=Object.keys(langs).map(function(k){
+    return {value:k,count:langs[k],label:languageLabel(k)+' ('+langs[k]+')'};
+  }).sort(function(a,b){ return b.count-a.count || a.value.localeCompare(b.value); });
   var labels=CATEGORY_LABELS[state.lang]||CATEGORY_LABELS.en;
   var tagItems=CORE_CATEGORIES.filter(function(entry){return categories[entry[0]]>0;})
     .map(function(entry){return {value:entry[0],label:labels[entry[0]]+' ('+categories[entry[0]]+')'};});
@@ -1003,7 +1082,7 @@ function cardFm(s) {
   var reportBtn = '<button class="report" type="button" title="🚩" data-report-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '" aria-label="' + esc(t('report_aria')) + '">🚩</button>';
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';
-  if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language) + '</span>';
+  if (s.language) chips += '<span class="chip">🗣 ' + esc(s.language.split(', ').filter(Boolean).map(languageLabel).join('، ')) + '</span>';
   var allTags=String(s.tags||'').split(',').map(function(x){return x.trim();}).filter(Boolean);
   var isOfficial=isOfficialStation(s);
   if(isOfficial)chips+='<span class="chip official">🏛 '+esc(state.lang==='ar'?'رسمي':'Official')+'</span>';
@@ -2113,7 +2192,7 @@ function paletteRows(q) {
     var s = fm[i];
     if (!safeHttpsUrl(s.url)) continue;
     var hay = normalizeSearchText([s.name, s.language, s.tags, s.cc, regionName(s.cc, s.cc)].join(' '));
-    if (!nq || hay.indexOf(nq) !== -1) rows.push({ kind: 'fm', name: s.name, url: s.url, sub: regionName(s.cc, s.cc) + (s.language ? ' · ' + s.language : '') });
+    if (!nq || hay.indexOf(nq) !== -1) rows.push({ kind: 'fm', name: s.name, url: s.url, sub: regionName(s.cc, s.cc) + (s.language ? ' · ' + s.language.split(', ').filter(Boolean).map(languageLabel).join('، ') : '') });
   }
   var rx = state.receivers;
   for (var j = 0; j < rx.length && rows.length < 12; j++) {
