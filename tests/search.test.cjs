@@ -208,3 +208,27 @@ test('visitor leaderboard rows sort by count, mask zeros and cap the list', () =
   assert.equal(sandbox.visitorLeadRows({}, 10).length, 0);
   assert.equal(sandbox.visitorLeadRows({ EG: 5 }).length, 1);
 });
+
+test('play counter key normalizes the URL to host and path only', () => {
+  assert.equal(sandbox.playCountKey('https://qurango.net/radio/mix?foo=1#x'), 'play-qurango.net/radio/mix');
+  assert.equal(sandbox.playCountKey('https://www.zeno.fm/stream?x=2'), 'play-zeno.fm/stream');
+  assert.equal(sandbox.playCountKey('http://radio.example.com:8000/live;aac'), 'play-radio.example.com/live;aac');
+  assert.equal(sandbox.playCountKey('not a url'), '');
+  assert.equal(sandbox.playCountKey(''), '');
+});
+
+test('trending list ranks candidates by play count and hides zero counts', () => {
+  const stations = [
+    { name: 'A', url: 'https://a.test/one' },
+    { name: 'B', url: 'https://b.test/two' },
+    { name: 'C', url: 'https://c.test/three' }
+  ];
+  const counts = { 'play-a.test/one': 4, 'play-b.test/two': 30, 'play-c.test/three': 0 };
+  const rows = sandbox.trendingList(stations, counts, 10);
+  assert.deepEqual(Array.from(rows, r => r.n), [30, 4]);
+  assert.equal(rows[0].station.name, 'B');
+  assert.equal(rows[1].station.name, 'A');
+  assert.equal(sandbox.trendingList(stations, {}, 10).length, 0);
+  assert.equal(sandbox.trendingList([], counts, 10).length, 0);
+  assert.equal(sandbox.trendingList(stations, counts, 1).length, 1);
+});
