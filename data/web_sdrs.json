@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T05:56:32+00:00",
+ "updated": "2026-11-02T07:04:26+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -565,14 +565,6 @@
    "https": false,
    "lat": 47.3144,
    "lon": 39.7122
-  },
-  {
-   "name": "Alfredo Marcondes - SP - Brazil",
-   "url": "http://alfredomarcondes.sdr.net.br:37001/",
-   "loc": "",
-   "https": false,
-   "lat": -21.9356,
-   "lon": -51.4545
   },
   {
    "name": "Frankonia 595m high and with a Sirio dipol antenna vertical for 11m",
@@ -2097,6 +2089,14 @@
    "lon": 19.979464291512027
   },
   {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
+  },
+  {
    "name": "G1WOR",
    "url": "http://81.143.239.74:8073/",
    "loc": "",
@@ -2199,6 +2199,14 @@
    "https": false,
    "lat": -34.1644967531552,
    "lon": -70.9623617747133
+  },
+  {
+   "name": "🔴 📡 SDR Madrid, España ✨ LaRadioCB 🌠",
+   "url": "http://laradiocb.mypsx.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 40.3475646023863,
+   "lon": -3.70078215349397
   },
   {
    "name": "FARAON - Bielsko-Biała - PMR, 70cm, 2m, DAB+",
@@ -2455,14 +2463,6 @@
    "https": true,
    "lat": 51.893464,
    "lon": 6.382
-  },
-  {
-   "name": "M0LHI",
-   "url": "http://radio.nkpa.co.uk/",
-   "loc": "",
-   "https": false,
-   "lat": 52.22609520584887,
-   "lon": -0.9268577317469995
   },
   {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
@@ -2767,14 +2767,6 @@
    "https": false,
    "lat": 50.20411309776767,
    "lon": 2.584360575239688
-  },
-  {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
   },
   {
    "name": "LU3ARN",
@@ -3217,14 +3209,6 @@
    "lon": 8.07967
   },
   {
-   "name": "9A3ZI",
-   "url": "http://9a3zi.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 46.389854429313154,
-   "lon": 16.474081801898464
-  },
-  {
    "name": "Janez Ar, 327FRS072",
    "url": "https://sdr2.pmr.si/",
    "loc": "",
@@ -3463,14 +3447,6 @@
    "https": false,
    "lat": 44.03699,
    "lon": 12.60447
-  },
-  {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
   },
   {
    "name": "S59EKL",
@@ -4023,6 +3999,22 @@
    "https": true,
    "lat": 51.85320936891584,
    "lon": 5.764880370406926
+  },
+  {
+   "name": "SwR - Global Radio",
+   "url": "https://sdr.kruen.app/",
+   "loc": "",
+   "https": true,
+   "lat": 50.49,
+   "lon": 15.52
+  },
+  {
+   "name": "YO2CPS",
+   "url": "http://yo2cps.go.ro:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.863523648352725,
+   "lon": 22.89565117516746
   }
  ]
 }

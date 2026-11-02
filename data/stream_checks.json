@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T05:56:32+00:00",
+ "updated": "2026-11-02T07:04:26+00:00",
  "checked": 1184,
- "alive": 1081,
+ "alive": 1073,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -148,8 +148,8 @@
    "code": 200
   },
   "https://carina.streamerr.co:2020/stream/OnSportFM": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 503
   },
   "https://radio95.radioca.st/;": {
    "alive": true,
@@ -384,8 +384,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404
+   "alive": true,
+   "code": 200
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
    "alive": true,
@@ -1332,8 +1332,8 @@
    "code": 202
   },
   "https://radiostorm.com/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://control-panel.cloudl2mr.com/": {
    "alive": true,
@@ -1528,8 +1528,8 @@
    "code": 404
   },
   "https://mix941kmxj.com/listen-live/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://stm1.ahtvox.com.br:7002/stream": {
    "alive": true,
@@ -1544,8 +1544,8 @@
    "code": 200
   },
   "https://streamdb4web.securenetsystems.net/cirrusencore/index.cfm?stationCallSign=KLLP": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://servidor35-3.brlogic.com:8772/live": {
    "alive": true,
@@ -1652,8 +1652,8 @@
    "code": 403
   },
   "https://925theranch.com/listen-live/popup/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://streamdb5web.securenetsystems.net/v5/index.cfm?stationCallSign=KXLS": {
    "alive": true,
@@ -1672,8 +1672,8 @@
    "code": 200
   },
   "https://mix949.com/listen-live/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://radio.securenetsystems.net/v5/index.cfm?CFID=86daddc9-c1cd-43ba-96f1-50bde0176a51&CFTOKEN=0&stationCallSign=KLGD": {
    "alive": true,
@@ -1732,8 +1732,8 @@
    "code": 200
   },
   "https://965kvki.com/listen-live/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://djstephpra-radio.stream.laut.fm/djstephpra-radio?t302=2026-06-10_07-58-21&uuid=cbaa0494-9bf5-4daa-ab0d-889c2df2dd76": {
    "alive": true,
@@ -1804,8 +1804,8 @@
    "code": 200
   },
   "https://player.painelcast.com/proxy/7546": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://stm1.stmsrv.com:8328/stream.nsv": {
    "alive": false,
@@ -3056,8 +3056,8 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -3180,8 +3180,8 @@
    "code": 200
   },
   "https://server3.streamserver-unlimited.de:10299/.mp3": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://ais-sa2.cdnstream1.com/1977_64.aac": {
    "alive": true,
@@ -3560,8 +3560,8 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/tguub1aq5c3vv": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://deltaradio.streamabc.net/regc-deltaliveshsued-mp3-128-7035018?sABC=6n2919n1%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078433": {
    "alive": true,
@@ -4368,8 +4368,8 @@
    "code": 200
   },
   "https://live-bauerse-fm.sharp-stream.com/vinylfm_instream_se_aacp": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://15123.live.streamtheworld.com/KXRZFMAAC.aac": {
    "alive": true,
@@ -4592,8 +4592,8 @@
    "code": 200
   },
   "https://redbeemedia.streamabc.net/redbm-vivaplus-mp3-160-4904728?sABC=6n26n7nr%230%23p10rs66q5100855s6nr8n9s5296rp453%23es&aw_0_1st.playerid=rf&amsparams=playerid:rf;skey:1780918190": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 429
   },
   "https://edge11.stream.radioarabella.de/radioarabella-goldenoldies?aggregator=radiode": {
    "alive": true,
