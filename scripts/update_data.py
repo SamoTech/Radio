@@ -1313,6 +1313,24 @@ def run_stream_checks(stations):
     return results
 
 
+ALIVE_OVERRIDE_URLS = {
+    # Sham FM (SY): verified alive from real networks (Radio-Browser
+    # lastcheckok + direct audio response), but the stream host blocks
+    # GitHub Actions runner IPs, so the probe reports dead. The override
+    # keeps it visible in the frontend alive-only filter.
+    "https://radioshamfm.grtvstream.com:8400/;",
+}
+
+
+def apply_alive_overrides(checks):
+    """Flip known false-dead probe results to alive (see ALIVE_OVERRIDE_URLS)."""
+    for url in ALIVE_OVERRIDE_URLS:
+        row = checks.get(url)
+        if row and not row.get("alive"):
+            checks[url] = dict(row, alive=True, override=True)
+    return checks
+
+
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -1320,7 +1338,7 @@ def write_json(path, payload):
 def write_stream_checks(stations, now_iso):
     """Probe streams and refresh the liveness snapshot (last good kept)."""
     try:
-        checks = run_stream_checks(stations)
+        checks = apply_alive_overrides(run_stream_checks(stations))
         if checks:
             alive = sum(1 for v in checks.values() if v.get("alive"))
             write_json(
