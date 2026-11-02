@@ -156,3 +156,38 @@ test('live search results include matching curated catalog stations', () => {
   assert.ok(names.includes('إذاعة القاهرة'));
   assert.ok(names.includes('Live result'));
 });
+
+
+test('alive-only filter keeps only checked-alive stations', () => {
+  seedStations();
+  sandbox.state.fmFilters.aliveOnly = true;
+  sandbox.state.streamChecks = { 'https://example.test/egypt': { alive: true }, 'https://example.test/uk': { alive: false } };
+  const names = Array.from(sandbox.fmAliveFiltered(sandbox.state.fm), s => s.name);
+  assert.deepEqual(names, ['إذاعة القاهرة']);
+  sandbox.state.streamChecks = null;
+});
+
+test('alive-only filter is a no-op without the aliveOnly flag or stream checks', () => {
+  seedStations();
+  sandbox.state.streamChecks = { 'https://example.test/uk': { alive: false } };
+  assert.equal(sandbox.fmAliveFiltered(sandbox.state.fm).length, 3);
+  sandbox.state.fmFilters.aliveOnly = true;
+  sandbox.state.streamChecks = null;
+  assert.equal(sandbox.fmAliveFiltered(sandbox.state.fm).length, 3);
+});
+
+test('alive sort ranks working stations first, unknown next and dead last', () => {
+  seedStations();
+  sandbox.state.streamChecks = { 'https://example.test/egypt': { alive: true }, 'https://example.test/uk': { alive: false } };
+  const names = Array.from(sandbox.fmAliveSort(sandbox.state.fm), s => s.name);
+  assert.deepEqual(names, ['إذاعة القاهرة', 'Radio Canada', 'BBC World Service']);
+  sandbox.state.streamChecks = null;
+});
+
+test('alive sort is a no-op when no station in the list has a stream check', () => {
+  seedStations();
+  sandbox.state.streamChecks = { 'https://example.test/other': { alive: true } };
+  const names = Array.from(sandbox.fmAliveSort(sandbox.state.fm), s => s.name);
+  assert.deepEqual(names, ['إذاعة القاهرة', 'BBC World Service', 'Radio Canada']);
+  sandbox.state.streamChecks = null;
+});

@@ -1409,8 +1409,10 @@ function renderSpace() {
   p.hidden = false;
   $('space-upd').textContent = t('updated_at') + ': ' + fmtDate(state.space.updated);
   var vals = '';
-  if (state.space.kp != null) vals += '<span class="chip">🧲 Kp ' + state.space.kp + '</span>';
-  if (state.space.f107 != null) vals += '<span class="chip">☀️ F10.7 ' + state.space.f107 + ' sfu</span>';
+  var kpVal = Number(state.space.kp);
+  var f107Val = Number(state.space.f107);
+  if (state.space.kp != null && isFinite(kpVal)) vals += '<span class="chip">🧲 Kp ' + kpVal + '</span>';
+  if (state.space.f107 != null && isFinite(f107Val)) vals += '<span class="chip">☀️ F10.7 ' + f107Val + ' sfu</span>';
   $('space-values').innerHTML = vals;
   var kp = state.space.kp;
   var cond = kp == null ? '' : (kp < 4 ? t('cond_good') : (kp < 6 ? t('cond_unstable') : t('cond_storm')));
@@ -3055,6 +3057,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
 
