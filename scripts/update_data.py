@@ -2062,7 +2062,7 @@ def main():
                 DATA_DIR / "stations.json",
                 {
                     "updated": now_iso,
-                    "source": "https://www.radio-browser.info/",
+                    "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
                     "count": len(stations),
                     "stations": stations,
                 },
@@ -2072,7 +2072,7 @@ def main():
                 DATA_DIR / "stations_head.json",
                 {
                     "updated": now_iso,
-                    "source": "https://www.radio-browser.info/",
+                    "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
                     "count": len(head),
                     "stations": head,
                 },
@@ -2119,5 +2119,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 

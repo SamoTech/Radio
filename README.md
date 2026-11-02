@@ -2,14 +2,14 @@
 
 > ⭐ **الموقع الرسمي:** <https://samotech.github.io/Radio/>
 
-دليل بحث ذكي لأجهزة الاستقبال (SDR) ومحطات البث الإذاعي أونلاين في مكان واحد — بتقنية PWA بدون مكتبات خارجية. أكثر من 62,000 محطة من كل العالم + 830 جهاز KiwiSDR حول العالم + قوائم EIBI + WSPR + WebSDR/OpenWebRX.
+دليل بحث ذكي لأجهزة الاستقبال (SDR) ومحطات البث الإذاعي أونلاين في مكان واحد — بتقنية PWA بدون مكتبات خارجية. أكثر من 50,000 محطة من كل العالم + 830 جهاز KiwiSDR حول العالم + قوائم EIBI + WSPR + WebSDR/OpenWebRX.
 
 ## 🌍 نظرة عامة
 
 | البند | التفاصيل |
 |---|---|
 | 📡 الموقع | [https://samotech.github.io/Radio/](https://samotech.github.io/Radio/) |
-| 📻 محطات البث | أكثر من 62,000 محطة من كل العالم + قوائم منسقة للمحطات العربية (~1,301 محطة في 21 دولة) + المحطات المصرية (62 محطة) |
+| 📻 محطات البث | أكثر من 50,000 محطة من كل العالم + قوائم منسقة للمحطات العربية (~1,301 محطة في 21 دولة) + المحطات المصرية (62 محطة) |
 | 🌍 أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
 | 🔭 التغطية | الفحص والتحليل لأكثر من 50,000 محطة + 6 مصادر بيانات خارجية |
 | 🎨 التقنية | HTML + CSS + Vanilla JS بدون مكتبات + Python stdlib للـ crawler + GitHub Pages |
@@ -19,7 +19,7 @@
 
 ### 📻 محطات البث
 
-- كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة ~62,286، ترتيب: سمعية/عربية/IPRD + الكتالوج الكامل) + في البحث المباشر في FM tab أيضا
+- كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة (أكثر من 50,000)، ترتيب: سمعية/عربية/IPRD + الكتالوج الكامل) + في البحث المباشر في FM tab أيضا
 - بحث فوري في ~9MB JSON (لا حاجة للإنترنت بعد التحميل الأول)
 - فلترة حسب الدولة/اللغة/الفئة (FACET_OPTIONS + filterFacetOptions(kind) — يحتفظ بالخيار المحدد أثناء التصفية)
 - LANGUAGE_ALIASES canonicalizes ~35 languages incl. Arabic variants
@@ -79,7 +79,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v22) لـ caching و offline
+- **Service Worker** (sw.js v55) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -102,10 +102,10 @@
 Radio/
 ├── index.html          # الصفحة الرئيسية
 ├── js/
-│   └── app.js          # منطق التطبيق الرئيسي (~85KB)
+│   └── app.js          # منطق التطبيق الرئيسي (~133KB)
 ├── css/
 │   └── styles.css      # أنماط CSS
-├── sw.js               # Service Worker (v22)
+├── sw.js               # Service Worker (v55)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html        # صفحة offline
 ├── robots.txt          # robots.txt
@@ -116,7 +116,7 @@ Radio/
 │   ├── sa.html
 │   └── ...
 ├── data/               # بيانات المحطات
-│   ├── stations.json   # ~12MB (62,286 محطة)
+│   ├── stations.json   # ~12MB (أكثر من 50,000 محطة)
 │   ├── kiwisdr.json    # ~830 جهاز
 │   ├── space_weather.json
 │   ├── eibi.json       # ~142KB
@@ -217,7 +217,7 @@ python -m http.server 8000
 
 ## 📊 إحصائيات
 
-- **عدد المحطات**: ~62,286 محطة (Radio-Browser + IPRD + official + arabic)
+- **عدد المحطات**: أكثر من 50,000 محطة (Radio-Browser + IPRD + official + arabic + community playlists + Dailymotion)
 - **أجهزة KiwiSDR**: ~830 جهاز
 - **أجهزة WebSDR/OpenWebRX**: ~400 جهاز
 - **EIBI**: ~3000 إدخال
@@ -232,3 +232,4 @@ python -m http.server 8000
 
 ---
 **SamoTech/Radio** — Cairo 🇪🇬
+
