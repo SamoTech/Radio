@@ -1,5 +1,8 @@
 import importlib.util
+import sys
 import unittest
+import urllib.error
+import urllib.request
 from unittest import mock
 from pathlib import Path
 
@@ -228,7 +231,10 @@ class ScraperTests(unittest.TestCase):
             '{"listenurl":"https://cdn.easybroadcast.io/ts_live/x/playlist.m3u8"}'
             "]}}"
         )
-        with mock.patch.object(module, "fetch_bytes", return_value=payload.encode("utf-8")):
+        with mock.patch.object(
+            module, "fetch_bytes_strategies",
+            return_value=(payload.encode("utf-8"), "browser"),
+        ):
             urls = module._icecast_mounts("https://radio.example.com/")
         self.assertEqual(urls, ["https://radio.example.com/main.mp3"])
 
@@ -401,6 +407,146 @@ class StreamContentTypeTests(unittest.TestCase):
         self.assertIn("require_audio", source)
         self.assertIn("AUDIO_CT_RE", source)
         self.assertIn("pool.map(lambda u: check_stream(u, True), urls)", source)
+
+
+class StrategyTierTests(unittest.TestCase):
+    """The fetch strategy-tier engine (the "direct-first" philosophy ported
+    from the Deals Radar scraper): polite bot identity first, realistic
+    browser profiles rotate in on failure, curl_cffi Chrome-TLS as the last
+    tier, and every answer records which client profile produced it."""
+
+    def test_fetch_bytes_strategies_rotates_and_reports_the_tier(self):
+        calls = []
+
+        def fake_urlopen(req, timeout=0):
+            calls.append(req)
+            if len(calls) == 1:
+                raise urllib.error.URLError("blocked")
+            return _FakeStreamResp(200, "text/html")
+
+        with mock.patch.object(module.urllib.request, "urlopen", side_effect=fake_urlopen):
+            data, strategy = module.fetch_bytes_strategies("https://example.test/", timeout=5)
+        self.assertEqual(strategy, "browser")
+        self.assertEqual(len(calls), 2)
+        self.assertIn("RadioAtlas", calls[0].headers.get("User-agent", ""))
+        self.assertIn("Chrome/124", calls[1].headers.get("User-agent", ""))
+
+    def test_fetch_bytes_strategies_raises_after_every_tier_fails(self):
+        with mock.patch.dict(sys.modules, {"curl_cffi": None}):
+            with mock.patch.object(
+                module.urllib.request, "urlopen",
+                side_effect=urllib.error.URLError("blocked"),
+            ):
+                with self.assertRaises(urllib.error.URLError):
+                    module.fetch_bytes_strategies("https://example.test/", timeout=2)
+
+    def test_curl_cffi_tier_rescues_when_every_urllib_tier_fails(self):
+        class _FakeCffiResp:
+            status_code = 200
+            headers = {"Content-Type": "text/html"}
+            content = b"<html>ok</html>"
+
+        class _FakeCffiRequests:
+            @staticmethod
+            def get(url, timeout=0, impersonate=None, headers=None):
+                return _FakeCffiResp()
+
+        fake = mock.MagicMock()
+        fake.requests = _FakeCffiRequests()
+        with mock.patch.dict(sys.modules, {"curl_cffi": fake}):
+            with mock.patch.object(
+                module.urllib.request, "urlopen",
+                side_effect=urllib.error.URLError("blocked"),
+            ):
+                data, strategy = module.fetch_bytes_strategies("https://example.test/", timeout=2)
+        self.assertEqual(strategy, "curl_cffi")
+        self.assertEqual(data, b"<html>ok</html>")
+
+    def test_check_stream_escalates_network_failure_to_browser_profile(self):
+        calls = []
+
+        def fake_urlopen(req, timeout=0):
+            calls.append(req)
+            if len(calls) == 1:
+                raise urllib.error.URLError("connection reset")
+            return _FakeStreamResp(200, "audio/mpeg")
+
+        with mock.patch.object(module.urllib.request, "urlopen", side_effect=fake_urlopen):
+            res = module.check_stream("https://example.test/live", require_audio=True)
+        self.assertTrue(res["alive"])
+        self.assertEqual(res["strategy"], "browser")
+        self.assertEqual(len(calls), 2)
+        self.assertIn("Chrome/124", calls[1].headers.get("User-agent", ""))
+        self.assertEqual(calls[1].headers.get("Icy-metadata"), "1")
+        self.assertEqual(calls[1].headers.get("Range"), "bytes=0-511")
+
+    def test_check_stream_dead_404_never_escalates(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            side_effect=urllib.error.HTTPError(
+                "https://example.test/live", 404, "Not Found", None, None
+            ),
+        ):
+            res = module.check_stream("https://example.test/live")
+        self.assertFalse(res["alive"])
+        self.assertEqual(res["strategy"], "bot")
+
+    def test_check_stream_curl_cffi_tier_counts_alive(self):
+        class _FakeCffiResp:
+            status_code = 200
+            headers = {"Content-Type": "audio/mpeg"}
+
+        class _FakeCffiRequests:
+            @staticmethod
+            def get(url, timeout=0, impersonate=None, headers=None):
+                return _FakeCffiResp()
+
+        fake = mock.MagicMock()
+        fake.requests = _FakeCffiRequests()
+        with mock.patch.dict(sys.modules, {"curl_cffi": fake}):
+            with mock.patch.object(
+                module.urllib.request, "urlopen",
+                side_effect=urllib.error.URLError("blocked"),
+            ):
+                res = module.check_stream("https://example.test/live", require_audio=True)
+        self.assertTrue(res["alive"])
+        self.assertEqual(res["strategy"], "curl_cffi")
+
+    def test_scrape_site_records_fetch_failure_honestly(self):
+        seed = {"name": "Test Radio", "cc": "EG", "site": "https://example.test/"}
+        with mock.patch.object(
+            module, "fetch_bytes_strategies",
+            side_effect=urllib.error.URLError("blocked on every tier"),
+        ):
+            with mock.patch.object(module, "extract_stream_candidates", return_value=[]):
+                with mock.patch.object(module, "_icecast_mounts", return_value=[]):
+                    row = module.scrape_site(seed)
+        self.assertEqual(row["fetch_strategy"], "")
+        self.assertIn("blocked on every tier", row["fetch_error"])
+        self.assertEqual(row["candidates"], [])
+
+    def test_scrape_site_reports_the_working_tier(self):
+        seed = {"name": "Test Radio", "cc": "EG", "site": "https://example.test/"}
+        with mock.patch.object(
+            module, "fetch_bytes_strategies",
+            return_value=(b"<html>stream https://radio.test/live</html>", "mobile"),
+        ):
+            with mock.patch.object(
+                module, "extract_stream_candidates",
+                return_value=["https://radio.test/live"],
+            ):
+                with mock.patch.object(module, "_icecast_mounts", return_value=[]):
+                    row = module.scrape_site(seed)
+        self.assertEqual(row["fetch_strategy"], "mobile")
+        self.assertEqual(row["fetch_error"], "")
+        self.assertEqual(row["candidates"], ["https://radio.test/live"])
+
+    def test_strategy_engine_is_pinned(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("FETCH_STRATEGY_PROFILES", source)
+        self.assertIn("GOOGLEBOT_HEADERS", source)
+        self.assertIn("fetch_bytes_strategies", source)
+        self.assertIn('impersonate="chrome"', source)
 
 
 if __name__ == "__main__":

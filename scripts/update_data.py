@@ -19,6 +19,13 @@ Sources:
   fetched and scanned for direct HTTPS stream URLs (audio manifests,
   icecast status-json.xsl mounts), verified live, saved to
   data/discovered_streams.json; named seeds join the catalog merge.
+  Fetches run through the strategy-tier engine (ported from the Deals
+  Radar scraper): our bot identity first, then realistic browser profiles
+  (desktop Chrome -> Android Chrome -> Googlebot), then the curl_cffi
+  Chrome-TLS tier when installed — every tier failure falls through to
+  the next instead of failing the fetch, and every answer records which
+  client profile produced it (fetch_strategy / "strategy") so blocked
+  seeds and false-dead streams are diagnosable from the data.
 - Dailymotion live radios (maspero/ERTU simulcasts, channel NMA): each
   radio is cataloged as its official Dailymotion video page — NMA
   restricts embedding to maspero.eg domains only (their player API
@@ -140,6 +147,90 @@ CHECK_HEAD_MAX = 1200
 # refreshes the liveness snapshot for a bounded curated head.
 CHECK_FALLBACK_MAX = 300
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
+
+# ---- Fetch strategy tiers ("direct-first" engine philosophy, ported from
+# the Deals Radar scraper) ----
+# Station-side fetches (website scraping + stream liveness) start with our
+# polite bot identity, then rotate through realistic browser clients when a
+# tier comes back blocked: desktop Chrome -> Android Chrome -> Googlebot,
+# and finally the curl_cffi tier with a real Chrome TLS fingerprint when the
+# package is installed (the update-data workflow installs it; local runs and
+# the Validate job simply skip the tier). Escalation happens ONLY on failure,
+# so every source that works today keeps its exact current behavior; the
+# first blocked tier never kills a fetch, and every answer records WHICH
+# client profile produced it (honest diagnostics instead of guessing).
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en,ar;q=0.9",
+}
+MOBILE_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+    "Accept-Language": "en,ar;q=0.9",
+}
+GOOGLEBOT_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+}
+FETCH_STRATEGY_PROFILES = (
+    ("browser", BROWSER_HEADERS),
+    ("mobile", MOBILE_HEADERS),
+    ("googlebot", GOOGLEBOT_HEADERS),
+)
+
+
+def _curl_cffi_get(url, timeout, headers=None):
+    """Optional curl_cffi tier: a real Chrome TLS fingerprint, the last resort
+    for hosts that fingerprint the TLS handshake. Returns the response object,
+    or None when the package is unavailable (local runs, the Validate job) or
+    the request fails — never raises, callers fall through cleanly."""
+    try:
+        from curl_cffi import requests as _cffi_requests  # type: ignore
+    except Exception:  # noqa: BLE001
+        return None
+    try:
+        return _cffi_requests.get(
+            url, timeout=timeout, impersonate="chrome", headers=dict(headers or {})
+        )
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def fetch_bytes_strategies(url, timeout=20, base_headers=None):
+    """Fetch a URL through the strategy tiers; returns (data, strategy).
+
+    Tier 0 is the caller's base headers (our polite bot identity by default);
+    every failed tier falls through to the next profile, with curl_cffi as
+    the final attempt. Raises the last error when every tier fails."""
+    tiers = [("bot", dict(base_headers or {"User-Agent": UA}))]
+    tiers.extend((name, dict(hdrs)) for name, hdrs in FETCH_STRATEGY_PROFILES)
+    last_error = None
+    for name, headers in tiers:
+        try:
+            req = urllib.request.Request(
+                url, headers={**headers, "Accept-Encoding": "identity"}
+            )
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = r.read()
+                if r.headers.get("Content-Encoding", "").lower() == "gzip":
+                    data = gzip.decompress(data)
+                return data, name
+        except Exception as e:  # noqa: BLE001
+            last_error = e
+            time.sleep(0.5)
+    cffi = _curl_cffi_get(url, timeout)
+    if cffi is not None:
+        return cffi.content, "curl_cffi"
+    raise last_error
+
+
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 OFFICIAL_PATH = Path(__file__).resolve().parent / "official_stations.json"
 ARABIC_PATH = Path(__file__).resolve().parent / "arabic_stations.json"
@@ -1259,19 +1350,11 @@ def fetch_community_stations():
 AUDIO_CT_RE = re.compile(r"audio/|video/|mpegurl|ogg|mpeg|mp4|dash|octet-stream|pls|icy", re.I)
 
 
-def check_stream(url, require_audio=False):
-    """Lightweight liveness probe for a stream URL (auth-gated servers count as alive).
-
-    require_audio=True rejects responses whose Content-Type is a web page, so
-    scraper candidates that are HTML pages can no longer pass as streams;
-    genuine stream types and missing/blank headers are accepted.
-    """
+def _probe_stream(url, headers, timeout, require_audio):
+    """One stream liveness attempt with a specific client profile."""
     try:
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": UA, "Range": "bytes=0-511", "Icy-MetaData": "1"},
-        )
-        with urllib.request.urlopen(req, timeout=CHECK_TIMEOUT) as resp:
+        req = urllib.request.Request(url, headers=dict(headers))
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             code = resp.getcode()
             resp.read(64)
             if require_audio:
@@ -1285,6 +1368,65 @@ def check_stream(url, require_audio=False):
         return {"alive": e.code in (401, 403, 405), "code": e.code}
     except Exception:  # noqa: BLE001
         return {"alive": False, "code": 0}
+
+
+def _should_escalate(res):
+    """A dead verdict worth retrying with a different client identity.
+
+    Network-level failures (code 0: timeouts, resets, DNS) and WAF-style
+    rejections are often client-fingerprint blocks, and a realistic browser
+    profile can get through; a definitive 404/410 gone stays gone, and
+    auth-gated 401/403/405 answers already count as alive."""
+    code = int(res.get("code") or 0)
+    return not res.get("alive") and (
+        code == 0 or code in (400, 406, 409, 429, 451) or code >= 500
+    )
+
+
+def _cffi_verdict(resp, require_audio):
+    """Map a curl_cffi response onto the liveness verdict shape."""
+    code = int(getattr(resp, "status_code", 0) or 0)
+    ctype = ""
+    try:
+        ctype = str(resp.headers.get("Content-Type") or "")
+    except Exception:  # noqa: BLE001
+        ctype = ""
+    if require_audio and ctype and not AUDIO_CT_RE.search(ctype):
+        return {"alive": False, "code": code}
+    return {"alive": code in (401, 403, 405) or 200 <= code < 400, "code": code}
+
+
+def check_stream(url, require_audio=False):
+    """Lightweight liveness probe for a stream URL (auth-gated servers count as alive).
+
+    require_audio=True rejects responses whose Content-Type is a web page, so
+    scraper candidates that are HTML pages can no longer pass as streams;
+    genuine stream types and missing/blank headers are accepted.
+
+    Strategy tiers: the first probe uses our polite bot identity; when the
+    verdict smells like a client-fingerprint block (see _should_escalate) the
+    realistic browser profiles rotate in, with the curl_cffi Chrome-TLS tier
+    as the last resort. The returned verdict records which client profile
+    produced the answer (the "strategy" field) so false-dead stations become
+    identifiable from the data instead of guessed at.
+    """
+    base = {"Range": "bytes=0-511", "Icy-MetaData": "1", "Accept-Encoding": "identity"}
+    res = _probe_stream(url, {**base, "User-Agent": UA}, CHECK_TIMEOUT, require_audio)
+    strategy = "bot"
+    if _should_escalate(res):
+        for name, profile in FETCH_STRATEGY_PROFILES:
+            tier = _probe_stream(url, {**base, **profile}, CHECK_TIMEOUT, require_audio)
+            if not _should_escalate(tier):
+                tier["strategy"] = name
+                return tier
+            # Keep the latest honest verdict for the fallthrough.
+            res, strategy = tier, name
+        cffi = _curl_cffi_get(url, CHECK_TIMEOUT, headers=dict(base))
+        if cffi is not None:
+            res = _cffi_verdict(cffi, require_audio)
+            strategy = "curl_cffi"
+    res["strategy"] = strategy
+    return res
 
 
 def run_stream_checks(stations):
@@ -1341,6 +1483,14 @@ def write_stream_checks(stations, now_iso):
         checks = apply_alive_overrides(run_stream_checks(stations))
         if checks:
             alive = sum(1 for v in checks.values() if v.get("alive"))
+            # Which client profile produced each alive verdict — a station that
+            # only answers the browser tier was false-dead under the bot UA.
+            by_strategy = {}
+            for v in checks.values():
+                if v.get("alive") and v.get("strategy"):
+                    key = v["strategy"]
+                    by_strategy[key] = by_strategy.get(key, 0) + 1
+            summary = ", ".join(f"{k} {v}" for k, v in sorted(by_strategy.items()))
             write_json(
                 DATA_DIR / "stream_checks.json",
                 {
@@ -1350,7 +1500,8 @@ def write_stream_checks(stations, now_iso):
                     "results": checks,
                 },
             )
-            print(f"stream checks: {alive}/{len(checks)} streams alive")
+            print(f"stream checks: {alive}/{len(checks)} streams alive"
+                  + (f" ({summary})" if summary else ""))
     except Exception as e:  # noqa: BLE001
         print(f"stream checks FAILED: {e} — keeping last good snapshot", file=sys.stderr)
 
@@ -1422,7 +1573,10 @@ def _icecast_mounts(site):
     try:
         origin = urllib.parse.urlsplit(site)
         status_url = f"{origin.scheme}://{origin.netloc}/status-json.xsl"
-        data = json.loads(fetch_bytes(status_url, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace"))
+        data = json.loads(
+            fetch_bytes_strategies(status_url, timeout=SCRAPER_TIMEOUT)[0]
+            .decode("utf-8", "replace")
+        )
         mounts = data.get("icestats", {}).get("source") or []
         if isinstance(mounts, dict):
             mounts = [mounts]
@@ -1439,15 +1593,25 @@ def _icecast_mounts(site):
 
 
 def scrape_site(seed):
-    """Scrape one broadcaster website for direct stream candidates."""
+    """Scrape one broadcaster website for direct stream candidates.
+
+    The page fetch runs through the strategy tiers (bot identity first, then
+    realistic browser profiles, then curl_cffi); the row records WHICH tier
+    produced the HTML (fetch_strategy) and, when every tier failed, the last
+    error (fetch_error) — so a blocked seed is diagnosable from the artifact
+    instead of silently scraping an empty page.
+    """
     site = str(seed.get("site") or "")
     if not site.lower().startswith("https://"):
         return None
     html = ""
+    fetch_strategy = ""
+    fetch_error = ""
     try:
-        html = fetch_bytes(site, timeout=SCRAPER_TIMEOUT).decode("utf-8", "replace")
-    except Exception:  # noqa: BLE001
-        html = ""
+        data, fetch_strategy = fetch_bytes_strategies(site, timeout=SCRAPER_TIMEOUT)
+        html = data.decode("utf-8", "replace")
+    except Exception as e:  # noqa: BLE001
+        fetch_error = str(e)[:160]
     candidates = extract_stream_candidates(html) + _icecast_mounts(site)
     deduped, seen = [], set()
     for url in candidates:
@@ -1465,6 +1629,8 @@ def scrape_site(seed):
         "tags": str(seed.get("tags") or ""),
         "official": bool(seed.get("official")),
         "catalog": bool(seed.get("catalog")),
+        "fetch_strategy": fetch_strategy,
+        "fetch_error": fetch_error,
         "candidates": deduped[:SCRAPER_CANDIDATE_MAX],
     }
 
@@ -2065,7 +2231,13 @@ def main():
                     },
                 )
                 discovered = scraper_catalog_entries(scrape_rows)
-                print(f"scraper: {len(discovered)} catalog streams from websites")
+                verified = sum(len(r.get("streams") or []) for r in scrape_rows)
+                blocked = sum(1 for r in scrape_rows if r.get("fetch_error"))
+                print(
+                    f"scraper: {len(discovered)} catalog streams from websites "
+                    f"({verified} verified across {len(scrape_rows)} sites, "
+                    f"{blocked} sites blocked on every tier)"
+                )
             except Exception as e:  # noqa: BLE001
                 print(f"scraper FAILED: {e} — continuing without discovered streams", file=sys.stderr)
             dm_entries = []
