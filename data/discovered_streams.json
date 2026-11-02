@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T11:16:44+00:00",
+ "updated": "2026-11-02T11:28:28+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 4,
+ "count": 6,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -267,6 +267,60 @@
    "official": false,
    "catalog": false,
    "streams": []
+  },
+  {
+   "site": "https://www.mia.gov.bh/media-center/bahrain-fm-93-3/",
+   "name": "إذاعة البحرين إف إم 93.3 — Bahrain FM 93.3",
+   "cc": "BH",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://www.antinearadio.com/",
+   "name": "أنتينيا راديو — Antinea Radio",
+   "cc": "DZ",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://diwanfm.net/",
+   "name": "ديوان إف إم — Diwan FM",
+   "cc": "TN",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": []
+  },
+  {
+   "site": "https://nasradio.fm/",
+   "name": "راديو الناس — Radio Al Nas",
+   "cc": "PS",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://live1.nasapp.net/nas/live_audio.m3u8"
+   ]
+  },
+  {
+   "site": "https://arn.ps/",
+   "name": "إذاعة أجيال — Ajyal FM",
+   "cc": "PS",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "streams": [
+    "https://streamer.mada.ps:8208/ajyal"
+   ]
   }
  ]
 }

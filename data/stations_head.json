@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T11:16:44+00:00",
+ "updated": "2026-11-02T11:28:28+00:00",
  "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
  "count": 2500,
  "stations": [
@@ -717,6 +717,74 @@
    "tags": "عربي,arabic,syria,music",
    "codec": "AAC",
    "bitrate": 128
+  },
+  {
+   "name": "إذاعة البحرين إف إم 93.3 — Bahrain FM 93.3",
+   "url": "https://5c7b683162943.streamlock.net/live/ngrp:radio-93-3_all/playlist.m3u8",
+   "cc": "BH",
+   "language": "arabic",
+   "tags": "عربي,arabic,bahrain,رسمي,official",
+   "codec": "AAC",
+   "bitrate": 0,
+   "website": "https://www.mia.gov.bh/media-center/bahrain-fm-93-3/"
+  },
+  {
+   "name": "بيور إف إم — Beur FM",
+   "url": "https://beurfm.ice.infomaniak.ch/beurfm-high.mp3",
+   "cc": "DZ",
+   "language": "arabic,french",
+   "tags": "عربي,arabic,algeria,جزائر,music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "أنتينيا راديو — Antinea Radio",
+   "url": "https://listen.radioking.com/radio/6640/stream/347",
+   "cc": "DZ",
+   "language": "arabic",
+   "tags": "عربي,arabic,algeria,جزائر,music",
+   "codec": "MP3",
+   "bitrate": 128,
+   "website": "https://www.antinearadio.com/"
+  },
+  {
+   "name": "موزاييك إف إم — Mosaïque FM",
+   "url": "https://radio.mosaiquefm.net/mosalive",
+   "cc": "TN",
+   "language": "arabic",
+   "tags": "عربي,arabic,tunisia,تونس,music",
+   "codec": "MP3",
+   "bitrate": 90
+  },
+  {
+   "name": "ديوان إف إم — Diwan FM",
+   "url": "https://streaming.diwanfm.net/stream",
+   "cc": "TN",
+   "language": "arabic",
+   "tags": "عربي,arabic,tunisia,تونس",
+   "codec": "MP3",
+   "bitrate": 128,
+   "website": "https://diwanfm.net/"
+  },
+  {
+   "name": "راديو الناس — Radio Al Nas",
+   "url": "https://cdna.streamgates.net/RadioNas/Live-Audio/icecast.audio",
+   "cc": "PS",
+   "language": "arabic",
+   "tags": "عربي,arabic,palestine,فلسطين",
+   "codec": "AAC+",
+   "bitrate": 64,
+   "website": "https://nasradio.fm/"
+  },
+  {
+   "name": "إذاعة أجيال — Ajyal FM",
+   "url": "https://streamer.mada.ps:8208/ajyal",
+   "cc": "PS",
+   "language": "arabic",
+   "tags": "عربي,arabic,palestine,فلسطين",
+   "codec": "MP3",
+   "bitrate": 128,
+   "website": "https://arn.ps/"
   },
   {
    "name": "Hits 1 Maroc",
@@ -22492,69 +22560,6 @@
   {
    "name": "RCA La Radio",
    "url": "https://rcasaint-nazaire.ice.infomaniak.ch/rcasaint-nazaire-192.mp3",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Nostalgie Radio - Best of 60s",
-   "url": "https://edge85.streamonkey.net/nostalgie-live?aggregator=nostalgieradiode",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Harz FM Radio",
-   "url": "https://harz-fm.stream.laut.fm/harz-fm",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Radioup - Time Blender",
-   "url": "https://live.powerhitz.com/timeblender?cb=98691.mp3",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Radio WMW - Oldie",
-   "url": "https://rnrw.stream48.radiohost.de/rnrw-deinoldieradio_mp3-192?ar-distributor=ffa0&sid=0146&kombi=mms&upd-meta&upd-scheme=https&ref=ffa0&amsparams=ffa0&_art=dD0xNzgxMTc5ODc0JmQ9ZWFkNjZlMjdjMmQ5ZDg2ZjY0ZDM",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "60er70er MEGAMIX Radio",
-   "url": "https://edge17.radio.antennevorarlberg.at/mm-60er70ermegamix",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "60&#x27;s Dance - Радио Рекорд",
-   "url": "https://radiorecord.hostingradio.ru/cadillac96.aacp",
-   "cc": "",
-   "language": "",
-   "tags": "community",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Antenne Niedersachsen Oldies Radio",
-   "url": "https://antnds.streamabc.net/ands-antndsoldies-mp3-192-4005366?sABC=6n2nn4o6%230%233p0orrnr459p6s187200nn291ss2438o%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781179574",
    "cc": "",
    "language": "",
    "tags": "community",

@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T11:16:44+00:00",
+ "updated": "2026-11-02T11:28:28+00:00",
  "checked": 1184,
- "alive": 1075,
+ "alive": 1076,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -231,13 +231,41 @@
    "alive": true,
    "code": 200
   },
+  "https://5c7b683162943.streamlock.net/live/ngrp:radio-93-3_all/playlist.m3u8": {
+   "alive": true,
+   "code": 206
+  },
+  "https://beurfm.ice.infomaniak.ch/beurfm-high.mp3": {
+   "alive": true,
+   "code": 200
+  },
+  "https://listen.radioking.com/radio/6640/stream/347": {
+   "alive": true,
+   "code": 200
+  },
+  "https://radio.mosaiquefm.net/mosalive": {
+   "alive": true,
+   "code": 200
+  },
+  "https://streaming.diwanfm.net/stream": {
+   "alive": true,
+   "code": 200
+  },
+  "https://cdna.streamgates.net/RadioNas/Live-Audio/icecast.audio": {
+   "alive": true,
+   "code": 200
+  },
+  "https://streamer.mada.ps:8208/ajyal": {
+   "alive": true,
+   "code": 200
+  },
   "https://radio12.pro-fhi.net/live/Hits1radio": {
    "alive": true,
    "code": 200
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 500
+   "code": 0
   },
   "https://streaming.rimradio.ma/live": {
    "alive": true,
@@ -1528,8 +1556,8 @@
    "code": 404
   },
   "https://mix941kmxj.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://stm1.ahtvox.com.br:7002/stream": {
    "alive": true,
@@ -1652,8 +1680,8 @@
    "code": 403
   },
   "https://925theranch.com/listen-live/popup/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://streamdb5web.securenetsystems.net/v5/index.cfm?stationCallSign=KXLS": {
    "alive": true,
@@ -3056,8 +3084,8 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -3369,7 +3397,7 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404
+   "code": 0
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -3416,8 +3444,8 @@
    "code": 200
   },
   "https://mixcr-rowrigos.radioca.st/stream": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://ecmanager2.pro-fhi.net:1990/": {
    "alive": true,
@@ -4710,34 +4738,6 @@
   "https://aguila1.netkairos.com/8050": {
    "alive": false,
    "code": 0
-  },
-  "https://casthd.net:7020/": {
-   "alive": false,
-   "code": 0
-  },
-  "https://server8.emitironline.com:10852/radio.mp3": {
-   "alive": true,
-   "code": 206
-  },
-  "https://sonic.sistemahost.es:7032/stream/1/": {
-   "alive": true,
-   "code": 200
-  },
-  "https://cloudstream2034.conectarhosting.com/8046/stream": {
-   "alive": true,
-   "code": 200
-  },
-  "https://server2.ejeserver.com:8486/stream": {
-   "alive": true,
-   "code": 200
-  },
-  "https://01.solumedia.com.ar:7864/stream": {
-   "alive": true,
-   "code": 200
-  },
-  "https://server.radiostreaming.com.ar/8162/stream": {
-   "alive": true,
-   "code": 206
   }
  }
 }
