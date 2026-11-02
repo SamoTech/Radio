@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T11:28:28+00:00",
+ "updated": "2026-11-02T11:34:47+00:00",
  "checked": 1184,
- "alive": 1076,
+ "alive": 1071,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -265,7 +265,7 @@
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 0
+   "code": 500
   },
   "https://streaming.rimradio.ma/live": {
    "alive": true,
@@ -660,8 +660,8 @@
    "code": 200
   },
   "https://ice64.securenetsystems.net/WCKA": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://das-edge63-live365-dal03.cdnstream.com/a72854?dist=theonestopradio": {
    "alive": false,
@@ -688,8 +688,8 @@
    "code": 206
   },
   "https://ice8.securenetsystems.net/KXLS": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://das-edge11-live365-dal03.cdnstream.com/a30884?dist=theonestopradio": {
    "alive": true,
@@ -704,8 +704,8 @@
    "code": 404
   },
   "https://ice41.securenetsystems.net/KJJZ": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://das-edge14-live365-dal02.cdnstream.com/a57014?dist=theonestopradio": {
    "alive": true,
@@ -720,8 +720,8 @@
    "code": 200
   },
   "https://ice24.securenetsystems.net/KLLP": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://das-edge16-live365-dal02.cdnstream.com/a28904?dist=theonestopradio": {
    "alive": false,
@@ -913,7 +913,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 403
+   "code": 200
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
    "alive": true,
@@ -1496,8 +1496,8 @@
    "code": 200
   },
   "https://ice2.securenetsystems.net/KGUMFM?ver=274640": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://23153.live.streamtheworld.com/NOVA_THROWBACK_AAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -1680,8 +1680,8 @@
    "code": 403
   },
   "https://925theranch.com/listen-live/popup/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://streamdb5web.securenetsystems.net/v5/index.cfm?stationCallSign=KXLS": {
    "alive": true,
@@ -1700,8 +1700,8 @@
    "code": 200
   },
   "https://mix949.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://radio.securenetsystems.net/v5/index.cfm?CFID=86daddc9-c1cd-43ba-96f1-50bde0176a51&CFTOKEN=0&stationCallSign=KLGD": {
    "alive": true,
@@ -1760,8 +1760,8 @@
    "code": 200
   },
   "https://965kvki.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://djstephpra-radio.stream.laut.fm/djstephpra-radio?t302=2026-06-10_07-58-21&uuid=cbaa0494-9bf5-4daa-ab0d-889c2df2dd76": {
    "alive": true,
@@ -1832,8 +1832,8 @@
    "code": 200
   },
   "https://player.painelcast.com/proxy/7546": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://stm1.stmsrv.com:8328/stream.nsv": {
    "alive": false,
@@ -1992,8 +1992,8 @@
    "code": 200
   },
   "https://mix1043fm.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://radio-mueritz.stream.laut.fm/radio-mueritz?t302=2026-06-10_07-58-42&uuid=0f320288-ce14-4620-ab0b-973276df2a11": {
    "alive": true,
@@ -2528,8 +2528,8 @@
    "code": 200
   },
   "https://ice66.securenetsystems.net/WRON": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://stream2.hippynet.co.uk/stream/york/": {
    "alive": true,
@@ -2576,8 +2576,8 @@
    "code": 200
   },
   "https://ice8.securenetsystems.net/KXLS?playSessionID=1F265CC4-D6E6-3752-4D7DA560049AE586": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://ais-sa2.cdnstream1.com/2336_128.mp3": {
    "alive": true,
@@ -2588,8 +2588,8 @@
    "code": 206
   },
   "https://ice9.securenetsystems.net/KABX": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://27143.live.streamtheworld.com/KQLKFMAAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -3076,16 +3076,16 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/etq1un32w42vv": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://powerradio181.stream.laut.fm/powerradio181?t302=2026-06-10_08-00-11&uuid=7ef6e765-2647-4466-bbff-c31d572c8953": {
    "alive": true,
    "code": 200
   },
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -3444,8 +3444,8 @@
    "code": 200
   },
   "https://mixcr-rowrigos.radioca.st/stream": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://ecmanager2.pro-fhi.net:1990/": {
    "alive": true,
@@ -4568,8 +4568,8 @@
    "code": 200
   },
   "https://ice64.securenetsystems.net/WKHR": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://streaming.switchfm.com.au:8000/SweetFM": {
    "alive": true,
