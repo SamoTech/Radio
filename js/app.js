@@ -121,7 +121,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_count: '{n} جهاز على الخريطة',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -177,7 +177,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_count: '{n} receivers on the map',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -230,7 +230,7 @@ var state = {
   webSdrs: null,
   satnogs: null,
   landMap: null,
-  mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true, aircraft: true },
+  mapLayers: { kiwi: true, websdr: true, owrx: true, satnogs: true, aircraft: true, visitors: true },
   grayline: true,
   currentName: '',
   activeTab: 'fm',
@@ -852,6 +852,22 @@ function renderMap() {
       var axy = mapXY(a.lat, a.lon);
       svg += '<circle class="map-dot-aircraft" cx="' + axy[0] + '" cy="' + axy[1] + '" r="1.6"><title>' + esc(a.name + (a.loc ? ' — ' + a.loc : '')) + '</title></circle>';
     });
+  }
+  if (state.mapLayers.visitors) {
+    var vheat = state.visitorHeat || visitorHeatCached() || {};
+    state.visitorHeat = vheat;
+    if (state.activeTab === 'map') fetchVisitorHeat();
+    var vMax = 0;
+    VISITOR_CC_POINTS.forEach(function (p) { if (Number(vheat[p.cc]) > vMax) vMax = Number(vheat[p.cc]); });
+    if (vMax > 0) {
+      VISITOR_CC_POINTS.forEach(function (p) {
+        var vn = Number(vheat[p.cc]) || 0;
+        var vr = visitorHeatDot(vn, vMax);
+        if (!vr) return;
+        var vxy = mapXY(p.lat, p.lon);
+        svg += '<circle class="map-dot-visitors" cx="' + vxy[0] + '" cy="' + vxy[1] + '" r="' + vr + '"><title>' + esc(flagOf(p.cc) + ' ' + p.cc + ' — ' + t('visitors_dot').replace('{n}', fmtNum(vn))) + '</title></circle>';
+      });
+    }
   }
   svg += '</svg>';
   wrap.innerHTML = svg;
@@ -2492,7 +2508,7 @@ var ABACUS_BASE = 'https://abacus.jasoncameron.dev';
 var ABACUS_NAMESPACE = 'radio-atlas';
 var ABACUS_KEY = 'views';
 
-function visitorCounterRequest(action, params) {
+function visitorCounterRequest(action, params, key) {
   return new Promise(function (resolve, reject) {
     var callbackName = '__radioAtlasCounter' + (++visitorJsonpSequence);
     var script = document.createElement('script');
@@ -2518,7 +2534,7 @@ function visitorCounterRequest(action, params) {
     }, 10000);
     script.src = ABACUS_BASE + '/' + action + '/' +
       encodeURIComponent(ABACUS_NAMESPACE) + '/' +
-      encodeURIComponent(ABACUS_KEY) + (queryString ? '?' + queryString : '');
+      encodeURIComponent(key || ABACUS_KEY) + (queryString ? '?' + queryString : '');
     script.async = true;
     document.head.appendChild(script);
   });
@@ -2576,6 +2592,129 @@ function initVisitorBox() {
       console.warn('Radio Atlas total visitor counter:', error);
       if (visitorCachedTotal() == null) renderVisitorFallbackBadge();
     });
+}
+
+/* ---- visitor geography: country-level counts on the world map ---- */
+
+var VISITOR_CC_POINTS = [
+  { cc: 'EG', lat: 26.8, lon: 30.8 }, { cc: 'SA', lat: 24, lon: 45 },
+  { cc: 'AE', lat: 24, lon: 54 }, { cc: 'KW', lat: 29.3, lon: 47.6 },
+  { cc: 'QA', lat: 25.3, lon: 51.2 }, { cc: 'BH', lat: 26, lon: 50.55 },
+  { cc: 'OM', lat: 21, lon: 57 }, { cc: 'JO', lat: 31.3, lon: 36.8 },
+  { cc: 'LB', lat: 33.9, lon: 35.9 }, { cc: 'SY', lat: 35, lon: 38.5 },
+  { cc: 'IQ', lat: 33, lon: 43.8 }, { cc: 'YE', lat: 15.5, lon: 48 },
+  { cc: 'SD', lat: 15, lon: 30 }, { cc: 'LY', lat: 27, lon: 17 },
+  { cc: 'DZ', lat: 28, lon: 2.7 }, { cc: 'TN', lat: 34, lon: 9.5 },
+  { cc: 'MA', lat: 31.9, lon: -7 }, { cc: 'PS', lat: 31.9, lon: 35.2 },
+  { cc: 'MR', lat: 20, lon: -10.5 }, { cc: 'SO', lat: 5, lon: 46 },
+  { cc: 'DJ', lat: 11.5, lon: 43 }, { cc: 'KM', lat: -11.7, lon: 43.3 },
+  { cc: 'US', lat: 39.8, lon: -98.6 }, { cc: 'CA', lat: 56, lon: -106 },
+  { cc: 'GB', lat: 54, lon: -2 }, { cc: 'FR', lat: 46.6, lon: 2.4 },
+  { cc: 'DE', lat: 51, lon: 10.4 }, { cc: 'NL', lat: 52.2, lon: 5.3 },
+  { cc: 'ES', lat: 40.2, lon: -3.7 }, { cc: 'IT', lat: 42.8, lon: 12.6 },
+  { cc: 'TR', lat: 39, lon: 35 }, { cc: 'RU', lat: 61, lon: 90 },
+  { cc: 'SE', lat: 62, lon: 15 }, { cc: 'PL', lat: 52.2, lon: 19.1 },
+  { cc: 'IN', lat: 21, lon: 78 }, { cc: 'PK', lat: 30, lon: 70 },
+  { cc: 'ID', lat: -2, lon: 118 }, { cc: 'MY', lat: 4, lon: 102 },
+  { cc: 'PH', lat: 12, lon: 122 }, { cc: 'JP', lat: 36.5, lon: 138 },
+  { cc: 'CN', lat: 35, lon: 104 }, { cc: 'BR', lat: -10, lon: -52 },
+  { cc: 'AU', lat: -25, lon: 134 }, { cc: 'ZA', lat: -29, lon: 25 },
+  { cc: 'NG', lat: 9.5, lon: 8 }, { cc: 'KE', lat: 0.3, lon: 37.9 }
+];
+var VISITOR_GEO_CACHE_KEY = 'ra-visitor-geo';
+var VISITOR_GEO_TTL = 30 * 24 * 3600 * 1000;
+var VISITOR_HEAT_CACHE_KEY = 'ra-visitor-heat';
+var VISITOR_HEAT_TTL = 24 * 3600 * 1000;
+var visitorHeatBusy = false;
+var visitorHeatLastTry = 0;
+
+function visitorHeatDot(count, maxCount) {
+  // Gold dot radius for the visitors map layer (0 = do not draw).
+  var n = Number(count) || 0;
+  var m = Number(maxCount) || 0;
+  if (n <= 0 || m <= 0) return 0;
+  return (2 + 6 * Math.sqrt(n / m)).toFixed(2);
+}
+
+function renderVisitorYou(cc, name, flag) {
+  var el = $('visitor-you');
+  if (!el) return;
+  el.textContent = '';
+  el.appendChild(document.createTextNode(t('you_from') + ' '));
+  var b = document.createElement('b');
+  b.textContent = (flag ? flag + ' ' : '') + (name || String(cc || '').toUpperCase());
+  el.appendChild(b);
+  el.hidden = false;
+}
+
+function countVisitorCountry(cc) {
+  if (!cc || !/^[A-Z]{2}$/.test(cc)) return;
+  visitorCounterRequest('hit', {}, 'views-' + cc)
+    .catch(function (error) { console.warn('Radio Atlas visitor country counter:', error); });
+}
+
+function initVisitorGeo() {
+  // Detect the visitor country (ipwho.is, CORS-open) and count the visit
+  // under a per-country Abacus key for the map visitors layer.
+  var cached = null;
+  try {
+    cached = JSON.parse(localStorage.getItem(VISITOR_GEO_CACHE_KEY) || 'null');
+  } catch (e) {}
+  if (cached && cached.cc && Date.now() - Number(cached.ts || 0) < VISITOR_GEO_TTL) {
+    renderVisitorYou(cached.cc, cached.name, cached.flag);
+    countVisitorCountry(cached.cc);
+    return;
+  }
+  fetchJSON('https://ipwho.is/')
+    .then(function (j) {
+      if (!j || !j.success || !j.country_code) throw new Error('geo lookup failed');
+      var cc = String(j.country_code).toUpperCase().slice(0, 2);
+      var name = String(j.country || cc);
+      var flag = j.flag && j.flag.emoji ? String(j.flag.emoji) : flagOf(cc);
+      try { localStorage.setItem(VISITOR_GEO_CACHE_KEY, JSON.stringify({ cc: cc, name: name, flag: flag, ts: Date.now() })); } catch (e) {}
+      renderVisitorYou(cc, name, flag);
+      countVisitorCountry(cc);
+    })
+    .catch(function (error) { console.warn('Radio Atlas visitor geo:', error); });
+}
+
+function visitorHeatCached() {
+  try {
+    var cached = JSON.parse(localStorage.getItem(VISITOR_HEAT_CACHE_KEY) || 'null');
+    if (cached && cached.data && Date.now() - Number(cached.ts || 0) < VISITOR_HEAT_TTL) return cached.data;
+  } catch (e) {}
+  return null;
+}
+
+function fetchVisitorHeat() {
+  // Per-country visit counts for the map layer. One JSONP request every
+  // 400ms respects the free Abacus rate limit; cached 24h in localStorage.
+  var cached = visitorHeatCached();
+  if (cached) { state.visitorHeat = cached; return; }
+  if (visitorHeatBusy || Date.now() - visitorHeatLastTry < 600000) return;
+  visitorHeatBusy = true;
+  visitorHeatLastTry = Date.now();
+  var merged = {};
+  var chain = Promise.resolve();
+  VISITOR_CC_POINTS.forEach(function (p, i) {
+    chain = chain.then(function () {
+      return visitorCounterRequest('get', {}, 'views-' + p.cc)
+        .then(function (data) {
+          var v = Number(data && data.value);
+          if (Number.isFinite(v) && v > 0) merged[p.cc] = v;
+        })
+        .catch(function () {});
+    });
+    if (i < VISITOR_CC_POINTS.length - 1) {
+      chain = chain.then(function () { return new Promise(function (r) { setTimeout(r, 400); }); });
+    }
+  });
+  chain.then(function () {
+    visitorHeatBusy = false;
+    state.visitorHeat = merged;
+    try { localStorage.setItem(VISITOR_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
+    if (state.activeTab === 'map' && state.mapLayers.visitors) renderMap();
+  });
 }
 
 /* ================= KiwiSDR WebSocket audio (experimental) ================= */
@@ -3051,6 +3190,7 @@ function init() {
     setTimeout(loadStations, 300);
   }
   initVisitorBox();
+  initVisitorGeo();
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(function () {});
   }

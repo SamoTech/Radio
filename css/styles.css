@@ -345,3 +345,8 @@ body{-webkit-tap-highlight-color:transparent}
 @media(min-width:721px){ main{padding-bottom:64px} }
 @media(max-width:720px){ .qb-chip{padding:8px 14px} }
 
+
+/* ================= visitor geography layer ================= */
+.map-dot-visitors{fill:#d4af37;fill-opacity:.22;stroke:#f3d276;stroke-opacity:.85;stroke-width:.4}
+.map-dot-visitors:hover{fill-opacity:.5}
+#visitor-you{margin:6px 0 0;font-size:.9rem}
