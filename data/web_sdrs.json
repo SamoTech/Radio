@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T11:34:47+00:00",
+ "updated": "2026-11-02T12:46:14+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -349,22 +349,6 @@
    "https": false,
    "lat": 41.7311,
    "lon": 44.7955
-  },
-  {
-   "name": "GEORGIA Country, Odlisi-Kakheti",
-   "url": "http://sdrgeorgia.sytes.net:8902/",
-   "loc": "",
-   "https": false,
-   "lat": 41.9811,
-   "lon": 45.2955
-  },
-  {
-   "name": "GEORGIA Country, Odlisi-Kakheti",
-   "url": "http://31.57.58.12:8902/",
-   "loc": "",
-   "https": false,
-   "lat": 41.9811,
-   "lon": 45.2955
   },
   {
    "name": "HTTPS://WEBSDR.FI - OH1E, Riku WebSDR Server Ulvila/Pori, Popular. SUOMALAINEN SDR! Paljon liikenetta! 27Mhz CB, RHA68, ",
@@ -2649,6 +2633,14 @@
    "lon": 0.8307115249043973
   },
   {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
+  },
+  {
    "name": "PI6EHV 2320 - 2321 MHz",
    "url": "http://websdr.pi6ehv.ampr.org:8073/",
    "loc": "",
@@ -2809,14 +2801,6 @@
    "lon": 2.584360575239688
   },
   {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
-  },
-  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2887,6 +2871,14 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
+  },
+  {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
   },
   {
    "name": "EastMO R3DKT Receiver",
@@ -3281,6 +3273,14 @@
    "lon": 8.07967
   },
   {
+   "name": "9A3ZI",
+   "url": "http://9a3zi.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 46.389854429313154,
+   "lon": 16.474081801898464
+  },
+  {
    "name": "Janez Ar, 327FRS072",
    "url": "https://sdr2.pmr.si/",
    "loc": "",
@@ -3561,14 +3561,6 @@
    "lon": 13.46749
   },
   {
-   "name": "SDR Pescara 500 Khz - 1700 Mhz Antenna AOR SA-7000",
-   "url": "http://rnestoe.myddns.me:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 42.4768714735401,
-   "lon": 14.1814866065979
-  },
-  {
    "name": "WebSDR Merkelbeek",
    "url": "https://hydra-cloud.synology.me:8073/",
    "loc": "",
@@ -3759,6 +3751,14 @@
    "https": true,
    "lat": 53.38707308483301,
    "lon": 58.978027343749986
+  },
+  {
+   "name": "CE4NBE SDR Curico Antena dipolo 7Mhz",
+   "url": "http://sdrcurico.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -34.98270403263751,
+   "lon": -71.25931422210377
   },
   {
    "name": "Velingrad SDR",
@@ -4007,22 +4007,6 @@
    "https": false,
    "lat": 37.38336155470133,
    "lon": -6.05557026752054
-  },
-  {
-   "name": "HF/VHF/UHF SDR de PIRAQUARA / PR",
-   "url": "https://sdr.pu5mfh.com/",
-   "loc": "",
-   "https": true,
-   "lat": -25.457244078267728,
-   "lon": -49.07712530682808
-  },
-  {
-   "name": "VU3ZNG",
-   "url": "https://rx.siritech.net/",
-   "loc": "",
-   "https": true,
-   "lat": 12.2438083,
-   "lon": 75.4374209
   }
  ]
 }
