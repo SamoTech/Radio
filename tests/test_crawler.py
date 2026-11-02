@@ -231,7 +231,10 @@ class ScraperTests(unittest.TestCase):
             '{"listenurl":"https://cdn.easybroadcast.io/ts_live/x/playlist.m3u8"}'
             "]}}"
         )
-        with mock.patch.object(module, "fetch_bytes", return_value=payload.encode("utf-8")):
+        with mock.patch.object(
+            module, "fetch_bytes_strategies",
+            return_value=(payload.encode("utf-8"), "browser"),
+        ):
             urls = module._icecast_mounts("https://radio.example.com/")
         self.assertEqual(urls, ["https://radio.example.com/main.mp3"])
 
