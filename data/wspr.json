@@ -1,101 +1,101 @@
 {
- "updated": "2026-11-02T17:23:13+00:00",
+ "updated": "2026-11-02T18:07:50+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
    "band": 14,
-   "c": 246502,
-   "avg_km": 2558,
-   "max_km": 19380
+   "c": 215438,
+   "avg_km": 2687,
+   "max_km": 19824
   },
   {
    "band": 7,
-   "c": 220531,
-   "avg_km": 936,
+   "c": 188278,
+   "avg_km": 1048,
    "max_km": 19815
   },
   {
    "band": 10,
-   "c": 103518,
-   "avg_km": 1469,
-   "max_km": 19958
+   "c": 84489,
+   "avg_km": 1523,
+   "max_km": 19624
   },
   {
    "band": 21,
-   "c": 68449,
-   "avg_km": 3988,
-   "max_km": 18992
+   "c": 60211,
+   "avg_km": 3636,
+   "max_km": 19141
   },
   {
    "band": 18,
-   "c": 58094,
-   "avg_km": 3792,
+   "c": 52917,
+   "avg_km": 3585,
    "max_km": 18470
   },
   {
    "band": 3,
-   "c": 31460,
-   "avg_km": 615,
+   "c": 38268,
+   "avg_km": 663,
    "max_km": 18256
   },
   {
    "band": 28,
-   "c": 25424,
-   "avg_km": 4191,
-   "max_km": 16769
+   "c": 23010,
+   "avg_km": 3751,
+   "max_km": 15869
   },
   {
    "band": 24,
-   "c": 15258,
-   "avg_km": 3802,
+   "c": 14011,
+   "avg_km": 3394,
    "max_km": 19028
   },
   {
    "band": 5,
-   "c": 9483,
-   "avg_km": 787,
+   "c": 10574,
+   "avg_km": 840,
    "max_km": 16099
   },
   {
    "band": 1,
-   "c": 6523,
-   "avg_km": 667,
+   "c": 8573,
+   "avg_km": 708,
    "max_km": 16892
   },
   {
    "band": 0,
-   "c": 5608,
-   "avg_km": 526,
-   "max_km": 14470
+   "c": 7757,
+   "avg_km": 619,
+   "max_km": 16982
   },
   {
    "band": 13,
-   "c": 916,
-   "avg_km": 1452,
+   "c": 887,
+   "avg_km": 1436,
    "max_km": 3222
   },
   {
    "band": 50,
-   "c": 409,
-   "avg_km": 68,
-   "max_km": 9436
+   "c": 410,
+   "avg_km": 43,
+   "max_km": 242
   },
   {
    "band": -1,
-   "c": 237,
-   "avg_km": 524,
+   "c": 255,
+   "avg_km": 474,
    "max_km": 5628
   },
   {
    "band": 144,
-   "c": 169,
+   "c": 174,
    "avg_km": 188,
    "max_km": 763
   },
   {
    "band": 40,
-   "c": 116,
+   "c": 118,
    "avg_km": 0,
    "max_km": 0
   },
@@ -107,20 +107,20 @@
   },
   {
    "band": 430,
-   "c": 12,
-   "avg_km": 36,
+   "c": 13,
+   "avg_km": 38,
    "max_km": 58
   }
  ],
  "top": [
   {
-   "tx": "8R3GTS",
-   "tx_loc": "AD61",
-   "rx": "SA6BSS/HL",
-   "rx_loc": "JO68sc",
-   "km": 19958,
-   "band": 10,
-   "snr": -25
+   "tx": "Q79FRC",
+   "tx_loc": "OF14",
+   "rx": "WD4IMI",
+   "rx_loc": "FM17if",
+   "km": 19824,
+   "band": 14,
+   "snr": -14
   },
   {
    "tx": "EA1PYP",
@@ -130,6 +130,24 @@
    "km": 19815,
    "band": 7,
    "snr": -21
+  },
+  {
+   "tx": "Q79FRC",
+   "tx_loc": "OF14",
+   "rx": "KQ4EVK",
+   "rx_loc": "FM17gj",
+   "km": 19803,
+   "band": 14,
+   "snr": -16
+  },
+  {
+   "tx": "CT1DJG",
+   "tx_loc": "IN61",
+   "rx": "ZL2J",
+   "rx_loc": "RE79sb",
+   "km": 19791,
+   "band": 14,
+   "snr": -24
   },
   {
    "tx": "EA1PYP",
@@ -150,6 +168,24 @@
    "snr": -27
   },
   {
+   "tx": "Q79FRC",
+   "tx_loc": "OF14",
+   "rx": "WD4ELG",
+   "rx_loc": "FM06be",
+   "km": 19749,
+   "band": 14,
+   "snr": -6
+  },
+  {
+   "tx": "Q79FRC",
+   "tx_loc": "OF14",
+   "rx": "KK4FL",
+   "rx_loc": "FM17tv",
+   "km": 19744,
+   "band": 14,
+   "snr": -14
+  },
+  {
    "tx": "EA1PYP",
    "tx_loc": "IN62",
    "rx": "ZL2J",
@@ -159,67 +195,31 @@
    "snr": -18
   },
   {
+   "tx": "EA5RKP",
+   "tx_loc": "IM99",
+   "rx": "ZL2J",
+   "rx_loc": "RE79sb",
+   "km": 19683,
+   "band": 14,
+   "snr": -21
+  },
+  {
    "tx": "EB1A",
    "tx_loc": "IN53tf",
    "rx": "ZL2CB",
    "rx_loc": "RE78jq",
    "km": 19679,
    "band": 7,
-   "snr": -23
+   "snr": -20
   },
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
+   "tx": "CT1BAT",
+   "tx_loc": "IN50se",
    "rx": "ZL2J",
    "rx_loc": "RE79sb",
-   "km": 19604,
-   "band": 7,
+   "km": 19667,
+   "band": 14,
    "snr": -19
-  },
-  {
-   "tx": "AE4ZZ",
-   "tx_loc": "GL98",
-   "rx": "VK5ARG",
-   "rx_loc": "PF95ht",
-   "km": 19380,
-   "band": 14,
-   "snr": -23
-  },
-  {
-   "tx": "EA1PYP",
-   "tx_loc": "IN62",
-   "rx": "ZL1AB",
-   "rx_loc": "RF73ig",
-   "km": 19358,
-   "band": 7,
-   "snr": -24
-  },
-  {
-   "tx": "0A9FWQ",
-   "tx_loc": "KD44",
-   "rx": "KL7L",
-   "rx_loc": "BP51ip",
-   "km": 19327,
-   "band": 14,
-   "snr": -22
-  },
-  {
-   "tx": "F4WCW",
-   "tx_loc": "JN05lp",
-   "rx": "ZL2BCI",
-   "rx_loc": "RE79nd",
-   "km": 19303,
-   "band": 10,
-   "snr": -25
-  },
-  {
-   "tx": "LD0XPW",
-   "tx_loc": "RF51",
-   "rx": "EA2RCF",
-   "rx_loc": "IN82pu",
-   "km": 19296,
-   "band": 14,
-   "snr": -20
   }
  ]
 }
