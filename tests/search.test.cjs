@@ -191,3 +191,12 @@ test('alive sort is a no-op when no station in the list has a stream check', () 
   assert.deepEqual(names, ['إذاعة القاهرة', 'BBC World Service', 'Radio Canada']);
   sandbox.state.streamChecks = null;
 });
+
+test('visitor heat dot radius scales with the count and hides empty countries', () => {
+  assert.equal(sandbox.visitorHeatDot(0, 100), 0);
+  assert.equal(sandbox.visitorHeatDot(-3, 100), 0);
+  assert.equal(sandbox.visitorHeatDot(50, 0), 0);
+  assert.equal(sandbox.visitorHeatDot(50, 200), '5.00');
+  assert.equal(sandbox.visitorHeatDot(200, 200), '8.00');
+  assert.equal(sandbox.visitorHeatDot(12, 300), (2 + 6 * Math.sqrt(12 / 300)).toFixed(2));
+});
