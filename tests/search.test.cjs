@@ -48,6 +48,42 @@ test('country, language and category filters combine correctly', () => {
   assert.equal(sandbox.filterFM().length, 0);
 });
 
+test('canonicalLanguage folds accent and native spellings into one key', () => {
+  assert.equal(sandbox.canonicalLanguage('Français'), 'french');
+  assert.equal(sandbox.canonicalLanguage('FRANCAIS'), 'french');
+  assert.equal(sandbox.canonicalLanguage('Español'), 'spanish');
+  assert.equal(sandbox.canonicalLanguage('espanol'), 'spanish');
+  assert.equal(sandbox.canonicalLanguage('português'), 'portuguese');
+  assert.equal(sandbox.canonicalLanguage('čeština'), 'czech');
+  assert.equal(sandbox.canonicalLanguage('Türkçe'), 'turkish');
+  assert.equal(sandbox.canonicalLanguage('Deutsch'), 'german');
+  assert.equal(sandbox.canonicalLanguage('ελληνικά'), 'greek');
+  assert.equal(sandbox.canonicalLanguage('عربي'), 'arabic');
+  assert.equal(sandbox.canonicalLanguage('Kiswahili'), 'swahili');
+  assert.equal(sandbox.canonicalLanguage('O‘zbek'), 'uzbek');
+  assert.equal(sandbox.canonicalLanguage('Bahasa Indonesia'), 'indonesian');
+  assert.equal(sandbox.canonicalLanguage('rare conlang'), 'rare conlang');
+});
+
+test('language filter merges duplicates and ranks by station count', () => {
+  const elements = {};
+  sandbox.document.getElementById = id => elements[id] || (elements[id] = {});
+  sandbox.state.fm = [
+    { name: 'A', url: 'https://a.test/1', cc: 'FR', language: 'french', tags: '' },
+    { name: 'B', url: 'https://b.test/2', cc: 'FR', language: 'Français', tags: '' },
+    { name: 'C', url: 'https://c.test/3', cc: 'FR', language: 'FRANCAIS', tags: '' },
+    { name: 'D', url: 'https://d.test/4', cc: 'ES', language: 'español', tags: '' },
+    { name: 'E', url: 'https://e.test/5', cc: 'ES', language: 'Espanol', tags: '' },
+    { name: 'F', url: 'https://f.test/6', cc: 'GB', language: 'english', tags: '' }
+  ];
+  sandbox.buildFMFacets();
+  const langs = sandbox.FACET_OPTIONS.language;
+  assert.deepEqual(Array.from(langs, o => o.value), ['french', 'spanish', 'english']);
+  assert.equal(langs[0].count, 3);
+  assert.equal(langs[1].count, 2);
+  assert.ok(langs[0].label.includes('(3)'));
+});
+
 test('official stations are prioritized without discarding other results', () => {
   seedStations();
   const ordered = Array.from(sandbox.currentFMList(), s => s.name);
