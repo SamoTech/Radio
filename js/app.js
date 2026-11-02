@@ -107,6 +107,7 @@ var STR = {
     all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
     live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
     install_aria: 'ثبّت التطبيق على جهازك', install_done: '✅ تم تثبيت التطبيق', install_ios_hint: 'على الآيفون: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق', hero_play: '▶ شغّل آخر محطة', hero_play_aria: 'تشغيل آخر محطة استمعت إليها', alive_only: 'شغالة بس',
+    saver_aria: 'وضع توفير البيانات — بث بجودة أخف', saver_on: '✅ توفير البيانات شغال — البث بأقل جودة', saver_off: '🔋 توفير البيانات متوقف', title_playing: '{n} ▶ | راديو أطلس', alt_title: 'محطات شغالة تشبهها:', quick_bar_aria: 'الأشهر — تشغيل سريع من أي صفحة',
     fm_hint: 'الرئيسية تعرض الأشهر والرسمية ومحطات مصر فقط — ابحث أو استخدم الفلاتر لتصفح الكتالوج الكامل (أكثر من 56 ألف محطة). زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
     chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
@@ -162,6 +163,7 @@ var STR = {
     all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
     live_search: 'Live search', clear_filters: 'Clear filters',
     install_aria: 'Install the app on your device', install_done: '✅ App installed', install_ios_hint: 'On iPhone: tap Share ⬆️ then "Add to Home Screen" to install the app', hero_play: '▶ Play last station', hero_play_aria: 'Play the last station you listened to', alive_only: 'Working only',
+    saver_aria: 'Data saver mode — lighter stream quality', saver_on: '✅ Data saver on — streaming at the lowest quality', saver_off: '🔋 Data saver off', title_playing: '{n} ▶ | Radio Atlas', alt_title: 'Working stations like it:', quick_bar_aria: 'Most famous — quick play from any tab',
     fm_hint: 'Home shows only the most famous, official and Egyptian stations — search or use the filters to browse the full 56k+ catalog. Live Search queries the source in real time.',
     chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
     search_sdr_ph: 'Search: name, country, callsign…',
@@ -241,6 +243,7 @@ var state = {
   playerQueue: [],
   playerVolume: 100,
   playerMuted: false,
+  dataSaver: false,
   history: [],
   palette: { results: [] }
 };
@@ -325,6 +328,7 @@ function rebuildDynamic() {
   if (state.currentName && !$('player').hidden) {
     $('player-name').textContent = '▶ ' + state.currentName;
   }
+  updateDocTitle();
 }
 
 function setLang(l) {
@@ -1067,6 +1071,7 @@ function homeList() {
 
 function renderFM() {
 renderFeatured();
+renderQuickBar();
   var grid = $('grid-fm');
   var home = isHomeMode();
   var list = fmAliveSort(fmAliveFiltered(home ? homeList() : currentFMList()));
@@ -1543,6 +1548,7 @@ function setMedia(name) {
       album: 'Radio Atlas'
     });
   } catch (e) {}
+  wireMediaSessionActions();
 }
 
 var hls = null;
@@ -1635,6 +1641,7 @@ function failCurrentPlayback(generation, reason) {
   var official = $('player-official');
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
   setPlayerStatus('dead');
+  renderPlayerAlternatives();
   toast(t('toast_broken'));
   console.warn('Radio playback failed:', reason || 'all sources exhausted');
 }
@@ -1669,6 +1676,10 @@ function attachHls(url, generation, station) {
     backBufferLength: 30,
     maxBufferLength: 30
   };
+  if (isDataSaver()) {
+    config.startLevel = 0;
+    config.maxAutoLevelBitrate = 96000;
+  }
   if (station && station.tokenEndpoint && station.tokenType === 'easy_b') {
     config.pLoader = createEasyBroadcastLoader(station);
   }
@@ -1860,17 +1871,25 @@ function play(url, name) {
     }
   }
   state.playbackStation = station || { name: name || '', url: url };
-  state.playbackSources = [url].concat(state.playbackStation.fallbacks || []).filter(function (source, index, list) {
+  var saverStation = pickSaverStation(state.playbackStation, url);
+  state.playbackSources = [saverStation ? saverStation.url : url]
+    .concat(state.playbackStation.fallbacks || [])
+    .concat(saverStation ? [url] : [])
+    .filter(function (source, index, list) {
     return !!source && list.indexOf(source) === index;
   });
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
   state.currentName = name || (station && station.name) || '';
+  var altBox = $('player-alt');
+  if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + state.currentName;
   renderPlayerMeta();
   setPlayerStatus('connecting');
+  updateDocTitle();
+  renderQuickBar();
   applyVolume();
   startCurrentPlayback(generation);
   pushHistory(url, state.currentName);
@@ -2372,7 +2391,12 @@ function initPlayers() {
     var official = $('player-official');
     if (ext) ext.hidden = true;
     if (official) official.hidden = true;
+    var altBox = $('player-alt');
+    if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
     $('player').hidden = true;
+    setMediaPlaybackState('none');
+    updateDocTitle();
+    renderQuickBar();
   });
   $('vol-mute').addEventListener('click', toggleMute);
   $('vol-slider').addEventListener('input', function () {
@@ -2383,6 +2407,12 @@ function initPlayers() {
   });
   $('player-prev').addEventListener('click', function () { playStepStation(-1); });
   $('player-next').addEventListener('click', function () { playStepStation(1); });
+  var playerAltBox = $('player-alt');
+  if (playerAltBox) playerAltBox.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button.alt-chip') : null;
+    if (!b) return;
+    play(b.getAttribute('data-alt-url'), b.getAttribute('data-alt-name'));
+  });
   loadVolume();
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
@@ -2394,10 +2424,12 @@ function initPlayers() {
   });
   $('audio').addEventListener('playing', function () {
     setPlayerStatus('live');
+    setMediaPlaybackState('playing');
     if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
   });
   $('audio').addEventListener('pause', function () {
     setPlayerStatus('paused');
+    setMediaPlaybackState('paused');
     visStop();
   });
   $('audio').addEventListener('waiting', function () { setPlayerStatus('connecting'); });
@@ -2718,6 +2750,132 @@ function initHeroPlay() {
     else play(last.url, '');
   });
 }
+/* ================= v54: listener experience pack — media session, data saver, failure alternatives, quick bar ================= */
+
+var mediaSessionActionsBound = false;
+function wireMediaSessionActions() {
+  if (mediaSessionActionsBound || !('mediaSession' in navigator) || !navigator.mediaSession.setActionHandler) return;
+  var audio = $('audio');
+  var actions = {
+    play: function () { try { audio.play(); } catch (e) {} },
+    pause: function () { audio.pause(); },
+    previoustrack: function () { playStepStation(-1); },
+    nexttrack: function () { playStepStation(1); }
+  };
+  for (var key in actions) {
+    try { navigator.mediaSession.setActionHandler(key, actions[key]); } catch (e) {}
+  }
+  mediaSessionActionsBound = true;
+}
+function setMediaPlaybackState(kind) {
+  if (!('mediaSession' in navigator)) return;
+  try { navigator.mediaSession.playbackState = kind; } catch (e) {}
+}
+function updateDocTitle() {
+  if (state.currentName && !$('player').hidden) {
+    document.title = String(t('title_playing')).replace('{n}', state.currentName);
+  } else {
+    document.title = t('doc_title');
+  }
+}
+function isDataSaver() { return state.dataSaver === true; }
+function renderSaverBtn() {
+  var btn = $('saver-btn');
+  if (!btn) return;
+  btn.classList.toggle('active', isDataSaver());
+  btn.textContent = isDataSaver() ? '🪫' : '🔋';
+}
+function initSaverButton() {
+  var btn = $('saver-btn');
+  if (!btn) return;
+  try { state.dataSaver = localStorage.getItem('ra-saver') === '1'; } catch (e) {}
+  renderSaverBtn();
+  btn.addEventListener('click', function () {
+    state.dataSaver = !state.dataSaver;
+    try { localStorage.setItem('ra-saver', state.dataSaver ? '1' : '0'); } catch (e) {}
+    renderSaverBtn();
+    toast(isDataSaver() ? t('saver_on') : t('saver_off'));
+  });
+}
+function pickSaverStation(station, url) {
+  if (!isDataSaver() || !station) return null;
+  var curBit = Number(station.bitrate) || 0;
+  if (!curBit || curBit <= 96000) return null;
+  var nm = normalizeSearchText(station.name || '');
+  if (!nm) return null;
+  var fallback = null;
+  var list = state.fm || [];
+  for (var i = 0; i < list.length; i++) {
+    var s = list[i];
+    if (!s || s.url === url || !safeHttpsUrl(s.url) || !/^https:/i.test(s.url)) continue;
+    if (normalizeSearchText(s.name || '') !== nm) continue;
+    var b = Number(s.bitrate) || 0;
+    if (!b || b >= curBit) continue;
+    var c = state.streamChecks ? state.streamChecks[s.url] : null;
+    if (c && c.alive) return s;
+    if (!fallback) fallback = s;
+  }
+  return fallback;
+}
+function aliveAlternativeStations(limit) {
+  var cur = state.playbackStation || {};
+  var out = [];
+  var seen = {};
+  var list = state.fm || [];
+  var cc = cur.cc || '';
+  var myTags = String(cur.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+  for (var pass = 0; pass < 2 && out.length < limit; pass++) {
+    for (var i = 0; i < list.length; i++) {
+      var s = list[i];
+      if (!s || seen[s.url] || s.url === cur.url) continue;
+      if (!safeHttpsUrl(s.url) || !/^https:/i.test(s.url)) continue;
+      var c = state.streamChecks ? state.streamChecks[s.url] : null;
+      if (!c || !c.alive) continue;
+      if (pass === 0) {
+        if (!cc || s.cc !== cc) continue;
+      } else {
+        var stTags = String(s.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+        var overlap = myTags.some(function (tg) { return stTags.indexOf(tg) !== -1; });
+        if (!myTags.length || !overlap) continue;
+      }
+      seen[s.url] = 1;
+      out.push(s);
+      if (out.length >= limit) break;
+    }
+  }
+  return out;
+}
+function renderPlayerAlternatives() {
+  var box = $('player-alt');
+  if (!box) return;
+  var alts = aliveAlternativeStations(3);
+  if (!alts.length) { box.hidden = true; box.innerHTML = ''; return; }
+  var html = '<span class="alt-label">' + esc(t('alt_title')) + '</span>';
+  for (var i = 0; i < alts.length; i++) {
+    html += '<button class="chip alt-chip" type="button" data-alt-url="' + esc(alts[i].url) + '" data-alt-name="' + esc(alts[i].name || '') + '">▶ ' + esc(alts[i].name || '') + '</button>';
+  }
+  box.innerHTML = html;
+  box.hidden = false;
+}
+var quickBarRenderedFor = null;
+function renderQuickBar() {
+  var bar = $('quick-bar');
+  if (!bar) return;
+  var row = $('quick-bar-row');
+  if (!row) return;
+  var list = featuredList().slice(0, 10);
+  if (!list.length) { bar.hidden = true; return; }
+  if (quickBarRenderedFor !== state.featuredCache) {
+    var html = '';
+    for (var i = 0; i < list.length; i++) {
+      html += '<button class="qb-chip" type="button" data-qbu="' + esc(list[i].url) + '" data-qbn="' + esc(list[i].name || '') + '" title="' + esc(list[i].name || '') + '">▶ ' + esc(list[i].name || '') + '</button>';
+    }
+    row.innerHTML = html;
+    quickBarRenderedFor = state.featuredCache;
+  }
+  bar.hidden = !$('player').hidden;
+}
+
 function initUI() {
   $('tab-fm').addEventListener('click', function () { switchTab('fm'); });
   $('tab-fav').addEventListener('click', function () { switchTab('fav'); });
@@ -2854,6 +3012,13 @@ function initUI() {
   renderHistory();
   initInstallButton();
   initHeroPlay();
+  initSaverButton();
+  var qbRow = $('quick-bar-row');
+  if (qbRow) qbRow.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('button.qb-chip') : null;
+    if (!b) return;
+    play(b.getAttribute('data-qbu'), b.getAttribute('data-qbn'));
+  });
   renderAlarmBtn();
   alarmTick = setInterval(checkAlarm, 15000);
   setInterval(function () { if (state.activeTab === 'map') renderMap(); }, 60000);
@@ -2890,6 +3055,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
 
