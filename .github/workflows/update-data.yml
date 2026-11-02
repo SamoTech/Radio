@@ -67,6 +67,7 @@ jobs:
             echo "No data changes."
           else
             git commit -m "chore(data): refresh ${{ steps.mode.outputs.mode }} snapshot $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            git pull --rebase origin main
             git push
           fi
 
