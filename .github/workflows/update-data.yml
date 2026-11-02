@@ -67,7 +67,11 @@ jobs:
             echo "No data changes."
           else
             git commit -m "chore(data): refresh ${{ steps.mode.outputs.mode }} snapshot $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-            git pull --rebase origin main
+            # The pipeline is serialized by the concurrency group, but a queued
+            # run can still commit on top of an older checkout while a newer data
+            # snapshot lands on main first. Rebase conflicts on data/ are resolved
+            # in favor of this run (the freshest crawl) - code files never conflict.
+            git pull --rebase -X theirs origin main
             git push
           fi
 
