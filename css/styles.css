@@ -350,3 +350,14 @@ body{-webkit-tap-highlight-color:transparent}
 .map-dot-visitors{fill:#d4af37;fill-opacity:.22;stroke:#f3d276;stroke-opacity:.85;stroke-width:.4}
 .map-dot-visitors:hover{fill-opacity:.5}
 #visitor-you{margin:6px 0 0;font-size:.9rem}
+
+/* ================= visitor leaderboard ================= */
+.visitor-lead{margin:10px 0 4px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.vlead-title{margin:0 0 8px;font-size:.95rem;color:var(--accent)}
+.vlead-row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:.9rem}
+.vlead-rank{flex:none;width:1.2rem;color:var(--muted);font-size:.8rem}
+.vlead-flag{flex:none;width:1.4rem}
+.vlead-name{flex:0 0 40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vlead-bar{flex:1;height:8px;border-radius:999px;background:var(--chipbg);overflow:hidden}
+.vlead-fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#d4af37,#f3d276)}
+.vlead-count{flex:none;font-size:.85rem;color:var(--accent)}

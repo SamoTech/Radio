@@ -200,3 +200,11 @@ test('visitor heat dot radius scales with the count and hides empty countries', 
   assert.equal(sandbox.visitorHeatDot(200, 200), '8.00');
   assert.equal(sandbox.visitorHeatDot(12, 300), (2 + 6 * Math.sqrt(12 / 300)).toFixed(2));
 });
+
+test('visitor leaderboard rows sort by count, mask zeros and cap the list', () => {
+  const rows = sandbox.visitorLeadRows({ EG: 40, SA: 12, US: 0, MA: 7, DE: null }, 3);
+  assert.deepEqual(rows.map(r => r.cc), ['EG', 'SA', 'MA']);
+  assert.deepEqual(rows.map(r => r.n), [40, 12, 7]);
+  assert.equal(sandbox.visitorLeadRows({}, 10).length, 0);
+  assert.equal(sandbox.visitorLeadRows({ EG: 5 }).length, 1);
+});

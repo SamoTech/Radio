@@ -121,7 +121,7 @@ var STR = {
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
     more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
     listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', map_count: '{n} جهاز على الخريطة',
+    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', visitor_lead_title: 'أكثر البلاد زيارةً', map_count: '{n} جهاز على الخريطة',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
     space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
     cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
@@ -177,7 +177,7 @@ var STR = {
     live_failed: 'Live search failed — use the instant local filtering.',
     more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
     listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', map_count: '{n} receivers on the map',
+    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', visitor_lead_title: 'Top visiting countries', map_count: '{n} receivers on the map',
     resume: 'Last station — press play to resume',
     space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
     cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
@@ -871,6 +871,7 @@ function renderMap() {
   }
   svg += '</svg>';
   wrap.innerHTML = svg;
+  renderVisitorLead();
 }
 
 function loadLand() {
@@ -2636,6 +2637,18 @@ function visitorHeatDot(count, maxCount) {
   return (2 + 6 * Math.sqrt(n / m)).toFixed(2);
 }
 
+function visitorLeadRows(vheat, limit) {
+  // Top countries by visit count for the map leaderboard (pure helper).
+  var rows = [];
+  var src = vheat || {};
+  for (var cc in src) {
+    var n = Number(src[cc]) || 0;
+    if (n > 0) rows.push({ cc: cc, n: n });
+  }
+  rows.sort(function (a, b) { return b.n - a.n; });
+  return rows.slice(0, limit || 10);
+}
+
 function renderVisitorYou(cc, name, flag) {
   var el = $('visitor-you');
   if (!el) return;
@@ -2715,6 +2728,23 @@ function fetchVisitorHeat() {
     try { localStorage.setItem(VISITOR_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
     if (state.activeTab === 'map' && state.mapLayers.visitors) renderMap();
   });
+}
+
+function renderVisitorLead() {
+  // Ranked "top visiting countries" box under the map (visitors layer).
+  var el = $('visitor-lead');
+  if (!el) return;
+  var vheat = state.visitorHeat || visitorHeatCached() || {};
+  var rows = visitorLeadRows(vheat, 10);
+  if (!rows.length || !state.mapLayers.visitors) { el.hidden = true; el.innerHTML = ''; return; }
+  var max = rows[0].n;
+  var html = '<h3 class="vlead-title">' + esc(t('visitor_lead_title')) + '</h3>';
+  rows.forEach(function (r, i) {
+    var w = Math.max(8, Math.round(100 * r.n / max));
+    html += '<div class="vlead-row"><span class="vlead-rank">' + (i + 1) + '</span><span class="vlead-flag">' + flagOf(r.cc) + '</span><span class="vlead-name">' + esc(regionName(r.cc, r.cc)) + '</span><span class="vlead-bar"><span class="vlead-fill" style="width:' + w + '%"></span></span><b class="vlead-count">' + fmtNum(r.n) + '</b></div>';
+  });
+  el.innerHTML = html;
+  el.hidden = false;
 }
 
 /* ================= KiwiSDR WebSocket audio (experimental) ================= */
