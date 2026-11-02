@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T13:25:44+00:00",
+ "updated": "2026-11-02T15:38:20+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 305,
+ "count": 304,
  "stations": [
   {
    "id": 3944,
@@ -11,6 +11,16 @@
    "lng": -0.354,
    "alt": 53,
    "url": "https://network.satnogs.org/stations/3944/",
+   "https": false
+  },
+  {
+   "id": 3056,
+   "name": "2E0sud-VHF",
+   "loc": "IO83qp · VHF",
+   "lat": 53.642,
+   "lng": -2.646,
+   "alt": 75,
+   "url": "https://network.satnogs.org/stations/3056/",
    "https": false
   },
   {
@@ -694,16 +704,6 @@
    "https": false
   },
   {
-   "id": 342,
-   "name": "EA5WA Pobla Llarga",
-   "loc": "IM99sc · UHF",
-   "lat": 39.104,
-   "lng": -0.458,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/342/",
-   "https": false
-  },
-  {
    "id": 3744,
    "name": "EagleSat",
    "loc": "DM34so · UHF",
@@ -1011,6 +1011,16 @@
    "lng": 12.22,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/4372/",
+   "https": false
+  },
+  {
+   "id": 5024,
+   "name": "INSTED-Ground Station(UHF)",
+   "loc": "OK03gt · UHF",
+   "lat": 13.823781779271652,
+   "lng": 100.51295302800892,
+   "alt": 60,
+   "url": "https://network.satnogs.org/stations/5024/",
    "https": false
   },
   {
@@ -1734,6 +1744,16 @@
    "https": false
   },
   {
+   "id": 4606,
+   "name": "NTU SaRC",
+   "loc": "OJ11ui · VHF",
+   "lat": 1.341722,
+   "lng": 103.680077,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/4606/",
+   "https": false
+  },
+  {
    "id": 4873,
    "name": "NTUT Ground Station",
    "loc": "PL05sb · UHF",
@@ -2234,6 +2254,16 @@
    "https": false
   },
   {
+   "id": 4882,
+   "name": "Shadi",
+   "loc": "KM18ua · VHF / UHF",
+   "lat": 38.0170436840529,
+   "lng": 23.732455911409634,
+   "alt": 210,
+   "url": "https://network.satnogs.org/stations/4882/",
+   "https": false
+  },
+  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2434,16 +2464,6 @@
    "https": false
   },
   {
-   "id": 2824,
-   "name": "ST-HN",
-   "loc": "OL21rc · VHF / UHF",
-   "lat": 21.1133,
-   "lng": 105.4475,
-   "alt": 10,
-   "url": "https://network.satnogs.org/stations/2824/",
-   "https": false
-  },
-  {
    "id": 1650,
    "name": "station-01",
    "loc": "EK37mx · UHF",
@@ -2584,16 +2604,6 @@
    "https": false
   },
   {
-   "id": 579,
-   "name": "Um Alaish 4",
-   "loc": "LL49bc · UHF",
-   "lat": 29.1042,
-   "lng": 48.125,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/579/",
-   "https": false
-  },
-  {
    "id": 5092,
    "name": "USU GAS Yagi Fixed SW",
    "loc": "DN41cr · UHF",
@@ -2624,6 +2634,16 @@
    "https": false
   },
   {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
+   "https": false
+  },
+  {
    "id": 1156,
    "name": "VA2WBT - Montréal, Canada",
    "loc": "FN35em · UHF",
@@ -2651,16 +2671,6 @@
    "lng": -76.38549,
    "alt": 110,
    "url": "https://network.satnogs.org/stations/4690/",
-   "https": false
-  },
-  {
-   "id": 310,
-   "name": "VA3TZA",
-   "loc": "FN03cf · UHF, L",
-   "lat": 43.229,
-   "lng": -79.759,
-   "alt": 92,
-   "url": "https://network.satnogs.org/stations/310/",
    "https": false
   },
   {
@@ -2824,6 +2834,16 @@
    "https": false
   },
   {
+   "id": 4525,
+   "name": "VU2AQJ_SGS",
+   "loc": "NL05uk · UHF",
+   "lat": 25.451809,
+   "lng": 81.736291,
+   "alt": 98,
+   "url": "https://network.satnogs.org/stations/4525/",
+   "https": false
+  },
+  {
    "id": 2987,
    "name": "VU2JEK_Nitin",
    "loc": "MK83sd · VHF / UHF",
@@ -2831,26 +2851,6 @@
    "lng": 77.5417,
    "alt": 900,
    "url": "https://network.satnogs.org/stations/2987/",
-   "https": false
-  },
-  {
-   "id": 4254,
-   "name": "VU3IPU - Varun",
-   "loc": "MK82sx · VHF / UHF",
-   "lat": 12.991308,
-   "lng": 77.576969,
-   "alt": 919,
-   "url": "https://network.satnogs.org/stations/4254/",
-   "https": false
-  },
-  {
-   "id": 4821,
-   "name": "VU3IPU - Varun (Weather Satellite)",
-   "loc": "MK82sx · VHF",
-   "lat": 12.9913,
-   "lng": 77.5774,
-   "alt": 919,
-   "url": "https://network.satnogs.org/stations/4821/",
    "https": false
   },
   {
@@ -3041,16 +3041,6 @@
    "lng": 175.6575,
    "alt": 150,
    "url": "https://network.satnogs.org/stations/657/",
-   "https": false
-  },
-  {
-   "id": 3625,
-   "name": "ZS6ETA",
-   "loc": "KG44cd · HF, VHF, UHF, L",
-   "lat": -25.8485,
-   "lng": 28.2124,
-   "alt": 1425,
-   "url": "https://network.satnogs.org/stations/3625/",
    "https": false
   }
  ]

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T13:25:44+00:00",
+ "updated": "2026-11-02T15:38:20+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -349,6 +349,22 @@
    "https": false,
    "lat": 41.7311,
    "lon": 44.7955
+  },
+  {
+   "name": "GEORGIA Country, Odlisi-Kakheti",
+   "url": "http://sdrgeorgia.sytes.net:8902/",
+   "loc": "",
+   "https": false,
+   "lat": 41.9811,
+   "lon": 45.2955
+  },
+  {
+   "name": "GEORGIA Country, Odlisi-Kakheti",
+   "url": "http://31.57.58.12:8902/",
+   "loc": "",
+   "https": false,
+   "lat": 41.9811,
+   "lon": 45.2955
   },
   {
    "name": "HTTPS://WEBSDR.FI - OH1E, Riku WebSDR Server Ulvila/Pori, Popular. SUOMALAINEN SDR! Paljon liikenetta! 27Mhz CB, RHA68, ",
@@ -2809,14 +2825,6 @@
    "lon": 2.584360575239688
   },
   {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
-  },
-  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2887,14 +2895,6 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
-  },
-  {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
   },
   {
    "name": "EastMO R3DKT Receiver",
@@ -3281,14 +3281,6 @@
    "lon": 8.07967
   },
   {
-   "name": "9A3ZI",
-   "url": "http://9a3zi.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 46.389854429313154,
-   "lon": 16.474081801898464
-  },
-  {
    "name": "Janez Ar, 327FRS072",
    "url": "https://sdr2.pmr.si/",
    "loc": "",
@@ -3537,6 +3529,14 @@
    "lon": 12.60447
   },
   {
+   "name": "Receiver",
+   "url": "https://sdr.surrealservers.net/",
+   "loc": "",
+   "https": true,
+   "lat": 37.39837482690734,
+   "lon": -79.18129126969339
+  },
+  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3567,6 +3567,14 @@
    "https": true,
    "lat": 48.57915,
    "lon": 13.46749
+  },
+  {
+   "name": "SDR Pescara 500 Khz - 1700 Mhz Antenna AOR SA-7000",
+   "url": "http://rnestoe.myddns.me:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 42.4768714735401,
+   "lon": 14.1814866065979
   },
   {
    "name": "WebSDR Merkelbeek",
@@ -3615,14 +3623,6 @@
    "https": false,
    "lat": 47.7306,
    "lon": 8.7748
-  },
-  {
-   "name": "OK2IT",
-   "url": "http://ppp.ok2it.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 49.26698728755314,
-   "lon": 16.312522384312036
   },
   {
    "name": "Z32VSA",
@@ -4007,6 +4007,22 @@
    "https": false,
    "lat": 37.38336155470133,
    "lon": -6.05557026752054
+  },
+  {
+   "name": "HF/VHF/UHF SDR de PIRAQUARA / PR",
+   "url": "https://sdr.pu5mfh.com/",
+   "loc": "",
+   "https": true,
+   "lat": -25.457244078267728,
+   "lon": -49.07712530682808
+  },
+  {
+   "name": "VU3ZNG",
+   "url": "https://rx.siritech.net/",
+   "loc": "",
+   "https": true,
+   "lat": 12.2438083,
+   "lon": 75.4374209
   }
  ]
 }
