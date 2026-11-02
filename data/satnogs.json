@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T21:58:04+00:00",
+ "updated": "2026-11-02T05:52:15+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 302,
+ "count": 308,
  "stations": [
   {
    "id": 3944,
@@ -21,36 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
-   "id": 5065,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.843131,
-   "lng": 18.164306,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -291,16 +261,6 @@
    "lng": 151.143912,
    "alt": 210,
    "url": "https://network.satnogs.org/stations/4961/",
-   "https": false
-  },
-  {
-   "id": 5204,
-   "name": "beta BDG",
-   "loc": "JO93ac · UHF",
-   "lat": 53.108139,
-   "lng": 18.018333,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/5204/",
    "https": false
   },
   {
@@ -574,6 +534,26 @@
    "https": false
   },
   {
+   "id": 5283,
+   "name": "dl0odx_highgain_omni_uhf",
+   "loc": "JN49mp · UHF",
+   "lat": 49.65,
+   "lng": 9.06,
+   "alt": 542,
+   "url": "https://network.satnogs.org/stations/5283/",
+   "https": false
+  },
+  {
+   "id": 5296,
+   "name": "dl0odx_highgain_omni_vhf",
+   "loc": "JN49mp · VHF",
+   "lat": 49.65,
+   "lng": 9.06,
+   "alt": 542,
+   "url": "https://network.satnogs.org/stations/5296/",
+   "https": false
+  },
+  {
    "id": 37,
    "name": "DL4PD",
    "loc": "JO30cs · UHF",
@@ -701,6 +681,16 @@
    "lng": 2.080809,
    "alt": 210,
    "url": "https://network.satnogs.org/stations/4526/",
+   "https": false
+  },
+  {
+   "id": 4600,
+   "name": "EA4RKU",
+   "loc": "IN80hm · VHF",
+   "lat": 40.513,
+   "lng": -3.35,
+   "alt": 628,
+   "url": "https://network.satnogs.org/stations/4600/",
    "https": false
   },
   {
@@ -1051,16 +1041,6 @@
    "lng": 12.629148,
    "alt": 65,
    "url": "https://network.satnogs.org/stations/2861/",
-   "https": false
-  },
-  {
-   "id": 939,
-   "name": "IU3IOK",
-   "loc": "JN65co · VHF",
-   "lat": 45.605,
-   "lng": 12.243,
-   "alt": 15,
-   "url": "https://network.satnogs.org/stations/939/",
    "https": false
   },
   {
@@ -1724,6 +1704,26 @@
    "https": false
   },
   {
+   "id": 5264,
+   "name": "Norfolk - Back Yard",
+   "loc": "FM16vu · VHF",
+   "lat": 36.85663,
+   "lng": -76.17929,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/5264/",
+   "https": false
+  },
+  {
+   "id": 5267,
+   "name": "Norfolk - Back Yard UHF",
+   "loc": "FM16vu · UHF",
+   "lat": 36.85663,
+   "lng": -76.17929,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/5267/",
+   "https": false
+  },
+  {
    "id": 1519,
    "name": "Not Quite ESL",
    "loc": "EM58an · UHF",
@@ -1731,6 +1731,16 @@
    "lng": -90.0,
    "alt": 175,
    "url": "https://network.satnogs.org/stations/1519/",
+   "https": false
+  },
+  {
+   "id": 4606,
+   "name": "NTU SaRC",
+   "loc": "OJ11ui · VHF",
+   "lat": 1.341722,
+   "lng": 103.680077,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/4606/",
    "https": false
   },
   {
@@ -2624,6 +2634,16 @@
    "https": false
   },
   {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
+   "https": false
+  },
+  {
    "id": 1156,
    "name": "VA2WBT - Montréal, Canada",
    "loc": "FN35em · UHF",
@@ -2854,6 +2874,16 @@
    "https": false
   },
   {
+   "id": 4821,
+   "name": "VU3IPU - Varun (Weather Satellite)",
+   "loc": "MK82sx · VHF",
+   "lat": 12.9913,
+   "lng": 77.5774,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4821/",
+   "https": false
+  },
+  {
    "id": 223,
    "name": "W2MMD GCARC Clubhouse",
    "loc": "FM29jr · UHF / VHF",
@@ -2901,6 +2931,36 @@
    "lng": -117.87,
    "alt": 244,
    "url": "https://network.satnogs.org/stations/3355/",
+   "https": false
+  },
+  {
+   "id": 1438,
+   "name": "WB7BBU",
+   "loc": "CN85rp · VHF",
+   "lat": 45.65,
+   "lng": -122.542,
+   "alt": 55,
+   "url": "https://network.satnogs.org/stations/1438/",
+   "https": false
+  },
+  {
+   "id": 2937,
+   "name": "WH6GVF UHF",
+   "loc": "BK29nj · UHF",
+   "lat": 19.415,
+   "lng": -154.892,
+   "alt": 15,
+   "url": "https://network.satnogs.org/stations/2937/",
+   "https": false
+  },
+  {
+   "id": 3027,
+   "name": "WH6GVF VHF",
+   "loc": "BK29nj · VHF",
+   "lat": 19.415,
+   "lng": -154.892,
+   "alt": 15,
+   "url": "https://network.satnogs.org/stations/3027/",
    "https": false
   },
   {
