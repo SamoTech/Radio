@@ -269,6 +269,30 @@ class StreamCheckTests(unittest.TestCase):
         self.assertIn("stations[:CHECK_HEAD_MAX]", source)
 
 
+class AliveOverrideTests(unittest.TestCase):
+    def test_override_is_pinned_to_the_false_dead_curated_station(self):
+        self.assertIn("https://radioshamfm.grtvstream.com:8400/;", module.ALIVE_OVERRIDE_URLS)
+
+    def test_false_dead_probe_flips_to_alive_with_override_flag(self):
+        checks = {
+            "https://radioshamfm.grtvstream.com:8400/;": {"alive": False, "code": 0},
+            "https://dead.example/live": {"alive": False, "code": 404},
+        }
+        module.apply_alive_overrides(checks)
+        self.assertTrue(checks["https://radioshamfm.grtvstream.com:8400/;"]["alive"])
+        self.assertTrue(checks["https://radioshamfm.grtvstream.com:8400/;"]["override"])
+        self.assertFalse(checks["https://dead.example/live"]["alive"])
+
+    def test_alive_rows_are_untouched_by_the_override(self):
+        checks = {"https://radioshamfm.grtvstream.com:8400/;": {"alive": True, "code": 200}}
+        module.apply_alive_overrides(checks)
+        self.assertNotIn("override", checks["https://radioshamfm.grtvstream.com:8400/;"])
+
+    def test_write_stream_checks_applies_the_override(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("apply_alive_overrides(run_stream_checks(stations))", source)
+
+
 class DailymotionTests(unittest.TestCase):
     def test_parse_json_accepts_jina_preamble(self):
         text = (
