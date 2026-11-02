@@ -1256,8 +1256,16 @@ def fetch_community_stations():
             print(f"community playlist {url} failed: {e}", file=sys.stderr)
     return out[:COMMUNITY_MAX]
 
-def check_stream(url):
-    """Lightweight liveness probe for a stream URL (auth-gated servers count as alive)."""
+AUDIO_CT_RE = re.compile(r"audio/|video/|mpegurl|ogg|mpeg|mp4|dash|octet-stream|pls|icy", re.I)
+
+
+def check_stream(url, require_audio=False):
+    """Lightweight liveness probe for a stream URL (auth-gated servers count as alive).
+
+    require_audio=True rejects responses whose Content-Type is a web page, so
+    scraper candidates that are HTML pages can no longer pass as streams;
+    genuine stream types and missing/blank headers are accepted.
+    """
     try:
         req = urllib.request.Request(
             url,
@@ -1266,6 +1274,10 @@ def check_stream(url):
         with urllib.request.urlopen(req, timeout=CHECK_TIMEOUT) as resp:
             code = resp.getcode()
             resp.read(64)
+            if require_audio:
+                ctype = str(resp.headers.get("Content-Type") or "")
+                if ctype and not AUDIO_CT_RE.search(ctype):
+                    return {"alive": False, "code": code}
             return {"alive": code < 400, "code": code}
     except urllib.error.HTTPError as e:
         # 401/403/405 usually mean the server exists but gates requests;
@@ -1454,7 +1466,8 @@ def scrape_website_streams(seeds):
     results = {}
     if urls:
         with ThreadPoolExecutor(max_workers=CHECK_THREADS) as pool:
-            for url, res in zip(urls, pool.map(check_stream, urls)):
+            # Scraper candidates must be real streams, not article/player pages.
+            for url, res in zip(urls, pool.map(lambda u: check_stream(u, True), urls)):
                 results[url] = res
     for row in rows:
         row["streams"] = [u for u in row["candidates"] if results.get(u, {}).get("alive")]
