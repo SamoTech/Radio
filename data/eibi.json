@@ -1,12 +1,18 @@
 {
- "updated": "2026-11-02T13:08:15+00:00",
+ "updated": "2026-11-02T13:25:44+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1472,
+ "count": 1462,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
+  },
+  {
+   "f": 2054,
+   "s": "1315",
+   "e": "1330",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -38,12 +44,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
-  },
-  {
-   "f": 2207,
-   "s": "1233",
-   "e": "1318",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
   },
   {
    "f": 2310,
@@ -92,6 +92,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 2514,
+   "s": "1320",
+   "e": "1400",
+   "n": "CAN | VFF Iqaluit Radio | E | ENA"
   },
   {
    "f": 2514,
@@ -166,12 +172,6 @@
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
   },
   {
-   "f": 2586,
-   "s": "1305",
-   "e": "1315",
-   "n": "DNK | Lyngby Radio | E | NEu"
-  },
-  {
    "f": 2598,
    "s": "1307",
    "e": "1330",
@@ -206,12 +206,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2640,
-   "s": "1300",
-   "e": "1325",
-   "n": "RUS | St.Peterburg Wx Fax | R | NEu"
   },
   {
    "f": 2642,
@@ -386,6 +380,12 @@
    "s": "1305",
    "e": "0240",
    "n": "IND | Kolkata Volmet x05,x35 | E | SAs"
+  },
+  {
+   "f": 2965,
+   "s": "1325",
+   "e": "0300",
+   "n": "IND | Mumbai Volmet x25,x55 | E | SAs"
   },
   {
    "f": 2965,
@@ -820,12 +820,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 4146,
-   "s": "1233",
-   "e": "1318",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
-  },
-  {
    "f": 4159,
    "s": "1225",
    "e": "1715",
@@ -919,6 +913,12 @@
    "f": 4363,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 4363,
+   "s": "1315",
+   "e": "1400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
@@ -1192,12 +1192,6 @@
    "n": "CHN | Xizang RTV | TB | CHN"
   },
   {
-   "f": 4909,
-   "s": "1300",
-   "e": "1310",
-   "n": "POL | E11 Polish Spy Numbers | E"
-  },
-  {
    "f": 4920,
    "s": "1000",
    "e": "1600",
@@ -1406,12 +1400,6 @@
    "s": "0600",
    "e": "1410",
    "n": "RUS | The Squeaky Wheel | RUS"
-  },
-  {
-   "f": 5371,
-   "s": "1300",
-   "e": "1310",
-   "n": "POL | E11 Polish Spy Numbers | E"
   },
   {
    "f": 5448,
@@ -1772,12 +1760,6 @@
    "s": "0000",
    "e": "2400",
    "n": "ISL | Reykjavik HFDL (ID3) | -HF | NAO"
-  },
-  {
-   "f": 5737,
-   "s": "1300",
-   "e": "1310",
-   "n": "POL | E11 Polish Spy Numbers | E"
   },
   {
    "f": 5755,
@@ -2333,9 +2315,9 @@
   },
   {
    "f": 6190,
-   "s": "1300",
-   "e": "1320",
-   "n": "J | NHK Radio Japan | K | FE"
+   "s": "1320",
+   "e": "1340",
+   "n": "J | NHK Radio Japan | M | FE"
   },
   {
    "f": 6200,
@@ -2368,10 +2350,10 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 6224,
-   "s": "1233",
-   "e": "1318",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
+   "f": 6218,
+   "s": "1315",
+   "e": "1400",
+   "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
    "f": 6230,
@@ -2951,9 +2933,9 @@
   },
   {
    "f": 7210,
-   "s": "1230",
-   "e": "1315",
-   "n": "CHN | PBS Yunnan Minority Sce | LIS | CHN"
+   "s": "1315",
+   "e": "1400",
+   "n": "CHN | PBS Yunnan Minority Sce | TL | CHN"
   },
   {
    "f": 7210,
@@ -3274,12 +3256,6 @@
    "n": "NZL | RNZ Pacific | E | Oc"
   },
   {
-   "f": 7396,
-   "s": "1300",
-   "e": "1320",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
-  },
-  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3515,9 +3491,9 @@
   },
   {
    "f": 7906,
-   "s": "1305",
-   "e": "1310",
-   "n": "VTN | Ho Chi Minh City R.XVS | VN | SEA"
+   "s": "1320",
+   "e": "1330",
+   "n": "VTN | Mong Cai Radio XVM | VN | SEA"
   },
   {
    "f": 8000,
@@ -3578,12 +3554,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 8294,
-   "s": "1305",
-   "e": "1315",
-   "n": "VTN | Ho Chi Minh City R.XVS | VN | SEA"
   },
   {
    "f": 8310,
@@ -4559,6 +4529,12 @@
   },
   {
    "f": 9570,
+   "s": "1320",
+   "e": "1420",
+   "n": "IRN | IRIB Voice of I.R.Iran | KU | ME"
+  },
+  {
+   "f": 9570,
    "s": "1300",
    "e": "1400",
    "n": "KOR | KBS World Radio | E | SEA"
@@ -4810,12 +4786,6 @@
    "n": "CHN | China Radio Int. | LAO | SEA"
   },
   {
-   "f": 9790,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
-  },
-  {
    "f": 9810,
    "s": "1300",
    "e": "1805",
@@ -4924,12 +4894,6 @@
    "n": "IND | AIR Akashvani Ext.Sce | BC | PAK"
   },
   {
-   "f": 9874,
-   "s": "1306",
-   "e": "1312",
-   "n": "CLA | Voice of Tibet | TB | FE"
-  },
-  {
    "f": 9880,
    "s": "1300",
    "e": "1400",
@@ -4940,6 +4904,12 @@
    "s": "1100",
    "e": "1400",
    "n": "CHN | China National Radio 13 | UI | CHN"
+  },
+  {
+   "f": 9898,
+   "s": "1309",
+   "e": "1330",
+   "n": "CLA | Voice of Tibet | TB | FE"
   },
   {
    "f": 9900,
@@ -5813,9 +5783,9 @@
   },
   {
    "f": 11710,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
+   "s": "1320",
+   "e": "1420",
+   "n": "IRN | IRIB Voice of I.R.Iran | KU | ME"
   },
   {
    "f": 11710,
@@ -5939,9 +5909,9 @@
   },
   {
    "f": 11825,
-   "s": "1300",
-   "e": "1315",
-   "n": "AUS | Reach Beyond Australia | TAM | SIn"
+   "s": "1315",
+   "e": "1330",
+   "n": "AUS | Reach Beyond Australia | KOR | SIn"
   },
   {
    "f": 11840,
@@ -5960,12 +5930,6 @@
    "s": "1200",
    "e": "2400",
    "n": "USA | Radio Marti | S | CUB"
-  },
-  {
-   "f": 11880,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 11885,
@@ -5996,12 +5960,6 @@
    "s": "1200",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 11925,
-   "s": "1245",
-   "e": "1325",
-   "n": "USA | Trans World Radio | M | FE"
   },
   {
    "f": 11930,
@@ -7607,21 +7565,15 @@
   },
   {
    "f": 15400,
-   "s": "1300",
-   "e": "1315",
-   "n": "AUS | Reach Beyond Australia | HI | NIn"
+   "s": "1315",
+   "e": "1330",
+   "n": "AUS | Reach Beyond Australia | UR | NIn"
   },
   {
    "f": 15410,
    "s": "2300",
    "e": "1400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 15410,
-   "s": "1215",
-   "e": "1315",
-   "n": "IND | AIR Akashvani Ext.Sce | SWA | EAf"
   },
   {
    "f": 15410,
@@ -8206,12 +8158,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 17520,
-   "s": "1300",
-   "e": "1320",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
-  },
-  {
    "f": 17600,
    "s": "0700",
    "e": "0200",
@@ -8594,12 +8540,6 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | SunDance Radio | NL | Eu"
-  },
-  {
-   "f": 21730,
-   "s": "1300",
-   "e": "1315",
-   "n": "CVA | Radio Vaticana | S | Car"
   },
   {
    "f": 21780,

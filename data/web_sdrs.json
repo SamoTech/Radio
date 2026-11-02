@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T13:08:15+00:00",
+ "updated": "2026-11-02T13:25:44+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1255,6 +1255,14 @@
    "https": false,
    "lat": 47.664995,
    "lon": 9.448133
+  },
+  {
+   "name": "[EA8EE-34RC088]",
+   "url": "http://ea8ee.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 27.76307141772238,
+   "lon": -15.60191184930471
   },
   {
    "name": "Potsdam Babelsberg in Brandenburg🌹 0-30MHz",
@@ -2801,6 +2809,14 @@
    "lon": 2.584360575239688
   },
   {
+   "name": "EHFW 1:49 20 M. Feed IU3UXK",
+   "url": "http://www.pietromezza.com:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.5118174740562,
+   "lon": 12.3036804522063
+  },
+  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2967,14 +2983,6 @@
    "https": true,
    "lat": 52.262741,
    "lon": 13.619885
-  },
-  {
-   "name": "TANER LPD | PMR",
-   "url": "https://taner.nl/",
-   "loc": "",
-   "https": true,
-   "lat": 52.49602314901847,
-   "lon": 4.937765988758991
   },
   {
    "name": "W6MFB/FULLERTON",
@@ -3903,14 +3911,6 @@
    "https": false,
    "lat": 53.187559397007334,
    "lon": 8.56719509335492
-  },
-  {
-   "name": "SDRTayshet",
-   "url": "http://85.234.116.46:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 55.93490701401838,
-   "lon": 98.01099140472483
   },
   {
    "name": "PU8WPC - SDR WEB Caripí - Barcarena - Brazil",

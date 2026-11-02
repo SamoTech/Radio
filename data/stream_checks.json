@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T13:08:15+00:00",
+ "updated": "2026-11-02T13:25:44+00:00",
  "checked": 1185,
- "alive": 1074,
+ "alive": 1076,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -85,7 +85,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 206
+   "code": 200
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -266,11 +266,11 @@
   },
   "https://stream.zeno.fm/pfwwfma8uwzuv": {
    "alive": false,
-   "code": 0
+   "code": 503
   },
   "https://stream.zeno.fm/3ypw0vp2echvv": {
    "alive": false,
-   "code": 0
+   "code": 503
   },
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
@@ -429,8 +429,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 404
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
    "alive": true,
@@ -865,8 +865,8 @@
    "code": 403
   },
   "https://s2.radio.co/s8e5dffe5e/listen": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 403
   },
   "https://webprod.sipse.com.mx:8080/kissfm/": {
    "alive": true,
@@ -1085,8 +1085,8 @@
    "code": 200
   },
   "https://s2.radio.co/sf25229e16/listen?n=37f243963aa33cbbef97": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 403
   },
   "https://sonic.mediacp.eu/8014/stream?n=7ef411fa68822aa4824d": {
    "alive": true,
@@ -1390,7 +1390,7 @@
   },
   "https://s4.radio.co/s3dccdde7b/listen": {
    "alive": true,
-   "code": 200
+   "code": 403
   },
   "https://rs6-krk2.rmfstream.pl/RMFFM48": {
    "alive": true,
@@ -1697,8 +1697,8 @@
    "code": 403
   },
   "https://925theranch.com/listen-live/popup/": {
-   "alive": true,
-   "code": 206
+   "alive": false,
+   "code": 0
   },
   "https://streamdb5web.securenetsystems.net/v5/index.cfm?stationCallSign=KXLS": {
    "alive": true,
@@ -1717,8 +1717,8 @@
    "code": 200
   },
   "https://mix949.com/listen-live/": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 206
   },
   "https://radio.securenetsystems.net/v5/index.cfm?CFID=86daddc9-c1cd-43ba-96f1-50bde0176a51&CFTOKEN=0&stationCallSign=KLGD": {
    "alive": true,
@@ -3414,7 +3414,7 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 0
+   "code": 404
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -3857,8 +3857,8 @@
    "code": 200
   },
   "https://s2.radio.co/scbfaf00d4/listen": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 403
   },
   "https://fhhalle.streamabc.net/fhhal-rbhall-mp3-128-3225039": {
    "alive": true,
