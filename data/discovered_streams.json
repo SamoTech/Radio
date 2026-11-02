@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T07:04:26+00:00",
+ "updated": "2026-11-02T09:30:09+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 16,
+ "count": 19,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -181,8 +181,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/01/gen_z_auf_den_barrikaden_jugendproteste_in_europa_dlf_20261101_0811_2d3b4eeb.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/01/gen_z_auf_den_barrikaden_jugendproteste_in_europa_dlf_20261101_0811_2d3b4eeb.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/02/wie_steht_es_um_die_junge_generation_interview_mit_karin_dlf_20261102_0650_d4e64b50.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/02/wie_steht_es_um_die_junge_generation_interview_mit_karin_dlf_20261102_0650_d4e64b50.mp3"
    ]
   },
   {
@@ -206,7 +206,11 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "streams": []
+   "streams": [
+    "https://radioimages.npox.nl//6x3x1424x801-1024x576.webp?height=270&width=360&aspect_ratio=4%3A3",
+    "https://radioimages.npox.nl//6x3x1424x801-1024x576.webp?height=150&width=200&aspect_ratio=4%3A3",
+    "https://radioimages.npox.nl//6x3x1424x801-1024x576.webp"
+   ]
   },
   {
    "site": "https://www.nporadio2.nl/",
@@ -231,7 +235,7 @@
     "https://tirol.orf.at/radio/stories/sendeschema/",
     "https://tirol.orf.at/radio/stories/podcast/",
     "https://tirol.orf.at/radio/stories/3370278",
-    "https://tirol.orf.at/radio/stories/3377365/"
+    "https://tirol.orf.at/radio/stories/3272324/"
    ]
   },
   {
