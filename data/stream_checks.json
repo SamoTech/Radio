@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T21:14:06+00:00",
+ "updated": "2026-11-02T05:56:32+00:00",
  "checked": 1184,
- "alive": 1082,
+ "alive": 1081,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -81,7 +81,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 206
+   "code": 200
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
    "alive": true,
@@ -169,7 +169,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 206
+   "code": 200
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
    "alive": true,
@@ -384,8 +384,8 @@
    "code": 206
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 404
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
    "alive": true,
@@ -460,6 +460,10 @@
    "code": 200
   },
   "https://www.dailymotion.com/video/x8n6dqq": {
+   "alive": true,
+   "code": 200
+  },
+  "https://www.dailymotion.com/video/x9p4ebk": {
    "alive": true,
    "code": 200
   },
@@ -1328,8 +1332,8 @@
    "code": 202
   },
   "https://radiostorm.com/": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://control-panel.cloudl2mr.com/": {
    "alive": true,
@@ -1540,8 +1544,8 @@
    "code": 200
   },
   "https://streamdb4web.securenetsystems.net/cirrusencore/index.cfm?stationCallSign=KLLP": {
-   "alive": true,
-   "code": 200
+   "alive": false,
+   "code": 0
   },
   "https://servidor35-3.brlogic.com:8772/live": {
    "alive": true,
@@ -2725,7 +2729,7 @@
   },
   "https://audio5.tustreaming.cl/8030/stream": {
    "alive": true,
-   "code": 200
+   "code": 206
   },
   "https://securestreams.autopo.st:1174/stream": {
    "alive": true,
@@ -3052,8 +3056,8 @@
    "code": 200
   },
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -4364,8 +4368,8 @@
    "code": 200
   },
   "https://live-bauerse-fm.sharp-stream.com/vinylfm_instream_se_aacp": {
-   "alive": false,
-   "code": 0
+   "alive": true,
+   "code": 200
   },
   "https://15123.live.streamtheworld.com/KXRZFMAAC.aac": {
    "alive": true,
@@ -4734,10 +4738,6 @@
   "https://server.radiostreaming.com.ar/8162/stream": {
    "alive": true,
    "code": 206
-  },
-  "https://ar.cienradios.com/todas-las-emisoras/": {
-   "alive": true,
-   "code": 200
   }
  }
 }
