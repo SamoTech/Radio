@@ -1,3 +1,4 @@
+import email.message
 import importlib.util
 import sys
 import unittest
@@ -549,5 +550,59 @@ class StrategyTierTests(unittest.TestCase):
         self.assertIn('impersonate="chrome"', source)
 
 
+class MaybeAliveTests(unittest.TestCase):
+    """Blocked-for-us verdicts: redirects get manual hops (browsers follow
+    them anyway), and dead answers that are not real 404/410 carry a
+    maybe_alive flag so the UI can offer the stream as "جرّبها أنت"."""
+
+    def test_probe_stream_follows_redirect_to_live_audio(self):
+        calls = []
+        headers = email.message.Message()
+        headers["Location"] = "https://cdn.example.test/live.mp3"
+
+        def fake_urlopen(req, timeout=0):
+            calls.append(req)
+            if len(calls) == 1:
+                raise urllib.error.HTTPError(
+                    "https://example.test/live", 301, "Moved", headers, None
+                )
+            return _FakeStreamResp(200, "audio/mpeg")
+
+        with mock.patch.object(module.urllib.request, "urlopen", side_effect=fake_urlopen):
+            res = module._probe_stream(
+                "https://example.test/live",
+                {"User-Agent": module.UA}, 5, True,
+            )
+        self.assertTrue(res["alive"])
+        self.assertEqual(res["code"], 200)
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[1].full_url, "https://cdn.example.test/live.mp3")
+
+    def test_check_stream_tags_network_failure_as_maybe_alive(self):
+        with mock.patch.dict(sys.modules, {"curl_cffi": None}):
+            with mock.patch.object(
+                module.urllib.request, "urlopen",
+                side_effect=urllib.error.URLError("connection reset by peer"),
+            ):
+                res = module.check_stream("https://example.test/live")
+        self.assertFalse(res["alive"])
+        self.assertEqual(res["code"], 0)
+        self.assertTrue(res["maybe_alive"])
+
+    def test_check_stream_404_is_dead_without_maybe_alive(self):
+        with mock.patch.object(
+            module.urllib.request, "urlopen",
+            side_effect=urllib.error.HTTPError(
+                "https://example.test/live", 404, "Not Found", None, None
+            ),
+        ):
+            res = module.check_stream("https://example.test/live")
+        self.assertFalse(res["alive"])
+        self.assertEqual(res["code"], 404)
+        self.assertNotIn("maybe_alive", res)
+        self.assertEqual(res["strategy"], "bot")
+
+
 if __name__ == "__main__":
     unittest.main()
+

@@ -158,12 +158,16 @@ test('live search results include matching curated catalog stations', () => {
 });
 
 
-test('alive-only filter keeps only checked-alive stations', () => {
+test('alive-only filter keeps alive and maybe-alive stations, drops dead', () => {
   seedStations();
   sandbox.state.fmFilters.aliveOnly = true;
-  sandbox.state.streamChecks = { 'https://example.test/egypt': { alive: true }, 'https://example.test/uk': { alive: false } };
+  sandbox.state.streamChecks = {
+    'https://example.test/egypt': { alive: true },
+    'https://example.test/uk': { alive: false, maybe_alive: true },
+    'https://example.test/canada': { alive: false, code: 404 }
+  };
   const names = Array.from(sandbox.fmAliveFiltered(sandbox.state.fm), s => s.name);
-  assert.deepEqual(names, ['إذاعة القاهرة']);
+  assert.deepEqual(names, ['إذاعة القاهرة', 'BBC World Service']);
   sandbox.state.streamChecks = null;
 });
 
@@ -176,11 +180,15 @@ test('alive-only filter is a no-op without the aliveOnly flag or stream checks',
   assert.equal(sandbox.fmAliveFiltered(sandbox.state.fm).length, 3);
 });
 
-test('alive sort ranks working stations first, unknown next and dead last', () => {
+test('alive sort ranks alive first, then maybe-alive, unknown, dead last', () => {
   seedStations();
-  sandbox.state.streamChecks = { 'https://example.test/egypt': { alive: true }, 'https://example.test/uk': { alive: false } };
+  sandbox.state.streamChecks = {
+    'https://example.test/egypt': { alive: true },
+    'https://example.test/uk': { alive: false, maybe_alive: true },
+    'https://example.test/canada': { alive: false, code: 404 }
+  };
   const names = Array.from(sandbox.fmAliveSort(sandbox.state.fm), s => s.name);
-  assert.deepEqual(names, ['إذاعة القاهرة', 'Radio Canada', 'BBC World Service']);
+  assert.deepEqual(names, ['إذاعة القاهرة', 'BBC World Service', 'Radio Canada']);
   sandbox.state.streamChecks = null;
 });
 
@@ -190,6 +198,30 @@ test('alive sort is a no-op when no station in the list has a stream check', () 
   const names = Array.from(sandbox.fmAliveSort(sandbox.state.fm), s => s.name);
   assert.deepEqual(names, ['إذاعة القاهرة', 'BBC World Service', 'Radio Canada']);
   sandbox.state.streamChecks = null;
+});
+
+test('maybe-alive stations get the amber try-it chip on their card', () => {
+  seedStations();
+  sandbox.state.streamChecks = { 'https://example.test/uk': { alive: false, maybe_alive: true, code: 0 } };
+  const html = sandbox.cardFm({ name: 'Blocked Pro Radio', url: 'https://example.test/uk', cc: 'EG', language: 'arabic', tags: '' });
+  assert.ok(html.includes('chip maybe'));
+  assert.ok(html.includes('؟ جرّبها') || html.includes('? Try it'));
+  sandbox.state.streamChecks = { 'https://example.test/egypt': { alive: false, code: 404 } };
+  const deadCard = sandbox.cardFm({ name: 'Gone Radio', url: 'https://example.test/egypt', cc: 'EG', language: 'arabic', tags: '' });
+  assert.ok(!deadCard.includes('chip maybe'));
+  sandbox.state.streamChecks = null;
+});
+
+test('proxyStreamUrl routes through the relay worker and stays empty while unset', () => {
+  sandbox.STREAM_PROXY = '';
+  assert.equal(sandbox.proxyStreamUrl('https://example.test/live'), '');
+  sandbox.STREAM_PROXY = 'https://radio-relay.example.workers.dev/';
+  assert.equal(
+    sandbox.proxyStreamUrl('https://example.test/live?a=1'),
+    'https://radio-relay.example.workers.dev/stream?url=' + encodeURIComponent('https://example.test/live?a=1')
+  );
+  assert.equal(sandbox.proxyStreamUrl(''), '');
+  sandbox.STREAM_PROXY = '';
 });
 
 test('visitor heat dot radius scales with the count and hides empty countries', () => {

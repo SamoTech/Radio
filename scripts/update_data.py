@@ -1350,8 +1350,12 @@ def fetch_community_stations():
 AUDIO_CT_RE = re.compile(r"audio/|video/|mpegurl|ogg|mpeg|mp4|dash|octet-stream|pls|icy", re.I)
 
 
-def _probe_stream(url, headers, timeout, require_audio):
-    """One stream liveness attempt with a specific client profile."""
+def _probe_stream(url, headers, timeout, require_audio, redirects=2):
+    """One stream liveness attempt with a specific client profile.
+
+    3xx answers that urllib refuses to follow (odd Location targets,
+    self-redirects) get one manual hop each: browsers follow redirects
+    automatically, so a redirect answer alone must not read as dead."""
     try:
         req = urllib.request.Request(url, headers=dict(headers))
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -1363,11 +1367,39 @@ def _probe_stream(url, headers, timeout, require_audio):
                     return {"alive": False, "code": code}
             return {"alive": code < 400, "code": code}
     except urllib.error.HTTPError as e:
+        if e.code in (301, 302, 303, 307, 308) and redirects > 0:
+            location = ""
+            try:
+                location = urllib.parse.urljoin(url, e.headers.get("Location") or "")
+            except Exception:  # noqa: BLE001
+                location = ""
+            if location.startswith(("http://", "https://")) and location != url:
+                return _probe_stream(location, headers, timeout, require_audio, redirects - 1)
         # 401/403/405 usually mean the server exists but gates requests;
         # the stream may still play fine in the browser.
         return {"alive": e.code in (401, 403, 405), "code": e.code}
     except Exception:  # noqa: BLE001
         return {"alive": False, "code": 0}
+
+
+def _maybe_alive(res):
+    """A dead verdict that may still play for real visitors.
+
+    404/410 means the mount is gone for everyone. Anything else —
+    connection-level failures, redirects we could not follow, WAF codes,
+    5xx — can be network- or IP-dependent: our probes run from US
+    datacenters, and plenty of stations block only those while playing
+    fine for local audiences (Sham FM is the proven case)."""
+    code = int(res.get("code") or 0)
+    return not res.get("alive") and code not in (404, 410)
+
+
+def _finalize_verdict(res, strategy):
+    """Stamp the winning client profile and a maybe_alive flag when apt."""
+    res["strategy"] = strategy
+    if _maybe_alive(res):
+        res["maybe_alive"] = True
+    return res
 
 
 def _should_escalate(res):
@@ -1409,6 +1441,11 @@ def check_stream(url, require_audio=False):
     as the last resort. The returned verdict records which client profile
     produced the answer (the "strategy" field) so false-dead stations become
     identifiable from the data instead of guessed at.
+
+    A dead verdict that merely means "blocked for us" (fingerprint or geo
+    block, not a real 404/410) is additionally tagged maybe_alive: the
+    stream may still play for visitors on other networks and regions even
+    though our runner cannot fetch it.
     """
     base = {"Range": "bytes=0-511", "Icy-MetaData": "1", "Accept-Encoding": "identity"}
     res = _probe_stream(url, {**base, "User-Agent": UA}, CHECK_TIMEOUT, require_audio)
@@ -1417,16 +1454,14 @@ def check_stream(url, require_audio=False):
         for name, profile in FETCH_STRATEGY_PROFILES:
             tier = _probe_stream(url, {**base, **profile}, CHECK_TIMEOUT, require_audio)
             if not _should_escalate(tier):
-                tier["strategy"] = name
-                return tier
+                return _finalize_verdict(tier, name)
             # Keep the latest honest verdict for the fallthrough.
             res, strategy = tier, name
         cffi = _curl_cffi_get(url, CHECK_TIMEOUT, headers=dict(base))
         if cffi is not None:
             res = _cffi_verdict(cffi, require_audio)
             strategy = "curl_cffi"
-    res["strategy"] = strategy
-    return res
+    return _finalize_verdict(res, strategy)
 
 
 def run_stream_checks(stations):
@@ -1483,6 +1518,7 @@ def write_stream_checks(stations, now_iso):
         checks = apply_alive_overrides(run_stream_checks(stations))
         if checks:
             alive = sum(1 for v in checks.values() if v.get("alive"))
+            maybe = sum(1 for v in checks.values() if v.get("maybe_alive"))
             # Which client profile produced each alive verdict — a station that
             # only answers the browser tier was false-dead under the bot UA.
             by_strategy = {}
@@ -1501,6 +1537,7 @@ def write_stream_checks(stations, now_iso):
                 },
             )
             print(f"stream checks: {alive}/{len(checks)} streams alive"
+                  + (f", {maybe} maybe-alive" if maybe else "")
                   + (f" ({summary})" if summary else ""))
     except Exception as e:  # noqa: BLE001
         print(f"stream checks FAILED: {e} — keeping last good snapshot", file=sys.stderr)
@@ -2322,6 +2359,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

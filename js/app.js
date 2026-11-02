@@ -138,6 +138,7 @@ var STR = {
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
     visitors: 'إجمالي الزيارات', you_from: 'أنت تزور من',
     stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
+    stream_maybe: 'سيرفرنا مأقدرنش يوصله (بلوك جغرافي أو قيود شبكة) — لكن ممكن يشتغل عندك عادي، جرّبها', chip_maybe: '؟ جرّبها',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', fav_hint: 'جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.', eg_hint: 'كل إذاعات مصر من الكتالوج في مكان واحد — الاستماع مباشر من الموقع، والمحطات الرسمية والمنتقاة في الأول.', eg_source: 'إذاعات مصر الرسمية ↗', ar_hint: 'كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.', ar_count: '{n} إذاعة عربية · {c} دولة', ar_top: 'أول {n} محطة من {m}', rel_hint: 'كل المحطات الدينية من الكتالوج في مكان واحد — قرآن وبرامج دينية، والمحطات الرسمية في الأول.',
     toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
@@ -195,6 +196,7 @@ var STR = {
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     visitors: 'Total page views', you_from: 'You are visiting from',
     stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
+    stream_maybe: 'Our probe could not reach it (geo or network block) — it may still play fine for you, give it a try', chip_maybe: '? Try it',
     kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', fav_hint: 'All your favorite stations in one place. Manage favorites from any station using the heart button ❤️.', eg_hint: 'Every Egyptian station from the catalog in one place — plays in-app, official and curated stations first.', eg_source: 'Official Egyptian radio ↗', ar_hint: 'All Arabic radio from the catalog grouped by country — plays in-app, official stations first.', ar_count: '{n} Arabic stations · {c} countries', ar_top: 'First {n} of {m} stations', rel_hint: 'All religious stations from the catalog in one place — Quran and religious programming, official stations first.',
     toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
     share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
@@ -281,6 +283,16 @@ function safeHttpUrl(value) {
 function safeHttpsUrl(value) {
   var url = safeHttpUrl(value);
   return url && /^https:/i.test(url) ? url : '';
+}
+
+/* Cloudflare Worker relay (see proxy/README.md). Empty until the worker is
+   deployed; when set it becomes the last-resort playback source for streams
+   that fail direct playback (CORS or geo blocks). */
+var STREAM_PROXY = '';
+
+function proxyStreamUrl(url) {
+  if (!STREAM_PROXY || !url) return '';
+  return STREAM_PROXY.replace(/\/+$/, '') + '/stream?url=' + encodeURIComponent(url);
 }
 
 function fmtNum(n) {
@@ -997,6 +1009,7 @@ function cardFm(s) {
   if(isOfficial)chips+='<span class="chip official">🏛 '+esc(state.lang==='ar'?'رسمي':'Official')+'</span>';
   var check=state.streamChecks?state.streamChecks[s.url]:null;
   if(check&&check.alive)chips+='<span class="chip ok" title="'+esc(t('stream_ok'))+'">'+esc(t('chip_alive'))+'</span>';
+  else if(check&&check.maybe_alive)chips+='<span class="chip maybe" title="'+esc(t('stream_maybe'))+'">'+esc(t('chip_maybe'))+'</span>';
   else if(check&&!check.alive)chips+='<span class="chip dead" title="'+esc(t('stream_dead'))+'">'+esc(t('chip_dead'))+'</span>';
   var shownTags=allTags.slice(0,3);
   shownTags.forEach(function (x) { chips += '<span class="chip tag">🏷 ' + esc(x) + '</span>'; });
@@ -1158,15 +1171,16 @@ function egStations() {
 function egAliveRank(s) {
   var c = state.streamChecks ? state.streamChecks[s.url] : null;
   if (c && c.alive) return 0;
-  if (!c) return 1;
-  return 2;
+  if (c && c.maybe_alive) return 1;
+  if (!c) return 2;
+  return 3;
 }
 
 function fmAliveFiltered(list) {
   if (!state.fmFilters || !state.fmFilters.aliveOnly || !state.streamChecks) return list;
   return list.filter(function (s) {
     var c = state.streamChecks[s.url];
-    return !!(c && c.alive);
+    return !!(c && (c.alive || c.maybe_alive));
   });
 }
 
@@ -1660,6 +1674,14 @@ function failCurrentPlayback(generation, reason) {
   }
   var official = $('player-official');
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
+  // Every source failed — point the open-direct link back at the station's
+  // real URL: when the failure is a CORS or geo block the stream often plays
+  // fine opened directly in a new tab.
+  var ext = $('player-ext');
+  if (ext && state.playbackStation && state.playbackStation.url) {
+    ext.href = state.playbackStation.url;
+    ext.hidden = false;
+  }
   setPlayerStatus('dead');
   renderPlayerAlternatives();
   toast(t('toast_broken'));
@@ -1732,7 +1754,14 @@ function startCurrentPlayback(generation) {
   audio.pause();
   audio.removeAttribute('src');
   var ext = $('player-ext');
-  if (ext) { ext.href = baseUrl; ext.hidden = false; }
+  // The open-direct link must always point at the station's real URL, never
+  // at our relay tier.
+  if (ext) {
+    var proxyBase = STREAM_PROXY ? STREAM_PROXY.replace(/\/+$/, '') : '';
+    if (!proxyBase || baseUrl.indexOf(proxyBase) !== 0) ext.href = baseUrl;
+    else if (state.playbackStation && state.playbackStation.url) ext.href = state.playbackStation.url;
+    ext.hidden = false;
+  }
   var official = $('player-official');
   if (official) {
     official.hidden = !(state.playbackStation && state.playbackStation.website);
@@ -1898,6 +1927,15 @@ function play(url, name) {
     .filter(function (source, index, list) {
     return !!source && list.indexOf(source) === index;
   });
+  // Last-resort relay tier: some streams fail direct playback from the
+  // browser (CORS or geo blocks) while our Cloudflare Worker relay can
+  // still fetch them. Token-gated easybroadcast streams are skipped: their
+  // loader signs the original playlist URL and would break through a proxy.
+  var isEasyB = station && station.tokenEndpoint && station.tokenType === 'easy_b';
+  var relayUrl = isEasyB ? '' : proxyStreamUrl(url);
+  if (relayUrl && state.playbackSources.indexOf(relayUrl) === -1) {
+    state.playbackSources.push(relayUrl);
+  }
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
@@ -2337,6 +2375,10 @@ function initResume() {
   var station = stationByUrl(last.url);
   state.playbackStation = station || { name: last.name || '', url: last.url };
   state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
+  var resumeRelay = (station && station.tokenEndpoint && station.tokenType === 'easy_b') ? '' : proxyStreamUrl(last.url);
+  if (resumeRelay && state.playbackSources.indexOf(resumeRelay) === -1) {
+    state.playbackSources.push(resumeRelay);
+  }
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
@@ -3330,6 +3372,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
 

@@ -1,0 +1,8 @@
+# Radio Atlas stream relay worker.
+# Deploy via the Cloudflare dashboard (paste worker.js) or:
+#   npx wrangler deploy
+# No bindings, secrets or custom domains required.
+
+name = "radio-atlas-stream-relay"
+main = "worker.js"
+compatibility_date = "2026-10-01"
