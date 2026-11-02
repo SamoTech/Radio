@@ -1,14 +1,8 @@
 {
- "updated": "2026-11-02T18:07:50+00:00",
+ "updated": "2026-11-02T20:42:48+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1049,
+ "count": 1081,
  "rows": [
-  {
-   "f": 2054,
-   "s": "1540",
-   "e": "1820",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
-  },
   {
    "f": 2054,
    "s": "0000",
@@ -137,6 +131,12 @@
   },
   {
    "f": 2582,
+   "s": "2035",
+   "e": "2045",
+   "n": "BER | ZBM Bermuda Harbor | E | BER"
+  },
+  {
+   "f": 2582,
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCF Les Escoumins QC | E,F | ENA"
@@ -173,9 +173,9 @@
   },
   {
    "f": 2598,
-   "s": "1807",
-   "e": "1830",
-   "n": "CAN | VCP Placentia NL | E | ENA"
+   "s": "2037",
+   "e": "2100",
+   "n": "CAN | VOK Labrador Coastguard | E | ENA"
   },
   {
    "f": 2600,
@@ -188,12 +188,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2628,
-   "s": "1800",
-   "e": "1845",
-   "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
    "f": 2628,
@@ -244,10 +238,10 @@
    "n": "GRC | Olimpia Radio | -TY | SEE"
   },
   {
-   "f": 2730,
-   "s": "1800",
-   "e": "1810",
-   "n": "GRC | Olimpia Radio | E | SEE"
+   "f": 2749,
+   "s": "2040",
+   "e": "2100",
+   "n": "CAN | VCS Halifax Radio | E,F | ENA"
   },
   {
    "f": 2750,
@@ -266,12 +260,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2799,
-   "s": "1800",
-   "e": "1810",
-   "n": "GRC | Olimpia Radio | E | SEE"
   },
   {
    "f": 2860,
@@ -532,6 +520,12 @@
    "n": "RUS | Channel Marker L | -CW | RUS"
   },
   {
+   "f": 3205,
+   "s": "1950",
+   "e": "1800",
+   "n": "KRE | KCBS DIGITAL | K | KRE"
+  },
+  {
    "f": 3243,
    "s": "1400",
    "e": "0530",
@@ -550,16 +544,34 @@
    "n": "RUS | Goose Channel Marker | EEu"
   },
   {
+   "f": 3243,
+   "s": "2000",
+   "e": "0430",
+   "n": "RUS | Goose Channel Marker | EEu"
+  },
+  {
+   "f": 3250,
+   "s": "1950",
+   "e": "1800",
+   "n": "KRE | KCBS Pyongyang | K | KRE"
+  },
+  {
    "f": 3265,
    "s": "1700",
    "e": "0600",
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 3310,
+   "s": "2030",
+   "e": "0204",
+   "n": "BOL | Radio Mosoj Chaski | S,Q | BOL"
+  },
+  {
    "f": 3325,
-   "s": "1800",
-   "e": "1900",
-   "n": "INS | Voice of Indonesia | D | INS"
+   "s": "2000",
+   "e": "2100",
+   "n": "INS | Voice of Indonesia | F | INS"
   },
   {
    "f": 3364,
@@ -577,6 +589,12 @@
    "f": 3364,
    "s": "1545",
    "e": "0500",
+   "n": "RUS | The Squeaky Wheel | RUS"
+  },
+  {
+   "f": 3364,
+   "s": "1830",
+   "e": "0430",
    "n": "RUS | The Squeaky Wheel | RUS"
   },
   {
@@ -737,9 +755,9 @@
   },
   {
    "f": 3560,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | E | FE"
+   "s": "2000",
+   "e": "2100",
+   "n": "KRE | Voice of Korea | F | FE"
   },
   {
    "f": 3585,
@@ -851,8 +869,8 @@
   },
   {
    "f": 3855,
-   "s": "1800",
-   "e": "1947",
+   "s": "2035",
+   "e": "2300",
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
@@ -875,9 +893,15 @@
   },
   {
    "f": 3955,
-   "s": "0700",
-   "e": "2000",
-   "n": "D | Channel 292 | D,E | Eu"
+   "s": "2000",
+   "e": "2100",
+   "n": "KOR | KBS World Radio | D | Eu"
+  },
+  {
+   "f": 3959,
+   "s": "1950",
+   "e": "1800",
+   "n": "KRE | KCBS Pyongyang | K | KRE"
   },
   {
    "f": 3965,
@@ -893,8 +917,8 @@
   },
   {
    "f": 3975,
-   "s": "1800",
-   "e": "2000",
+   "s": "2000",
+   "e": "2300",
    "n": "D | Shortwave Radio Gold | D,E | WEu"
   },
   {
@@ -926,6 +950,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 4170,
+   "s": "2025",
+   "e": "2050",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 4177,
@@ -976,22 +1006,16 @@
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
   },
   {
+   "f": 4228,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
+  },
+  {
    "f": 4259,
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSG Shanghai Radio | M | FE"
-  },
-  {
-   "f": 4298,
-   "s": "1540",
-   "e": "1820",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
-  },
-  {
-   "f": 4310,
-   "s": "0430",
-   "e": "2000",
-   "n": "RUS | Goose Channel Marker | EEu"
   },
   {
    "f": 4317,
@@ -1022,12 +1046,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 4405,
-   "s": "1755",
-   "e": "1820",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 4414,
@@ -1109,8 +1127,8 @@
   },
   {
    "f": 4610,
-   "s": "0600",
-   "e": "2000",
+   "s": "2000",
+   "e": "2200",
    "n": "G | GYA Northwood Meteo Fax | WEu"
   },
   {
@@ -1198,16 +1216,34 @@
    "n": "USA | US Air Force Messages | E | NAm"
   },
   {
+   "f": 4750,
+   "s": "2023",
+   "e": "0600",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
    "f": 4755,
-   "s": "1800",
-   "e": "1900",
-   "n": "INS | Voice of Indonesia | D | INS"
+   "s": "2000",
+   "e": "2100",
+   "n": "INS | Voice of Indonesia | F | INS"
   },
   {
    "f": 4770,
    "s": "0000",
    "e": "2400",
    "n": "RUS | Alarm Channel Marker | RUS"
+  },
+  {
+   "f": 4800,
+   "s": "2023",
+   "e": "0600",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 4820,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | Xizang RTV | M | CHN"
   },
   {
    "f": 4835,
@@ -1220,6 +1256,12 @@
    "s": "0000",
    "e": "2400",
    "n": "USA | NSS US Navy | -TY | NAm"
+  },
+  {
+   "f": 4990,
+   "s": "2030",
+   "e": "0100",
+   "n": "CHN | PBS Hunan | M | FE"
   },
   {
    "f": 4996,
@@ -1258,6 +1300,12 @@
    "n": "RUS | RJD59 Russian Navy | -TY | EEu"
   },
   {
+   "f": 5020,
+   "s": "1900",
+   "e": "2200",
+   "n": "SLM | Solomon Islands B.C. | E | SLM"
+  },
+  {
    "f": 5035,
    "s": "1000",
    "e": "2345",
@@ -1271,8 +1319,8 @@
   },
   {
    "f": 5100,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
@@ -1340,12 +1388,6 @@
    "s": "0000",
    "e": "2400",
    "n": "PTR | NAU US Navy | -TY | NAm"
-  },
-  {
-   "f": 5367,
-   "s": "0430",
-   "e": "1830",
-   "n": "RUS | The Squeaky Wheel | RUS"
   },
   {
    "f": 5450,
@@ -1679,8 +1721,8 @@
   },
   {
    "f": 5755,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
@@ -1688,12 +1730,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 5815,
-   "s": "1800",
-   "e": "1830",
-   "n": "CLA | Furusato no Kaze | J | KRE"
   },
   {
    "f": 5830,
@@ -1720,6 +1756,12 @@
    "n": "USA | Radio Farda | FS | IRN"
   },
   {
+   "f": 5890,
+   "s": "1900",
+   "e": "0400",
+   "n": "CLA | Iran International TV | FS | IRN"
+  },
+  {
    "f": 5895,
    "s": "0559",
    "e": "2305",
@@ -1733,15 +1775,21 @@
   },
   {
    "f": 5900,
-   "s": "1800",
-   "e": "1900",
-   "n": "USA | Brother Stair | E | Eu"
+   "s": "1900",
+   "e": "0400",
+   "n": "CLA | Iran International TV | FS | IRN"
   },
   {
-   "f": 5905,
-   "s": "1720",
-   "e": "1820",
-   "n": "IRN | IRIB Voice of I.R.Iran | TJ | CAs"
+   "f": 5900,
+   "s": "2000",
+   "e": "2058",
+   "n": "KOR | Unification Media Group | K | KRE"
+  },
+  {
+   "f": 5900,
+   "s": "2005",
+   "e": "0500",
+   "n": "USA | Brother Stair | E | Eu"
   },
   {
    "f": 5910,
@@ -1768,6 +1816,12 @@
    "n": "DNK | World Music Radio | E | Eu"
   },
   {
+   "f": 5935,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | Xizang RTV | M | CHN"
+  },
+  {
    "f": 5940,
    "s": "0000",
    "e": "2400",
@@ -1780,10 +1834,22 @@
    "n": "HOL | Radio Piepzender | NL | Eu"
   },
   {
-   "f": 5955,
-   "s": "1800",
-   "e": "1830",
-   "n": "ROU | Radio Romania Int. | UK | UKR"
+   "f": 5945,
+   "s": "2023",
+   "e": "2300",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 5945,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 5960,
+   "s": "2030",
+   "e": "2100",
+   "n": "ROU | Radio Romania Int. | SR | SEu"
   },
   {
    "f": 5980,
@@ -1798,6 +1864,18 @@
    "n": "TUR | Voice of Turkey | TU | Eu"
   },
   {
+   "f": 5985,
+   "s": "2025",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 5985,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | SAf"
+  },
+  {
    "f": 5995,
    "s": "1800",
    "e": "0001",
@@ -1805,21 +1883,21 @@
   },
   {
    "f": 6000,
-   "s": "1720",
-   "e": "1820",
-   "n": "IRN | IRIB Voice of I.R.Iran | TJ | CAs"
+   "s": "2023",
+   "e": "2330",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 6000,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 6010,
    "s": "0000",
    "e": "2400",
    "n": "B | Rádio Inconfidência | P | B"
-  },
-  {
-   "f": 6010,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | AM | SEu"
   },
   {
    "f": 6015,
@@ -1834,28 +1912,28 @@
    "n": "KRE | Noise Jammer | KRE"
   },
   {
-   "f": 6030,
-   "s": "0253",
-   "e": "2015",
-   "n": "ETH | Radio Oromiya | OO | EAf"
+   "f": 6020,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | PO | Eu"
   },
   {
-   "f": 6040,
-   "s": "1800",
-   "e": "1900",
-   "n": "KOR | KBS World Radio | R | EEu"
+   "f": 6030,
+   "s": "2025",
+   "e": "0600",
+   "n": "CHN | CNR1 DIGITAL | M | CHN"
+  },
+  {
+   "f": 6050,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | Xizang RTV | M | CHN"
   },
   {
    "f": 6050,
    "s": "1700",
    "e": "2232",
    "n": "LBR | ELWA Radio | E | WAf"
-  },
-  {
-   "f": 6055,
-   "s": "1800",
-   "e": "2000",
-   "n": "CHN | China Radio Int. | F | WAf"
   },
   {
    "f": 6060,
@@ -1871,15 +1949,21 @@
   },
   {
    "f": 6070,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | R | CAs"
-  },
-  {
-   "f": 6070,
    "s": "0000",
    "e": "2400",
    "n": "D | Channel 292 | D,E | Eu"
+  },
+  {
+   "f": 6080,
+   "s": "2023",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 6080,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 6090,
@@ -1889,9 +1973,9 @@
   },
   {
    "f": 6090,
-   "s": "1800",
-   "e": "1900",
-   "n": "G | BBC | PS | AFG"
+   "s": "2000",
+   "e": "2100",
+   "n": "KOR | KBS World Radio | A | NAf"
   },
   {
    "f": 6095,
@@ -1901,9 +1985,15 @@
   },
   {
    "f": 6100,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | E | Eu"
+   "s": "2000",
+   "e": "2200",
+   "n": "CHN | China Radio Int. | A | NAf"
+  },
+  {
+   "f": 6100,
+   "s": "1950",
+   "e": "1800",
+   "n": "KRE | KCBS Pyongyang | K | KRE"
   },
   {
    "f": 6110,
@@ -1912,10 +2002,40 @@
    "n": "ETH | Fana Broadcasting Corp. | AH | EAf"
   },
   {
+   "f": 6115,
+   "s": "2030",
+   "e": "2230",
+   "n": "CHN | China Radio Int. | F | SEu"
+  },
+  {
+   "f": 6120,
+   "s": "1830",
+   "e": "2200",
+   "n": "TUR | Voice of Turkey | TU | ME"
+  },
+  {
+   "f": 6125,
+   "s": "2023",
+   "e": "2300",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 6125,
+   "s": "2023",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
    "f": 6130,
    "s": "0000",
    "e": "2400",
    "n": "HOL | Radio Europa | NL | WEu"
+  },
+  {
+   "f": 6135,
+   "s": "1950",
+   "e": "2050",
+   "n": "J | Shiokaze | J | KRE"
   },
   {
    "f": 6140,
@@ -1925,15 +2045,15 @@
   },
   {
    "f": 6140,
-   "s": "0600",
-   "e": "1900",
-   "n": "SUI | Radio Gloria | D | Eu"
+   "s": "1900",
+   "e": "2100",
+   "n": "CTI | Radio Augusta Int. | E | WEu"
   },
   {
    "f": 6140,
-   "s": "1800",
-   "e": "1830",
-   "n": "SVK | Radio Slovakia Int. | F | Eu"
+   "s": "1950",
+   "e": "1400",
+   "n": "KRE | KCBS DIGITAL | K | KRE"
   },
   {
    "f": 6150,
@@ -1942,16 +2062,10 @@
    "n": "B | Rádio Saturno | P | B"
   },
   {
-   "f": 6150,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | M | Eu"
-  },
-  {
-   "f": 6160,
-   "s": "1800",
-   "e": "2000",
-   "n": "CHN | China Radio Int. | D | WEu"
+   "f": 6155,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | R | EEu"
   },
   {
    "f": 6160,
@@ -1973,9 +2087,9 @@
   },
   {
    "f": 6170,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | D | Eu"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | Eu"
   },
   {
    "f": 6170,
@@ -1984,10 +2098,22 @@
    "n": "USA | Radio Farda | FS | IRN"
   },
   {
+   "f": 6180,
+   "s": "2000",
+   "e": "2400",
+   "n": "B | Rádio Nacional Amazônia | P | B"
+  },
+  {
    "f": 6185,
    "s": "0000",
    "e": "2400",
    "n": "HOL | Radio Piepzender | NL | Eu"
+  },
+  {
+   "f": 6185,
+   "s": "1950",
+   "e": "2050",
+   "n": "J | Shiokaze | J | KRE"
   },
   {
    "f": 6190,
@@ -2027,8 +2153,8 @@
   },
   {
    "f": 6230,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2045,8 +2171,8 @@
   },
   {
    "f": 6280,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2093,8 +2219,8 @@
   },
   {
    "f": 6370,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2435,15 +2561,9 @@
   },
   {
    "f": 6730,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 6765,
-   "s": "1800",
-   "e": "2000",
-   "n": "THA | Bangkok Meterolog.Radio | E,T | SEA"
   },
   {
    "f": 6831,
@@ -2459,14 +2579,14 @@
   },
   {
    "f": 6850,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
    "f": 6865,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2477,8 +2597,8 @@
   },
   {
    "f": 6900,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2488,6 +2608,12 @@
    "n": "RUS | Stalingrad clock | -TS | EEu"
   },
   {
+   "f": 6925,
+   "s": "2000",
+   "e": "0100",
+   "n": "CHL | RCW Compañía Worldwide | S | CHL"
+  },
+  {
    "f": 6938,
    "s": "0000",
    "e": "2400",
@@ -2495,8 +2621,8 @@
   },
   {
    "f": 6970,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2573,27 +2699,33 @@
   },
   {
    "f": 7205,
-   "s": "1800",
-   "e": "1900",
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | M | EAf"
+  },
+  {
+   "f": 7205,
+   "s": "1900",
+   "e": "2100",
    "n": "ROU | Radio Romania Int. | RO | SEu"
   },
   {
    "f": 7210,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | E | Eu"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | SAf"
   },
   {
    "f": 7210,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | F | SAf"
-  },
-  {
-   "f": 7210,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 7215,
+   "s": "2023",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 7215,
@@ -2602,22 +2734,58 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 7220,
+   "s": "2000",
+   "e": "2100",
+   "n": "ROU | Radio Romania Int. | S | SEu"
+  },
+  {
+   "f": 7220,
+   "s": "2030",
+   "e": "2100",
+   "n": "VTN | Voice of Vietnam | E | ME"
+  },
+  {
    "f": 7225,
    "s": "0000",
    "e": "2400",
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 7230,
+   "s": "2023",
+   "e": "0600",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
    "f": 7240,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | R | EEu"
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | Xizang RTV | M | CHN"
+  },
+  {
+   "f": 7245,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | M | NAf"
   },
   {
    "f": 7255,
-   "s": "1800",
-   "e": "1900",
+   "s": "2000",
+   "e": "2100",
    "n": "CHN | China Radio Int. | R | EEu"
+  },
+  {
+   "f": 7260,
+   "s": "2000",
+   "e": "0658",
+   "n": "VUT | Radio Vanuatu | BSL | VUT"
+  },
+  {
+   "f": 7265,
+   "s": "2030",
+   "e": "2130",
+   "n": "CHN | China Radio Int. | I | SEu"
   },
   {
    "f": 7265,
@@ -2627,9 +2795,15 @@
   },
   {
    "f": 7275,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | M | WAf"
+   "s": "2023",
+   "e": "2300",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 7275,
+   "s": "2023",
+   "e": "0030",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 7280,
@@ -2639,27 +2813,45 @@
   },
   {
    "f": 7280,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
    "f": 7285,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | AM | SEu"
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | Eu"
+  },
+  {
+   "f": 7290,
+   "s": "2023",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 7290,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 7295,
-   "s": "1800",
-   "e": "1830",
-   "n": "CAN | Bible Voice | FS | IRN"
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | ME"
   },
   {
    "f": 7305,
-   "s": "1800",
-   "e": "2000",
-   "n": "CHN | China Radio Int. | D | WEu"
+   "s": "2023",
+   "e": "2200",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 7305,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | PO | Eu"
   },
   {
    "f": 7310,
@@ -2669,33 +2861,39 @@
   },
   {
    "f": 7310,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 7315,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | M | ME"
+   "f": 7320,
+   "s": "2030",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | BU | Eu"
   },
   {
-   "f": 7325,
-   "s": "1800",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | FS | IRN"
+   "f": 7335,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | M | Eu"
   },
   {
-   "f": 7340,
-   "s": "1800",
-   "e": "1900",
+   "f": 7345,
+   "s": "2030",
+   "e": "2130",
    "n": "CHN | China Radio Int. | I | SEu"
   },
   {
-   "f": 7360,
-   "s": "1800",
-   "e": "2000",
+   "f": 7350,
+   "s": "2030",
+   "e": "2230",
    "n": "CHN | China Radio Int. | F | SEu"
+  },
+  {
+   "f": 7390,
+   "s": "2030",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | HU | Eu"
   },
   {
    "f": 7400,
@@ -2717,9 +2915,9 @@
   },
   {
    "f": 7415,
-   "s": "1800",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | FS | IRN"
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | Eu"
   },
   {
    "f": 7420,
@@ -2728,40 +2926,28 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
-   "f": 7425,
-   "s": "1800",
-   "e": "1830",
-   "n": "G | BBC | F | NAf"
-  },
-  {
    "f": 7433,
    "s": "1200",
    "e": "2400",
    "n": "KOR | HLL Seoul Meteo Fax | FE"
   },
   {
-   "f": 7435,
-   "s": "1800",
-   "e": "1900",
-   "n": "CHN | China Radio Int. | I | SEu"
+   "f": 7440,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | M | Eu"
   },
   {
-   "f": 7445,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | M | Eu"
+   "f": 7450,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | Xizang RTV | M | CHN"
   },
   {
    "f": 7455,
    "s": "0000",
    "e": "2400",
    "n": "PTR | NAU US Navy | -TY | NAm"
-  },
-  {
-   "f": 7460,
-   "s": "1700",
-   "e": "2000",
-   "n": "TWN | Sound of Hope | M | FE"
   },
   {
    "f": 7460,
@@ -2813,9 +2999,15 @@
   },
   {
    "f": 7535,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
+  },
+  {
+   "f": 7535,
+   "s": "2000",
+   "e": "0100",
+   "n": "CHL | RCW Compañía Worldwide | S | CHL"
   },
   {
    "f": 7565,
@@ -2825,9 +3017,15 @@
   },
   {
    "f": 7570,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | E | Eu"
+   "s": "2000",
+   "e": "2100",
+   "n": "KRE | Voice of Korea | F | Eu"
+  },
+  {
+   "f": 7590,
+   "s": "2000",
+   "e": "2100",
+   "n": "CLA | North Korea Reform R. | K | KRE"
   },
   {
    "f": 7600,
@@ -2837,14 +3035,20 @@
   },
   {
    "f": 7600,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 7615,
+   "s": "2000",
+   "e": "2100",
+   "n": "CLA | Free North Korea Radio | K | KRE"
+  },
+  {
    "f": 7645,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2861,8 +3065,8 @@
   },
   {
    "f": 7730,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2873,8 +3077,8 @@
   },
   {
    "f": 7750,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2885,8 +3089,8 @@
   },
   {
    "f": 7810,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -2897,15 +3101,15 @@
   },
   {
    "f": 7880,
-   "s": "1800",
-   "e": "1947",
+   "s": "2035",
+   "e": "2300",
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
    "f": 7906,
-   "s": "1805",
-   "e": "1815",
-   "n": "VTN | Can Tho Radio | VN | SEA"
+   "s": "2035",
+   "e": "2045",
+   "n": "VTN | Da Nang Radio XVT | VN | SEA"
   },
   {
    "f": 8000,
@@ -2927,8 +3131,8 @@
   },
   {
    "f": 8040,
-   "s": "0600",
-   "e": "2000",
+   "s": "2000",
+   "e": "2200",
    "n": "G | GYA Northwood Meteo Fax | WEu"
   },
   {
@@ -2966,6 +3170,18 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 8294,
+   "s": "2035",
+   "e": "2045",
+   "n": "VTN | Da Nang Radio XVT | VN | SEA"
+  },
+  {
+   "f": 8302,
+   "s": "2025",
+   "e": "2050",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 8376,
@@ -3038,12 +3254,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
-  },
-  {
-   "f": 8459,
-   "s": "1540",
-   "e": "1820",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
   },
   {
    "f": 8484,
@@ -3136,22 +3346,22 @@
    "n": "KOR | HLW Seoul Radio | -CW | FE"
   },
   {
-   "f": 8658,
-   "s": "1800",
-   "e": "1815",
-   "n": "J | JFX Kagoshima Fish.Fax | WOc"
+   "f": 8677,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
+  },
+  {
+   "f": 8682,
+   "s": "1840",
+   "e": "2220",
+   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 8728,
    "s": "0000",
    "e": "2400",
    "n": "USA | KLB Seattle, WA x15,x45 | E | WNA"
-  },
-  {
-   "f": 8743,
-   "s": "1800",
-   "e": "2000",
-   "n": "THA | Bangkok Meterolog.Radio | E,T | SEA"
   },
   {
    "f": 8746,
@@ -3176,18 +3386,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 8764,
-   "s": "1800",
-   "e": "1835",
-   "n": "HWA | NMO USCG Honolulu | E | Oc"
-  },
-  {
-   "f": 8764,
-   "s": "1715",
-   "e": "1815",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 8779,
@@ -3230,12 +3428,6 @@
    "s": "0000",
    "e": "2400",
    "n": "TUR | TAH Turk Radio Istanbul | E | ME"
-  },
-  {
-   "f": 8812,
-   "s": "1755",
-   "e": "1820",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 8819,
@@ -3647,8 +3839,8 @@
   },
   {
    "f": 9155,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -3659,14 +3851,20 @@
   },
   {
    "f": 9215,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 9265,
+   "s": "2000",
+   "e": "0500",
+   "n": "USA | WINB | E | NAm"
+  },
+  {
    "f": 9280,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -3676,10 +3874,10 @@
    "n": "USA | WBCQ World's Last Chance | E | NAm"
   },
   {
-   "f": 9370,
-   "s": "1730",
-   "e": "2030",
-   "n": "PHL | Radyo Pilipinas | TAG | ME"
+   "f": 9350,
+   "s": "2000",
+   "e": "2200",
+   "n": "USA | WWCR 2 Nashville, TN | E | NAm"
   },
   {
    "f": 9385,
@@ -3694,70 +3892,88 @@
    "n": "USA | WRMI Radio Miami Int. | E | ENA"
   },
   {
-   "f": 9400,
-   "s": "1600",
-   "e": "1900",
-   "n": "USA | Brother Stair | E | ME"
+   "f": 9425,
+   "s": "2000",
+   "e": "0400",
+   "n": "CLA | Iran International TV | FS | IRN"
   },
   {
    "f": 9425,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | D | Eu"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | Eu"
+  },
+  {
+   "f": 9440,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | ME"
   },
   {
    "f": 9450,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | HA | NIG"
+   "s": "2025",
+   "e": "0200",
+   "n": "CHN | China National Radio | M | CHN"
   },
   {
-   "f": 9495,
-   "s": "1730",
-   "e": "1830",
-   "n": "TUR | Voice of Turkey | S | SEu"
+   "f": 9470,
+   "s": "2025",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
-   "f": 9525,
-   "s": "1800",
-   "e": "1900",
-   "n": "G | BBC | PS | AFG"
+   "f": 9475,
+   "s": "2000",
+   "e": "2400",
+   "n": "USA | WTWW Lebanon, TN | E | NAm"
+  },
+  {
+   "f": 9500,
+   "s": "2023",
+   "e": "0600",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 9500,
+   "s": "2000",
+   "e": "2100",
+   "n": "ROU | Radio Romania Int. | S | SEu"
+  },
+  {
+   "f": 9510,
+   "s": "1900",
+   "e": "2100",
+   "n": "J | NHK Radio Japan | J | CAf"
   },
   {
    "f": 9540,
-   "s": "1800",
-   "e": "1830",
-   "n": "S | IBRA Radio | TIG | EAf"
-  },
-  {
-   "f": 9540,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 9560,
-   "s": "1700",
-   "e": "1900",
-   "n": "J | NHK Radio Japan | J | FE"
+   "f": 9585,
+   "s": "2030",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | HU | Eu"
   },
   {
-   "f": 9570,
-   "s": "1800",
-   "e": "1900",
-   "n": "ROU | Radio Romania DIGITAL | E | WEu"
+   "f": 9600,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | Eu"
   },
   {
-   "f": 9615,
-   "s": "1800",
-   "e": "2000",
-   "n": "CHN | China Radio Int. | D | WEu"
+   "f": 9625,
+   "s": "2030",
+   "e": "2130",
+   "n": "TUR | Voice of Turkey | F | WAf"
   },
   {
-   "f": 9660,
-   "s": "1730",
-   "e": "1830",
-   "n": "TUR | Voice of Turkey | E | NIn"
+   "f": 9655,
+   "s": "2000",
+   "e": "2100",
+   "n": "KOR | KBS World Radio | F | WAf"
   },
   {
    "f": 9665,
@@ -3772,40 +3988,52 @@
    "n": "D | Channel 292 | D,E | Eu"
   },
   {
-   "f": 9685,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | HA | NIG"
+   "f": 9690,
+   "s": "1900",
+   "e": "2100",
+   "n": "E | Radio Exterior España | S | NAm"
   },
   {
    "f": 9690,
-   "s": "1800",
-   "e": "1900",
-   "n": "INS | Voice of Indonesia | D | INS"
+   "s": "2000",
+   "e": "2100",
+   "n": "INS | Voice of Indonesia | F | INS"
   },
   {
-   "f": 9695,
-   "s": "1730",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | M | ME"
+   "f": 9690,
+   "s": "2000",
+   "e": "2100",
+   "n": "USA | PanAmerican Broadc. | E | Oc"
+  },
+  {
+   "f": 9705,
+   "s": "2030",
+   "e": "2100",
+   "n": "CVA | Radio Vaticana | F | CAf"
+  },
+  {
+   "f": 9710,
+   "s": "2023",
+   "e": "2330",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 9720,
-   "s": "1800",
-   "e": "1830",
-   "n": "CLA | Furusato no Kaze | J | KRE"
+   "s": "2030",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | BU | SEE"
   },
   {
-   "f": 9750,
-   "s": "1650",
-   "e": "1820",
-   "n": "IRN | IRIB Voice of I.R.Iran | TU | ME"
+   "f": 9790,
+   "s": "2000",
+   "e": "2100",
+   "n": "F | Radio France Int. | F | WAf"
   },
   {
-   "f": 9760,
-   "s": "1800",
-   "e": "1900",
-   "n": "USA | Adventist World Radio | K | FE"
+   "f": 9810,
+   "s": "2023",
+   "e": "2300",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 9818,
@@ -3815,45 +4043,63 @@
   },
   {
    "f": 9830,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 9830,
    "s": "0000",
    "e": "2400",
    "n": "USA | NSS US Navy | -TY | NAm"
   },
   {
    "f": 9835,
-   "s": "1800",
-   "e": "1900",
-   "n": "EGY | Radio Cairo | I | Eu"
+   "s": "2030",
+   "e": "2100",
+   "n": "VTN | Voice of Vietnam | F | Eu"
   },
   {
-   "f": 9835,
-   "s": "1800",
-   "e": "1830",
-   "n": "VTN | Voice of Vietnam | S | Eu"
+   "f": 9845,
+   "s": "2023",
+   "e": "2400",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 9845,
+   "s": "2023",
+   "e": "0100",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 9845,
+   "s": "2000",
+   "e": "2115",
+   "n": "EGY | Radio Cairo | F | WEu"
+  },
+  {
+   "f": 9860,
+   "s": "2023",
+   "e": "2300",
+   "n": "CHN | China National Radio 1 | M | CHN"
+  },
+  {
+   "f": 9865,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | M | ME"
   },
   {
    "f": 9875,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | F | ME"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | ME"
   },
   {
    "f": 9885,
-   "s": "1800",
-   "e": "1900",
-   "n": "MDG | MWV New Life Station | R | EEu"
-  },
-  {
-   "f": 9900,
-   "s": "1700",
-   "e": "1900",
-   "n": "EGY | Radio Cairo | TU | ME"
-  },
-  {
-   "f": 9920,
-   "s": "1730",
-   "e": "2030",
-   "n": "PHL | Radyo Pilipinas | TAG | ME"
+   "s": "2000",
+   "e": "2100",
+   "n": "USA | Adventist World Radio | K | FE"
   },
   {
    "f": 9930,
@@ -3866,6 +4112,12 @@
    "s": "1500",
    "e": "2300",
    "n": "USA | Voice of America | K | FE"
+  },
+  {
+   "f": 9960,
+   "s": "2000",
+   "e": "0158",
+   "n": "VUT | Radio Vanuatu | BSL | VUT"
   },
   {
    "f": 9970,
@@ -4067,8 +4319,8 @@
   },
   {
    "f": 10555,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
@@ -4121,8 +4373,8 @@
   },
   {
    "f": 11030,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
@@ -4130,12 +4382,6 @@
    "s": "0000",
    "e": "2400",
    "n": "D | DWD 2 Pinneberg RTTY | E | Eu"
-  },
-  {
-   "f": 11086,
-   "s": "0600",
-   "e": "2000",
-   "n": "G | GYA Northwood Meteo Fax | WEu"
   },
   {
    "f": 11090,
@@ -4366,22 +4612,70 @@
    "n": "USA | New York Radio | E | NAO"
   },
   {
-   "f": 11575,
-   "s": "1400",
-   "e": "2000",
-   "n": "USA | Radio Farda | FS | IRN"
+   "f": 11440,
+   "s": "2000",
+   "e": "1700",
+   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 11440,
+   "s": "2000",
+   "e": "2100",
+   "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 11500,
+   "s": "2000",
+   "e": "1700",
+   "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 11500,
+   "s": "2000",
+   "e": "2100",
+   "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 11520,
+   "s": "2000",
+   "e": "1600",
+   "n": "CHN | CNR1 Jammer/Firedrake | M | CHN"
+  },
+  {
+   "f": 11535,
+   "s": "2000",
+   "e": "1600",
+   "n": "CHN | CNR1 Jammer/Firedrake | M | CHN"
+  },
+  {
+   "f": 11535,
+   "s": "2000",
+   "e": "2100",
+   "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 11560,
+   "s": "2000",
+   "e": "2100",
+   "n": "CLA | North Korea Reform R. | K | KRE"
   },
   {
    "f": 11635,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | F | ME"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | ME"
   },
   {
    "f": 11640,
-   "s": "1800",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | HA | NIG"
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | EAf"
+  },
+  {
+   "f": 11680,
+   "s": "1950",
+   "e": "1800",
+   "n": "KRE | KCBS Pyongyang | K | KRE"
   },
   {
    "f": 11688,
@@ -4390,22 +4684,10 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
-   "f": 11690,
-   "s": "1759",
-   "e": "1958",
-   "n": "NZL | RNZ Pacific DIGITAL | E | Oc"
-  },
-  {
    "f": 11700,
-   "s": "1700",
-   "e": "1900",
-   "n": "HOL | Radio Dabanga | TIG | SDN"
-  },
-  {
-   "f": 11725,
-   "s": "1759",
-   "e": "1858",
-   "n": "NZL | RNZ Pacific | E | Oc"
+   "s": "2000",
+   "e": "2100",
+   "n": "F | Radio France Int. | F | WAf"
   },
   {
    "f": 11730,
@@ -4421,15 +4703,15 @@
   },
   {
    "f": 11760,
-   "s": "1600",
-   "e": "1900",
-   "n": "CUB | Radio Habana Cuba | S | Am"
+   "s": "2000",
+   "e": "2100",
+   "n": "CUB | Radio Habana Cuba | E | Am"
   },
   {
-   "f": 11780,
-   "s": "0745",
-   "e": "2000",
-   "n": "B | Rádio Nacional Amazônia | P | B"
+   "f": 11790,
+   "s": "2030",
+   "e": "2100",
+   "n": "USA | Adventist World Radio | NIG | WAf"
   },
   {
    "f": 11815,
@@ -4451,39 +4733,45 @@
   },
   {
    "f": 11870,
-   "s": "1700",
-   "e": "1900",
-   "n": "S | IBRA Radio | A | EAf"
+   "s": "2030",
+   "e": "2100",
+   "n": "CVA | Radio Vaticana | F | WAf"
   },
   {
    "f": 11880,
-   "s": "1600",
-   "e": "1900",
-   "n": "CUB | Radio Habana Cuba | S | CAm"
+   "s": "2000",
+   "e": "2100",
+   "n": "CUB | Radio Habana Cuba | E | CAm"
   },
   {
    "f": 11885,
-   "s": "1700",
-   "e": "1900",
-   "n": "MLA | RTM Sabah V FM | E | MLA"
+   "s": "2030",
+   "e": "0100",
+   "n": "MLA | RTM Sabah V FM | KAD | MLA"
   },
   {
    "f": 11885,
-   "s": "1800",
-   "e": "1830",
-   "n": "VTN | Voice of Vietnam | S | Eu"
-  },
-  {
-   "f": 11900,
-   "s": "1730",
-   "e": "1930",
-   "n": "IND | AIR Akashvani Ext.Sce | A | ME"
+   "s": "2030",
+   "e": "2100",
+   "n": "VTN | Voice of Vietnam | F | Eu"
   },
   {
    "f": 11910,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | F | SAf"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | SAf"
+  },
+  {
+   "f": 11920,
+   "s": "1900",
+   "e": "2050",
+   "n": "J | NHK Radio Japan | J | SAf"
+  },
+  {
+   "f": 11925,
+   "s": "2023",
+   "e": "2330",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 11930,
@@ -4492,16 +4780,10 @@
    "n": "USA | Radio Marti | S | CUB"
   },
   {
-   "f": 11955,
-   "s": "1700",
-   "e": "1900",
-   "n": "J | NHK Radio Japan | J | ME"
-  },
-  {
    "f": 11965,
-   "s": "1800",
-   "e": "1830",
-   "n": "G | BBC | F | MDG"
+   "s": "2000",
+   "e": "2100",
+   "n": "MDG | MWV African Pathways R. | E | CAf"
   },
   {
    "f": 11980,
@@ -4510,22 +4792,16 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
-   "f": 11995,
-   "s": "1800",
-   "e": "1900",
-   "n": "F | Radio France Int. | F | WAf"
+   "f": 12015,
+   "s": "2000",
+   "e": "2100",
+   "n": "KRE | Voice of Korea | F | Eu"
   },
   {
    "f": 12015,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | E | Eu"
-  },
-  {
-   "f": 12015,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | D | Eu"
+   "s": "2000",
+   "e": "2050",
+   "n": "KRE | Voice of Korea KCBS | K | Eu"
   },
   {
    "f": 12015,
@@ -4535,39 +4811,27 @@
   },
   {
    "f": 12030,
-   "s": "1600",
-   "e": "1900",
+   "s": "1900",
+   "e": "2100",
    "n": "E | Radio Exterior España | S | ME"
+  },
+  {
+   "f": 12040,
+   "s": "2000",
+   "e": "2100",
+   "n": "J | NHK Radio Japan | J | Oc"
   },
   {
    "f": 12050,
    "s": "0000",
    "e": "2400",
    "n": "HOL | SunDance Radio | NL | Eu"
-  },
-  {
-   "f": 12050,
-   "s": "1800",
-   "e": "1900",
-   "n": "TCD | Radio Ndarason Int. | KNU | WAf"
-  },
-  {
-   "f": 12095,
-   "s": "1750",
-   "e": "1810",
-   "n": "G | BBC | OO | EAf"
   },
   {
    "f": 12100,
    "s": "0000",
    "e": "2400",
    "n": "HOL | SunDance Radio | NL | Eu"
-  },
-  {
-   "f": 12120,
-   "s": "1730",
-   "e": "2030",
-   "n": "PHL | Radyo Pilipinas | TAG | ME"
   },
   {
    "f": 12120,
@@ -4588,12 +4852,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 12359,
-   "s": "1803",
-   "e": "1813",
-   "n": "VTN | Da Nang Radio XVT | VN | SEA"
-  },
-  {
    "f": 12362,
    "s": "1000",
    "e": "2300",
@@ -4606,10 +4864,10 @@
    "n": "AUS | VMC Charleville QL | E | AUS"
   },
   {
-   "f": 12412,
-   "s": "1540",
-   "e": "1820",
-   "n": "ALS | NOJ Fax Kodiak | WNA"
+   "f": 12382,
+   "s": "2025",
+   "e": "2050",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 12520,
@@ -4696,6 +4954,12 @@
    "n": "USA | NMF Fax Boston MA | ENA"
   },
   {
+   "f": 12786,
+   "s": "1840",
+   "e": "2215",
+   "n": "USA | NMC Fax Pt Reyes CA | WNA"
+  },
+  {
    "f": 12789,
    "s": "1800",
    "e": "2105",
@@ -4744,18 +5008,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 13089,
-   "s": "1800",
-   "e": "1835",
-   "n": "HWA | NMO USCG Honolulu | E | Oc"
-  },
-  {
-   "f": 13089,
-   "s": "1715",
-   "e": "1815",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
-  },
-  {
    "f": 13092,
    "s": "0000",
    "e": "2400",
@@ -4772,12 +5024,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | M | FE"
-  },
-  {
-   "f": 13128,
-   "s": "1755",
-   "e": "1820",
-   "n": "TUR | TAH Turk Radio Istanbul | TU | ME"
   },
   {
    "f": 13137,
@@ -5182,22 +5428,22 @@
    "n": "HOL | Radio Piepzender | NL | Eu"
   },
   {
-   "f": 13645,
-   "s": "1800",
-   "e": "1830",
-   "n": "CHN | China Radio Int. | HA | NIG"
+   "f": 13630,
+   "s": "2000",
+   "e": "2100",
+   "n": "CHN | China Radio Int. | E | EAf"
   },
   {
-   "f": 13670,
-   "s": "1800",
-   "e": "1900",
-   "n": "MDG | MWV African Pathways R. | E | CAf"
+   "f": 13640,
+   "s": "1900",
+   "e": "0300",
+   "n": "ALG | Ifrikya FM | A | CAf"
   },
   {
-   "f": 13740,
-   "s": "1800",
-   "e": "1900",
-   "n": "F | Radio France Int. | F | WAf"
+   "f": 13710,
+   "s": "2000",
+   "e": "2100",
+   "n": "MDG | MWV Radio Feda | A | ME"
   },
   {
    "f": 13755,
@@ -5207,9 +5453,9 @@
   },
   {
    "f": 13760,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | E | Eu"
+   "s": "2000",
+   "e": "2100",
+   "n": "KRE | Voice of Korea | F | Eu"
   },
   {
    "f": 13780,
@@ -5218,16 +5464,10 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
-   "f": 13790,
-   "s": "1800",
-   "e": "1830",
-   "n": "G | BBC | F | CAf"
-  },
-  {
-   "f": 13800,
-   "s": "1802",
-   "e": "1902",
-   "n": "SWZ | Trans World Radio | A | EAf"
+   "f": 13840,
+   "s": "1959",
+   "e": "2058",
+   "n": "NZL | RNZ Pacific DIGITAL | E | Oc"
   },
   {
    "f": 13845,
@@ -5240,6 +5480,12 @@
    "s": "1300",
    "e": "0100",
    "n": "USA | WWCR 3 Nashville, TN | E | NAm"
+  },
+  {
+   "f": 13855,
+   "s": "1900",
+   "e": "0400",
+   "n": "ALG | Ifrikya FM | A | WAf"
   },
   {
    "f": 13865,
@@ -5255,14 +5501,14 @@
   },
   {
    "f": 13882,
-   "s": "1800",
-   "e": "1947",
+   "s": "2035",
+   "e": "2300",
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
    "f": 13920,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMC Charleville Met Fax | Oc"
   },
   {
@@ -5339,15 +5585,9 @@
   },
   {
    "f": 15140,
-   "s": "0700",
-   "e": "1900",
-   "n": "ALG | Ifrikya FM | A | WAf"
-  },
-  {
-   "f": 15140,
-   "s": "1600",
-   "e": "1900",
-   "n": "CUB | Radio Habana Cuba | S | NAm"
+   "s": "2000",
+   "e": "2100",
+   "n": "CUB | Radio Habana Cuba | E | NAm"
   },
   {
    "f": 15145,
@@ -5374,28 +5614,16 @@
    "n": "B | Rádio Inconfidência | P | B"
   },
   {
-   "f": 15230,
-   "s": "1600",
-   "e": "1900",
-   "n": "CUB | Radio Habana Cuba | S | WNA"
-  },
-  {
    "f": 15245,
-   "s": "1800",
-   "e": "1900",
-   "n": "KRE | Voice of Korea | E | Eu"
+   "s": "2000",
+   "e": "2100",
+   "n": "KRE | Voice of Korea | F | Eu"
   },
   {
    "f": 15295,
    "s": "0000",
    "e": "2400",
    "n": "MLA | RTM Nasional FM | ML | MLA"
-  },
-  {
-   "f": 15300,
-   "s": "1800",
-   "e": "1900",
-   "n": "F | Radio France Int. | F | CAf"
   },
   {
    "f": 15340,
@@ -5411,63 +5639,27 @@
   },
   {
    "f": 15390,
-   "s": "1800",
-   "e": "2000",
-   "n": "E | Radio Exterior España | S | Af"
-  },
-  {
-   "f": 15400,
-   "s": "1800",
-   "e": "1900",
-   "n": "G | BBC | E | WAf"
-  },
-  {
-   "f": 15420,
-   "s": "1800",
-   "e": "1900",
-   "n": "G | BBC | E | CAf"
-  },
-  {
-   "f": 15460,
-   "s": "1800",
-   "e": "1830",
-   "n": "USA | Adventist World Radio | TIG | EAf"
-  },
-  {
-   "f": 15490,
-   "s": "1800",
-   "e": "1830",
-   "n": "G | BBC | F | WAf"
+   "s": "2030",
+   "e": "2100",
+   "n": "E | Radio Exterior España | M | Af"
   },
   {
    "f": 15500,
-   "s": "1800",
-   "e": "2000",
-   "n": "E | Radio Exterior España | S | NAm"
-  },
-  {
-   "f": 15510,
-   "s": "1800",
-   "e": "1830",
-   "n": "G | FEBA Radio Sama | FUR | EAf"
+   "s": "2030",
+   "e": "2100",
+   "n": "E | Radio Exterior España | M | NAm"
   },
   {
    "f": 15520,
-   "s": "1800",
-   "e": "2000",
-   "n": "E | Radio Exterior España | S | ME"
+   "s": "2030",
+   "e": "2100",
+   "n": "E | Radio Exterior España | M | ME"
   },
   {
    "f": 15555,
    "s": "1358",
    "e": "2200",
    "n": "USA | WJHR Milton, FL (USB) | E | NAm"
-  },
-  {
-   "f": 15565,
-   "s": "1800",
-   "e": "1830",
-   "n": "CVA | Radio Vaticana | P | SAf"
   },
   {
    "f": 15610,
@@ -5477,27 +5669,15 @@
   },
   {
    "f": 15615,
-   "s": "1800",
-   "e": "1845",
+   "s": "1915",
+   "e": "2045",
    "n": "AUS | VMW Wiluna Met Fax | Oc"
   },
   {
-   "f": 15685,
-   "s": "1750",
-   "e": "1810",
-   "n": "G | BBC | OO | EAf"
-  },
-  {
-   "f": 15730,
-   "s": "0400",
-   "e": "1900",
-   "n": "CLA | Iran International TV | FS | IRN"
-  },
-  {
-   "f": 15745,
-   "s": "0400",
-   "e": "1900",
-   "n": "CLA | Iran International TV | FS | IRN"
+   "f": 15720,
+   "s": "1959",
+   "e": "2058",
+   "n": "NZL | RNZ Pacific | E | Oc"
   },
   {
    "f": 15745,
@@ -5614,6 +5794,12 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
+   "f": 16559,
+   "s": "2025",
+   "e": "2050",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
+  },
+  {
    "f": 16695,
    "s": "0000",
    "e": "2400",
@@ -5669,9 +5855,21 @@
   },
   {
    "f": 17146,
+   "s": "1915",
+   "e": "2100",
+   "n": "CHL | CBV Valparaiso Met Fax | SAm"
+  },
+  {
+   "f": 17146,
    "s": "1800",
    "e": "2105",
    "n": "USA | NMG Fax New Orleans | Car"
+  },
+  {
+   "f": 17151,
+   "s": "1840",
+   "e": "2215",
+   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 17238,
@@ -5710,12 +5908,6 @@
    "n": "I | Romaradio IAR | I | SEu"
   },
   {
-   "f": 17314,
-   "s": "1715",
-   "e": "1815",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
-  },
-  {
    "f": 17341,
    "s": "0000",
    "e": "2400",
@@ -5746,27 +5938,21 @@
    "n": "ALG | Ifrikya FM | A | CAf"
   },
   {
-   "f": 17670,
-   "s": "1800",
-   "e": "1830",
-   "n": "S | IBRA Radio Sama | FUR | EAf"
-  },
-  {
    "f": 17715,
-   "s": "1800",
-   "e": "2000",
+   "s": "1900",
+   "e": "2100",
    "n": "E | Radio Exterior España | S | SAm"
   },
   {
-   "f": 17720,
-   "s": "0700",
-   "e": "2000",
-   "n": "CHN | CNR1 DIGITAL | M | CHN"
+   "f": 17715,
+   "s": "2030",
+   "e": "2100",
+   "n": "E | Radio Exterior España | M | SAm"
   },
   {
    "f": 17755,
-   "s": "1600",
-   "e": "1900",
+   "s": "1900",
+   "e": "2100",
    "n": "E | Radio Exterior España | S | Af"
   },
   {
@@ -5780,12 +5966,6 @@
    "s": "1400",
    "e": "2100",
    "n": "USA | Radio Marti | S | CUB"
-  },
-  {
-   "f": 17850,
-   "s": "1800",
-   "e": "1900",
-   "n": "F | Radio France Int. | F | CAf"
   },
   {
    "f": 17901,
@@ -6058,6 +6238,12 @@
    "n": "RUS | Channel Marker M | -CW | FE"
   },
   {
+   "f": 20469,
+   "s": "1915",
+   "e": "2045",
+   "n": "AUS | VMC Charleville Met Fax | Oc"
+  },
+  {
    "f": 21490,
    "s": "0000",
    "e": "2400",
@@ -6065,8 +6251,8 @@
   },
   {
    "f": 21490,
-   "s": "1700",
-   "e": "2000",
+   "s": "2000",
+   "e": "2100",
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
@@ -6200,6 +6386,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | -TY | FE"
+  },
+  {
+   "f": 22527,
+   "s": "1840",
+   "e": "2215",
+   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 22688,

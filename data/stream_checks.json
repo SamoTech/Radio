@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T18:07:50+00:00",
+ "updated": "2026-11-02T20:42:48+00:00",
  "checked": 1185,
  "alive": 1086,
  "results": {
@@ -105,7 +105,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
@@ -191,7 +191,7 @@
   "https://carina.streamerr.co:2020/stream/OnSportFM": {
    "alive": true,
    "code": 200,
-   "strategy": "googlebot"
+   "strategy": "bot"
   },
   "https://radio95.radioca.st/;": {
    "alive": true,
@@ -653,11 +653,6 @@
    "strategy": "bot"
   },
   "https://www.dailymotion.com/video/x8n6dqq": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://www.dailymotion.com/video/x9p4ebk": {
    "alive": true,
    "code": 200,
    "strategy": "bot"
@@ -4468,7 +4463,7 @@
   },
   "https://stm22.painelcast.com:6918/stream": {
    "alive": true,
-   "code": 200,
+   "code": 401,
    "strategy": "bot"
   },
   "https://stream2.hippynet.co.uk:8160/": {
@@ -5671,7 +5666,7 @@
   },
   "https://streaming.hotmixradio.com/hotmix-2010-en-mp3?": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://audiotainment-sw.streamabc.net/atsw-2010er-mp3-128-5629422?sABC=6n272r93%230%23pssns1378n69n37q99qo17p9n86qqp7q%23enqvbfcvaare&aw_0_1st.playerid=radiospinner&amsparams=playerid:radiospinner;skey:1780952723": {
@@ -5975,6 +5970,11 @@
    "strategy": "bot"
   },
   "https://radioenhd.com/8126/stream": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://s47.myradiostream.com/:14958/listen.mp3": {
    "alive": true,
    "code": 200,
    "strategy": "bot"
