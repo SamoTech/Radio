@@ -1,6 +1,8 @@
 # 📻 Radio Atlas — راديو أطلس
 
 > ⭐ **الموقع الرسمي:** <https://samotech.github.io/Radio/>
+>
+> ⚖️ **الوثائق هي المصدر الوحيد للحقيقة:** [AGENTS.md — قواعد عمل الوكلاء والعملاء](AGENTS.md) · [ROADMAP.md — خارطة الطريق الحاكمة](ROADMAP.md)
 
 دليل بحث ذكي لأجهزة الاستقبال (SDR) ومحطات البث الإذاعي أونلاين في مكان واحد — بتقنية PWA بدون مكتبات خارجية. أكثر من 50,000 محطة من كل العالم + 830 جهاز KiwiSDR حول العالم + قوائم EIBI + WSPR + WebSDR/OpenWebRX.
 
@@ -20,9 +22,9 @@
 ### 📻 محطات البث
 
 - كتالوج كامل من Radio-Browser (كل المحطات غير المكسورة (أكثر من 50,000)، ترتيب: سمعية/عربية/IPRD + الكتالوج الكامل) + في البحث المباشر في FM tab أيضا
-- بحث فوري في ~9MB JSON (لا حاجة للإنترنت بعد التحميل الأول)
+- بحث فوري في الكتالوج الكامل (~13MB) بعد التحميل الأول — مع ملف إقلاع خفيف stations_head (~530KB) يعرض أول 2500 محطة فورًا
 - فلترة حسب الدولة/اللغة/الفئة (FACET_OPTIONS + filterFacetOptions(kind) — يحتفظ بالخيار المحدد أثناء التصفية)
-- LANGUAGE_ALIASES canonicalizes ~35 languages incl. Arabic variants
+- LANGUAGE_ALIASES + LANGUAGE_LABELS: تطبيع ~75 لغة (لكنتات لاتينية + تشكيل عربي + فواصل عُليا) + دمج المرادفات في مدخل واحد مرتّب بالعدد + أسماء معرّبة
 - CORE_CATEGORIES consolidates genres to 20 with ar/en labels
 - normalizeSearchText() normalizes NFD diacritics + alef variants (أإآ→ا, ى→ي)
 - isOfficialStation() → officials sorted first in results
@@ -74,12 +76,16 @@
 - **المشاركة**: زر مشاركة لكل محطة
 - **الإبلاغ**: زر للإبلاغ عن محطة معطلة
 - **عشوائي**: زر لاختيار محطة عشوائية
+- **🔥 الأكثر سماعاً**: شريط أعلى المحطات مرتب بعدّادات تشغيل حقيقية
+- **🌍 خريطة الزوار**: طبقة ذهبية على الخريطة + لوحة «أكثر البلاد زيارةً»
+- **⌨️ لوحة الأوامر**: بحث سريع من أي مكان
+- **🔋 توفير البيانات**: وضع خفيف للشبكات الضعيفة
 
 ## 🛠 التقنيات المستخدمة
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v55) لـ caching و offline
+- **Service Worker** (sw.js v60) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -100,38 +106,48 @@
 
 ```
 Radio/
-├── index.html          # الصفحة الرئيسية
+├── index.html           # الصفحة الرئيسية
+├── README.md            # نظرة عامة على المنتج (هذا الملف)
+├── ROADMAP.md           # ⚖️ خارطة الطريق الحاكمة — الفجوات والمخاطر والتوصيات
+├── AGENTS.md            # ⚖️ قواعد عمل الوكلاء والعملاء — التخصصات والحدود
 ├── js/
-│   └── app.js          # منطق التطبيق الرئيسي (~133KB)
+│   └── app.js           # منطق التطبيق الرئيسي (~149KB)
 ├── css/
-│   └── styles.css      # أنماط CSS
-├── sw.js               # Service Worker (v55)
+│   └── styles.css       # أنماط CSS
+├── sw.js                # Service Worker (v60)
 ├── manifest.webmanifest # PWA Manifest
-├── offline.html        # صفحة offline
-├── robots.txt          # robots.txt
-├── sitemap.xml         # sitemap
-├── countries/          # صفحات الدول (SEO)
+├── offline.html         # صفحة offline
+├── robots.txt           # robots.txt
+├── sitemap.xml          # sitemap
+├── countries/           # صفحات الدول (SEO)
 │   ├── index.html
 │   ├── eg.html
 │   ├── sa.html
 │   └── ...
-├── data/               # بيانات المحطات
-│   ├── stations.json   # ~12MB (أكثر من 50,000 محطة)
-│   ├── kiwisdr.json    # ~830 جهاز
+├── data/                # بيانات المحطات (مخرجات الـ crawler)
+│   ├── stations.json    # ~13.4MB (أكثر من 50,000 محطة)
+│   ├── stations_head.json # ~530KB (إقلاع سريع — أول 2500 محطة)
+│   ├── kiwisdr.json     # ~830 جهاز
+│   ├── web_sdrs.json / satnogs.json / land_map.json
 │   ├── space_weather.json
-│   ├── eibi.json       # ~142KB
+│   ├── eibi.json        # ~138KB
 │   ├── wspr.json
-│   ├── web_sdrs.json
-│   └── stream_checks.json
-├── scripts/            # نصوص Python
-│   ├── update_data.py  # crawler رئيسي
+│   ├── stream_checks.json  # فحوصات الحياة (شغّال / جرّبها / ميت)
+│   └── discovered_streams.json
+├── scripts/             # Python stdlib فقط
+│   ├── update_data.py   # crawler رئيسي (طبقات جلب خمس)
 │   ├── official_stations.json
 │   ├── arabic_stations.json
 │   └── generate_icons.py
-└── tests/              # اختبارات
+├── proxy/               # Cloudflare Worker relay (فك الحجب الجغرافي)
+│   ├── worker.js
+│   ├── wrangler.toml
+│   └── README.md        # دليل النشر بالعربي
+└── tests/
     ├── test_crawler.py
     ├── test_country_pages.py
-    └── test_wspr_sources.py
+    ├── test_wspr_sources.py
+    └── search.test.cjs  # اختبارات الواجهة (node --test)
 ```
 
 ## 🚀 كيفية التثبيت والتشغيل محليا
@@ -150,8 +166,8 @@ python -m http.server 8000
 
 ## ⚙ الآلية
 
-كل 6 ساعات:
-1. **التحديث**: البيانات (KiwiSDR + الطقس الفضائي + EIBI + WSPR + WebSDR) تتحديث كل 6 ساعات
+الجدولة:
+1. **التحديث**: KiwiSDR + الطقس الفضائي + EIBI + WSPR + WebSDR كل 6 ساعات — والمحطات وفحوصات الحياة (شغّال / «جرّبها» / ميت) يوميًا
 2. **التحقق**: يتم فحص syntax لـ app.js (node --check)
 3. **النشر**: يتم نشر البيانات على GitHub Pages
 
@@ -167,20 +183,13 @@ python -m http.server 8000
 | ✅ WSPR | نشاط الانتشار الراديوي + أفضل المسارات |
 | ✅ EIBI | جدول البث القصير للموجات |
 
-## 🎯 الخارطة المستقبلية
+## 🎯 خارطة الطريق
 
-### 🔜 على قائمة الانتظار
-- **الخريطة التفاعلية**: عرض المحطات وأجهزة SDR على الخريطة (Leaflet.js)
-- **دعم البودكاست**: دمج مع Listen API أو PodcastIndex
-- **تحليلات**: إضافة Google Analytics أو Plausible
-- **Heatmap**: إضافة Microsoft Clarity لتتبع سلوك المستخدمين
+> 📌 **الخارطة الكاملة المفصلة — الفجوات (16) + المخاطر (11) + التوصيات بالمراحل والأولويات وتعريف الاكتمال — في [ROADMAP.md](ROADMAP.md): الوثيقة الحاكمة للتخطيط.**
 
-### 💡 أفكار مستقبلية
-- **نظام تسجيل** (اختياري): حفظ المفضلة على السحابة + التاريخ + إحصائيات
-- ** leaderboard**: أفضل الدول/المحطات من حيث الاستماع
-- **WSPRnet**: دمج مع WSPRnet
-- **SatNOGS**: تتبع الأقمار الصناعية
-- **AIS/ADS-B**: تتبع الطائرات والسفن
+- ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) — sw v60
+- ⏳ **الأولوية الجارية (P0):** نشر البروكسي وفق [proxy/README.md](proxy/README.md) → تفعيل STREAM_PROXY → قفله ضد الـ abuse
+- 💡 **أفكار مؤجلة:** دعم البودكاست · نظام تسجيل سحابي للمفضلة · AIS/ADS-B
 
 ## ⚠ قيود معروفة
 
@@ -207,13 +216,15 @@ python -m http.server 8000
 - **المحطات غير الآمنة (HTTP)**: لا يتم عرضها في iframes (mixed content policy)
 - **المحطات المكررة**: يتم إزالة التكرارات بواسطة URL
 
-## 🤝 المساهمة
+## 🤝 المساهمة وقواعد العمل
 
-- أي تعليق على branch من فصل + Pull Request + دمج squash
-- رسائل commits بتقليد conventional: feat / fix / chore / docs
-- البياتات لا تفصل عن الكود — crawler يعمل في نفس الملف
-- المحطات الرسمية لا تفصل عن الكتالوج — يتم دمجها دائما في الأعلى
-- **لا تستخدم backticks** أو `${` في الكود
+> ⚖️ الوثائق هي المصدر الوحيد للحقيقة: [AGENTS.md](AGENTS.md) — القواعد القطعية وأدوار الوكلاء المتخصصة وقواعد العميل وبروتوكول التنفيذ · [ROADMAP.md](ROADMAP.md) — الخطة والحالة.
+
+- كل تغيير: فرع من main → PR → Validate خضراء → squash-merge. **ممنوع الدفع المباشر لـ main نهائيًا**
+- رسائل commits بتقليد conventional: feat / fix / chore / docs — وكل PR يذكر بند ROADMAP المنفذ
+- كل تغيير كود يرافقه اختباراته + تحديث الوثائق المتأثرة في نفس الـ PR
+- البيانات لا تفصل عن الكود — الـ crawler ومخرجاته في نفس المستودع، والمحطات الرسمية تدمج أعلى النتائج دائمًا
+- **لا تستخدم backticks أو ${ في js/app.js** (أسلوب الكود القائم)
 
 ## 📊 إحصائيات
 
