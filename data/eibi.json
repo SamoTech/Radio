@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T04:27:52+00:00",
+ "updated": "2026-11-03T04:37:19+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1404,
+ "count": 1417,
  "rows": [
   {
    "f": 2054,
@@ -38,6 +38,18 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
+  },
+  {
+   "f": 2207,
+   "s": "0433",
+   "e": "0510",
+   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
+  },
+  {
+   "f": 2226,
+   "s": "0430",
+   "e": "0445",
+   "n": "G | Aberdeen Coastguard Wx | E | WEu"
   },
   {
    "f": 2310,
@@ -119,6 +131,12 @@
   },
   {
    "f": 2582,
+   "s": "0435",
+   "e": "0445",
+   "n": "BER | ZBM Bermuda Harbor | E | BER"
+  },
+  {
+   "f": 2582,
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCF Les Escoumins QC | E,F | ENA"
@@ -152,6 +170,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
+  },
+  {
+   "f": 2598,
+   "s": "0437",
+   "e": "0500",
+   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
   },
   {
    "f": 2600,
@@ -218,6 +242,12 @@
    "s": "0000",
    "e": "2400",
    "n": "GRC | Olimpia Radio | -TY | SEE"
+  },
+  {
+   "f": 2749,
+   "s": "0437",
+   "e": "0500",
+   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
   },
   {
    "f": 2750,
@@ -478,24 +508,6 @@
    "n": "RUS | Goose Channel Marker | EEu"
   },
   {
-   "f": 3243,
-   "s": "1600",
-   "e": "0430",
-   "n": "RUS | Goose Channel Marker | EEu"
-  },
-  {
-   "f": 3243,
-   "s": "1630",
-   "e": "0430",
-   "n": "RUS | Goose Channel Marker | EEu"
-  },
-  {
-   "f": 3243,
-   "s": "2000",
-   "e": "0430",
-   "n": "RUS | Goose Channel Marker | EEu"
-  },
-  {
    "f": 3250,
    "s": "1950",
    "e": "1800",
@@ -523,12 +535,6 @@
    "f": 3364,
    "s": "1545",
    "e": "0500",
-   "n": "RUS | The Squeaky Wheel | RUS"
-  },
-  {
-   "f": 3364,
-   "s": "1830",
-   "e": "0430",
    "n": "RUS | The Squeaky Wheel | RUS"
   },
   {
@@ -748,34 +754,16 @@
    "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
   },
   {
-   "f": 3756,
-   "s": "1600",
-   "e": "0430",
-   "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
-  },
-  {
-   "f": 3756,
-   "s": "1630",
-   "e": "0430",
-   "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
-  },
-  {
    "f": 3850,
    "s": "1400",
    "e": "0530",
    "n": "RUS | Baron Channel Marker | EEu"
   },
   {
-   "f": 3850,
-   "s": "1600",
-   "e": "0430",
-   "n": "RUS | Baron Channel Marker | EEu"
-  },
-  {
-   "f": 3850,
-   "s": "1630",
-   "e": "0430",
-   "n": "RUS | Baron Channel Marker | EEu"
+   "f": 3855,
+   "s": "0430",
+   "e": "0545",
+   "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
    "f": 3900,
@@ -854,6 +842,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 4146,
+   "s": "0433",
+   "e": "0510",
+   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
   },
   {
    "f": 4149,
@@ -946,6 +940,24 @@
    "n": "ALS | NOJ Fax Kodiak | WNA"
   },
   {
+   "f": 4310,
+   "s": "0430",
+   "e": "1600",
+   "n": "RUS | Goose Channel Marker | EEu"
+  },
+  {
+   "f": 4310,
+   "s": "0430",
+   "e": "1630",
+   "n": "RUS | Goose Channel Marker | EEu"
+  },
+  {
+   "f": 4310,
+   "s": "0430",
+   "e": "2000",
+   "n": "RUS | Goose Channel Marker | EEu"
+  },
+  {
    "f": 4363,
    "s": "0000",
    "e": "2400",
@@ -989,9 +1001,9 @@
   },
   {
    "f": 4426,
-   "s": "0330",
-   "e": "0430",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
+   "s": "0430",
+   "e": "0505",
+   "n": "USA | NMC USCG Point Reyes | E | NAm"
   },
   {
    "f": 4557,
@@ -1210,6 +1222,18 @@
    "n": "RUS | Baron Channel Marker | EEu"
   },
   {
+   "f": 4940,
+   "s": "0430",
+   "e": "1600",
+   "n": "RUS | Baron Channel Marker | EEu"
+  },
+  {
+   "f": 4940,
+   "s": "0430",
+   "e": "1630",
+   "n": "RUS | Baron Channel Marker | EEu"
+  },
+  {
    "f": 4985,
    "s": "0000",
    "e": "2400",
@@ -1342,9 +1366,27 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 5367,
+   "s": "0430",
+   "e": "1830",
+   "n": "RUS | The Squeaky Wheel | RUS"
+  },
+  {
    "f": 5448,
    "s": "0300",
    "e": "1730",
+   "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
+  },
+  {
+   "f": 5448,
+   "s": "0430",
+   "e": "1600",
+   "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
+  },
+  {
+   "f": 5448,
+   "s": "0430",
+   "e": "1630",
    "n": "RUS | The Pip (Kaplya) Rostov | -TS | EEu"
   },
   {
@@ -2002,6 +2044,12 @@
    "n": "B | Rádio Saturno | P | B"
   },
   {
+   "f": 6165,
+   "s": "0430",
+   "e": "0450",
+   "n": "J | NHK Radio Japan | R | Eu"
+  },
+  {
    "f": 6185,
    "s": "0000",
    "e": "2400",
@@ -2036,6 +2084,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 6224,
+   "s": "0433",
+   "e": "0510",
+   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
   },
   {
    "f": 6230,
@@ -2144,12 +2198,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 6501,
-   "s": "0330",
-   "e": "0430",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
   },
   {
    "f": 6507,
@@ -2723,9 +2771,9 @@
   },
   {
    "f": 7315,
-   "s": "0400",
-   "e": "0430",
-   "n": "HOL | Radio Tamazuj | SUD | SSD"
+   "s": "0430",
+   "e": "0500",
+   "n": "HOL | Radio Dabanga | SUD | SDN"
   },
   {
    "f": 7325,
@@ -2980,10 +3028,16 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 7880,
+   "s": "0430",
+   "e": "0545",
+   "n": "D | DWD Pinneberg Met Fax | Eu"
+  },
+  {
    "f": 7906,
-   "s": "0420",
-   "e": "0430",
-   "n": "VTN | Vung Tau Radio | VN | SEA"
+   "s": "0435",
+   "e": "0445",
+   "n": "VTN | Da Nang Radio XVT | VN | SEA"
   },
   {
    "f": 8000,
@@ -3038,6 +3092,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 8294,
+   "s": "0435",
+   "e": "0445",
+   "n": "VTN | Da Nang Radio XVT | VN | SEA"
   },
   {
    "f": 8302,
@@ -3239,9 +3299,9 @@
   },
   {
    "f": 8764,
-   "s": "0330",
-   "e": "0430",
-   "n": "USA | NMN USCG Chesapeake | E | NAm"
+   "s": "0430",
+   "e": "0505",
+   "n": "USA | NMC USCG Point Reyes | E | NAm"
   },
   {
    "f": 8779,
@@ -4036,6 +4096,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 9740,
+   "s": "0430",
+   "e": "0500",
+   "n": "F | Radio France Int. | SWA | EAf"
+  },
+  {
    "f": 9750,
    "s": "2150",
    "e": "0600",
@@ -4103,15 +4169,15 @@
   },
   {
    "f": 9870,
-   "s": "0300",
-   "e": "0430",
-   "n": "IND | AIR Akashvani Ext.Sce | BC | PAK"
+   "s": "0430",
+   "e": "0600",
+   "n": "IND | AIR Akashvani Ext.Sce | DR | AFG"
   },
   {
    "f": 9955,
-   "s": "0400",
-   "e": "0430",
-   "n": "CZE | Radio Prague | E | LAm"
+   "s": "0430",
+   "e": "0500",
+   "n": "CZE | Radio Prague | F | LAm"
   },
   {
    "f": 9970,
@@ -4900,12 +4966,6 @@
    "n": "CHN | CNR 2 China Business R. | M | CHN"
   },
   {
-   "f": 11615,
-   "s": "0400",
-   "e": "0430",
-   "n": "HOL | Radio Tamazuj | SUD | SSD"
-  },
-  {
    "f": 11620,
    "s": "0000",
    "e": "0600",
@@ -4916,6 +4976,12 @@
    "s": "2355",
    "e": "0600",
    "n": "CHN | China National Radio 17 | KZ | CHN"
+  },
+  {
+   "f": 11640,
+   "s": "0430",
+   "e": "0500",
+   "n": "HOL | Radio Dabanga | SUD | SDN"
   },
   {
    "f": 11650,
@@ -5039,9 +5105,9 @@
   },
   {
    "f": 11760,
-   "s": "0331",
-   "e": "0431",
-   "n": "CUB | Radio Habana Cuba | E | Am"
+   "s": "0431",
+   "e": "0500",
+   "n": "CUB | Radio Habana Cuba | CR | Am"
   },
   {
    "f": 11765,
@@ -5132,6 +5198,12 @@
    "s": "0300",
    "e": "0600",
    "n": "CHN | Xizang RTV | M | CHN"
+  },
+  {
+   "f": 11870,
+   "s": "0430",
+   "e": "0450",
+   "n": "J | NHK Radio Japan | R | FE"
   },
   {
    "f": 11885,
@@ -5254,6 +5326,12 @@
    "n": "CHN | China National Radio 17 | KZ | CHN"
   },
   {
+   "f": 12070,
+   "s": "0430",
+   "e": "0530",
+   "n": "USA | VoA Radio Ashna | DR | AFG"
+  },
+  {
    "f": 12080,
    "s": "0000",
    "e": "0600",
@@ -5264,12 +5342,6 @@
    "s": "0200",
    "e": "0600",
    "n": "CHN | CNR 2 China Business R. | M | CHN"
-  },
-  {
-   "f": 12095,
-   "s": "0400",
-   "e": "0430",
-   "n": "G | BBC | SO | EAf"
   },
   {
    "f": 12100,
@@ -5285,9 +5357,9 @@
   },
   {
    "f": 12140,
-   "s": "0330",
-   "e": "0430",
-   "n": "USA | VoA Radio Ashna | PS | AFG"
+   "s": "0430",
+   "e": "0530",
+   "n": "USA | VoA Radio Ashna | DR | AFG"
   },
   {
    "f": 12150,
@@ -5642,6 +5714,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 13089,
+   "s": "0430",
+   "e": "0505",
+   "n": "USA | NMC USCG Point Reyes | E | NAm"
   },
   {
    "f": 13092,
@@ -6299,12 +6377,6 @@
   },
   {
    "f": 13790,
-   "s": "0400",
-   "e": "0430",
-   "n": "G | BBC | SO | EAf"
-  },
-  {
-   "f": 13790,
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
@@ -6346,12 +6418,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 13860,
-   "s": "0330",
-   "e": "0430",
-   "n": "USA | VoA Radio Ashna | PS | AFG"
-  },
-  {
    "f": 13865,
    "s": "0000",
    "e": "2400",
@@ -6374,6 +6440,12 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 13882,
+   "s": "0430",
+   "e": "0545",
+   "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
    "f": 13890,
@@ -6712,6 +6784,12 @@
    "n": "KRE | Voice of Korea | E | LAm"
   },
   {
+   "f": 15185,
+   "s": "0430",
+   "e": "0600",
+   "n": "IND | AIR Akashvani Ext.Sce | PS | AFG"
+  },
+  {
    "f": 15190,
    "s": "0000",
    "e": "2400",
@@ -6790,16 +6868,16 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 15320,
-   "s": "0400",
-   "e": "0430",
-   "n": "CHN | China National Radio 1 | M | CHN"
+   "f": 15310,
+   "s": "0430",
+   "e": "0500",
+   "n": "G | BBC | DR | AFG"
   },
   {
    "f": 15320,
-   "s": "0400",
-   "e": "0430",
-   "n": "TWN | Radio Taiwan Int. | CA | SEA"
+   "s": "0430",
+   "e": "0500",
+   "n": "TWN | Radio Taiwan Int. | HK | SEA"
   },
   {
    "f": 15340,
@@ -7700,6 +7778,12 @@
    "s": "2300",
    "e": "0600",
    "n": "CHN | China National Radio 8 | MO | CHN"
+  },
+  {
+   "f": 17810,
+   "s": "0430",
+   "e": "0500",
+   "n": "G | BBC | DR | AFG"
   },
   {
    "f": 17810,
