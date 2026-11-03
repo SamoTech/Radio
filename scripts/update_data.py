@@ -146,6 +146,10 @@ CHECK_HEAD_MAX = 1200
 # When Radio-Browser is unreachable the fallback merge path still
 # refreshes the liveness snapshot for a bounded curated head.
 CHECK_FALLBACK_MAX = 300
+# P1-1 differential catalog: عدد ملفات الدلتا اليومية المحفوظة في الفرع؛
+# زائر رجع خلال هذا العدد من النسخ بينزام كيلوبايتات، وأكتر من كده
+# بيرجع للمسار الكامل (طلب واحد — زي زمان بالظبط).
+DELTA_KEEP = 3
 UA = "RadioAtlas/1.0 (https://github.com/SamoTech/Radio)"
 
 # ---- Fetch strategy tiers ("direct-first" engine philosophy, ported from
@@ -2152,6 +2156,104 @@ def fetch_land_map():
         return None
     return topo
 
+# ---------------------------------------------------------------------------
+# P1-1 differential catalog: بدل ما الزائر ينزّل الكتالوج كاملًا كل يوم،
+# الـ crawler بيسجل الفرق منذ آخر تشغيل ناجح. العميل (js/app.js) يحفظ
+# الكتالوج في IndexedDB ويطبق ملفات الدلتا اليومية الصغيرة
+# (data/stations_delta/<version>.json) بإشراف data/stations.manifest.json
+# {updated, version, count, keep, full}.
+
+
+def read_catalog_rows(path):
+    """Best-effort read of the previous stations.json rows (list of dicts).
+
+    Any failure (missing file, invalid JSON, unexpected shape) yields [] so
+    the delta chain simply restarts from the next full snapshot.
+    """
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (OSError, ValueError):
+        return []
+    rows = payload.get("stations") if isinstance(payload, dict) else payload
+    if not isinstance(rows, list):
+        return []
+    return [row for row in rows if isinstance(row, dict) and row.get("url")]
+
+
+def compute_catalog_delta(old_rows, new_rows):
+    """Classify catalog changes into added/updated/removed.
+
+    Rows are keyed by station_url_key(url); a key present on both sides is
+    "updated" only when the row payload differs, and keys missing from the
+    new snapshot are "removed" (canonical url keys). Pure function.
+    """
+    old_by_key = {}
+    for row in old_rows:
+        if not isinstance(row, dict):
+            continue
+        key = station_url_key(row.get("url") or "")
+        if key:
+            old_by_key.setdefault(key, row)
+    new_by_key = {}
+    for row in new_rows:
+        if not isinstance(row, dict):
+            continue
+        key = station_url_key(row.get("url") or "")
+        if key:
+            new_by_key.setdefault(key, row)
+    added, updated = [], []
+    for key, row in new_by_key.items():
+        previous = old_by_key.get(key)
+        if previous is None:
+            added.append(row)
+        elif row != previous:
+            updated.append(row)
+    removed = [key for key in old_by_key if key not in new_by_key]
+    return {"added": added, "updated": updated, "removed": removed}
+
+
+def write_station_deltas(stations, previous_rows, now_iso, data_dir=None):
+    """Write the next delta file + manifest for the differential catalog.
+
+    Called only on a successful data run (keeps the chain consistent).
+    Keeps the newest DELTA_KEEP delta files and prunes older ones; the
+    manifest version starts at 1 on the first run (or after the chain was
+    broken) and increments on every successful run.
+    """
+    target_dir = Path(data_dir) if data_dir else DATA_DIR
+    delta_dir = target_dir / "stations_delta"
+    delta_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = target_dir / "stations.manifest.json"
+    try:
+        with open(manifest_path, "r", encoding="utf-8") as handle:
+            version = int(json.load(handle).get("version") or 0)
+    except (OSError, ValueError, TypeError, AttributeError):
+        version = 0
+    version += 1
+    delta = compute_catalog_delta(previous_rows, stations)
+    write_json(delta_dir / f"{version}.json", {
+        "version": version,
+        "added": delta["added"],
+        "updated": delta["updated"],
+        "removed": delta["removed"],
+    })
+    keep_keys = {str(v) for v in range(max(1, version - DELTA_KEEP + 1), version + 1)}
+    for entry in delta_dir.glob("*.json"):
+        if entry.stem not in keep_keys:
+            try:
+                entry.unlink()
+            except OSError:
+                pass
+    write_json(manifest_path, {
+        "updated": now_iso,
+        "version": version,
+        "count": len(stations),
+        "keep": DELTA_KEEP,
+        "full": "data/stations.json",
+    })
+
+
 def main():
     mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
     if mode not in {"all", "stations", "sdr"}:
@@ -2350,6 +2452,7 @@ def main():
                     print(f"dailymotion: {len(dm_entries)} live radios resolved")
             except Exception as e:  # noqa: BLE001
                 print(f"dailymotion FAILED: {e} — continuing without dailymotion radios", file=sys.stderr)
+            previous_rows = read_catalog_rows(DATA_DIR / "stations.json")
             stations = []
             seen_urls = set()
             for station in officials + arabic + arab_extra + discovered + dm_entries + community + rb_stations + world_extra:
@@ -2383,6 +2486,7 @@ def main():
                     "stations": head,
                 },
             )
+            write_station_deltas(stations, previous_rows, now_iso)
             ok = True
             write_stream_checks(
                 officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX],
@@ -2431,6 +2535,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

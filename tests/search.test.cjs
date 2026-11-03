@@ -311,3 +311,35 @@ test('coarse playback error classification covers the known failure reasons', ()
   assert.equal(sandbox.coarsePlaybackError('HTML audio element error'), 'other');
   assert.equal(sandbox.coarsePlaybackError(''), 'other');
 });
+
+
+test('stationKey mirrors the crawler URL canonicalization', () => {
+  assert.equal(sandbox.stationKey('HTTPS://Example.Test:443/live#player'), 'https://example.test/live');
+  assert.equal(sandbox.stationKey('http://EXAMPLE.test:80/live'), 'http://example.test/live');
+  assert.equal(sandbox.stationKey('https://example.test/live?a=1#frag'), 'https://example.test/live?a=1');
+  assert.equal(sandbox.stationKey('https://example.test'), 'https://example.test/');
+  assert.equal(sandbox.stationKey('https://user:pass@example.test/live'), '');
+  assert.equal(sandbox.stationKey('javascript:alert(1)'), '');
+  assert.equal(sandbox.stationKey(''), '');
+  assert.equal(sandbox.stationKey(null), '');
+});
+
+test('applyCatalogDelta adds, updates and removes rows in place', () => {
+  const rows = [
+    { name: 'A', url: 'https://a.test/one' },
+    { name: 'B', url: 'https://b.test/two' },
+    { name: 'C', url: 'https://c.test/three' }
+  ];
+  const out = sandbox.applyCatalogDelta(rows, {
+    added: [{ name: 'D', url: 'https://d.test/four' }],
+    updated: [{ name: 'B2', url: 'https://b.test/two' }],
+    removed: ['https://c.test/three']
+  });
+  assert.equal(out.length, 3);
+  assert.deepEqual(Array.from(out, (r) => r.name), ['A', 'B2', 'D']);
+  assert.equal(sandbox.applyCatalogDelta(rows, {}).length, 3);
+  assert.equal(
+    sandbox.applyCatalogDelta(null, { added: [{ name: 'X', url: 'https://x.test/x' }] }).length,
+    1
+  );
+});

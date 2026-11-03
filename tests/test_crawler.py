@@ -2,6 +2,7 @@ import email.message
 import json
 import importlib.util
 import sys
+import tempfile
 import unittest
 import urllib.error
 import urllib.request
@@ -649,7 +650,106 @@ class ErrorReportTests(unittest.TestCase):
         ):
             self.assertIsNone(module.fetch_abacus_count("err-token"))
 
+class StationDeltaTests(unittest.TestCase):
+    def test_compute_catalog_delta_classifies_added_updated_removed(self):
+        old_rows = [
+            {"name": "A", "url": "https://a.test/one"},
+            {"name": "B", "url": "https://b.test/two"},
+            {"name": "C", "url": "https://c.test/three"},
+        ]
+        new_rows = [
+            {"name": "A", "url": "https://a.test/one"},
+            {"name": "B2", "url": "https://b.test/two"},
+            {"name": "D", "url": "https://d.test/four"},
+        ]
+        delta = module.compute_catalog_delta(old_rows, new_rows)
+        self.assertEqual(
+            [row["url"] for row in delta["added"]],
+            ["https://d.test/four"],
+        )
+        self.assertEqual(
+            [row["name"] for row in delta["updated"]],
+            ["B2"],
+        )
+        self.assertEqual(delta["removed"], ["https://c.test/three"])
+
+    def test_compute_catalog_delta_is_pure_and_ignores_bad_rows(self):
+        old_rows = [{"name": "A", "url": "https://a.test/one"}, "not-a-dict"]
+        new_rows = [
+            {"name": "A2", "url": "HTTPS://A.TEST:443/one#x"},
+            {"url": "javascript:alert(1)"},
+        ]
+        delta = module.compute_catalog_delta(old_rows, new_rows)
+        self.assertEqual(delta["added"], [])
+        self.assertEqual(
+            delta["updated"],
+            [{"name": "A2", "url": "HTTPS://A.TEST:443/one#x"}],
+        )
+        self.assertEqual(delta["removed"], [])
+        self.assertEqual(len(old_rows), 2)  # pure: inputs untouched
+
+    def test_write_station_deltas_versions_prunes_and_feeds_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rows_v1 = [{"name": "A", "url": "https://a.test/one"}]
+            module.write_station_deltas(
+                rows_v1, [], "2026-11-03T00:00:00+00:00", data_dir=tmp
+            )
+            manifest_v1 = json.loads(
+                (Path(tmp) / "stations.manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest_v1["version"], 1)
+            self.assertEqual(manifest_v1["count"], 1)
+            self.assertEqual(manifest_v1["keep"], module.DELTA_KEEP)
+            self.assertEqual(manifest_v1["full"], "data/stations.json")
+            delta_v1 = json.loads(
+                (Path(tmp) / "stations_delta" / "1.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(delta_v1["added"], rows_v1)
+            self.assertEqual(delta_v1["removed"], [])
+
+            rows_v2 = [
+                {"name": "A", "url": "https://a.test/one"},
+                {"name": "E", "url": "https://e.test/five"},
+            ]
+            module.write_station_deltas(
+                rows_v2, rows_v1, "2026-11-03T00:01:00+00:00", data_dir=tmp
+            )
+            manifest_v2 = json.loads(
+                (Path(tmp) / "stations.manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest_v2["version"], 2)
+            delta_v2 = json.loads(
+                (Path(tmp) / "stations_delta" / "2.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                [row["url"] for row in delta_v2["added"]], ["https://e.test/five"]
+            )
+            self.assertEqual(delta_v2["updated"], [])
+            self.assertEqual(delta_v2["removed"], [])
+
+            for version in range(3, module.DELTA_KEEP + 3):
+                module.write_station_deltas(
+                    rows_v2, [], f"2026-11-03T00:0{version}:00+00:00", data_dir=tmp
+                )
+            manifest_last = json.loads(
+                (Path(tmp) / "stations.manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest_last["version"], module.DELTA_KEEP + 2)
+            kept = sorted(
+                p.stem for p in (Path(tmp) / "stations_delta").glob("*.json")
+            )
+            expected = sorted(
+                str(v)
+                for v in range(
+                    manifest_last["version"] - module.DELTA_KEEP + 1,
+                    manifest_last["version"] + 1,
+                )
+            )
+            self.assertEqual(kept, expected)
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
 
