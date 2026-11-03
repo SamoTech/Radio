@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T17:41:04+00:00",
+ "updated": "2026-11-03T23:14:09+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -881,6 +881,22 @@
    "lon": 148.60907337265698
   },
   {
+   "name": "🟢3D Spectrum Server2 NRW 🟢CB-Funk Germany Gast Bereich User Account Bereich DNX-Styler & 2D3D Wetter & 3D ADS-B 3D AIS  ",
+   "url": "http://dnx833.ramoip.de:8011/",
+   "loc": "DNX https://github.com/KanotixPinguin/",
+   "https": false,
+   "lat": 51.6508837803019,
+   "lon": 6.96945406834765
+  },
+  {
+   "name": "🟢3D Spectrum Server 1 NRW 🟢2m 70cm 23cm Germany Gast Bereich User Account Bereich DNX-Styler & 2D3D Wetter & 3D ADS-B 3D",
+   "url": "http://dnx833.ramoip.de:8013/",
+   "loc": "DNX https://github.com/KanotixPinguin/",
+   "https": false,
+   "lat": 51.6508837803019,
+   "lon": 6.96945406834765
+  },
+  {
    "name": "DD5JFK tech demo",
    "url": "http://sdr2.justjakob.de/",
    "loc": "",
@@ -943,6 +959,14 @@
    "https": true,
    "lat": 45.801781110921205,
    "lon": 15.178531063564318
+  },
+  {
+   "name": "CB0BED WebSDR - LK Mittelsachsen / Brand-Erbisdorf",
+   "url": "http://cb0bed.selfhost.co:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.85174,
+   "lon": 13.301789
   },
   {
    "name": "SDR-Alaró (Mallorca)",
@@ -1057,6 +1081,14 @@
    "lon": -111.62630783081055
   },
   {
+   "name": "SV6DBG Ioannina NW Greece",
+   "url": "http://sv6dbg.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 39.670356756247976,
+   "lon": 20.85605144988941
+  },
+  {
    "name": "ON0LLV",
    "url": "http://on0llv.on6ll.be:8073/",
    "loc": "",
@@ -1111,14 +1143,6 @@
    "https": false,
    "lat": -23.4165545,
    "lon": -46.7072826
-  },
-  {
-   "name": "KJ7ABK - Las Vegas Radio 📻",
-   "url": "https://websdr.kj7abk.com/",
-   "loc": "",
-   "https": true,
-   "lat": 36.035169543538125,
-   "lon": -115.1451676116747
   },
   {
    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
@@ -2105,6 +2129,14 @@
    "lon": 19.979464291512027
   },
   {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
+  },
+  {
    "name": "G1WOR",
    "url": "http://81.143.239.74:8073/",
    "loc": "",
@@ -2367,22 +2399,6 @@
    "https": false,
    "lat": 47.3612918469974,
    "lon": 9.45042583424259
-  },
-  {
-   "name": "IU2MCH HF-VHF-UHF-Air Band",
-   "url": "http://www.iu2mch.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.464805,
-   "lon": 9.094794
-  },
-  {
-   "name": "IU2MCH HF-VHF-UHF-Air Band",
-   "url": "http://iu2mch.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.464805,
-   "lon": 9.094794
   },
   {
    "name": "IU2PLZ, Masate, Milan ITA",
@@ -2791,14 +2807,6 @@
    "https": false,
    "lat": 50.20411309776767,
    "lon": 2.584360575239688
-  },
-  {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
   },
   {
    "name": "LU3ARN",
@@ -3873,14 +3881,6 @@
    "lon": 79.753494
   },
   {
-   "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
-   "url": "http://7t6jathcgfomlh3u.myfritz.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.187559397007334,
-   "lon": 8.56719509335492
-  },
-  {
    "name": "PU8WPC - SDR WEB Caripí - Barcarena - Brazil",
    "url": "http://sdrweb.ddns.net/",
    "loc": "",
@@ -3921,20 +3921,12 @@
    "lon": 9.72564336846846
   },
   {
-   "name": "PD7SVD - Gouda",
-   "url": "https://websdr.pd7svd.nl/",
+   "name": "Sasa SDR",
+   "url": "https://sdr.grmljavina.net/",
    "loc": "",
    "https": true,
-   "lat": 52.0128247,
-   "lon": 4.750316
-  },
-  {
-   "name": "🟢3D Spectrum Server 1 NRW 🟢2m 70cm 23cm Germany Gast Bereich User Account Bereich DNX-Styler & 2D3D Wetter & 3D ADS-B 3D",
-   "url": "http://dnx833.ramoip.de:8013/",
-   "loc": "",
-   "https": false,
-   "lat": 51.6508837803019,
-   "lon": 6.96945406834765
+   "lat": 44.699745,
+   "lon": 17.196396
   },
   {
    "name": "SV3DVO  Center City Patras",
@@ -3999,6 +3991,14 @@
    "https": true,
    "lat": 54.00334948205416,
    "lon": -1.3030173782748222
+  },
+  {
+   "name": "https://owrx.uk - HF RECEIVER 03 - SDRplay RSP1B - 41.7m EFLW - M7NXS",
+   "url": "https://hf3.owrx.uk/",
+   "loc": "",
+   "https": true,
+   "lat": 53.96235105441253,
+   "lon": -1.0820809709781407
   }
  ]
 }
