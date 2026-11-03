@@ -343,3 +343,28 @@ test('applyCatalogDelta adds, updates and removes rows in place', () => {
     1
   );
 });
+
+
+test('P1-2: app.js core exposes the lazy module registry and thin stubs', () => {
+  const src = fs.readFileSync('js/app.js', 'utf8');
+  assert.ok(src.includes('var RA_MODULES = {}'), 'core declares the module registry');
+  assert.ok(src.includes('function loadModule('), 'core declares loadModule()');
+  for (const stub of ['function play(', 'function openSDR(', 'function renderMap(', 'function renderFav(', 'function paletteOpen(', 'function shareStation(', 'function closeAlarmModal(']) {
+    assert.ok(src.includes(stub), 'core keeps a thin stub: ' + stub);
+  }
+});
+
+test('P1-2: each lazy module exports one idempotent boot and merges its STR pack', () => {
+  for (const name of ['sdr', 'map', 'player', 'regions', 'tools']) {
+    const src = fs.readFileSync('js/modules/' + name + '.mjs', 'utf8');
+    assert.ok(!src.includes('`'), name + '.mjs must not use backticks');
+    assert.equal((src.match(/export function boot\(/g) || []).length, 1, name + '.mjs exports exactly one boot()');
+    assert.ok(src.includes('raMergeStr(STR_'), name + '.mjs merges its STR pack');
+    assert.ok(src.includes('RA_MODULES.' + name + ' = API'), name + '.mjs registers its API');
+  }
+});
+
+test('P1-2: initial core payload stays under half of the pre-split monolith', () => {
+  const bytes = Buffer.byteLength(fs.readFileSync('js/app.js', 'utf8'), 'utf8');
+  assert.ok(bytes < 81591, 'core js/app.js should stay under 81,591 bytes (half of the 163,183-byte monolith), got ' + bytes);
+});
