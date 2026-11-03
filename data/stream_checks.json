@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T07:20:51+00:00",
+ "updated": "2026-11-03T09:32:33+00:00",
  "checked": 1185,
- "alive": 1084,
+ "alive": 1086,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -105,7 +105,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
@@ -189,10 +189,9 @@
    "strategy": "bot"
   },
   "https://carina.streamerr.co:2020/stream/OnSportFM": {
-   "alive": false,
-   "code": 503,
-   "strategy": "curl_cffi",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://radio95.radioca.st/;": {
    "alive": true,
@@ -216,7 +215,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
@@ -355,8 +354,8 @@
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 500,
-   "strategy": "curl_cffi",
+   "code": 0,
+   "strategy": "googlebot",
    "maybe_alive": true
   },
   "https://streaming.rimradio.ma/live": {
@@ -740,7 +739,7 @@
   },
   "https://sc6.gergosnet.com:80/puls00HD.mp3": {
    "alive": true,
-   "code": 401,
+   "code": 200,
    "strategy": "bot"
   },
   "https://das-edge16-live365-dal02.cdnstream.com/a98456": {
@@ -1188,7 +1187,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
@@ -3503,7 +3502,7 @@
   },
   "https://audio5.tustreaming.cl/8030/stream": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://securestreams.autopo.st:1174/stream": {
@@ -3918,7 +3917,7 @@
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -4553,7 +4552,7 @@
   "https://stream.rcs.revma.com/tguub1aq5c3vv": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://deltaradio.streamabc.net/regc-deltaliveshsued-mp3-128-7035018?sABC=6n2919n1%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078433": {
    "alive": true,
@@ -4596,10 +4595,9 @@
    "strategy": "bot"
   },
   "https://az11.yesstreaming.net:8100/radio.mp3": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
   },
   "https://hts01.brascast.com:8440/live": {
    "alive": true,
