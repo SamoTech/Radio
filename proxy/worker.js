@@ -19,6 +19,48 @@ function textResponse(status, body) {
   });
 }
 
+// --- Abuse guard (ROADMAP P0-2) --------------------------------------------
+// The relay serves Radio Atlas visitors only. Browser requests carry an
+// Origin header (fetch/XHR) or a Referer header (audio element) that web
+// pages cannot forge, so any other site hotlinking the relay gets 403.
+// Scripted clients can fake those headers, so a per-IP rate limit is the
+// real cap for them. localhost origins are allowed for local development.
+const ALLOWED_ORIGINS = [
+  'https://samotech.github.io',
+  'http://localhost:8000',
+  'http://127.0.0.1:8000'
+];
+
+function clientAllowed(request) {
+  const origin = request.headers.get('Origin');
+  if (origin && ALLOWED_ORIGINS.indexOf(origin) !== -1) return true;
+  const referer = request.headers.get('Referer');
+  if (referer) {
+    try { return ALLOWED_ORIGINS.indexOf(new URL(referer).origin) !== -1; }
+    catch (e) { return false; }
+  }
+  return false;
+}
+
+// Best-effort per-IP sliding window: RATE_MAX requests per RATE_WINDOW_MS.
+// In-memory per isolate (the free tier has no KV/Durable Objects) — Cloudflare
+// may run several isolates, so this is a throttle, not an exact counter.
+const RATE_WINDOW_MS = 60000;
+const RATE_MAX = 120;
+const rateBuckets = new Map();
+
+function rateLimited(ip) {
+  const now = Date.now();
+  const bucket = rateBuckets.get(ip);
+  if (!bucket || now - bucket.start >= RATE_WINDOW_MS) {
+    if (rateBuckets.size > 5000) rateBuckets.clear(); // opportunistic cleanup
+    rateBuckets.set(ip, { start: now, count: 1 });
+    return false;
+  }
+  bucket.count += 1;
+  return bucket.count > RATE_MAX;
+}
+
 // SSRF guard: only public http(s) targets are relayed.
 function isSafeTarget(u) {
   if (u.protocol !== 'https:' && u.protocol !== 'http:') return false;
@@ -85,6 +127,7 @@ function rewritePlaylist(body, playlistUrl, selfOrigin) {
 export default {
   async fetch(request, env, ctx) {
     const self = new URL(request.url);
+    // /healthz stays open on purpose: it is the deploy smoke check.
     if (self.pathname === '/healthz') {
       return textResponse(200, 'ok');
     }
@@ -96,6 +139,14 @@ export default {
     }
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return textResponse(405, 'method not allowed');
+    }
+    if (!clientAllowed(request)) {
+      return textResponse(403, 'forbidden origin');
+    }
+    if (rateLimited(request.headers.get('CF-Connecting-IP') || 'unknown')) {
+      const response = textResponse(429, 'rate limited');
+      response.headers.set('Retry-After', '60');
+      return response;
     }
 
     const raw = self.searchParams.get('url') || '';

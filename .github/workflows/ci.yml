@@ -15,6 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check docs sync (canonical sw.js + version refs)
+        run: |
+          V=$(grep -oE 'radio-atlas-v[0-9]+' sw.js | head -n1 | sed 's/.*-v//')
+          if [ -z "$V" ]; then echo 'No cache version found in sw.js'; exit 1; fi
+          echo "Canonical service worker: sw.js v$V (registered by js/app.js as ./sw.js)"
+          if [ -f js/sw.js ]; then echo 'ERROR: js/sw.js is a stale duplicate - the app registers ./sw.js (repo root)'; exit 1; fi
+          grep -qE "v${V}([^0-9]|$)" README.md || { echo "ERROR: README.md does not mention sw v$V"; exit 1; }
+          grep -qE "v${V}([^0-9]|$)" ROADMAP.md || { echo "ERROR: ROADMAP.md does not mention sw v$V"; exit 1; }
+          echo 'Docs sync OK: README + ROADMAP carry the live sw version'
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v5
         with:
           node-version: "22"
