@@ -1418,5 +1418,5 @@ export {
   paletteOpen, paletteClose, paletteRender, palettePlayFirst,
   renderFav, renderEG, renderAR, renderRel,
   loadStations, openKiwiAudio, closeKiwiAudio, openSDR, closeSDR,
-  setLang, switchTab, isOfficialStation
+  setLang, switchTab, isOfficialStation, handleShareHash
 };
