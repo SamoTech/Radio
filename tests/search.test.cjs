@@ -3,26 +3,20 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vm = require('node:vm');
 
-let sandbox = null;
-
-async function ready() {
-  if (!sandbox) {
-    globalThis.document = { addEventListener() {} };
-    globalThis.fetch = async () => { throw new Error('Network access is not used in unit tests'); };
-    const core = await import('../js/app.js');
-    const catalog = await import('../js/modules/catalog.js');
-    const visitors = await import('../js/modules/visitors.js');
-    const player = await import('../js/modules/player.js');
-    const collections = await import('../js/modules/collections.js');
-    sandbox = Object.assign({}, core, catalog, visitors, player, collections);
-    /* buildFMFacets() REASSIGNS FACET_OPTIONS (it does not mutate it), so the
-       value copied into the merged sandbox would go stale — expose the live
-       module binding instead. */
-    Object.defineProperty(sandbox, 'FACET_OPTIONS', { get: () => core.FACET_OPTIONS });
-  }
-  return sandbox;
-}
+const sandbox = {
+  console,
+  Intl,
+  URL,
+  URLSearchParams,
+  document: { addEventListener() {} },
+  setTimeout,
+  clearTimeout,
+  fetch: async () => { throw new Error('Network access is not used in unit tests'); }
+};
+vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync('js/app.js', 'utf8'), sandbox, { filename: 'js/app.js' });
 
 function seedStations() {
   sandbox.state.fm = [
@@ -34,13 +28,11 @@ function seedStations() {
   sandbox.state.fmFilters = { q: '', country: '', language: '', tag: '', chip: '' };
 }
 
-test('Arabic search normalization handles alef variants and diacritics', async () => {
-  const sandbox = await ready();
+test('Arabic search normalization handles alef variants and diacritics', () => {
   assert.equal(sandbox.normalizeSearchText('إِذَاعَة'), 'اذاعة');
 });
 
-test('station search matches localized country names and country codes', async () => {
-  const sandbox = await ready();
+test('station search matches localized country names and country codes', () => {
   seedStations();
   sandbox.state.fmFilters.q = 'مصر';
   assert.deepEqual(Array.from(sandbox.filterFM(), s => s.cc), ['EG']);
@@ -48,8 +40,7 @@ test('station search matches localized country names and country codes', async (
   assert.deepEqual(Array.from(sandbox.filterFM(), s => s.cc), ['GB']);
 });
 
-test('country, language and category filters combine correctly', async () => {
-  const sandbox = await ready();
+test('country, language and category filters combine correctly', () => {
   seedStations();
   sandbox.state.fmFilters = { q: '', country: 'CA', language: 'french', tag: 'music', chip: '' };
   assert.deepEqual(Array.from(sandbox.filterFM(), s => s.name), ['Radio Canada']);
@@ -57,8 +48,7 @@ test('country, language and category filters combine correctly', async () => {
   assert.equal(sandbox.filterFM().length, 0);
 });
 
-test('canonicalLanguage folds accent and native spellings into one key', async () => {
-  const sandbox = await ready();
+test('canonicalLanguage folds accent and native spellings into one key', () => {
   assert.equal(sandbox.canonicalLanguage('Français'), 'french');
   assert.equal(sandbox.canonicalLanguage('FRANCAIS'), 'french');
   assert.equal(sandbox.canonicalLanguage('Español'), 'spanish');
@@ -75,10 +65,9 @@ test('canonicalLanguage folds accent and native spellings into one key', async (
   assert.equal(sandbox.canonicalLanguage('rare conlang'), 'rare conlang');
 });
 
-test('language filter merges duplicates and ranks by station count', async () => {
-  const sandbox = await ready();
+test('language filter merges duplicates and ranks by station count', () => {
   const elements = {};
-  globalThis.document.getElementById = id => elements[id] || (elements[id] = {});
+  sandbox.document.getElementById = id => elements[id] || (elements[id] = {});
   sandbox.state.fm = [
     { name: 'A', url: 'https://a.test/1', cc: 'FR', language: 'french', tags: '' },
     { name: 'B', url: 'https://b.test/2', cc: 'FR', language: 'Français', tags: '' },
@@ -95,54 +84,43 @@ test('language filter merges duplicates and ranks by station count', async () =>
   assert.ok(langs[0].label.includes('(3)'));
 });
 
-test('official stations are prioritized without discarding other results', async () => {
-  const sandbox = await ready();
+test('official stations are prioritized without discarding other results', () => {
   seedStations();
   const ordered = Array.from(sandbox.currentFMList(), s => s.name);
   assert.deepEqual(ordered, ['إذاعة القاهرة', 'BBC World Service', 'Radio Canada']);
 });
 
-test('zero-result queries return an empty list without throwing', async () => {
-  const sandbox = await ready();
+test('zero-result queries return an empty list without throwing', () => {
   seedStations();
   sandbox.state.fmFilters.q = 'no-such-station';
   assert.equal(sandbox.filterFM().length, 0);
 });
 
 test('Live Search cancels a pending local debounce render', async () => {
-  const sandbox = await ready();
-  const grid = {};
-  let renders = 0;
-  Object.defineProperty(grid, 'innerHTML', {
-    get() { return ''; },
-    set() { renders += 1; }
-  });
-  globalThis.document.getElementById = id => (id === 'grid-fm' ? grid : {});
-  globalThis.fetch = () => new Promise(() => {});
+  const elements = { 'grid-fm': { innerHTML: '' } };
+  sandbox.document.getElementById = id => elements[id] || (elements[id] = {});
+  sandbox.fetch = () => new Promise(() => {});
   sandbox.state.fmFilters = { q: 'Egypt', country: '', language: '', tag: '', chip: '' };
-  sandbox.state.fmLive = false;
 
+  let localRenderCount = 0;
+  sandbox.fmClientRender = () => { localRenderCount += 1; };
   sandbox.scheduleFMClientRender();
-  assert.notEqual(sandbox.state.fmSearchDebounceTimer, null);
 
   sandbox.searchFM();
-  assert.equal(sandbox.state.fmSearchDebounceTimer, null, 'the pending local debounce must be cancelled by Live Search');
-
   await new Promise(resolve => setTimeout(resolve, 190));
-  assert.equal(renders, 1, 'only the Live Search placeholder may paint; the cancelled local debounce must not fire');
-  globalThis.fetch = async () => { throw new Error('Network access is not used in unit tests'); };
+
+  assert.equal(localRenderCount, 0, 'the delayed local render must not supersede Live Search');
+  assert.equal(sandbox.fmSearchDebounceTimer, null);
 });
 
-test('official station cards expose the broadcaster website link', async () => {
-  const sandbox = await ready();
+test('official station cards expose the broadcaster website link', () => {
   seedStations();
   const html = sandbox.cardFm({ name: 'Official Cairo Radio', url: 'https://example.test/live', cc: 'EG', language: 'arabic', tags: 'official', official: true, website: 'https://example.test/' });
   assert.match(html, /official-link/);
   assert.match(html, /https:\/\/example\.test\//);
 });
 
-test('EasyBroadcast token response signs the playlist and child path', async () => {
-  const sandbox = await ready();
+test('EasyBroadcast token response signs the playlist and child path', () => {
   const signed = new URL(sandbox.appendEasyBroadcastToken(
     'https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8',
     'token=abc123&token_path=%2Flive%2Fradio_med_VI&expires=1793391194'
@@ -153,11 +131,10 @@ test('EasyBroadcast token response signs the playlist and child path', async () 
 });
 
 test('EasyBroadcast token is reused for nested playlists until expiry', async () => {
-  const sandbox = await ready();
-  const originalFetch = globalThis.fetch;
+  const originalFetch = sandbox.fetch;
   let requests = 0;
-  sandbox.state.ebTokenCache = {};
-  globalThis.fetch = async () => {
+  sandbox.easyBroadcastTokenCache = {};
+  sandbox.fetch = async () => {
     requests += 1;
     return {
       ok: true,
@@ -179,36 +156,34 @@ test('EasyBroadcast token is reused for nested playlists until expiry', async ()
     assert.equal(new URL(child).searchParams.get('token'), 'shared123');
     assert.equal(requests, 1, 'one unexpired token should cover all nested playlists');
   } finally {
-    globalThis.fetch = originalFetch;
-    sandbox.state.ebTokenCache = {};
+    sandbox.fetch = originalFetch;
+    sandbox.easyBroadcastTokenCache = {};
   }
 });
 
-test('URL validation rejects script and credential-bearing URLs', async () => {
-  const sandbox = await ready();
+
+test('URL validation rejects script and credential-bearing URLs', () => {
   assert.equal(sandbox.safeHttpUrl('javascript:alert(1)'), '');
   assert.equal(sandbox.safeHttpUrl('data:text/html,evil'), '');
   assert.equal(sandbox.safeHttpUrl('https://user:pass@example.test/live'), '');
   assert.match(sandbox.safeHttpUrl('https://example.test/live'), /^https:/);
 });
 
-test('HTTP streams are not offered to the in-page audio player', async () => {
-  const sandbox = await ready();
+test('HTTP streams are not offered to the in-page audio player', () => {
   seedStations();
   const html = sandbox.cardFm({ name: 'Legacy station', url: 'http://example.test/live', cc: 'EG', language: 'arabic', tags: 'news' });
   assert.match(html, /open externally only|فتح خارجي فقط/);
   assert.doesNotMatch(html, /class="open play"/);
 });
 
-test('Favorites and Arabic quick filters are present in the main UI', async () => {
-  await ready();
+test('Favorites and Arabic quick filters are present in the main UI', () => {
   const html = fs.readFileSync('index.html', 'utf8');
   assert.match(html, /data-chip="fav"/);
   assert.match(html, /data-chip="arabic"/);
 });
 
-test('live search results include matching curated catalog stations', async () => {
-  const sandbox = await ready();
+
+test('live search results include matching curated catalog stations', () => {
   seedStations();
   sandbox.state.fmFilters.q = 'مصر';
   sandbox.state.fmLiveRows = [{ name: 'Live result', url: 'https://example.test/live', cc: 'EG', language: 'arabic', tags: 'news' }];
@@ -218,8 +193,8 @@ test('live search results include matching curated catalog stations', async () =
   assert.ok(names.includes('Live result'));
 });
 
-test('alive-only filter keeps alive and maybe-alive stations, drops dead', async () => {
-  const sandbox = await ready();
+
+test('alive-only filter keeps alive and maybe-alive stations, drops dead', () => {
   seedStations();
   sandbox.state.fmFilters.aliveOnly = true;
   sandbox.state.streamChecks = {
@@ -232,8 +207,7 @@ test('alive-only filter keeps alive and maybe-alive stations, drops dead', async
   sandbox.state.streamChecks = null;
 });
 
-test('alive-only filter is a no-op without the aliveOnly flag or stream checks', async () => {
-  const sandbox = await ready();
+test('alive-only filter is a no-op without the aliveOnly flag or stream checks', () => {
   seedStations();
   sandbox.state.streamChecks = { 'https://example.test/uk': { alive: false } };
   assert.equal(sandbox.fmAliveFiltered(sandbox.state.fm).length, 3);
@@ -242,8 +216,7 @@ test('alive-only filter is a no-op without the aliveOnly flag or stream checks',
   assert.equal(sandbox.fmAliveFiltered(sandbox.state.fm).length, 3);
 });
 
-test('alive sort ranks alive first, then maybe-alive, unknown, dead last', async () => {
-  const sandbox = await ready();
+test('alive sort ranks alive first, then maybe-alive, unknown, dead last', () => {
   seedStations();
   sandbox.state.streamChecks = {
     'https://example.test/egypt': { alive: true },
@@ -255,8 +228,7 @@ test('alive sort ranks alive first, then maybe-alive, unknown, dead last', async
   sandbox.state.streamChecks = null;
 });
 
-test('alive sort is a no-op when no station in the list has a stream check', async () => {
-  const sandbox = await ready();
+test('alive sort is a no-op when no station in the list has a stream check', () => {
   seedStations();
   sandbox.state.streamChecks = { 'https://example.test/other': { alive: true } };
   const names = Array.from(sandbox.fmAliveSort(sandbox.state.fm), s => s.name);
@@ -264,8 +236,7 @@ test('alive sort is a no-op when no station in the list has a stream check', asy
   sandbox.state.streamChecks = null;
 });
 
-test('maybe-alive stations get the amber try-it chip on their card', async () => {
-  const sandbox = await ready();
+test('maybe-alive stations get the amber try-it chip on their card', () => {
   seedStations();
   sandbox.state.streamChecks = { 'https://example.test/uk': { alive: false, maybe_alive: true, code: 0 } };
   const html = sandbox.cardFm({ name: 'Blocked Pro Radio', url: 'https://example.test/uk', cc: 'EG', language: 'arabic', tags: '' });
@@ -277,21 +248,19 @@ test('maybe-alive stations get the amber try-it chip on their card', async () =>
   sandbox.state.streamChecks = null;
 });
 
-test('proxyStreamUrl routes through the relay worker and stays empty while unset', async () => {
-  const sandbox = await ready();
-  sandbox.state.streamProxy = '';
+test('proxyStreamUrl routes through the relay worker and stays empty while unset', () => {
+  sandbox.STREAM_PROXY = '';
   assert.equal(sandbox.proxyStreamUrl('https://example.test/live'), '');
-  sandbox.state.streamProxy = 'https://radio-relay.example.workers.dev/';
+  sandbox.STREAM_PROXY = 'https://radio-relay.example.workers.dev/';
   assert.equal(
     sandbox.proxyStreamUrl('https://example.test/live?a=1'),
     'https://radio-relay.example.workers.dev/stream?url=' + encodeURIComponent('https://example.test/live?a=1')
   );
   assert.equal(sandbox.proxyStreamUrl(''), '');
-  sandbox.state.streamProxy = '';
+  sandbox.STREAM_PROXY = '';
 });
 
-test('visitor heat dot radius scales with the count and hides empty countries', async () => {
-  const sandbox = await ready();
+test('visitor heat dot radius scales with the count and hides empty countries', () => {
   assert.equal(sandbox.visitorHeatDot(0, 100), 0);
   assert.equal(sandbox.visitorHeatDot(-3, 100), 0);
   assert.equal(sandbox.visitorHeatDot(50, 0), 0);
@@ -300,8 +269,7 @@ test('visitor heat dot radius scales with the count and hides empty countries', 
   assert.equal(sandbox.visitorHeatDot(12, 300), (2 + 6 * Math.sqrt(12 / 300)).toFixed(2));
 });
 
-test('visitor leaderboard rows sort by count, mask zeros and cap the list', async () => {
-  const sandbox = await ready();
+test('visitor leaderboard rows sort by count, mask zeros and cap the list', () => {
   const rows = sandbox.visitorLeadRows({ EG: 40, SA: 12, US: 0, MA: 7, DE: null }, 3);
   assert.deepEqual(Array.from(rows, r => r.cc), ['EG', 'SA', 'MA']);
   assert.deepEqual(Array.from(rows, r => r.n), [40, 12, 7]);
@@ -309,8 +277,7 @@ test('visitor leaderboard rows sort by count, mask zeros and cap the list', asyn
   assert.equal(sandbox.visitorLeadRows({ EG: 5 }).length, 1);
 });
 
-test('play counter key normalizes the URL to host and path only', async () => {
-  const sandbox = await ready();
+test('play counter key normalizes the URL to host and path only', () => {
   assert.equal(sandbox.playCountKey('https://qurango.net/radio/mix?foo=1#x'), 'play-qurango.net/radio/mix');
   assert.equal(sandbox.playCountKey('https://www.zeno.fm/stream?x=2'), 'play-zeno.fm/stream');
   assert.equal(sandbox.playCountKey('http://radio.example.com:8000/live;aac'), 'play-radio.example.com/live;aac');
@@ -318,8 +285,7 @@ test('play counter key normalizes the URL to host and path only', async () => {
   assert.equal(sandbox.playCountKey(''), '');
 });
 
-test('trending list ranks candidates by play count and hides zero counts', async () => {
-  const sandbox = await ready();
+test('trending list ranks candidates by play count and hides zero counts', () => {
   const stations = [
     { name: 'A', url: 'https://a.test/one' },
     { name: 'B', url: 'https://b.test/two' },
@@ -335,8 +301,8 @@ test('trending list ranks candidates by play count and hides zero counts', async
   assert.equal(sandbox.trendingList(stations, counts, 1).length, 1);
 });
 
-test('coarse playback error classification covers the known failure reasons', async () => {
-  const sandbox = await ready();
+
+test('coarse playback error classification covers the known failure reasons', () => {
   assert.equal(sandbox.coarsePlaybackError('fatal HLS error: networkError'), 'hls');
   assert.equal(sandbox.coarsePlaybackError('HLS.js unavailable or MediaSource unsupported'), 'hls');
   assert.equal(sandbox.coarsePlaybackError('Stream token request failed'), 'token');
@@ -346,8 +312,8 @@ test('coarse playback error classification covers the known failure reasons', as
   assert.equal(sandbox.coarsePlaybackError(''), 'other');
 });
 
-test('stationKey mirrors the crawler URL canonicalization', async () => {
-  const sandbox = await ready();
+
+test('stationKey mirrors the crawler URL canonicalization', () => {
   assert.equal(sandbox.stationKey('HTTPS://Example.Test:443/live#player'), 'https://example.test/live');
   assert.equal(sandbox.stationKey('http://EXAMPLE.test:80/live'), 'http://example.test/live');
   assert.equal(sandbox.stationKey('https://example.test/live?a=1#frag'), 'https://example.test/live?a=1');
@@ -358,8 +324,7 @@ test('stationKey mirrors the crawler URL canonicalization', async () => {
   assert.equal(sandbox.stationKey(null), '');
 });
 
-test('applyCatalogDelta adds, updates and removes rows in place', async () => {
-  const sandbox = await ready();
+test('applyCatalogDelta adds, updates and removes rows in place', () => {
   const rows = [
     { name: 'A', url: 'https://a.test/one' },
     { name: 'B', url: 'https://b.test/two' },
@@ -379,33 +344,27 @@ test('applyCatalogDelta adds, updates and removes rows in place', async () => {
   );
 });
 
-test('P1-2: all lazy modules import cleanly and expose their public API', async () => {
-  const map = await import('../js/modules/map.js');
-  const sdr = await import('../js/modules/sdr.js');
-  const palette = await import('../js/modules/palette.js');
-  const kiwi = await import('../js/modules/kiwi.js');
-  const player = await import('../js/modules/player.js');
-  const visitors = await import('../js/modules/visitors.js');
-  const collections = await import('../js/modules/collections.js');
-  const catalog = await import('../js/modules/catalog.js');
-  assert.equal(typeof player.play, 'function');
-  assert.equal(typeof player.initPlayerUI, 'function');
-  assert.equal(typeof kiwi.openKiwiAudio, 'function');
-  assert.equal(typeof kiwi.initKiwiUI, 'function');
-  assert.equal(typeof map.renderMap, 'function');
-  assert.equal(typeof map.mapTabOpened, 'function');
-  assert.equal(typeof sdr.sdrTabOpened, 'function');
-  assert.equal(typeof sdr.renderSDR, 'function');
-  assert.equal(typeof palette.paletteOpen, 'function');
-  assert.equal(typeof visitors.initTrending, 'function');
-  assert.equal(typeof collections.renderFav, 'function');
-  assert.equal(typeof catalog.loadStations, 'function');
+
+test('P1-2: app.js core exposes the lazy module registry and thin stubs', () => {
+  const src = fs.readFileSync('js/app.js', 'utf8');
+  assert.ok(src.includes('var RA_MODULES = {}'), 'core declares the module registry');
+  assert.ok(src.includes('function loadModule('), 'core declares loadModule()');
+  for (const stub of ['function play(', 'function openSDR(', 'function renderMap(', 'function renderFav(', 'function paletteOpen(', 'function shareStation(', 'function closeAlarmModal(']) {
+    assert.ok(src.includes(stub), 'core keeps a thin stub: ' + stub);
+  }
 });
 
-test('P1-2 DoD: the entry module stays under half the pre-split size', async () => {
-  await ready();
-  const size = fs.statSync('js/app.js').size;
-  assert.ok(size < 81592, 'js/app.js should stay under 81.6KB (half of the pre-split 163,183 bytes), got ' + size);
-  const html = fs.readFileSync('index.html', 'utf8');
-  assert.match(html, /<script type="module" src="js\/app\.js">/);
+test('P1-2: each lazy module exports one idempotent boot and merges its STR pack', () => {
+  for (const name of ['sdr', 'map', 'player', 'regions', 'tools']) {
+    const src = fs.readFileSync('js/modules/' + name + '.mjs', 'utf8');
+    assert.ok(!src.includes('`'), name + '.mjs must not use backticks');
+    assert.equal((src.match(/export function boot\(/g) || []).length, 1, name + '.mjs exports exactly one boot()');
+    assert.ok(src.includes('raMergeStr(STR_'), name + '.mjs merges its STR pack');
+    assert.ok(src.includes('RA_MODULES.' + name + ' = API'), name + '.mjs registers its API');
+  }
+});
+
+test('P1-2: initial core payload stays under half of the pre-split monolith', () => {
+  const bytes = Buffer.byteLength(fs.readFileSync('js/app.js', 'utf8'), 'utf8');
+  assert.ok(bytes < 81591, 'core js/app.js should stay under 81,591 bytes (half of the 163,183-byte monolith), got ' + bytes);
 });

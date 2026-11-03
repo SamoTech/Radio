@@ -112,19 +112,20 @@ var CATEGORY_LABELS = {
 };
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
 var fmSearchSequence = 0;
+var fmSearchDebounceTimer = null;
 var fmFacetAuto = {};
 
 function cancelFMClientRender() {
-  if (state.fmSearchDebounceTimer !== null) {
-    clearTimeout(state.fmSearchDebounceTimer);
-    state.fmSearchDebounceTimer = null;
+  if (fmSearchDebounceTimer !== null) {
+    clearTimeout(fmSearchDebounceTimer);
+    fmSearchDebounceTimer = null;
   }
 }
 
 function scheduleFMClientRender() {
   cancelFMClientRender();
-  state.fmSearchDebounceTimer = setTimeout(function () {
-    state.fmSearchDebounceTimer = null;
+  fmSearchDebounceTimer = setTimeout(function () {
+    fmSearchDebounceTimer = null;
     fmClientRender();
   }, 160);
 }
@@ -170,121 +171,253 @@ var CHIP_TAGS = {
 
 var STR = {
   ar: {
-    locale: 'ar-EG', dateLocale: 'ar', dir: 'rtl',
-    doc_title: 'راديو أطلس — دليل الاستقبال العالمي',
+    locale: 'ar-EG',
+    dateLocale: 'ar',
+    dir: 'rtl',
     app_title: '📻 راديو أطلس',
     tagline: 'دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين',
-    stat_total: 'جهاز استقبال', stat_online: 'أونلاين الآن', stat_listeners: 'مستمع حاليًا', stat_updated: 'آخر تحديث',
-    tab_fm: '📻 محطات البث', tab_fav: '⭐ المفضلة', tab_rel: '🕋 ديني', tab_ar: '🌍 عربي', tab_eg: '🇪🇬 مصر', tab_sdr: 'أجهزة الاستقبال SDR',
+    stat_total: 'جهاز استقبال',
+    stat_online: 'أونلاين الآن',
+    stat_listeners: 'مستمع حاليًا',
+    stat_updated: 'آخر تحديث',
+    tab_fm: '📻 محطات البث',
+    tab_fav: '⭐ المفضلة',
+    tab_rel: '🕋 ديني',
+    tab_ar: '🌍 عربي',
+    tab_eg: '🇪🇬 مصر',
+    tab_sdr: 'أجهزة الاستقبال SDR',
     featured_title: 'الأشهر عالميًا وعربيًا',
     home_grid_title: '🏛 الرسمية · 🇪🇬 مصر',
-    player_status_connecting: 'جارٍ الاتصال…', player_status_live: '● يبث الآن', player_status_paused: '⏸ متوقف مؤقتًا', player_status_dead: '✖ المحطة غير متاحة',
-    vol_aria: 'مستوى الصوت', mute_aria: 'كتم الصوت', prev_aria: 'المحطة السابقة', next_aria: 'المحطة التالية',
-    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…', fm_search_aria:'البحث عن محطات الراديو', fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة', search_country_aria:'ابحث عن دولة', select_country_aria:'اختر الدولة', search_language_aria:'ابحث عن لغة', select_language_aria:'اختر اللغة', search_category_aria:'ابحث عن فئة', select_category_aria:'اختر الفئة', filter_country:'الدولة', filter_language:'اللغة', filter_category:'الفئة', filter_rx_type:'نوع الاستقبال', filter_rx_type_aria:'اختر نوع الاستقبال', all_types:'الكل', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.', search_country_ph:'ابحث عن دولة…', search_language_ph:'ابحث عن لغة…', search_tag_ph:'ابحث عن فئة…',
-    all_countries: '🌍 كل الدول', all_languages: '🗣 كل اللغات', all_tags: '🏷 كل الفئات',
-    live_search: 'بحث مباشر', clear_filters: 'مسح الفلاتر',
-    install_aria: 'ثبّت التطبيق على جهازك', install_done: '✅ تم تثبيت التطبيق', install_ios_hint: 'على الآيفون: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق', hero_play: '▶ شغّل آخر محطة', hero_play_aria: 'تشغيل آخر محطة استمعت إليها', alive_only: 'شغالة بس',
-    saver_aria: 'وضع توفير البيانات — بث بجودة أخف', saver_on: '✅ توفير البيانات شغال — البث بأقل جودة', saver_off: '🔋 توفير البيانات متوقف', title_playing: '{n} ▶ | راديو أطلس', alt_title: 'محطات شغالة تشبهها:', quick_bar_aria: 'الأشهر — تشغيل سريع من أي صفحة',
+    search_fm_ph: 'ابحث بالاسم أو الدولة أو اللغة أو الفئة…',
+    fm_search_aria:'البحث عن محطات الراديو',
+    fm_search_input_aria:'ابحث باسم المحطة أو الدولة أو اللغة أو الفئة',
+    search_country_aria:'ابحث عن دولة',
+    select_country_aria:'اختر الدولة',
+    search_language_aria:'ابحث عن لغة',
+    select_language_aria:'اختر اللغة',
+    search_category_aria:'ابحث عن فئة',
+    select_category_aria:'اختر الفئة',
+    filter_country:'الدولة',
+    filter_language:'اللغة',
+    filter_category:'الفئة',
+    filter_rx_type:'نوع الاستقبال',
+    filter_rx_type_aria:'اختر نوع الاستقبال',
+    all_types:'الكل',
+    kiwi_type:'KiwiSDR',
+    websdr_type:'WebSDR',
+    owrx_type:'OpenWebRX',
+    fm_search_note:'البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.',
+    search_country_ph:'ابحث عن دولة…',
+    search_language_ph:'ابحث عن لغة…',
+    search_tag_ph:'ابحث عن فئة…',
+    all_countries: '🌍 كل الدول',
+    all_languages: '🗣 كل اللغات',
+    all_tags: '🏷 كل الفئات',
+    live_search: 'بحث مباشر',
+    clear_filters: 'مسح الفلاتر',
+    install_aria: 'ثبّت التطبيق على جهازك',
+    install_done: '✅ تم تثبيت التطبيق',
+    install_ios_hint: 'على الآيفون: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق',
+    hero_play: '▶ شغّل آخر محطة',
+    hero_play_aria: 'تشغيل آخر محطة استمعت إليها',
+    alive_only: 'شغالة بس',
+    saver_aria: 'وضع توفير البيانات — بث بجودة أخف',
+    saver_on: '✅ توفير البيانات شغال — البث بأقل جودة',
+    saver_off: '🔋 توفير البيانات متوقف',
+    title_playing: '{n} ▶ | راديو أطلس',
+    quick_bar_aria: 'الأشهر — تشغيل سريع من أي صفحة',
     fm_hint: 'الرئيسية تعرض الأشهر والرسمية ومحطات مصر فقط — ابحث أو استخدم الفلاتر لتصفح الكتالوج الكامل (أكثر من 56 ألف محطة). زر «بحث مباشر» يستعلم لحظيًا من المصدر.',
-    chip_all: '✨ الكل', chip_fav: '⭐ المفضلة', chip_arabic: '🎙 عربي', chip_news: '📰 أخبار', chip_quran: '🕌 قرآن', chip_sports: '⚽ رياضة', chip_music: '🎵 موسيقى',
-    search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
-    all_bands: 'كل النطاقات', sort_snr: 'الأفضل SNR', sort_free: 'أكبر مساحة فاضية', sort_users: 'الأقل ازدحامًا', sort_name: 'الاسم', sort_near: 'الأقرب لي',
-    online_only: 'أونلاين فقط', free_only: 'فيه مكان فاضي', snr_min: 'SNR ≥', https_only: 'شغال داخل التطبيق',
-    sdr_hint: '🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.',
-    no_band: 'غير محدد', no_data: 'لا توجد بيانات بعد.',
-    no_match: 'مفيش نتائج مطابقة — جرب تخفف الفلاتر.',
-    no_match_fm: 'مفيش محطات مطابقة — جرب فلتر أخف أو كلمة تانية.',
+    chip_all: '✨ الكل',
+    chip_fav: '⭐ المفضلة',
+    chip_arabic: '🎙 عربي',
+    chip_news: '📰 أخبار',
+    chip_quran: '🕌 قرآن',
+    chip_sports: '⚽ رياضة',
+    chip_music: '🎵 موسيقى',
     searching_live: 'جاري البحث المباشر من المصدر…',
     live_failed: 'البحث المباشر فشل — استخدم الفلترة المحلية الفورية.',
-    more_btn: 'عرض المزيد — باقي {n} محطة', results: '{n} نتيجة', stations: '{n} محطة', more_rx: 'عرض المزيد — باقي {n} جهاز', geo_fallback: 'موقعك مش متاح — الترتيب حسب المسافة من القاهرة',
-    listen: '▶ استمع', listen_in_app: '🎧 استمع داخل التطبيق', open_ext: 'افتح الجهاز ↗', open_ext2: 'فتح خارجي ↗', close: '✕ إغلاق',
-    wspr_title: 'نشاط الانتشار الفعلي — WSPR (آخر ساعتين)', wspr_hint: 'عدد إشارات WSPR المستلمة في كل نطاق مقياس مباشر لانفتاح النطاق — وأطول المسارات أوضح دليل على المسارات المفتوحة الآن.', websdr_title: 'أجهزة WebSDR', owrx_title: 'أجهزة OpenWebRX', satnogs_title: 'محطات SatNOGS الأرضية', satnogs_type: 'SatNOGS', tab_map: '🗺️ الخريطة', map_title: 'خريطة أجهزة الاستقبال العالمية', map_hint: 'توزيع أجهزة الاستقبال حول العالم — دوس على أي نقطة لفتح الجهاز في نافذة جديدة.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'الخط الرمادي', map_layer_aircraft: '✈️ الطائرات', map_layer_visitors: '🌍 الزوار', visitors_dot: '{n} زائر', visitor_lead_title: 'أكثر البلاد زيارةً', trending_title: '🔥 الأكثر سماعاً', map_count: '{n} جهاز على الخريطة',
+    more_btn: 'عرض المزيد — باقي {n} محطة',
+    listen: '▶ استمع',
+    tab_map: '🗺️ الخريطة',
+    trending_title: '🔥 الأكثر سماعاً',
     resume: 'آخر محطة — دوس تشغيل للاستكمال',
-    space_title: 'حالة النطاقات (بيانات NOAA SWPC)', updated_at: 'آخر تحديث',
-    cond_good: 'الظروف مستقرة — النطاقات العليا (14–28 MHz) غالبًا مفتوحة.',
-    cond_unstable: 'اضطراب متوسط — استقبل النطاقات المنخفضة (3–10 MHz).',
-    cond_storm: 'عاصفة مغناطيسية — النطاقات العليا مغلقة والمسارات القطبية مشوشة.',
-    alert_aria: 'تنبيهات حالة النطاقات', alert_unsupported: 'المتصفح ده مش بيدعم الإشعارات',
-    alert_on: '🔔 التنبيهات شغالة — هنبلغك لما ظروف الاستقبال تتغير', alert_off: '🔕 التنبيهات مقفولة',
-    alert_open_title: 'النطاقات العالية اتفتحت 🔥', alert_open_body: 'Kp {kp} — ظروف ممتازة للنطاقات العالية (14–28 MHz). فرصتك تسدّق دلوقتي!',
-    alert_storm_title: 'عاصفة مغناطيسية ⛈', alert_storm_body: 'Kp {kp} — النطاقات العليا اتقفلت؛ استقبل النطاقات المنخفضة (3–10 MHz).',
-    alert_toast_open: 'النطاقات اتفتحت (Kp {kp}) — ظروف ممتازة للنطاقات العالية 🔥', alert_toast_storm: 'عاصفة مغناطيسية (Kp {kp}) — النطاقات العليا مقفولة ⛈',
-    eibi_title: 'بث موجات قصيرة على الهواء الآن',
-    eibi_hint: 'من جدول EIBI — ترددات تُبث الآن (UTC). قرّب التردد على أي جهاز استقبال بالأسفل لسماعه.',
-    eibi_ph: 'ابحث في البث الحالي: اسم، تردد…', onair: 'بث على الهواء', eibi_band_aria: 'اختر نطاق البث',
-    more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
-    visitors: 'إجمالي الزيارات', you_from: 'أنت تزور من',
-    stream_ok: 'استجاب للبث في فحص التحديث الأخير', stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك', chip_alive: '✔ شغال', chip_dead: '✖ لا يستجيب',
-    stream_maybe: 'سيرفرنا مأقدرنش يوصله (بلوك جغرافي أو قيود شبكة) — لكن ممكن يشتغل عندك عادي، جرّبها', chip_maybe: '؟ جرّبها',
-    kiwi_audio: '🎧 صوت مباشر (تجريبي)', kiwi_connecting: 'جاري الاتصال بالجهاز…', kiwi_live: 'يستقبل ✔', kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه', kiwi_freq: 'التردد (kHz)', kiwi_mode: 'الوضع', fav_hint: 'جميع المحطات المفضلة لديك في مكان واحد. يمكنك إدارة المفضلة من أي محطة عبر زر القلب ❤️.', eg_hint: 'كل إذاعات مصر من الكتالوج في مكان واحد — الاستماع مباشر من الموقع، والمحطات الرسمية والمنتقاة في الأول.', eg_source: 'إذاعات مصر الرسمية ↗', ar_hint: 'كل الإذاعات العربية من الكتالوج مجمعة حسب الدولة — الاستماع مباشر من الموقع، والمحطات الرسمية في الأول.', ar_count: '{n} إذاعة عربية · {c} دولة', ar_top: 'أول {n} محطة من {m}', rel_hint: 'كل المحطات الدينية من الكتالوج في مكان واحد — قرآن وبرامج دينية، والمحطات الرسمية في الأول.',
-    toast_broken: 'تعذر تشغيل البث من الروابط المتاحة. جرّب الموقع الرسمي.', toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.', open_official_site:'الموقع الرسمي ↗', fav_on: 'أضفتها للمفضلة ⭐', fav_off: 'شيلتها من المفضلة',
-    share_aria: 'مشاركة رابط المحطة', share_copied: 'رابط المحطة اتنسخ ✔ — شاركه في أي مكان',
-    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية', random_station: '🎲 محطة عشوائية', random_none: 'مفيش محطات https قابلة للتشغيل في النتائج الحالية — خفّف الفلاتر.', random_toast: '🎲 محطة عشوائية: {name}', report_aria: 'بلّغ عن محطة مش شغالة', report_title: 'محطة مش شغالة: {name}', report_body: 'رابط البث:\n{url}\n\nالمشكلة (وصف موجز):\n', report_toast: 'فتحنا صفحة البلاغ على GitHub — كمّل الوصف وابعت 🙏', dm_notice_title: 'بث إذاعات ماسبيرو', dm_notice_body: 'قناة ماسبيرو الرسمية على Dailymotion بتسمح بتشغيل بث الإذاعات من موقعها بس، فمش بنقدر نشغّلها داخل التطبيق. افتحها على Dailymotion في نافذة جديدة وهتبث معاك فورًا 🎧', dm_notice_btn: 'افتح البث على Dailymotion ↗',
-    history_title: 'سجل الاستماع', history_aria: 'تشغيل من سجل الاستماع',
-    sleep_aria: 'مؤقت النوم', sleep_set: '⏱ البث هيقف بعد {n} دقيقة', sleep_done: '⏱ خلص المؤقت — اتوقف البث', sleep_clear: '⏱ اتلغى مؤقت النوم',
-    alarm_aria: 'منبه الراديو', alarm_title: '⏰ منبه الراديو', alarm_hint: 'المنبه يشغّل آخر محطة استمعت لها — الصفحة لازم تفضل مفتوحة.', alarm_station: 'المحطة: {name}', alarm_save: '✓ ضبط المنبه', alarm_clear: '✕ إلغاء المنبه', alarm_set: '⏰ المنبه اتحط على {time} — {name}', alarm_cleared: '⏰ اتلغى المنبه', alarm_fired: '⏰ دقّ المنبه — شغّلنا {name}', alarm_no_station: 'شغّل أي محطة الأول عشان المنبه يعرف يشغّلها.',
-    palette_aria: 'بحث سريع (Ctrl+K)', palette_title: 'بحث سريع', palette_ph: 'ابحث: محطة، دولة، جهاز…', palette_none: 'مفيش نتائج مطابقة.', palette_hint: 'Enter يشغّل أول نتيجة · Esc للإغلاق', palette_kind_fm: 'بث', palette_kind_rx: 'استقبال',
-    sources: 'المصادر:', offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
+    visitors: 'إجمالي الزيارات',
+    you_from: 'أنت تزور من',
+    stream_ok: 'استجاب للبث في فحص التحديث الأخير',
+    stream_dead: 'لم يستجب في فحص التحديث الأخير — ممكن يشتغل من متصفحك',
+    chip_alive: '✔ شغال',
+    chip_dead: '✖ لا يستجيب',
+    stream_maybe: 'سيرفرنا مأقدرنش يوصله (بلوك جغرافي أو قيود شبكة) — لكن ممكن يشتغل عندك عادي، جرّبها',
+    chip_maybe: '؟ جرّبها',
+    toast_tap_play:'اضغط تشغيل من مشغل الصوت لبدء البث.',
+    open_official_site:'الموقع الرسمي ↗',
+    fav_on: 'أضفتها للمفضلة ⭐',
+    fav_off: 'شيلتها من المفضلة',
+    share_aria: 'مشاركة رابط المحطة',
+    random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية',
+    random_station: '🎲 محطة عشوائية',
+    report_aria: 'بلّغ عن محطة مش شغالة',
+    history_title: 'سجل الاستماع',
+    history_aria: 'تشغيل من سجل الاستماع',
+    palette_aria: 'بحث سريع (Ctrl+K)',
+    sources: 'المصادر:',
+    offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
   en: {
-    locale: 'en-US', dateLocale: 'en', dir: 'ltr',
-    doc_title: 'Radio Atlas — Global Reception Directory',
+    locale: 'en-US',
+    dateLocale: 'en',
+    dir: 'ltr',
     app_title: '📻 Radio Atlas',
     tagline: 'Smart search directory for online receivers and broadcast stations',
-    stat_total: 'Receivers', stat_online: 'Online now', stat_listeners: 'Current listeners', stat_updated: 'Updated',
-    tab_fm: '📻 Broadcast stations', tab_fav: '⭐ Favorites', tab_rel: '🕋 Religious', tab_ar: '🌍 Arabic', tab_eg: '🇪🇬 Egypt', tab_sdr: 'SDR Receivers',
+    stat_total: 'Receivers',
+    stat_online: 'Online now',
+    stat_listeners: 'Current listeners',
+    stat_updated: 'Updated',
+    tab_fm: '📻 Broadcast stations',
+    tab_fav: '⭐ Favorites',
+    tab_rel: '🕋 Religious',
+    tab_ar: '🌍 Arabic',
+    tab_eg: '🇪🇬 Egypt',
+    tab_sdr: 'SDR Receivers',
     featured_title: 'Most popular worldwide & Arabic',
     home_grid_title: '🏛 Official · 🇪🇬 Egypt',
-    player_status_connecting: 'Connecting…', player_status_live: '● On air', player_status_paused: '⏸ Paused', player_status_dead: '✖ Station unavailable',
-    vol_aria: 'Volume level', mute_aria: 'Mute', prev_aria: 'Previous station', next_aria: 'Next station',
-    search_fm_ph: 'Search by station, country, language, or category…', fm_search_aria:'Search radio stations', fm_search_input_aria:'Search by station, country, language, or category', search_country_aria:'Search countries', select_country_aria:'Select a country', search_language_aria:'Search languages', select_language_aria:'Select a language', search_category_aria:'Search categories', select_category_aria:'Select a category', filter_rx_type_aria:'Select receiver type', filter_country:'Country', filter_language:'Language', filter_category:'Category', filter_rx_type:'Receiver type', all_types:'All', kiwi_type:'KiwiSDR', websdr_type:'WebSDR', owrx_type:'OpenWebRX', fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.', search_country_ph:'Search countries…', search_language_ph:'Search languages…', search_tag_ph:'Search categories…',
-    all_countries: '🌍 All countries', all_languages: '🗣 All languages', all_tags: '🏷 All genres',
-    live_search: 'Live search', clear_filters: 'Clear filters',
-    install_aria: 'Install the app on your device', install_done: '✅ App installed', install_ios_hint: 'On iPhone: tap Share ⬆️ then "Add to Home Screen" to install the app', hero_play: '▶ Play last station', hero_play_aria: 'Play the last station you listened to', alive_only: 'Working only',
-    saver_aria: 'Data saver mode — lighter stream quality', saver_on: '✅ Data saver on — streaming at the lowest quality', saver_off: '🔋 Data saver off', title_playing: '{n} ▶ | Radio Atlas', alt_title: 'Working stations like it:', quick_bar_aria: 'Most famous — quick play from any tab',
+    search_fm_ph: 'Search by station, country, language, or category…',
+    fm_search_aria:'Search radio stations',
+    fm_search_input_aria:'Search by station, country, language, or category',
+    search_country_aria:'Search countries',
+    select_country_aria:'Select a country',
+    search_language_aria:'Search languages',
+    select_language_aria:'Select a language',
+    search_category_aria:'Search categories',
+    select_category_aria:'Select a category',
+    filter_rx_type_aria:'Select receiver type',
+    filter_country:'Country',
+    filter_language:'Language',
+    filter_category:'Category',
+    filter_rx_type:'Receiver type',
+    all_types:'All',
+    kiwi_type:'KiwiSDR',
+    websdr_type:'WebSDR',
+    owrx_type:'OpenWebRX',
+    fm_search_note:'Instant search uses the loaded catalog; Live Search fetches fresher results from the source.',
+    search_country_ph:'Search countries…',
+    search_language_ph:'Search languages…',
+    search_tag_ph:'Search categories…',
+    all_countries: '🌍 All countries',
+    all_languages: '🗣 All languages',
+    all_tags: '🏷 All genres',
+    live_search: 'Live search',
+    clear_filters: 'Clear filters',
+    install_aria: 'Install the app on your device',
+    install_done: '✅ App installed',
+    install_ios_hint: 'On iPhone: tap Share ⬆️ then "Add to Home Screen" to install the app',
+    hero_play: '▶ Play last station',
+    hero_play_aria: 'Play the last station you listened to',
+    alive_only: 'Working only',
+    saver_aria: 'Data saver mode — lighter stream quality',
+    saver_on: '✅ Data saver on — streaming at the lowest quality',
+    saver_off: '🔋 Data saver off',
+    title_playing: '{n} ▶ | Radio Atlas',
+    quick_bar_aria: 'Most famous — quick play from any tab',
     fm_hint: 'Home shows only the most famous, official and Egyptian stations — search or use the filters to browse the full 56k+ catalog. Live Search queries the source in real time.',
-    chip_all: '✨ All', chip_fav: '⭐ Favorites', chip_arabic: '🎙 Arabic', chip_news: '📰 News', chip_quran: '🕌 Quran', chip_sports: '⚽ Sports', chip_music: '🎵 Music',
-    search_sdr_ph: 'Search: name, country, callsign…',
-    all_bands: 'All bands', sort_snr: 'Best SNR', sort_free: 'Most free slots', sort_users: 'Least crowded', sort_name: 'Name', sort_near: 'Nearest to me',
-    online_only: 'Online only', free_only: 'Has a free slot', snr_min: 'SNR ≥', https_only: 'Playable in-app',
-    sdr_hint: '🎧 In-app listening works for HTTPS receivers only (browser security) — HTTP receivers open in a new window.',
-    no_band: 'Unspecified', no_data: 'No data yet.',
-    no_match: 'No matching results — try lighter filters.',
-    no_match_fm: 'No matching stations — try a lighter filter or another keyword.',
+    chip_all: '✨ All',
+    chip_fav: '⭐ Favorites',
+    chip_arabic: '🎙 Arabic',
+    chip_news: '📰 News',
+    chip_quran: '🕌 Quran',
+    chip_sports: '⚽ Sports',
+    chip_music: '🎵 Music',
     searching_live: 'Live search in progress…',
     live_failed: 'Live search failed — use the instant local filtering.',
-    more_btn: 'Show more — {n} stations left', results: '{n} results', stations: '{n} stations', more_rx: 'Show more — {n} receivers left', geo_fallback: 'Location unavailable — sorted by distance from Cairo',
-    listen: '▶ Listen', listen_in_app: '🎧 Listen in app', open_ext: 'Open receiver ↗', open_ext2: 'Open externally ↗', close: '✕ Close',
-    wspr_title: 'Observed propagation — WSPR (last 2 hours)', wspr_hint: 'WSPR spots received per band directly measure how open each band is — the longest heard paths show the clearest open routes right now.', websdr_title: 'WebSDR receivers', owrx_title: 'OpenWebRX receivers', satnogs_title: 'SatNOGS ground stations', satnogs_type: 'SatNOGS', tab_map: '🗺️ Map', map_title: 'World receiver map', map_hint: 'Receiver locations worldwide — click any dot to open it in a new tab.', map_layer_kiwi: 'KiwiSDR', map_layer_websdr: 'WebSDR', map_layer_owrx: 'OpenWebRX', map_layer_satnogs: 'SatNOGS', map_layer_gray: 'Grayline', map_layer_aircraft: '✈️ Aircraft', map_layer_visitors: '🌍 Visitors', visitors_dot: '{n} visitors', visitor_lead_title: 'Top visiting countries', trending_title: '🔥 Trending now', map_count: '{n} receivers on the map',
+    more_btn: 'Show more — {n} stations left',
+    listen: '▶ Listen',
+    tab_map: '🗺️ Map',
+    trending_title: '🔥 Trending now',
     resume: 'Last station — press play to resume',
-    space_title: 'Band conditions (NOAA SWPC data)', updated_at: 'Updated',
-    cond_good: 'Conditions are stable — high bands (14–28 MHz) are likely open.',
-    cond_unstable: 'Moderate disturbance — favor lower bands (3–10 MHz).',
-    cond_storm: 'Geomagnetic storm — high bands closed, polar paths disturbed.',
-    alert_aria: 'Band condition alerts', alert_unsupported: 'This browser does not support notifications',
-    alert_on: '🔔 Alerts on — you will be notified when conditions change', alert_off: '🔕 Alerts off',
-    alert_open_title: 'High bands are open 🔥', alert_open_body: 'Kp {kp} — great conditions for high bands (14–28 MHz). Tune in now!',
-    alert_storm_title: 'Geomagnetic storm ⛈', alert_storm_body: 'Kp {kp} — high bands are closed; favor lower bands (3–10 MHz).',
-    alert_toast_open: 'Bands opened (Kp {kp}) — great high-band conditions 🔥', alert_toast_storm: 'Geomagnetic storm (Kp {kp}) — high bands closed ⛈',
-    eibi_title: 'Shortwave broadcasts on air now',
-    eibi_hint: 'From the EIBI schedule — frequencies broadcasting now (UTC). Tune one on any receiver below to listen.',
-    eibi_ph: 'Search the current broadcast: name, frequency…', onair: 'on air',
-    eibi_band_aria: 'Select broadcast band', all_bands: 'All bands',
-    more_eibi: 'Showing the first 60 — refine your search to see more.',
-    visitors: 'Total page views', you_from: 'You are visiting from',
-    stream_ok: 'Responded in the latest refresh probe', stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser', chip_alive: '✔ live', chip_dead: '✖ no reply',
-    stream_maybe: 'Our probe could not reach it (geo or network block) — it may still play fine for you, give it a try', chip_maybe: '? Try it',
-    kiwi_audio: '🎧 Direct audio (beta)', kiwi_connecting: 'Connecting to the receiver…', kiwi_live: 'Receiving ✔', kiwi_failed: 'Direct audio failed — opening the receiver web UI instead', kiwi_freq: 'Frequency (kHz)', kiwi_mode: 'Mode', fav_hint: 'All your favorite stations in one place. Manage favorites from any station using the heart button ❤️.', eg_hint: 'Every Egyptian station from the catalog in one place — plays in-app, official and curated stations first.', eg_source: 'Official Egyptian radio ↗', ar_hint: 'All Arabic radio from the catalog grouped by country — plays in-app, official stations first.', ar_count: '{n} Arabic stations · {c} countries', ar_top: 'First {n} of {m} stations', rel_hint: 'All religious stations from the catalog in one place — Quran and religious programming, official stations first.',
-    toast_broken: 'The stream could not be played from available sources. Try the official website.', toast_tap_play:'Press Play in the audio controls to start the stream.', open_official_site:'Official website ↗', fav_on: 'Added to favorites ⭐', fav_off: 'Removed from favorites',
-    share_aria: 'Share station link', share_copied: 'Station link copied ✔ — share it anywhere',
-    random_aria: 'Play a random station from the current results', random_station: '🎲 Random station', random_none: 'No HTTPS-playable stations in the current results — try lighter filters.', random_toast: '🎲 Random station: {name}', report_aria: 'Report a broken station', report_title: 'Broken station: {name}', report_body: 'Stream URL:\n{url}\n\nWhat happened (short description):\n', report_toast: 'Opening a GitHub report — finish the description and submit 🙏', dm_notice_title: 'Maspero radios broadcast', dm_notice_body: 'Maspero\\u2019s official Dailymotion channel only allows playback on its own website, so the stream cannot run inside the app. Open it on Dailymotion in a new tab and it will play right away 🎧', dm_notice_btn: 'Open stream on Dailymotion ↗',
-    history_title: 'Recently played', history_aria: 'Play from history',
-    sleep_aria: 'Sleep timer', sleep_set: '⏱ Playback stops in {n} min', sleep_done: '⏱ Timer finished — playback stopped', sleep_clear: '⏱ Sleep timer cleared',
-    alarm_aria: 'Radio alarm', alarm_title: '⏰ Radio alarm', alarm_hint: 'The alarm plays your last station — keep this page open.', alarm_station: 'Station: {name}', alarm_save: '✓ Set alarm', alarm_clear: '✕ Clear alarm', alarm_set: '⏰ Alarm set for {time} — {name}', alarm_cleared: '⏰ Alarm cleared', alarm_fired: '⏰ Alarm rang — playing {name}', alarm_no_station: 'Play any station first so the alarm has one to play.',
-    palette_aria: 'Quick search (Ctrl+K)', palette_title: 'Quick search', palette_ph: 'Search: station, country, receiver…', palette_none: 'No matching results.', palette_hint: 'Enter plays the first result · Esc to close', palette_kind_fm: 'Broadcast', palette_kind_rx: 'Receiver',
-    sources: 'Sources:', offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
+    visitors: 'Total page views',
+    you_from: 'You are visiting from',
+    stream_ok: 'Responded in the latest refresh probe',
+    stream_dead: 'Did not respond in the latest refresh probe — may still play in your browser',
+    chip_alive: '✔ live',
+    chip_dead: '✖ no reply',
+    stream_maybe: 'Our probe could not reach it (geo or network block) — it may still play fine for you, give it a try',
+    chip_maybe: '? Try it',
+    toast_tap_play:'Press Play in the audio controls to start the stream.',
+    open_official_site:'Official website ↗',
+    fav_on: 'Added to favorites ⭐',
+    fav_off: 'Removed from favorites',
+    share_aria: 'Share station link',
+    random_aria: 'Play a random station from the current results',
+    random_station: '🎲 Random station',
+    report_aria: 'Report a broken station',
+    history_title: 'Recently played',
+    history_aria: 'Play from history',
+    palette_aria: 'Quick search (Ctrl+K)',
+    sources: 'Sources:',
+    offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
   }
 };
+
+/* ================= lazy modules (P1-2: app.js split into ES modules) ================= */
+
+var RA_MODULES = {};
+var RA_MODULE_PROMISES = {};
+function loadModule(name) {
+  if (RA_MODULES[name]) return Promise.resolve(RA_MODULES[name]);
+  if (!RA_MODULE_PROMISES[name]) {
+    RA_MODULE_PROMISES[name] = import('./modules/' + name + '.mjs').then(function (m) {
+      if (!RA_MODULES[name]) m.boot();
+      return RA_MODULES[name];
+    });
+    RA_MODULE_PROMISES[name].catch(function () { RA_MODULE_PROMISES[name] = null; });
+  }
+  return RA_MODULE_PROMISES[name];
+}
+function raMergeStr(pack) {
+  for (var lang in pack) {
+    var src = pack[lang];
+    var dst = STR[lang] || (STR[lang] = {});
+    for (var key in src) dst[key] = src[key];
+  }
+}
+function raModuleCall(name, fn, a, b) {
+  var m = RA_MODULES[name];
+  if (m && typeof m[fn] === 'function') return m[fn](a, b);
+}
+
+/* Thin stubs: the real implementations live in the lazy modules.
+   Callers across app.js keep using these names unchanged. */
+function play(url, name) { loadModule('player').then(function (m) { m.play(url, name); }); }
+function setMedia(name) { loadModule('player').then(function (m) { m.setMedia(name); }); }
+function loadHlsLib(cb) { loadModule('player').then(function (m) { m.loadHlsLib(cb); }); }
+function attachHls(url, generation, station) {
+  var m = RA_MODULES.player;
+  return m ? m.attachHls(url, generation, station) : false;
+}
+function closeAlarmModal() { raModuleCall('player', 'closeAlarmModal'); }
+function openSDR(url, name) { loadModule('sdr').then(function (m) { m.openSDR(url, name); }); }
+function closeSDR() { raModuleCall('sdr', 'closeSDR'); }
+function openKiwiAudio(url, name) { loadModule('sdr').then(function (m) { m.openKiwiAudio(url, name); }); }
+function closeKiwiAudio() { raModuleCall('sdr', 'closeKiwiAudio'); }
+function renderSDR() { raModuleCall('sdr', 'renderSDR'); }
+function renderWspr() { raModuleCall('sdr', 'renderWspr'); }
+function renderWebSdrs() { raModuleCall('sdr', 'renderWebSdrs'); }
+function renderSatnogs() { raModuleCall('sdr', 'renderSatnogs'); }
+function renderSpace() { raModuleCall('sdr', 'renderSpace'); }
+function renderEibi() { raModuleCall('sdr', 'renderEibi'); }
+function buildBandFilter() { raModuleCall('sdr', 'buildBandFilter'); }
+function renderMap() { raModuleCall('map', 'renderMap'); }
+function renderFav() { raModuleCall('regions', 'renderFav'); }
+function renderEG() { raModuleCall('regions', 'renderEG'); }
+function renderAR() { raModuleCall('regions', 'renderAR'); }
+function renderRel() { raModuleCall('regions', 'renderRel'); }
+function shareStation(url, name) { loadModule('tools').then(function (m) { m.shareStation(url, name); }); }
+function reportStation(url, name) { loadModule('tools').then(function (m) { m.reportStation(url, name); }); }
+function playRandomStation() { loadModule('tools').then(function (m) { m.playRandomStation(); }); }
+function handleShareHash() { loadModule('tools').then(function (m) { m.handleShareHash(); }); }
+function paletteOpen() { loadModule('tools').then(function (m) { m.paletteOpen(); }); }
+function paletteClose() { raModuleCall('tools', 'paletteClose'); }
+
 
 var state = {
   lang: 'ar',
@@ -324,11 +457,7 @@ var state = {
   playerMuted: false,
   dataSaver: false,
   history: [],
-  palette: { results: [] },
-  streamProxy: '',
-  ebTokenCache: {},
-  fmSearchDebounceTimer: null,
-  previousSDRFocus: null
+  palette: { results: [] }
 };
 
 function $(id) { return document.getElementById(id); }
@@ -369,10 +498,11 @@ function safeHttpsUrl(value) {
 /* Cloudflare Worker relay (see proxy/README.md). Empty until the worker is
    deployed; when set it becomes the last-resort playback source for streams
    that fail direct playback (CORS or geo blocks). */
+var STREAM_PROXY = '';
 
 function proxyStreamUrl(url) {
-  if (!state.streamProxy || !url) return '';
-  return state.streamProxy.replace(/\/+$/, '') + '/stream?url=' + encodeURIComponent(url);
+  if (!STREAM_PROXY || !url) return '';
+  return STREAM_PROXY.replace(/\/+$/, '') + '/stream?url=' + encodeURIComponent(url);
 }
 
 function fmtNum(n) {
@@ -486,26 +616,8 @@ function toggleFav(s) {
   renderRel();
 }
 
-/* ================= listen history ================= */
-
-function loadHistory() {
-  try { return JSON.parse(localStorage.getItem('ra-history') || '[]') || []; } catch (e) { return []; }
-}
-
-function isDmEmbed(url) {
-  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
-}
-
-var CAIRO = { lat: 30.0444, lon: 31.2357 };
 /* ================= FM / Broadcast ================= */
 
-function flagOf(cc) {
-  if (!cc || !/^[a-zA-Z]{2}$/.test(cc)) return '';
-  var a = cc.toUpperCase();
-  try {
-    return String.fromCodePoint(0x1F1E6 + a.charCodeAt(0) - 65, 0x1F1E6 + a.charCodeAt(1) - 65);
-  } catch (e) { return ''; }
-}
 
 function regionName(cc, fallback) {
   if (!cc) return fallback;
@@ -722,20 +834,208 @@ renderQuickBar();
   grid.innerHTML = html;
 }
 
+/* ===== P1-1: differential catalog via IndexedDB ===== */
+/* الزيارة الثانية بتنزل دلتا يومية صغيرة بدل الكتالوج كاملًا كل مرة.
+   المصدر: data/stations.manifest.json (version/count/keep) وسلسلة
+   data/stations_delta/<version>.json — الـ crawler بيكتبهم مع كل تشغيل
+   بيانات ناجح. لو IndexedDB أو الشبكة فشلوا، بنرجع تلقائيًا للمسار
+   القديم (head ثم الكتالوج الكامل) من غير أي كسر. */
+var CATALOG_DB_NAME = 'radio-atlas-catalog';
+var CATALOG_DB_STORE = 'catalog';
+var CATALOG_DELTA_FALLBACK_KEEP = 3;
+
+function stationKey(value) {
+  /* توأم دالة الـ crawler station_url_key: توحيد شكل الرابط ليطابق
+     المفتاح نفسه على الطرفين (سجل اختبار: tests/search.test.cjs). */
+  var raw = String(value || '').trim();
+  var u;
+  try { u = new URL(raw); } catch (e) { return ''; }
+  var scheme = u.protocol.replace(':', '').toLowerCase();
+  if (scheme !== 'http' && scheme !== 'https') return '';
+  if (!u.hostname || u.username || u.password) return '';
+  var host = u.hostname.toLowerCase();
+  if (u.port && !(scheme === 'http' && u.port === '80') && !(scheme === 'https' && u.port === '443')) {
+    host += ':' + u.port;
+  }
+  return scheme + '://' + host + (u.pathname || '/') + (u.search || '');
+}
+
+function applyCatalogDelta(rows, delta) {
+  /* تطبيق دلتا {added, updated, removed} على الصفوف المحفوظة:
+     updated يعدل الصف في مكانه بنفس المفتاح، added يُلحق في النهاية،
+     removed يشطب بالمفتاح. الحقول الناقصة تتعامل كفارغة. */
+  var source = Array.isArray(rows) ? rows : [];
+  var d = delta || {};
+  var added = Array.isArray(d.added) ? d.added : [];
+  var updated = Array.isArray(d.updated) ? d.updated : [];
+  var removed = Array.isArray(d.removed) ? d.removed : [];
+  var removedSet = {};
+  var i;
+  for (i = 0; i < removed.length; i++) removedSet[stationKey(removed[i])] = true;
+  var byKey = {};
+  for (i = 0; i < source.length; i++) byKey[stationKey(source[i].url)] = source[i];
+  for (i = 0; i < updated.length; i++) {
+    var upd = updated[i];
+    var key = stationKey(upd && upd.url);
+    if (!key || !upd) continue;
+    if (byKey[key]) byKey[key] = upd;
+    else source.push(upd);
+  }
+  var out = [];
+  for (i = 0; i < source.length; i++) {
+    var k = stationKey(source[i].url);
+    if (removedSet[k]) continue;
+    out.push(byKey[k] || source[i]);
+  }
+  for (i = 0; i < added.length; i++) {
+    if (added[i]) out.push(added[i]);
+  }
+  return out;
+}
+
+function catalogDbOpen() {
+  return new Promise(function (resolve, reject) {
+    var request = window.indexedDB.open(CATALOG_DB_NAME, 1);
+    request.onupgradeneeded = function () {
+      request.result.createObjectStore(CATALOG_DB_STORE);
+    };
+    request.onsuccess = function () { resolve(request.result); };
+    request.onerror = function () { reject(request.error || new Error('idb open failed')); };
+  });
+}
+
+function catalogDbGet(db, key) {
+  return new Promise(function (resolve, reject) {
+    var request = db.transaction(CATALOG_DB_STORE, 'readonly').objectStore(CATALOG_DB_STORE).get(key);
+    request.onsuccess = function () { resolve(request.result); };
+    request.onerror = function () { reject(request.error || new Error('idb get failed')); };
+  });
+}
+
+function catalogDbPut(db, key, value) {
+  return new Promise(function (resolve, reject) {
+    var tx = db.transaction(CATALOG_DB_STORE, 'readwrite');
+    tx.objectStore(CATALOG_DB_STORE).put(value, key);
+    tx.oncomplete = function () { resolve(); };
+    tx.onerror = function () { reject(tx.error || new Error('idb put failed')); };
+  });
+}
+
+function catalogIdbWrite(rows, version) {
+  return catalogDbOpen().then(function (db) {
+    return catalogDbPut(db, 'rows', rows).then(function () {
+      return catalogDbPut(db, 'version', version);
+    });
+  });
+}
+
+function catalogIdbStoreFull(rows) {
+  return fetchJSON('data/stations.manifest.json').then(function (manifest) {
+    return catalogIdbWrite(rows, manifest && Number(manifest.version) || 0);
+  }).catch(function () {
+    return catalogIdbWrite(rows, 0);
+  });
+}
+
+function catalogIdbRows() {
+  if (!window.indexedDB) return Promise.resolve(null);
+  return catalogDbOpen().then(function (db) {
+    return catalogDbGet(db, 'rows').then(function (rows) {
+      if (!rows || !rows.length) return null;
+      return catalogDbGet(db, 'version').then(function (storedVersion) {
+        var from = Number(storedVersion) || 0;
+        return fetchJSON('data/stations.manifest.json').then(function (manifest) {
+          if (!manifest || !manifest.version) return rows;
+          var current = Number(manifest.version) || 0;
+          if (!from || !current || current <= from) return rows;
+          var keep = Number(manifest.keep) || CATALOG_DELTA_FALLBACK_KEEP;
+          if (current - from > keep) return null;
+          var chain = Promise.resolve(rows);
+          for (var v = from + 1; v <= current; v++) {
+            (function (version) {
+              chain = chain.then(function (acc) {
+                return fetchJSON('data/stations_delta/' + version + '.json').then(function (delta) {
+                  return applyCatalogDelta(acc, delta);
+                }, function () { return acc; });
+              });
+            })(v);
+          }
+          return chain.then(function (finalRows) {
+            catalogIdbWrite(finalRows, current).catch(function () {});
+            return finalRows;
+          });
+        }, function () { return rows; });
+      });
+    });
+  }).catch(function () { return null; });
+}
+
+function finishStations(rows) {
+  state.fm = rows.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+  state.featuredCache = null;
+  buildFMFacets();
+  renderFM();
+  renderFav();
+  renderEG();
+  renderAR();
+  renderRel();
+  initTrending();
+  initResume();
+  loadStreamChecks();
+  handleShareHash();
+}
+
+function loadStations() {
+  return catalogIdbRows().then(function (hit) {
+    if (hit) return finishStations(hit);
+    return legacyLoadStations();
+  });
+}
+
+function legacyLoadStations() {
+  return fetchJSON('data/stations_head.json').then(function (data) {
+    if (data && Array.isArray(data.stations)) {
+      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
+      buildFMFacets();
+      renderFM();
+      renderFav();
+      renderEG();
+      renderAR();
+      renderRel();
+    }
+  }).catch(function (e) {
+    console.warn('stations head:', e);
+  }).then(function () {
+    return fetchJSON('data/stations.json');
+  }).then(function (data) {
+    if (data && Array.isArray(data.stations)) {
+      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.featuredCache = null;
+      buildFMFacets();
+      catalogIdbStoreFull(data.stations).catch(function () {});
+    }
+  }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
+    renderFM();
+    renderFav();
+    renderEG();
+    renderAR();
+    renderRel();
+    initTrending();
+    initResume();
+    loadStreamChecks();
+    handleShareHash();
+  });
+}
+
 function loadStreamChecks() {
   fetchJSON('data/stream_checks.json').then(function (d) {
     if (d && d.results) { state.streamChecks = d.results; renderFM(); renderEG(); renderAR(); renderRel(); }
   }).catch(function () {});
 }
 
+/* ================= alive stream filters (shared by FM and the regions module) ================= */
 
-function egAliveRank(s) {
-  var c = state.streamChecks ? state.streamChecks[s.url] : null;
-  if (c && c.alive) return 0;
-  if (c && c.maybe_alive) return 1;
-  if (!c) return 2;
-  return 3;
-}
 
 function fmAliveFiltered(list) {
   if (!state.fmFilters || !state.fmFilters.aliveOnly || !state.streamChecks) return list;
@@ -743,6 +1043,14 @@ function fmAliveFiltered(list) {
     var c = state.streamChecks[s.url];
     return !!(c && (c.alive || c.maybe_alive));
   });
+}
+
+function egAliveRank(s) {
+  var c = state.streamChecks ? state.streamChecks[s.url] : null;
+  if (c && c.alive) return 0;
+  if (c && c.maybe_alive) return 1;
+  if (!c) return 2;
+  return 3;
 }
 
 function fmAliveSort(list) {
@@ -754,6 +1062,17 @@ function fmAliveSort(list) {
   if (!any) return list;
   return list.slice().sort(function (a, b) { return egAliveRank(a) - egAliveRank(b); });
 }
+
+
+
+
+function flagOf(cc) {
+  try {
+    return String.fromCodePoint(0x1F1E6 + cc.charCodeAt(0) - 65, 0x1F1E6 + cc.charCodeAt(1) - 65);
+  } catch (e) { return ''; }
+}
+
+
 function fmClientRender() {
   fmSearchSequence += 1;
   state.fmLive = false;
@@ -836,7 +1155,83 @@ function renderChips() {
   }
 }
 
-/* ================= space weather ================= */
+/* ================= EasyBroadcast tokens + stream URL resolution (core; unit-tested) ================= */
+
+
+var easyBroadcastTokenCache = {};
+function isHlsUrl(u) {
+  return /\.m3u8(?:\?|$)/i.test(u || '');
+}
+function appendEasyBroadcastToken(url, tokenText) {
+  var values = new URLSearchParams(String(tokenText || '').trim().replace(/^\?/, ''));
+  if (!values.get('token')) throw new Error('EasyBroadcast token response did not include a token');
+  var signed = new URL(url);
+  ['token', 'expires', 'token_path'].forEach(function (key) {
+    if (values.get(key)) signed.searchParams.set(key, values.get(key));
+  });
+  return signed.toString();
+}
+function resolvePlaybackUrl(url, station) {
+  if (!station || !station.tokenEndpoint || station.tokenType !== 'easy_b') return Promise.resolve(url);
+  var cleanUrl = new URL(url);
+  ['token', 'expires', 'token_path'].forEach(function (key) { cleanUrl.searchParams.delete(key); });
+  var unsignedUrl = cleanUrl.toString();
+  var cacheKey = station.tokenEndpoint + '|' + station.url;
+  var cached = easyBroadcastTokenCache[cacheKey];
+  if (cached && cached.tokenText && cached.expires * 1000 > Date.now() + 30000) {
+    return Promise.resolve(appendEasyBroadcastToken(unsignedUrl, cached.tokenText));
+  }
+  if (cached && cached.promise) {
+    return cached.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
+  }
+  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(station.url || unsignedUrl);
+  var entry = { tokenText: '', expires: 0, promise: null };
+  entry.promise = fetch(endpoint, { cache: 'no-store' }).then(function (response) {
+    if (!response.ok) throw new Error('Token endpoint HTTP ' + response.status);
+    return response.text();
+  }).then(function (tokenText) {
+    var values = new URLSearchParams(String(tokenText || '').trim().replace(/^\?/, ''));
+    entry.tokenText = tokenText;
+    entry.expires = Number(values.get('expires')) || 0;
+    entry.promise = null;
+    return tokenText;
+  }).catch(function (error) {
+    delete easyBroadcastTokenCache[cacheKey];
+    throw error;
+  });
+  easyBroadcastTokenCache[cacheKey] = entry;
+  return entry.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
+}
+function isDmEmbed(url) {
+  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
+}
+
+/* ================= listen history ================= */
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('ra-history') || '[]') || []; } catch (e) { return []; }
+}
+
+function pushHistory(url, name) {
+  if (!url) return;
+  state.history = state.history.filter(function (h) { return h.url !== url; });
+  state.history.unshift({ url: url, name: name || '' });
+  if (state.history.length > 10) state.history.length = 10;
+  try { localStorage.setItem('ra-history', JSON.stringify(state.history)); } catch (e) {}
+  renderHistory();
+}
+
+function renderHistory() {
+  var row = $('history-row');
+  if (!row) return;
+  if (!state.history.length) { row.hidden = true; row.innerHTML = ''; return; }
+  var chips = '';
+  state.history.slice(0, 10).forEach(function (h) {
+    chips += '<button class="chip history-chip" type="button" data-history-url="' + esc(h.url) + '" data-history-name="' + esc(h.name) + '" aria-label="' + esc(t('history_aria')) + '">▶ ' + esc(h.name || h.url) + '</button>';
+  });
+  row.innerHTML = '<span class="history-label">' + esc(t('history_title')) + '</span>' + chips;
+  row.hidden = false;
+}
 
 /* ================= featured home row (most famous stations) ================= */
 
@@ -903,93 +1298,46 @@ function renderFeatured() {
 }
 
 
-/* ================= station sharing / deep links ================= */
+/* Modal focus bookkeeping shared by the sdr and player modules. */
 
-var shareHashHandled = false;
-
-function stationShareLink(url) {
-  try {
-    return location.origin + location.pathname + '#play=' + encodeURIComponent(url);
-  } catch (e) { return ''; }
-}
-
-function shareStation(url, name) {
-  url = safeHttpUrl(url);
-  if (!url) { toast(t('toast_broken')); return; }
-  var link = stationShareLink(url);
-  if (!link) { toast(t('toast_broken')); return; }
-  if (navigator.share) {
-    try {
-      navigator.share({ title: name || t('doc_title'), text: name || '', url: link }).catch(function () {});
-      return;
-    } catch (e) {}
+var previousSDRFocus = null;
+function initResume() {
+  var last = null;
+  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
+  if (!last || !safeHttpsUrl(last.url)) return;
+  if (isDmEmbed(last.url)) return;
+  var station = stationByUrl(last.url);
+  state.playbackStation = station || { name: last.name || '', url: last.url };
+  state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
+  var resumeRelay = (station && station.tokenEndpoint && station.tokenType === 'easy_b') ? '' : proxyStreamUrl(last.url);
+  if (resumeRelay && state.playbackSources.indexOf(resumeRelay) === -1) {
+    state.playbackSources.push(resumeRelay);
   }
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(link).then(function () {
-      toast(t('share_copied'));
-    }).catch(function () {
-      toast(link);
+  state.playbackIndex = 0;
+  state.playbackGeneration += 1;
+  var generation = state.playbackGeneration;
+  state.currentName = last.name || '';
+  var a = $('audio');
+  var ext = $('player-ext');
+  if (ext) { ext.href = last.url; ext.hidden = false; }
+  var official = $('player-official');
+  if (official) {
+    official.hidden = !(state.playbackStation && state.playbackStation.website);
+    if (!official.hidden) official.href = state.playbackStation.website;
+  }
+  $('player').hidden = false;
+  $('player-name').textContent = '⏸ ' + state.currentName + ' — ' + t('resume');
+  if (isHlsUrl(last.url) && (state.playbackStation.tokenEndpoint || !a.canPlayType('application/vnd.apple.mpegurl'))) {
+    loadHlsLib(function (loaded) {
+      if (generation !== state.playbackGeneration || !loaded || !attachHls(last.url, generation, state.playbackStation)) return;
+      a.preload = 'none';
     });
-    return;
+  } else {
+    try { a.src = last.url; a.preload = 'none'; } catch (e) {}
   }
-  toast(link);
+  setMedia(state.currentName);
 }
 
-function handleShareHash() {
-  if (shareHashHandled) return;
-  shareHashHandled = true;
-  try {
-    var h = location.hash || '';
-    if (h.indexOf('#play=') !== 0) return;
-    var url = decodeURIComponent(h.slice(6));
-    if (!safeHttpsUrl(url)) return;
-    var station = stationByUrl(url);
-    play(url, station ? station.name : '');
-  } catch (e) {}
-}
-
-/* ================= random station + broken-station report ================= */
-
-var ISSUE_URL = 'https://github.com/SamoTech/Radio/issues/new';
-
-function playRandomStation() {
-  var list = currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
-  if (!list.length) { toast(t('random_none')); return; }
-  var s = list[Math.floor(Math.random() * list.length)];
-  play(s.url, s.name);
-  toast(t('random_toast').replace('{name}', s.name));
-}
-
-function reportStation(url, name) {
-  url = safeHttpUrl(url);
-  if (!url) { toast(t('toast_broken')); return; }
-  var title = t('report_title').replace('{name}', name || '');
-  var body = t('report_body').replace('{url}', url);
-  var link = ISSUE_URL + '?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
-  try { window.open(link, '_blank', 'noopener'); } catch (e) { location.href = link; }
-  toast(t('report_toast'));
-}
-
-
-
-function openSDR(url, name) {
-  url = safeHttpsUrl(url);
-  if (!url) { toast(t('toast_broken')); return; }
-  $('sdr-modal-name').textContent = '🎧 ' + (name || '');
-  $('sdr-open-ext').href = url;
-  state.previousSDRFocus = document.activeElement;
-  $('sdr-frame').src = url;
-  $('sdr-modal').hidden = false;
-  $('sdr-modal-close').focus();
-}
-
-function closeSDR() {
-  $('sdr-frame').src = 'about:blank';
-  try { $('sdr-frame').removeAttribute('srcdoc'); } catch (e) {}
-  $('sdr-modal').hidden = true;
-  if (state.previousSDRFocus && typeof state.previousSDRFocus.focus === 'function') state.previousSDRFocus.focus();
-  state.previousSDRFocus = null;
-}
 function initPlayers() {
   document.addEventListener('click', function (e) {
     var el = e.target;
@@ -1027,15 +1375,6 @@ function initPlayers() {
       openKiwiAudio(kw.getAttribute('data-url'), kw.getAttribute('data-name'));
     }
   });
-  $('sdr-modal-close').addEventListener('click', closeSDR);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      if (!$('sdr-modal').hidden) closeSDR();
-      if (!$('kiwi-modal').hidden) closeKiwiAudio();
-      if (!$('palette-modal').hidden) paletteClose();
-      if (!$('alarm-modal').hidden) closeAlarmModal();
-    }
-  });
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K' || e.keyCode === 75)) {
       e.preventDefault();
@@ -1043,17 +1382,281 @@ function initPlayers() {
     }
   });
 }
+
+/* ================= visitor box ================= */
+
+var visitorJsonpSequence = 0;
+var ABACUS_BASE = 'https://abacus.jasoncameron.dev';
+var ABACUS_NAMESPACE = 'radio-atlas';
+var ABACUS_KEY = 'views';
+
+function visitorCounterRequest(action, params, key) {
+  return new Promise(function (resolve, reject) {
+    var callbackName = '__radioAtlasCounter' + (++visitorJsonpSequence);
+    var script = document.createElement('script');
+    var settled = false;
+    var query = Object.assign({}, params || {});
+    query.callback = callbackName;
+    var queryString = Object.keys(query).map(function (name) {
+      return encodeURIComponent(name) + '=' + encodeURIComponent(String(query[name]));
+    }).join('&');
+    function finish(error, data) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      script.onerror = null;
+      if (script.parentNode) script.parentNode.removeChild(script);
+      try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
+      if (error) reject(error); else resolve(data);
+    }
+    window[callbackName] = function (data) { finish(null, data); };
+    script.onerror = function () { finish(new Error('Abacus request failed')); };
+    var timeout = setTimeout(function () {
+      finish(new Error('Abacus request timed out'));
+    }, 10000);
+    script.src = ABACUS_BASE + '/' + action + '/' +
+      encodeURIComponent(ABACUS_NAMESPACE) + '/' +
+      encodeURIComponent(key || ABACUS_KEY) + (queryString ? '?' + queryString : '');
+    script.async = true;
+    document.head.appendChild(script);
+  });
+}
+
+function renderVisitorValue(elementId, value) {
+  var el = $(elementId);
+  if (!el) return;
+  var number = Number(value);
+  el.textContent = Number.isFinite(number) && number >= 0 ? fmtNum(number) : '—';
+}
+
+var VISITOR_CACHE_KEY = 'ra-views';
+var VISITOR_CACHE_TTL = 14 * 24 * 3600 * 1000;
+
+function visitorCachedTotal() {
+  try {
+    var cached = JSON.parse(localStorage.getItem(VISITOR_CACHE_KEY) || 'null');
+    if (cached && Number(cached.v) >= 0 && Date.now() - Number(cached.ts || 0) < VISITOR_CACHE_TTL) {
+      return Number(cached.v);
+    }
+  } catch (e) {}
+  return null;
+}
+
+function renderVisitorFallbackBadge() {
+  // Abacus down and nothing cached: show a live Moe-Counter badge
+  // instead of an unavailable label.
+  var el = $('visitor-counter');
+  if (!el || el.getAttribute('data-fallback-badge')) return;
+  el.setAttribute('data-fallback-badge', '1');
+  var img = document.createElement('img');
+  img.src = 'https://count.getloli.com/get/@samotech-radio-atlas';
+  img.alt = 'visitors';
+  img.height = 28;
+  img.style.verticalAlign = 'middle';
+  el.textContent = '';
+  el.appendChild(img);
+}
+
+function initVisitorBox() {
+  // Show the last known total instantly, then count this visit via
+  // Abacus (free counting API, jasoncameron.dev) using JSONP.
+  var cachedTotal = visitorCachedTotal();
+  if (cachedTotal != null) renderVisitorValue('visitor-counter', cachedTotal);
+  visitorCounterRequest('hit', {})
+    .then(function (data) {
+      var value = Number(data && data.value);
+      renderVisitorValue('visitor-counter', value);
+      if (value >= 0) {
+        try { localStorage.setItem(VISITOR_CACHE_KEY, JSON.stringify({ v: value, ts: Date.now() })); } catch (e) {}
+      }
+    })
+    .catch(function (error) {
+      console.warn('Radio Atlas total visitor counter:', error);
+      if (visitorCachedTotal() == null) renderVisitorFallbackBadge();
+    });
+}
+
+/* ---- visitor geography: country-level counts on the world map ---- */
+
+var VISITOR_GEO_CACHE_KEY = 'ra-visitor-geo';
+var VISITOR_GEO_TTL = 30 * 24 * 3600 * 1000;
+function visitorHeatDot(count, maxCount) {
+  // Gold dot radius for the visitors map layer (0 = do not draw).
+  var n = Number(count) || 0;
+  var m = Number(maxCount) || 0;
+  if (n <= 0 || m <= 0) return 0;
+  return (2 + 6 * Math.sqrt(n / m)).toFixed(2);
+}
+
+function visitorLeadRows(vheat, limit) {
+  // Top countries by visit count for the map leaderboard (pure helper).
+  var rows = [];
+  var src = vheat || {};
+  for (var cc in src) {
+    var n = Number(src[cc]) || 0;
+    if (n > 0) rows.push({ cc: cc, n: n });
+  }
+  rows.sort(function (a, b) { return b.n - a.n; });
+  return rows.slice(0, limit || 10);
+}
+
+function renderVisitorYou(cc, name, flag) {
+  var el = $('visitor-you');
+  if (!el) return;
+  el.textContent = '';
+  el.appendChild(document.createTextNode(t('you_from') + ' '));
+  var b = document.createElement('b');
+  b.textContent = (flag ? flag + ' ' : '') + (name || String(cc || '').toUpperCase());
+  el.appendChild(b);
+  el.hidden = false;
+}
+
+function countVisitorCountry(cc) {
+  if (!cc || !/^[A-Z]{2}$/.test(cc)) return;
+  visitorCounterRequest('hit', {}, 'views-' + cc)
+    .catch(function (error) { console.warn('Radio Atlas visitor country counter:', error); });
+}
+
+function initVisitorGeo() {
+  // Detect the visitor country (ipwho.is, CORS-open) and count the visit
+  // under a per-country Abacus key for the map visitors layer.
+  var cached = null;
+  try {
+    cached = JSON.parse(localStorage.getItem(VISITOR_GEO_CACHE_KEY) || 'null');
+  } catch (e) {}
+  if (cached && cached.cc && Date.now() - Number(cached.ts || 0) < VISITOR_GEO_TTL) {
+    renderVisitorYou(cached.cc, cached.name, cached.flag);
+    countVisitorCountry(cached.cc);
+    return;
+  }
+  fetchJSON('https://ipwho.is/')
+    .then(function (j) {
+      if (!j || !j.success || !j.country_code) throw new Error('geo lookup failed');
+      var cc = String(j.country_code).toUpperCase().slice(0, 2);
+      var name = String(j.country || cc);
+      var flag = j.flag && j.flag.emoji ? String(j.flag.emoji) : flagOf(cc);
+      try { localStorage.setItem(VISITOR_GEO_CACHE_KEY, JSON.stringify({ cc: cc, name: name, flag: flag, ts: Date.now() })); } catch (e) {}
+      renderVisitorYou(cc, name, flag);
+      countVisitorCountry(cc);
+    })
+    .catch(function (error) { console.warn('Radio Atlas visitor geo:', error); });
+}
+
+var PLAY_HEAT_CACHE_KEY = 'ra-play-heat';
+var PLAY_HEAT_TTL = 24 * 3600 * 1000;
+var playHeatBusy = false;
+var playHeatLastTry = 0;
+
+function playCountKey(url) {
+  // Stable short key for per-station play counting (host + path, no query).
+  try {
+    var u = new URL(url);
+    return 'play-' + u.hostname.replace(/^www\./, '') + u.pathname;
+  } catch (e) { return ''; }
+}
+
+function trendingList(candidates, counts, limit) {
+  // Candidate stations ranked by play count (pure helper; zeros masked).
+  var out = [];
+  var list = candidates || [];
+  for (var i = 0; i < list.length; i++) {
+    var s = list[i];
+    var k = playCountKey(s && s.url);
+    var n = k ? Number(counts && counts[k]) || 0 : 0;
+    if (n > 0) out.push({ station: s, n: n });
+  }
+  out.sort(function (a, b) { return b.n - a.n; });
+  return out.slice(0, limit || 10);
+}
+
+/* ================= P1-4 playback error classification (core; unit-tested) ================= */
+
+function coarsePlaybackError(reason) {
+  /* P1-4 basic error monitoring: classify a playback failure into one
+     coarse kind so the daily report stays a small fixed set of counters. */
+  var text = String(reason || '').toLowerCase();
+  if (text.indexOf('token') !== -1) return 'token';
+  if (text.indexOf('hls') !== -1) return 'hls';
+  if (text === 'html audio element error') {
+    try {
+      var mediaError = $('audio') && $('audio').error;
+      var code = mediaError && mediaError.code;
+      if (code === 1) return 'abort';
+      if (code === 2) return 'network';
+      if (code === 3) return 'decode';
+      if (code === 4) return 'src';
+    } catch (e) {}
+  }
+  return 'other';
+}
+function playHeatCached() {
+  try {
+    var cached = JSON.parse(localStorage.getItem(PLAY_HEAT_CACHE_KEY) || 'null');
+    if (cached && cached.data && Date.now() - Number(cached.ts || 0) < PLAY_HEAT_TTL) return cached.data;
+  } catch (e) {}
+  return null;
+}
+
+function fetchPlayHeat() {
+  // Play counts for the trending shelf candidates (the featured list).
+  // One JSONP get every 400ms respects the free Abacus rate limit; cached 24h.
+  var cached = playHeatCached();
+  if (cached) { state.playHeat = cached; renderTrending(); return; }
+  if (playHeatBusy || Date.now() - playHeatLastTry < 600000) return;
+  var candidates = featuredList();
+  if (!candidates.length) return;
+  playHeatBusy = true;
+  playHeatLastTry = Date.now();
+  var merged = {};
+  var chain = Promise.resolve();
+  candidates.forEach(function (s, i) {
+    var key = playCountKey(s.url);
+    if (!key) return;
+    chain = chain.then(function () {
+      return visitorCounterRequest('get', {}, key)
+        .then(function (data) {
+          var v = Number(data && data.value);
+          if (Number.isFinite(v) && v > 0) merged[key] = v;
+        })
+        .catch(function () {});
+    });
+    if (i < candidates.length - 1) {
+      chain = chain.then(function () { return new Promise(function (r) { setTimeout(r, 400); }); });
+    }
+  });
+  chain.then(function () {
+    playHeatBusy = false;
+    state.playHeat = merged;
+    try { localStorage.setItem(PLAY_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
+    renderTrending();
+  });
+}
+
+function renderTrending() {
+  var wrap = $('trending-wrap');
+  if (!wrap) return;
+  var counts = state.playHeat || playHeatCached() || {};
+  var rows = trendingList(featuredList(), counts, 10);
+  if (!rows.length) { wrap.hidden = true; return; }
+  var html = '';
+  for (var i = 0; i < rows.length; i++) html += cardFm(rows[i].station);
+  $('trending-row').innerHTML = html;
+  wrap.hidden = false;
+}
+
+function initTrending() {
+  // Called once the catalog is loaded: paint cached counts, refresh if stale.
+  renderTrending();
+  fetchPlayHeat();
+}
+
+/* ================= UI ================= */
+
 function switchTab(x) {
   state.activeTab = x;
-  if (x === 'map') {
-    if (mapApi) renderMap();
-    else ensureMap().then(function (m) { m.mapTabOpened(); });
-  } else if (x === 'sdr') {
-    ensureSdr().then(function (m) { m.sdrTabOpened(); });
-  } else if (x === 'fav' || x === 'ar' || x === 'rel' || x === 'eg') {
-    var renderFn = { fav: 'renderFav', ar: 'renderAR', rel: 'renderRel', eg: 'renderEG' }[x];
-    ensureCollections().then(function (m) { m[renderFn](); });
-  }
+  if (x === 'sdr' || x === 'map') { loadModule(x); }
+  else if (x === 'fav' || x === 'ar' || x === 'rel' || x === 'eg') { loadModule('regions'); }
+  if (x === 'map') renderMap();
   ['fm', 'fav', 'ar', 'rel', 'eg', 'sdr', 'map'].forEach(function (k) {
     var tab = $('tab-' + k);
     var panel = $('panel-' + k);
@@ -1136,6 +1739,26 @@ function initSaverButton() {
     toast(isDataSaver() ? t('saver_on') : t('saver_off'));
   });
 }
+function pickSaverStation(station, url) {
+  if (!isDataSaver() || !station) return null;
+  var curBit = Number(station.bitrate) || 0;
+  if (!curBit || curBit <= 96000) return null;
+  var nm = normalizeSearchText(station.name || '');
+  if (!nm) return null;
+  var fallback = null;
+  var list = state.fm || [];
+  for (var i = 0; i < list.length; i++) {
+    var s = list[i];
+    if (!s || s.url === url || !safeHttpsUrl(s.url) || !/^https:/i.test(s.url)) continue;
+    if (normalizeSearchText(s.name || '') !== nm) continue;
+    var b = Number(s.bitrate) || 0;
+    if (!b || b >= curBit) continue;
+    var c = state.streamChecks ? state.streamChecks[s.url] : null;
+    if (c && c.alive) return s;
+    if (!fallback) fallback = s;
+  }
+  return fallback;
+}
 var quickBarRenderedFor = null;
 function renderQuickBar() {
   var bar = $('quick-bar');
@@ -1216,72 +1839,11 @@ function initUI() {
     }
   });
 
-  var qTimer = null;
-  $('q').addEventListener('input', function () {
-    clearTimeout(qTimer);
-    var v = this.value;
-    qTimer = setTimeout(function () { state.filters.q = v; renderSDR(); renderWebSdrs(); renderSatnogs(); }, 150);
-  });
-  $('band').addEventListener('change', function () { state.filters.band = this.value; renderSDR(); });
-  $('sort').addEventListener('change', function () {
-    state.filters.sort = this.value;
-    if (this.value === 'near' && !state.geo) ensureGeo(function () { renderSDR(); });
-    renderSDR();
-  });
-  $('online-only').addEventListener('change', function () { state.filters.onlineOnly = this.checked; renderSDR(); });
-  $('free-only').addEventListener('change', function () { state.filters.freeOnly = this.checked; renderSDR(); });
-  $('minsnr').addEventListener('change', function () { state.filters.minSnr = Number(this.value) || 0; renderSDR(); });
-  $('https-only').addEventListener('change', function () { state.filters.httpsOnly = this.checked; renderSDR(); renderWebSdrs(); renderSatnogs(); });
-  $('rx-type').addEventListener('change', function () { state.filters.rxType = this.value; renderSDR(); renderWebSdrs(); renderSatnogs(); });
-  ['websdr', 'owrx', 'satnogs'].forEach(function (kind) {
-    var g = $('grid-' + kind);
-    if (g) g.addEventListener('click', function (e) {
-      var el = e.target;
-      if (el && el.closest && el.closest('.web-more')) { state.webLimits[kind] += 150; renderWebSdrs(); renderSatnogs(); }
-    });
-  });
-  var alertBtn = $('space-alert-btn');
-  if (alertBtn) alertBtn.addEventListener('click', toggleSpaceAlerts);
-  var eibiSearch = $('eibi-q');
-  if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
-  var mapWrap = $('map-wrap');
-  if (mapWrap) mapWrap.addEventListener('click', function (e) {
-    var dot = e.target && e.target.closest ? e.target.closest('.map-dot') : null;
-    if (!dot) return;
-    var it = mapItems()[Number(dot.getAttribute('data-map-idx'))];
-    if (it && it.url && /^https?:/i.test(it.url)) window.open(it.url, '_blank', 'noopener');
-  });
-  var mapLayersBox = $('map-layers');
-  if (mapLayersBox) mapLayersBox.addEventListener('click', function (e) {
-    var btn = e.target && e.target.closest ? e.target.closest('button.map-layer') : null;
-    if (!btn) return;
-    var k = btn.getAttribute('data-layer');
-    if (k === 'gray') { state.grayline = !state.grayline; }
-    else { state.mapLayers[k] = !state.mapLayers[k]; }
-    if (k === 'aircraft' && state.mapLayers[k]) fetchAircraft();
-    btn.classList.toggle('active', k === 'gray' ? state.grayline : state.mapLayers[k]);
-    renderMap();
-  });
   var historyRow = $('history-row');
   if (historyRow) historyRow.addEventListener('click', function (e) {
     var b = e.target && e.target.closest ? e.target.closest('button.history-chip') : null;
     if (!b) return;
     play(b.getAttribute('data-history-url'), b.getAttribute('data-history-name'))
-  });
-  $('palette-btn').addEventListener('click', paletteOpen);
-  $('palette-close').addEventListener('click', paletteClose);
-  $('palette-q').addEventListener('input', function () { paletteRender(); });
-  $('palette-q').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { e.preventDefault(); palettePlayFirst(); }
-  });
-  $('palette-list').addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button.pal-item') : null;
-    if (!b) return;
-    var idx = Number(b.getAttribute('data-pal-idx'));
-    var r = (state.palette.results || [])[idx];
-    if (!r) return;
-    if (r.kind === 'rx') openSDR(r.url, r.name); else play(r.url, r.name);
-    paletteClose();
   });
   renderHistory();
   initInstallButton();
@@ -1295,6 +1857,7 @@ function initUI() {
   });
   setInterval(function () { if (state.activeTab === 'map') renderMap(); }, 60000);
 }
+
 function init() {
   state.favs = loadFavs();
   state.history = loadHistory();
@@ -1328,95 +1891,3 @@ document.addEventListener('DOMContentLoaded', init);
 
 
 
-
-/* ================= P1-2: lazy ES module loading ================= */
-/* الوحدات الثقيلة (المشغل، SDR، الخريطة، الزوار، لوحة البحث، المجموعات،
-   الكتالوج) بتتحمل ديناميكيًا عند أول استخدام — الزيارة الأولى تنزل
-   النواة فقط (أقل من نص الحجم القديم)، والباقي عند الطلب. */
-
-var playerApi = null, kiwiApi = null, mapApi = null, sdrApi = null;
-var visitorsApi = null, paletteApi = null, collectionsApi = null, catalogApi = null;
-
-function ensurePlayer() { return playerApi ? Promise.resolve(playerApi) : import('./modules/player.js').then(function (m) { playerApi = m; m.initPlayerUI(); return m; }); }
-function ensureKiwi() { return kiwiApi ? Promise.resolve(kiwiApi) : import('./modules/kiwi.js').then(function (m) { kiwiApi = m; m.initKiwiUI(); return m; }); }
-function ensureMap() { return mapApi ? Promise.resolve(mapApi) : import('./modules/map.js').then(function (m) { mapApi = m; return m; }); }
-function ensureSdr() { return sdrApi ? Promise.resolve(sdrApi) : import('./modules/sdr.js').then(function (m) { sdrApi = m; return m; }); }
-function ensureVisitors() { return visitorsApi ? Promise.resolve(visitorsApi) : import('./modules/visitors.js').then(function (m) { visitorsApi = m; return m; }); }
-function ensurePalette() { return paletteApi ? Promise.resolve(paletteApi) : import('./modules/palette.js').then(function (m) { paletteApi = m; return m; }); }
-function ensureCollections() { return collectionsApi ? Promise.resolve(collectionsApi) : import('./modules/collections.js').then(function (m) { collectionsApi = m; return m; }); }
-function ensureCatalog() { return catalogApi ? Promise.resolve(catalogApi) : import('./modules/catalog.js').then(function (m) { catalogApi = m; return m; }); }
-
-/* ---- مندوبات المشغل ---- */
-function play(url, name) { ensurePlayer().then(function (m) { m.play(url, name); }); }
-function playStepStation(dir) { ensurePlayer().then(function (m) { m.playStepStation(dir); }); }
-function initResume() {
-  var last = null;
-  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) {}
-  if (!last || !last.url || !safeHttpsUrl(last.url) || isDmEmbed(last.url)) return;
-  ensurePlayer().then(function (m) { m.initResume(); });
-}
-function renderHistory() { if (playerApi) playerApi.renderHistory(); }
-function closeAlarmModal() { ensurePlayer().then(function (m) { m.closeAlarmModal(); }); }
-
-/* ---- مندوبات SDR ---- */
-function renderSDR() { if (sdrApi) sdrApi.renderSDR(); }
-function renderWebSdrs() { if (sdrApi) sdrApi.renderWebSdrs(); }
-function renderSatnogs() { if (sdrApi) sdrApi.renderSatnogs(); }
-function renderWspr() { if (sdrApi) sdrApi.renderWspr(); }
-function renderSpace() { if (sdrApi) sdrApi.renderSpace(); }
-function renderEibi() { if (sdrApi) sdrApi.renderEibi(); }
-function buildBandFilter() { if (sdrApi) sdrApi.buildBandFilter(); }
-function toggleSpaceAlerts() { ensureSdr().then(function (m) { m.toggleSpaceAlerts(); }); }
-function ensureGeo(cb) { ensureSdr().then(function (m) { m.ensureGeo(cb); }); }
-
-/* ---- مندوبات الخريطة ---- */
-function renderMap() { if (mapApi) mapApi.renderMap(); }
-function mapItems() { return mapApi ? mapApi.mapItems() : []; }
-function fetchAircraft() { if (mapApi) mapApi.fetchAircraft(); }
-
-/* ---- مندوبات الزوار والترند ---- */
-function initVisitorBox() { ensureVisitors().then(function (m) { m.initVisitorBox(); }); }
-function initVisitorGeo() { ensureVisitors().then(function (m) { m.initVisitorGeo(); }); }
-function initTrending() { ensureVisitors().then(function (m) { m.initTrending(); }); }
-function countStationPlay(url) { ensureVisitors().then(function (m) { m.countStationPlay(url); }); }
-function reportPlaybackError(gen, reason) { ensureVisitors().then(function (m) { m.reportPlaybackError(gen, reason); }); }
-
-/* ---- مندوبات لوحة البحث (Ctrl+K) ---- */
-function paletteOpen() { ensurePalette().then(function (m) { m.paletteOpen(); }); }
-function paletteClose() { ensurePalette().then(function (m) { m.paletteClose(); }); }
-function paletteRender() { if (paletteApi) paletteApi.paletteRender(); }
-function palettePlayFirst() { if (paletteApi) paletteApi.palettePlayFirst(); }
-
-/* ---- مندوبات المجموعات (المفضلة/عربي/ديني/مصر) ---- */
-function renderFav() { if (collectionsApi) collectionsApi.renderFav(); }
-function renderEG() { if (collectionsApi) collectionsApi.renderEG(); }
-function renderAR() { if (collectionsApi) collectionsApi.renderAR(); }
-function renderRel() { if (collectionsApi) collectionsApi.renderRel(); }
-
-/* ---- مندوبات الكتالوج ---- */
-function loadStations() { ensureCatalog().then(function (m) { m.loadStations(); }); }
-
-/* ---- مندوبات Kiwi WebAudio ---- */
-function openKiwiAudio(url, name) { ensureKiwi().then(function (m) { m.openKiwiAudio(url, name); }); }
-function closeKiwiAudio() { ensureKiwi().then(function (m) { m.closeKiwiAudio(); }); }
-
-export {
-  state, $, t, esc, toast, fetchJSON, fmtNum, fmtDate,
-  safeHttpUrl, safeHttpsUrl, proxyStreamUrl, stationByUrl,
-  normalizeSearchText, normalizeFm, canonicalLanguage, languageLabel,
-  regionName, flagOf, cardFm, splitList, egAliveRank, fmAliveFiltered, fmAliveSort,
-  currentFMList, homeList, featuredList, FACET_OPTIONS,
-  isDmEmbed, isDataSaver, renderSaverBtn, initSaverButton, updateDocTitle,
-  renderQuickBar, loadHistory, loadStreamChecks, CAIRO,
-  buildFMFacets, renderFM, filterFM, fmClientRender, searchFM,
-  scheduleFMClientRender, cancelFMClientRender,
-  play, playStepStation, initResume, renderHistory, closeAlarmModal,
-  renderSDR, renderWebSdrs, renderSatnogs, renderWspr, renderSpace, renderEibi,
-  buildBandFilter, toggleSpaceAlerts, ensureGeo,
-  renderMap, mapItems, fetchAircraft,
-  initVisitorBox, initVisitorGeo, initTrending, countStationPlay, reportPlaybackError,
-  paletteOpen, paletteClose, paletteRender, palettePlayFirst,
-  renderFav, renderEG, renderAR, renderRel,
-  loadStations, openKiwiAudio, closeKiwiAudio, openSDR, closeSDR,
-  setLang, switchTab, isOfficialStation, handleShareHash
-};
