@@ -85,7 +85,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v61) لـ caching و offline
+- **Service Worker** (sw.js v62) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -114,7 +114,7 @@ Radio/
 │   └── app.js           # منطق التطبيق الرئيسي (~149KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v61)
+├── sw.js                # Service Worker (v62)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -133,6 +133,7 @@ Radio/
 │   ├── eibi.json        # ~138KB
 │   ├── wspr.json
 │   ├── stream_checks.json  # فحوصات الحياة (شغّال / جرّبها / ميت)
+│   ├── error_report.json   # تقرير أخطاء التشغيل اليومي (عدّادات خشنة)
 │   └── discovered_streams.json
 ├── scripts/             # Python stdlib فقط
 │   ├── update_data.py   # crawler رئيسي (طبقات جلب خمس)
@@ -187,8 +188,8 @@ python -m http.server 8000
 
 > 📌 **الخارطة الكاملة المفصلة — الفجوات (16) + المخاطر (11) + التوصيات بالمراحل والأولويات وتعريف الاكتمال — في [ROADMAP.md](ROADMAP.md): الوثيقة الحاكمة للتخطيط.**
 
-- ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) — sw v60
-- ⏳ **الأولوية الجارية (P0):** نشر البروكسي وفق [proxy/README.md](proxy/README.md) → تفعيل STREAM_PROXY → قفله ضد الـ abuse
+- ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) · حوكمة P0 (قفل البروكسي + بوابة مزامنة الوثائق) · مراقبة أخطاء التشغيل الأساسية — sw v62
+- ⏳ **الأولوية الجارية (P0-1):** نشر البروكسي الجديد (المقفول) وفق [proxy/README.md](proxy/README.md) → إرسال workers.dev URL → تفعيل STREAM_PROXY (القفل تم في PR #109)
 - 💡 **أفكار مؤجلة:** دعم البودكاست · نظام تسجيل سحابي للمفضلة · AIS/ADS-B
 
 ## ⚠ قيود معروفة

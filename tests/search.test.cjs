@@ -300,3 +300,14 @@ test('trending list ranks candidates by play count and hides zero counts', () =>
   assert.equal(sandbox.trendingList([], counts, 10).length, 0);
   assert.equal(sandbox.trendingList(stations, counts, 1).length, 1);
 });
+
+
+test('coarse playback error classification covers the known failure reasons', () => {
+  assert.equal(sandbox.coarsePlaybackError('fatal HLS error: networkError'), 'hls');
+  assert.equal(sandbox.coarsePlaybackError('HLS.js unavailable or MediaSource unsupported'), 'hls');
+  assert.equal(sandbox.coarsePlaybackError('Stream token request failed'), 'token');
+  assert.equal(sandbox.coarsePlaybackError('Token-protected HLS requires HLS.js'), 'token');
+  assert.equal(sandbox.coarsePlaybackError('No source URL'), 'other');
+  assert.equal(sandbox.coarsePlaybackError('HTML audio element error'), 'other');
+  assert.equal(sandbox.coarsePlaybackError(''), 'other');
+});

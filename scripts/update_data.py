@@ -1508,6 +1508,72 @@ def apply_alive_overrides(checks):
     return checks
 
 
+ABACUS_ERROR_KEYS = (
+    "err-total",
+    "err-abort",
+    "err-network",
+    "err-decode",
+    "err-src",
+    "err-hls",
+    "err-token",
+    "err-other",
+)
+ABACUS_COUNTER_BASE = "https://abacus.jasoncameron.dev/get/radio-atlas/"
+
+
+def fetch_abacus_count(key):
+    """Read one public Abacus counter (P1-4 error monitoring); 404 = 0."""
+    try:
+        url = ABACUS_COUNTER_BASE + urllib.parse.quote(key, safe="")
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            payload = json.load(resp)
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            return 0
+        return None
+    except Exception:  # noqa: BLE001 — network hiccup: skip this key
+        return None
+    if isinstance(payload, dict) and isinstance(payload.get("value"), (int, float)):
+        return int(payload["value"])
+    return 0
+
+
+def compute_error_daily(previous, current):
+    """Per-key delta between snapshots — the counters are cumulative, so the
+    daily report is today's total minus the last archived total."""
+    daily = {}
+    for key in ABACUS_ERROR_KEYS:
+        if current.get(key) is None:
+            continue
+        daily[key] = max(0, int(current[key]) - int(previous.get(key) or 0))
+    return daily
+
+
+def write_error_report(now_iso):
+    """Archive playback-error counters with the daily snapshot (P1-4)."""
+    path = DATA_DIR / "error_report.json"
+    previous = {}
+    try:
+        previous = (json.loads(path.read_text(encoding="utf-8")) or {}).get("cumulative") or {}
+    except Exception:  # noqa: BLE001 — first run or unreadable file
+        previous = {}
+    cumulative = {}
+    for key in ABACUS_ERROR_KEYS:
+        count = fetch_abacus_count(key)
+        if count is not None:
+            cumulative[key] = count
+    if not cumulative:
+        print("error report: counters unavailable — keeping last snapshot", file=sys.stderr)
+        return
+    daily = compute_error_daily(previous, cumulative)
+    write_json(path, {"updated": now_iso, "cumulative": cumulative, "daily": daily})
+    print(
+        "error report: total {total} (+{delta} since last snapshot)".format(
+            total=cumulative.get("err-total", 0), delta=daily.get("err-total", 0)
+        )
+    )
+
+
 def write_json(path, payload):
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -2353,12 +2419,19 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"country pages FAILED: {e} — keeping last generated pages", file=sys.stderr)
 
+    if mode in {"all", "stations"}:
+        try:
+            write_error_report(now_iso)
+        except Exception as e:  # noqa: BLE001
+            print(f"error report FAILED: {e} — keeping last snapshot", file=sys.stderr)
+
     if not ok:
         sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
+
 
 
 
