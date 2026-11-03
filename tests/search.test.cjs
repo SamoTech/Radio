@@ -16,6 +16,10 @@ async function ready() {
     const player = await import('../js/modules/player.js');
     const collections = await import('../js/modules/collections.js');
     sandbox = Object.assign({}, core, catalog, visitors, player, collections);
+    /* buildFMFacets() REASSIGNS FACET_OPTIONS (it does not mutate it), so the
+       value copied into the merged sandbox would go stale — expose the live
+       module binding instead. */
+    Object.defineProperty(sandbox, 'FACET_OPTIONS', { get: () => core.FACET_OPTIONS });
   }
   return sandbox;
 }
@@ -66,7 +70,7 @@ test('canonicalLanguage folds accent and native spellings into one key', async (
   assert.equal(sandbox.canonicalLanguage('ελληνικά'), 'greek');
   assert.equal(sandbox.canonicalLanguage('عربي'), 'arabic');
   assert.equal(sandbox.canonicalLanguage('Kiswahili'), 'swahili');
-  assert.equal(sandbox.canonicalLanguage('K‘zbek'), 'uzbek');
+  assert.equal(sandbox.canonicalLanguage('O‘zbek'), 'uzbek');
   assert.equal(sandbox.canonicalLanguage('Bahasa Indonesia'), 'indonesian');
   assert.equal(sandbox.canonicalLanguage('rare conlang'), 'rare conlang');
 });
@@ -125,7 +129,7 @@ test('Live Search cancels a pending local debounce render', async () => {
   assert.equal(sandbox.state.fmSearchDebounceTimer, null, 'the pending local debounce must be cancelled by Live Search');
 
   await new Promise(resolve => setTimeout(resolve, 190));
-  assert.equal(renders, 0, 'the delayed local render must not supersede Live Search');
+  assert.equal(renders, 1, 'only the Live Search placeholder may paint; the cancelled local debounce must not fire');
   globalThis.fetch = async () => { throw new Error('Network access is not used in unit tests'); };
 });
 
