@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T20:42:48+00:00",
+ "updated": "2026-11-03T00:54:24+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 303,
+ "count": 304,
  "stations": [
   {
    "id": 3944,
@@ -171,6 +171,16 @@
    "lng": 23.739,
    "alt": 104,
    "url": "https://network.satnogs.org/stations/6/",
+   "https": false
+  },
+  {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -981,16 +991,6 @@
    "lng": 19.16926930632765,
    "alt": 250,
    "url": "https://network.satnogs.org/stations/2246/",
-   "https": false
-  },
-  {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -2634,6 +2634,16 @@
    "https": false
   },
   {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
+   "https": false
+  },
+  {
    "id": 1156,
    "name": "VA2WBT - Montréal, Canada",
    "loc": "FN35em · UHF",
@@ -2894,6 +2904,16 @@
    "https": false
   },
   {
+   "id": 1438,
+   "name": "WB7BBU",
+   "loc": "CN85rp · VHF",
+   "lat": 45.65,
+   "lng": -122.542,
+   "alt": 55,
+   "url": "https://network.satnogs.org/stations/1438/",
+   "https": false
+  },
+  {
    "id": 2937,
    "name": "WH6GVF UHF",
    "loc": "BK29nj · UHF",
@@ -3011,16 +3031,6 @@
    "lng": 151.51,
    "alt": 340,
    "url": "https://network.satnogs.org/stations/2108/",
-   "https": false
-  },
-  {
-   "id": 5294,
-   "name": "ZL1RED",
-   "loc": "RE68pr · VHF / UHF",
-   "lat": -41.28,
-   "lng": 173.29,
-   "alt": 30,
-   "url": "https://network.satnogs.org/stations/5294/",
    "https": false
   },
   {

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02T20:42:48+00:00",
+ "updated": "2026-11-03T00:54:24+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -133,6 +133,14 @@
    "https": false,
    "lat": 53.2311,
    "lon": -2.28785
+  },
+  {
+   "name": "HTTPS://WEBSDR.FI - OH1E, Riku WebSDR Server Ulvila/Pori, Popular. SUOMALAINEN SDR! Paljon liikenetta! 27Mhz CB, RHA68, ",
+   "url": "http://websdr.fi:8080/",
+   "loc": "",
+   "https": false,
+   "lat": 61.3977,
+   "lon": 21.8788
   },
   {
    "name": "KFS WebSDR on the Pacific coast south of San Francisco",
@@ -287,6 +295,14 @@
    "lon": -77.1212
   },
   {
+   "name": "RTLSDR  EM12ho W2DB",
+   "url": "http://2360.ddns.me:8901/",
+   "loc": "",
+   "https": false,
+   "lat": 32.6061,
+   "lon": -97.3712
+  },
+  {
    "name": "- Freebands - Bordeaux (France) 11m / 446 Mhz / Etc ..",
    "url": "http://freebands.websdrbordeaux.fr:9000/",
    "loc": "",
@@ -423,6 +439,14 @@
    "lon": 39.5455
   },
   {
+   "name": "RTLSDR  EM12ho W2DB",
+   "url": "http://108.196.236.231:8901/",
+   "loc": "",
+   "https": false,
+   "lat": 32.6061,
+   "lon": -97.3712
+  },
+  {
    "name": "SBSA SiljansbygdensSandareamatorer, SK4KO, Mora, Sweden",
    "url": "http://websdr.sk4ko.com:8901/",
    "loc": "",
@@ -533,6 +557,14 @@
    "https": false,
    "lat": 25.0227,
    "lon": 121.545
+  },
+  {
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "url": "http://2360.ddns.net:8901/",
+   "loc": "",
+   "https": false,
+   "lat": 32.6061,
+   "lon": -97.3712
   },
   {
    "name": "WebSDR RX network by rw6mit, QTH R6MX | Rostov-on-Don",
@@ -765,14 +797,6 @@
    "https": false,
    "lat": 52.1894,
    "lon": 104.545
-  },
-  {
-   "name": "Fazenda Sao Francisco - Itapeva, SP - Brazil",
-   "url": "http://itapeva.websdr.com.br:8901/",
-   "loc": "",
-   "https": false,
-   "lat": -23.6856,
-   "lon": -48.8712
   },
   {
    "name": "WebSDR | EDDC2 - 7 | Dresden, Germany (test site, may not always be available)",
@@ -1457,14 +1481,6 @@
    "lon": 9.2209586
   },
   {
-   "name": "IZ1MLT",
-   "url": "http://iz1mlt.ddns.net:8074/",
-   "loc": "",
-   "https": false,
-   "lat": 44.554357173021536,
-   "lon": 8.938644946335298
-  },
-  {
    "name": "DB0SMU",
    "url": "http://dh9fg.dynv6.net:5000/",
    "loc": "",
@@ -1535,14 +1551,6 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
-  },
-  {
-   "name": "LW6DSM",
-   "url": "http://lw6dsm.sytes.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -34.5903385739189,
-   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -1695,14 +1703,6 @@
    "https": false,
    "lat": 50.793594,
    "lon": -2.076698
-  },
-  {
-   "name": "Funknetz.nrw",
-   "url": "http://freedmr.ddnss.de:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 51.58353546172424,
-   "lon": 7.143281367997134
   },
   {
    "name": "SDRPaderborn",
@@ -2129,6 +2129,14 @@
    "lon": 19.979464291512027
   },
   {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
+  },
+  {
    "name": "G1WOR",
    "url": "http://81.143.239.74:8073/",
    "loc": "",
@@ -2465,6 +2473,14 @@
    "lon": 6.382
   },
   {
+   "name": "M0LHI",
+   "url": "http://radio.nkpa.co.uk/",
+   "loc": "",
+   "https": false,
+   "lat": 52.22609520584887,
+   "lon": -0.9268577317469995
+  },
+  {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
    "url": "http://wm9h.asuscomm.com/",
    "loc": "",
@@ -2479,14 +2495,6 @@
    "https": false,
    "lat": 45.76417120711562,
    "lon": 21.258847505785486
-  },
-  {
-   "name": "Thunder SDR, Pi4, Diamond D-130J, SDRPlay RSP1A",
-   "url": "http://thunder76.keenetic.pro:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 46.15094200422456,
-   "lon": 8.774320538233441
   },
   {
    "name": "K7KIB SDR West Valley, OR",
@@ -2519,6 +2527,14 @@
    "https": false,
    "lat": -33.6805104914631,
    "lon": 151.10016295797675
+  },
+  {
+   "name": "RTL-SDR Experimental (IK4PKL)",
+   "url": "http://ik4pkl.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 44.04765692817522,
+   "lon": 12.553842125686007
   },
   {
    "name": "DO1TOB WebSDR 2m/70cm",
@@ -2559,6 +2575,14 @@
    "https": false,
    "lat": -29.670421,
    "lon": -51.26532
+  },
+  {
+   "name": "14MD30 - CB + PMR + HAM + AIR",
+   "url": "http://86.227.213.137:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 43.8014,
+   "lon": 4.4612
   },
   {
    "name": "SP9IPZ Jaworzno",
@@ -2769,14 +2793,6 @@
    "lon": 2.584360575239688
   },
   {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
-  },
-  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2847,6 +2863,14 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
+  },
+  {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
   },
   {
    "name": "EastMO R3DKT Receiver",
@@ -3183,14 +3207,6 @@
    "https": true,
    "lat": -22.90332931413584,
    "lon": -47.103712381925774
-  },
-  {
-   "name": "M0KVH",
-   "url": "http://m0kvh.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.92374,
-   "lon": -1.195084
   },
   {
    "name": "HB9AK Hoernli JN47LI",
@@ -4015,6 +4031,14 @@
    "https": true,
    "lat": 54.5,
    "lon": -1
+  },
+  {
+   "name": "Pulsar 3.5MTR (antenne Moxon richting noord horizontaal)",
+   "url": "https://pulsardx.nl/",
+   "loc": "",
+   "https": true,
+   "lat": 51.85320936891584,
+   "lon": 5.764880370406926
   }
  ]
 }
