@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T04:37:19+00:00",
+ "updated": "2026-11-03T07:20:51+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -647,14 +647,6 @@
    "lon": -58.7045
   },
   {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://glockenhof.asuscomm.com:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
-  },
-  {
    "name": "Experimental WEB-SDR Server by SV2YJ in Alexandria GREECE. Pocket RxTx supported.",
    "url": "http://hamradio.sv2yj.live:8901/",
    "loc": "",
@@ -711,14 +703,6 @@
    "lon": 30.2122
   },
   {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://websdr.ddnss.org:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
-  },
-  {
    "name": "Frankonia 595m high and with a Sirio dipol antenna vertical for 11m",
    "url": "http://websdr-dillberg.ddnss.org:8100/",
    "loc": "",
@@ -741,14 +725,6 @@
    "https": false,
    "lat": 49.3243,
    "lon": 11.3819
-  },
-  {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://websdr-jn59nk.ddnss.org:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
   },
   {
    "name": "LZ2KAC WEBSDR RTL2832U/R820T-Receiver",
@@ -1169,6 +1145,14 @@
    "lon": -46.7072826
   },
   {
+   "name": "KJ7ABK - Las Vegas Radio 📻",
+   "url": "https://websdr.kj7abk.com/",
+   "loc": "",
+   "https": true,
+   "lat": 36.035169543538125,
+   "lon": -115.1451676116747
+  },
+  {
    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
    "url": "https://websdr2.scotlandchat.co.uk/",
    "loc": "",
@@ -1559,6 +1543,14 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
+  },
+  {
+   "name": "LW6DSM",
+   "url": "http://lw6dsm.sytes.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -34.5903385739189,
+   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -2137,14 +2129,6 @@
    "lon": 19.979464291512027
   },
   {
-   "name": "LA4M",
-   "url": "https://sdr2forbord.la4m.no/",
-   "loc": "",
-   "https": true,
-   "lat": 63.524932,
-   "lon": 10.892206
-  },
-  {
    "name": "G1WOR",
    "url": "http://81.143.239.74:8073/",
    "loc": "",
@@ -2497,6 +2481,14 @@
    "lon": 6.382
   },
   {
+   "name": "M0LHI",
+   "url": "http://radio.nkpa.co.uk/",
+   "loc": "",
+   "https": false,
+   "lat": 52.22609520584887,
+   "lon": -0.9268577317469995
+  },
+  {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
    "url": "http://wm9h.asuscomm.com/",
    "loc": "",
@@ -2519,6 +2511,14 @@
    "https": false,
    "lat": 45.76417120711562,
    "lon": 21.258847505785486
+  },
+  {
+   "name": "Thunder SDR, Pi4, Diamond D-130J, SDRPlay RSP1A",
+   "url": "http://thunder76.keenetic.pro:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 46.15094200422456,
+   "lon": 8.774320538233441
   },
   {
    "name": "K7KIB SDR West Valley, OR",
@@ -2599,6 +2599,14 @@
    "https": false,
    "lat": -29.670421,
    "lon": -51.26532
+  },
+  {
+   "name": "14MD30 - CB + PMR + HAM + AIR",
+   "url": "http://86.227.213.137:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 43.8014,
+   "lon": 4.4612
   },
   {
    "name": "SP9IPZ Jaworzno",
@@ -2985,6 +2993,14 @@
    "lon": 21.74211604483649
   },
   {
+   "name": "2E0DGP WEBSDR",
+   "url": "http://sdr.ladar.club:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.65548338507698,
+   "lon": -2.631403032915911
+  },
+  {
    "name": "M0LHI",
    "url": "https://radio.nkpa.co.uk/",
    "loc": "",
@@ -3135,14 +3151,6 @@
    "https": false,
    "lat": 48.27418953728998,
    "lon": 9.012116093047542
-  },
-  {
-   "name": "VK4AID",
-   "url": "https://sdr.dyne.family/",
-   "loc": "",
-   "https": true,
-   "lat": -27.539476991027083,
-   "lon": 152.96831696001794
   },
   {
    "name": "<font color=gold>R.D.</font>",
@@ -3471,14 +3479,6 @@
    "https": false,
    "lat": 44.03699,
    "lon": 12.60447
-  },
-  {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
   },
   {
    "name": "S59EKL",
@@ -4015,30 +4015,6 @@
    "https": true,
    "lat": 51.85320936891584,
    "lon": 5.764880370406926
-  },
-  {
-   "name": "SwR - Global Radio",
-   "url": "https://sdr.kruen.app/",
-   "loc": "",
-   "https": true,
-   "lat": 50.49,
-   "lon": 15.52
-  },
-  {
-   "name": "YO2CPS",
-   "url": "http://yo2cps.go.ro:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.863523648352725,
-   "lon": 22.89565117516746
-  },
-  {
-   "name": "IA5ITY",
-   "url": "http://ia5itywebsdr.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 42.748471127688326,
-   "lon": 10.12352887691887
   }
  ]
 }

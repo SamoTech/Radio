@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T04:37:19+00:00",
+ "updated": "2026-11-03T07:20:51+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 301,
+ "count": 299,
  "stations": [
   {
    "id": 3944,
@@ -24,16 +24,6 @@
    "https": false
   },
   {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -41,16 +31,6 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -381,6 +361,16 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
+   "https": false
+  },
+  {
+   "id": 5112,
+   "name": "CIA_S4",
+   "loc": "PL04ox · UHF",
+   "lat": 24.971562604021216,
+   "lng": 121.19205965975814,
+   "alt": 190,
+   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -794,6 +784,16 @@
    "https": false
   },
   {
+   "id": 4136,
+   "name": "estima5633",
+   "loc": "PM85ma · UHF",
+   "lat": 35.011,
+   "lng": 137.077,
+   "alt": 25,
+   "url": "https://network.satnogs.org/stations/4136/",
+   "https": false
+  },
+  {
    "id": 1710,
    "name": "EU1AEM",
    "loc": "KO33ov · UHF",
@@ -811,16 +811,6 @@
    "lng": 27.09,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/2029/",
-   "https": false
-  },
-  {
-   "id": 2202,
-   "name": "EU1AEM",
-   "loc": "KO33mv · VHF",
-   "lat": 53.902,
-   "lng": 27.047,
-   "alt": 280,
-   "url": "https://network.satnogs.org/stations/2202/",
    "https": false
   },
   {
@@ -981,6 +971,16 @@
    "lng": 19.16926930632765,
    "alt": 250,
    "url": "https://network.satnogs.org/stations/2246/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1354,16 +1354,6 @@
    "https": false
   },
   {
-   "id": 430,
-   "name": "Leonidio",
-   "loc": "KM17kd · UHF",
-   "lat": 37.1580041,
-   "lng": 22.8930827,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/430/",
-   "https": false
-  },
-  {
    "id": 3021,
    "name": "LSTN Station at Gates County Public Library",
    "loc": "FM16oj · UHF",
@@ -1661,16 +1651,6 @@
    "lng": -120.57,
    "alt": 37,
    "url": "https://network.satnogs.org/stations/3382/",
-   "https": false
-  },
-  {
-   "id": 4917,
-   "name": "N6UA",
-   "loc": "DN71se",
-   "lat": 41.18,
-   "lng": -104.5,
-   "alt": 1825,
-   "url": "https://network.satnogs.org/stations/4917/",
    "https": false
   },
   {
@@ -2624,16 +2604,6 @@
    "https": false
   },
   {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
-   "https": false
-  },
-  {
    "id": 1156,
    "name": "VA2WBT - Montréal, Canada",
    "loc": "FN35em · UHF",
@@ -3001,6 +2971,16 @@
    "lng": 151.51,
    "alt": 340,
    "url": "https://network.satnogs.org/stations/2108/",
+   "https": false
+  },
+  {
+   "id": 5294,
+   "name": "ZL1RED",
+   "loc": "RE68pr · VHF / UHF",
+   "lat": -41.28,
+   "lng": 173.29,
+   "alt": 30,
+   "url": "https://network.satnogs.org/stations/5294/",
    "https": false
   },
   {
