@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T09:43:15+00:00",
+ "updated": "2026-11-03T14:02:45+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -85,14 +85,6 @@
    "https": false,
    "lat": -33.7273,
    "lon": -61.9545
-  },
-  {
-   "name": "Tres Arroyos receptor sdr",
-   "url": "http://lu3dj.ddns.net:8080/",
-   "loc": "",
-   "https": false,
-   "lat": -38.3523,
-   "lon": -60.2878
   },
   {
    "name": "AMSAT-UK VHF Goonhilly WebSDR",
@@ -295,7 +287,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -439,7 +431,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -559,7 +551,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -775,6 +767,14 @@
    "lon": 104.545
   },
   {
+   "name": "Fazenda Sao Francisco - Itapeva, SP - Brazil",
+   "url": "http://itapeva.websdr.com.br:8901/",
+   "loc": "",
+   "https": false,
+   "lat": -23.6856,
+   "lon": -48.8712
+  },
+  {
    "name": "WebSDR | EDDC2 - 7 | Dresden, Germany (test site, may not always be available)",
    "url": "http://jimjackii.no-ip.org:8091/",
    "loc": "",
@@ -937,14 +937,6 @@
    "lon": 2.45481895985258
   },
   {
-   "name": "144-146 430-434 435-438 MHz SDR RTL-SDR.COM V4 | IW2KPL Franco | VHF | 2m | UHF | 70cm | SHF | 23 cm Antenna : Diamond D",
-   "url": "http://www.dxcluster.world:8074/",
-   "loc": "",
-   "https": false,
-   "lat": 45.692702,
-   "lon": 9.65655
-  },
-  {
    "name": "[100kHz - 30MHz] Sainte-Marie, Quebec, Canada",
    "url": "https://yhsecurity.com/openwebrx/",
    "loc": "",
@@ -1079,14 +1071,6 @@
    "https": true,
    "lat": 40.17169881641947,
    "lon": -111.62630783081055
-  },
-  {
-   "name": "SV6DBG Ioannina NW Greece",
-   "url": "http://sv6dbg.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 39.670356756247976,
-   "lon": 20.85605144988941
   },
   {
    "name": "ON0LLV",
@@ -1473,6 +1457,14 @@
    "lon": 10.770587
   },
   {
+   "name": "K4MBD",
+   "url": "https://sdr.backyard.stream/",
+   "loc": "",
+   "https": true,
+   "lat": 36.148751336174364,
+   "lon": -82.69378453297419
+  },
+  {
    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
    "url": "http://nieuwkerke.on4ipr.be:8074/",
    "loc": "",
@@ -1527,14 +1519,6 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
-  },
-  {
-   "name": "LW6DSM",
-   "url": "http://lw6dsm.sytes.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -34.5903385739189,
-   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -2017,6 +2001,14 @@
    "lon": 26.08125
   },
   {
+   "name": "HB9EUE",
+   "url": "http://websdr.hb9eue.radio:8901/",
+   "loc": "",
+   "https": false,
+   "lat": 47.44275518003912,
+   "lon": 8.32907152225073
+  },
+  {
    "name": "OpenWebRX+ | RTL-SDR Fake V4 | Moscow | ZAO | https://t.me/sdrzao",
    "url": "http://95.165.144.131:8073/",
    "loc": "",
@@ -2063,6 +2055,14 @@
    "https": false,
    "lat": 59.3740811914467,
    "lon": 28.1903479469811
+  },
+  {
+   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
+   "url": "http://e25wop.thddns.net:2253/",
+   "loc": "",
+   "https": false,
+   "lat": 13.5955566,
+   "lon": 100.5617591
   },
   {
    "name": "Montanaro SDR",
@@ -2801,6 +2801,14 @@
    "lon": 2.584360575239688
   },
   {
+   "name": "EHFW 1:49 20 M. Feed IU3UXK",
+   "url": "http://www.pietromezza.com:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.5118174740562,
+   "lon": 12.3036804522063
+  },
+  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -3135,6 +3143,14 @@
    "https": false,
    "lat": 48.27418953728998,
    "lon": 9.012116093047542
+  },
+  {
+   "name": "VK4AID",
+   "url": "https://sdr.dyne.family/",
+   "loc": "",
+   "https": true,
+   "lat": -27.539476991027083,
+   "lon": 152.96831696001794
   },
   {
    "name": "<font color=gold>R.D.</font>",
@@ -3999,22 +4015,6 @@
    "https": true,
    "lat": 54.5,
    "lon": -1
-  },
-  {
-   "name": "Pulsar 3.5MTR (antenne Moxon richting noord horizontaal)",
-   "url": "https://pulsardx.nl/",
-   "loc": "",
-   "https": true,
-   "lat": 51.85320936891584,
-   "lon": 5.764880370406926
-  },
-  {
-   "name": "SwR - Global Radio",
-   "url": "https://sdr.kruen.app/",
-   "loc": "",
-   "https": true,
-   "lat": 50.49,
-   "lon": 15.52
   }
  ]
 }

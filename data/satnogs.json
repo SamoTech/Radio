@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T09:43:15+00:00",
+ "updated": "2026-11-03T14:02:45+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 300,
  "stations": [
@@ -31,6 +31,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -1021,6 +1031,16 @@
    "lng": 0.813,
    "alt": 50,
    "url": "https://network.satnogs.org/stations/5140/",
+   "https": false
+  },
+  {
+   "id": 4330,
+   "name": "I LOVE BALI",
+   "loc": "OI71ng · HF, VHF, UHF, L",
+   "lat": -8.7456,
+   "lng": 115.1605,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/4330/",
    "https": false
   },
   {
@@ -2424,26 +2444,6 @@
    "https": false
   },
   {
-   "id": 5115,
-   "name": "SS",
-   "loc": "NJ07ig · UHF",
-   "lat": 7.27601582940281,
-   "lng": 80.7251167196346,
-   "alt": 470,
-   "url": "https://network.satnogs.org/stations/5115/",
-   "https": false
-  },
-  {
-   "id": 2824,
-   "name": "ST-HN",
-   "loc": "OL21rc · VHF / UHF",
-   "lat": 21.1133,
-   "lng": 105.4475,
-   "alt": 10,
-   "url": "https://network.satnogs.org/stations/2824/",
-   "https": false
-  },
-  {
    "id": 1650,
    "name": "station-01",
    "loc": "EK37mx · UHF",
@@ -2814,6 +2814,16 @@
    "https": false
   },
   {
+   "id": 4254,
+   "name": "VU3IPU - Varun",
+   "loc": "MK82sx · VHF / UHF",
+   "lat": 12.991308,
+   "lng": 77.576969,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4254/",
+   "https": false
+  },
+  {
    "id": 223,
    "name": "W2MMD GCARC Clubhouse",
    "loc": "FM29jr · UHF / VHF",
@@ -2901,16 +2911,6 @@
    "lng": 17.037027,
    "alt": 139,
    "url": "https://network.satnogs.org/stations/4924/",
-   "https": false
-  },
-  {
-   "id": 4355,
-   "name": "YC8UMD",
-   "loc": "PJ21ji · UHF",
-   "lat": 1.365176,
-   "lng": 124.827774,
-   "alt": 675,
-   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {
