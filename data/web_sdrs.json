@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T14:02:45+00:00",
+ "updated": "2026-11-03T17:41:04+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -245,14 +245,6 @@
    "https": false,
    "lat": 41.3977,
    "lon": 2.12882
-  },
-  {
-   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
-   "url": "http://el22.dyndns-blog.com:8080/",
-   "loc": "",
-   "https": false,
-   "lat": -34.1023,
-   "lon": -61.6212
   },
   {
    "name": "WebSDR Maasbree Netherlands (Low): rural low noise level, 160m/80m/60m/40m/30m/20m/17m/15m band, CW segments included",
@@ -605,14 +597,6 @@
    "https": false,
    "lat": 51.6061,
    "lon": 10.4622
-  },
-  {
-   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
-   "url": "http://el22.dyndns-blog.com:8081/",
-   "loc": "",
-   "https": false,
-   "lat": -34.1023,
-   "lon": -61.3712
   },
   {
    "name": "Red Pitaya SDR",
@@ -1129,6 +1113,14 @@
    "lon": -46.7072826
   },
   {
+   "name": "KJ7ABK - Las Vegas Radio 📻",
+   "url": "https://websdr.kj7abk.com/",
+   "loc": "",
+   "https": true,
+   "lat": 36.035169543538125,
+   "lon": -115.1451676116747
+  },
+  {
    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
    "url": "https://websdr2.scotlandchat.co.uk/",
    "loc": "",
@@ -1519,6 +1511,14 @@
    "https": false,
    "lat": 49.016763,
    "lon": 10.748903
+  },
+  {
+   "name": "LW6DSM",
+   "url": "http://lw6dsm.sytes.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -34.5903385739189,
+   "lon": -58.393383528043934
   },
   {
    "name": "M8YRT OWRX No.1",
@@ -2103,14 +2103,6 @@
    "https": false,
    "lat": 50.01784830798169,
    "lon": 19.979464291512027
-  },
-  {
-   "name": "LA4M",
-   "url": "https://sdr2forbord.la4m.no/",
-   "loc": "",
-   "https": true,
-   "lat": 63.524932,
-   "lon": 10.892206
   },
   {
    "name": "G1WOR",
@@ -3489,6 +3481,14 @@
    "lon": 12.60447
   },
   {
+   "name": "Receiver",
+   "url": "https://sdr.surrealservers.net/",
+   "loc": "",
+   "https": true,
+   "lat": 37.39837482690734,
+   "lon": -79.18129126969339
+  },
+  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3769,6 +3769,14 @@
    "lon": -66.93224034342178
   },
   {
+   "name": "Vietanh's SDR",
+   "url": "https://sdr.maytinhvietanh.id.vn/",
+   "loc": "",
+   "https": true,
+   "lat": 20.37338064710488,
+   "lon": 106.07232395276195
+  },
+  {
    "name": "Indonesia | VHF | UHF | Airband | FM Broadcast",
    "url": "https://openwebrx.dpdns.org/",
    "loc": "",
@@ -3913,14 +3921,6 @@
    "lon": 9.72564336846846
   },
   {
-   "name": "Sasa SDR",
-   "url": "https://sdr.grmljavina.net/",
-   "loc": "",
-   "https": true,
-   "lat": 44.699745,
-   "lon": 17.196396
-  },
-  {
    "name": "PD7SVD - Gouda",
    "url": "https://websdr.pd7svd.nl/",
    "loc": "",
@@ -3999,22 +3999,6 @@
    "https": true,
    "lat": 54.00334948205416,
    "lon": -1.3030173782748222
-  },
-  {
-   "name": "https://owrx.uk - HF RECEIVER 03 - SDRplay RSP1B - 41.7m EFLW - M7NXS",
-   "url": "https://hf3.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 53.96235105441253,
-   "lon": -1.0820809709781407
-  },
-  {
-   "name": "https://owrx.uk - AI HOPPER - RTL-SDR Blog V4 - Diamond D3000N Discone - M7NXS",
-   "url": "https://vhf1.owrx.uk/",
-   "loc": "",
-   "https": true,
-   "lat": 54.5,
-   "lon": -1
   }
  ]
 }
