@@ -112,20 +112,19 @@ var CATEGORY_LABELS = {
 };
 var FACET_OPTIONS = {country:[],language:[],tag:[]};
 var fmSearchSequence = 0;
-var fmSearchDebounceTimer = null;
 var fmFacetAuto = {};
 
 function cancelFMClientRender() {
-  if (fmSearchDebounceTimer !== null) {
-    clearTimeout(fmSearchDebounceTimer);
-    fmSearchDebounceTimer = null;
+  if (state.fmSearchDebounceTimer !== null) {
+    clearTimeout(state.fmSearchDebounceTimer);
+    state.fmSearchDebounceTimer = null;
   }
 }
 
 function scheduleFMClientRender() {
   cancelFMClientRender();
-  fmSearchDebounceTimer = setTimeout(function () {
-    fmSearchDebounceTimer = null;
+  state.fmSearchDebounceTimer = setTimeout(function () {
+    state.fmSearchDebounceTimer = null;
     fmClientRender();
   }, 160);
 }
@@ -325,7 +324,11 @@ var state = {
   playerMuted: false,
   dataSaver: false,
   history: [],
-  palette: { results: [] }
+  palette: { results: [] },
+  streamProxy: '',
+  ebTokenCache: {},
+  fmSearchDebounceTimer: null,
+  previousSDRFocus: null
 };
 
 function $(id) { return document.getElementById(id); }
@@ -366,11 +369,10 @@ function safeHttpsUrl(value) {
 /* Cloudflare Worker relay (see proxy/README.md). Empty until the worker is
    deployed; when set it becomes the last-resort playback source for streams
    that fail direct playback (CORS or geo blocks). */
-var STREAM_PROXY = '';
 
 function proxyStreamUrl(url) {
-  if (!STREAM_PROXY || !url) return '';
-  return STREAM_PROXY.replace(/\/+$/, '') + '/stream?url=' + encodeURIComponent(url);
+  if (!state.streamProxy || !url) return '';
+  return state.streamProxy.replace(/\/+$/, '') + '/stream?url=' + encodeURIComponent(url);
 }
 
 function fmtNum(n) {
@@ -484,497 +486,17 @@ function toggleFav(s) {
   renderRel();
 }
 
-/* ================= KiwiSDR ================= */
+/* ================= listen history ================= */
 
-function normalizeRx(r) {
-  var url = safeHttpUrl(r.url || '');
-  return {
-    name: r.name || '—',
-    url: url,
-    https: /^https:/i.test(url),
-    online: !!r.online,
-    users: Number(r.users) || 0,
-    maxUsers: Number(r.max_users) || 0,
-    snr: r.snr == null ? null : Number(r.snr),
-    gps: !!r.gps,
-    gpsCoords: Array.isArray(r.gps) && r.gps.length === 2 ? [Number(r.gps[0]), Number(r.gps[1])] : null,
-    band: r.band || '',
-    loc: r.loc || '',
-    antenna: r.antenna || '',
-    extApi: r.ext_api == null ? 0 : (Number(r.ext_api) || 0),
-    type: 'kiwi'
-  };
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('ra-history') || '[]') || []; } catch (e) { return []; }
 }
 
-function loadKiwi() {
-  return fetchJSON('data/kiwisdr.json').then(function (data) {
-    if (data && Array.isArray(data.receivers)) {
-      state.receivers = data.receivers.map(normalizeRx);
-      state.updated = data.updated;
-      renderMap();
-    }
-  }).catch(function (e) {
-    console.warn('kiwisdr snapshot:', e);
-  }).then(function () {
-    renderStats();
-    buildBandFilter();
-    renderSDR();
-  });
-}
-
-function renderStats() {
-  var total = state.receivers.length;
-  var online = 0, listeners = 0;
-  state.receivers.forEach(function (r) {
-    if (r.online) { online++; listeners += r.users; }
-  });
-  $('stat-total').textContent = fmtNum(total);
-  $('stat-online').textContent = fmtNum(online);
-  $('stat-listeners').textContent = fmtNum(listeners);
-  $('stat-updated').textContent = fmtDate(state.updated);
-}
-
-function buildBandFilter() {
-  var sel = $('band');
-  var bands = {};
-  state.receivers.forEach(function (r) {
-    var b = r.band || t('no_band');
-    bands[b] = (bands[b] || 0) + 1;
-  });
-  var keys = Object.keys(bands).sort(function (a, b) { return bands[b] - bands[a]; });
-  sel.innerHTML = '<option value="all">' + esc(t('all_bands')) + '</option>' + keys.map(function (k) {
-    return '<option value="' + esc(k) + '">' + esc(k) + ' (' + bands[k] + ')</option>';
-  }).join('');
-  sel.value = state.filters.band;
+function isDmEmbed(url) {
+  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
 }
 
 var CAIRO = { lat: 30.0444, lon: 31.2357 };
-function havKm(a, b) {
-  var rad = Math.PI / 180;
-  var dLat = (b.lat - a.lat) * rad;
-  var dLon = (b.lon - a.lon) * rad;
-  var x = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  return Math.round(2 * 6371 * Math.asin(Math.sqrt(x)));
-}
-function ensureGeo(cb) {
-  if (state.geo) return cb(state.geo);
-  var saved = null;
-  try { saved = JSON.parse(localStorage.getItem('ra-geo') || 'null'); } catch (e) { saved = null; }
-  if (saved && typeof saved.lat === 'number' && typeof saved.lon === 'number') { state.geo = saved; return cb(state.geo); }
-  if (!navigator.geolocation) { state.geo = CAIRO; toast(t('geo_fallback')); return cb(state.geo); }
-  navigator.geolocation.getCurrentPosition(function (p) {
-    state.geo = { lat: p.coords.latitude, lon: p.coords.longitude };
-    try { localStorage.setItem('ra-geo', JSON.stringify(state.geo)); } catch (e) {}
-    cb(state.geo);
-  }, function () {
-    state.geo = CAIRO;
-    toast(t('geo_fallback')); // fallback center
-    cb(state.geo);
-  }, { timeout: 8000 });
-}
-
-function applyFilters() {
-  var f = state.filters;
-  var q = f.q.trim().toLowerCase();
-  var list = state.receivers.filter(function (r) {
-    if (f.onlineOnly && !r.online) return false;
-    if (f.httpsOnly && !r.https) return false;
-    if (state.geo && r.gpsCoords) r.dist = havKm(state.geo, { lat: r.gpsCoords[0], lon: r.gpsCoords[1] }); else r.dist = null;
-    if (f.band !== 'all' && (r.band || t('no_band')) !== f.band) return false;
-    if (f.freeOnly && !(r.maxUsers > 0 && r.users < r.maxUsers)) return false;
-    if (f.minSnr > 0 && !(r.snr != null && r.snr >= f.minSnr)) return false;
-    if (q) {
-      var hay = (r.name + ' ' + r.url + ' ' + r.band + ' ' + r.loc + ' ' + r.antenna).toLowerCase();
-      if (hay.indexOf(q) === -1) return false;
-    }
-    var rxType = f.rxType || 'all';
-    if (rxType !== 'all') {
-      if (rxType === 'kiwi' && r.type !== 'kiwi') return false;
-      if (rxType === 'websdr' && r.type !== 'websdr') return false;
-      if (rxType === 'owrx' && r.type !== 'owrx') return false;
-    }
-    return true;
-  });
-  list.sort(function (a, b) {
-    if (a.online !== b.online) return a.online ? -1 : 1;
-    if (f.sort === 'name') return a.name.localeCompare(b.name, state.lang);
-    if (f.sort === 'near') {
-      var da = a.dist == null ? Infinity : a.dist;
-      var db = b.dist == null ? Infinity : b.dist;
-      return da - db;
-    }
-    if (f.sort === 'free') return (b.maxUsers - b.users) - (a.maxUsers - a.users);
-    if (f.sort === 'users') return a.users - b.users;
-    var sa = a.snr == null ? -1 : a.snr;
-    var sb = b.snr == null ? -1 : b.snr;
-    return sb - sa;
-  });
-  return list;
-}
-
-function cardRx(r) {
-  var cls = 'card' + (r.online ? '' : ' off');
-  var snr = r.snr == null ? '—' : r.snr + ' dB';
-  var users = r.users + '/' + (r.maxUsers || '?');
-  var chips = '';
-  if (r.band) chips += '<span class="chip">' + esc(r.band) + '</span>';
-  if (r.loc) chips += '<span class="chip">📍 ' + esc(r.loc) + '</span>';
-  if (r.gps) chips += '<span class="chip gps">📡 GPS</span>';
-  if (r.dist != null) chips += '<span class="chip">🧭 ' + fmtNum(r.dist) + ' km</span>';
-  var action = '';
-  if (r.url) {
-    action = r.https
-      ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
-      : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
-  }
-  if (r.url && r.https && r.extApi > 0) {
-    action += '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" title="' + esc(t('kiwi_audio')) + '">' + esc(t('kiwi_audio')) + '</button>';
-  }
-  return '<article class="' + cls + '">' +
-    '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
-    '<h3>' + esc(r.name) + '</h3></div>' +
-    (chips ? '<div class="chips">' + chips + '</div>' : '') +
-    '<div class="meta"><span>👥 ' + users + '</span><span class="snr">📶 SNR ' + snr + '</span></div>' +
-    (r.antenna ? '<div class="meta antenna" title="' + esc(r.antenna) + '">🛰 ' + esc(r.antenna) + '</div>' : '') +
-    action +
-    '</article>';
-}
-
-function renderSDR() {
-  var grid = $('grid-sdr');
-  if (!state.receivers.length) {
-    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
-    $('count-sdr').textContent = '';
-    return;
-  }
-  var list = applyFilters();
-  $('count-sdr').textContent = t('results').replace('{n}', fmtNum(list.length));
-  grid.innerHTML = list.length ? list.map(cardRx).join('')
-    : '<div class="empty">' + esc(t('no_match')) + '</div>';
-}
-
-/* ================= WSPR observed propagation ================= */
-
-var WSPR_BAND_LABELS = { '-1': '2200m', 0: '630m', 1: '160m', 3: '80m', 5: '60m', 7: '40m', 10: '30m', 14: '20m', 18: '17m', 21: '15m', 24: '12m', 28: '10m', 27: '11m', 40: '8m', 50: '6m', 70: '4m', 144: '2m', 430: '70cm', 432: '70cm', 1296: '23cm' };
-
-function wsprBandLabel(b) {
-  var key = Number(b);
-  return WSPR_BAND_LABELS[key] || (key + ' MHz');
-}
-
-function renderWspr() {
-  var panel = $('wspr-panel');
-  if (!panel || !state.wspr) return;
-  panel.hidden = false;
-  var bands = state.wspr.bands || [];
-  $('wspr-bands').innerHTML = bands.slice(0, 12).map(function (b) {
-    return '<span class="chip wspr-band"><b>' + esc(wsprBandLabel(b.band)) + '</b> ' + esc(fmtNum(b.c)) + ' 📶 · ↑ ' + esc(fmtNum(b.max_km)) + ' km</span>';
-  }).join('');
-  var top = state.wspr.top || [];
-  $('wspr-top').innerHTML = top.map(function (s) {
-    var path = esc(s.tx) + (s.tx_loc ? ' (' + esc(s.tx_loc) + ')' : '') + ' → ' + esc(s.rx) + (s.rx_loc ? ' (' + esc(s.rx_loc) + ')' : '');
-    return '<div class="eibi-row"><span>📡 ' + path + '</span><span class="snr">' + esc(fmtNum(s.km)) + ' km · ' + esc(wsprBandLabel(s.band)) + '</span></div>';
-  }).join('');
-  if (state.wspr.updated) $('wspr-updated').textContent = t('updated_at') + ': ' + fmtDate(state.wspr.updated);
-}
-
-function loadWspr() {
-  return fetchJSON('data/wspr.json').then(function (data) {
-    if (data && Array.isArray(data.bands) && data.bands.length) {
-      state.wspr = data;
-      renderWspr();
-    }
-  }).catch(function (e) {
-    console.warn('wspr snapshot:', e);
-  });
-}
-
-/* ================= WebSDR / OpenWebRX directories ================= */
-
-function webSdrCard(r) {
-  var action = r.https
-    ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
-    : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
-  return '<article class="card">' +
-    '<div class="card-head"><h3>' + esc(r.name) + '</h3></div>' +
-    (r.loc ? '<div class="chips"><span class="chip">📍 ' + esc(r.loc) + '</span></div>' : '') +
-    action +
-    '</article>';
-}
-
-function applyWebFilters(list) {
-  var f = state.filters;
-  var q = f.q.trim().toLowerCase();
-  var rxType = f.rxType || 'all';
-  return (list || []).filter(function (r) {
-    if (f.httpsOnly && !r.https) return false;
-    if (rxType !== 'all' && r.type !== rxType) return false;
-    if (q) {
-      var hay = (r.name + ' ' + (r.loc || '') + ' ' + r.url).toLowerCase();
-      if (hay.indexOf(q) === -1) return false;
-    }
-    return true;
-  }).sort(function (a, b) {
-    var ha = a.https ? 1 : 0, hb = b.https ? 1 : 0;
-    return hb - ha || a.name.localeCompare(b.name, state.lang);
-  });
-}
-
-function renderWebSdrGrid(gridId, countId, panelId, list, kind) {
-  var grid = $(gridId);
-  var panel = $(panelId);
-  if (!grid || !panel) return;
-  if (!list || !list.length) { panel.hidden = true; return; }
-  panel.hidden = false;
-  var filtered = applyWebFilters(list);
-  var limit = state.webLimits[kind];
-  $(countId).textContent = t('results').replace('{n}', fmtNum(filtered.length));
-  if (!filtered.length) { grid.innerHTML = '<div class="empty">' + esc(t('no_match')) + '</div>'; return; }
-  grid.innerHTML = filtered.slice(0, limit).map(webSdrCard).join('') +
-    (filtered.length > limit
-      ? '<div class="more-wrap"><button class="btn ghost web-more" type="button" data-more-kind="' + esc(kind) + '">' + esc(t('more_rx').replace('{n}', fmtNum(filtered.length - limit))) + '</button></div>'
-      : '');
-}
-
-function renderWebSdrs() {
-  if (!state.webSdrs) return;
-  renderWebSdrGrid('grid-websdr', 'websdr-count', 'websdr-panel', state.webSdrs.websdr, 'websdr');
-  renderWebSdrGrid('grid-owrx', 'owrx-count', 'owrx-panel', state.webSdrs.openwebrx, 'owrx');
-}
-
-function loadWebSdrs() {
-  return fetchJSON('data/web_sdrs.json').then(function (data) {
-    if (data && (Array.isArray(data.websdr) || Array.isArray(data.openwebrx))) {
-      (data.websdr || []).forEach(function (r) { r.type = 'websdr'; });
-      (data.openwebrx || []).forEach(function (r) { r.type = 'owrx'; });
-      state.webSdrs = data;
-      renderWebSdrs();
-      renderMap();
-    }
-  }).catch(function (e) {
-    console.warn('web sdrs snapshot:', e);
-  });
-}
-
-function renderSatnogs() {
-  if (!state.satnogs) return;
-  renderWebSdrGrid('grid-satnogs', 'satnogs-count', 'satnogs-panel', state.satnogs.stations, 'satnogs');
-}
-
-function loadSatnogs() {
-  return fetchJSON('data/satnogs.json').then(function (data) {
-    if (data && Array.isArray(data.stations)) {
-      data.stations.forEach(function (r) { r.type = 'satnogs'; });
-      state.satnogs = data;
-      renderSatnogs();
-      renderMap();
-    }
-  }).catch(function (e) {
-    console.warn('satnogs snapshot:', e);
-  });
-}
-
-/* ================= Receiver world map ================= */
-
-function mapXY(lat, lon) {
-  var x = (Number(lon) + 180) / 360;
-  var y = (90 - Number(lat)) / 180;
-  return [Math.round(x * 7200) / 10, Math.round(y * 3600) / 10];
-}
-
-function mapTopoLand(topo) {
-  if (!topo || !topo.transform || !Array.isArray(topo.arcs) || !topo.objects) return '';
-  var tf = topo.transform;
-  var sx = tf.scale[0], sy = tf.scale[1], tx = tf.translate[0], ty = tf.translate[1];
-  var arcs = topo.arcs.map(function (arc) {
-    var x = 0, y = 0;
-    return arc.map(function (pt) {
-      x += pt[0]; y += pt[1];
-      return [x * sx + tx, y * sy + ty];
-    });
-  });
-  function ringPath(indices) {
-    var pts = [];
-    indices.forEach(function (idx) {
-      var rev = idx < 0;
-      var a = arcs[rev ? ~idx : idx] || [];
-      var seg = rev ? a.slice().reverse() : a;
-      seg.forEach(function (p) {
-        if (!pts.length || p[0] !== pts[pts.length - 1][0] || p[1] !== pts[pts.length - 1][1]) pts.push(p);
-      });
-    });
-    if (pts.length < 3) return '';
-    var d = 'M' + pts[0][0].toFixed(2) + ' ' + pts[0][1].toFixed(2);
-    for (var i = 1; i < pts.length; i++) d += 'L' + pts[i][0].toFixed(2) + ' ' + pts[i][1].toFixed(2);
-    return d + 'Z';
-  }
-  var dAll = [];
-  function walk(obj) {
-    if (!obj || typeof obj !== 'object') return;
-    if (obj.type === 'Polygon') {
-      (obj.arcs || []).forEach(function (r) { dAll.push(ringPath(r)); });
-    } else if (obj.type === 'MultiPolygon') {
-      (obj.arcs || []).forEach(function (poly) {
-        poly.forEach(function (r) { dAll.push(ringPath(r)); });
-      });
-    } else if (obj.type === 'GeometryCollection') {
-      (obj.geometries || []).forEach(walk);
-    }
-  }
-  walk(topo.objects.land || topo.objects.countries);
-  return dAll.join('');
-}
-
-function subSolar(d) {
-  var start = Date.UTC(d.getUTCFullYear(), 0, 0);
-  var day = Math.floor((d.getTime() - start) / 86400000);
-  var decl = -23.44 * Math.cos((2 * Math.PI / 365) * (day + 10));
-  var utcH = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
-  var lon = -15 * (utcH - 12);
-  while (lon <= -180) lon += 360;
-  while (lon > 180) lon -= 360;
-  return [decl, lon];
-}
-
-function mapNightPath() {
-  var s = subSolar(new Date());
-  var dec = s[0], lonSun = s[1];
-  var rad = Math.PI / 180;
-  var tanDec = Math.tan(dec * rad);
-  var pts = [];
-  for (var lon = -180; lon <= 180; lon += 3) {
-    var t = -Math.cos((lon - lonSun) * rad) / tanDec;
-    if (isNaN(t)) t = 0;
-    pts.push(mapXY(Math.atan(t) / rad, lon));
-  }
-  var d = 'M' + pts[0][0] + ' ' + pts[0][1];
-  for (var i = 1; i < pts.length; i++) d += 'L' + pts[i][0] + ' ' + pts[i][1];
-  var edgeY = mapXY(dec >= 0 ? -90 : 90, 0)[1];
-  d += 'L720 ' + edgeY + 'L0 ' + edgeY + 'Z';
-  return { night: d, sun: mapXY(dec, lonSun) };
-}
-
-function mapItems() {
-  var items = [];
-  function push(layer, r, lat, lon) {
-    if (lat == null || lon == null || isNaN(lat) || isNaN(lon)) return;
-    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return;
-    items.push({ layer: layer, name: r.name, loc: r.loc || '', url: r.url, lat: Number(lat), lon: Number(lon) });
-  }
-  if (state.mapLayers.kiwi) {
-    (state.receivers || []).forEach(function (r) {
-      if (r.gpsCoords) push('kiwi', r, r.gpsCoords[0], r.gpsCoords[1]);
-    });
-  }
-  if (state.webSdrs && state.mapLayers.websdr) {
-(state.webSdrs.websdr || []).forEach(function (r) { push('websdr', r, r.lat, r.lon); });
-  }
-  if (state.webSdrs && state.mapLayers.owrx) {
-(state.webSdrs.openwebrx || []).forEach(function (r) { push('owrx', r, r.lat, r.lon); });
-  }
-  if (state.satnogs && state.mapLayers.satnogs) {
-(state.satnogs.stations || []).forEach(function (r) { push('satnogs', r, r.lat, r.lng); });
-  }
-  return items;
-}
-
-var AIRCRAFT_APIS = ['https://api.adsb.lol', 'https://api.airplanes.live'];
-var AIRCRAFT_RADIUS_NM = 250;
-var lastAircraftFetch = 0;
-/* Live ADS-B aircraft near the map center — community aggregators, no key, 1 req/min max */
-function fetchAircraft() {
-  var nowMs = Date.now();
-  if (nowMs - lastAircraftFetch < 55000) return;
-  lastAircraftFetch = nowMs;
-  var g = state.geo || CAIRO;
-  var i = 0;
-  function attempt() {
-    if (i >= AIRCRAFT_APIS.length) return;
-    var base = AIRCRAFT_APIS[i++];
-    fetch(base + '/v2/point/' + Number(g.lat).toFixed(2) + '/' + Number(g.lon).toFixed(2) + '/' + AIRCRAFT_RADIUS_NM, { cache: 'no-store' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) {
-        if (!j || !Array.isArray(j.ac)) { attempt(); return; }
-        state.aircraft = j.ac.filter(function (a) {
-          return a && typeof a.lat === 'number' && typeof a.lon === 'number';
-        }).map(function (a) {
-          var nm = (a.flight || a.r || a.hex || '').toString().trim();
-          var det = [];
-          if (a.alt_baro != null) det.push(fmtNum(a.alt_baro) + ' ft');
-          if (a.gs != null) det.push(Math.round(a.gs) + ' kt');
-          if (a.t) det.push(a.t);
-          return { name: '✈️ ' + (nm || '?'), loc: det.join(' · '), lat: a.lat, lon: a.lon };
-        });
-        var ac = $('map-aircraft-count');
-        if (ac) { ac.textContent = '✈️ ' + fmtNum(state.aircraft.length); ac.hidden = false; }
-        if (state.activeTab === 'map') renderMap();
-      })
-      .catch(function () { attempt(); });
-  }
-  attempt();
-}
-
-function renderMap() {
-  var wrap = $('map-wrap');
-  if (!wrap) return;
-  $('map-count').textContent = t('map_count').replace('{n}', fmtNum(mapItems().length));
-  var items = mapItems();
-  var land = mapTopoLand(state.landMap);
-  var svg = '<svg id="map-svg" viewBox="0 0 720 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(t('map_title')) + '">';
-  svg += '<rect class="map-sea" x="0" y="0" width="720" height="360"></rect>';
-  if (land) svg += '<path class="map-land" d="' + land + '"></path>';
-  if (state.grayline) {
-    var g = mapNightPath();
-    svg += '<path class="map-night" d="' + g.night + '"></path>';
-    svg += '<circle class="map-sun" cx="' + g.sun[0] + '" cy="' + g.sun[1] + '" r="3"></circle>';
-  }
-  if (state.mapLayers.aircraft && state.activeTab === 'map') fetchAircraft();
-  var nowD = new Date();
-  var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
-  var ck = $('map-clock');
-  if (ck) ck.textContent = p2(nowD.getUTCHours()) + ':' + p2(nowD.getUTCMinutes()) + ' UTC';
-  items.forEach(function (it, i) {
-    var xy = mapXY(it.lat, it.lon);
-    svg += '<circle class="map-dot map-dot-' + it.layer + '" data-map-idx="' + i + '" cx="' + xy[0] + '" cy="' + xy[1] + '" r="1.8"><title>' + esc(it.name + (it.loc ? ' — ' + it.loc : '')) + '</title></circle>';
-  });
-  if (state.aircraft && state.mapLayers.aircraft) {
-    state.aircraft.forEach(function (a) {
-      var axy = mapXY(a.lat, a.lon);
-      svg += '<circle class="map-dot-aircraft" cx="' + axy[0] + '" cy="' + axy[1] + '" r="1.6"><title>' + esc(a.name + (a.loc ? ' — ' + a.loc : '')) + '</title></circle>';
-    });
-  }
-  if (state.mapLayers.visitors) {
-    var vheat = state.visitorHeat || visitorHeatCached() || {};
-    state.visitorHeat = vheat;
-    if (state.activeTab === 'map') fetchVisitorHeat();
-    var vMax = 0;
-    VISITOR_CC_POINTS.forEach(function (p) { if (Number(vheat[p.cc]) > vMax) vMax = Number(vheat[p.cc]); });
-    if (vMax > 0) {
-      VISITOR_CC_POINTS.forEach(function (p) {
-        var vn = Number(vheat[p.cc]) || 0;
-        var vr = visitorHeatDot(vn, vMax);
-        if (!vr) return;
-        var vxy = mapXY(p.lat, p.lon);
-        svg += '<circle class="map-dot-visitors" cx="' + vxy[0] + '" cy="' + vxy[1] + '" r="' + vr + '"><title>' + esc(flagOf(p.cc) + ' ' + p.cc + ' — ' + t('visitors_dot').replace('{n}', fmtNum(vn))) + '</title></circle>';
-      });
-    }
-  }
-  svg += '</svg>';
-  wrap.innerHTML = svg;
-  renderVisitorLead();
-}
-
-function loadLand() {
-  return fetchJSON('data/land_map.json').then(function (data) {
-    if (data && data.topo) {
-      state.landMap = data.topo;
-      renderMap();
-    }
-  }).catch(function (e) {
-    console.warn('land map snapshot:', e);
-  });
-}
-
 /* ================= FM / Broadcast ================= */
 
 function flagOf(cc) {
@@ -1200,211 +722,12 @@ renderQuickBar();
   grid.innerHTML = html;
 }
 
-/* ===== P1-1: differential catalog via IndexedDB ===== */
-/* الزيارة الثانية بتنزل دلتا يومية صغيرة بدل الكتالوج كاملًا كل مرة.
-   المصدر: data/stations.manifest.json (version/count/keep) وسلسلة
-   data/stations_delta/<version>.json — الـ crawler بيكتبهم مع كل تشغيل
-   بيانات ناجح. لو IndexedDB أو الشبكة فشلوا، بنرجع تلقائيًا للمسار
-   القديم (head ثم الكتالوج الكامل) من غير أي كسر. */
-var CATALOG_DB_NAME = 'radio-atlas-catalog';
-var CATALOG_DB_STORE = 'catalog';
-var CATALOG_DELTA_FALLBACK_KEEP = 3;
-
-function stationKey(value) {
-  /* توأم دالة الـ crawler station_url_key: توحيد شكل الرابط ليطابق
-     المفتاح نفسه على الطرفين (سجل اختبار: tests/search.test.cjs). */
-  var raw = String(value || '').trim();
-  var u;
-  try { u = new URL(raw); } catch (e) { return ''; }
-  var scheme = u.protocol.replace(':', '').toLowerCase();
-  if (scheme !== 'http' && scheme !== 'https') return '';
-  if (!u.hostname || u.username || u.password) return '';
-  var host = u.hostname.toLowerCase();
-  if (u.port && !(scheme === 'http' && u.port === '80') && !(scheme === 'https' && u.port === '443')) {
-    host += ':' + u.port;
-  }
-  return scheme + '://' + host + (u.pathname || '/') + (u.search || '');
-}
-
-function applyCatalogDelta(rows, delta) {
-  /* تطبيق دلتا {added, updated, removed} على الصفوف المحفوظة:
-     updated يعدل الصف في مكانه بنفس المفتاح، added يُلحق في النهاية،
-     removed يشطب بالمفتاح. الحقول الناقصة تتعامل كفارغة. */
-  var source = Array.isArray(rows) ? rows : [];
-  var d = delta || {};
-  var added = Array.isArray(d.added) ? d.added : [];
-  var updated = Array.isArray(d.updated) ? d.updated : [];
-  var removed = Array.isArray(d.removed) ? d.removed : [];
-  var removedSet = {};
-  var i;
-  for (i = 0; i < removed.length; i++) removedSet[stationKey(removed[i])] = true;
-  var byKey = {};
-  for (i = 0; i < source.length; i++) byKey[stationKey(source[i].url)] = source[i];
-  for (i = 0; i < updated.length; i++) {
-    var upd = updated[i];
-    var key = stationKey(upd && upd.url);
-    if (!key || !upd) continue;
-    if (byKey[key]) byKey[key] = upd;
-    else source.push(upd);
-  }
-  var out = [];
-  for (i = 0; i < source.length; i++) {
-    var k = stationKey(source[i].url);
-    if (removedSet[k]) continue;
-    out.push(byKey[k] || source[i]);
-  }
-  for (i = 0; i < added.length; i++) {
-    if (added[i]) out.push(added[i]);
-  }
-  return out;
-}
-
-function catalogDbOpen() {
-  return new Promise(function (resolve, reject) {
-    var request = window.indexedDB.open(CATALOG_DB_NAME, 1);
-    request.onupgradeneeded = function () {
-      request.result.createObjectStore(CATALOG_DB_STORE);
-    };
-    request.onsuccess = function () { resolve(request.result); };
-    request.onerror = function () { reject(request.error || new Error('idb open failed')); };
-  });
-}
-
-function catalogDbGet(db, key) {
-  return new Promise(function (resolve, reject) {
-    var request = db.transaction(CATALOG_DB_STORE, 'readonly').objectStore(CATALOG_DB_STORE).get(key);
-    request.onsuccess = function () { resolve(request.result); };
-    request.onerror = function () { reject(request.error || new Error('idb get failed')); };
-  });
-}
-
-function catalogDbPut(db, key, value) {
-  return new Promise(function (resolve, reject) {
-    var tx = db.transaction(CATALOG_DB_STORE, 'readwrite');
-    tx.objectStore(CATALOG_DB_STORE).put(value, key);
-    tx.oncomplete = function () { resolve(); };
-    tx.onerror = function () { reject(tx.error || new Error('idb put failed')); };
-  });
-}
-
-function catalogIdbWrite(rows, version) {
-  return catalogDbOpen().then(function (db) {
-    return catalogDbPut(db, 'rows', rows).then(function () {
-      return catalogDbPut(db, 'version', version);
-    });
-  });
-}
-
-function catalogIdbStoreFull(rows) {
-  return fetchJSON('data/stations.manifest.json').then(function (manifest) {
-    return catalogIdbWrite(rows, manifest && Number(manifest.version) || 0);
-  }).catch(function () {
-    return catalogIdbWrite(rows, 0);
-  });
-}
-
-function catalogIdbRows() {
-  if (!window.indexedDB) return Promise.resolve(null);
-  return catalogDbOpen().then(function (db) {
-    return catalogDbGet(db, 'rows').then(function (rows) {
-      if (!rows || !rows.length) return null;
-      return catalogDbGet(db, 'version').then(function (storedVersion) {
-        var from = Number(storedVersion) || 0;
-        return fetchJSON('data/stations.manifest.json').then(function (manifest) {
-          if (!manifest || !manifest.version) return rows;
-          var current = Number(manifest.version) || 0;
-          if (!from || !current || current <= from) return rows;
-          var keep = Number(manifest.keep) || CATALOG_DELTA_FALLBACK_KEEP;
-          if (current - from > keep) return null;
-          var chain = Promise.resolve(rows);
-          for (var v = from + 1; v <= current; v++) {
-            (function (version) {
-              chain = chain.then(function (acc) {
-                return fetchJSON('data/stations_delta/' + version + '.json').then(function (delta) {
-                  return applyCatalogDelta(acc, delta);
-                }, function () { return acc; });
-              });
-            })(v);
-          }
-          return chain.then(function (finalRows) {
-            catalogIdbWrite(finalRows, current).catch(function () {});
-            return finalRows;
-          });
-        }, function () { return rows; });
-      });
-    });
-  }).catch(function () { return null; });
-}
-
-function finishStations(rows) {
-  state.fm = rows.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
-  state.featuredCache = null;
-  buildFMFacets();
-  renderFM();
-  renderFav();
-  renderEG();
-  renderAR();
-  renderRel();
-  initTrending();
-  initResume();
-  loadStreamChecks();
-  handleShareHash();
-}
-
-function loadStations() {
-  return catalogIdbRows().then(function (hit) {
-    if (hit) return finishStations(hit);
-    return legacyLoadStations();
-  });
-}
-
-function legacyLoadStations() {
-  return fetchJSON('data/stations_head.json').then(function (data) {
-    if (data && Array.isArray(data.stations)) {
-      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
-      state.featuredCache = null;
-      buildFMFacets();
-      renderFM();
-      renderFav();
-      renderEG();
-      renderAR();
-      renderRel();
-    }
-  }).catch(function (e) {
-    console.warn('stations head:', e);
-  }).then(function () {
-    return fetchJSON('data/stations.json');
-  }).then(function (data) {
-    if (data && Array.isArray(data.stations)) {
-      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
-      state.featuredCache = null;
-      buildFMFacets();
-      catalogIdbStoreFull(data.stations).catch(function () {});
-    }
-  }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
-    renderFM();
-    renderFav();
-    renderEG();
-    renderAR();
-    renderRel();
-    initTrending();
-    initResume();
-    loadStreamChecks();
-    handleShareHash();
-  });
-}
-
 function loadStreamChecks() {
   fetchJSON('data/stream_checks.json').then(function (d) {
     if (d && d.results) { state.streamChecks = d.results; renderFM(); renderEG(); renderAR(); renderRel(); }
   }).catch(function () {});
 }
 
-/* ================= Egypt radio ================= */
-
-function egStations() {
-  return state.fm.filter(function (s) { return s.cc === 'EG'; });
-}
 
 function egAliveRank(s) {
   var c = state.streamChecks ? state.streamChecks[s.url] : null;
@@ -1431,145 +754,6 @@ function fmAliveSort(list) {
   if (!any) return list;
   return list.slice().sort(function (a, b) { return egAliveRank(a) - egAliveRank(b); });
 }
-
-
-
-function renderFav() {
-  var grid = $('grid-fav');
-  var favStations = [];
-  for (var url in state.favs) {
-    var s = stationByUrl(url);
-    if (s) favStations.push(s);
-  }
-  $('fav-count').textContent = t('stations').replace('{n}', fmtNum(favStations.length));
-  if (!favStations.length) {
-    grid.innerHTML = '<div class="empty">' + esc(t('no_match_fm')) + '</div>';
-    return;
-  }
-  var html = favStations.map(cardFm).join('');
-  grid.innerHTML = html;
-}
-function renderEG() {
-  var grid = $('grid-eg');
-  if (!grid) return;
-  var list = egStations();
-  var count = $('eg-count');
-  if (!list.length) {
-    if (count) count.textContent = '';
-    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
-    return;
-  }
-  if (count) count.textContent = t('stations').replace('{n}', fmtNum(list.length));
-  list.sort(function (a, b) {
-    var oa = a.official ? 0 : 1, ob = b.official ? 0 : 1;
-    if (oa !== ob) return oa - ob;
-    var ra = egAliveRank(a), rb = egAliveRank(b);
-    if (ra !== rb) return ra - rb;
-    return String(a.name).localeCompare(String(b.name), 'ar');
-  });
-  grid.innerHTML = list.map(cardFm).join('');
-}
-
-/* ================= All-Arabic by country ================= */
-
-var ARAB_COUNTRIES = [
-  ['EG', 'مصر'], ['SA', 'السعودية'], ['MA', 'المغرب'], ['DZ', 'الجزائر'],
-  ['TN', 'تونس'], ['AE', 'الإمارات'], ['LB', 'لبنان'], ['SY', 'سوريا'],
-  ['IQ', 'العراق'], ['JO', 'الأردن'], ['QA', 'قطر'], ['YE', 'اليمن'],
-  ['KW', 'الكويت'], ['BH', 'البحرين'], ['OM', 'عُمان'], ['PS', 'فلسطين'],
-  ['LY', 'ليبيا'], ['SD', 'السودان'], ['SO', 'الصومال'], ['MR', 'موريتانيا'],
-  ['KM', 'جزر القمر'], ['DJ', 'جيبوتي']
-];
-var AR_PER_COUNTRY = 30;
-
-function flagOf(cc) {
-  try {
-    return String.fromCodePoint(0x1F1E6 + cc.charCodeAt(0) - 65, 0x1F1E6 + cc.charCodeAt(1) - 65);
-  } catch (e) { return ''; }
-}
-
-function arabCountryName(cc) {
-  for (var i = 0; i < ARAB_COUNTRIES.length; i++) {
-    if (ARAB_COUNTRIES[i][0] === cc) return ARAB_COUNTRIES[i][1];
-  }
-  return cc;
-}
-
-function arabStations() {
-  var set = {};
-  for (var i = 0; i < ARAB_COUNTRIES.length; i++) set[ARAB_COUNTRIES[i][0]] = true;
-  return state.fm.filter(function (s) { return !!set[s.cc]; });
-}
-
-function renderAR() {
-  var grid = $('grid-ar');
-  if (!grid) return;
-  var list = arabStations();
-  var count = $('ar-count');
-  if (!list.length) {
-    if (count) count.textContent = '';
-    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
-    return;
-  }
-  var groups = {};
-  for (var i = 0; i < list.length; i++) {
-    var cc = list[i].cc;
-    if (!groups[cc]) groups[cc] = [];
-    groups[cc].push(list[i]);
-  }
-  var order = Object.keys(groups).sort(function (a, b) {
-    return groups[b].length - groups[a].length;
-  });
-  if (count) {
-    count.textContent = t('ar_count').replace('{n}', fmtNum(list.length)).replace('{c}', fmtNum(order.length));
-  }
-  var html = '';
-  for (var g = 0; g < order.length; g++) {
-    var gcc = order[g];
-    groups[gcc].sort(function (a, b) {
-      var oa = a.official ? 0 : 1, ob = b.official ? 0 : 1;
-      if (oa !== ob) return oa - ob;
-      return String(a.name).localeCompare(String(b.name));
-    });
-    var shown = groups[gcc].slice(0, AR_PER_COUNTRY);
-    html += '<h2 class="ma-group">' + flagOf(gcc) + ' ' + esc(regionName(gcc, arabCountryName(gcc))) + ' · ' + fmtNum(groups[gcc].length) + '</h2>';
-    html += shown.map(cardFm).join('');
-    if (groups[gcc].length > shown.length) {
-      html += '<p class="ma-count">' + esc(t('ar_top').replace('{n}', fmtNum(shown.length)).replace('{m}', fmtNum(groups[gcc].length))) + '</p>';
-    }
-  }
-  grid.innerHTML = html;
-}
-
-/* ================= Religious radio ================= */
-
-function isReligiousStation(s) {
-  var cats = splitList(s.tags);
-  if (cats.indexOf('quran') !== -1 || cats.indexOf('religion') !== -1) return true;
-  return /(قرآن|قران|دين|ديني|قبط|إنجيل|quran|quraan|koran|islam|religio|christian|bible|gospel)/i.test(String(s.name || ''));
-}
-
-function renderRel() {
-  var grid = $('grid-rel');
-  if (!grid) return;
-  var list = state.fm.filter(isReligiousStation);
-  var count = $('rel-count');
-  if (!list.length) {
-    if (count) count.textContent = '';
-    grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
-    return;
-  }
-  if (count) count.textContent = t('stations').replace('{n}', fmtNum(list.length));
-  list.sort(function (a, b) {
-    var oa = a.official ? 0 : 1, ob = b.official ? 0 : 1;
-    if (oa !== ob) return oa - ob;
-    var ra = egAliveRank(a), rb = egAliveRank(b);
-    if (ra !== rb) return ra - rb;
-    return String(a.name).localeCompare(String(b.name), state.lang);
-  });
-  grid.innerHTML = list.map(cardFm).join('');
-}
-
 function fmClientRender() {
   fmSearchSequence += 1;
   state.fmLive = false;
@@ -1653,805 +837,6 @@ function renderChips() {
 }
 
 /* ================= space weather ================= */
-
-function loadSpace() {
-  fetchJSON('data/space_weather.json').then(function (d) {
-    if (d && (d.kp != null || d.f107 != null)) { state.space = d; renderSpace(); }
-  }).catch(function () {});
-  fetchJSON('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json').then(function (rows) {
-    if (!Array.isArray(rows) || !rows.length) return;
-    for (var i = rows.length - 1; i >= 0; i--) {
-      var v = rows[i] && (rows[i].kp_index != null ? rows[i].kp_index : rows[i].estimated_kp);
-      if (v != null) {
-        if (!state.space) state.space = {};
-        state.space.kp = Number(v);
-        state.space.updated = new Date().toISOString();
-        renderSpace();
-        return;
-      }
-    }
-  }).catch(function () {});
-}
-
-function renderSpace() {
-  var p = $('space-panel');
-  if (!state.space) { p.hidden = true; return; }
-  p.hidden = false;
-  $('space-upd').textContent = t('updated_at') + ': ' + fmtDate(state.space.updated);
-  var vals = '';
-  var kpVal = Number(state.space.kp);
-  var f107Val = Number(state.space.f107);
-  if (state.space.kp != null && isFinite(kpVal)) vals += '<span class="chip">🧲 Kp ' + kpVal + '</span>';
-  if (state.space.f107 != null && isFinite(f107Val)) vals += '<span class="chip">☀️ F10.7 ' + f107Val + ' sfu</span>';
-  $('space-values').innerHTML = vals;
-  var kp = state.space.kp;
-  var cond = kp == null ? '' : (kp < 4 ? t('cond_good') : (kp < 6 ? t('cond_unstable') : t('cond_storm')));
-  $('space-cond').textContent = cond;
-  maybeSpaceAlert();
-  renderSpaceAlertBtn();
-}
-
-/* ================= band-condition alerts ================= */
-
-var SPACE_ALERT_KEY = 'ra-space-alerts';
-var SPACE_LAST_KP = 'ra-space-last-kp';
-
-function spaceAlertsEnabled() {
-  try { return localStorage.getItem(SPACE_ALERT_KEY) === '1'; } catch (e) { return false; }
-}
-
-function renderSpaceAlertBtn() {
-  var btn = $('space-alert-btn');
-  if (!btn) return;
-  var supported = 'Notification' in window;
-  btn.hidden = !supported;
-  if (!supported) return;
-  var enabled = spaceAlertsEnabled();
-  btn.textContent = enabled ? '🔔' : '🔕';
-  btn.classList.toggle('active', enabled);
-}
-
-function notifySpace(title, body, fallbackToast) {
-  var ok = false;
-  if ('Notification' in window && Notification.permission === 'granted') {
-    try {
-      var n = new Notification(title, { body: body, icon: 'icons/icon-192.png', tag: 'ra-space', lang: state.lang });
-      n.onclick = function () { try { window.focus(); n.close(); } catch (e) {} };
-      ok = true;
-    } catch (e) {}
-  }
-  if (!ok) toast(fallbackToast);
-}
-
-function maybeSpaceAlert() {
-  var kp = state.space && state.space.kp;
-  if (kp == null) return;
-  var last = null;
-  try { last = Number(localStorage.getItem(SPACE_LAST_KP)); } catch (e) {}
-  try { localStorage.setItem(SPACE_LAST_KP, String(kp)); } catch (e) {}
-  if (!spaceAlertsEnabled() || last == null || !isFinite(last) || last === kp) return;
-  var opened = last >= 4 && kp < 4;
-  var storm = last < 5 && kp >= 5;
-  if (!opened && !storm) return;
-  if (opened) {
-    notifySpace(t('alert_open_title'), t('alert_open_body').replace('{kp}', kp), t('alert_toast_open').replace('{kp}', kp));
-  } else {
-    notifySpace(t('alert_storm_title'), t('alert_storm_body').replace('{kp}', kp), t('alert_toast_storm').replace('{kp}', kp));
-  }
-}
-
-function toggleSpaceAlerts() {
-  if (!('Notification' in window)) { toast(t('alert_unsupported')); return; }
-  var enabling = !spaceAlertsEnabled();
-  if (!enabling) {
-    try { localStorage.setItem(SPACE_ALERT_KEY, '0'); } catch (e) {}
-    renderSpaceAlertBtn();
-    toast(t('alert_off'));
-    return;
-  }
-  if (Notification.permission === 'default') {
-    Notification.requestPermission().then(function () {
-      try { localStorage.setItem(SPACE_ALERT_KEY, '1'); } catch (e) {}
-      renderSpaceAlertBtn();
-      toast(t('alert_on'));
-    }).catch(function () {});
-    return;
-  }
-  try { localStorage.setItem(SPACE_ALERT_KEY, '1'); } catch (e) {}
-  renderSpaceAlertBtn();
-  toast(t('alert_on'));
-}
-
-/* ================= EIBI on-air ================= */
-
-function loadEibi() {
-  fetchJSON('data/eibi.json').then(function (d) {
-    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); }
-  }).catch(function () {});
-}
-
-function eibiRow(x) {
-  var freq = (x.f / 1000).toFixed(3) + ' MHz';
-  return '<div class="eibi-row"><span class="eibi-time">' + esc(x.s + '–' + x.e + ' UTC') + '</span><strong>' + freq + '</strong><span class="eibi-name">' + esc(x.n || '') + '</span></div>';
-}
-
-function renderEibi() {
-  var p = $('eibi-panel');
-  if (!p) return;
-  if (!state.eibi.length) { p.hidden = true; return; }
-  p.hidden = false;
-  var q = state.eibiQ.trim().toLowerCase();
-  var band = state.eibiBand;
-  var rows = state.eibi.filter(function (x) {
-    if (band !== 'all') {
-      var freq = x.f / 1000;
-      if (band === '120' && (freq < 2300 || freq >= 2495)) return false;
-      if (band === '90' && (freq < 3200 || freq >= 3400)) return false;
-      if (band === '75' && (freq < 3900 || freq >= 4000)) return false;
-      if (band === '60' && (freq < 4750 || freq >= 5060)) return false;
-      if (band === '49' && (freq < 5900 || freq >= 6200)) return false;
-      if (band === '41' && (freq < 7200 || freq >= 7600)) return false;
-      if (band === '31' && (freq < 9400 || freq >= 9900)) return false;
-      if (band === '25' && (freq < 11600 || freq >= 12100)) return false;
-      if (band === '22' && (freq < 13570 || freq >= 13870)) return false;
-      if (band === '19' && (freq < 15100 || freq >= 15800)) return false;
-      if (band === '16' && (freq < 17480 || freq >= 17900)) return false;
-      if (band === '15' && (freq < 18900 || freq >= 19020)) return false;
-      if (band === '13' && (freq < 21450 || freq >= 21850)) return false;
-      if (band === '11' && (freq < 25600 || freq >= 26100)) return false;
-    }
-    if (!q) return true;
-    return ((x.n || '') + ' ' + x.f).toLowerCase().indexOf(q) !== -1;
-  });
-  $('eibi-count').textContent = fmtNum(rows.length) + ' ' + t('onair');
-  var html = rows.slice(0, 60).map(eibiRow).join('');
-  if (rows.length > 60) html += '<div class="hint" style="text-align:center">' + esc(t('more_eibi')) + '</div>';
-  $('eibi-list').innerHTML = html || ('<div class="hint">' + esc(t('no_match')) + '</div>');
-}
-
-/* ================= players ================= */
-
-function setMedia(name) {
-  if (!('mediaSession' in navigator)) return;
-  try {
-    navigator.mediaSession.metadata = new window.MediaMetadata({
-      title: name || 'Radio Atlas',
-      artist: 'Radio Atlas — راديو أطلس',
-      album: 'Radio Atlas'
-    });
-  } catch (e) {}
-  wireMediaSessionActions();
-}
-
-var hls = null;
-var easyBroadcastTokenCache = {};
-function isHlsUrl(u) {
-  return /\.m3u8(?:\?|$)/i.test(u || '');
-}
-function destroyHls() {
-  if (hls) { try { hls.destroy(); } catch (e) {} hls = null; }
-}
-function appendEasyBroadcastToken(url, tokenText) {
-  var values = new URLSearchParams(String(tokenText || '').trim().replace(/^\?/, ''));
-  if (!values.get('token')) throw new Error('EasyBroadcast token response did not include a token');
-  var signed = new URL(url);
-  ['token', 'expires', 'token_path'].forEach(function (key) {
-    if (values.get(key)) signed.searchParams.set(key, values.get(key));
-  });
-  return signed.toString();
-}
-function resolvePlaybackUrl(url, station) {
-  if (!station || !station.tokenEndpoint || station.tokenType !== 'easy_b') return Promise.resolve(url);
-  var cleanUrl = new URL(url);
-  ['token', 'expires', 'token_path'].forEach(function (key) { cleanUrl.searchParams.delete(key); });
-  var unsignedUrl = cleanUrl.toString();
-  var cacheKey = station.tokenEndpoint + '|' + station.url;
-  var cached = easyBroadcastTokenCache[cacheKey];
-  if (cached && cached.tokenText && cached.expires * 1000 > Date.now() + 30000) {
-    return Promise.resolve(appendEasyBroadcastToken(unsignedUrl, cached.tokenText));
-  }
-  if (cached && cached.promise) {
-    return cached.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
-  }
-  var endpoint = station.tokenEndpoint + '?url=' + encodeURIComponent(station.url || unsignedUrl);
-  var entry = { tokenText: '', expires: 0, promise: null };
-  entry.promise = fetch(endpoint, { cache: 'no-store' }).then(function (response) {
-    if (!response.ok) throw new Error('Token endpoint HTTP ' + response.status);
-    return response.text();
-  }).then(function (tokenText) {
-    var values = new URLSearchParams(String(tokenText || '').trim().replace(/^\?/, ''));
-    entry.tokenText = tokenText;
-    entry.expires = Number(values.get('expires')) || 0;
-    entry.promise = null;
-    return tokenText;
-  }).catch(function (error) {
-    delete easyBroadcastTokenCache[cacheKey];
-    throw error;
-  });
-  easyBroadcastTokenCache[cacheKey] = entry;
-  return entry.promise.then(function (tokenText) { return appendEasyBroadcastToken(unsignedUrl, tokenText); });
-}
-function loadHlsLib(cb) {
-  if (window.Hls) { cb(true); return; }
-  if (loadHlsLib.loading) { loadHlsLib.queue.push(cb); return; }
-  loadHlsLib.loading = true;
-  loadHlsLib.queue = [cb];
-  var urls = [
-    'https://cdn.jsdelivr.net/npm/hls.js@1.6.10/dist/hls.min.js',
-    'https://unpkg.com/hls.js@1.6.10/dist/hls.min.js'
-  ];
-  var index = 0;
-  function finish(ok) {
-    var queue = loadHlsLib.queue || [];
-    loadHlsLib.queue = [];
-    loadHlsLib.loading = false;
-    queue.forEach(function (fn) { fn(ok); });
-  }
-  function next() {
-    if (window.Hls) { finish(true); return; }
-    if (index >= urls.length) { finish(false); return; }
-    var script = document.createElement('script');
-    script.src = urls[index++];
-    script.onload = function () { finish(!!window.Hls); };
-    script.onerror = function () { script.remove(); next(); };
-    document.head.appendChild(script);
-  }
-  next();
-}
-function failCurrentPlayback(generation, reason) {
-  if (generation !== state.playbackGeneration || state.playbackAttemptFailed) return;
-  state.playbackAttemptFailed = true;
-  destroyHls();
-  var audio = $('audio');
-  audio.pause();
-  audio.removeAttribute('src');
-  state.playbackIndex += 1;
-  if (state.playbackIndex < state.playbackSources.length) {
-    startCurrentPlayback(generation);
-    return;
-  }
-  var official = $('player-official');
-  reportPlaybackError(generation, reason)
-  if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
-  // Every source failed — point the open-direct link back at the station's
-  // real URL: when the failure is a CORS or geo block the stream often plays
-  // fine opened directly in a new tab.
-  var ext = $('player-ext');
-  if (ext && state.playbackStation && state.playbackStation.url) {
-    ext.href = state.playbackStation.url;
-    ext.hidden = false;
-  }
-  setPlayerStatus('dead');
-  renderPlayerAlternatives();
-  toast(t('toast_broken'));
-  console.warn('Radio playback failed:', reason || 'all sources exhausted');
-}
-function createEasyBroadcastLoader(station) {
-  var BaseLoader = window.Hls.DefaultConfig.loader;
-  return class EasyBroadcastTokenLoader extends BaseLoader {
-    load(context, config, callbacks) {
-      var path = '';
-      try { path = new URL(context.url).pathname; } catch (e) {}
-      if (!/\.m3u8$/i.test(path) || !station || !station.tokenEndpoint) {
-        return BaseLoader.prototype.load.call(this, context, config, callbacks);
-      }
-      var self = this;
-      resolvePlaybackUrl(context.url, station).then(function (signedUrl) {
-        context.url = signedUrl;
-        BaseLoader.prototype.load.call(self, context, config, callbacks);
-      }).catch(function (error) {
-        callbacks.onError({ code: 0, text: error && error.message ? error.message : 'Stream token request failed' }, context, null);
-      });
-    }
-  };
-}
-function attachHls(url, generation, station) {
-  var audio = $('audio');
-  if (!window.Hls || !window.Hls.isSupported()) return false;
-  destroyHls();
-  audio.removeAttribute('src');
-  var config = {
-    autoStartLoad: true,
-    enableWorker: true,
-    lowLatencyMode: false,
-    backBufferLength: 30,
-    maxBufferLength: 30
-  };
-  if (isDataSaver()) {
-    config.startLevel = 0;
-    config.maxAutoLevelBitrate = 96000;
-  }
-  if (station && station.tokenEndpoint && station.tokenType === 'easy_b') {
-    config.pLoader = createEasyBroadcastLoader(station);
-  }
-  hls = new window.Hls(config);
-  var networkRetries = 0;
-  var mediaRetries = 0;
-  hls.on(window.Hls.Events.ERROR, function (evt, data) {
-    if (!data || !data.fatal || generation !== state.playbackGeneration) return;
-    if (data.type === window.Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 1) {
-      networkRetries += 1;
-      try { hls.startLoad(); return; } catch (e) {}
-    }
-    if (data.type === window.Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 1) {
-      mediaRetries += 1;
-      try { hls.recoverMediaError(); return; } catch (e) {}
-    }
-    failCurrentPlayback(generation, data.details || data.type || 'fatal HLS error');
-  });
-  hls.loadSource(url);
-  hls.attachMedia(audio);
-  return true;
-}
-function startCurrentPlayback(generation) {
-  if (generation !== state.playbackGeneration) return;
-  var baseUrl = state.playbackSources[state.playbackIndex];
-  if (!baseUrl) { failCurrentPlayback(generation, 'No source URL'); return; }
-  state.playbackAttemptFailed = false;
-  var audio = $('audio');
-  destroyHls();
-  audio.pause();
-  audio.removeAttribute('src');
-  var ext = $('player-ext');
-  // The open-direct link must always point at the station's real URL, never
-  // at our relay tier.
-  if (ext) {
-    var proxyBase = STREAM_PROXY ? STREAM_PROXY.replace(/\/+$/, '') : '';
-    if (!proxyBase || baseUrl.indexOf(proxyBase) !== 0) ext.href = baseUrl;
-    else if (state.playbackStation && state.playbackStation.url) ext.href = state.playbackStation.url;
-    ext.hidden = false;
-  }
-  var official = $('player-official');
-  if (official) {
-    official.hidden = !(state.playbackStation && state.playbackStation.website);
-    if (!official.hidden) official.href = state.playbackStation.website;
-  }
-  var station = state.playbackStation;
-  var requiresTokenLoader = station && station.tokenEndpoint && station.tokenType === 'easy_b';
-  var needsHlsJs = isHlsUrl(baseUrl) && (requiresTokenLoader || !audio.canPlayType('application/vnd.apple.mpegurl'));
-  if (needsHlsJs) {
-    loadHlsLib(function (loaded) {
-      if (generation !== state.playbackGeneration) return;
-      if (!loaded || !attachHls(baseUrl, generation, station)) {
-        failCurrentPlayback(generation, 'HLS.js unavailable or MediaSource unsupported');
-        return;
-      }
-      audio.play().catch(function (error) {
-        if (error && error.name === 'NotAllowedError') {
-          toast(t('toast_tap_play'));
-        } else {
-          failCurrentPlayback(generation, error && error.message);
-        }
-      });
-    });
-  } else if (requiresTokenLoader) {
-    failCurrentPlayback(generation, 'Token-protected HLS requires HLS.js');
-  } else {
-    audio.src = baseUrl;
-    audio.load();
-    audio.play().catch(function (error) {
-      if (error && error.name === 'NotAllowedError') {
-        toast(t('toast_tap_play'));
-      } else {
-        failCurrentPlayback(generation, error && error.message);
-      }
-    });
-  }
-}
-/* ================= professional player controls ================= */
-
-function applyVolume() {
-  var a = $('audio');
-  try { a.muted = state.playerMuted; a.volume = state.playerVolume / 100; } catch (e) {}
-  var btn = $('vol-mute');
-  if (btn) btn.textContent = (state.playerMuted || state.playerVolume === 0) ? '🔇' : (state.playerVolume < 40 ? '🔈' : '🔊');
-}
-
-function saveVolume() {
-  try { localStorage.setItem('ra-vol', JSON.stringify({ v: state.playerVolume, m: state.playerMuted })); } catch (e) {}
-}
-
-function loadVolume() {
-  try {
-    var saved = JSON.parse(localStorage.getItem('ra-vol') || 'null');
-    if (saved && typeof saved.v === 'number') {
-      state.playerVolume = Math.max(0, Math.min(100, Math.round(saved.v)));
-      state.playerMuted = !!saved.m;
-    }
-  } catch (e) {}
-  var slider = $('vol-slider');
-  if (slider) slider.value = String(state.playerVolume);
-  applyVolume();
-}
-
-function toggleMute() {
-  state.playerMuted = !state.playerMuted;
-  saveVolume();
-  applyVolume();
-}
-
-function setPlayerStatus(kind) {
-  var el = $('player-status');
-  if (!el) return;
-  var key = { connecting: 'player_status_connecting', live: 'player_status_live', paused: 'player_status_paused', dead: 'player_status_dead' }[kind] || 'player_status_connecting';
-  el.textContent = t(key);
-  el.classList.toggle('dead', kind === 'dead');
-}
-
-function renderPlayerMeta() {
-  var el = $('player-meta');
-  if (!el) return;
-  var s = state.playbackStation || {};
-  var bits = [];
-  if (s.cc) bits.push((flagOf(s.cc) || '') + ' ' + esc(regionName(s.cc, s.cc)));
-  if (s.bitrate) bits.push(String(s.bitrate) + ' kbps');
-  if (s.codec) bits.push(esc(String(s.codec).toUpperCase()));
-  if (s.official) bits.push('🏛');
-  if (!bits.length) { el.hidden = true; el.textContent = ''; return; }
-  el.textContent = bits.join(' · ');
-  el.hidden = false;
-}
-
-function playStepStation(dir) {
-  var list = (state.playerQueue && state.playerQueue.length) ? state.playerQueue : currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
-  if (!list.length) { toast(t('random_none')); return; }
-  var cur = state.playbackStation && state.playbackStation.url;
-  var idx = -1;
-  for (var i = 0; i < list.length; i++) { if (list[i].url === cur) { idx = i; break; } }
-  var next = idx < 0 ? (dir > 0 ? 0 : list.length - 1) : (idx + dir + list.length) % list.length;
-  var st = list[next];
-  play(st.url, st.name);
-}
-
-function isDmEmbed(url) {
-  return /dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html)/.test(String(url || ''));
-}
-
-function dmVideoUrl(url) {
-  var m = String(url || '').match(/dailymotion\.com\/(?:embed\/video\/|video\/|player(?:\/[a-z0-9]+)?\.html\?video=)([a-z0-9]+)/i);
-  return m ? 'https://www.dailymotion.com/video/' + m[1] : String(url || '');
-}
-
-function dmNoticeHtml(link) {
-  var esc = function (s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  };
-  return '<!DOCTYPE html><html dir="rtl" lang="'
-    + (state.lang === 'en' ? 'en' : 'ar')
-    + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-    + '<style>body{margin:0;font-family:Segoe UI,Tahoma,system-ui,sans-serif;background:#0f0e13;color:#f4f1e8;'
-    + 'display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}'
-    + '.box{max-width:430px;padding:26px 18px}h2{margin:0 0 12px;font-size:1.15rem;color:#d4af37;font-weight:700}'
-    + 'p{margin:0 0 20px;line-height:1.9;color:#c9c2b2;font-size:.95rem}'
-    + 'a.btn{display:inline-block;background:#d4af37;color:#1a1405;border-radius:10px;padding:12px 26px;'
-    + 'text-decoration:none;font-weight:700;font-size:1rem}</style></head><body><div class="box">'
-    + '<h2>📻 ' + esc(t('dm_notice_title')) + '</h2>'
-    + '<p>' + esc(t('dm_notice_body')) + '</p>'
-    + '<a class="btn" href="' + esc(link) + '" target="_blank" rel="noopener">▶ ' + esc(t('dm_notice_btn')) + '</a>'
-    + '</div></body></html>';
-}
-
-function openDmNotice(url, name) {
-  var link = dmVideoUrl(safeHttpsUrl(url));
-  if (!/^https:\/\//.test(link)) { toast(t('toast_broken')); return; }
-  $('sdr-modal-name').textContent = '📻 ' + (name || '');
-  $('sdr-open-ext').href = link;
-  previousSDRFocus = document.activeElement;
-  $('sdr-frame').removeAttribute('src');
-  try { $('sdr-frame').srcdoc = dmNoticeHtml(link); } catch (e) { $('sdr-frame').src = link; }
-  $('sdr-modal').hidden = false;
-  $('sdr-modal-close').focus();
-}
-
-function play(url, name) {
-  url = safeHttpsUrl(url);
-  if (!url) { toast(t('toast_broken')); return; }
-  if (isDmEmbed(url)) {
-    openDmNotice(url, name);
-    pushHistory(url, name);
-    try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
-    return;
-  }
-  var station = stationByUrl(url);
-  if (!station) {
-    for (var i = 0; i < state.fmLiveRows.length; i++) {
-      if (state.fmLiveRows[i].url === url) { station = state.fmLiveRows[i]; break; }
-    }
-  }
-  state.playbackStation = station || { name: name || '', url: url };
-  var saverStation = pickSaverStation(state.playbackStation, url);
-  state.playbackSources = [saverStation ? saverStation.url : url]
-    .concat(state.playbackStation.fallbacks || [])
-    .concat(saverStation ? [url] : [])
-    .filter(function (source, index, list) {
-    return !!source && list.indexOf(source) === index;
-  });
-  // Last-resort relay tier: some streams fail direct playback from the
-  // browser (CORS or geo blocks) while our Cloudflare Worker relay can
-  // still fetch them. Token-gated easybroadcast streams are skipped: their
-  // loader signs the original playlist URL and would break through a proxy.
-  var isEasyB = station && station.tokenEndpoint && station.tokenType === 'easy_b';
-  var relayUrl = isEasyB ? '' : proxyStreamUrl(url);
-  if (relayUrl && state.playbackSources.indexOf(relayUrl) === -1) {
-    state.playbackSources.push(relayUrl);
-  }
-  state.playbackIndex = 0;
-  state.playbackGeneration += 1;
-  var generation = state.playbackGeneration;
-  state.currentName = name || (station && station.name) || '';
-  var altBox = $('player-alt');
-  if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
-  $('player').hidden = false;
-  $('player-name').textContent = '▶ ' + state.currentName;
-  renderPlayerMeta();
-  setPlayerStatus('connecting');
-  updateDocTitle();
-  renderQuickBar();
-  applyVolume();
-  startCurrentPlayback(generation);
-  pushHistory(url, state.currentName);
-  countStationPlay(url);
-  try { localStorage.setItem('ra-last', JSON.stringify({ url: url, name: state.currentName })); } catch (e) {}
-  setMedia(state.currentName);
-  try { history.replaceState(null, '', '#play=' + encodeURIComponent(url)); } catch (e) {}
-}
-
-
-/* ================= listen history ================= */
-
-function loadHistory() {
-  try { return JSON.parse(localStorage.getItem('ra-history') || '[]') || []; } catch (e) { return []; }
-}
-
-function pushHistory(url, name) {
-  if (!url) return;
-  state.history = state.history.filter(function (h) { return h.url !== url; });
-  state.history.unshift({ url: url, name: name || '' });
-  if (state.history.length > 10) state.history.length = 10;
-  try { localStorage.setItem('ra-history', JSON.stringify(state.history)); } catch (e) {}
-  renderHistory();
-}
-
-function renderHistory() {
-  var row = $('history-row');
-  if (!row) return;
-  if (!state.history.length) { row.hidden = true; row.innerHTML = ''; return; }
-  var chips = '';
-  state.history.slice(0, 10).forEach(function (h) {
-    chips += '<button class="chip history-chip" type="button" data-history-url="' + esc(h.url) + '" data-history-name="' + esc(h.name) + '" aria-label="' + esc(t('history_aria')) + '">▶ ' + esc(h.name || h.url) + '</button>';
-  });
-  row.innerHTML = '<span class="history-label">' + esc(t('history_title')) + '</span>' + chips;
-  row.hidden = false;
-}
-
-/* ================= sleep timer ================= */
-
-var SLEEP_STEPS = [15, 30, 60];
-var sleepIdx = -1;
-var sleepEndsAt = 0;
-var sleepTick = null;
-
-function renderSleepBtn() {
-  var btn = $('sleep-btn');
-  if (!btn) return;
-  if (!sleepEndsAt) { btn.textContent = '⏱'; btn.classList.remove('active'); return; }
-  var left = Math.max(0, sleepEndsAt - Date.now());
-  var m = Math.floor(left / 60000);
-  var s = Math.floor((left % 60000) / 1000);
-  btn.textContent = '⏱ ' + m + ':' + (s < 10 ? '0' : '') + s;
-  btn.classList.add('active');
-}
-
-function stopSleepTimer(silent) {
-  sleepIdx = -1;
-  sleepEndsAt = 0;
-  if (sleepTick) { clearInterval(sleepTick); sleepTick = null; }
-  renderSleepBtn();
-  if (!silent) toast(t('sleep_clear'));
-}
-
-function sleepCheck() {
-  if (!sleepEndsAt) { stopSleepTimer(true); return; }
-  if (Date.now() >= sleepEndsAt) {
-    try { $('audio').pause(); } catch (e) {}
-    stopSleepTimer(true);
-    toast(t('sleep_done'));
-    return;
-  }
-  renderSleepBtn();
-}
-
-function startSleepTimer(minutes) {
-  sleepEndsAt = Date.now() + minutes * 60000;
-  renderSleepBtn();
-  if (sleepTick) clearInterval(sleepTick);
-  sleepTick = setInterval(sleepCheck, 1000);
-  toast(t('sleep_set').replace('{n}', minutes));
-}
-
-function toggleSleepTimer() {
-  sleepIdx += 1;
-  if (sleepIdx >= SLEEP_STEPS.length) { stopSleepTimer(false); return; }
-  startSleepTimer(SLEEP_STEPS[sleepIdx]);
-}
-
-/* ================= radio alarm ================= */
-
-var alarmTick = null;
-var alarmLastFired = '';
-
-function alarmState() {
-  try { return JSON.parse(localStorage.getItem('ra-alarm') || 'null'); } catch (e) { return null; }
-}
-
-function renderAlarmBtn() {
-  var btn = $('alarm-btn');
-  if (!btn) return;
-  var a = alarmState();
-  btn.classList.toggle('active', !!a);
-  btn.title = a ? t('alarm_aria') + ' — ' + a.time : t('alarm_aria');
-}
-
-function openAlarmModal() {
-  var m = $('alarm-modal');
-  if (!m) return;
-  var a = alarmState();
-  var last = null;
-  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) {}
-  $('alarm-station').textContent = t('alarm_station').replace('{name}', (a && a.name) || (last && last.name) || t('alarm_no_station'));
-  $('alarm-time').value = (a && a.time) || '06:00';
-  m.hidden = false;
-  $('alarm-time').focus();
-}
-
-function closeAlarmModal() {
-  var m = $('alarm-modal');
-  if (m) m.hidden = true;
-}
-
-function saveAlarm() {
-  var time = $('alarm-time').value || '';
-  var last = null;
-  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) {}
-  if (!/^\d{2}:\d{2}$/.test(time) || !last || !safeHttpsUrl(last.url)) { toast(t('alarm_no_station')); return; }
-  try { localStorage.setItem('ra-alarm', JSON.stringify({ time: time, url: last.url, name: last.name || '' })); } catch (e) {}
-  closeAlarmModal();
-  renderAlarmBtn();
-  toast(t('alarm_set').replace('{time}', time).replace('{name}', last.name || ''));
-}
-
-function clearAlarm() {
-  try { localStorage.removeItem('ra-alarm'); } catch (e) {}
-  closeAlarmModal();
-  renderAlarmBtn();
-  toast(t('alarm_cleared'));
-}
-
-function checkAlarm() {
-  var a = alarmState();
-  if (!a || !a.time) return;
-  var now = new Date();
-  var p = function (n) { return (n < 10 ? '0' : '') + n; };
-  var hhmm = p(now.getHours()) + ':' + p(now.getMinutes());
-  if (hhmm !== a.time || alarmLastFired === now.toDateString()) return;
-  alarmLastFired = now.toDateString();
-  if (!safeHttpsUrl(a.url)) return;
-  toast(t('alarm_fired').replace('{name}', a.name || ''));
-  play(a.url, a.name || '');
-}
-
-/* ================= quick search palette (Ctrl+K) ================= */
-
-var palettePrevFocus = null;
-
-function paletteRows(q) {
-  var nq = normalizeSearchText(q);
-  var rows = [];
-  var fm = state.fm;
-  for (var i = 0; i < fm.length && rows.length < 12; i++) {
-    var s = fm[i];
-    if (!safeHttpsUrl(s.url)) continue;
-    var hay = normalizeSearchText([s.name, s.language, s.tags, s.cc, regionName(s.cc, s.cc)].join(' '));
-    if (!nq || hay.indexOf(nq) !== -1) rows.push({ kind: 'fm', name: s.name, url: s.url, sub: regionName(s.cc, s.cc) + (s.language ? ' · ' + s.language.split(', ').filter(Boolean).map(languageLabel).join('، ') : '') });
-  }
-  var rx = state.receivers;
-  for (var j = 0; j < rx.length && rows.length < 12; j++) {
-    var r = rx[j];
-    if (!r.https) continue;
-    var hayR = normalizeSearchText([r.name, r.loc, r.url].join(' '));
-    if (!nq || hayR.indexOf(nq) !== -1) rows.push({ kind: 'rx', name: r.name, url: r.url, sub: r.loc || '' });
-  }
-  return rows;
-}
-
-function paletteRender() {
-  var q = $('palette-q').value;
-  var rows;
-  if (!q.trim()) {
-    rows = state.history.map(function (h) { return { kind: 'fm', name: h.name || h.url, url: h.url, sub: '' }; });
-  } else {
-    rows = paletteRows(q);
-  }
-  state.palette.results = rows;
-  var list = $('palette-list');
-  if (!rows.length) {
-    list.innerHTML = '<div class="hint" style="text-align:center">' + esc(t('palette_none')) + '</div>';
-    return;
-  }
-  var html = '';
-  rows.forEach(function (r, i) {
-    var kind = r.kind === 'fm' ? '📻 ' + t('palette_kind_fm') : '🛰 ' + t('palette_kind_rx');
-    html += '<button class="pal-item" type="button" data-pal-idx="' + i + '">' +
-      '<span class="pal-kind">' + esc(kind) + '</span>' +
-      '<span class="pal-name">' + esc(r.name) + '</span>' +
-      (r.sub ? '<span class="pal-sub">' + esc(r.sub) + '</span>' : '') +
-      '</button>';
-  });
-  list.innerHTML = html;
-}
-
-function paletteOpen() {
-  var m = $('palette-modal');
-  if (!m) return;
-  palettePrevFocus = document.activeElement;
-  $('palette-q').value = '';
-  state.palette.results = [];
-  m.hidden = false;
-  paletteRender();
-  $('palette-q').focus();
-}
-
-function paletteClose() {
-  var m = $('palette-modal');
-  if (m) m.hidden = true;
-  if (palettePrevFocus && typeof palettePrevFocus.focus === 'function') { try { palettePrevFocus.focus(); } catch (e) {} }
-  palettePrevFocus = null;
-}
-
-function palettePlayFirst() {
-  var r = (state.palette.results || [])[0];
-  if (!r) return;
-  if (r.kind === 'rx') openSDR(r.url, r.name); else play(r.url, r.name);
-  paletteClose();
-}
-
-/* ================= player EQ animation (decorative) ================= */
-
-var visRaf = null;
-var visBars = null;
-
-function visFrame() {
-  var cv = $('player-vis');
-  if (!cv || !cv.getContext) { visRaf = null; return; }
-  var ctx = cv.getContext('2d');
-  var w = cv.width, h = cv.height;
-  if (!visBars) {
-    visBars = [];
-    for (var i = 0; i < 14; i++) visBars.push(Math.random());
-  }
-  ctx.clearRect(0, 0, w, h);
-  var grad = ctx.createLinearGradient(0, h, 0, 0);
-  grad.addColorStop(0, 'rgba(212,175,55,.35)');
-  grad.addColorStop(1, '#d4af37');
-  ctx.fillStyle = grad;
-  var bw = w / visBars.length;
-  for (var b = 0; b < visBars.length; b++) {
-    visBars[b] += (Math.random() - 0.5) * 0.4;
-    if (visBars[b] > 1) visBars[b] = 1;
-    if (visBars[b] < 0.08) visBars[b] = 0.08 + Math.random() * 0.25;
-    var bh = visBars[b] * (h - 2);
-    ctx.fillRect(b * bw + 1, h - bh, Math.max(2, bw - 2), bh);
-  }
-  visRaf = requestAnimationFrame(visFrame);
-}
-
-function visStop() {
-  if (visRaf) { cancelAnimationFrame(visRaf); visRaf = null; }
-  var cv = $('player-vis');
-  if (cv && cv.getContext) {
-    try { cv.getContext('2d').clearRect(0, 0, cv.width, cv.height); } catch (e) {}
-  }
-}
 
 /* ================= featured home row (most famous stations) ================= */
 
@@ -2585,14 +970,14 @@ function reportStation(url, name) {
   toast(t('report_toast'));
 }
 
-var previousSDRFocus = null;
+
 
 function openSDR(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
   $('sdr-modal-name').textContent = '🎧 ' + (name || '');
   $('sdr-open-ext').href = url;
-  previousSDRFocus = document.activeElement;
+  state.previousSDRFocus = document.activeElement;
   $('sdr-frame').src = url;
   $('sdr-modal').hidden = false;
   $('sdr-modal-close').focus();
@@ -2602,47 +987,9 @@ function closeSDR() {
   $('sdr-frame').src = 'about:blank';
   try { $('sdr-frame').removeAttribute('srcdoc'); } catch (e) {}
   $('sdr-modal').hidden = true;
-  if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
-  previousSDRFocus = null;
+  if (state.previousSDRFocus && typeof state.previousSDRFocus.focus === 'function') state.previousSDRFocus.focus();
+  state.previousSDRFocus = null;
 }
-
-function initResume() {
-  var last = null;
-  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
-  if (!last || !safeHttpsUrl(last.url)) return;
-  if (isDmEmbed(last.url)) return;
-  var station = stationByUrl(last.url);
-  state.playbackStation = station || { name: last.name || '', url: last.url };
-  state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
-  var resumeRelay = (station && station.tokenEndpoint && station.tokenType === 'easy_b') ? '' : proxyStreamUrl(last.url);
-  if (resumeRelay && state.playbackSources.indexOf(resumeRelay) === -1) {
-    state.playbackSources.push(resumeRelay);
-  }
-  state.playbackIndex = 0;
-  state.playbackGeneration += 1;
-  var generation = state.playbackGeneration;
-  state.currentName = last.name || '';
-  var a = $('audio');
-  var ext = $('player-ext');
-  if (ext) { ext.href = last.url; ext.hidden = false; }
-  var official = $('player-official');
-  if (official) {
-    official.hidden = !(state.playbackStation && state.playbackStation.website);
-    if (!official.hidden) official.href = state.playbackStation.website;
-  }
-  $('player').hidden = false;
-  $('player-name').textContent = '⏸ ' + state.currentName + ' — ' + t('resume');
-  if (isHlsUrl(last.url) && (state.playbackStation.tokenEndpoint || !a.canPlayType('application/vnd.apple.mpegurl'))) {
-    loadHlsLib(function (loaded) {
-      if (generation !== state.playbackGeneration || !loaded || !attachHls(last.url, generation, state.playbackStation)) return;
-      a.preload = 'none';
-    });
-  } else {
-    try { a.src = last.url; a.preload = 'none'; } catch (e) {}
-  }
-  setMedia(state.currentName);
-}
-
 function initPlayers() {
   document.addEventListener('click', function (e) {
     var el = e.target;
@@ -2680,71 +1027,7 @@ function initPlayers() {
       openKiwiAudio(kw.getAttribute('data-url'), kw.getAttribute('data-name'));
     }
   });
-  $('player-close').addEventListener('click', function () {
-    state.playbackGeneration += 1;
-    state.playbackSources = [];
-    state.playbackStation = null;
-    var a = $('audio');
-    a.pause();
-    a.removeAttribute('src');
-    destroyHls();
-    visStop();
-    var ext = $('player-ext');
-    var official = $('player-official');
-    if (ext) ext.hidden = true;
-    if (official) official.hidden = true;
-    var altBox = $('player-alt');
-    if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
-    $('player').hidden = true;
-    setMediaPlaybackState('none');
-    updateDocTitle();
-    renderQuickBar();
-  });
-  $('vol-mute').addEventListener('click', toggleMute);
-  $('vol-slider').addEventListener('input', function () {
-    state.playerVolume = Math.max(0, Math.min(100, Number(this.value) || 0));
-    if (state.playerVolume > 0) state.playerMuted = false;
-    saveVolume();
-    applyVolume();
-  });
-  $('player-prev').addEventListener('click', function () { playStepStation(-1); });
-  $('player-next').addEventListener('click', function () { playStepStation(1); });
-  var playerAltBox = $('player-alt');
-  if (playerAltBox) playerAltBox.addEventListener('click', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('button.alt-chip') : null;
-    if (!b) return;
-    play(b.getAttribute('data-alt-url'), b.getAttribute('data-alt-name'));
-  });
-  loadVolume();
   $('sdr-modal-close').addEventListener('click', closeSDR);
-  $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
-  $('kiwi-freq').addEventListener('change', function () {
-    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET freq ' + (Number(this.value) || 7100));
-  });
-  $('kiwi-mode').addEventListener('change', function () {
-    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET mod ' + this.value);
-  });
-  $('audio').addEventListener('playing', function () {
-    setPlayerStatus('live');
-    setMediaPlaybackState('playing');
-    if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
-  });
-  $('audio').addEventListener('pause', function () {
-    setPlayerStatus('paused');
-    setMediaPlaybackState('paused');
-    visStop();
-  });
-  $('audio').addEventListener('waiting', function () { setPlayerStatus('connecting'); });
-  $('audio').addEventListener('stalled', function () { setPlayerStatus('connecting'); });
-  $('audio').addEventListener('error', function () {
-    if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
-  });
-  $('audio').addEventListener('play', function () {
-    if (hls && !hls.__raStarted) {
-      hls.__raStarted = true;
-      try { hls.startLoad(); } catch (e) {}
-    }
-  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       if (!$('sdr-modal').hidden) closeSDR();
@@ -2752,30 +1035,6 @@ function initPlayers() {
       if (!$('palette-modal').hidden) paletteClose();
       if (!$('alarm-modal').hidden) closeAlarmModal();
     }
-    var ptag = ((e.target && e.target.tagName) || '').toLowerCase();
-    if (ptag === 'input' || ptag === 'select' || ptag === 'textarea') return;
-    if ($('player').hidden) return;
-    if (e.key === ' ' && ptag !== 'button') {
-      e.preventDefault();
-      try {
-        var au = $('audio');
-        if (au.paused) au.play().catch(function () {}); else au.pause();
-      } catch (err) {}
-      return;
-    }
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      state.playerVolume = Math.max(0, Math.min(100, state.playerVolume + (e.key === 'ArrowUp' ? 5 : -5)));
-      if (state.playerVolume > 0) state.playerMuted = false;
-      var sl = $('vol-slider');
-      if (sl) sl.value = String(state.playerVolume);
-      saveVolume();
-      applyVolume();
-      return;
-    }
-    if (e.key === 'ArrowLeft') { playStepStation(-1); return; }
-    if (e.key === 'ArrowRight') { playStepStation(1); return; }
-    if (e.key === 'm' || e.key === 'M') toggleMute();
   });
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K' || e.keyCode === 75)) {
@@ -2784,502 +1043,17 @@ function initPlayers() {
     }
   });
 }
-
-/* ================= visitor box ================= */
-
-var visitorJsonpSequence = 0;
-var ABACUS_BASE = 'https://abacus.jasoncameron.dev';
-var ABACUS_NAMESPACE = 'radio-atlas';
-var ABACUS_KEY = 'views';
-
-function visitorCounterRequest(action, params, key) {
-  return new Promise(function (resolve, reject) {
-    var callbackName = '__radioAtlasCounter' + (++visitorJsonpSequence);
-    var script = document.createElement('script');
-    var settled = false;
-    var query = Object.assign({}, params || {});
-    query.callback = callbackName;
-    var queryString = Object.keys(query).map(function (name) {
-      return encodeURIComponent(name) + '=' + encodeURIComponent(String(query[name]));
-    }).join('&');
-    function finish(error, data) {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timeout);
-      script.onerror = null;
-      if (script.parentNode) script.parentNode.removeChild(script);
-      try { delete window[callbackName]; } catch (e) { window[callbackName] = undefined; }
-      if (error) reject(error); else resolve(data);
-    }
-    window[callbackName] = function (data) { finish(null, data); };
-    script.onerror = function () { finish(new Error('Abacus request failed')); };
-    var timeout = setTimeout(function () {
-      finish(new Error('Abacus request timed out'));
-    }, 10000);
-    script.src = ABACUS_BASE + '/' + action + '/' +
-      encodeURIComponent(ABACUS_NAMESPACE) + '/' +
-      encodeURIComponent(key || ABACUS_KEY) + (queryString ? '?' + queryString : '');
-    script.async = true;
-    document.head.appendChild(script);
-  });
-}
-
-function renderVisitorValue(elementId, value) {
-  var el = $(elementId);
-  if (!el) return;
-  var number = Number(value);
-  el.textContent = Number.isFinite(number) && number >= 0 ? fmtNum(number) : '—';
-}
-
-var VISITOR_CACHE_KEY = 'ra-views';
-var VISITOR_CACHE_TTL = 14 * 24 * 3600 * 1000;
-
-function visitorCachedTotal() {
-  try {
-    var cached = JSON.parse(localStorage.getItem(VISITOR_CACHE_KEY) || 'null');
-    if (cached && Number(cached.v) >= 0 && Date.now() - Number(cached.ts || 0) < VISITOR_CACHE_TTL) {
-      return Number(cached.v);
-    }
-  } catch (e) {}
-  return null;
-}
-
-function renderVisitorFallbackBadge() {
-  // Abacus down and nothing cached: show a live Moe-Counter badge
-  // instead of an unavailable label.
-  var el = $('visitor-counter');
-  if (!el || el.getAttribute('data-fallback-badge')) return;
-  el.setAttribute('data-fallback-badge', '1');
-  var img = document.createElement('img');
-  img.src = 'https://count.getloli.com/get/@samotech-radio-atlas';
-  img.alt = 'visitors';
-  img.height = 28;
-  img.style.verticalAlign = 'middle';
-  el.textContent = '';
-  el.appendChild(img);
-}
-
-function initVisitorBox() {
-  // Show the last known total instantly, then count this visit via
-  // Abacus (free counting API, jasoncameron.dev) using JSONP.
-  var cachedTotal = visitorCachedTotal();
-  if (cachedTotal != null) renderVisitorValue('visitor-counter', cachedTotal);
-  visitorCounterRequest('hit', {})
-    .then(function (data) {
-      var value = Number(data && data.value);
-      renderVisitorValue('visitor-counter', value);
-      if (value >= 0) {
-        try { localStorage.setItem(VISITOR_CACHE_KEY, JSON.stringify({ v: value, ts: Date.now() })); } catch (e) {}
-      }
-    })
-    .catch(function (error) {
-      console.warn('Radio Atlas total visitor counter:', error);
-      if (visitorCachedTotal() == null) renderVisitorFallbackBadge();
-    });
-}
-
-/* ---- visitor geography: country-level counts on the world map ---- */
-
-var VISITOR_CC_POINTS = [
-  { cc: 'EG', lat: 26.8, lon: 30.8 }, { cc: 'SA', lat: 24, lon: 45 },
-  { cc: 'AE', lat: 24, lon: 54 }, { cc: 'KW', lat: 29.3, lon: 47.6 },
-  { cc: 'QA', lat: 25.3, lon: 51.2 }, { cc: 'BH', lat: 26, lon: 50.55 },
-  { cc: 'OM', lat: 21, lon: 57 }, { cc: 'JO', lat: 31.3, lon: 36.8 },
-  { cc: 'LB', lat: 33.9, lon: 35.9 }, { cc: 'SY', lat: 35, lon: 38.5 },
-  { cc: 'IQ', lat: 33, lon: 43.8 }, { cc: 'YE', lat: 15.5, lon: 48 },
-  { cc: 'SD', lat: 15, lon: 30 }, { cc: 'LY', lat: 27, lon: 17 },
-  { cc: 'DZ', lat: 28, lon: 2.7 }, { cc: 'TN', lat: 34, lon: 9.5 },
-  { cc: 'MA', lat: 31.9, lon: -7 }, { cc: 'PS', lat: 31.9, lon: 35.2 },
-  { cc: 'MR', lat: 20, lon: -10.5 }, { cc: 'SO', lat: 5, lon: 46 },
-  { cc: 'DJ', lat: 11.5, lon: 43 }, { cc: 'KM', lat: -11.7, lon: 43.3 },
-  { cc: 'US', lat: 39.8, lon: -98.6 }, { cc: 'CA', lat: 56, lon: -106 },
-  { cc: 'GB', lat: 54, lon: -2 }, { cc: 'FR', lat: 46.6, lon: 2.4 },
-  { cc: 'DE', lat: 51, lon: 10.4 }, { cc: 'NL', lat: 52.2, lon: 5.3 },
-  { cc: 'ES', lat: 40.2, lon: -3.7 }, { cc: 'IT', lat: 42.8, lon: 12.6 },
-  { cc: 'TR', lat: 39, lon: 35 }, { cc: 'RU', lat: 61, lon: 90 },
-  { cc: 'SE', lat: 62, lon: 15 }, { cc: 'PL', lat: 52.2, lon: 19.1 },
-  { cc: 'IN', lat: 21, lon: 78 }, { cc: 'PK', lat: 30, lon: 70 },
-  { cc: 'ID', lat: -2, lon: 118 }, { cc: 'MY', lat: 4, lon: 102 },
-  { cc: 'PH', lat: 12, lon: 122 }, { cc: 'JP', lat: 36.5, lon: 138 },
-  { cc: 'CN', lat: 35, lon: 104 }, { cc: 'BR', lat: -10, lon: -52 },
-  { cc: 'AU', lat: -25, lon: 134 }, { cc: 'ZA', lat: -29, lon: 25 },
-  { cc: 'NG', lat: 9.5, lon: 8 }, { cc: 'KE', lat: 0.3, lon: 37.9 }
-];
-var VISITOR_GEO_CACHE_KEY = 'ra-visitor-geo';
-var VISITOR_GEO_TTL = 30 * 24 * 3600 * 1000;
-var VISITOR_HEAT_CACHE_KEY = 'ra-visitor-heat';
-var VISITOR_HEAT_TTL = 24 * 3600 * 1000;
-var visitorHeatBusy = false;
-var visitorHeatLastTry = 0;
-
-function visitorHeatDot(count, maxCount) {
-  // Gold dot radius for the visitors map layer (0 = do not draw).
-  var n = Number(count) || 0;
-  var m = Number(maxCount) || 0;
-  if (n <= 0 || m <= 0) return 0;
-  return (2 + 6 * Math.sqrt(n / m)).toFixed(2);
-}
-
-function visitorLeadRows(vheat, limit) {
-  // Top countries by visit count for the map leaderboard (pure helper).
-  var rows = [];
-  var src = vheat || {};
-  for (var cc in src) {
-    var n = Number(src[cc]) || 0;
-    if (n > 0) rows.push({ cc: cc, n: n });
-  }
-  rows.sort(function (a, b) { return b.n - a.n; });
-  return rows.slice(0, limit || 10);
-}
-
-function renderVisitorYou(cc, name, flag) {
-  var el = $('visitor-you');
-  if (!el) return;
-  el.textContent = '';
-  el.appendChild(document.createTextNode(t('you_from') + ' '));
-  var b = document.createElement('b');
-  b.textContent = (flag ? flag + ' ' : '') + (name || String(cc || '').toUpperCase());
-  el.appendChild(b);
-  el.hidden = false;
-}
-
-function countVisitorCountry(cc) {
-  if (!cc || !/^[A-Z]{2}$/.test(cc)) return;
-  visitorCounterRequest('hit', {}, 'views-' + cc)
-    .catch(function (error) { console.warn('Radio Atlas visitor country counter:', error); });
-}
-
-function initVisitorGeo() {
-  // Detect the visitor country (ipwho.is, CORS-open) and count the visit
-  // under a per-country Abacus key for the map visitors layer.
-  var cached = null;
-  try {
-    cached = JSON.parse(localStorage.getItem(VISITOR_GEO_CACHE_KEY) || 'null');
-  } catch (e) {}
-  if (cached && cached.cc && Date.now() - Number(cached.ts || 0) < VISITOR_GEO_TTL) {
-    renderVisitorYou(cached.cc, cached.name, cached.flag);
-    countVisitorCountry(cached.cc);
-    return;
-  }
-  fetchJSON('https://ipwho.is/')
-    .then(function (j) {
-      if (!j || !j.success || !j.country_code) throw new Error('geo lookup failed');
-      var cc = String(j.country_code).toUpperCase().slice(0, 2);
-      var name = String(j.country || cc);
-      var flag = j.flag && j.flag.emoji ? String(j.flag.emoji) : flagOf(cc);
-      try { localStorage.setItem(VISITOR_GEO_CACHE_KEY, JSON.stringify({ cc: cc, name: name, flag: flag, ts: Date.now() })); } catch (e) {}
-      renderVisitorYou(cc, name, flag);
-      countVisitorCountry(cc);
-    })
-    .catch(function (error) { console.warn('Radio Atlas visitor geo:', error); });
-}
-
-function visitorHeatCached() {
-  try {
-    var cached = JSON.parse(localStorage.getItem(VISITOR_HEAT_CACHE_KEY) || 'null');
-    if (cached && cached.data && Date.now() - Number(cached.ts || 0) < VISITOR_HEAT_TTL) return cached.data;
-  } catch (e) {}
-  return null;
-}
-
-function fetchVisitorHeat() {
-  // Per-country visit counts for the map layer. One JSONP request every
-  // 400ms respects the free Abacus rate limit; cached 24h in localStorage.
-  var cached = visitorHeatCached();
-  if (cached) { state.visitorHeat = cached; return; }
-  if (visitorHeatBusy || Date.now() - visitorHeatLastTry < 600000) return;
-  visitorHeatBusy = true;
-  visitorHeatLastTry = Date.now();
-  var merged = {};
-  var chain = Promise.resolve();
-  VISITOR_CC_POINTS.forEach(function (p, i) {
-    chain = chain.then(function () {
-      return visitorCounterRequest('get', {}, 'views-' + p.cc)
-        .then(function (data) {
-          var v = Number(data && data.value);
-          if (Number.isFinite(v) && v > 0) merged[p.cc] = v;
-        })
-        .catch(function () {});
-    });
-    if (i < VISITOR_CC_POINTS.length - 1) {
-      chain = chain.then(function () { return new Promise(function (r) { setTimeout(r, 400); }); });
-    }
-  });
-  chain.then(function () {
-    visitorHeatBusy = false;
-    state.visitorHeat = merged;
-    try { localStorage.setItem(VISITOR_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
-    if (state.activeTab === 'map' && state.mapLayers.visitors) renderMap();
-  });
-}
-
-function renderVisitorLead() {
-  // Ranked "top visiting countries" box under the map (visitors layer).
-  var el = $('visitor-lead');
-  if (!el) return;
-  var vheat = state.visitorHeat || visitorHeatCached() || {};
-  var rows = visitorLeadRows(vheat, 10);
-  if (!rows.length || !state.mapLayers.visitors) { el.hidden = true; el.innerHTML = ''; return; }
-  var max = rows[0].n;
-  var html = '<h3 class="vlead-title">' + esc(t('visitor_lead_title')) + '</h3>';
-  rows.forEach(function (r, i) {
-    var w = Math.max(8, Math.round(100 * r.n / max));
-    html += '<div class="vlead-row"><span class="vlead-rank">' + (i + 1) + '</span><span class="vlead-flag">' + flagOf(r.cc) + '</span><span class="vlead-name">' + esc(regionName(r.cc, r.cc)) + '</span><span class="vlead-bar"><span class="vlead-fill" style="width:' + w + '%"></span></span><b class="vlead-count">' + fmtNum(r.n) + '</b></div>';
-  });
-  el.innerHTML = html;
-  el.hidden = false;
-}
-
-/* ---- trending: per-station play counts (Abacus play-<host/path>) ---- */
-
-var PLAY_HEAT_CACHE_KEY = 'ra-play-heat';
-var PLAY_HEAT_TTL = 24 * 3600 * 1000;
-var playHeatBusy = false;
-var playHeatLastTry = 0;
-
-function playCountKey(url) {
-  // Stable short key for per-station play counting (host + path, no query).
-  try {
-    var u = new URL(url);
-    return 'play-' + u.hostname.replace(/^www\./, '') + u.pathname;
-  } catch (e) { return ''; }
-}
-
-function trendingList(candidates, counts, limit) {
-  // Candidate stations ranked by play count (pure helper; zeros masked).
-  var out = [];
-  var list = candidates || [];
-  for (var i = 0; i < list.length; i++) {
-    var s = list[i];
-    var k = playCountKey(s && s.url);
-    var n = k ? Number(counts && counts[k]) || 0 : 0;
-    if (n > 0) out.push({ station: s, n: n });
-  }
-  out.sort(function (a, b) { return b.n - a.n; });
-  return out.slice(0, limit || 10);
-}
-
-var playbackErrorReportedGen = -1;
-function coarsePlaybackError(reason) {
-  /* P1-4 basic error monitoring: classify a playback failure into one
-     coarse kind so the daily report stays a small fixed set of counters. */
-  var text = String(reason || '').toLowerCase();
-  if (text.indexOf('token') !== -1) return 'token';
-  if (text.indexOf('hls') !== -1) return 'hls';
-  if (text === 'html audio element error') {
-    try {
-      var mediaError = $('audio') && $('audio').error;
-      var code = mediaError && mediaError.code;
-      if (code === 1) return 'abort';
-      if (code === 2) return 'network';
-      if (code === 3) return 'decode';
-      if (code === 4) return 'src';
-    } catch (e) {}
-  }
-  return 'other';
-}
-function reportPlaybackError(generation, reason) {
-  /* Fire-and-forget like the play counter: +1 on err-total and the coarse
-     failure kind key. One report per playback generation so automatic
-     retries through alternative sources do not inflate the counts. */
-  if (generation === playbackErrorReportedGen) return;
-  playbackErrorReportedGen = generation;
-  visitorCounterRequest('hit', {}, 'err-total').catch(function () {});
-  visitorCounterRequest('hit', {}, 'err-' + coarsePlaybackError(reason)).catch(function () {});
-}
-
-function countStationPlay(url) {
-  // Fire-and-forget: +1 on this station's Abacus play key.
-  var key = playCountKey(url);
-  if (!key) return;
-  state.playHeat = state.playHeat || {};
-  state.playHeat[key] = (Number(state.playHeat[key]) || 0) + 1;
-  renderTrending();
-  visitorCounterRequest('hit', {}, key)
-    .catch(function (error) { console.warn('Radio Atlas play counter:', error); });
-}
-
-function playHeatCached() {
-  try {
-    var cached = JSON.parse(localStorage.getItem(PLAY_HEAT_CACHE_KEY) || 'null');
-    if (cached && cached.data && Date.now() - Number(cached.ts || 0) < PLAY_HEAT_TTL) return cached.data;
-  } catch (e) {}
-  return null;
-}
-
-function fetchPlayHeat() {
-  // Play counts for the trending shelf candidates (the featured list).
-  // One JSONP get every 400ms respects the free Abacus rate limit; cached 24h.
-  var cached = playHeatCached();
-  if (cached) { state.playHeat = cached; renderTrending(); return; }
-  if (playHeatBusy || Date.now() - playHeatLastTry < 600000) return;
-  var candidates = featuredList();
-  if (!candidates.length) return;
-  playHeatBusy = true;
-  playHeatLastTry = Date.now();
-  var merged = {};
-  var chain = Promise.resolve();
-  candidates.forEach(function (s, i) {
-    var key = playCountKey(s.url);
-    if (!key) return;
-    chain = chain.then(function () {
-      return visitorCounterRequest('get', {}, key)
-        .then(function (data) {
-          var v = Number(data && data.value);
-          if (Number.isFinite(v) && v > 0) merged[key] = v;
-        })
-        .catch(function () {});
-    });
-    if (i < candidates.length - 1) {
-      chain = chain.then(function () { return new Promise(function (r) { setTimeout(r, 400); }); });
-    }
-  });
-  chain.then(function () {
-    playHeatBusy = false;
-    state.playHeat = merged;
-    try { localStorage.setItem(PLAY_HEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: merged })); } catch (e) {}
-    renderTrending();
-  });
-}
-
-function renderTrending() {
-  var wrap = $('trending-wrap');
-  if (!wrap) return;
-  var counts = state.playHeat || playHeatCached() || {};
-  var rows = trendingList(featuredList(), counts, 10);
-  if (!rows.length) { wrap.hidden = true; return; }
-  var html = '';
-  for (var i = 0; i < rows.length; i++) html += cardFm(rows[i].station);
-  $('trending-row').innerHTML = html;
-  wrap.hidden = false;
-}
-
-function initTrending() {
-  // Called once the catalog is loaded: paint cached counts, refresh if stale.
-  renderTrending();
-  fetchPlayHeat();
-}
-
-/* ================= KiwiSDR WebSocket audio (experimental) ================= */
-
-var kiwiWs = null;
-var kiwiAudioCtx = null;
-var kiwiGain = null;
-var kiwiNextTime = 0;
-var kiwiKeepAlive = null;
-
-function kiwiSetStatus(text) {
-  var el = $('kiwi-status');
-  if (el) el.textContent = text;
-}
-
-function closeKiwiAudio() {
-  if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
-  if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
-  var audio = $('kiwi-audio');
-  if (audio) { try { audio.pause(); audio.srcObject = null; } catch (e) {} }
-  kiwiGain = null;
-  var modal = $('kiwi-modal');
-  if (modal) modal.hidden = true;
-}
-
-function kiwiFeedAudio(samples) {
-  // samples: Int16Array PCM at 11.025 kHz mono (KiwiSDR 'SET ar o-f s11').
-  if (!kiwiAudioCtx || !kiwiGain || !samples.length) return;
-  try {
-    var buffer = kiwiAudioCtx.createBuffer(1, samples.length, 11025);
-    var channel = buffer.getChannelData(0);
-    for (var i = 0; i < samples.length; i++) channel[i] = samples[i] / 32768;
-    var source = kiwiAudioCtx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(kiwiGain);
-    var now = kiwiAudioCtx.currentTime;
-    if (kiwiNextTime < now + 0.05) kiwiNextTime = now + 0.05;
-    source.start(kiwiNextTime);
-    kiwiNextTime += buffer.duration;
-  } catch (e) {}
-}
-
-function openKiwiAudio(url, name) {
-  // Experimental direct audio over the KiwiSDR WebSocket protocol for
-  // HTTPS receivers whose operator allows API connections (ext_api > 0).
-  // Any failure falls back to the embedded receiver web UI (openSDR).
-  var parsed = null;
-  try { parsed = new URL(url); } catch (e) {}
-  if (!parsed || parsed.protocol !== 'https:') { openSDR(url, name); return; }
-  closeKiwiAudio();
-  kiwiNextTime = 0;
-  $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
-  $('kiwi-open-ext').href = url;
-  $('kiwi-modal').hidden = false;
-  kiwiSetStatus(t('kiwi_connecting'));
-  var audio = $('kiwi-audio');
-  var failed = false;
-  var failTimer = null;
-  function fail() {
-    if (failed) return;
-    failed = true;
-    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
-    closeKiwiAudio();
-    toast(t('kiwi_failed'));
-    openSDR(url, name);
-  }
-  var Ctx = window.AudioContext || window.webkitAudioContext;
-  if (!Ctx) { fail(); return; }
-  try {
-    kiwiAudioCtx = new Ctx();
-    kiwiGain = kiwiAudioCtx.createGain();
-    var dest = kiwiAudioCtx.createMediaStreamDestination();
-    kiwiGain.connect(dest);
-    audio.srcObject = dest.stream;
-    audio.play().catch(function () {});
-  } catch (e) { fail(); return; }
-  failTimer = setTimeout(fail, 8000);
-  var ws = new WebSocket('wss://' + parsed.host + '/0');
-  ws.binaryType = 'arraybuffer';
-  kiwiWs = ws;
-  ws.onopen = function () { ws.send('SET auth t=1'); };
-  ws.onmessage = function (ev) {
-    if (typeof ev.data === 'string') {
-      var msg = ev.data;
-      if (msg.indexOf('BAD_AUTH') !== -1 || msg.indexOf('MSG fault') !== -1) { fail(); return; }
-      if (msg.indexOf('MSG auth') !== -1) {
-        var freqEl = $('kiwi-freq');
-        var modeEl = $('kiwi-mode');
-        ws.send('SET freq ' + (Number(freqEl && freqEl.value) || 7100));
-        ws.send('SET mod ' + ((modeEl && modeEl.value) || 'am'));
-        ws.send('SET ar o-f s11');
-        ws.send('SET sound out buf_size=512');
-      }
-      return;
-    }
-    if (!(ev.data instanceof ArrayBuffer)) return;
-    var bytes = new Uint8Array(ev.data);
-    if (bytes.length < 10) return;
-    var type = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
-    if (type !== 3) return;
-    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
-    kiwiSetStatus(t('kiwi_live'));
-    var sampleLen = (bytes.length - 9) >> 1;
-    if (sampleLen <= 0) return;
-    var samples = new Int16Array(sampleLen);
-    for (var i = 0; i < sampleLen; i++) {
-      samples[i] = bytes[9 + i * 2] | (bytes[10 + i * 2] << 8);
-    }
-    kiwiFeedAudio(samples);
-  };
-  ws.onerror = function () { fail(); };
-  ws.onclose = function () { if (!failed) fail(); };
-  kiwiKeepAlive = setInterval(function () {
-    if (ws && ws.readyState === 1) ws.send('SET keepalive');
-  }, 30000);
-}
-
-/* ================= UI ================= */
-
 function switchTab(x) {
   state.activeTab = x;
-  if (x === 'map') renderMap();
+  if (x === 'map') {
+    if (mapApi) renderMap();
+    else ensureMap().then(function (m) { m.mapTabOpened(); });
+  } else if (x === 'sdr') {
+    ensureSdr().then(function (m) { m.sdrTabOpened(); });
+  } else if (x === 'fav' || x === 'ar' || x === 'rel' || x === 'eg') {
+    var renderFn = { fav: 'renderFav', ar: 'renderAR', rel: 'renderRel', eg: 'renderEG' }[x];
+    ensureCollections().then(function (m) { m[renderFn](); });
+  }
   ['fm', 'fav', 'ar', 'rel', 'eg', 'sdr', 'map'].forEach(function (k) {
     var tab = $('tab-' + k);
     var panel = $('panel-' + k);
@@ -3336,25 +1110,6 @@ function initHeroPlay() {
 }
 /* ================= v54: listener experience pack — media session, data saver, failure alternatives, quick bar ================= */
 
-var mediaSessionActionsBound = false;
-function wireMediaSessionActions() {
-  if (mediaSessionActionsBound || !('mediaSession' in navigator) || !navigator.mediaSession.setActionHandler) return;
-  var audio = $('audio');
-  var actions = {
-    play: function () { try { audio.play(); } catch (e) {} },
-    pause: function () { audio.pause(); },
-    previoustrack: function () { playStepStation(-1); },
-    nexttrack: function () { playStepStation(1); }
-  };
-  for (var key in actions) {
-    try { navigator.mediaSession.setActionHandler(key, actions[key]); } catch (e) {}
-  }
-  mediaSessionActionsBound = true;
-}
-function setMediaPlaybackState(kind) {
-  if (!('mediaSession' in navigator)) return;
-  try { navigator.mediaSession.playbackState = kind; } catch (e) {}
-}
 function updateDocTitle() {
   if (state.currentName && !$('player').hidden) {
     document.title = String(t('title_playing')).replace('{n}', state.currentName);
@@ -3380,66 +1135,6 @@ function initSaverButton() {
     renderSaverBtn();
     toast(isDataSaver() ? t('saver_on') : t('saver_off'));
   });
-}
-function pickSaverStation(station, url) {
-  if (!isDataSaver() || !station) return null;
-  var curBit = Number(station.bitrate) || 0;
-  if (!curBit || curBit <= 96000) return null;
-  var nm = normalizeSearchText(station.name || '');
-  if (!nm) return null;
-  var fallback = null;
-  var list = state.fm || [];
-  for (var i = 0; i < list.length; i++) {
-    var s = list[i];
-    if (!s || s.url === url || !safeHttpsUrl(s.url) || !/^https:/i.test(s.url)) continue;
-    if (normalizeSearchText(s.name || '') !== nm) continue;
-    var b = Number(s.bitrate) || 0;
-    if (!b || b >= curBit) continue;
-    var c = state.streamChecks ? state.streamChecks[s.url] : null;
-    if (c && c.alive) return s;
-    if (!fallback) fallback = s;
-  }
-  return fallback;
-}
-function aliveAlternativeStations(limit) {
-  var cur = state.playbackStation || {};
-  var out = [];
-  var seen = {};
-  var list = state.fm || [];
-  var cc = cur.cc || '';
-  var myTags = String(cur.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
-  for (var pass = 0; pass < 2 && out.length < limit; pass++) {
-    for (var i = 0; i < list.length; i++) {
-      var s = list[i];
-      if (!s || seen[s.url] || s.url === cur.url) continue;
-      if (!safeHttpsUrl(s.url) || !/^https:/i.test(s.url)) continue;
-      var c = state.streamChecks ? state.streamChecks[s.url] : null;
-      if (!c || !c.alive) continue;
-      if (pass === 0) {
-        if (!cc || s.cc !== cc) continue;
-      } else {
-        var stTags = String(s.tags || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
-        var overlap = myTags.some(function (tg) { return stTags.indexOf(tg) !== -1; });
-        if (!myTags.length || !overlap) continue;
-      }
-      seen[s.url] = 1;
-      out.push(s);
-      if (out.length >= limit) break;
-    }
-  }
-  return out;
-}
-function renderPlayerAlternatives() {
-  var box = $('player-alt');
-  if (!box) return;
-  var alts = aliveAlternativeStations(3);
-  if (!alts.length) { box.hidden = true; box.innerHTML = ''; return; }
-  var html = '<span class="alt-label">' + esc(t('alt_title')) + '</span>';
-  for (var i = 0; i < alts.length; i++) {
-    html += '<button class="chip alt-chip" type="button" data-alt-url="' + esc(alts[i].url) + '" data-alt-name="' + esc(alts[i].name || '') + '">▶ ' + esc(alts[i].name || '') + '</button>';
-  }
-  box.innerHTML = html;
-  box.hidden = false;
 }
 var quickBarRenderedFor = null;
 function renderQuickBar() {
@@ -3573,11 +1268,6 @@ function initUI() {
     if (!b) return;
     play(b.getAttribute('data-history-url'), b.getAttribute('data-history-name'))
   });
-  $('sleep-btn').addEventListener('click', toggleSleepTimer);
-  $('alarm-btn').addEventListener('click', openAlarmModal);
-  $('alarm-save').addEventListener('click', saveAlarm);
-  $('alarm-clear').addEventListener('click', clearAlarm);
-  $('alarm-close').addEventListener('click', closeAlarmModal);
   $('palette-btn').addEventListener('click', paletteOpen);
   $('palette-close').addEventListener('click', paletteClose);
   $('palette-q').addEventListener('input', function () { paletteRender(); });
@@ -3603,11 +1293,8 @@ function initUI() {
     if (!b) return;
     play(b.getAttribute('data-qbu'), b.getAttribute('data-qbn'));
   });
-  renderAlarmBtn();
-  alarmTick = setInterval(checkAlarm, 15000);
   setInterval(function () { if (state.activeTab === 'map') renderMap(); }, 60000);
 }
-
 function init() {
   state.favs = loadFavs();
   state.history = loadHistory();
@@ -3620,13 +1307,6 @@ function init() {
     if (savedTheme === 'light' || savedTheme === 'dark') setTheme(savedTheme);
     setLang(savedLang === 'en' ? 'en' : 'ar');
   } catch (e) { setLang('ar'); }
-  loadKiwi();
-  loadSpace();
-  loadEibi();
-  loadWspr();
-  loadWebSdrs();
-  loadSatnogs();
-  loadLand();
   if (window.requestIdleCallback) {
     window.requestIdleCallback(function () { loadStations(); });
   } else {
@@ -3648,3 +1328,95 @@ document.addEventListener('DOMContentLoaded', init);
 
 
 
+
+/* ================= P1-2: lazy ES module loading ================= */
+/* الوحدات الثقيلة (المشغل، SDR، الخريطة، الزوار، لوحة البحث، المجموعات،
+   الكتالوج) بتتحمل ديناميكيًا عند أول استخدام — الزيارة الأولى تنزل
+   النواة فقط (أقل من نص الحجم القديم)، والباقي عند الطلب. */
+
+var playerApi = null, kiwiApi = null, mapApi = null, sdrApi = null;
+var visitorsApi = null, paletteApi = null, collectionsApi = null, catalogApi = null;
+
+function ensurePlayer() { return playerApi ? Promise.resolve(playerApi) : import('./modules/player.js').then(function (m) { playerApi = m; m.initPlayerUI(); return m; }); }
+function ensureKiwi() { return kiwiApi ? Promise.resolve(kiwiApi) : import('./modules/kiwi.js').then(function (m) { kiwiApi = m; m.initKiwiUI(); return m; }); }
+function ensureMap() { return mapApi ? Promise.resolve(mapApi) : import('./modules/map.js').then(function (m) { mapApi = m; return m; }); }
+function ensureSdr() { return sdrApi ? Promise.resolve(sdrApi) : import('./modules/sdr.js').then(function (m) { sdrApi = m; return m; }); }
+function ensureVisitors() { return visitorsApi ? Promise.resolve(visitorsApi) : import('./modules/visitors.js').then(function (m) { visitorsApi = m; return m; }); }
+function ensurePalette() { return paletteApi ? Promise.resolve(paletteApi) : import('./modules/palette.js').then(function (m) { paletteApi = m; return m; }); }
+function ensureCollections() { return collectionsApi ? Promise.resolve(collectionsApi) : import('./modules/collections.js').then(function (m) { collectionsApi = m; return m; }); }
+function ensureCatalog() { return catalogApi ? Promise.resolve(catalogApi) : import('./modules/catalog.js').then(function (m) { catalogApi = m; return m; }); }
+
+/* ---- مندوبات المشغل ---- */
+function play(url, name) { ensurePlayer().then(function (m) { m.play(url, name); }); }
+function playStepStation(dir) { ensurePlayer().then(function (m) { m.playStepStation(dir); }); }
+function initResume() {
+  var last = null;
+  try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) {}
+  if (!last || !last.url || !safeHttpsUrl(last.url) || isDmEmbed(last.url)) return;
+  ensurePlayer().then(function (m) { m.initResume(); });
+}
+function renderHistory() { if (playerApi) playerApi.renderHistory(); }
+function closeAlarmModal() { ensurePlayer().then(function (m) { m.closeAlarmModal(); }); }
+
+/* ---- مندوبات SDR ---- */
+function renderSDR() { if (sdrApi) sdrApi.renderSDR(); }
+function renderWebSdrs() { if (sdrApi) sdrApi.renderWebSdrs(); }
+function renderSatnogs() { if (sdrApi) sdrApi.renderSatnogs(); }
+function renderWspr() { if (sdrApi) sdrApi.renderWspr(); }
+function renderSpace() { if (sdrApi) sdrApi.renderSpace(); }
+function renderEibi() { if (sdrApi) sdrApi.renderEibi(); }
+function buildBandFilter() { if (sdrApi) sdrApi.buildBandFilter(); }
+function toggleSpaceAlerts() { ensureSdr().then(function (m) { m.toggleSpaceAlerts(); }); }
+function ensureGeo(cb) { ensureSdr().then(function (m) { m.ensureGeo(cb); }); }
+
+/* ---- مندوبات الخريطة ---- */
+function renderMap() { if (mapApi) mapApi.renderMap(); }
+function mapItems() { return mapApi ? mapApi.mapItems() : []; }
+function fetchAircraft() { if (mapApi) mapApi.fetchAircraft(); }
+
+/* ---- مندوبات الزوار والترند ---- */
+function initVisitorBox() { ensureVisitors().then(function (m) { m.initVisitorBox(); }); }
+function initVisitorGeo() { ensureVisitors().then(function (m) { m.initVisitorGeo(); }); }
+function initTrending() { ensureVisitors().then(function (m) { m.initTrending(); }); }
+function countStationPlay(url) { ensureVisitors().then(function (m) { m.countStationPlay(url); }); }
+function reportPlaybackError(gen, reason) { ensureVisitors().then(function (m) { m.reportPlaybackError(gen, reason); }); }
+
+/* ---- مندوبات لوحة البحث (Ctrl+K) ---- */
+function paletteOpen() { ensurePalette().then(function (m) { m.paletteOpen(); }); }
+function paletteClose() { ensurePalette().then(function (m) { m.paletteClose(); }); }
+function paletteRender() { if (paletteApi) paletteApi.paletteRender(); }
+function palettePlayFirst() { if (paletteApi) paletteApi.palettePlayFirst(); }
+
+/* ---- مندوبات المجموعات (المفضلة/عربي/ديني/مصر) ---- */
+function renderFav() { if (collectionsApi) collectionsApi.renderFav(); }
+function renderEG() { if (collectionsApi) collectionsApi.renderEG(); }
+function renderAR() { if (collectionsApi) collectionsApi.renderAR(); }
+function renderRel() { if (collectionsApi) collectionsApi.renderRel(); }
+
+/* ---- مندوبات الكتالوج ---- */
+function loadStations() { ensureCatalog().then(function (m) { m.loadStations(); }); }
+
+/* ---- مندوبات Kiwi WebAudio ---- */
+function openKiwiAudio(url, name) { ensureKiwi().then(function (m) { m.openKiwiAudio(url, name); }); }
+function closeKiwiAudio() { ensureKiwi().then(function (m) { m.closeKiwiAudio(); }); }
+
+export {
+  state, $, t, esc, toast, fetchJSON, fmtNum, fmtDate,
+  safeHttpUrl, safeHttpsUrl, proxyStreamUrl, stationByUrl,
+  normalizeSearchText, normalizeFm, canonicalLanguage, languageLabel,
+  regionName, flagOf, cardFm, splitList, egAliveRank, fmAliveFiltered, fmAliveSort,
+  currentFMList, homeList, featuredList, FACET_OPTIONS,
+  isDmEmbed, isDataSaver, renderSaverBtn, initSaverButton, updateDocTitle,
+  renderQuickBar, loadHistory, loadStreamChecks, CAIRO,
+  buildFMFacets, renderFM, filterFM, fmClientRender, searchFM,
+  scheduleFMClientRender, cancelFMClientRender,
+  play, playStepStation, initResume, renderHistory, closeAlarmModal,
+  renderSDR, renderWebSdrs, renderSatnogs, renderWspr, renderSpace, renderEibi,
+  buildBandFilter, toggleSpaceAlerts, ensureGeo,
+  renderMap, mapItems, fetchAircraft,
+  initVisitorBox, initVisitorGeo, initTrending, countStationPlay, reportPlaybackError,
+  paletteOpen, paletteClose, paletteRender, palettePlayFirst,
+  renderFav, renderEG, renderAR, renderRel,
+  loadStations, openKiwiAudio, closeKiwiAudio, openSDR, closeSDR,
+  setLang, switchTab, isOfficialStation
+};
