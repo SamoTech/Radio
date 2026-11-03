@@ -1,4 +1,5 @@
 import email.message
+import json
 import importlib.util
 import sys
 import unittest
@@ -603,6 +604,52 @@ class MaybeAliveTests(unittest.TestCase):
         self.assertEqual(res["strategy"], "bot")
 
 
+
+class ErrorReportTests(unittest.TestCase):
+    def test_compute_error_daily_tracks_deltas_and_counter_resets(self):
+        previous = {"err-total": 10, "err-network": 4, "err-src": 2}
+        current = {"err-total": 15, "err-network": 3, "err-decode": 2, "err-src": 2}
+        daily = module.compute_error_daily(previous, current)
+        self.assertEqual(daily["err-total"], 5)
+        self.assertEqual(daily["err-network"], 0)  # counter reset — never negative
+        self.assertEqual(daily["err-decode"], 2)
+        self.assertEqual(daily["err-src"], 0)
+        self.assertNotIn("err-abort", daily)
+
+    def test_fetch_abacus_count_parses_value_and_treats_missing_key_as_zero(self):
+        class _FakeResp:
+            def __init__(self, payload):
+                self._payload = payload
+
+            def read(self):
+                return json.dumps(self._payload).encode("utf-8")
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        with mock.patch.object(
+            module.urllib.request, "urlopen", return_value=_FakeResp({"value": 7})
+        ):
+            self.assertEqual(module.fetch_abacus_count("err-total"), 7)
+        with mock.patch.object(
+            module.urllib.request,
+            "urlopen",
+            side_effect=urllib.error.HTTPError(
+                "https://abacus.test/get", 404, "Not Found", None, None
+            ),
+        ):
+            self.assertEqual(module.fetch_abacus_count("err-hls"), 0)
+        with mock.patch.object(
+            module.urllib.request,
+            "urlopen",
+            side_effect=urllib.error.URLError("service down"),
+        ):
+            self.assertIsNone(module.fetch_abacus_count("err-token"))
+
 if __name__ == "__main__":
     unittest.main()
+
 

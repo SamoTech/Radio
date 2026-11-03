@@ -1752,6 +1752,7 @@ function failCurrentPlayback(generation, reason) {
     return;
   }
   var official = $('player-official');
+  reportPlaybackError(generation, reason)
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
   // Every source failed — point the open-direct link back at the station's
   // real URL: when the failure is a CORS or geo block the stream often plays
@@ -2899,6 +2900,35 @@ function trendingList(candidates, counts, limit) {
   return out.slice(0, limit || 10);
 }
 
+var playbackErrorReportedGen = -1;
+function coarsePlaybackError(reason) {
+  /* P1-4 basic error monitoring: classify a playback failure into one
+     coarse kind so the daily report stays a small fixed set of counters. */
+  var text = String(reason || '').toLowerCase();
+  if (text.indexOf('token') !== -1) return 'token';
+  if (text.indexOf('hls') !== -1) return 'hls';
+  if (text === 'html audio element error') {
+    try {
+      var mediaError = $('audio') && $('audio').error;
+      var code = mediaError && mediaError.code;
+      if (code === 1) return 'abort';
+      if (code === 2) return 'network';
+      if (code === 3) return 'decode';
+      if (code === 4) return 'src';
+    } catch (e) {}
+  }
+  return 'other';
+}
+function reportPlaybackError(generation, reason) {
+  /* Fire-and-forget like the play counter: +1 on err-total and the coarse
+     failure kind key. One report per playback generation so automatic
+     retries through alternative sources do not inflate the counts. */
+  if (generation === playbackErrorReportedGen) return;
+  playbackErrorReportedGen = generation;
+  visitorCounterRequest('hit', {}, 'err-total').catch(function () {});
+  visitorCounterRequest('hit', {}, 'err-' + coarsePlaybackError(reason)).catch(function () {});
+}
+
 function countStationPlay(url) {
   // Fire-and-forget: +1 on this station's Abacus play key.
   var key = playCountKey(url);
@@ -3451,6 +3481,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
 
