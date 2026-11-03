@@ -793,6 +793,26 @@ function isHomeMode() {
   return !f.q && !f.country && !f.language && !f.tag && !f.chip && !state.fmLive;
 }
 
+/* ===== الصفحة الرئيسية: شبكة «الرسمية · مصر» — إذاعات مصر فقط ===== */
+/* إصلاح PR #114: القسم كان بياخد كل الرسميين من أي دولة (BBC/France...) تحت عنوان
+   «مصر» + مكررات نفس المحطة + أسماء نُتفة (X_X...) + كروت فيديو Dailymotion
+   بتتصدر القابل للتشغيل. الترتيب الجديد: مصر فقط، بلا مكررات (دمج بالاسم
+   المطبّع + الاحتواء)، بلا أسماء نُتفة، والقابل للتشغيل داخل التطبيق أولًا. */
+function isHomeJunkName(name) {
+  var n = normalizeSearchText(name);
+  if (!n) return true;
+  if (n.replace(/[^\u0600-\u06FFa-z0-9]/g, '').length < 3) return true;
+  if (n.indexOf('_') !== -1 && n.indexOf(' ') === -1) return true;
+  return false;
+}
+function homeNameKey(s) {
+  /* مفتاح مقارنة الأسماء: تطبيع كامل + توحيد ة→ه ئ→ي ؤ→و + شيل رقم/تردد جانبي */
+  var n = normalizeSearchText(s.name)
+    .replace(/\u0629/g, '\u0647')
+    .replace(/\u0626/g, '\u064A')
+    .replace(/\u0624/g, '\u0648');
+  return n.replace(/[\s.-]*\d+(?:\.\d+)?$/, '').trim();
+}
 function homeList() {
   var seen = {};
   var feat = featuredList();
@@ -801,14 +821,36 @@ function homeList() {
   var st = state.fm || [];
   for (var j = 0; j < st.length; j++) {
     var s = st[j];
-    if (seen[s.url]) continue;
-    if (isOfficialStation(s) || s.cc === 'EG') { seen[s.url] = 1; out.push(s); }
+    if (seen[s.url] || s.cc !== 'EG' || isHomeJunkName(s.name)) continue;
+    seen[s.url] = 1; out.push(s);
   }
+  /* أفضلية الترتيب: قابل للتشغيل داخل التطبيق ← رسمي ← HTTPS ← أعلى bitrate */
   out.sort(function (a, b) {
-    if (isOfficialStation(a) !== isOfficialStation(b)) return isOfficialStation(a) ? -1 : 1;
-    return 0;
+    var da = isDmEmbed(a.url) ? 1 : 0, db = isDmEmbed(b.url) ? 1 : 0;
+    if (da !== db) return da - db;
+    var oa = isOfficialStation(a) ? 0 : 1, ob = isOfficialStation(b) ? 0 : 1;
+    if (oa !== ob) return oa - ob;
+    var ha = /^https:/i.test(a.url) ? 0 : 1, hb = /^https:/i.test(b.url) ? 0 : 1;
+    if (ha !== hb) return ha - hb;
+    return (b.bitrate || 0) - (a.bitrate || 0);
   });
-  return out;
+  /* دمج المكررات: نفس الاسم بعد التطبيع، أو اسم محتوى داخل اسم مُقبل بالفعل */
+  var keys = [];
+  var byKey = {};
+  var deduped = [];
+  for (var k = 0; k < out.length; k++) {
+    var it = out[k];
+    var key = homeNameKey(it);
+    if (!key) { deduped.push(it); continue; }
+    if (byKey[key]) continue;
+    var dupe = false;
+    for (var m = 0; m < keys.length; m++) {
+      if (keys[m].length >= 8 && (keys[m].indexOf(key) !== -1 || key.indexOf(keys[m]) !== -1)) { dupe = true; break; }
+    }
+    if (dupe) continue;
+    byKey[key] = 1; keys.push(key); deduped.push(it);
+  }
+  return deduped;
 }
 
 
@@ -1883,6 +1925,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 
 
 
