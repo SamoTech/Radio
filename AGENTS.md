@@ -35,7 +35,7 @@
 - **تعريف الاكتمال:** اختبارات crawler خضراء + snapshot لا يمسح آخر نسخة جيدة عند الفشل + مؤشرات ROADMAP تتحدث.
 
 ### 🎨 وكيل الواجهة (Frontend Agent)
-- **نطاق الملفات:** js/app.js، css/styles.css، index.html، js/sw.js، manifest.webmanifest، countries/، offline.html.
+- **نطاق الملفات:** js/app.js، css/styles.css، index.html، sw.js (الجذر — المسار المسجل في js/app.js)، manifest.webmanifest، countries/، offline.html.
 - **مهامه:** ميزات UI، i18n (ar/en)، RTL، أداء التحميل، الوصولية، المشغل.
 - **إلزامي:** sw cache bump مع كل تغيير + اختبارات tests/search.test.cjs تعمل + ترجمة الكود كاملة تمر.
 - **تعريف الاكتمال:** Validate خضراء + أرقام الوثائق (حجم app.js، نسخة sw) متزامنة في نفس الـ PR.
