@@ -368,3 +368,42 @@ test('P1-2: initial core payload stays under half of the pre-split monolith', ()
   const bytes = Buffer.byteLength(fs.readFileSync('js/app.js', 'utf8'), 'utf8');
   assert.ok(bytes < 81591, 'core js/app.js should stay under 81,591 bytes (half of the 163,183-byte monolith), got ' + bytes);
 });
+
+
+test('home grid shows Egypt only — no foreign officials, junk names filtered', () => {
+  sandbox.state.featuredCache = [];
+  sandbox.state.fm = [
+    { name: 'BBC World Service', url: 'https://example.test/bbc', cc: 'GB', language: 'english', tags: 'رسمي,news', official: true },
+    { name: 'نايل إف إم — Nile FM 104.2', url: 'https://example.test/nile', cc: 'EG', language: 'english', tags: 'egypt', bitrate: 128 },
+    { name: 'X_X', url: 'https://example.test/xx', cc: 'EG', language: '', tags: '' },
+    { name: 'S_O_L_L_Y', url: 'https://example.test/solly', cc: 'EG', language: '', tags: '' }
+  ];
+  const names = Array.from(sandbox.homeList(), s => s.name);
+  assert.deepEqual(names, ['نايل إف إم — Nile FM 104.2']);
+  sandbox.state.featuredCache = null;
+});
+
+test('home grid collapses duplicate Egypt stations by normalized name', () => {
+  sandbox.state.featuredCache = [];
+  sandbox.state.fm = [
+    { name: 'إذاعة القرآن الكريم من القاهرة', url: 'https://example.test/quran-live', cc: 'EG', language: 'arabic', tags: 'quran' },
+    { name: 'إذاعة القرآن الكريم', url: 'https://www.dailymotion.com/video/x8n6eci', cc: 'EG', language: 'arabic', tags: 'رسمي', official: true },
+    { name: 'إذاعة القرآن الكريم ', url: 'https://example.test/quran-alt', cc: 'EG', language: 'arabic', tags: '' },
+    { name: 'إذاعة القرآن الكريم من القاهره1', url: 'https://example.test/quran-num', cc: 'EG', language: 'arabic', tags: '' }
+  ];
+  const rows = sandbox.homeList();
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].url, 'https://example.test/quran-live');
+  sandbox.state.featuredCache = null;
+});
+
+test('home grid ranks playable stations before Dailymotion video cards', () => {
+  sandbox.state.featuredCache = [];
+  sandbox.state.fm = [
+    { name: 'راديو مصر', url: 'https://www.dailymotion.com/video/x8n6dpk', cc: 'EG', language: 'arabic', tags: 'رسمي', official: true },
+    { name: 'نجوم إف إم — Nogoum FM 100.6', url: 'https://example.test/nogoum', cc: 'EG', language: 'arabic', tags: 'music', bitrate: 128 }
+  ];
+  const names = Array.from(sandbox.homeList(), s => s.name);
+  assert.deepEqual(names, ['نجوم إف إم — Nogoum FM 100.6', 'راديو مصر']);
+  sandbox.state.featuredCache = null;
+});

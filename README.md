@@ -28,6 +28,7 @@
 - CORE_CATEGORIES consolidates genres to 20 with ar/en labels
 - normalizeSearchText() normalizes NFD diacritics + alef variants (أإآ→ا, ى→ي)
 - isOfficialStation() → officials sorted first in results
+- الصفحة الرئيسية: شبكة «🏛 الرسمية · 🇪🇬 مصر» = إذاعات مصر فقط — بلا رسميين أجانب، دمج المكررات بالاسم المطبّع، استبعاد الأسماء النُتفة، والقابل للتشغيل داخل التطبيق قبل كروت فيديو Dailymotion
 - local search matches name/language/tags/cc/localized country name (Intl.DisplayNames)
 
 ### 🌍 تبويب عربي
@@ -86,7 +87,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v64) لـ caching و offline
+- **Service Worker** (sw.js v65) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -121,7 +122,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v64)
+├── sw.js                # Service Worker (v65)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -197,7 +198,7 @@ python -m http.server 8000
 
 > 📌 **الخارطة الكاملة المفصلة — الفجوات (16) + المخاطر (11) + التوصيات بالمراحل والأولويات وتعريف الاكتمال — في [ROADMAP.md](ROADMAP.md): الوثيقة الحاكمة للتخطيط.**
 
-- ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) · حوكمة P0 (قفل البروكسي + بوابة مزامنة الوثائق) · مراقبة أخطاء التشغيل الأساسية · كتالوج تفاضلي عبر IndexedDB (الزيارة الثانية بكيلوبايتات) · تقسيم app.js لوحدات ES Modules بتحميل كسول (التحميل الابتدائي أقل من النصف: ~79KB بدل ~149KB) — sw v64
+- ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) · حوكمة P0 (قفل البروكسي + بوابة مزامنة الوثائق) · مراقبة أخطاء التشغيل الأساسية · كتالوج تفاضلي عبر IndexedDB (الزيارة الثانية بكيلوبايتات) · تقسيم app.js لوحدات ES Modules بتحميل كسول (التحميل الابتدائي أقل من النصف: ~79KB بدل ~149KB) · تنقية شبكة «الرسمية · مصر» في الصفحة الرئيسية (مصر فقط + دمج المكررات + استبعاد الأسماء النُتفة) — sw v65
 - ⏳ **الأولوية الجارية (P0-1):** نشر البروكسي الجديد (المقفول) وفق [proxy/README.md](proxy/README.md) → إرسال workers.dev URL → تفعيل STREAM_PROXY (القفل تم في PR #109)
 - 💡 **أفكار مؤجلة:** دعم البودكاست · نظام تسجيل سحابي للمفضلة · AIS/ADS-B
 
@@ -253,5 +254,6 @@ python -m http.server 8000
 
 ---
 **SamoTech/Radio** — Cairo 🇪🇬
+
 
 
