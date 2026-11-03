@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T07:20:51+00:00",
+ "updated": "2026-11-03T09:43:15+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1145,14 +1145,6 @@
    "lon": -46.7072826
   },
   {
-   "name": "KJ7ABK - Las Vegas Radio 📻",
-   "url": "https://websdr.kj7abk.com/",
-   "loc": "",
-   "https": true,
-   "lat": 36.035169543538125,
-   "lon": -115.1451676116747
-  },
-  {
    "name": "VHF/UHF/QO-100 SDR with DMR, MM3NDH, Central Scotland, UK",
    "url": "https://websdr2.scotlandchat.co.uk/",
    "loc": "",
@@ -1481,14 +1473,6 @@
    "lon": 10.770587
   },
   {
-   "name": "K4MBD",
-   "url": "https://sdr.backyard.stream/",
-   "loc": "",
-   "https": true,
-   "lat": 36.148751336174364,
-   "lon": -82.69378453297419
-  },
-  {
    "name": "[ON4JES-12] IPR - RADIOCLUB IEPER - WATOU VHF/UHF",
    "url": "http://nieuwkerke.on4ipr.be:8074/",
    "loc": "",
@@ -1703,6 +1687,14 @@
    "https": false,
    "lat": 50.793594,
    "lon": -2.076698
+  },
+  {
+   "name": "Funknetz.nrw",
+   "url": "http://freedmr.ddnss.de:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.58353546172424,
+   "lon": 7.143281367997134
   },
   {
    "name": "SDRPaderborn",
@@ -2025,14 +2017,6 @@
    "lon": 26.08125
   },
   {
-   "name": "HB9EUE",
-   "url": "http://websdr.hb9eue.radio:8901/",
-   "loc": "",
-   "https": false,
-   "lat": 47.44275518003912,
-   "lon": 8.32907152225073
-  },
-  {
    "name": "OpenWebRX+ | RTL-SDR Fake V4 | Moscow | ZAO | https://t.me/sdrzao",
    "url": "http://95.165.144.131:8073/",
    "loc": "",
@@ -2081,14 +2065,6 @@
    "lon": 28.1903479469811
   },
   {
-   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
-   "url": "http://e25wop.thddns.net:2253/",
-   "loc": "",
-   "https": false,
-   "lat": 13.5955566,
-   "lon": 100.5617591
-  },
-  {
    "name": "Montanaro SDR",
    "url": "http://cbfenis.ddns.net:43510/",
    "loc": "",
@@ -2127,6 +2103,14 @@
    "https": false,
    "lat": 50.01784830798169,
    "lon": 19.979464291512027
+  },
+  {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
   },
   {
    "name": "G1WOR",
@@ -3209,6 +3193,14 @@
    "lon": -0.57982
   },
   {
+   "name": "M0KVH",
+   "url": "http://m0kvh.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.92374,
+   "lon": -1.195084
+  },
+  {
    "name": "HB9AK Hoernli JN47LI",
    "url": "http://sdr.swiss-artg.ch:8088/",
    "loc": "",
@@ -4015,6 +4007,14 @@
    "https": true,
    "lat": 51.85320936891584,
    "lon": 5.764880370406926
+  },
+  {
+   "name": "SwR - Global Radio",
+   "url": "https://sdr.kruen.app/",
+   "loc": "",
+   "https": true,
+   "lat": 50.49,
+   "lon": 15.52
   }
  ]
 }

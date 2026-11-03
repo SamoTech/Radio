@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T07:20:51+00:00",
+ "updated": "2026-11-03T09:43:15+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 299,
+ "count": 300,
  "stations": [
   {
    "id": 3944,
@@ -811,6 +811,16 @@
    "lng": 27.09,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/2029/",
+   "https": false
+  },
+  {
+   "id": 2202,
+   "name": "EU1AEM",
+   "loc": "KO33mv · VHF",
+   "lat": 53.902,
+   "lng": 27.047,
+   "alt": 280,
+   "url": "https://network.satnogs.org/stations/2202/",
    "https": false
   },
   {
@@ -1654,6 +1664,16 @@
    "https": false
   },
   {
+   "id": 4917,
+   "name": "N6UA",
+   "loc": "DN71se",
+   "lat": 41.18,
+   "lng": -104.5,
+   "alt": 1825,
+   "url": "https://network.satnogs.org/stations/4917/",
+   "https": false
+  },
+  {
    "id": 3093,
    "name": "Nekosat (QFH UHF)",
    "loc": "QM08ji · UHF",
@@ -2121,16 +2141,6 @@
    "lng": -71.448,
    "alt": 157,
    "url": "https://network.satnogs.org/stations/5125/",
-   "https": false
-  },
-  {
-   "id": 3131,
-   "name": "RR01",
-   "loc": "EM10dm · VHF / UHF",
-   "lat": 30.50906,
-   "lng": -97.72663,
-   "alt": 238,
-   "url": "https://network.satnogs.org/stations/3131/",
    "https": false
   },
   {
