@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-03T04:11:52+00:00",
+ "updated": "2026-11-03T04:27:52+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -2137,6 +2137,14 @@
    "lon": 19.979464291512027
   },
   {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
+  },
+  {
    "name": "G1WOR",
    "url": "http://81.143.239.74:8073/",
    "loc": "",
@@ -2487,14 +2495,6 @@
    "https": true,
    "lat": 51.893464,
    "lon": 6.382
-  },
-  {
-   "name": "M0LHI",
-   "url": "http://radio.nkpa.co.uk/",
-   "loc": "",
-   "https": false,
-   "lat": 52.22609520584887,
-   "lon": -0.9268577317469995
   },
   {
    "name": "WM9H - AM/FM, Ham, GMRS, Air, WX",
@@ -2879,14 +2879,6 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
-  },
-  {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
   },
   {
    "name": "EastMO R3DKT Receiver",
@@ -3855,6 +3847,14 @@
    "https": true,
    "lat": 45.65109,
    "lon": 9.204841
+  },
+  {
+   "name": "VU2OHM",
+   "url": "http://136.185.17.232:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 11.739996,
+   "lon": 79.753494
   },
   {
    "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",

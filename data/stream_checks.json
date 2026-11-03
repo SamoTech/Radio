@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T04:11:52+00:00",
+ "updated": "2026-11-03T04:27:52+00:00",
  "checked": 1185,
- "alive": 1087,
+ "alive": 1086,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -1369,7 +1369,7 @@
   "https://live.flashbackcentral.co.uk/radio/8000/apple?n=f1b281f6a9c67d9b96d9": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://rocafmadrid.radioca.st/?n=8e519eaefdab510c90cb": {
    "alive": true,
@@ -4147,8 +4147,8 @@
    "strategy": "bot"
   },
   "https://das-edge14-live365-dal02.cdnstream.com/a19658": {
-   "alive": true,
-   "code": 200,
+   "alive": false,
+   "code": 404,
    "strategy": "bot"
   },
   "https://radio21.streamabc.net/radio21-lingen-mp3-192-2323908?sABC=6n291992%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078418": {
@@ -4308,9 +4308,8 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "code": 404,
+   "strategy": "bot"
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -4481,7 +4480,7 @@
   "https://radiozender.mpbnetwerken.nl/radioulster.mp3": {
    "alive": false,
    "code": 301,
-   "strategy": "browser",
+   "strategy": "bot",
    "maybe_alive": true
   },
   "https://radio21.streamabc.net/radio21-helmstedt-mp3-192-8898776?sABC=6n29199r%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078430": {

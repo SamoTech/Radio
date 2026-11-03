@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T04:11:52+00:00",
+ "updated": "2026-11-03T04:27:52+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 300,
+ "count": 301,
  "stations": [
   {
    "id": 3944,
@@ -171,6 +171,16 @@
    "lng": 23.739,
    "alt": 104,
    "url": "https://network.satnogs.org/stations/6/",
+   "https": false
+  },
+  {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -801,6 +811,16 @@
    "lng": 27.09,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/2029/",
+   "https": false
+  },
+  {
+   "id": 2202,
+   "name": "EU1AEM",
+   "loc": "KO33mv · VHF",
+   "lat": 53.902,
+   "lng": 27.047,
+   "alt": 280,
+   "url": "https://network.satnogs.org/stations/2202/",
    "https": false
   },
   {
@@ -2801,16 +2821,6 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
-   "https": false
-  },
-  {
-   "id": 4525,
-   "name": "VU2AQJ_SGS",
-   "loc": "NL05uk · UHF",
-   "lat": 25.451809,
-   "lng": 81.736291,
-   "alt": 98,
-   "url": "https://network.satnogs.org/stations/4525/",
    "https": false
   },
   {

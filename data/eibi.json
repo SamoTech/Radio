@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T04:11:52+00:00",
+ "updated": "2026-11-03T04:27:52+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1412,
+ "count": 1404,
  "rows": [
   {
    "f": 2054,
@@ -38,12 +38,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
-  },
-  {
-   "f": 2226,
-   "s": "0410",
-   "e": "0425",
-   "n": "G | Falmouth Coastguard Wx | E | WEu"
   },
   {
    "f": 2310,
@@ -206,12 +200,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2677,
-   "s": "0403",
-   "e": "0418",
-   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
   },
   {
    "f": 2680,
@@ -956,12 +944,6 @@
    "s": "0340",
    "e": "0610",
    "n": "ALS | NOJ Fax Kodiak | WNA"
-  },
-  {
-   "f": 4346,
-   "s": "0140",
-   "e": "0415",
-   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 4363,
@@ -2999,9 +2981,9 @@
   },
   {
    "f": 7906,
-   "s": "0405",
-   "e": "0415",
-   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
+   "s": "0420",
+   "e": "0430",
+   "n": "VTN | Vung Tau Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3056,12 +3038,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 8294,
-   "s": "0405",
-   "e": "0415",
-   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
   },
   {
    "f": 8302,
@@ -3224,18 +3200,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSV Tianjin Radio | -TY | FE"
-  },
-  {
-   "f": 8658,
-   "s": "0400",
-   "e": "0415",
-   "n": "J | JFX Kagoshima Fish.Fax | WOc"
-  },
-  {
-   "f": 8682,
-   "s": "0140",
-   "e": "0415",
-   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 8728,
@@ -3818,6 +3782,12 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 9322,
+   "s": "0420",
+   "e": "0430",
+   "n": "RUS | S06 Russian Spy Numbers | R | FE"
   },
   {
    "f": 9330,
@@ -5542,12 +5512,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 12786,
-   "s": "0140",
-   "e": "0415",
-   "n": "USA | NMC Fax Pt Reyes CA | WNA"
-  },
-  {
    "f": 12795,
    "s": "2130",
    "e": "1600",
@@ -5678,12 +5642,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 13089,
-   "s": "0330",
-   "e": "0415",
-   "n": "GUM | NRV USCG Guam | E | WOc"
   },
   {
    "f": 13092,
@@ -6772,6 +6730,12 @@
    "n": "USA | Voice of America | K | FE"
   },
   {
+   "f": 15240,
+   "s": "0420",
+   "e": "0550",
+   "n": "IRN | IRIB Voice of I.R.Iran | TU | ME"
+  },
+  {
    "f": 15250,
    "s": "0400",
    "e": "0500",
@@ -6845,6 +6809,12 @@
   },
   {
    "f": 15340,
+   "s": "0420",
+   "e": "0550",
+   "n": "IRN | IRIB Voice of I.R.Iran | TU | ME"
+  },
+  {
+   "f": 15340,
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
@@ -6902,12 +6872,6 @@
    "s": "2300",
    "e": "1400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 15410,
-   "s": "0315",
-   "e": "0415",
-   "n": "IND | AIR Akashvani Ext.Sce | BR | SEA"
   },
   {
    "f": 15410,
@@ -7408,12 +7372,6 @@
    "n": "CHN | XSG Shanghai Radio | -TY | FE"
   },
   {
-   "f": 16907,
-   "s": "0400",
-   "e": "0415",
-   "n": "J | JFX Kagoshima Fish.Fax | WOc"
-  },
-  {
    "f": 16910,
    "s": "0000",
    "e": "0900",
@@ -7472,12 +7430,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 17151,
-   "s": "0140",
-   "e": "0415",
-   "n": "USA | NMC Fax Pt Reyes CA | WNA"
   },
   {
    "f": 17170,
