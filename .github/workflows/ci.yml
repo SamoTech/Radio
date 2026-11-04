@@ -45,7 +45,7 @@ jobs:
       - name: Test crawler URL handling
         run: python -m unittest discover -s tests -p 'test_*.py' > py-test-output.txt 2>&1
         continue-on-error: true
-      - name: Lighthouse accessibility audit (P1-3 gate: >= 90)
+      - name: "Lighthouse accessibility audit (P1-3 gate >= 90)"
         run: |
           {
           python3 -m http.server 8765 >/dev/null 2>&1 &
