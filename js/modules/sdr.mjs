@@ -9,6 +9,7 @@
 var STR_SDR = {
   ar: {
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
+    search_sdr_aria: 'البحث في أجهزة الاستقبال',
     all_bands: 'كل النطاقات',
     sort_snr: 'الأفضل SNR',
     sort_free: 'أكبر مساحة فاضية',
@@ -53,6 +54,7 @@ var STR_SDR = {
     eibi_ph: 'ابحث في البث الحالي: اسم، تردد…',
     onair: 'بث على الهواء',
     eibi_band_aria: 'اختر نطاق البث',
+    eibi_search_aria: 'ابحث في بث الموجات القصيرة الجاري',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)',
     kiwi_connecting: 'جاري الاتصال بالجهاز…',
@@ -63,6 +65,7 @@ var STR_SDR = {
   },
   en: {
     search_sdr_ph: 'Search: name, country, callsign…',
+    search_sdr_aria: 'Search receivers',
     all_bands: 'All bands',
     sort_snr: 'Best SNR',
     sort_free: 'Most free slots',
@@ -107,6 +110,7 @@ var STR_SDR = {
     eibi_ph: 'Search the current broadcast: name, frequency…',
     onair: 'on air',
     eibi_band_aria: 'Select broadcast band',
+    eibi_search_aria: 'Search the current shortwave broadcast',
     all_bands: 'All bands',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     kiwi_audio: '🎧 Direct audio (beta)',

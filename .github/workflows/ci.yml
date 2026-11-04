@@ -41,4 +41,16 @@ jobs:
         run: python -m py_compile scripts/update_data.py
       - name: Test crawler URL handling
         run: python -m unittest discover -s tests -p 'test_*.py'
-
+      - name: "Lighthouse accessibility audit (P1-3 gate >= 90)"
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          SERVER_PID=$!
+          sleep 2
+          npx --yes lighthouse@12 http://localhost:8765/ --quiet \
+            --only-categories=accessibility \
+            --chrome-flags="--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage" \
+            --output=json --output-path=lighthouse-report.json
+          kill "$SERVER_PID" 2>/dev/null || true
+          SCORE=$(jq '.categories.accessibility.score * 100 | round' lighthouse-report.json)
+          echo "Lighthouse Accessibility score: $SCORE"
+          if [ "$SCORE" -lt 90 ]; then echo 'ERROR: Lighthouse accessibility score below 90'; exit 1; fi

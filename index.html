@@ -65,7 +65,7 @@
 
 <header class="hero">
   <div class="controls">
-    <button id="theme-btn" class="ctrl" type="button" title="Light / Dark">☀️</button>
+    <button id="theme-btn" class="ctrl" type="button" title="Light / Dark" data-i18n-aria="theme_aria">☀️</button>
     <button id="lang-btn" class="ctrl" type="button" title="العربية / English">EN</button>
     <button id="palette-btn" class="ctrl" type="button" data-i18n-aria="palette_aria" title="Ctrl+K">🔎</button>
     <button id="saver-btn" class="ctrl" type="button" data-i18n-aria="saver_aria" title="🪫">🪫</button>
@@ -163,7 +163,7 @@
 
 <section id="panel-sdr" hidden>
     <div class="toolbar">
-      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…" data-i18n-ph="search_sdr_ph">
+      <input id="q" type="search" placeholder="ابحث: اسم، بلد، نداء…" data-i18n-ph="search_sdr_ph" data-i18n-aria="search_sdr_aria">
       <select id="band" title="النطاق"></select>
       <select id="rx-type" title="نوع الاستقبال" data-i18n-aria="filter_rx_type_aria">
         <option value="all" data-i18n="all_types">الكل</option>
@@ -206,7 +206,7 @@
       <div class="toolbar">
         <h2 data-i18n="eibi_title">بث موجات قصيرة على الهواء الآن</h2>
         <span id="eibi-count" class="count">—</span>
-        <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي: اسم، تردد…" data-i18n-ph="eibi_ph">
+        <input id="eibi-q" type="search" placeholder="ابحث في البث الحالي: اسم، تردد…" data-i18n-ph="eibi_ph" data-i18n-aria="eibi_search_aria">
         <select id="eibi-band" data-i18n-aria="eibi_band_aria">
           <option value="all" data-i18n="all_bands">الكل النطاقات</option>
           <option value="120">120m</option>
@@ -286,7 +286,7 @@
 </div>
 
 <div id="player" class="player" hidden>
-  <button id="player-close" type="button" title="إغلاق">✕</button>
+  <button id="player-close" type="button" title="إغلاق" data-i18n-aria="close_aria">✕</button>
   <button id="player-prev" class="player-tool" type="button" data-i18n-aria="prev_aria" title="⏮">⏮</button>
   <button id="player-next" class="player-tool" type="button" data-i18n-aria="next_aria" title="⏭">⏭</button>
   <button id="vol-mute" class="player-tool" type="button" data-i18n-aria="mute_aria" title="🔇">🔊</button>
@@ -367,7 +367,7 @@
       <button id="alarm-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
     <p class="hint" data-i18n="alarm_hint">المنبه يشغّل آخر محطة استمعت لها — الصفحة لازم تفضل مفتوحة.</p>
-    <div class="alarm-row"><input id="alarm-time" type="time" value="06:00"><span id="alarm-station" class="hint"></span></div>
+    <div class="alarm-row"><input id="alarm-time" type="time" value="06:00" data-i18n-aria="alarm_time_aria"><span id="alarm-station" class="hint"></span></div>
     <div class="box-actions">
       <button id="alarm-save" class="btn primary" type="button" data-i18n="alarm_save">✓ ضبط المنبه</button>
       <button id="alarm-clear" class="btn ghost" type="button" data-i18n="alarm_clear">✕ إلغاء المنبه</button>
@@ -381,7 +381,7 @@
       <strong id="palette-title" data-i18n="palette_title">بحث سريع</strong>
       <button id="palette-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
-    <input id="palette-q" type="search" autocomplete="off" data-i18n-ph="palette_ph" placeholder="ابحث…">
+    <input id="palette-q" type="search" autocomplete="off" data-i18n-ph="palette_ph" data-i18n-aria="palette_input_aria" placeholder="ابحث…">
     <div id="palette-list" class="pal-list"></div>
     <div class="hint pal-hint" data-i18n="palette_hint">Enter يشغّل أول نتيجة · Esc للإغلاق</div>
   </div>
