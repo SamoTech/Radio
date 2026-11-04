@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-04T14:22:26+00:00",
+ "updated": "2026-11-04T23:35:21+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 304,
+ "count": 302,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -534,26 +544,6 @@
    "https": false
   },
   {
-   "id": 5283,
-   "name": "dl0odx_highgain_omni_uhf",
-   "loc": "JN49mp · UHF",
-   "lat": 49.65,
-   "lng": 9.06,
-   "alt": 542,
-   "url": "https://network.satnogs.org/stations/5283/",
-   "https": false
-  },
-  {
-   "id": 5296,
-   "name": "dl0odx_highgain_omni_vhf",
-   "loc": "JN49mp · VHF",
-   "lat": 49.65,
-   "lng": 9.06,
-   "alt": 542,
-   "url": "https://network.satnogs.org/stations/5296/",
-   "https": false
-  },
-  {
    "id": 37,
    "name": "DL4PD",
    "loc": "JO30cs · UHF",
@@ -751,16 +741,6 @@
    "lng": 16.575,
    "alt": 310,
    "url": "https://network.satnogs.org/stations/4470/",
-   "https": false
-  },
-  {
-   "id": 3704,
-   "name": "ESOC Radio Club 2",
-   "loc": "JN49hu · UHF",
-   "lat": 49.872,
-   "lng": 8.622,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/3704/",
    "https": false
   },
   {
@@ -964,16 +944,6 @@
    "https": false
   },
   {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
-   "https": false
-  },
-  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1031,6 +1001,16 @@
    "lng": 100.51295302800892,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/5024/",
+   "https": false
+  },
+  {
+   "id": 4188,
+   "name": "ISAE Supaero V/UHF",
+   "loc": "JN03rn · UHF",
+   "lat": 43.5644896,
+   "lng": 1.4755066,
+   "alt": 180,
+   "url": "https://network.satnogs.org/stations/4188/",
    "https": false
   },
   {
@@ -1824,16 +1804,6 @@
    "https": false
   },
   {
-   "id": 2694,
-   "name": "OE6ISP_High_Gain_LimeSDR",
-   "loc": "JN77pa · UHF",
-   "lat": 47.02,
-   "lng": 15.263,
-   "alt": 410,
-   "url": "https://network.satnogs.org/stations/2694/",
-   "https": false
-  },
-  {
    "id": 4545,
    "name": "OE9BKJ",
    "loc": "JN47ul · UHF / VHF",
@@ -2234,16 +2204,6 @@
    "https": false
   },
   {
-   "id": 4882,
-   "name": "Shadi",
-   "loc": "KM18ua · VHF / UHF",
-   "lat": 38.0170436840529,
-   "lng": 23.732455911409634,
-   "alt": 210,
-   "url": "https://network.satnogs.org/stations/4882/",
-   "https": false
-  },
-  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2351,6 +2311,16 @@
    "lng": 24.95621,
    "alt": 1110,
    "url": "https://network.satnogs.org/stations/4272/",
+   "https": false
+  },
+  {
+   "id": 5293,
+   "name": "Sowa_LDZ_PL",
+   "loc": "JO91rr · VHF / UHF",
+   "lat": 51.739,
+   "lng": 19.481,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/5293/",
    "https": false
   },
   {
@@ -2571,6 +2541,16 @@
    "lng": -8.6595,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/4518/",
+   "https": false
+  },
+  {
+   "id": 579,
+   "name": "Um Alaish 4",
+   "loc": "LL49bc · UHF",
+   "lat": 29.1042,
+   "lng": 48.125,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/579/",
    "https": false
   },
   {
@@ -2834,6 +2814,16 @@
    "https": false
   },
   {
+   "id": 4821,
+   "name": "VU3IPU - Varun (Weather Satellite)",
+   "loc": "MK82sx · VHF",
+   "lat": 12.9913,
+   "lng": 77.5774,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4821/",
+   "https": false
+  },
+  {
    "id": 223,
    "name": "W2MMD GCARC Clubhouse",
    "loc": "FM29jr · UHF / VHF",
@@ -2881,16 +2871,6 @@
    "lng": -117.87,
    "alt": 244,
    "url": "https://network.satnogs.org/stations/3355/",
-   "https": false
-  },
-  {
-   "id": 1438,
-   "name": "WB7BBU",
-   "loc": "CN85rp · VHF",
-   "lat": 45.65,
-   "lng": -122.542,
-   "alt": 55,
-   "url": "https://network.satnogs.org/stations/1438/",
    "https": false
   },
   {
