@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-03T17:41:04+00:00",
+ "updated": "2026-11-04T08:17:01+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 6,
+ "count": 8,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/03/nachrichten_dlf_20261103_1800_265a7a14.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/03/nachrichten_dlf_20261103_1800_265a7a14.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/04/nach_den_midterms_interview_mit_ruediger_bachmann_dlf_20261104_0715_c74747ab.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/04/nach_den_midterms_interview_mit_ruediger_bachmann_dlf_20261104_0715_c74747ab.mp3"
    ]
   },
   {
@@ -234,7 +234,10 @@
    "catalog": false,
    "fetch_strategy": "bot",
    "fetch_error": "",
-   "streams": []
+   "streams": [
+    "https://radioimages.npox.nl/RAD1/image/9b927cb2-3623-406f-bd71-7239f3e1be7b/IMG_2976.heic?height=150&width=200&aspect_ratio=4%3A3",
+    "https://radioimages.npox.nl/RAD1/image/9b927cb2-3623-406f-bd71-7239f3e1be7b/IMG_2976.heic"
+   ]
   },
   {
    "site": "https://www.nporadio2.nl/",
