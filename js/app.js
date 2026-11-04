@@ -255,6 +255,9 @@ var STR = {
     fav_off: 'شيلتها من المفضلة',
     share_aria: 'مشاركة رابط المحطة',
     random_aria: 'تشغيل محطة عشوائية من نتائج البحث الحالية',
+    theme_aria: 'الوضع الداكن/الفاتح',
+    fav_aria: 'أضف/أزل من المفضلة',
+    doc_title: 'راديو أطلس — بث مباشر وأجهزة استقبال',
     random_station: '🎲 محطة عشوائية',
     report_aria: 'بلّغ عن محطة مش شغالة',
     history_title: 'سجل الاستماع',
@@ -348,6 +351,9 @@ var STR = {
     fav_off: 'Removed from favorites',
     share_aria: 'Share station link',
     random_aria: 'Play a random station from the current results',
+    theme_aria: 'Toggle dark/light theme',
+    fav_aria: 'Add/remove station from favorites',
+    doc_title: 'Radio Atlas — live radio & receivers',
     random_station: '🎲 Random station',
     report_aria: 'Report a broken station',
     history_title: 'Recently played',
@@ -711,8 +717,8 @@ function normalizeFm(s) {
 
 function cardFm(s) {
   var isFav = !!state.favs[s.url];
-  var heart = '<button class="fav' + (isFav ? ' active' : '') + '" type="button" title="⭐" data-fav-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + (isFav ? '❤️' : '🤍') + '</button>';
-  var shareBtn = '<button class="share" type="button" title="🔗" data-share-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">🔗</button>';
+  var heart = '<button class="fav' + (isFav ? ' active' : '') + '" type="button" title="⭐" aria-pressed="' + (isFav ? 'true' : 'false') + '" aria-label="' + esc(t('fav_aria')) + '" data-fav-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">' + (isFav ? '❤️' : '🤍') + '</button>';
+  var shareBtn = '<button class="share" type="button" title="🔗" aria-label="' + esc(t('share_aria')) + '" data-share-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '">🔗</button>';
   var reportBtn = '<button class="report" type="button" title="🚩" data-report-url="' + esc(s.url) + '" data-name="' + esc(s.name) + '" aria-label="' + esc(t('report_aria')) + '">🚩</button>';
   var chips = '';
   if (s.cc) chips += '<span class="chip">' + flagOf(s.cc) + ' ' + esc(regionName(s.cc, s.cc)) + '</span>';

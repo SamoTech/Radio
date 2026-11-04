@@ -407,3 +407,15 @@ test('home grid ranks playable stations before Dailymotion video cards', () => {
   assert.deepEqual(names, ['نجوم إف إم — Nogoum FM 100.6', 'راديو مصر']);
   sandbox.state.featuredCache = null;
 });
+
+
+test('station cards expose accessible names for icon-only buttons (P1-3)', () => {
+  seedStations();
+  sandbox.state.streamChecks = {};
+  const card = sandbox.cardFm(sandbox.state.fm[0]);
+  assert.match(card, /aria-pressed="(true|false)"/);
+  assert.ok(card.indexOf('aria-label="' + sandbox.STR.ar.fav_aria + '"') !== -1);
+  assert.ok(card.indexOf('aria-label="' + sandbox.STR.ar.share_aria + '"') !== -1);
+  assert.ok(sandbox.STR.ar.theme_aria && sandbox.STR.en.theme_aria);
+  assert.ok(sandbox.STR.ar.doc_title && sandbox.STR.en.doc_title);
+});
