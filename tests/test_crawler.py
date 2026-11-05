@@ -748,8 +748,75 @@ class StationDeltaTests(unittest.TestCase):
             self.assertEqual(kept, expected)
 
 
+class KiwiArchiveMirrorTests(unittest.TestCase):
+    """P2-6 / R-03: the third KiwiSDR mirror is the archived snapshot
+    published from this repository (raw + GitHub Pages). When both upstream
+    mirrors (AetherSDR CDN + legacy origin) are down, the crawler re-serves
+    it with honest archived timestamps instead of inventing freshness."""
+
+    def setUp(self):
+        self._orig_fetch_json = module.fetch_json
+
+    def tearDown(self):
+        module.fetch_json = self._orig_fetch_json
+
+    def test_third_mirror_is_the_repo_archive_pinned_to_two_hosts(self):
+        self.assertEqual(
+            module.KIWI_ARCHIVE_URLS,
+            [
+                "https://raw.githubusercontent.com/SamoTech/Radio/main/data/kiwisdr.json",
+                "https://samotech.github.io/Radio/data/kiwisdr.json",
+            ],
+        )
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn("archive_served = src in KIWI_ARCHIVE_URLS", source)
+        self.assertIn("repo archive", source)
+
+    def test_fetch_kiwi_falls_back_to_repo_archive_when_upstreams_die(self):
+        archived_at = "2026-11-01T00:00:00+00:00"
+
+        def fake_fetch_json(url, params=None, attempts=3, timeout=90):
+            if url in module.KIWI_ARCHIVE_URLS:
+                return {
+                    "updated": archived_at,
+                    "origin_fetched_at": archived_at,
+                    "receivers": [
+                        {"name": "Arch RX", "url": "https://arch.test/",
+                         "online": True, "users": 1, "max_users": 4}
+                    ],
+                }
+            raise urllib.error.URLError("upstream down")
+
+        module.fetch_json = fake_fetch_json
+        src, receivers, fetched_at = module.fetch_kiwi()
+        self.assertEqual(src, module.KIWI_ARCHIVE_URLS[0])
+        self.assertEqual(receivers[0]["name"], "Arch RX")
+        self.assertEqual(fetched_at, archived_at)
+
+    def test_fetch_kiwi_survives_a_corrupt_archive_payload(self):
+        def fake_fetch_json(url, params=None, attempts=3, timeout=90):
+            if url in module.KIWI_ARCHIVE_URLS:
+                return {"updated": "x", "receivers": []}
+            raise urllib.error.URLError("upstream down")
+
+        module.fetch_json = fake_fetch_json
+        src, receivers, _ = module.fetch_kiwi()
+        self.assertIsNone(src)
+        self.assertEqual(receivers, [])
+
+    def test_archive_re_serve_keeps_honest_updated_timestamp(self):
+        source = MODULE_PATH.read_text(encoding="utf-8")
+        self.assertIn(
+            '"updated": (fetched_at or now_iso) if archive_served else now_iso', source
+        )
+        self.assertIn(
+            '"repo archive " + src + " (upstream mirrors down)"', source
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
 
 

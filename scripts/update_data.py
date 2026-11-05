@@ -7,6 +7,11 @@ Sources:
   kiwisdr.com/public, schema 1). PRIMARY: the legacy rx.kiwisdr.com/json
   origin has been intermittently down during KiwiSDR server changes.
 - rx.kiwisdr.com/json/ — legacy origin endpoint, kept as fallback.
+- The repo's own published snapshot (raw.githubusercontent.com + GitHub
+  Pages data/kiwisdr.json) — the archived daily snapshot inside the
+  repository acts as a THIRD mirror (R-03): when both upstreams are down
+  the crawler re-serves it with honest timestamps instead of inventing
+  freshness, so the SDR tab survives an extended AetherSDR outage.
 - Radio-Browser: FULL catalog of all non-broken stations, fetched with
   offset pagination and server failover (de1 -> de2 -> nl1 -> at1 -> fi1), stored with
   trimmed fields so the whole directory ships as one client-side
@@ -82,6 +87,13 @@ from pathlib import Path
 
 KIWI_MIRROR_URL = "https://cdn.aethersdr.com/kiwi.json"
 KIWI_LEGACY_URLS = ["http://rx.kiwisdr.com/json/", "https://rx.kiwisdr.com/json/"]
+# P2-6 / R-03: the third KiwiSDR mirror is the archived snapshot published
+# from this very repository (raw + GitHub Pages) — self-hosted, so it only
+# dies with the repo itself. Served with honest (archived) timestamps.
+KIWI_ARCHIVE_URLS = [
+    "https://raw.githubusercontent.com/SamoTech/Radio/main/data/kiwisdr.json",
+    "https://samotech.github.io/Radio/data/kiwisdr.json",
+]
 RB_APIS = [
     "https://de1.api.radio-browser.info/json/stations/search",
     "https://de2.api.radio-browser.info/json/stations/search",
@@ -1003,6 +1015,25 @@ def fetch_kiwi():
             return url, receivers, fetched_at
         except Exception as e:  # noqa: BLE001
             print(f"kiwi legacy {url} failed: {e}", file=sys.stderr)
+
+    # 3) the repo's own archived snapshot (P2-6 / R-03) — the snapshot is
+    # already stored in our output shape, so it round-trips directly; the
+    # archived origin timestamp is preserved so freshness stays honest.
+    for url in KIWI_ARCHIVE_URLS:
+        try:
+            data = fetch_json(url, attempts=1, timeout=20)
+            if isinstance(data, dict) and isinstance(data.get("receivers"), list):
+                receivers = [r for r in data["receivers"] if isinstance(r, dict)]
+                if receivers:
+                    archived_at = data.get("origin_fetched_at") or data.get("updated")
+                    print(
+                        f"kiwi upstream mirrors down — re-serving repo archive {url}",
+                        file=sys.stderr,
+                    )
+                    return url, receivers, archived_at
+            raise ValueError("unexpected archive payload shape")
+        except Exception as e:  # noqa: BLE001
+            print(f"kiwi archive {url} failed: {e}", file=sys.stderr)
     return None, [], None
 
 
@@ -2561,11 +2592,16 @@ def main():
     if mode in {"all", "sdr"}:
         src, receivers, fetched_at = fetch_kiwi()
         if src and receivers:
+            archive_served = src in KIWI_ARCHIVE_URLS
             write_json(
                 DATA_DIR / "kiwisdr.json",
                 {
-                    "updated": now_iso,
-                    "source": src,
+                    # honest timestamps: an archive re-serve keeps the archived
+                    # origin time instead of pretending it was fetched now
+                    "updated": (fetched_at or now_iso) if archive_served else now_iso,
+                    "source": ("repo archive " + src + " (upstream mirrors down)")
+                    if archive_served
+                    else src,
                     "origin_fetched_at": fetched_at,
                     "count": len(receivers),
                     "receivers": receivers,
@@ -2835,6 +2871,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
