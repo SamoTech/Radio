@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T23:35:21+00:00",
+ "updated": "2026-11-05T06:33:04+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -303,7 +303,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -447,7 +447,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -567,7 +567,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -1225,6 +1225,14 @@
    "lon": 15.471407675930848
   },
   {
+   "name": "HB9FBS",
+   "url": "http://hb9fbs.dyndns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 46.0330112846861,
+   "lon": 8.93442162507914
+  },
+  {
    "name": "KN6EBE",
    "url": "http://kn6ebe.ddns.net:8073/",
    "loc": "",
@@ -1693,8 +1701,8 @@
    "url": "http://hnswerkstatt.dyndns.org:8074/",
    "loc": "",
    "https": false,
-   "lat": 51.8915655,
-   "lon": 12.7626626
+   "lat": 51.8915424,
+   "lon": 12.7626784
   },
   {
    "name": "HB9HRL",
@@ -1727,6 +1735,22 @@
    "https": false,
    "lat": 50.793594,
    "lon": -2.076698
+  },
+  {
+   "name": "Funknetz.nrw",
+   "url": "http://freedmr.ddnss.de:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.58353546172424,
+   "lon": 7.143281367997134
+  },
+  {
+   "name": "SDRPaderborn",
+   "url": "http://sdr.lifoy.it:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.719104,
+   "lon": 8.730788
   },
   {
    "name": "WebSDR Halle an der Saale 11m,2m,70cm,Freenet,Airband",
@@ -2137,14 +2161,6 @@
    "lon": -122.9743
   },
   {
-   "name": "*POLAND* 70cm, 2m, 10m, 11m, 17m, 20m, 40m, 80m, PMR.",
-   "url": "http://sdr.noip.pl:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.01784830798169,
-   "lon": 19.979464291512027
-  },
-  {
    "name": "LA4M",
    "url": "https://sdr2forbord.la4m.no/",
    "loc": "",
@@ -2321,6 +2337,14 @@
    "lon": -54.1666262330619
   },
   {
+   "name": "CX3JU  SDR HF Y VHF RED URUGUAY LINK",
+   "url": "http://sdrsalto.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -31.383530847351018,
+   "lon": -57.93784359000231
+  },
+  {
    "name": "troyBORG",
    "url": "https://openwebrx.taild7742.ts.net/",
    "loc": "",
@@ -2407,22 +2431,6 @@
    "https": false,
    "lat": 47.3612918469974,
    "lon": 9.45042583424259
-  },
-  {
-   "name": "IU2MCH HF-VHF-UHF-Air Band",
-   "url": "http://www.iu2mch.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.464805,
-   "lon": 9.094794
-  },
-  {
-   "name": "IU2MCH HF-VHF-UHF-Air Band",
-   "url": "http://iu2mch.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.464805,
-   "lon": 9.094794
   },
   {
    "name": "IU2PLZ, Masate, Milan ITA",
@@ -2897,6 +2905,14 @@
    "lon": -98.26422124919387
   },
   {
+   "name": "EastMO R3DKT Receiver",
+   "url": "https://sdr.vanish125.netcraze.pro/",
+   "loc": "",
+   "https": true,
+   "lat": 55.70267067829901,
+   "lon": 38.9587778063207
+  },
+  {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
    "url": "https://rtlsdr.yo3bn.ro/",
    "loc": "",
@@ -2913,14 +2929,6 @@
    "lon": -4.722918726927474
   },
   {
-   "name": "SA7SVR",
-   "url": "http://sdr.cqnet.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 57.779869,
-   "lon": 14.161133
-  },
-  {
    "name": "sv9cjo",
    "url": "http://sv9efl.ddns.net:8073/",
    "loc": "",
@@ -2935,6 +2943,14 @@
    "https": true,
    "lat": 47.34852067723554,
    "lon": 0.6718675060378443
+  },
+  {
+   "name": "Westy RX",
+   "url": "https://sdr.dwestgate.us/",
+   "loc": "",
+   "https": true,
+   "lat": 45.483178856090866,
+   "lon": -122.60469157415571
   },
   {
    "name": "[KM7HJA] Treasure Valley SDR (VHF + HF)",
@@ -2991,14 +3007,6 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
-  },
-  {
-   "name": "2E0DGP WEBSDR",
-   "url": "http://sdr.ladar.club:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.65548338507698,
-   "lon": -2.631403032915911
   },
   {
    "name": "M0LHI",
@@ -3473,14 +3481,6 @@
    "lon": 7.9519401465365585
   },
   {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
-  },
-  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3623,6 +3623,14 @@
    "https": false,
    "lat": 49.88584777900732,
    "lon": 8.074055116097462
+  },
+  {
+   "name": "OH1CIN - OpenWebRX+",
+   "url": "https://koti.oh1cin.fi/",
+   "loc": "",
+   "https": true,
+   "lat": 60.48610584774209,
+   "lon": 23.446519755167945
   },
   {
    "name": "OA4EJG",
@@ -3943,14 +3951,6 @@
    "https": true,
    "lat": -25.457244078267728,
    "lon": -49.07712530682808
-  },
-  {
-   "name": "VU3ZNG",
-   "url": "https://rx.siritech.net/",
-   "loc": "",
-   "https": true,
-   "lat": 12.2438083,
-   "lon": 75.4374209
   },
   {
    "name": "Farmington",

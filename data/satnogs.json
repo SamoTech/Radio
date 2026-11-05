@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T23:35:21+00:00",
+ "updated": "2026-11-05T06:33:04+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 302,
  "stations": [
@@ -21,36 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
-   "id": 5065,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.843131,
-   "lng": 18.164306,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -544,6 +514,26 @@
    "https": false
   },
   {
+   "id": 5283,
+   "name": "dl0odx_highgain_omni_uhf",
+   "loc": "JN49mp · UHF",
+   "lat": 49.65,
+   "lng": 9.06,
+   "alt": 542,
+   "url": "https://network.satnogs.org/stations/5283/",
+   "https": false
+  },
+  {
+   "id": 5296,
+   "name": "dl0odx_highgain_omni_vhf",
+   "loc": "JN49mp · VHF",
+   "lat": 49.65,
+   "lng": 9.06,
+   "alt": 542,
+   "url": "https://network.satnogs.org/stations/5296/",
+   "https": false
+  },
+  {
    "id": 37,
    "name": "DL4PD",
    "loc": "JO30cs · UHF",
@@ -674,16 +664,6 @@
    "https": false
   },
   {
-   "id": 4600,
-   "name": "EA4RKU",
-   "loc": "IN80hm · VHF",
-   "lat": 40.513,
-   "lng": -3.35,
-   "alt": 628,
-   "url": "https://network.satnogs.org/stations/4600/",
-   "https": false
-  },
-  {
    "id": 4595,
    "name": "EA4TA",
    "loc": "IN80ck · UHF",
@@ -741,6 +721,16 @@
    "lng": 16.575,
    "alt": 310,
    "url": "https://network.satnogs.org/stations/4470/",
+   "https": false
+  },
+  {
+   "id": 3704,
+   "name": "ESOC Radio Club 2",
+   "loc": "JN49hu · UHF",
+   "lat": 49.872,
+   "lng": 8.622,
+   "alt": 180,
+   "url": "https://network.satnogs.org/stations/3704/",
    "https": false
   },
   {
@@ -1804,6 +1794,16 @@
    "https": false
   },
   {
+   "id": 3170,
+   "name": "OE6ISP_High_Gain_Zynq-7010",
+   "loc": "JN77pa · UHF",
+   "lat": 47.02,
+   "lng": 15.263,
+   "alt": 410,
+   "url": "https://network.satnogs.org/stations/3170/",
+   "https": false
+  },
+  {
    "id": 4545,
    "name": "OE9BKJ",
    "loc": "JN47ul · UHF / VHF",
@@ -2584,6 +2584,16 @@
    "https": false
   },
   {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
+   "https": false
+  },
+  {
    "id": 5290,
    "name": "V-Antenna",
    "loc": "DO21ud · UHF",
@@ -2781,16 +2791,6 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
-   "https": false
-  },
-  {
-   "id": 4525,
-   "name": "VU2AQJ_SGS",
-   "loc": "NL05uk · UHF",
-   "lat": 25.451809,
-   "lng": 81.736291,
-   "alt": 98,
-   "url": "https://network.satnogs.org/stations/4525/",
    "https": false
   },
   {
