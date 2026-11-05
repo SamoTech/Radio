@@ -1,18 +1,12 @@
 {
- "updated": "2026-11-05T07:38:32+00:00",
+ "updated": "2026-11-05T07:47:37+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1393,
+ "count": 1392,
  "rows": [
   {
    "f": 2054,
    "s": "0000",
    "e": "2400",
-   "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
-  },
-  {
-   "f": 2054,
-   "s": "0715",
-   "e": "0730",
    "n": "CAN | VAJ Prince Rupert Radio | E | WNA"
   },
   {
@@ -32,18 +26,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
-  },
-  {
-   "f": 2207,
-   "s": "0703",
-   "e": "0740",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
-  },
-  {
-   "f": 2226,
-   "s": "0730",
-   "e": "0745",
-   "n": "G | Aberdeen Coastguard Wx | E | WEu"
   },
   {
    "f": 2310,
@@ -214,12 +196,6 @@
    "n": "I | Romaradio IAR | I | SEu"
   },
   {
-   "f": 2677,
-   "s": "0733",
-   "e": "0743",
-   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
-  },
-  {
    "f": 2680,
    "s": "0000",
    "e": "2400",
@@ -236,6 +212,12 @@
    "s": "0000",
    "e": "2400",
    "n": "GRC | Olimpia Radio | -TY | SEE"
+  },
+  {
+   "f": 2749,
+   "s": "0740",
+   "e": "0800",
+   "n": "CAN | VCO Sydney Radio NS | E,F | ENA"
   },
   {
    "f": 2750,
@@ -706,18 +688,6 @@
    "n": "J | JMH Japan Meteo Fax | FE"
   },
   {
-   "f": 3673,
-   "s": "0733",
-   "e": "0743",
-   "n": "HOL | Netherlands Coastgd Wx | E | WEu"
-  },
-  {
-   "f": 3740,
-   "s": "0704",
-   "e": "0743",
-   "n": "BUL | LZW Varna Radio | E | BUL"
-  },
-  {
    "f": 3855,
    "s": "0638",
    "e": "1155",
@@ -790,12 +760,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 4146,
-   "s": "0703",
-   "e": "0740",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
-  },
-  {
    "f": 4149,
    "s": "2300",
    "e": "1000",
@@ -854,6 +818,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
+  },
+  {
+   "f": 4235,
+   "s": "0745",
+   "e": "1040",
+   "n": "USA | NMF Fax Boston MA | ENA"
   },
   {
    "f": 4259,
@@ -2044,12 +2014,6 @@
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
-   "f": 6224,
-   "s": "0703",
-   "e": "0740",
-   "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
-  },
-  {
    "f": 6230,
    "s": "0000",
    "e": "2400",
@@ -2114,6 +2078,12 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 6340,
+   "s": "0745",
+   "e": "1040",
+   "n": "USA | NMF Fax Boston MA | ENA"
   },
   {
    "f": 6370,
@@ -2944,12 +2914,6 @@
    "n": "D | DWD Pinneberg Met Fax | Eu"
   },
   {
-   "f": 7906,
-   "s": "0735",
-   "e": "0745",
-   "n": "VTN | Ca Mau Radio | VN | SEA"
-  },
-  {
    "f": 8000,
    "s": "0000",
    "e": "2400",
@@ -3608,6 +3572,12 @@
    "s": "0000",
    "e": "2400",
    "n": "USA | US Air Force Messages | E | NAm"
+  },
+  {
+   "f": 9110,
+   "s": "0745",
+   "e": "1040",
+   "n": "USA | NMF Fax Boston MA | ENA"
   },
   {
    "f": 9116,
@@ -4888,12 +4858,6 @@
    "n": "CHN | CNR5 Cross-Strait Radio | M | TWN"
   },
   {
-   "f": 11620,
-   "s": "0700",
-   "e": "0730",
-   "n": "ROU | Radio Romania Int. | D | WEu"
-  },
-  {
    "f": 11630,
    "s": "0600",
    "e": "0800",
@@ -5038,12 +5002,6 @@
    "n": "CUB | Radio Habana Cuba | S | Am"
   },
   {
-   "f": 11760,
-   "s": "0700",
-   "e": "0730",
-   "n": "F | Radio France Int. | HA | WAf"
-  },
-  {
    "f": 11765,
    "s": "0200",
    "e": "1200",
@@ -5066,6 +5024,12 @@
    "s": "2130",
    "e": "1700",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 11780,
+   "s": "0745",
+   "e": "2000",
+   "n": "B | Rádio Nacional Amazônia | P | B"
   },
   {
    "f": 11780,
@@ -6382,6 +6346,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 13908,
+   "s": "0745",
+   "e": "0755",
+   "n": "POL | E11 Polish Spy Numbers | E"
+  },
+  {
    "f": 13920,
    "s": "0600",
    "e": "0855",
@@ -6538,6 +6508,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 14865,
+   "s": "0745",
+   "e": "0755",
+   "n": "POL | E11 Polish Spy Numbers | E"
+  },
+  {
    "f": 14870,
    "s": "2200",
    "e": "1600",
@@ -6578,6 +6554,12 @@
    "s": "2200",
    "e": "1600",
    "n": "CHN | CNR1 Jammer/Firedrake | M | CHN"
+  },
+  {
+   "f": 14940,
+   "s": "0745",
+   "e": "0755",
+   "n": "POL | E11 Polish Spy Numbers | E"
   },
   {
    "f": 14940,
@@ -6914,12 +6896,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 15595,
-   "s": "0730",
-   "e": "0745",
-   "n": "CVA | Radio Vaticana | F | ME"
   },
   {
    "f": 15610,
@@ -7468,6 +7444,12 @@
    "n": "CHN | XSV Tianjin Radio | M | FE"
   },
   {
+   "f": 17392,
+   "s": "0740",
+   "e": "0756",
+   "n": "CHN | XSV Tianjin Radio | M | FE"
+  },
+  {
    "f": 17398,
    "s": "0000",
    "e": "2400",
@@ -7676,12 +7658,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 17810,
-   "s": "0700",
-   "e": "0730",
-   "n": "G | BBC | A | EAf"
   },
   {
    "f": 17820,
@@ -8156,12 +8132,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 21830,
-   "s": "0700",
-   "e": "0730",
-   "n": "CHN | China Radio Int.DIGITAL | M | Oc"
   },
   {
    "f": 21925,

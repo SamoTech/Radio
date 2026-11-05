@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T07:38:32+00:00",
+ "updated": "2026-11-05T07:47:37+00:00",
  "checked": 1185,
- "alive": 1086,
+ "alive": 1084,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -170,12 +170,12 @@
   },
   "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://stream.radiojar.com/8s5u5tpdtwzuv": {
@@ -191,7 +191,7 @@
   "https://carina.streamerr.co:2020/stream/OnSportFM": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "googlebot"
   },
   "https://radio95.radioca.st/;": {
    "alive": true,
@@ -1183,8 +1183,8 @@
   },
   "https://strw3.openstream.co/867?aw_0_1st.collectionid%3D3661%26stationId%3D3661%26publisherId%3D891%26k%3D1781078170": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
@@ -1238,8 +1238,8 @@
   },
   "https://strw3.openstream.co/264?aw_0_1st.collectionid%3D377%26stationId%3D377%26publisherId%3D84%26k%3D1781078177": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://gruponovaradial.azuracast.com.es/listen/juke_box_nova_hit/radio.mp3": {
    "alive": false,
@@ -1745,7 +1745,7 @@
   },
   "https://streema.com/radios/play/Skyhighradio?ref=http://www.skyhighradio.co.uk/en/cms/index.php/on_air/listen_live.html&amptype=radio": {
    "alive": true,
-   "code": 202,
+   "code": 206,
    "strategy": "bot"
   },
   "https://radiostorm.com/": {
@@ -1795,8 +1795,8 @@
   },
   "https://strw3.openstream.co/874?aw_0_1st.collectionid%3D3668%26stationId%3D3668%26publisherId%3D898%26k%3D1781078280": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://fhhalle.streamabc.net/fhhal-rblive-aacplus-64-8699516?sABC=6n291904%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23bayvarenqvbobk&aw_0_1st.playerid=onlineradiobox&amsparams=playerid:onlineradiobox;skey:1781078276": {
    "alive": true,
@@ -3308,8 +3308,8 @@
   },
   "https://strw3.openstream.co/867?aw_0_1st.collectionid%3D3661%26stationId%3D3661%26publisherId%3D891%26k%3D1711089961": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://stm4.xcast.com.br:10320/stream?1735194164235": {
    "alive": true,
@@ -3583,8 +3583,8 @@
   },
   "https://strw3.openstream.co/837?aw_0_1st.collectionid%3D6837%26stationId%3D6837%26publisherId%3D861%26k%3D1781078395": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://likeradiostream.com/likeoneuk": {
    "alive": true,
@@ -4304,8 +4304,8 @@
   },
   "https://strw3.openstream.co/349?aw_0_1st.collectionid%3D7416%26stationId%3D7416%26publisherId%3D169%26k%3D1781078424": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
@@ -4823,7 +4823,7 @@
   },
   "https://streaming.elitecomunicacion.cloud/8312/stream": {
    "alive": true,
-   "code": 200,
+   "code": 401,
    "strategy": "bot"
   },
   "https://edge69.streamonkey.net/oe24-2000er": {
@@ -5506,8 +5506,8 @@
   },
   "https://strw3.openstream.co/874?aw_0_1st.collectionid%3D3668%26stationId%3D3668%26publisherId%3D898%26k%3D1780952705": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://streaming.radiosenlinea.com.ar/8774/stream": {
    "alive": true,
@@ -5531,9 +5531,10 @@
    "strategy": "bot"
   },
   "https://s1-bos.liveatc.net/sunfunlive1?nocache=2026060821051059685": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://free.rcast.net/213649": {
    "alive": true,
@@ -5566,9 +5567,10 @@
    "strategy": "bot"
   },
   "https://live-bauerse-fm.sharp-stream.com/vinylfm_instream_se_aacp": {
-   "alive": true,
-   "code": 200,
-   "strategy": "browser"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://15123.live.streamtheworld.com/KXRZFMAAC.aac": {
    "alive": true,
@@ -5822,8 +5824,8 @@
   },
   "https://strw3.openstream.co/878?aw_0_1st.collectionid%3D3672%26stationId%3D3672%26publisherId%3D902%26k%3D1780918189": {
    "alive": true,
-   "code": 401,
-   "strategy": "googlebot"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://rs201-krk-cyfronet.rmfstream.pl/50S?": {
    "alive": true,
