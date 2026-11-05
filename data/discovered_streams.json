@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-04T09:11:15+00:00",
+ "updated": "2026-11-05T07:29:24+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 8,
+ "count": 6,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/04/nach_den_us_midterms_interview_mit_norbert_roettgen_cdu_dlf_20261104_0810_e8830305.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/04/nach_den_us_midterms_interview_mit_norbert_roettgen_cdu_dlf_20261104_0810_e8830305.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/05/freie_waehler_vorsitzender_hubert_aiwanger_tot_aufgefunden_drk_20261105_0609_502acade.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/05/freie_waehler_vorsitzender_hubert_aiwanger_tot_aufgefunden_drk_20261105_0609_502acade.mp3"
    ]
   },
   {
@@ -234,10 +234,7 @@
    "catalog": false,
    "fetch_strategy": "bot",
    "fetch_error": "",
-   "streams": [
-    "https://radioimages.npox.nl/RAD1/image/9b927cb2-3623-406f-bd71-7239f3e1be7b/IMG_2976.heic?height=150&width=200&aspect_ratio=4%3A3",
-    "https://radioimages.npox.nl/RAD1/image/9b927cb2-3623-406f-bd71-7239f3e1be7b/IMG_2976.heic"
-   ]
+   "streams": []
   },
   {
    "site": "https://www.nporadio2.nl/",
