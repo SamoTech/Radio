@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T07:29:24+00:00",
+ "updated": "2026-11-05T07:38:32+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1386,
+ "count": 1393,
  "rows": [
   {
    "f": 2054,
@@ -40,10 +40,22 @@
    "n": "NZL | ZLM Taupo Maritime R. | E | Oc"
   },
   {
+   "f": 2226,
+   "s": "0730",
+   "e": "0745",
+   "n": "G | Aberdeen Coastguard Wx | E | WEu"
+  },
+  {
    "f": 2310,
    "s": "0000",
    "e": "2400",
    "n": "AUS | Shortwave Australia | E | AUS"
+  },
+  {
+   "f": 2500,
+   "s": "0730",
+   "e": "0100",
+   "n": "CHN | BPM Xian | -TS | CHN"
   },
   {
    "f": 2500,
@@ -154,6 +166,12 @@
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
   },
   {
+   "f": 2598,
+   "s": "0737",
+   "e": "0805",
+   "n": "CAN | VCP Placentia NL | E | ENA"
+  },
+  {
    "f": 2600,
    "s": "0000",
    "e": "2400",
@@ -197,9 +215,9 @@
   },
   {
    "f": 2677,
-   "s": "0715",
-   "e": "0730",
-   "n": "F | CROSS Corsen Radio Wx | F | WEu"
+   "s": "0733",
+   "e": "0743",
+   "n": "F | CROSS La Garde Radio Wx | F,E | WEu"
   },
   {
    "f": 2680,
@@ -688,6 +706,12 @@
    "n": "J | JMH Japan Meteo Fax | FE"
   },
   {
+   "f": 3673,
+   "s": "0733",
+   "e": "0743",
+   "n": "HOL | Netherlands Coastgd Wx | E | WEu"
+  },
+  {
    "f": 3740,
    "s": "0704",
    "e": "0743",
@@ -776,6 +800,12 @@
    "s": "2300",
    "e": "1000",
    "n": "AUS | VMW Wiluna WA | E | AUS"
+  },
+  {
+   "f": 4170,
+   "s": "0730",
+   "e": "1030",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 4177,
@@ -2915,9 +2945,9 @@
   },
   {
    "f": 7906,
-   "s": "0720",
-   "e": "0730",
-   "n": "VTN | Phu Yen Radio | VN | SEA"
+   "s": "0735",
+   "e": "0745",
+   "n": "VTN | Ca Mau Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -2972,6 +3002,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 8302,
+   "s": "0730",
+   "e": "1030",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 8376,
@@ -3748,12 +3784,6 @@
    "n": "TWN | Fu Hsing Bc.Sta. | M | FE"
   },
   {
-   "f": 9440,
-   "s": "0700",
-   "e": "0730",
-   "n": "ROU | Radio Romania Int. | D | WEu"
-  },
-  {
    "f": 9445,
    "s": "0700",
    "e": "0800",
@@ -3821,9 +3851,9 @@
   },
   {
    "f": 9590,
-   "s": "0630",
-   "e": "0730",
-   "n": "MYA | Thazin Radio | KYH | SEA"
+   "s": "0730",
+   "e": "0830",
+   "n": "MYA | Thazin Radio | SHA | SEA"
   },
   {
    "f": 9600,
@@ -3992,6 +4022,12 @@
    "s": "0000",
    "e": "2400",
    "n": "B | Rádio 9 de Julho | P | SAm"
+  },
+  {
+   "f": 9830,
+   "s": "0730",
+   "e": "0900",
+   "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
    "f": 9830,
@@ -5098,12 +5134,6 @@
    "n": "CHN | China Radio Int. | M | SEA"
   },
   {
-   "f": 11875,
-   "s": "0700",
-   "e": "0730",
-   "n": "F | Radio France Int. | MAN | WAf"
-  },
-  {
    "f": 11885,
    "s": "0300",
    "e": "0800",
@@ -5255,9 +5285,9 @@
   },
   {
    "f": 12140,
-   "s": "0630",
-   "e": "0730",
-   "n": "USA | VoA Radio Ashna | DR | AFG"
+   "s": "0730",
+   "e": "0830",
+   "n": "USA | VoA Radio Ashna | PS | AFG"
   },
   {
    "f": 12150,
@@ -5332,6 +5362,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 12359,
+   "s": "0733",
+   "e": "0743",
+   "n": "VTN | Hai Phong Radio XVG | VN | SEA"
+  },
+  {
    "f": 12362,
    "s": "2300",
    "e": "1000",
@@ -5348,6 +5384,12 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 12382,
+   "s": "0730",
+   "e": "1030",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 12430,
@@ -6184,9 +6226,15 @@
    "n": "CHN | China National Radio 13 | UI | CHN"
   },
   {
+   "f": 13710,
+   "s": "0730",
+   "e": "0800",
+   "n": "F | Radio France Int. | FU | WAf"
+  },
+  {
    "f": 13730,
-   "s": "0700",
-   "e": "0730",
+   "s": "0730",
+   "e": "0800",
    "n": "CHN | China Radio Int.DIGITAL | M | Oc"
   },
   {
@@ -6200,12 +6248,6 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 13740,
-   "s": "0700",
-   "e": "0730",
-   "n": "F | Radio France Int. | HA | WAf"
   },
   {
    "f": 13750,
@@ -6610,6 +6652,12 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 15120,
+   "s": "0730",
+   "e": "0800",
+   "n": "ROU | Radio Romania Int. | A | NAf"
+  },
+  {
    "f": 15135,
    "s": "0700",
    "e": "0800",
@@ -6650,6 +6698,12 @@
    "s": "0000",
    "e": "2400",
    "n": "B | Rádio Inconfidência | P | B"
+  },
+  {
+   "f": 15200,
+   "s": "0730",
+   "e": "0800",
+   "n": "ROU | Radio Romania Int. | A | ME"
   },
   {
    "f": 15210,
@@ -6728,6 +6782,12 @@
    "s": "0700",
    "e": "0800",
    "n": "F | Radio France Int. | F | CAf"
+  },
+  {
+   "f": 15320,
+   "s": "0730",
+   "e": "0800",
+   "n": "ROU | Radio Romania Int. | A | NAf"
   },
   {
    "f": 15340,
@@ -6857,9 +6917,9 @@
   },
   {
    "f": 15595,
-   "s": "0710",
-   "e": "0730",
-   "n": "CVA | Radio Vaticana | A | ME"
+   "s": "0730",
+   "e": "0745",
+   "n": "CVA | Radio Vaticana | F | ME"
   },
   {
    "f": 15610,
@@ -6887,9 +6947,9 @@
   },
   {
    "f": 15640,
-   "s": "0630",
-   "e": "0730",
-   "n": "USA | VoA Radio Ashna | DR | AFG"
+   "s": "0730",
+   "e": "0830",
+   "n": "USA | VoA Radio Ashna | PS | AFG"
   },
   {
    "f": 15710,
@@ -6899,8 +6959,8 @@
   },
   {
    "f": 15720,
-   "s": "0700",
-   "e": "0730",
+   "s": "0730",
+   "e": "0800",
    "n": "CHN | China Radio Int.DIGITAL | M | Oc"
   },
   {
@@ -7204,6 +7264,12 @@
    "n": "AUS | VMC Charleville QL | E | AUS"
   },
   {
+   "f": 16559,
+   "s": "0730",
+   "e": "1030",
+   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
+  },
+  {
    "f": 16600,
    "s": "0200",
    "e": "1200",
@@ -7474,10 +7540,10 @@
    "n": "CHN | China National Radio 1 | M | CHN"
   },
   {
-   "f": 17565,
-   "s": "0600",
-   "e": "0730",
-   "n": "CHN | China National Radio 1 | M | CHN"
+   "f": 17560,
+   "s": "0730",
+   "e": "0800",
+   "n": "ROU | Radio Romania Int. | A | ME"
   },
   {
    "f": 17580,
@@ -7577,8 +7643,8 @@
   },
   {
    "f": 17760,
-   "s": "0700",
-   "e": "0730",
+   "s": "0730",
+   "e": "0800",
    "n": "CHN | China Radio Int.DIGITAL | M | Oc"
   },
   {
@@ -7910,6 +7976,12 @@
    "s": "0200",
    "e": "1200",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 19015,
+   "s": "0730",
+   "e": "0800",
+   "n": "CHN | China Radio Int.DIGITAL | M | Oc"
   },
   {
    "f": 19770,

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T07:29:24+00:00",
+ "updated": "2026-11-05T07:38:32+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1593,14 +1593,6 @@
    "lon": 10.748903
   },
   {
-   "name": "LW6DSM",
-   "url": "http://lw6dsm.sytes.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -34.5903385739189,
-   "lon": -58.393383528043934
-  },
-  {
    "name": "M8YRT OWRX No.1",
    "url": "http://wr15.duckdns.org:8072/",
    "loc": "",
@@ -2929,6 +2921,14 @@
    "lon": -4.722918726927474
   },
   {
+   "name": "SA7SVR",
+   "url": "http://sdr.cqnet.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 57.779869,
+   "lon": 14.161133
+  },
+  {
    "name": "sv9cjo",
    "url": "http://sv9efl.ddns.net:8073/",
    "loc": "",
@@ -3007,6 +3007,14 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
+  },
+  {
+   "name": "2E0DGP WEBSDR",
+   "url": "http://sdr.ladar.club:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.65548338507698,
+   "lon": -2.631403032915911
   },
   {
    "name": "M0LHI",
@@ -3953,6 +3961,14 @@
    "lon": -49.07712530682808
   },
   {
+   "name": "VU3ZNG",
+   "url": "https://rx.siritech.net/",
+   "loc": "",
+   "https": true,
+   "lat": 12.2438083,
+   "lon": 75.4374209
+  },
+  {
    "name": "Farmington",
    "url": "https://receiver.elaptic.dev/",
    "loc": "",
@@ -4015,22 +4031,6 @@
    "https": false,
    "lat": 42.748471127688326,
    "lon": 10.12352887691887
-  },
-  {
-   "name": "OK1ODC",
-   "url": "http://77.95.41.82:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.75477061136604,
-   "lon": 14.168419818214803
-  },
-  {
-   "name": "websdr64",
-   "url": "https://owrx.websdr64.ru/",
-   "loc": "",
-   "https": true,
-   "lat": 51.61128628148611,
-   "lon": 45.99059302695231
   }
  ]
 }

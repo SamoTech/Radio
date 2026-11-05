@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T07:29:24+00:00",
+ "updated": "2026-11-05T07:38:32+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 302,
+ "count": 301,
  "stations": [
   {
    "id": 3944,
@@ -131,6 +131,16 @@
    "lng": -77.11324,
    "alt": 71,
    "url": "https://network.satnogs.org/stations/4655/",
+   "https": false
+  },
+  {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -331,16 +341,6 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
-   "https": false
-  },
-  {
-   "id": 5112,
-   "name": "CIA_S4",
-   "loc": "PL04ox · UHF",
-   "lat": 24.971562604021216,
-   "lng": 121.19205965975814,
-   "alt": 190,
-   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -1214,16 +1214,6 @@
    "https": false
   },
   {
-   "id": 2575,
-   "name": "KC3QNJ",
-   "loc": "FM18sh · VHF / UHF",
-   "lat": 38.308,
-   "lng": -76.474,
-   "alt": 14,
-   "url": "https://network.satnogs.org/stations/2575/",
-   "https": false
-  },
-  {
    "id": 1442,
    "name": "KC4LE 70cm Eggbeater",
    "loc": "EM63nh · UHF",
@@ -1631,6 +1621,16 @@
    "lng": -99.15139,
    "alt": 500,
    "url": "https://network.satnogs.org/stations/1682/",
+   "https": false
+  },
+  {
+   "id": 5263,
+   "name": "N6FR",
+   "loc": "DM03tu · UHF",
+   "lat": 33.87,
+   "lng": -118.37,
+   "alt": 37,
+   "url": "https://network.satnogs.org/stations/5263/",
    "https": false
   },
   {
@@ -2311,16 +2311,6 @@
    "lng": 24.95621,
    "alt": 1110,
    "url": "https://network.satnogs.org/stations/4272/",
-   "https": false
-  },
-  {
-   "id": 5293,
-   "name": "Sowa_LDZ_PL",
-   "loc": "JO91rr · VHF / UHF",
-   "lat": 51.739,
-   "lng": 19.481,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/5293/",
    "https": false
   },
   {
