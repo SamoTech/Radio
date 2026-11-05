@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T07:47:37+00:00",
+ "updated": "2026-11-05T19:52:41+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 301,
+ "count": 305,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,36 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5065,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.843131,
+   "lng": 18.164306,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -131,16 +161,6 @@
    "lng": -77.11324,
    "alt": 71,
    "url": "https://network.satnogs.org/stations/4655/",
-   "https": false
-  },
-  {
-   "id": 1492,
-   "name": "Archenhold",
-   "loc": "JO62rl · VHF",
-   "lat": 52.487,
-   "lng": 13.475,
-   "alt": 23,
-   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -341,6 +361,16 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
+   "https": false
+  },
+  {
+   "id": 5112,
+   "name": "CIA_S4",
+   "loc": "PL04ox · UHF",
+   "lat": 24.971562604021216,
+   "lng": 121.19205965975814,
+   "alt": 190,
+   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -581,16 +611,6 @@
    "lng": 4.4174,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/897/",
-   "https": false
-  },
-  {
-   "id": 4837,
-   "name": "DSES WT0DX",
-   "loc": "DM79pn · UHF",
-   "lat": 39.563,
-   "lng": -104.735,
-   "alt": 1875,
-   "url": "https://network.satnogs.org/stations/4837/",
    "https": false
   },
   {
@@ -934,6 +954,16 @@
    "https": false
   },
   {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
+   "https": false
+  },
+  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1114,16 +1144,6 @@
    "https": false
   },
   {
-   "id": 4171,
-   "name": "Jim UHF 3",
-   "loc": "FM03kt · UHF",
-   "lat": 33.797628,
-   "lng": -79.159123,
-   "alt": 13,
-   "url": "https://network.satnogs.org/stations/4171/",
-   "https": false
-  },
-  {
    "id": 3348,
    "name": "JMUW - Raumfahrttechnik - UHF",
    "loc": "JN49xs · UHF",
@@ -1211,16 +1231,6 @@
    "lng": -72.32180283,
    "alt": 192,
    "url": "https://network.satnogs.org/stations/4806/",
-   "https": false
-  },
-  {
-   "id": 1442,
-   "name": "KC4LE 70cm Eggbeater",
-   "loc": "EM63nh · UHF",
-   "lat": 33.323,
-   "lng": -86.888,
-   "alt": 231,
-   "url": "https://network.satnogs.org/stations/1442/",
    "https": false
   },
   {
@@ -1904,6 +1914,16 @@
    "https": false
   },
   {
+   "id": 431,
+   "name": "PE0SAT-11",
+   "loc": "JO21mr · UHF",
+   "lat": 51.721268,
+   "lng": 5.029968,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/431/",
+   "https": false
+  },
+  {
    "id": 2173,
    "name": "PE0SAT-21",
    "loc": "JO21mr · UHF",
@@ -2211,6 +2231,16 @@
    "lng": -2.1,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/1347/",
+   "https": false
+  },
+  {
+   "id": 5176,
+   "name": "SK6AB",
+   "loc": "JO57xq · VHF / UHF",
+   "lat": 57.687989,
+   "lng": 11.978214,
+   "alt": 130,
+   "url": "https://network.satnogs.org/stations/5176/",
    "https": false
   },
   {
@@ -2781,6 +2811,16 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
+   "https": false
+  },
+  {
+   "id": 4525,
+   "name": "VU2AQJ_SGS",
+   "loc": "NL05uk · UHF",
+   "lat": 25.451809,
+   "lng": 81.736291,
+   "alt": 98,
+   "url": "https://network.satnogs.org/stations/4525/",
    "https": false
   },
   {
