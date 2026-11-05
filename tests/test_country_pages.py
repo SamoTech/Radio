@@ -117,7 +117,7 @@ class SeoGenreLanguagePagesTests(unittest.TestCase):
             self.assertNotIn("ILX Station", news_html)
             self.assertTrue((Path(tmp) / "genres" / "top40.html").exists())
             self.assertFalse((Path(tmp) / "genres" / "jazz.html").exists())
-            self.assertTrue((Path(tmp) / "languages" / "french.html").exists())
+            self.assertTrue((Path(tmp) / "languages" / "francais.html").exists())
             self.assertTrue((Path(tmp) / "languages" / "arabic.html").exists())
             self.assertFalse((Path(tmp) / "languages" / "english.html").exists())
             self.assertTrue((Path(tmp) / "genres" / "index.html").exists())
