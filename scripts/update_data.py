@@ -71,6 +71,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -520,22 +521,315 @@ def generate_country_pages(snapshot_path, out_root=None):
         _cp_index_page(ranked), encoding="utf-8"
     )
 
-    lastmod = updated[:10] if len(updated) >= 10 else ""
-    sitemap = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ]
-    for url in sitemap_urls:
-        entry = "<url><loc>" + url + "</loc>"
-        if lastmod:
-            entry += "<lastmod>" + lastmod + "</lastmod>"
-        sitemap.append(entry + "</url>")
-    sitemap.append("</urlset>")
-    (root / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
-
+    write_sitemap(root, sitemap_urls, updated)
     robots = "User-agent: *\nAllow: /\n\nSitemap: " + SITE_URL + "sitemap.xml\n"
     (root / "robots.txt").write_text(robots, encoding="utf-8")
     print("country pages: " + str(len(ranked)) + " country pages + sitemap + robots")
+
+def write_sitemap(root, urls, updated=""):
+    """Write sitemap.xml with the given URL list (dedup, first-come order)."""
+    lastmod = str(updated)[:10] if len(str(updated)) >= 10 else ""
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    seen = set()
+    for url in urls:
+        if url in seen:
+            continue
+        seen.add(url)
+        entry = "<url><loc>" + url + "</loc>"
+        if lastmod:
+            entry += "<lastmod>" + lastmod + "</lastmod>"
+        lines.append(entry + "</url>")
+    lines.append("</urlset>")
+    (Path(root) / "sitemap.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _sitemap_locs(root):
+    """Canonical URLs (<loc> entries) already present in sitemap.xml."""
+    path = Path(root) / "sitemap.xml"
+    if not path.exists():
+        return []
+    return re.findall(r"<loc>(.*?)</loc>", path.read_text(encoding="utf-8"))
+
+
+
+# ---------------------------------------------------------------------------
+# Static genre & language landing pages (SEO): generated from the stations
+# snapshot into genres/ and languages/ (P2-2, gap G-09). Pages are regenerated
+# on every stations refresh next to the country pages and appended to the
+# sitemap. Only curated well-known genres get a page: the long tail of raw
+# Radio-Browser tags is noisy, so unknown/non-Latin tags are skipped and the
+# alias table folds common spellings into one canonical genre per topic.
+# ---------------------------------------------------------------------------
+
+GENRE_PAGE_STATIONS = 40
+LANGUAGE_PAGE_STATIONS = 40
+GENRE_PAGE_MIN = 40
+GENRE_PAGE_MAX = 24
+LANGUAGE_PAGE_MIN = 40
+LANGUAGE_PAGE_MAX = 30
+
+# Infra/pipeline tags from our own merge tiers plus generic noise — never
+# deserve a genre page.
+GENRE_JUNK_TAGS = frozenset({
+    "official", "scraper", "iprd", "community", "verified", "icecast", "yp",
+    "radio", "live", "stream", "various", "mixed", "misc", "other", "noads",
+    "noad",
+})
+
+# Folded spelling -> canonical genre key (the page universe = the keys of
+# GENRE_TITLES_AR; a genre page only ever exists for a curated genre).
+GENRE_ALIASES = {
+    "news": "news", "noticias": "news", "actualidad": "news", "info": "news",
+    "sport": "sports", "sports": "sports", "deporte": "sports",
+    "deportes": "sports", "riadia": "sports",
+    "music": "music", "musique": "music", "musica": "music",
+    "pop": "pop", "top 40": "top40", "top40": "top40", "hits": "top40",
+    "charts": "top40",
+    "rock": "rock", "classic rock": "rock", "classicrock": "rock",
+    "classical": "classical", "classica": "classical", "klassik": "classical",
+    "classique": "classical", "klasik": "classical",
+    "classical music": "classical",
+    "jazz": "jazz", "jazz music": "jazz", "blues": "blues",
+    "dance": "dance", "edm": "electronic", "electronic": "electronic",
+    "electronica": "electronic", "electro": "electronic", "house": "electronic",
+    "techno": "electronic", "trance": "electronic",
+    "talk": "talk", "talk radio": "talk", "talkradio": "talk",
+    "podcast": "talk",
+    "oldies": "oldies", "70s": "oldies", "80s": "oldies", "90s": "oldies",
+    "folk": "folk", "country music": "country", "countrymusic": "country",
+    "hip hop": "hiphop", "hiphop": "hiphop", "rap": "hiphop",
+    "religious": "religious", "religion": "religious", "christian": "religious",
+    "islamic": "religious", "gospel": "gospel", "quran": "quran",
+    "coran": "quran",
+    "arab": "arabic", "arabic": "arabic", "arabesk": "arabic",
+    "tarab": "arabic",
+    "latin": "latin", "reggae": "reggae", "ambient": "ambient", "chill": "chill",
+    "lounge": "chill", "world": "world", "world music": "world",
+}
+
+GENRE_TITLES_AR = {
+    "news": "الأخبار", "sports": "الرياضة", "music": "الموسيقى", "pop": "البوب",
+    "top40": "الأكثر تسميعًا (Top 40)", "rock": "الروك",
+    "classical": "الموسيقى الكلاسيكية", "jazz": "الجاز", "blues": "البلوز",
+    "dance": "موسيقى الدنس", "electronic": "الموسيقى الإلكترونية",
+    "talk": "الحواريات", "oldies": "الكلاسيكيات القديمة", "folk": "الفولك",
+    "country": "الكانتري", "hiphop": "الهيب هوب", "religious": "الدينية",
+    "gospel": "الغوسبل", "quran": "القرآن الكريم", "arabic": "الطرب العربي",
+    "latin": "الموسيقى اللاتينية", "reggae": "الريغي", "ambient": "الأمبينت",
+    "chill": "التشيل والاسترخاء", "world": "الموسيقى العالمية",
+}
+
+# Non-Latin language endonyms mapped by hand; Latin-script languages fold
+# and slug automatically.
+LANGUAGE_SEO_ALIASES = {
+    "中文": "chinese", "中文（繁体）": "chinese", "中文（简体）": "chinese",
+    "日本語": "japanese", "한국어": "korean", "русский": "russian",
+    "ελληνικά": "greek", "العربية": "arabic",
+}
+
+LANGUAGE_TITLES_AR = {
+    "arabic": "العربية", "english": "الإنجليزية", "french": "الفرنسية",
+    "german": "الألمانية", "spanish": "الإسبانية", "italian": "الإيطالية",
+    "turkish": "التركية", "portuguese": "البرتغالية", "russian": "الروسية",
+    "chinese": "الصينية", "japanese": "اليابانية", "korean": "الكورية",
+    "greek": "اليونانية", "dutch": "الهولندية", "hindi": "الهندية",
+    "urdu": "الأردية", "farsi": "الفارسية", "persian": "الفارسية",
+    "kurdish": "الكردية", "indonesian": "الإندونيسية", "malay": "الملايو",
+    "swahili": "السواحلية", "somali": "الصومالية", "berber": "الأمازيغية",
+    "amazigh": "الأمازيغية", "nederlands": "الهولندية",
+    "deutsch": "الألمانية", "castellano": "الإسبانية",
+}
+
+LANGUAGE_JUNK = frozenset({
+    "", "-", "n/a", "na", "none", "unknown", "various", "varied", "mixed",
+    "multi", "multilingual", "misc",
+})
+
+
+def _seo_fold(value):
+    """Lowercase + strip Latin accents + collapse whitespace."""
+    text = unicodedata.normalize("NFD", str(value or ""))
+    text = "".join(ch for ch in text if unicodedata.category(ch) != "Mn")
+    return " ".join(text.lower().split())
+
+
+def _seo_slug(value):
+    """ASCII slug: alphanumerics kept, runs of anything else collapse to '-'."""
+    folded = _seo_fold(value)
+    out = []
+    for ch in folded:
+        if ch.isascii() and ch.isalnum():
+            out.append(ch)
+        elif out and out[-1] != "-":
+            out.append("-")
+    return "".join(out).strip("-")
+
+
+def _genre_key_for_tag(tag):
+    """Canonical curated genre key for a raw tag, or '' when it deserves
+    no page (junk, infra, or unknown long-tail tags)."""
+    folded = _seo_fold(tag)
+    if not folded or folded in GENRE_JUNK_TAGS:
+        return ""
+    return GENRE_ALIASES.get(folded, "")
+
+
+def _language_slug(value):
+    """Stable page slug for one raw language name, or '' when unusable."""
+    raw = " ".join(str(value or "").split())
+    if raw in LANGUAGE_SEO_ALIASES:
+        return LANGUAGE_SEO_ALIASES[raw]
+    folded = _seo_fold(value)
+    if not folded or folded in LANGUAGE_JUNK:
+        return ""
+    slug = _seo_slug(folded)
+    if not slug or not any(ch.isalpha() for ch in slug):
+        return ""
+    return slug
+
+
+def generate_genre_language_pages(snapshot_path, out_root=None):
+    """Generate static genre/language landing pages into genres/ and
+    languages/ and append their canonical URLs to the sitemap (P2-2)."""
+    snapshot = json.loads(Path(snapshot_path).read_text(encoding="utf-8"))
+    stations = snapshot.get("stations") or []
+    if len(stations) < 100:
+        print("genre/language pages: snapshot too small — skipping", file=sys.stderr)
+        return
+    root = Path(out_root) if out_root else REPO_ROOT
+    updated = str(snapshot.get("updated") or "")
+
+    by_genre = {}
+    by_lang = {}
+    for station in stations:
+        cc = str(station.get("cc") or station.get("countrycode") or "").upper()
+        if cc == "IL":
+            continue
+        for tag in str(station.get("tags") or "").replace(";", ",").split(","):
+            key = _genre_key_for_tag(tag)
+            if key:
+                by_genre.setdefault(key, []).append(station)
+        for part in str(station.get("language") or "").split(","):
+            slug = _language_slug(part)
+            if slug:
+                by_lang.setdefault(slug, []).append(station)
+
+    genres = sorted(
+        (kv for kv in by_genre.items() if len(kv[1]) >= GENRE_PAGE_MIN),
+        key=lambda kv: (-len(kv[1]), kv[0]),
+    )[:GENRE_PAGE_MAX]
+    langs = sorted(
+        (kv for kv in by_lang.items() if len(kv[1]) >= LANGUAGE_PAGE_MIN),
+        key=lambda kv: (-len(kv[1]), kv[0]),
+    )[:LANGUAGE_PAGE_MAX]
+
+    sitemap_urls = []
+    pages_meta = (
+        ("genres", genres, GENRE_TITLES_AR, GENRE_PAGE_STATIONS),
+        ("languages", langs, LANGUAGE_TITLES_AR, LANGUAGE_PAGE_STATIONS),
+    )
+    for folder, ranked, titles, per_page in pages_meta:
+        if not ranked:
+            continue
+        pages_dir = root / folder
+        pages_dir.mkdir(parents=True, exist_ok=True)
+        index_items = []
+        for key, group in ranked:
+            count = len(group)
+            label = titles.get(key, key)
+            canonical = SITE_URL + folder + "/" + key + ".html"
+            title = (
+                "راديو " + label + " مباشر — " + str(count)
+                + " محطة إذاعة | راديو أطلس"
+            )
+            description = (
+                "استمع لأشهر محطات الراديو " + label + " مباشرة: " + str(count)
+                + " محطة إذاعية مع تشغيل فوري وبحث وتصنيف على راديو أطلس."
+            )
+            keywords = (
+                "راديو " + label + " مباشر, إذاعة " + label
+                + ", محطات راديو " + label
+                + ", راديو اونلاين, بث مباشر, استماع مباشر, راديو مباشر"
+            )
+            shown = group[:per_page]
+            items = "\n".join(_cp_station_li(s) for s in shown)
+            more = ""
+            if count > len(shown):
+                more = (
+                    '<p class="more">تُعرض أشهر ' + str(len(shown))
+                    + " محطة من أصل " + str(count) + ' — كل المحطات متاحة في <a href="'
+                    + SITE_URL + '">التطبيق الرئيسي</a>.</p>'
+                )
+            page = (
+                _cp_head(title, description, canonical, keywords)
+                + '<header class="hero"><h1>📻 راديو ' + _cp_escape(label)
+                + ' <span class="n">' + str(count)
+                + " محطة بث مباشر</span></h1>"
+                + '<p class="tag">دليل محطات الإذاعة ' + _cp_escape(label)
+                + " — روابط تشغيل مباشر تعمل داخل التطبيق مع مؤشر حالة البث.</p>"
+                + '<p class="cta"><a class="btn" href="' + SITE_URL
+                + '">📻 افتح راديو أطلس</a> <a class="btn ghost" href="./">'
+                + ("كل الأنواع" if folder == "genres" else "كل اللغات")
+                + '</a></p></header>'
+                + '<main><ol class="stations">\n' + items + "\n</ol>" + more
+                + '<p class="upd">آخر تحديث للكتالوج: ' + _cp_escape(updated)
+                + "</p></main>"
+                + '<footer>صفحة متولدة آليًا من كتالوج <a href="' + SITE_URL
+                + '">راديو أطلس</a></footer>'
+                + "</body>\n</html>\n"
+            )
+            (pages_dir / (key + ".html")).write_text(page, encoding="utf-8")
+            sitemap_urls.append(canonical)
+            index_items.append(
+                '<li><a href="' + key + '.html">' + _cp_escape(label)
+                + ' <span class="cnt">(' + str(count) + " محطة)</span></a></li>"
+            )
+
+        if folder == "genres":
+            index_title = "محطات الراديو حسب النوع — دليل عربي | راديو أطلس"
+            index_h1 = "🎼 محطات الراديو حسب النوع"
+            index_desc = (
+                "تصفح محطات البث الإذاعي حسب النوع الموسيقي: أخبار، رياضة،"
+                " طرب عربي، قرآن كريم، بوب، روك والمزيد — مع تشغيل مباشر."
+            )
+        else:
+            index_title = "محطات الراديو حسب اللغة — دليل عربي | راديو أطلس"
+            index_h1 = "🗣 محطات الراديو حسب اللغة"
+            index_desc = (
+                "تصفح محطات البث الإذاعي حسب اللغة: العربية، الإنجليزية،"
+                " الفرنسية، التركية ولغات أخرى — مع تشغيل مباشر."
+            )
+        index_keywords = (
+            "راديو حسب النوع, راديو حسب اللغة, محطات راديو, بث مباشر,"
+            " راديو اونلاين, استماع مباشر, راديو عربي, راديو عالمي"
+        )
+        index_page = (
+            _cp_head(index_title, index_desc, SITE_URL + folder + "/", index_keywords)
+            + '<header class="hero"><h1>' + index_h1 + "</h1>"
+            + '<p class="tag">صفحات لكل نوع ولغة مع أشهر المحطات وروابط تشغيل مباشر داخل التطبيق.</p>'
+            + '<p class="cta"><a class="btn" href="' + SITE_URL + '">📻 افتح راديو أطلس</a></p></header>'
+            + '<main><ul class="countries">\n' + "\n".join(index_items)
+            + '\n</ul></main>'
+            + '<footer>صفحات متولدة آليًا من كتالوج <a href="' + SITE_URL
+            + '">راديو أطلس</a></footer>'
+            + "</body>\n</html>\n"
+        )
+        (pages_dir / "index.html").write_text(index_page, encoding="utf-8")
+        sitemap_urls.append(SITE_URL + folder + "/")
+
+    if not sitemap_urls:
+        print("genre/language pages: no genres/languages over the minimum — nothing generated")
+        return
+    existing = _sitemap_locs(root)
+    write_sitemap(root, existing + sitemap_urls, updated)
+    print(
+        "genre/language pages: "
+        + str(len(genres)) + " genre pages + "
+        + str(len(langs)) + " language pages + sitemap updated"
+    )
 
 def fetch_json(url, params=None, attempts=3, timeout=90):
     if params:
@@ -2525,6 +2819,12 @@ def main():
 
     if mode in {"all", "stations"}:
         try:
+            generate_genre_language_pages(DATA_DIR / "stations.json")
+        except Exception as e:  # noqa: BLE001
+            print(f"genre/language pages FAILED: {e} — keeping last generated pages", file=sys.stderr)
+
+    if mode in {"all", "stations"}:
+        try:
             write_error_report(now_iso)
         except Exception as e:  # noqa: BLE001
             print(f"error report FAILED: {e} — keeping last snapshot", file=sys.stderr)
@@ -2535,6 +2835,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

@@ -63,7 +63,87 @@ class CountryPagesTests(unittest.TestCase):
             MODULE.generate_country_pages(snapshot_path, root)
             self.assertFalse((root / "countries" / "eg.html").exists())
 
+class SeoGenreLanguagePagesTests(unittest.TestCase):
+    def _write_snapshot(self, tmp, stations):
+        path = Path(tmp) / "stations.json"
+        path.write_text(
+            json.dumps(
+                {"updated": "2026-11-05T00:00:00Z", "count": len(stations),
+                 "stations": stations}
+            ),
+            encoding="utf-8",
+        )
+        return path
+
+    def test_seo_fold_and_slug(self):
+        self.assertEqual(MODULE._seo_slug("Café Français"), "cafe-francais")
+        self.assertEqual(MODULE._language_slug("Français"), "francais")
+        self.assertEqual(MODULE._language_slug("العربية"), "arabic")
+        self.assertEqual(MODULE._language_slug("中文（繁体）"), "chinese")
+        self.assertEqual(MODULE._language_slug(""), "")
+        self.assertEqual(MODULE._language_slug("unknown"), "")
+
+    def test_genre_keys_fold_aliases_and_skip_junk(self):
+        self.assertEqual(MODULE._genre_key_for_tag("Top 40"), "top40")
+        self.assertEqual(MODULE._genre_key_for_tag("  NEWS "), "news")
+        self.assertEqual(MODULE._genre_key_for_tag("iprd"), "")
+        self.assertEqual(MODULE._genre_key_for_tag("official"), "")
+        # only curated genres (keys of GENRE_TITLES_AR) can ever produce a page
+        for key in MODULE.GENRE_ALIASES.values():
+            self.assertIn(key, MODULE.GENRE_TITLES_AR)
+
+    def test_generate_pages_files_sitemap_and_il_exclusion(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            stations = []
+            for i in range(100):
+                stations.append({
+                    "name": f"News Radio {i}",
+                    "url": f"https://news{i}.test/live",
+                    "cc": "EG",
+                    "tags": "Top 40,news,iprd",
+                    "language": "Français,العربية",
+                })
+            # small groups stay below the page minimum — no page for them
+            stations.append({"name": "Jazz Corner", "url": "https://jazz.test/live",
+                             "cc": "EG", "tags": "jazz", "language": "english"})
+            # Israeli stations must never reach any generated page
+            stations.append({"name": "ILX Station", "url": "https://ilx.test/live",
+                             "cc": "IL", "tags": "news", "language": "english"})
+            MODULE.generate_genre_language_pages(self._write_snapshot(tmp, stations), out_root=tmp)
+
+            news_html = (Path(tmp) / "genres" / "news.html").read_text(encoding="utf-8")
+            self.assertIn("راديو الأخبار", news_html)
+            self.assertIn("News Radio 5", news_html)
+            self.assertNotIn("ILX Station", news_html)
+            self.assertTrue((Path(tmp) / "genres" / "top40.html").exists())
+            self.assertFalse((Path(tmp) / "genres" / "jazz.html").exists())
+            self.assertTrue((Path(tmp) / "languages" / "french.html").exists())
+            self.assertTrue((Path(tmp) / "languages" / "arabic.html").exists())
+            self.assertFalse((Path(tmp) / "languages" / "english.html").exists())
+            self.assertTrue((Path(tmp) / "genres" / "index.html").exists())
+            self.assertTrue((Path(tmp) / "languages" / "index.html").exists())
+            sitemap = (Path(tmp) / "sitemap.xml").read_text(encoding="utf-8")
+            self.assertIn("genres/news.html", sitemap)
+            self.assertIn("languages/arabic.html", sitemap)
+            self.assertNotIn("languages/english.html", sitemap)
+
+    def test_generate_pages_skips_small_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            stations = [
+                {"name": "A", "url": "https://a.test/live", "cc": "EG",
+                 "tags": "news", "language": "english"}
+                for _ in range(50)
+            ]
+            MODULE.generate_genre_language_pages(self._write_snapshot(tmp, stations), out_root=tmp)
+            self.assertFalse((Path(tmp) / "genres").exists())
+
+    def test_write_sitemap_dedup_and_lastmod(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            MODULE.write_sitemap(tmp, ["https://x.test/", "https://x.test/", "https://y.test/"],
+                                 "2026-11-05T00:00:00Z")
+            sitemap = (Path(tmp) / "sitemap.xml").read_text(encoding="utf-8")
+            self.assertEqual(sitemap.count("https://x.test/"), 1)
+            self.assertIn("2026-11-05", sitemap)
 
 if __name__ == "__main__":
     unittest.main()
-
