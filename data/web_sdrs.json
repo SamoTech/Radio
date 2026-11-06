@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T06:28:50+00:00",
+ "updated": "2026-11-06T07:07:09+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -93,6 +93,14 @@
    "https": true,
    "lat": 50.0644,
    "lon": -5.20451
+  },
+  {
+   "name": "CX1AAO Websdr Playa Hermosa,Maldonado, Uruguay",
+   "url": "http://phermosa.dyndns.org:8901/",
+   "loc": "",
+   "https": false,
+   "lat": -34.8523,
+   "lon": -55.2878
   },
   {
    "name": "0-30 MHz SDR, KB5AVY, New Orleans, Louisiana",
@@ -1761,14 +1769,6 @@
    "lon": 13.7280695920353
   },
   {
-   "name": "OK1KKY",
-   "url": "http://site.ok1kky.cz:8082/",
-   "loc": "",
-   "https": false,
-   "lat": 50.1409081,
-   "lon": 15.4077622
-  },
-  {
    "name": "OWRX+ 1 | EDDC2 - 1",
    "url": "http://jimjackii.no-ip.org/owrx/",
    "loc": "",
@@ -2135,6 +2135,14 @@
    "https": false,
    "lat": 50.01784830798169,
    "lon": 19.979464291512027
+  },
+  {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
   },
   {
    "name": "G1WOR",
@@ -2505,6 +2513,14 @@
    "lon": 21.258847505785486
   },
   {
+   "name": "Thunder SDR, Pi4, Diamond D-130J, SDRPlay RSP1A",
+   "url": "http://thunder76.keenetic.pro:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 46.15094200422456,
+   "lon": 8.774320538233441
+  },
+  {
    "name": "K7KIB SDR West Valley, OR",
    "url": "http://k7kib.asuscomm.com:8073/",
    "loc": "",
@@ -2527,14 +2543,6 @@
    "https": false,
    "lat": 36.42954266060891,
    "lon": 127.32278950737621
-  },
-  {
-   "name": "VK2SKY",
-   "url": "http://vk2sky-openwebrx.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -33.6805104914631,
-   "lon": 151.10016295797675
   },
   {
    "name": "RTL-SDR Experimental (IK4PKL)",
@@ -2623,6 +2631,14 @@
    "https": true,
    "lat": 51.423584079553876,
    "lon": 0.8307115249043973
+  },
+  {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
   },
   {
    "name": "PI6EHV 2320 - 2321 MHz",
@@ -2841,14 +2857,6 @@
    "lon": -98.26422124919387
   },
   {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
-  },
-  {
    "name": "EastMO R3DKT Receiver",
    "url": "https://sdr.vanish125.netcraze.pro/",
    "loc": "",
@@ -2967,6 +2975,14 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
+  },
+  {
+   "name": "2E0DGP WEBSDR",
+   "url": "http://sdr.ladar.club:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.65548338507698,
+   "lon": -2.631403032915911
   },
   {
    "name": "M0LHI",
@@ -3329,14 +3345,6 @@
    "lon": 4.3416
   },
   {
-   "name": "DG7LAN",
-   "url": "https://dg7lan.mooo.com:8443/",
-   "loc": "",
-   "https": true,
-   "lat": 53.680682383273094,
-   "lon": 9.620018651657691
-  },
-  {
    "name": "SWL",
    "url": "http://5.199.174.185:8073/",
    "loc": "",
@@ -3433,14 +3441,6 @@
    "lon": 7.9519401465365585
   },
   {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
-  },
-  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3519,14 +3519,6 @@
    "https": false,
    "lat": 47.7306,
    "lon": 8.7748
-  },
-  {
-   "name": "OK2IT",
-   "url": "http://ppp.ok2it.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 49.26698728755314,
-   "lon": 16.312522384312036
   },
   {
    "name": "Z32VSA",
@@ -4015,6 +4007,22 @@
    "https": true,
    "lat": 51.484251496254416,
    "lon": 7.081885499209634
+  },
+  {
+   "name": "VK5HW-OWx",
+   "url": "http://vk5hw.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -35.555882,
+   "lon": 138.624007
+  },
+  {
+   "name": "FR08YG - Montcy-Saint-Pierre",
+   "url": "https://sdr-1.giarel.li/",
+   "loc": "",
+   "https": true,
+   "lat": 49.7734575233212,
+   "lon": 4.73673122588266
   }
  ]
 }

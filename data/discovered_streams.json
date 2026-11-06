@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T09:29:16+00:00",
+ "updated": "2026-11-06T07:07:09+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 6,
  "sites": [
@@ -11,7 +11,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "browser",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -23,7 +23,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -35,7 +35,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -47,7 +47,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -59,7 +59,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "browser",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -71,7 +71,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -83,7 +83,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -95,7 +95,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -107,7 +107,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "browser",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/05/freie_waehler_vorsitzender_hubert_aiwanger_tot_aufgefunden_drk_20261105_0609_502acade.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/05/freie_waehler_vorsitzender_hubert_aiwanger_tot_aufgefunden_drk_20261105_0609_502acade.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/06/tschuess_15_grad_was_kommt_jetzt_dlf_20261106_0600_c0600d9e.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/06/tschuess_15_grad_was_kommt_jetzt_dlf_20261106_0600_c0600d9e.mp3"
    ]
   },
   {
@@ -383,6 +383,18 @@
    "streams": [
     "https://streamer.mada.ps:8208/ajyal"
    ]
+  },
+  {
+   "site": "https://www.tda.dz/",
+   "name": "جيل إف إم — Jil FM",
+   "cc": "DZ",
+   "lang": "",
+   "tags": "",
+   "official": false,
+   "catalog": false,
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)>",
+   "streams": []
   }
  ]
 }

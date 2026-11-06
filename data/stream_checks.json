@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T09:29:16+00:00",
+ "updated": "2026-11-06T07:07:09+00:00",
  "checked": 1185,
- "alive": 1085,
+ "alive": 1072,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -105,7 +105,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
@@ -345,7 +345,256 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
+  },
+  "https://stream-40.zeno.fm/xa4yhh4k838uv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh": {
+   "alive": false,
+   "code": 502,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
+  },
+  "https://qurango.net/radio/mishary_alafasi": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/mustafa_ismail": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/yasser_aldosari": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/tarateel": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/sahabah": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/almukhtasar_fi_alsiyra": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://qurango.net/radio/mohammed_ayyub": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3": {
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
+  },
+  "https://radio.mp3islam.com/listen/sudais/radio.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://radio.mp3islam.com/listen/minshawi/radio.mp3": {
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
+  },
+  "https://radio12.pro-fhi.net/listen/whmnrlow/stream": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.radiojar.com/0tpy1h0kxtzuv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://webradio1.tda.dz:8001/Jeunesse_64K.mp3": {
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
+  },
+  "https://broadcast.ice.infomaniak.ch/aswat-high.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://onlyrai.ice.infomaniak.ch/onlyrai-high.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/une3a02mb": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/zv3e5wykprhvv.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://listen.radioking.com/radio/252934/stream/297385": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://radio.yabiladi.com:8102/;stream.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://streaming2.toutech.net:8000/jawharafm": {
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
+  },
+  "https://streaming.knoozfm.net:8000/knoozfm": {
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
+  },
+  "https://radio.mosaiquefm.net/mosatarab": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://radio.mosaiquefm.net/mosagold": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://l3.itworkscdn.net/itwaudio/9012/stream": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://streaming.shoutcast.com/alrasheed-fm": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://streams.radio.co/s0975ec186/listen": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream-152.zeno.fm/a33ka0d94p8uv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://mazajfm.ice.infomaniak.ch/mazajfm-192.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://securestreams2.autopo.st:1241/live": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://securestreams2.autopo.st:1242/live": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://dc1.serverse.com/proxy/kjxwtpdt/stream": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://dahab.ice.infomaniak.ch/dahab-192.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream2.syria.fm/syriatv1live/syriatv_audio/icecast.audio": {
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
+  },
+  "https://stream-149.zeno.fm/4luag56o066uv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/z9wfrdpmgg0uv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/1dy2395z3k8uv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/r6eprdta6nhvv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.dabangasudan.org/": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://stream.zeno.fm/mqctx1bfd8zuv": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://partwota.cdn.mgmlcdn.com/quranrdoorg/quranrdo.stream_aac/chunklist.m3u8": {
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
+  },
+  "https://listen-halafm.sharp-stream.com/halafmlow.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://listen-hifmtemp.sharp-stream.com/hifmmid.mp3": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://kwtkrdota.cdn.mangomolo.com/k1rdo/k1rdo.stream_aac/chunklist.m3u8": {
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
+  },
+  "https://stream.radioalhara.net/ra": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://rstream.hadara.ps/proxy/raya/stream": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://rstream.hadara.ps/proxy/amen24/stream": {
+   "alive": true,
+   "code": 401,
+   "strategy": "bot"
   },
   "https://radio12.pro-fhi.net/live/Hits1radio": {
    "alive": true,
@@ -557,8 +806,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
@@ -592,9 +841,10 @@
    "strategy": "bot"
   },
   "https://ec6.yesstreaming.net:2760/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://ap02.iqplay.tv:8082/g1/r14iomog/icecast.audio": {
    "alive": false,
@@ -733,9 +983,10 @@
    "strategy": "bot"
   },
   "https://radiothai.gbn.center/": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://sc6.gergosnet.com:80/puls00HD.mp3": {
    "alive": true,
@@ -749,7 +1000,7 @@
   },
   "https://s4.radio.co/s6fc4c7d4b/listen": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://s4.radio.co/sefb41c1b0/listen": {
@@ -870,9 +1121,10 @@
    "strategy": "bot"
   },
   "https://ice64.securenetsystems.net/WCKA": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://das-edge63-live365-dal03.cdnstream.com/a72854?dist=theonestopradio": {
    "alive": false,
@@ -905,9 +1157,10 @@
    "strategy": "bot"
   },
   "https://ice8.securenetsystems.net/KXLS": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://das-edge11-live365-dal03.cdnstream.com/a30884?dist=theonestopradio": {
    "alive": true,
@@ -925,9 +1178,10 @@
    "strategy": "bot"
   },
   "https://ice41.securenetsystems.net/KJJZ": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://das-edge14-live365-dal02.cdnstream.com/a57014?dist=theonestopradio": {
    "alive": true,
@@ -945,9 +1199,10 @@
    "strategy": "bot"
   },
   "https://ice24.securenetsystems.net/KLLP": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://das-edge16-live365-dal02.cdnstream.com/a28904?dist=theonestopradio": {
    "alive": false,
@@ -1188,7 +1443,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
@@ -1919,9 +2174,10 @@
    "strategy": "bot"
   },
   "https://ice2.securenetsystems.net/KGUMFM?ver=274640": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://23153.live.streamtheworld.com/NOVA_THROWBACK_AAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -1996,7 +2252,7 @@
   "https://mix941kmxj.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://stm1.ahtvox.com.br:7002/stream": {
    "alive": true,
@@ -2176,7 +2432,7 @@
   "https://mix949.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://radio.securenetsystems.net/v5/index.cfm?CFID=86daddc9-c1cd-43ba-96f1-50bde0176a51&CFTOKEN=0&stationCallSign=KLGD": {
    "alive": true,
@@ -2252,7 +2508,7 @@
   "https://965kvki.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://djstephpra-radio.stream.laut.fm/djstephpra-radio?t302=2026-06-10_07-58-21&uuid=cbaa0494-9bf5-4daa-ab0d-889c2df2dd76": {
    "alive": true,
@@ -2543,7 +2799,7 @@
   "https://mix1043fm.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://radio-mueritz.stream.laut.fm/radio-mueritz?t302=2026-06-10_07-58-42&uuid=0f320288-ce14-4620-ab0b-973276df2a11": {
    "alive": true,
@@ -3048,17 +3304,17 @@
   "https://kissbinghamton.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://925theranch.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://retro1025.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://streamdb4web.securenetsystems.net/v5/KWFB": {
    "alive": true,
@@ -3217,9 +3473,10 @@
    "strategy": "bot"
   },
   "https://ice66.securenetsystems.net/WRON": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://stream2.hippynet.co.uk/stream/york/": {
    "alive": true,
@@ -3277,9 +3534,10 @@
    "strategy": "bot"
   },
   "https://ice8.securenetsystems.net/KXLS?playSessionID=1F265CC4-D6E6-3752-4D7DA560049AE586": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://ais-sa2.cdnstream1.com/2336_128.mp3": {
    "alive": true,
@@ -3292,9 +3550,10 @@
    "strategy": "bot"
   },
   "https://ice9.securenetsystems.net/KABX": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://27143.live.streamtheworld.com/KQLKFMAAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -3408,7 +3667,7 @@
   },
   "https://streams.radio.co/s20bcdcd81/listen": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://stream.chiliradio.app/chilipop": {
@@ -3503,7 +3762,7 @@
   },
   "https://audio5.tustreaming.cl/8030/stream": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://securestreams.autopo.st:1174/stream": {
@@ -3918,7 +4177,7 @@
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -4309,9 +4568,8 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "code": 404,
+   "strategy": "bot"
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -5134,7 +5392,7 @@
   },
   "https://streaming.hotmixradio.com/hotmix-2000-en-mp3?": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://conectperu.com/8314/stream": {
@@ -5566,9 +5824,10 @@
    "strategy": "bot"
   },
   "https://live-bauerse-fm.sharp-stream.com/vinylfm_instream_se_aacp": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://15123.live.streamtheworld.com/KXRZFMAAC.aac": {
    "alive": true,
@@ -5672,7 +5931,7 @@
   },
   "https://streaming.hotmixradio.com/hotmix-2010-en-mp3?": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://audiotainment-sw.streamabc.net/atsw-2010er-mp3-128-5629422?sABC=6n272r93%230%23pssns1378n69n37q99qo17p9n86qqp7q%23enqvbfcvaare&aw_0_1st.playerid=radiospinner&amsparams=playerid:radiospinner;skey:1780952723": {
@@ -5731,251 +5990,6 @@
    "strategy": "bot"
   },
   "https://museum.streamserver24.com:8080/stream/1/": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://rnrw.stream12.radiohost.de/rnrw-deinradio03_mp3-192?addradio&sid=01a1&upd-meta&upd-scheme=https&_art=dD0xNzgwOTA0MDQ2JmQ9ODFiOTY3MzY2NmM0MWYyZTNmYzE": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://dreisig.stream.laut.fm/dreisig": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://listen2.streamaudio.co:8038/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://dfm-popgold20.hostingradio.ru/popgold2096.aacp?n=32473d8ded51f6624276": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://regiocast.streamabc.net/regc-radiobobblues6003375-aacplus-64-2326792?sABC=6n266s46%230%2309nnq323230sp7p111451n406sn770ps%23fgernzf.enqvbobo.qr&n=b8ba7987fd6fb92934b1&aw_0_1st.playerid=streams.radiobob.de&amsparams=playerid:streams.radiobob.de;skey:1780903750": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://regiocast.streamabc.net/regc-radiobobblues6003375-mp3-192-4052902?sABC=6n266s46%230%2309nnq323230sp7p111451n406sn770ps%23fgernzf.enqvbobo.qr&n=35c8bfafcdd0cbd87a5d&aw_0_1st.playerid=streams.radiobob.de&amsparams=playerid:streams.radiobob.de;skey:1780903750": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://s2.mexside.net/8054/stream?n=c5a1ae351dd69a2375c9": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://free.rcast.net/6468": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://free.rcast.net/13974": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://ice64.securenetsystems.net/WKHR": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://streaming.switchfm.com.au:8000/SweetFM": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
-  },
-  "https://28983.live.streamtheworld.com/TLPSTR15.mp3": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
-  },
-  "https://streaming.livespanel.com:9170/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://rnrw.stream12.radiohost.de/rnrw-deinradio03_mp3-192?sid=01a1&kombi=mms&ar-distributor=ffa0&upd-meta&upd-scheme=https&ref=ffa0&amsparams=ffa0&_art=dD0xNzgwOTA0MDY0JmQ9MDkxYmJjMzVmMjAwN2M3ZDVhNGE#EXTM3U": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://22613.live.streamtheworld.com/TLPSTR18.mp3?dist=radionet": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
-  },
-  "https://swingfm.ice.infomaniak.ch/swingfm-128.mp3": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://radio1920.stream.laut.fm/radio1920?ref=radiode&t302=2026-06-08_11-29-47&uuid=82b3e914-6fd7-4d41-9774-f4e00de46d8b": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://strw3.openstream.co/878?aw_0_1st.collectionid%3D3672%26stationId%3D3672%26publisherId%3D902%26k%3D1780918189": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://rs201-krk-cyfronet.rmfstream.pl/50S?": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://14933.live.streamtheworld.com/KNTYFM.mp3": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
-  },
-  "https://montmartre.ice.infomaniak.ch/montmartre.aac": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://rs7-krk2-cyfronet.rmfstream.pl/60S": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://redbeemedia.streamabc.net/redbm-vivaplus-mp3-160-4904728?sABC=6n26n7nr%230%23p10rs66q5100855s6nr8n9s5296rp453%23es&aw_0_1st.playerid=rf&amsparams=playerid:rf;skey:1780918190": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://edge11.stream.radioarabella.de/radioarabella-goldenoldies?aggregator=radiode": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://sunsetpalace.stream.laut.fm/sunsetpalace?ref=radiode&t302=2026-06-08_11-29-51&uuid=b614c35e-db20-48e0-8142-b250e1ccba63": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://souvenir2.spcast.eu/stream?time=1780918192": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://ice12.fluidstream.net/fluid1202.mp3": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://23193.live.streamtheworld.com/T_RAD_60S_S01.mp3": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
-  },
-  "https://edge24.streams.arabella.at/arabella-goldenoldies?aggregator=radio-at": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://ny.mysonicserver.com/8018/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://mercury.reliastream.com/tunein/funtower.pls": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://das-edge14-live365-dal02.cdnstream.com/a69030": {
-   "alive": false,
-   "code": 404,
-   "strategy": "bot"
-  },
-  "https://stream-10.pmteurope.com:8012/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://angelsradio.stream.laut.fm/angelsradio?ref=radiode&t302=2026-06-08_11-29-56&uuid=d922b169-3080-4d50-9f24-9625dba619a5": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://oldie-box.stream.laut.fm/oldie-box?ref=radiode&t302=2026-06-08_11-29-56&uuid=2825dfed-ec3b-4488-858b-511a1c2a7916": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://0nlineradio.stream42.radiohost.de/0r-50s?ref=radiode&upd-meta&upd-scheme=https&_art=dD0xNzgwOTE4NDk2JmQ9Y2VhMTZmYWRiNGJiNDU4MGY4M2M": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://0nlineradio.stream42.radiohost.de/0r-60s?ref=radiode&upd-meta&upd-scheme=https&_art=dD0xNzgwOTE4NDk2JmQ9NjMyYzQ4YjQ3NjU2YmI1OWY1ZjE": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://jukejoint.stream.laut.fm/jukejoint?ref=radiode&t302=2026-06-08_11-29-57&uuid=211f086f-dc2a-47b7-963a-36a5caad2815": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://50s60s-radio.stream.laut.fm/50s60s-radio?ref=radiode&t302=2026-06-08_11-29-57&uuid=8583cbe4-997f-45f7-921b-6765c1e4f0b9": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://stm22.srvaudio.com.br:10310/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://servidor36.brlogic.com:8664/live": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://str1.streamhostpg.com.br:8030/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://ssl.xcast.com.br:7068/stream/1/stream/1/": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://jukejoint-blues-special.stream.laut.fm/jukejoint-blues-special?ref=radiode&t302=2026-06-08_11-30-00&uuid=b6de3bf5-eab3-4b71-8ff1-0d36303d4164": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://jukejoint-jazz-special.stream.laut.fm/jukejoint-jazz-special?ref=radiode&t302=2026-06-08_11-30-00&uuid=4bc951b6-a5a0-48dc-afe2-ee3d31750705": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://stream9.mexiserver.com:7025/stream/1/": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://sp3.servidorrprivado.com/8160/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://stream9.mexiserver.com/8206/stream:8206/stream?icy=http": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://radioenhd.com/8126/stream": {
    "alive": true,
    "code": 200,
    "strategy": "bot"

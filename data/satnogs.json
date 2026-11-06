@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T06:28:50+00:00",
+ "updated": "2026-11-06T07:07:09+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 300,
  "stations": [
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -2561,16 +2571,6 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
-   "https": false
-  },
-  {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
