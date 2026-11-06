@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T07:07:09+00:00",
+ "updated": "2026-11-06T09:23:50+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 6,
  "sites": [
@@ -11,7 +11,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -23,7 +23,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -47,7 +47,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
+   "fetch_strategy": "browser",
    "fetch_error": "",
    "streams": []
   },
@@ -59,7 +59,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -107,7 +107,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -119,7 +119,7 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
