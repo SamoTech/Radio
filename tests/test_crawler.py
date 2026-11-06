@@ -814,8 +814,57 @@ class KiwiArchiveMirrorTests(unittest.TestCase):
         )
 
 
+class CuratedCatalogTests(unittest.TestCase):
+    """P2-3 / R-10: curated catalog hygiene — the hand-curated tiers
+    (official_stations.json + arabic_stations.json) merge ABOVE the
+    community and Radio-Browser tiers, so every row must be a clean
+    https stream with a real name, a unique canonical URL, and no
+    Israeli station may ever appear (content policy — AGENTS.md)."""
+
+    FILES = ("official_stations.json", "arabic_stations.json")
+
+    def _rows(self, name):
+        path = MODULE_PATH.parent / name
+        return json.loads(path.read_text(encoding="utf-8"))
+
+    def test_curated_rows_are_named_https_streams(self):
+        for name in self.FILES:
+            rows = self._rows(name)
+            self.assertTrue(rows, name)
+            for row in rows:
+                self.assertGreater(len(str(row.get("name", "")).strip()), 2, name)
+                url = str(row.get("url", ""))
+                self.assertTrue(url.startswith("https://"), name + ": " + url)
+
+    def test_curated_urls_are_unique_and_canonical(self):
+        for name in self.FILES:
+            keys = [module.station_url_key(r.get("url")) for r in self._rows(name)]
+            self.assertNotIn("", keys, name)
+            self.assertEqual(len(keys), len(set(keys)), name)
+
+    def test_curated_catalog_never_contains_israel(self):
+        for name in self.FILES:
+            for row in self._rows(name):
+                self.assertNotEqual(str(row.get("cc", "")).upper(), "IL", name)
+
+    def test_p2_3_expansion_batch_is_pinned(self):
+        """PR #119 — the 49-station P2-3 first batch: a few pinned URLs so
+        a future curation regression is caught by name."""
+        rows = self._rows("arabic_stations.json")
+        urls = {r["url"] for r in rows}
+        self.assertGreaterEqual(len(rows), 100)
+        for url in (
+            "https://stream-40.zeno.fm/xa4yhh4k838uv",
+            "https://streaming2.toutech.net:8000/jawharafm",
+            "https://stream.dabangasudan.org/",
+            "https://radio.mp3islam.com/listen/abdulbasit/radio.mp3",
+        ):
+            self.assertIn(url, urls)
+
+
 if __name__ == "__main__":
     unittest.main()
+
 
 
 
