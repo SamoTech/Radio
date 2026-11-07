@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T09:23:50+00:00",
+ "updated": "2026-11-07T08:47:29+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 6,
  "sites": [
@@ -11,8 +11,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -23,8 +23,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -35,8 +35,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -47,8 +47,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "browser",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -59,8 +59,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -71,8 +71,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -83,8 +83,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -95,8 +95,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "curl_cffi",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -107,8 +107,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -119,8 +119,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "curl_cffi",
-   "fetch_error": "",
+   "fetch_strategy": "",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
    "streams": []
   },
   {
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/06/tschuess_15_grad_was_kommt_jetzt_dlf_20261106_0600_c0600d9e.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/06/tschuess_15_grad_was_kommt_jetzt_dlf_20261106_0600_c0600d9e.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/07/historischer_sieg_der_demokraten_ist_der_trumpismus_jetzt_dlf_20261107_0500_85a6d180.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/07/historischer_sieg_der_demokraten_ist_der_trumpismus_jetzt_dlf_20261107_0500_85a6d180.mp3"
    ]
   },
   {
