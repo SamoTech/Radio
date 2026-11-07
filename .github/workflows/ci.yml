@@ -17,32 +17,30 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: feat/p2-maspero-extraction
-      - name: Probe Maspero player pages (debug)
+      - name: Probe Maspero player pages (debug, unverified SSL)
         run: |
-          pip install "curl_cffi>=0.7" >/dev/null 2>&1 || true
           python3 - <<'PY'
-          import json, re, sys
-          sys.path.insert(0, 'scripts')
-          import update_data as ud
+          import re, ssl, urllib.request
+          ctx = ssl._create_unverified_context()
           out = []
-          for sid in (7, 8, 9):
-              for host in ("https://www.maspero.eg", "https://maspero.eg"):
-                  url = host + "/stream/" + str(sid)
-                  try:
-                      data, strat = ud.fetch_bytes_strategies(url, timeout=25)
-                      html = data.decode("utf-8", "replace")
-                      out.append("=== %s (strategy=%s, len=%d)" % (url, strat, len(html)))
-                      urls = sorted(set(re.findall(r'https?://[^\s\"\x27<>]+', html.replace('&amp;','&'))))
-                      for u in urls:
-                          if not re.search(r'\.(js|css|png|jpe?g|svg|gif|woff2?|ttf|ico)(\?|$)', u, re.I):
-                              out.append("  URL " + u[:220])
-                      for m in re.finditer(r'(?i)(player|stream|source|audio|video|api|hls|live)[^\n]{0,180}', html):
-                          s = m.group(0).strip()
-                          if 'http' not in s and len(s) > 12:
-                              out.append("  CTX " + s[:200])
-                  except Exception as e:
-                      out.append("=== %s FAILED: %r" % (url, e))
+          for sid in (7, 8, 9, 1):
+              url = "https://www.maspero.eg/stream/" + str(sid)
+              try:
+                  req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"})
+                  with urllib.request.urlopen(req, timeout=25, context=ctx) as r:
+                      html = r.read().decode("utf-8", "replace")
+                  out.append("=== %s len=%d" % (url, len(html)))
+                  urls = sorted(set(re.findall(r'https?://[^\s\"\x27<>)]+', html.replace('&amp;','&'))))
+                  for u in urls:
+                      if not re.search(r'\.(js|css|png|jpe?g|svg|gif|woff2?|ttf|ico|webp)(\?|$)', u, re.I):
+                          out.append("  URL " + u[:250])
+                  for m in re.finditer(r'(?i)(dailymotion|dmcdn|player|api|.m3u8|source|stream)[^\n]{0,160}', html):
+                      s = m.group(0).strip()
+                      if len(s) > 10:
+                          out.append("  CTX " + s[:200])
+              except Exception as e:
+                  out.append("=== %s FAILED: %r" % (url, e))
           open('maspero-probe.txt', 'w').write('\n'.join(out))
           PY
           git config user.name ci-debug && git config user.email ci-debug@users.noreply.github.com
-          git add maspero-probe.txt && git commit -m 'debug: maspero probe' && git push
+          git add maspero-probe.txt && git commit -m 'debug: maspero probe v2' && git push
