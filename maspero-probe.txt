@@ -1,6 +1,4 @@
-=== https://www.maspero.eg/stream/7 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
-=== https://maspero.eg/stream/7 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
-=== https://www.maspero.eg/stream/8 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
-=== https://maspero.eg/stream/8 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
-=== https://www.maspero.eg/stream/9 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
-=== https://maspero.eg/stream/9 FAILED: URLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1000)'))
+=== https://www.maspero.eg/stream/7 FAILED: <HTTPError 504: 'Gateway Time-out'>
+=== https://www.maspero.eg/stream/8 FAILED: <HTTPError 504: 'Gateway Time-out'>
+=== https://www.maspero.eg/stream/9 FAILED: <HTTPError 504: 'Gateway Time-out'>
+=== https://www.maspero.eg/stream/1 FAILED: <HTTPError 504: 'Gateway Time-out'>
