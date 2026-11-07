@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-07T12:52:55+00:00",
+ "updated": "2026-11-07T21:43:50+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 300,
+ "count": 303,
  "stations": [
   {
    "id": 3944,
@@ -114,6 +114,16 @@
    "https": false
   },
   {
+   "id": 2545,
+   "name": "AC Schönforst",
+   "loc": "JO30bs · UHF",
+   "lat": 50.7636,
+   "lng": 6.12531,
+   "alt": 210,
+   "url": "https://network.satnogs.org/stations/2545/",
+   "https": false
+  },
+  {
    "id": 3852,
    "name": "ADHITO GS Omni / YG4SLJ",
    "loc": "OI24pp · UHF / VHF",
@@ -161,16 +171,6 @@
    "lng": -77.11324,
    "alt": 71,
    "url": "https://network.satnogs.org/stations/4655/",
-   "https": false
-  },
-  {
-   "id": 1492,
-   "name": "Archenhold",
-   "loc": "JO62rl · VHF",
-   "lat": 52.487,
-   "lng": 13.475,
-   "alt": 23,
-   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -584,6 +584,16 @@
    "https": false
   },
   {
+   "id": 4768,
+   "name": "DL7NDR VHF+UHF",
+   "loc": "JN48ap · VHF / UHF",
+   "lat": 48.65,
+   "lng": 8.04,
+   "alt": 144,
+   "url": "https://network.satnogs.org/stations/4768/",
+   "https": false
+  },
+  {
    "id": 3801,
    "name": "DL9TK",
    "loc": "JO53eu · VHF / UHF",
@@ -804,6 +814,16 @@
    "https": false
   },
   {
+   "id": 2202,
+   "name": "EU1AEM",
+   "loc": "KO33mv · VHF",
+   "lat": 53.902,
+   "lng": 27.047,
+   "alt": 280,
+   "url": "https://network.satnogs.org/stations/2202/",
+   "https": false
+  },
+  {
    "id": 1167,
    "name": "F1SXJ",
    "loc": "JN16xc · VHF / UHF",
@@ -991,16 +1011,6 @@
    "lng": 0.813,
    "alt": 50,
    "url": "https://network.satnogs.org/stations/5140/",
-   "https": false
-  },
-  {
-   "id": 4330,
-   "name": "I LOVE BALI",
-   "loc": "OI71ng · HF, VHF, UHF, L",
-   "lat": -8.7456,
-   "lng": 115.1605,
-   "alt": 10,
-   "url": "https://network.satnogs.org/stations/4330/",
    "https": false
   },
   {
@@ -1524,6 +1534,16 @@
    "https": false
   },
   {
+   "id": 4791,
+   "name": "MEGANISI_1",
+   "loc": "KM08ip · UHF",
+   "lat": 38.65,
+   "lng": 20.739,
+   "alt": 13,
+   "url": "https://network.satnogs.org/stations/4791/",
+   "https": false
+  },
+  {
    "id": 5299,
    "name": "mpippins",
    "loc": "DN06jg · VHF / UHF",
@@ -2024,16 +2044,6 @@
    "https": false
   },
   {
-   "id": 2380,
-   "name": "Piszkesteto UHF",
-   "loc": "JN97ww · UHF",
-   "lat": 47.917,
-   "lng": 19.895,
-   "alt": 954,
-   "url": "https://network.satnogs.org/stations/2380/",
-   "https": false
-  },
-  {
    "id": 2381,
    "name": "Piszkesteto VHF",
    "loc": "JN97ww · VHF",
@@ -2334,16 +2344,6 @@
    "https": false
   },
   {
-   "id": 3856,
-   "name": "SP2ZIE",
-   "loc": "JO94gm · UHF",
-   "lat": 54.523845,
-   "lng": 18.513308,
-   "alt": 56,
-   "url": "https://network.satnogs.org/stations/3856/",
-   "https": false
-  },
-  {
    "id": 3702,
    "name": "SP4EVA",
    "loc": "JO93us · VHF / UHF",
@@ -2531,6 +2531,16 @@
    "lng": -103.708,
    "alt": 450,
    "url": "https://network.satnogs.org/stations/2673/",
+   "https": false
+  },
+  {
+   "id": 2212,
+   "name": "TI2EI",
+   "loc": "EJ89ax · VHF / UHF",
+   "lat": 9.958423,
+   "lng": -83.996847,
+   "alt": 1470,
+   "url": "https://network.satnogs.org/stations/2212/",
    "https": false
   },
   {
@@ -2814,6 +2824,16 @@
    "https": false
   },
   {
+   "id": 4525,
+   "name": "VU2AQJ_SGS",
+   "loc": "NL05uk · UHF",
+   "lat": 25.451809,
+   "lng": 81.736291,
+   "alt": 98,
+   "url": "https://network.satnogs.org/stations/4525/",
+   "https": false
+  },
+  {
    "id": 2987,
    "name": "VU2JEK_Nitin",
    "loc": "MK83sd · VHF / UHF",
@@ -2981,6 +3001,16 @@
    "lng": 24.709,
    "alt": 45,
    "url": "https://network.satnogs.org/stations/3953/",
+   "https": false
+  },
+  {
+   "id": 2729,
+   "name": "YL3GBC",
+   "loc": "KO16tx · VHF, UHF",
+   "lat": 56.964,
+   "lng": 23.603,
+   "alt": 12,
+   "url": "https://network.satnogs.org/stations/2729/",
    "https": false
   },
   {
