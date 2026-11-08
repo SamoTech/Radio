@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-08T13:14:22+00:00",
+ "updated": "2026-11-08T21:57:55+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 301,
+ "count": 303,
  "stations": [
   {
    "id": 3944,
@@ -861,6 +861,16 @@
    "lng": 16.60462,
    "alt": 232,
    "url": "https://network.satnogs.org/stations/2410/",
+   "https": false
+  },
+  {
+   "id": 5197,
+   "name": "GN-ABRIDGE",
+   "loc": "JO01bp · VHF / UHF",
+   "lat": 51.65305,
+   "lng": 0.12345,
+   "alt": 28,
+   "url": "https://network.satnogs.org/stations/5197/",
    "https": false
   },
   {
@@ -1924,16 +1934,6 @@
    "https": false
   },
   {
-   "id": 3295,
-   "name": "PAULO PV8DX",
-   "loc": "FJ92pt · VHF",
-   "lat": 2.811185,
-   "lng": -60.680964,
-   "alt": 9,
-   "url": "https://network.satnogs.org/stations/3295/",
-   "https": false
-  },
-  {
    "id": 2154,
    "name": "PC4L",
    "loc": "JO11vl · UHF",
@@ -2114,13 +2114,13 @@
    "https": false
   },
   {
-   "id": 71,
-   "name": "PV8DX",
-   "loc": "FJ92pt · UHF",
-   "lat": 2.811185,
-   "lng": -60.680964,
-   "alt": 9,
-   "url": "https://network.satnogs.org/stations/71/",
+   "id": 4601,
+   "name": "QMR-KWT2-HOUSE",
+   "loc": "LL49ah · VHF / UHF",
+   "lat": 29.31891,
+   "lng": 48.07565,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/4601/",
    "https": false
   },
   {
@@ -2414,6 +2414,16 @@
    "https": false
   },
   {
+   "id": 2824,
+   "name": "ST-HN",
+   "loc": "OL21rc · VHF / UHF",
+   "lat": 21.1133,
+   "lng": 105.4475,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/2824/",
+   "https": false
+  },
+  {
    "id": 1650,
    "name": "station-01",
    "loc": "EK37mx · UHF",
@@ -2561,6 +2571,16 @@
    "lng": 48.125,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/579/",
+   "https": false
+  },
+  {
+   "id": 2549,
+   "name": "Um Alaish 4b",
+   "loc": "LL49bc · UHF",
+   "lat": 29.11,
+   "lng": 48.124,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/2549/",
    "https": false
   },
   {
@@ -2804,6 +2824,16 @@
    "https": false
   },
   {
+   "id": 4525,
+   "name": "VU2AQJ_SGS",
+   "loc": "NL05uk · UHF",
+   "lat": 25.451809,
+   "lng": 81.736291,
+   "alt": 98,
+   "url": "https://network.satnogs.org/stations/4525/",
+   "https": false
+  },
+  {
    "id": 2987,
    "name": "VU2JEK_Nitin",
    "loc": "MK83sd · VHF / UHF",
@@ -2931,16 +2961,6 @@
    "lng": 106.772,
    "alt": 240,
    "url": "https://network.satnogs.org/stations/4163/",
-   "https": false
-  },
-  {
-   "id": 4355,
-   "name": "YC8UMD",
-   "loc": "PJ21ji · UHF",
-   "lat": 1.365176,
-   "lng": 124.827774,
-   "alt": 675,
-   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {
