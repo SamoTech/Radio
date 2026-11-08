@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T05:52:53+00:00",
+ "updated": "2026-11-08T13:14:22+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 301,
  "stations": [
@@ -41,16 +41,6 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -874,16 +864,6 @@
    "https": false
   },
   {
-   "id": 5197,
-   "name": "GN-ABRIDGE",
-   "loc": "JO01bp · VHF / UHF",
-   "lat": 51.65305,
-   "lng": 0.12345,
-   "alt": 28,
-   "url": "https://network.satnogs.org/stations/5197/",
-   "https": false
-  },
-  {
    "id": 837,
    "name": "Gray Eagle",
    "loc": "EM79ax · HF, VHF, UHF, L",
@@ -981,6 +961,16 @@
    "lng": 19.16926930632765,
    "alt": 250,
    "url": "https://network.satnogs.org/stations/2246/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1361,6 +1351,16 @@
    "lng": 11.6683,
    "alt": 495,
    "url": "https://network.satnogs.org/stations/2032/",
+   "https": false
+  },
+  {
+   "id": 430,
+   "name": "Leonidio",
+   "loc": "KM17kd · UHF",
+   "lat": 37.1580041,
+   "lng": 22.8930827,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/430/",
    "https": false
   },
   {
@@ -2121,16 +2121,6 @@
    "lng": -60.680964,
    "alt": 9,
    "url": "https://network.satnogs.org/stations/71/",
-   "https": false
-  },
-  {
-   "id": 4601,
-   "name": "QMR-KWT2-HOUSE",
-   "loc": "LL49ah · VHF / UHF",
-   "lat": 29.31891,
-   "lng": 48.07565,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/4601/",
    "https": false
   },
   {
@@ -2931,6 +2921,16 @@
    "lng": 17.037027,
    "alt": 139,
    "url": "https://network.satnogs.org/stations/4924/",
+   "https": false
+  },
+  {
+   "id": 4163,
+   "name": "YC0AVJ",
+   "loc": "OI33jj · VHF / UHF",
+   "lat": -6.5936,
+   "lng": 106.772,
+   "alt": 240,
+   "url": "https://network.satnogs.org/stations/4163/",
    "https": false
   },
   {
