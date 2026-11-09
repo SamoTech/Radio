@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T06:08:16+00:00",
+ "updated": "2026-11-09T16:04:53+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -85,6 +85,14 @@
    "https": false,
    "lat": -33.7273,
    "lon": -61.9545
+  },
+  {
+   "name": "Tres Arroyos receptor sdr",
+   "url": "http://lu3dj.ddns.net:8080/",
+   "loc": "",
+   "https": false,
+   "lat": -38.3523,
+   "lon": -60.2878
   },
   {
    "name": "AMSAT-UK VHF Goonhilly WebSDR",
@@ -255,6 +263,14 @@
    "lon": 2.12882
   },
   {
+   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
+   "url": "http://el22.dyndns-blog.com:8080/",
+   "loc": "",
+   "https": false,
+   "lat": -34.1023,
+   "lon": -61.6212
+  },
+  {
    "name": "WebSDR Maasbree Netherlands (Low): rural low noise level, 160m/80m/60m/40m/30m/20m/17m/15m band, CW segments included",
    "url": "http://sdr.websdrmaasbree.nl:8901/",
    "loc": "",
@@ -287,7 +303,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -431,7 +447,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -461,6 +477,14 @@
    "https": false,
    "lat": 43.7727,
    "lon": -70.4545
+  },
+  {
+   "name": "Vesuvio WebSDR Station, QTH Napoli - Italy",
+   "url": "http://websdr.ns0.it:8902/",
+   "loc": "",
+   "https": false,
+   "lat": 40.8561,
+   "lon": 14.4622
   },
   {
    "name": "VHF / MW Receiver - Itajai - SC - Brazil",
@@ -493,14 +517,6 @@
    "https": false,
    "lat": 37.9757,
    "lon": 23.6413
-  },
-  {
-   "name": "Websdr by SV2CZF in Florina GREECE with Receiver receiver.",
-   "url": "http://sv2czf.ddns.me:8901/",
-   "loc": "",
-   "https": false,
-   "lat": 40.8561,
-   "lon": 21.3788
   },
   {
    "name": "Websdr by SY9CGZ in Chania Kreta Georgioupolis GREECE with RSP1A receivers.",
@@ -543,7 +559,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -597,6 +613,14 @@
    "https": false,
    "lat": 51.6061,
    "lon": 10.4622
+  },
+  {
+   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
+   "url": "http://el22.dyndns-blog.com:8081/",
+   "loc": "",
+   "https": false,
+   "lat": -34.1023,
+   "lon": -61.3712
   },
   {
    "name": "Red Pitaya SDR",
@@ -773,14 +797,6 @@
    "https": false,
    "lat": 52.1894,
    "lon": 104.545
-  },
-  {
-   "name": "Fazenda Sao Francisco - Itapeva, SP - Brazil",
-   "url": "http://itapeva.websdr.com.br:8901/",
-   "loc": "",
-   "https": false,
-   "lat": -23.6856,
-   "lon": -48.8712
   },
   {
    "name": "WebSDR | EDDC2 - 7 | Dresden, Germany (test site, may not always be available)",
@@ -1297,14 +1313,6 @@
    "lon": -1.723016
   },
   {
-   "name": "F1RIV_____________FR70PM",
-   "url": "http://f1riv.freeboxos.fr:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 47.721715,
-   "lon": 4.73414
-  },
-  {
    "name": "OpenWebRX B VHF/UHF  de Poitiers 86 (Smarves)",
    "url": "http://noradio86.ddns.net:8074/",
    "loc": "",
@@ -1327,6 +1335,14 @@
    "https": false,
    "lat": 27.76307141772238,
    "lon": -15.60191184930471
+  },
+  {
+   "name": "Potsdam Babelsberg in Brandenburg🌹 0-30MHz",
+   "url": "http://14482babelsberg.dnshome.de/",
+   "loc": "",
+   "https": false,
+   "lat": 52.3891166184068,
+   "lon": 13.093711234217
   },
   {
    "name": "22dx.ru",
@@ -1439,6 +1455,14 @@
    "https": false,
    "lat": 34,
    "lon": -118
+  },
+  {
+   "name": "Asociación de Radio Amateur REM",
+   "url": "http://rem-esp.spdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 40.32890176903768,
+   "lon": -3.868001972240531
   },
   {
    "name": "EA3HRU - CB / 11m SDR experimental receiver - Barcelona, Spain",
@@ -1721,6 +1745,14 @@
    "lon": -2.076698
   },
   {
+   "name": "Funknetz.nrw",
+   "url": "http://freedmr.ddnss.de:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.58353546172424,
+   "lon": 7.143281367997134
+  },
+  {
    "name": "SDRPaderborn",
    "url": "http://sdr.lifoy.it:8073/",
    "loc": "",
@@ -1729,12 +1761,12 @@
    "lon": 8.730788
   },
   {
-   "name": "WebSDR Halle an der Saale 11m,2m,70cm,Freenet,Airband",
-   "url": "http://dm2nt.goip.de:8073/",
+   "name": "EA8DJF",
+   "url": "http://ea8djfsdr.ddns.net:8090/",
    "loc": "",
    "https": false,
-   "lat": 51.476758971870574,
-   "lon": 12.016223679116091
+   "lat": 28.335854,
+   "lon": -16.396304
   },
   {
    "name": "EA3KZ  sdr.astroradio.com",
@@ -1881,6 +1913,14 @@
    "lon": 4.8548774754952895
   },
   {
+   "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
+   "url": "http://gwinnovation.dynv6.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.187559397007334,
+   "lon": 8.56719509335492
+  },
+  {
    "name": "Manila SDR",
    "url": "http://owrx.manilasdr.net/",
    "loc": "",
@@ -1897,6 +1937,14 @@
    "lon": 153.07358732805767
   },
   {
+   "name": "OpenWebRX+SDR * Bremen-Blumenthal * LF>MF>HF>VHF>UHF>etc. * 13RF1005 * DB3GW",
+   "url": "https://gwinnovation.dynv6.net/websdr/",
+   "loc": "",
+   "https": true,
+   "lat": 53.187559397007334,
+   "lon": 8.56719509335492
+  },
+  {
    "name": "SP6PWT SDR",
    "url": "https://sp6pwt.club/",
    "loc": "",
@@ -1911,14 +1959,6 @@
    "https": false,
    "lat": 38.98175203074477,
    "lon": 20.745048840740704
-  },
-  {
-   "name": "🇮🇹📻ANCONA SDR  📻🇮🇹",
-   "url": "http://local.ir6t.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 43.5323925884872,
-   "lon": 13.5257533209869
   },
   {
    "name": "SDR001-France-Dept31-CB-Ham-PMR&DMR",
@@ -2057,14 +2097,6 @@
    "lon": 100.5617591
   },
   {
-   "name": "Montanaro SDR",
-   "url": "http://cbfenis.ddns.net:43510/",
-   "loc": "",
-   "https": false,
-   "lat": 45.2344330897678,
-   "lon": 7.85707644083785
-  },
-  {
    "name": "[freddydu17]",
    "url": "http://f4erg.hd.free.fr:8073/",
    "loc": "",
@@ -2095,14 +2127,6 @@
    "https": false,
    "lat": 50.01784830798169,
    "lon": 19.979464291512027
-  },
-  {
-   "name": "LA4M",
-   "url": "https://sdr2forbord.la4m.no/",
-   "loc": "",
-   "https": true,
-   "lat": 63.524932,
-   "lon": 10.892206
   },
   {
    "name": "G1WOR",
@@ -2191,6 +2215,14 @@
    "https": true,
    "lat": 45.8926565018097,
    "lon": 14.6977928682973
+  },
+  {
+   "name": "🔴 📡 SDR Madrid, España ✨ LaRadioCB 🌠",
+   "url": "http://laradiocb.mypsx.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 40.3475646023863,
+   "lon": -3.70078215349397
   },
   {
    "name": "FARAON - Bielsko-Biała - PMR, 70cm, 2m, DAB+",
@@ -2375,14 +2407,6 @@
    "https": false,
    "lat": 45.57018643562036,
    "lon": 9.463901055363086
-  },
-  {
-   "name": "Loka Monitor SFR Ambon",
-   "url": "http://118.97.29.213:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -3.697317184865492,
-   "lon": 128.20347716971008
   },
   {
    "name": "OM/SWL-01",
@@ -2737,14 +2761,6 @@
    "lon": 2.584360575239688
   },
   {
-   "name": "EHFW 1:49 20 M. Feed IU3UXK",
-   "url": "http://www.pietromezza.com:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.5118174740562,
-   "lon": 12.3036804522063
-  },
-  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2815,6 +2831,22 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
+  },
+  {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
+  },
+  {
+   "name": "EastMO R3DKT Receiver",
+   "url": "https://sdr.vanish125.netcraze.pro/",
+   "loc": "",
+   "https": true,
+   "lat": 55.70267067829901,
+   "lon": 38.9587778063207
   },
   {
    "name": "YO3BN 24 MHz - 1.766 GHz Continuous Coverage SDR Receiver",
@@ -2919,6 +2951,22 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
+  },
+  {
+   "name": "2E0DGP WEBSDR",
+   "url": "http://sdr.ladar.club:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 53.65548338507698,
+   "lon": -2.631403032915911
+  },
+  {
+   "name": "M0LHI",
+   "url": "https://radio.nkpa.co.uk/",
+   "loc": "",
+   "https": true,
+   "lat": 52.22609520584887,
+   "lon": -0.9268577317469995
   },
   {
    "name": "GoUrbex [SP5RAF]",
@@ -3129,6 +3177,22 @@
    "lon": -0.57982
   },
   {
+   "name": "Toca do Sapo 🇧🇷",
+   "url": "https://websdr.frogden.org:8443/",
+   "loc": "",
+   "https": true,
+   "lat": -22.90332931413584,
+   "lon": -47.103712381925774
+  },
+  {
+   "name": "M0KVH",
+   "url": "http://m0kvh.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.92374,
+   "lon": -1.195084
+  },
+  {
    "name": "HB9AK Hoernli JN47LI",
    "url": "http://sdr.swiss-artg.ch:8088/",
    "loc": "",
@@ -3151,14 +3215,6 @@
    "https": false,
    "lat": 50.6405658944187,
    "lon": 6.034874518218922
-  },
-  {
-   "name": "HB9HBQ",
-   "url": "https://openwebrx.hb9hbq.ch/",
-   "loc": "",
-   "https": true,
-   "lat": 47.37172,
-   "lon": 8.07967
   },
   {
    "name": "9A3ZI",
@@ -3257,6 +3313,14 @@
    "lon": 7.24
   },
   {
+   "name": "EA1IOS (10-11-15-20-40m-VHF-UHF) OPERATIVO 9:00am-1:00am",
+   "url": "http://ea1ios.serveftp.com/",
+   "loc": "",
+   "https": false,
+   "lat": 43.53716641562759,
+   "lon": -5.648042322826474
+  },
+  {
    "name": "RCC01 HF/VHF/UHF Danville, CA",
    "url": "https://sdr01.ionic1k.net/",
    "loc": "",
@@ -3311,6 +3375,14 @@
    "https": false,
    "lat": -27.128846453978,
    "lon": -52.9668291916279
+  },
+  {
+   "name": "Toca do Sapo 🇧🇷",
+   "url": "https://websdr.frogden.org/",
+   "loc": "",
+   "https": true,
+   "lat": -22.90332931413584,
+   "lon": -47.103712381925774
   },
   {
    "name": "aricooperdavis",
@@ -3431,6 +3503,14 @@
    "https": false,
    "lat": 42.4768714735401,
    "lon": 14.1814866065979
+  },
+  {
+   "name": "OK1KUR",
+   "url": "https://sdr.radioklub.fel.cvut.cz/",
+   "loc": "",
+   "https": true,
+   "lat": 50.10292,
+   "lon": 14.39332
   },
   {
    "name": "WebSDR Merkelbeek",
@@ -3583,6 +3663,14 @@
    "https": true,
    "lat": 40.86171586722456,
    "lon": -80.2825178598314
+  },
+  {
+   "name": "<b>BeDa</b> (<i><a href=\"https://www.bk99.de\" target=\"_blank\">https://www.bk99.de</a></i>)",
+   "url": "https://owrx.bk99.de/",
+   "loc": "",
+   "https": true,
+   "lat": 50.8480338897488,
+   "lon": 12.4727012066064
   },
   {
    "name": "Sapporo -- 0.5 -- 30.5 MHz -- NARA NETWORK JAPAN (www.naranetwork.com) RTLSDRV4+NNJ-HF39ALNA+Youloop",
@@ -3825,6 +3913,14 @@
    "lon": 13.6703080233291
   },
   {
+   "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
+   "url": "http://hispalis-sdr.hopto.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 37.38336155470133,
+   "lon": -6.05557026752054
+  },
+  {
    "name": "VU3ZNG",
    "url": "https://rx.siritech.net/",
    "loc": "",
@@ -3937,100 +4033,20 @@
    "lon": 7.081885499209634
   },
   {
+   "name": "SV1EFA",
+   "url": "https://sdr.sv1efa-radio.com/",
+   "loc": "",
+   "https": true,
+   "lat": 37.92913244322806,
+   "lon": 23.63744676277247
+  },
+  {
    "name": "VK5HW-OWx",
    "url": "http://vk5hw.duckdns.org:8073/",
    "loc": "",
    "https": false,
    "lat": -35.555882,
    "lon": 138.624007
-  },
-  {
-   "name": "FR08YG - Montcy-Saint-Pierre",
-   "url": "https://sdr-1.giarel.li/",
-   "loc": "",
-   "https": true,
-   "lat": 49.7734575233212,
-   "lon": 4.73673122588266
-  },
-  {
-   "name": "SZ5RDS",
-   "url": "http://sz5rds.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 36.4363017776622,
-   "lon": 28.2094885462166
-  },
-  {
-   "name": "EA1RCR",
-   "url": "https://ea1rcr.org/",
-   "loc": "",
-   "https": true,
-   "lat": 42.5958758770379,
-   "lon": -2.69138476530048
-  },
-  {
-   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
-   "url": "https://receptor1.ea3er.es/",
-   "loc": "",
-   "https": true,
-   "lat": 41.5448,
-   "lon": 1.653
-  },
-  {
-   "name": "IK6IOQ - RADIO FM e DAB Zona Pescara - ik6ioq@gmail.com",
-   "url": "http://109.115.114.179/",
-   "loc": "",
-   "https": false,
-   "lat": 42.43388474134617,
-   "lon": 14.239575749210264
-  },
-  {
-   "name": "LU9ERV  San Nicolas Bs.As. Argentina",
-   "url": "http://200.3.222.105:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -33.33864750337512,
-   "lon": -60.199265956549475
-  },
-  {
-   "name": "Spacepl",
-   "url": "https://sdr.hosted.top/",
-   "loc": "",
-   "https": true,
-   "lat": 43.340361448567165,
-   "lon": 25.00687087719175
-  },
-  {
-   "name": "EA7KQR",
-   "url": "https://ea7kqr.tailed5f6.ts.net/",
-   "loc": "",
-   "https": true,
-   "lat": 36.544880504455,
-   "lon": -4.627629837087
-  },
-  {
-   "name": "PE1NZE",
-   "url": "https://websdr.dessie-radio.nl/",
-   "loc": "",
-   "https": true,
-   "lat": 52.29476382827833,
-   "lon": 6.771075822686683
-  },
-  {
-   "name": "Luisterpost Hoorn",
-   "url": "http://84.24.2.232:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 52.6377796145309,
-   "lon": 5.02322552896142
-  },
-  {
-   "name": "EA5KAO · SDR MULTIUSUARIO",
-   "url": "https://sdr.ea5kao.ampr.org/",
-   "loc": "",
-   "https": true,
-   "lat": 38.08,
-   "lon": -1.25
   }
  ]
 }
