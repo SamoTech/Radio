@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-08T21:57:55+00:00",
+ "updated": "2026-11-09T06:08:16+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 303,
+ "count": 302,
  "stations": [
   {
    "id": 3944,
@@ -24,16 +24,6 @@
    "https": false
   },
   {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -41,6 +31,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -351,16 +351,6 @@
    "lng": 6.379,
    "alt": 10,
    "url": "https://network.satnogs.org/stations/39/",
-   "https": false
-  },
-  {
-   "id": 5228,
-   "name": "CHOSUN SSIL",
-   "loc": "PM35ld · UHF",
-   "lat": 35.141,
-   "lng": 126.928,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/5228/",
    "https": false
   },
   {
@@ -1171,16 +1161,6 @@
    "lng": 9.973,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/3348/",
-   "https": false
-  },
-  {
-   "id": 4738,
-   "name": "JUN SatNOGS",
-   "loc": "PM35ld · UHF",
-   "lat": 35.141,
-   "lng": 126.928,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/4738/",
    "https": false
   },
   {
@@ -2144,6 +2124,16 @@
    "https": false
   },
   {
+   "id": 3741,
+   "name": "rommac uhf qfh 2",
+   "loc": "DM42bg · UHF",
+   "lat": 32.2885,
+   "lng": -111.868,
+   "alt": 331,
+   "url": "https://network.satnogs.org/stations/3741/",
+   "https": false
+  },
+  {
    "id": 3131,
    "name": "RR01",
    "loc": "EM10dm · VHF / UHF",
@@ -2201,6 +2191,16 @@
    "lng": 22.958911,
    "alt": 47,
    "url": "https://network.satnogs.org/stations/3623/",
+   "https": false
+  },
+  {
+   "id": 4762,
+   "name": "SatNogs CNLP",
+   "loc": "GF15ac · VHF / UHF",
+   "lat": -34.908,
+   "lng": -57.944,
+   "alt": 19,
+   "url": "https://network.satnogs.org/stations/4762/",
    "https": false
   },
   {
@@ -2274,16 +2274,6 @@
    "https": false
   },
   {
-   "id": 2830,
-   "name": "SM0TGU - L and S-Band",
-   "loc": "JO89wk · L / S",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
    "id": 858,
    "name": "SM0TGU - VHF UHF",
    "loc": "JO89wk · UHF / VHF",
@@ -2354,16 +2344,6 @@
    "https": false
   },
   {
-   "id": 3702,
-   "name": "SP4EVA",
-   "loc": "JO93us · VHF / UHF",
-   "lat": 53.7635,
-   "lng": 19.691,
-   "alt": 120,
-   "url": "https://network.satnogs.org/stations/3702/",
-   "https": false
-  },
-  {
    "id": 1118,
    "name": "sp8ncg-rtl1",
    "loc": "KO11gg · UHF",
@@ -2401,16 +2381,6 @@
    "lng": 33.062,
    "alt": 203,
    "url": "https://network.satnogs.org/stations/3794/",
-   "https": false
-  },
-  {
-   "id": 4309,
-   "name": "SQ7RAD",
-   "loc": "KO01nb · UHF / VHF",
-   "lat": 51.043735,
-   "lng": 21.087986,
-   "alt": 268,
-   "url": "https://network.satnogs.org/stations/4309/",
    "https": false
   },
   {
@@ -2611,6 +2581,16 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
+   "https": false
+  },
+  {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
@@ -2824,16 +2804,6 @@
    "https": false
   },
   {
-   "id": 4525,
-   "name": "VU2AQJ_SGS",
-   "loc": "NL05uk · UHF",
-   "lat": 25.451809,
-   "lng": 81.736291,
-   "alt": 98,
-   "url": "https://network.satnogs.org/stations/4525/",
-   "https": false
-  },
-  {
    "id": 2987,
    "name": "VU2JEK_Nitin",
    "loc": "MK83sd · VHF / UHF",
@@ -2851,6 +2821,16 @@
    "lng": 77.576969,
    "alt": 919,
    "url": "https://network.satnogs.org/stations/4254/",
+   "https": false
+  },
+  {
+   "id": 4821,
+   "name": "VU3IPU - Varun (Weather Satellite)",
+   "loc": "MK82sx · VHF",
+   "lat": 12.9913,
+   "lng": 77.5774,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4821/",
    "https": false
   },
   {
@@ -2961,6 +2941,16 @@
    "lng": 106.772,
    "alt": 240,
    "url": "https://network.satnogs.org/stations/4163/",
+   "https": false
+  },
+  {
+   "id": 4355,
+   "name": "YC8UMD",
+   "loc": "PJ21ji · UHF",
+   "lat": 1.365176,
+   "lng": 124.827774,
+   "alt": 675,
+   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {
