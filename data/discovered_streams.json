@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-08T08:58:56+00:00",
+ "updated": "2026-11-09T09:47:21+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 8,
+ "count": 6,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/08/interview_der_woche_mit_verteidigungsminister_boris_dlf_20261108_1105_47fa0a01.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/08/interview_der_woche_mit_verteidigungsminister_boris_dlf_20261108_1105_47fa0a01.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/09/worst_case_in_der_klimakrise_12_der_elefant_im_raum_dlf_20261109_1635_291dea38.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/09/worst_case_in_der_klimakrise_12_der_elefant_im_raum_dlf_20261109_1635_291dea38.mp3"
    ]
   },
   {
@@ -234,10 +234,7 @@
    "catalog": false,
    "fetch_strategy": "bot",
    "fetch_error": "",
-   "streams": [
-    "https://radioimages.npox.nl/RAD1/image/0ac164e1-5fef-4429-8c9b-05f772def4ce/IMG_2165.heic?height=150&width=200&aspect_ratio=4%3A3",
-    "https://radioimages.npox.nl/RAD1/image/0ac164e1-5fef-4429-8c9b-05f772def4ce/IMG_2165.heic"
-   ]
+   "streams": []
   },
   {
    "site": "https://www.nporadio2.nl/",
