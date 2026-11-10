@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T09:47:21+00:00",
+ "updated": "2026-11-10T09:49:21+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 6,
  "sites": [
@@ -11,8 +11,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -23,8 +23,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -35,8 +35,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -47,8 +47,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -59,8 +59,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -71,8 +71,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -83,8 +83,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -95,8 +95,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -107,8 +107,8 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -119,8 +119,8 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>",
+   "fetch_strategy": "bot",
+   "fetch_error": "",
    "streams": []
   },
   {
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/09/worst_case_in_der_klimakrise_12_der_elefant_im_raum_dlf_20261109_1635_291dea38.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/09/worst_case_in_der_klimakrise_12_der_elefant_im_raum_dlf_20261109_1635_291dea38.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/10/nachrichten_dlf_20261110_1030_45cb0064.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/10/nachrichten_dlf_20261110_1030_45cb0064.mp3"
    ]
   },
   {
