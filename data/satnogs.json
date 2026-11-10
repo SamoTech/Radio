@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-10T14:46:35+00:00",
+ "updated": "2026-11-10T23:12:18+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 301,
+ "count": 300,
  "stations": [
   {
    "id": 3944,
@@ -24,6 +24,16 @@
    "https": false
   },
   {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -31,16 +41,6 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -974,16 +974,6 @@
    "https": false
   },
   {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
-   "https": false
-  },
-  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1014,6 +1004,16 @@
    "https": false
   },
   {
+   "id": 4330,
+   "name": "I LOVE BALI",
+   "loc": "OI71ng · HF, VHF, UHF, L",
+   "lat": -8.7456,
+   "lng": 115.1605,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/4330/",
+   "https": false
+  },
+  {
    "id": 4372,
    "name": "IK3SVW-1",
    "loc": "JN65cq · UHF",
@@ -1041,16 +1041,6 @@
    "lng": 12.629148,
    "alt": 65,
    "url": "https://network.satnogs.org/stations/2861/",
-   "https": false
-  },
-  {
-   "id": 939,
-   "name": "IU3IOK",
-   "loc": "JN65co · VHF",
-   "lat": 45.605,
-   "lng": 12.243,
-   "alt": 15,
-   "url": "https://network.satnogs.org/stations/939/",
    "https": false
   },
   {
@@ -1554,26 +1544,6 @@
    "https": false
   },
   {
-   "id": 3188,
-   "name": "N0NQD-SatScanner UHF",
-   "loc": "EN35dg · UHF",
-   "lat": 45.289,
-   "lng": -93.747,
-   "alt": 325,
-   "url": "https://network.satnogs.org/stations/3188/",
-   "https": false
-  },
-  {
-   "id": 4341,
-   "name": "N0NQD-SatScanner VHF",
-   "loc": "EN35dg · VHF",
-   "lat": 45.288962,
-   "lng": -93.74652,
-   "alt": 325,
-   "url": "https://network.satnogs.org/stations/4341/",
-   "https": false
-  },
-  {
    "id": 2461,
    "name": "N1ESK-Loudon",
    "loc": "EM75uq · UHF",
@@ -1601,6 +1571,26 @@
    "lng": -96.53481,
    "alt": 100,
    "url": "https://network.satnogs.org/stations/77/",
+   "https": false
+  },
+  {
+   "id": 2416,
+   "name": "N5ZKK-UHF-HELICAL",
+   "loc": "EM00kb · UHF",
+   "lat": 30.05973,
+   "lng": -99.15139,
+   "alt": 500,
+   "url": "https://network.satnogs.org/stations/2416/",
+   "https": false
+  },
+  {
+   "id": 1682,
+   "name": "N5ZKK-VHF-Helical",
+   "loc": "EM00kb · VHF",
+   "lat": 30.05973,
+   "lng": -99.15139,
+   "alt": 500,
+   "url": "https://network.satnogs.org/stations/1682/",
    "https": false
   },
   {
@@ -1984,6 +1974,16 @@
    "https": false
   },
   {
+   "id": 5171,
+   "name": "Pelt-UHF-Testing",
+   "loc": "DO21wb · UHF",
+   "lat": 51.0425,
+   "lng": -114.099544,
+   "alt": 1056,
+   "url": "https://network.satnogs.org/stations/5171/",
+   "https": false
+  },
+  {
    "id": 5061,
    "name": "Peters-GS1",
    "loc": "PM37ki · UHF",
@@ -2041,16 +2041,6 @@
    "lng": 14.3064,
    "alt": 300,
    "url": "https://network.satnogs.org/stations/1298/",
-   "https": false
-  },
-  {
-   "id": 4410,
-   "name": "Prodromos",
-   "loc": "DN70kd · VHF",
-   "lat": 40.1389788,
-   "lng": -105.1509764,
-   "alt": 1524,
-   "url": "https://network.satnogs.org/stations/4410/",
    "https": false
   },
   {
@@ -2194,16 +2184,6 @@
    "https": false
   },
   {
-   "id": 4055,
-   "name": "Signal Voyage Cubesat Ground Station",
-   "loc": "FN00nd · VHF / UHF",
-   "lat": 40.159,
-   "lng": -78.9153,
-   "alt": 513,
-   "url": "https://network.satnogs.org/stations/4055/",
-   "https": false
-  },
-  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2251,16 +2231,6 @@
    "lng": 17.788,
    "alt": 55,
    "url": "https://network.satnogs.org/stations/949/",
-   "https": false
-  },
-  {
-   "id": 2830,
-   "name": "SM0TGU - L and S-Band",
-   "loc": "JO89wk · L / S",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/2830/",
    "https": false
   },
   {
@@ -2504,6 +2474,16 @@
    "https": false
   },
   {
+   "id": 5271,
+   "name": "TJ's Ground Station",
+   "loc": "FM18hx · VHF",
+   "lat": 38.9687,
+   "lng": -77.3411,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/5271/",
+   "https": false
+  },
+  {
    "id": 4518,
    "name": "UA_Aveiro_GS_Pluto",
    "loc": "IN50qp · VHF / UHF",
@@ -2561,6 +2541,16 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
+   "https": false
+  },
+  {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {

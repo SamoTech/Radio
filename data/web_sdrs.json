@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-10T14:46:35+00:00",
+ "updated": "2026-11-10T23:12:18+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1009,14 +1009,6 @@
    "lon": 2.45481895985258
   },
   {
-   "name": "SQ9NKX",
-   "url": "http://websdr.mateusz.pro/",
-   "loc": "",
-   "https": false,
-   "lat": 50.477450397341514,
-   "lon": 19.39835697464894
-  },
-  {
    "name": "S52MP",
    "url": "https://sdr.v4.si/",
    "loc": "",
@@ -1081,6 +1073,14 @@
    "lon": 5.07129
   },
   {
+   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
+   "url": "http://5.154.110.148:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 41.5448,
+   "lon": 1.653
+  },
+  {
    "name": "HomPit Radio",
    "url": "http://sdr.flaretechnologies.com.au/",
    "loc": "",
@@ -1103,6 +1103,14 @@
    "https": false,
    "lat": 51.666167,
    "lon": 10.343333
+  },
+  {
+   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
+   "url": "http://5.154.110.148:8073/#freq=145550000,mod=nfm,sql=-748073",
+   "loc": "",
+   "https": false,
+   "lat": 41.5448,
+   "lon": 1.653
   },
   {
    "name": "dc5dm (2m/70cm)",
@@ -1175,14 +1183,6 @@
    "https": false,
    "lat": 53.23,
    "lon": -2.313
-  },
-  {
-   "name": "LF MF HF VHF UHF - SDR an der Burg Haag, Deutschland - DL2RN",
-   "url": "https://openwebrx.rahsmann.de/",
-   "loc": "",
-   "https": true,
-   "lat": 48.1605422261592,
-   "lon": 12.1792822691657
   },
   {
    "name": "11m, VHF, UHF e 1.2GHz - SDR na Serra da Cantareira - São Paulo, SP",
@@ -1335,14 +1335,6 @@
    "https": false,
    "lat": 53.305591097949566,
    "lon": 83.62543249158075
-  },
-  {
-   "name": "IT9IOE - SDR-RTL.com V3 with Long Wire (16 m)",
-   "url": "http://rtl1.it9ioe.radio:50060/",
-   "loc": "",
-   "https": false,
-   "lat": 38.132628,
-   "lon": 14.72577
   },
   {
    "name": "2m/70cm/23cm - Hochantenne - Dannenberg/Zernien - JO53kb",
@@ -1817,6 +1809,14 @@
    "lon": 8.79351
   },
   {
+   "name": "Web SDR | Bremen Tenever, Germany | DL9BQ",
+   "url": "https://websdr.dl0ht.de/otesdr/",
+   "loc": "",
+   "https": true,
+   "lat": 53.0632,
+   "lon": 8.96239
+  },
+  {
    "name": "ZL3BCJ",
    "url": "https://openwebrx.zl3bcj.duckdns.org/",
    "loc": "",
@@ -2065,28 +2065,12 @@
    "lon": -92.21
   },
   {
-   "name": "DM6CM",
-   "url": "http://s4wmv4hovyls5ebz.myfritz.net:8076/",
-   "loc": "",
-   "https": false,
-   "lat": 53.4908648097928,
-   "lon": 10.2537521748898
-  },
-  {
    "name": "ES4N",
    "url": "http://vhf.es4rvn.ee:8073/",
    "loc": "",
    "https": false,
    "lat": 59.3740811914467,
    "lon": 28.1903479469811
-  },
-  {
-   "name": "E25WOP - Phra Samut Chedi (กดตรงนี้ หากต้องการดูข้อมูลของ เรือ หรือ เครื่องบิน ที่รับสัญญาณได้)",
-   "url": "http://e25wop.thddns.net:2253/",
-   "loc": "",
-   "https": false,
-   "lat": 13.5955566,
-   "lon": 100.5617591
   },
   {
    "name": "Montanaro SDR",
@@ -2561,22 +2545,6 @@
    "lon": -4.703365470064586
   },
   {
-   "name": "PU3EHJ - PX3Q5361 Brasil",
-   "url": "http://sdr.hcstecnologia.net.br/",
-   "loc": "",
-   "https": false,
-   "lat": -29.670421,
-   "lon": -51.26532
-  },
-  {
-   "name": "14MD30 - CB + PMR + HAM + AIR",
-   "url": "http://86.227.213.137:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 43.8014,
-   "lon": 4.4612
-  },
-  {
    "name": "SP9IPZ Jaworzno",
    "url": "https://sdr.sp9ipz.pl/",
    "loc": "",
@@ -2647,6 +2615,14 @@
    "https": true,
    "lat": 46.33523932247837,
    "lon": 15.248273991306656
+  },
+  {
+   "name": "SDR Bahía Blanca LU3EHB <a href='https://cafecito.app/lu3ehb' rel='noopener' target='_blank'><img style=\"height:33px;ver",
+   "url": "https://sdrbahia.com.ar/",
+   "loc": "",
+   "https": true,
+   "lat": -38.757281,
+   "lon": -62.26511
   },
   {
    "name": "M0GUC HF/ VHF/UHF/ RX/ FM",
@@ -2767,6 +2743,14 @@
    "https": false,
    "lat": 50.20411309776767,
    "lon": 2.584360575239688
+  },
+  {
+   "name": "EHFW 1:49 20 M. Feed IU3UXK",
+   "url": "http://www.pietromezza.com:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.5118174740562,
+   "lon": 12.3036804522063
   },
   {
    "name": "LU3ARN",
@@ -2945,6 +2929,14 @@
    "lon": -117.88901509985612
   },
   {
+   "name": "© SV3AQO Patras, Greece",
+   "url": "http://sv3aqo.zapto.org/",
+   "loc": "",
+   "https": false,
+   "lat": 38.22941639662544,
+   "lon": 21.74211604483649
+  },
+  {
    "name": "2E0DGP WEBSDR",
    "url": "http://sdr.ladar.club:8073/",
    "loc": "",
@@ -3015,14 +3007,6 @@
    "https": true,
    "lat": -33.717848,
    "lon": -70.745233
-  },
-  {
-   "name": "SDR.Gudynas.lt",
-   "url": "http://sdr.gudynas.lt:2052/",
-   "loc": "",
-   "https": false,
-   "lat": 55.370461,
-   "lon": 26.288438
   },
   {
    "name": "SDRPT2 - WebSDR VHF/UHF/CB/10m",
@@ -3215,6 +3199,14 @@
    "https": false,
    "lat": 50.6405658944187,
    "lon": 6.034874518218922
+  },
+  {
+   "name": "HB9HBQ",
+   "url": "https://openwebrx.hb9hbq.ch/",
+   "loc": "",
+   "https": true,
+   "lat": 47.37172,
+   "lon": 8.07967
   },
   {
    "name": "9A3ZI",
@@ -3713,14 +3705,6 @@
    "lon": 106.7999462087614
   },
   {
-   "name": "Los Gallinas",
-   "url": "http://losgallinas.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 17.96778314089192,
-   "lon": -66.93224034342178
-  },
-  {
    "name": "Vietanh's SDR",
    "url": "https://sdr.maytinhvietanh.id.vn/",
    "loc": "",
@@ -3759,6 +3743,14 @@
    "https": false,
    "lat": 53.38335646603124,
    "lon": -2.2679786869505647
+  },
+  {
+   "name": "YD1GGQ/JZ10BCX/Mang Cendol (HF Antenna sedang disempurnakan/ VHF / UHF / Airband / FM Broadcast / Experimental",
+   "url": "https://yd1ggq.my.id/",
+   "loc": "",
+   "https": true,
+   "lat": -5.976515,
+   "lon": 106.809412
   },
   {
    "name": "VO1AAK-2 0-30mhz Gander,Newfoundland",
@@ -3823,14 +3815,6 @@
    "https": false,
    "lat": 53.187559397007334,
    "lon": 8.56719509335492
-  },
-  {
-   "name": "PU8WPC - SDR WEB Caripí - Barcarena - Brazil",
-   "url": "http://sdrweb.ddns.net/",
-   "loc": "",
-   "https": false,
-   "lat": -1.4918794326608364,
-   "lon": -48.706095872921935
   },
   {
    "name": "VU2CPL",
@@ -3911,6 +3895,14 @@
    "https": false,
    "lat": 46.14733188744403,
    "lon": 8.780547154258626
+  },
+  {
+   "name": "Henrys SDR",
+   "url": "https://sdr.henry.lan64.de/",
+   "loc": "",
+   "https": true,
+   "lat": 50.9450462296244,
+   "lon": 13.6703080233291
   },
   {
    "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
@@ -4033,20 +4025,28 @@
    "lon": 7.081885499209634
   },
   {
-   "name": "SV1EFA",
-   "url": "https://sdr.sv1efa-radio.com/",
-   "loc": "",
-   "https": true,
-   "lat": 37.92913244322806,
-   "lon": 23.63744676277247
-  },
-  {
    "name": "VK5HW-OWx",
    "url": "http://vk5hw.duckdns.org:8073/",
    "loc": "",
    "https": false,
    "lat": -35.555882,
    "lon": 138.624007
+  },
+  {
+   "name": "FR08YG - Montcy-Saint-Pierre",
+   "url": "https://sdr-1.giarel.li/",
+   "loc": "",
+   "https": true,
+   "lat": 49.7734575233212,
+   "lon": 4.73673122588266
+  },
+  {
+   "name": "SZ5RDS",
+   "url": "http://sz5rds.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 36.4363017776622,
+   "lon": 28.2094885462166
   }
  ]
 }
