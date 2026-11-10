@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-09T16:04:53+00:00",
+ "updated": "2026-11-10T01:27:37+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 304,
+ "count": 306,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -161,6 +171,16 @@
    "lng": -77.11324,
    "alt": 71,
    "url": "https://network.satnogs.org/stations/4655/",
+   "https": false
+  },
+  {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -964,16 +984,6 @@
    "https": false
   },
   {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
-   "https": false
-  },
-  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1021,16 +1031,6 @@
    "lng": 100.51295302800892,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/5024/",
-   "https": false
-  },
-  {
-   "id": 4188,
-   "name": "ISAE Supaero V/UHF",
-   "loc": "JN03rn · UHF",
-   "lat": 43.5644896,
-   "lng": 1.4755066,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/4188/",
    "https": false
   },
   {
@@ -2224,6 +2224,16 @@
    "https": false
   },
   {
+   "id": 5215,
+   "name": "SGP",
+   "loc": "MK80oo · VHF / UHF",
+   "lat": 10.5929,
+   "lng": 77.1794,
+   "alt": 387,
+   "url": "https://network.satnogs.org/stations/5215/",
+   "https": false
+  },
+  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2374,16 +2384,6 @@
    "https": false
   },
   {
-   "id": 3655,
-   "name": "SPL-NCU-02",
-   "loc": "PL04ox · UHF",
-   "lat": 24.9678,
-   "lng": 121.18752,
-   "alt": 150,
-   "url": "https://network.satnogs.org/stations/3655/",
-   "https": false
-  },
-  {
    "id": 3794,
    "name": "SPUTNIX-VHF/UHF-Murmansk",
    "loc": "KP68mw · VHF / UHF",
@@ -2391,6 +2391,16 @@
    "lng": 33.062,
    "alt": 203,
    "url": "https://network.satnogs.org/stations/3794/",
+   "https": false
+  },
+  {
+   "id": 4309,
+   "name": "SQ7RAD",
+   "loc": "KO01nb · UHF / VHF",
+   "lat": 51.043735,
+   "lng": 21.087986,
+   "alt": 268,
+   "url": "https://network.satnogs.org/stations/4309/",
    "https": false
   },
   {
@@ -2951,6 +2961,16 @@
    "lng": 17.037027,
    "alt": 139,
    "url": "https://network.satnogs.org/stations/4924/",
+   "https": false
+  },
+  {
+   "id": 5297,
+   "name": "X3NX",
+   "loc": "FM05he · UHF",
+   "lat": 35.1737,
+   "lng": -79.3934,
+   "alt": 128,
+   "url": "https://network.satnogs.org/stations/5297/",
    "https": false
   },
   {
