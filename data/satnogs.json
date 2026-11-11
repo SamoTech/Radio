@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-10T23:12:18+00:00",
+ "updated": "2026-11-11T05:59:22+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 300,
+ "count": 305,
  "stations": [
   {
    "id": 3944,
@@ -24,16 +24,6 @@
    "https": false
   },
   {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -41,6 +31,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -1044,6 +1044,16 @@
    "https": false
   },
   {
+   "id": 939,
+   "name": "IU3IOK",
+   "loc": "JN65co · VHF",
+   "lat": 45.605,
+   "lng": 12.243,
+   "alt": 15,
+   "url": "https://network.satnogs.org/stations/939/",
+   "https": false
+  },
+  {
    "id": 4869,
    "name": "JA1HCB-pi3",
    "loc": "PM95tx · UHF",
@@ -1211,6 +1221,16 @@
    "lng": -72.32180283,
    "alt": 192,
    "url": "https://network.satnogs.org/stations/4806/",
+   "https": false
+  },
+  {
+   "id": 1442,
+   "name": "KC4LE 70cm Eggbeater",
+   "loc": "EM63nh · UHF",
+   "lat": 33.323,
+   "lng": -86.888,
+   "alt": 231,
+   "url": "https://network.satnogs.org/stations/1442/",
    "https": false
   },
   {
@@ -1541,6 +1561,26 @@
    "lng": -83.711,
    "alt": 300,
    "url": "https://network.satnogs.org/stations/2931/",
+   "https": false
+  },
+  {
+   "id": 3188,
+   "name": "N0NQD-SatScanner UHF",
+   "loc": "EN35dg · UHF",
+   "lat": 45.289,
+   "lng": -93.747,
+   "alt": 325,
+   "url": "https://network.satnogs.org/stations/3188/",
+   "https": false
+  },
+  {
+   "id": 4341,
+   "name": "N0NQD-SatScanner VHF",
+   "loc": "EN35dg · VHF",
+   "lat": 45.288962,
+   "lng": -93.74652,
+   "alt": 325,
+   "url": "https://network.satnogs.org/stations/4341/",
    "https": false
   },
   {
@@ -2154,6 +2194,16 @@
    "https": false
   },
   {
+   "id": 4762,
+   "name": "SatNogs CNLP",
+   "loc": "GF15ac · VHF / UHF",
+   "lat": -34.908,
+   "lng": -57.944,
+   "alt": 19,
+   "url": "https://network.satnogs.org/stations/4762/",
+   "https": false
+  },
+  {
    "id": 3746,
    "name": "SatNOGS_Pecna_1_UHF",
    "loc": "JO82je · UHF",
@@ -2231,6 +2281,16 @@
    "lng": 17.788,
    "alt": 55,
    "url": "https://network.satnogs.org/stations/949/",
+   "https": false
+  },
+  {
+   "id": 2830,
+   "name": "SM0TGU - L and S-Band",
+   "loc": "JO89wk · L / S",
+   "lat": 59.453,
+   "lng": 17.89,
+   "alt": 32,
+   "url": "https://network.satnogs.org/stations/2830/",
    "https": false
   },
   {
@@ -2541,16 +2601,6 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
-   "https": false
-  },
-  {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
