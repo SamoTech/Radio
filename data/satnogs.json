@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-11T05:59:22+00:00",
+ "updated": "2026-11-11T14:05:54+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 305,
+ "count": 307,
  "stations": [
   {
    "id": 3944,
@@ -974,6 +974,16 @@
    "https": false
   },
   {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
+   "https": false
+  },
+  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1194,6 +1204,16 @@
    "https": false
   },
   {
+   "id": 4326,
+   "name": "KB9LEB_Debian_12",
+   "loc": "EL99ma · VHF / UHF",
+   "lat": 29.0241436,
+   "lng": -80.9789164,
+   "alt": 26,
+   "url": "https://network.satnogs.org/stations/4326/",
+   "https": false
+  },
+  {
    "id": 432,
    "name": "kc1fha",
    "loc": "FN42fu · VHF / ULF, VLF, LF, MF, HF, VHF, UHF",
@@ -1351,6 +1371,16 @@
    "lng": 22.8930827,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/430/",
+   "https": false
+  },
+  {
+   "id": 5286,
+   "name": "LSA",
+   "loc": "KM17cu · UHF",
+   "lat": 37.861224,
+   "lng": 22.21453,
+   "alt": 755,
+   "url": "https://network.satnogs.org/stations/5286/",
    "https": false
   },
   {
@@ -1541,6 +1571,16 @@
    "lng": 20.739,
    "alt": 13,
    "url": "https://network.satnogs.org/stations/4791/",
+   "https": false
+  },
+  {
+   "id": 5299,
+   "name": "mpippins",
+   "loc": "DN06jg · VHF / UHF",
+   "lat": 46.2708,
+   "lng": -119.2083,
+   "alt": 120,
+   "url": "https://network.satnogs.org/stations/5299/",
    "https": false
   },
   {
@@ -2384,6 +2424,16 @@
    "https": false
   },
   {
+   "id": 3655,
+   "name": "SPL-NCU-02",
+   "loc": "PL04ox · UHF",
+   "lat": 24.9678,
+   "lng": 121.18752,
+   "alt": 150,
+   "url": "https://network.satnogs.org/stations/3655/",
+   "https": false
+  },
+  {
    "id": 4309,
    "name": "SQ7RAD",
    "loc": "KO01nb · UHF / VHF",
@@ -2741,36 +2791,6 @@
    "lng": 152.91687,
    "alt": 90,
    "url": "https://network.satnogs.org/stations/5104/",
-   "https": false
-  },
-  {
-   "id": 3244,
-   "name": "VK4JBE-TESTING",
-   "loc": "QG62mm · UHF",
-   "lat": -27.492,
-   "lng": 153.069,
-   "alt": 29,
-   "url": "https://network.satnogs.org/stations/3244/",
-   "https": false
-  },
-  {
-   "id": 1936,
-   "name": "VK4JBE-UHF",
-   "loc": "QG62mm · UHF",
-   "lat": -27.492,
-   "lng": 153.069,
-   "alt": 29,
-   "url": "https://network.satnogs.org/stations/1936/",
-   "https": false
-  },
-  {
-   "id": 1946,
-   "name": "VK4JBE-VHF",
-   "loc": "QG62mm · VHF",
-   "lat": -27.492,
-   "lng": 153.069,
-   "alt": 29,
-   "url": "https://network.satnogs.org/stations/1946/",
    "https": false
   },
   {
