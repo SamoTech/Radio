@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T15:05:50+00:00",
+ "updated": "2026-11-12T23:31:39+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 312,
  "stations": [
@@ -21,6 +21,26 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5065,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.843131,
+   "lng": 18.164306,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5065/",
    "https": false
   },
   {
@@ -584,16 +604,6 @@
    "https": false
   },
   {
-   "id": 5078,
-   "name": "dm43",
-   "loc": "DM43bl · UHF",
-   "lat": 33.4969,
-   "lng": -111.9054,
-   "alt": 400,
-   "url": "https://network.satnogs.org/stations/5078/",
-   "https": false
-  },
-  {
    "id": 365,
    "name": "DS-1 (VHF)",
    "loc": "JO22ff · VHF",
@@ -974,16 +984,6 @@
    "https": false
   },
   {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
-   "https": false
-  },
-  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1244,6 +1244,16 @@
    "https": false
   },
   {
+   "id": 2575,
+   "name": "KC3QNJ",
+   "loc": "FM18sh · VHF / UHF",
+   "lat": 38.308,
+   "lng": -76.474,
+   "alt": 14,
+   "url": "https://network.satnogs.org/stations/2575/",
+   "https": false
+  },
+  {
    "id": 1442,
    "name": "KC4LE 70cm Eggbeater",
    "loc": "EM63nh · UHF",
@@ -1265,8 +1275,8 @@
   },
   {
    "id": 3857,
-   "name": "KI5YNG CM4 RTL-SDR V4 80m Dipole",
-   "loc": "EM53qo · MF, HF, VHF, UHF, L",
+   "name": "KI5YNG CM4 WiMo UHF X-Quad",
+   "loc": "EM53qo · UHF",
    "lat": 33.6037,
    "lng": -88.6476,
    "alt": 68,
@@ -2554,6 +2564,16 @@
    "https": false
   },
   {
+   "id": 3161,
+   "name": "TA2NMU #3 (Turnstile)",
+   "loc": "KN91pa · UHF",
+   "lat": 41.0053,
+   "lng": 39.2978,
+   "alt": 490,
+   "url": "https://network.satnogs.org/stations/3161/",
+   "https": false
+  },
+  {
    "id": 1616,
    "name": "TA2NMU (QFH-South)",
    "loc": "KM69kw · UHF",
@@ -2574,13 +2594,13 @@
    "https": false
   },
   {
-   "id": 438,
-   "name": "Timisoara - VHF QHA",
-   "loc": "KN05or · VHF",
-   "lat": 45.7469,
-   "lng": 21.2125,
-   "alt": 80,
-   "url": "https://network.satnogs.org/stations/438/",
+   "id": 2212,
+   "name": "TI2EI",
+   "loc": "EJ89ax · VHF / UHF",
+   "lat": 9.958423,
+   "lng": -83.996847,
+   "alt": 1470,
+   "url": "https://network.satnogs.org/stations/2212/",
    "https": false
   },
   {
@@ -2651,16 +2671,6 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
-   "https": false
-  },
-  {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
@@ -2871,16 +2881,6 @@
    "lng": 18.16,
    "alt": 270,
    "url": "https://network.satnogs.org/stations/5289/",
-   "https": false
-  },
-  {
-   "id": 5321,
-   "name": "VU2AQJ_UHF",
-   "loc": "NL05uk · UHF",
-   "lat": 25.451842,
-   "lng": 81.736256,
-   "alt": 98,
-   "url": "https://network.satnogs.org/stations/5321/",
    "https": false
   },
   {
