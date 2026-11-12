@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-11T14:05:54+00:00",
+ "updated": "2026-11-12T00:32:53+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 307,
+ "count": 309,
  "stations": [
   {
    "id": 3944,
@@ -24,6 +24,16 @@
    "https": false
   },
   {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -31,16 +41,6 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -91,16 +91,6 @@
    "lng": -5.665,
    "alt": 4,
    "url": "https://network.satnogs.org/stations/2470/",
-   "https": false
-  },
-  {
-   "id": 3480,
-   "name": "AAAE-V",
-   "loc": "IN73em · VHF",
-   "lat": 43.52,
-   "lng": -5.66,
-   "alt": 4,
-   "url": "https://network.satnogs.org/stations/3480/",
    "https": false
   },
   {
@@ -391,6 +381,16 @@
    "lng": 127.333,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/4643/",
+   "https": false
+  },
+  {
+   "id": 1729,
+   "name": "CSPDHQ",
+   "loc": "JN95vf · VHF / UHF",
+   "lat": 45.239,
+   "lng": 19.809,
+   "alt": 85,
+   "url": "https://network.satnogs.org/stations/1729/",
    "https": false
   },
   {
@@ -724,6 +724,16 @@
    "https": false
   },
   {
+   "id": 342,
+   "name": "EA5WA Pobla Llarga",
+   "loc": "IM99sc · UHF",
+   "lat": 39.104,
+   "lng": -0.458,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/342/",
+   "https": false
+  },
+  {
    "id": 3744,
    "name": "EagleSat",
    "loc": "DM34so · UHF",
@@ -971,16 +981,6 @@
    "lng": 19.16926930632765,
    "alt": 250,
    "url": "https://network.satnogs.org/stations/2246/",
-   "https": false
-  },
-  {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1334,16 +1334,6 @@
    "https": false
   },
   {
-   "id": 3657,
-   "name": "LA4TSA-400MHz",
-   "loc": "JO59jw · UHF",
-   "lat": 59.957,
-   "lng": 10.762,
-   "alt": 160,
-   "url": "https://network.satnogs.org/stations/3657/",
-   "https": false
-  },
-  {
    "id": 2520,
    "name": "LB-HN",
    "loc": "OL21wb · L",
@@ -1571,16 +1561,6 @@
    "lng": 20.739,
    "alt": 13,
    "url": "https://network.satnogs.org/stations/4791/",
-   "https": false
-  },
-  {
-   "id": 5299,
-   "name": "mpippins",
-   "loc": "DN06jg · VHF / UHF",
-   "lat": 46.2708,
-   "lng": -119.2083,
-   "alt": 120,
-   "url": "https://network.satnogs.org/stations/5299/",
    "https": false
   },
   {
@@ -2434,6 +2414,16 @@
    "https": false
   },
   {
+   "id": 3794,
+   "name": "SPUTNIX-VHF/UHF-Murmansk",
+   "loc": "KP68mw · VHF / UHF",
+   "lat": 68.955,
+   "lng": 33.062,
+   "alt": 203,
+   "url": "https://network.satnogs.org/stations/3794/",
+   "https": false
+  },
+  {
    "id": 4309,
    "name": "SQ7RAD",
    "loc": "KO01nb · UHF / VHF",
@@ -2791,6 +2781,36 @@
    "lng": 152.91687,
    "alt": 90,
    "url": "https://network.satnogs.org/stations/5104/",
+   "https": false
+  },
+  {
+   "id": 3244,
+   "name": "VK4JBE-TESTING",
+   "loc": "QG62mm · UHF",
+   "lat": -27.492,
+   "lng": 153.069,
+   "alt": 29,
+   "url": "https://network.satnogs.org/stations/3244/",
+   "https": false
+  },
+  {
+   "id": 1936,
+   "name": "VK4JBE-UHF",
+   "loc": "QG62mm · UHF",
+   "lat": -27.492,
+   "lng": 153.069,
+   "alt": 29,
+   "url": "https://network.satnogs.org/stations/1936/",
+   "https": false
+  },
+  {
+   "id": 1946,
+   "name": "VK4JBE-VHF",
+   "loc": "QG62mm · VHF",
+   "lat": -27.492,
+   "lng": 153.069,
+   "alt": 29,
+   "url": "https://network.satnogs.org/stations/1946/",
    "https": false
   },
   {
