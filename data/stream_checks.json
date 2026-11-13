@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-12T09:50:29+00:00",
+ "updated": "2026-11-13T09:30:29+00:00",
  "checked": 1185,
- "alive": 1072,
+ "alive": 1073,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -215,7 +215,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
@@ -1175,8 +1175,8 @@
    "strategy": "bot"
   },
   "https://ice41.securenetsystems.net/KJJZ": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://das-edge14-live365-dal02.cdnstream.com/a57014?dist=theonestopradio": {
@@ -1439,7 +1439,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
@@ -2795,7 +2795,7 @@
   "https://mix1043fm.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://radio-mueritz.stream.laut.fm/radio-mueritz?t302=2026-06-10_07-58-42&uuid=0f320288-ce14-4620-ab0b-973276df2a11": {
    "alive": true,
@@ -3300,17 +3300,17 @@
   "https://kissbinghamton.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://925theranch.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://retro1025.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://streamdb4web.securenetsystems.net/v5/KWFB": {
    "alive": true,
@@ -3360,7 +3360,7 @@
   },
   "https://player.srvstm.com/proxy/6210stream.nsv": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://stream.vagalume.fm/hls/1524081924608496/aac.m3u8": {
@@ -3906,10 +3906,9 @@
    "strategy": "bot"
   },
   "https://radio.sonicpanel.ro/8052/stream": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "browser"
   },
   "https://22903.live.streamtheworld.com/YES933_PREM.aac": {
    "alive": true,
@@ -4038,9 +4037,10 @@
    "strategy": "bot"
   },
   "https://s12.myradiostream.com:5608/listen.mp3": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://kreuzbergswiss.spcast.eu/stream?time=1781078406": {
    "alive": true,
@@ -4104,9 +4104,10 @@
    "strategy": "bot"
   },
   "https://free.rcast.net/67921": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 500,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://sonicpanel.zonaradio.net/8050/stream": {
    "alive": true,
@@ -4157,7 +4158,7 @@
   "https://stream.rcs.revma.com/etq1un32w42vv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://powerradio181.stream.laut.fm/powerradio181?t302=2026-06-10_08-00-11&uuid=7ef6e765-2647-4466-bbff-c31d572c8953": {
    "alive": true,
@@ -4167,7 +4168,7 @@
   "https://stream.rcs.revma.com/cptzsdc9grruv": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://contact2.ice.infomaniak.ch/contact2-192.mp3": {
    "alive": true,
@@ -4558,9 +4559,8 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "code": 404,
+   "strategy": "bot"
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -4698,10 +4698,9 @@
    "strategy": "bot"
   },
   "https://sonic01.zglobalhost.com/8034/stream": {
-   "alive": false,
-   "code": 503,
-   "strategy": "curl_cffi",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://streamcdng2-4c4b867c89244861ac216426883d1ad0.msvdn.net/webradio/deejaytime/playlist.m3u8": {
    "alive": true,
@@ -5320,7 +5319,7 @@
   },
   "https://sp.dattavolt.com/8100/stream": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://fhhalle.streamabc.net/fhhal-rbaltm-mp3-128-3092805": {
@@ -5924,7 +5923,7 @@
   },
   "https://streaming.hotmixradio.com/hotmix-2010-en-mp3?": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://audiotainment-sw.streamabc.net/atsw-2010er-mp3-128-5629422?sABC=6n272r93%230%23pssns1378n69n37q99qo17p9n86qqp7q%23enqvbfcvaare&aw_0_1st.playerid=radiospinner&amsparams=playerid:radiospinner;skey:1780952723": {
@@ -5969,7 +5968,7 @@
   },
   "https://pureplay.cdnstream1.com/6038_64.aac/playlist.m3u8": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://sonic.streamingchilenos.com:8138/stream": {
