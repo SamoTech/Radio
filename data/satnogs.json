@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-13T06:29:08+00:00",
+ "updated": "2026-11-13T19:35:07+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 311,
+ "count": 316,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,26 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5065,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.843131,
+   "lng": 18.164306,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5065/",
    "https": false
   },
   {
@@ -584,6 +604,16 @@
    "https": false
   },
   {
+   "id": 5078,
+   "name": "dm43",
+   "loc": "DM43bl · UHF",
+   "lat": 33.4969,
+   "lng": -111.9054,
+   "alt": 400,
+   "url": "https://network.satnogs.org/stations/5078/",
+   "https": false
+  },
+  {
    "id": 365,
    "name": "DS-1 (VHF)",
    "loc": "JO22ff · VHF",
@@ -964,6 +994,16 @@
    "https": false
   },
   {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
+   "https": false
+  },
+  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1011,16 +1051,6 @@
    "lng": 12.22,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/4372/",
-   "https": false
-  },
-  {
-   "id": 4814,
-   "name": "itera-GS3b",
-   "loc": "OI24pp · UHF",
-   "lat": -5.362225,
-   "lng": 105.310811,
-   "alt": 120,
-   "url": "https://network.satnogs.org/stations/4814/",
    "https": false
   },
   {
@@ -1364,6 +1394,16 @@
    "https": false
   },
   {
+   "id": 5286,
+   "name": "LSA",
+   "loc": "KM17cu · UHF",
+   "lat": 37.861224,
+   "lng": 22.21453,
+   "alt": 755,
+   "url": "https://network.satnogs.org/stations/5286/",
+   "https": false
+  },
+  {
    "id": 3021,
    "name": "LSTN Station at Gates County Public Library",
    "loc": "FM16oj · UHF",
@@ -1511,6 +1551,16 @@
    "lng": 20.797475,
    "alt": 165,
    "url": "https://network.satnogs.org/stations/1585/",
+   "https": false
+  },
+  {
+   "id": 2439,
+   "name": "Martin VK6MJ UHF",
+   "loc": "OF77ul · UHF",
+   "lat": -32.528,
+   "lng": 115.747,
+   "alt": 8,
+   "url": "https://network.satnogs.org/stations/2439/",
    "https": false
   },
   {
@@ -2224,6 +2274,16 @@
    "https": false
   },
   {
+   "id": 4842,
+   "name": "SENA Metalmechanic Center Ground Station",
+   "loc": "FJ24wo · VHF / UHF",
+   "lat": 4.596,
+   "lng": -74.111,
+   "alt": 2600,
+   "url": "https://network.satnogs.org/stations/4842/",
+   "https": false
+  },
+  {
    "id": 5215,
    "name": "SGP",
    "loc": "MK80oo · VHF / UHF",
@@ -2241,16 +2301,6 @@
    "lng": -2.1,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/1347/",
-   "https": false
-  },
-  {
-   "id": 5176,
-   "name": "SK6AB",
-   "loc": "JO57xq · VHF / UHF",
-   "lat": 57.687989,
-   "lng": 11.978214,
-   "alt": 130,
-   "url": "https://network.satnogs.org/stations/5176/",
    "https": false
   },
   {
@@ -2291,16 +2341,6 @@
    "lng": 17.89,
    "alt": 32,
    "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
-   "id": 858,
-   "name": "SM0TGU - VHF UHF",
-   "loc": "JO89wk · UHF / VHF",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/858/",
    "https": false
   },
   {
@@ -2651,6 +2691,16 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
+   "https": false
+  },
+  {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
