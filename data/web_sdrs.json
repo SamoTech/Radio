@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T23:31:39+00:00",
+ "updated": "2026-11-13T06:29:08+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -85,14 +85,6 @@
    "https": false,
    "lat": -33.7273,
    "lon": -61.9545
-  },
-  {
-   "name": "Tres Arroyos receptor sdr",
-   "url": "http://lu3dj.ddns.net:8080/",
-   "loc": "",
-   "https": false,
-   "lat": -38.3523,
-   "lon": -60.2878
   },
   {
    "name": "AMSAT-UK VHF Goonhilly WebSDR",
@@ -255,6 +247,14 @@
    "lon": 2.12882
   },
   {
+   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
+   "url": "http://el22.dyndns-blog.com:8080/",
+   "loc": "",
+   "https": false,
+   "lat": -34.1023,
+   "lon": -61.6212
+  },
+  {
    "name": "WebSDR Maasbree Netherlands (Low): rural low noise level, 160m/80m/60m/40m/30m/20m/17m/15m band, CW segments included",
    "url": "http://sdr.websdrmaasbree.nl:8901/",
    "loc": "",
@@ -287,7 +287,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -431,7 +431,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -543,7 +543,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -597,6 +597,14 @@
    "https": false,
    "lat": 51.6061,
    "lon": 10.4622
+  },
+  {
+   "name": "LU8FCJ Raspberry PI SDR receiver - Villa Cañás zona rural",
+   "url": "http://el22.dyndns-blog.com:8081/",
+   "loc": "",
+   "https": false,
+   "lat": -34.1023,
+   "lon": -61.3712
   },
   {
    "name": "Red Pitaya SDR",
@@ -975,6 +983,14 @@
    "https": false,
    "lat": 47.4679492358632,
    "lon": 2.45481895985258
+  },
+  {
+   "name": "144-146 430-434 435-438 MHz SDR RTL-SDR.COM V4 | IW2KPL Franco | VHF | 2m | UHF | 70cm | SHF | 23 cm Antenna : Diamond D",
+   "url": "http://www.dxcluster.world:8074/",
+   "loc": "",
+   "https": false,
+   "lat": 45.692702,
+   "lon": 9.65655
   },
   {
    "name": "SQ9NKX",
@@ -2001,6 +2017,14 @@
    "lon": 1.94055179866496
   },
   {
+   "name": "TA2OM MW, LW, HF, VHF, UHF FM Broadcasting",
+   "url": "http://ta2om.ddnsfree.com:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 39.8587638043265,
+   "lon": 32.8120625270011
+  },
+  {
    "name": "EA3HUB SDR HOSPITALET DE L´INFANT TARRAGONA GROUP RADIO CLUB EA3SPAIN",
    "url": "http://ea3hub.sytes.net:8073/",
    "loc": "",
@@ -2761,6 +2785,14 @@
    "lon": 2.584360575239688
   },
   {
+   "name": "EHFW 1:49 20 M. Feed IU3UXK",
+   "url": "http://www.pietromezza.com:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 45.5118174740562,
+   "lon": 12.3036804522063
+  },
+  {
    "name": "LU3ARN",
    "url": "https://sdr.nico.ninja:8443/",
    "loc": "",
@@ -2783,6 +2815,14 @@
    "https": false,
    "lat": 54.3491784239476,
    "lon": 18.705335384432143
+  },
+  {
+   "name": "SP2EGA",
+   "url": "http://usprawnienia.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 54.4397886524047,
+   "lon": 18.5466649707314
   },
   {
    "name": "KG9PN",
@@ -2943,14 +2983,6 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
-  },
-  {
-   "name": "2E0DGP WEBSDR",
-   "url": "http://sdr.ladar.club:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.65548338507698,
-   "lon": -2.631403032915911
   },
   {
    "name": "M0LHI",
@@ -3295,14 +3327,6 @@
    "https": false,
    "lat": 46.9,
    "lon": 7.24
-  },
-  {
-   "name": "EA1IOS (10-11-15-20-40m-VHF-UHF) OPERATIVO 9:00am-1:00am",
-   "url": "http://ea1ios.serveftp.com/",
-   "loc": "",
-   "https": false,
-   "lat": 43.53716641562759,
-   "lon": -5.648042322826474
   },
   {
    "name": "RCC01 HF/VHF/UHF Danville, CA",
@@ -3697,6 +3721,14 @@
    "lon": 106.7999462087614
   },
   {
+   "name": "Los Gallinas",
+   "url": "http://losgallinas.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 17.96778314089192,
+   "lon": -66.93224034342178
+  },
+  {
    "name": "Vietanh's Full Band SDR",
    "url": "https://sdr.maytinhvietanh.id.vn/",
    "loc": "",
@@ -3761,14 +3793,6 @@
    "lon": 132.34933686085543
   },
   {
-   "name": "M0BAH - 1KHz-2000 MHz SDRPlay RSP-dx ~ 80 Metre EFHW ~ Diamond XL510 ~ RTL Active 1525-1660MHz L Band antenna",
-   "url": "http://m0bah.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.904792306230604,
-   "lon": -0.40677733466919497
-  },
-  {
    "name": "[R2BQA]",
    "url": "http://pi.singularity.ru:8073/",
    "loc": "",
@@ -3823,14 +3847,6 @@
    "https": false,
    "lat": 13.187450954914356,
    "lon": 77.62242600504916
-  },
-  {
-   "name": "Wellsburg, WV - MW,HF,VHF/UHF",
-   "url": "https://laurelnhardy.ddns.net:8073/",
-   "loc": "",
-   "https": true,
-   "lat": 40.27759435984271,
-   "lon": -80.54064859181572
   },
   {
    "name": "Imperial Valley OWRX+",
@@ -3911,14 +3927,6 @@
    "https": true,
    "lat": -25.457244078267728,
    "lon": -49.07712530682808
-  },
-  {
-   "name": "VU3ZNG",
-   "url": "https://rx.siritech.net/",
-   "loc": "",
-   "https": true,
-   "lat": 12.2438083,
-   "lon": 75.4374209
   },
   {
    "name": "Farmington",
