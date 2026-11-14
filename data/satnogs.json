@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T13:25:18+00:00",
+ "updated": "2026-11-14T22:16:40+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 310,
  "stations": [
@@ -21,16 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -154,6 +144,16 @@
    "https": false
   },
   {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
+   "https": false
+  },
+  {
    "id": 4084,
    "name": "Astronomiemuseum Turnstile VHF (Test UHF)",
    "loc": "JO50oj · VHF / UHF",
@@ -264,6 +264,16 @@
    "https": false
   },
   {
+   "id": 4856,
+   "name": "biGS",
+   "loc": "PM95rn · VHF / UHF",
+   "lat": 35.57,
+   "lng": 139.433,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/4856/",
+   "https": false
+  },
+  {
    "id": 355,
    "name": "Black Mensa Ground Station",
    "loc": "JN58ug · VHF",
@@ -361,6 +371,16 @@
    "lng": 127.333,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/4643/",
+   "https": false
+  },
+  {
+   "id": 1729,
+   "name": "CSPDHQ",
+   "loc": "JN95vf · VHF / UHF",
+   "lat": 45.239,
+   "lng": 19.809,
+   "alt": 85,
+   "url": "https://network.satnogs.org/stations/1729/",
    "https": false
   },
   {
@@ -591,6 +611,16 @@
    "lng": 4.4174,
    "alt": 20,
    "url": "https://network.satnogs.org/stations/897/",
+   "https": false
+  },
+  {
+   "id": 4837,
+   "name": "DSES WT0DX",
+   "loc": "DM79pn · UHF",
+   "lat": 39.563,
+   "lng": -104.735,
+   "alt": 1875,
+   "url": "https://network.satnogs.org/stations/4837/",
    "https": false
   },
   {
@@ -961,16 +991,6 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
-   "https": false
-  },
-  {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1854,16 +1874,6 @@
    "https": false
   },
   {
-   "id": 5063,
-   "name": "OK2TMQ",
-   "loc": "JN89ea · UHF",
-   "lat": 49.0191,
-   "lng": 16.3858,
-   "alt": 245,
-   "url": "https://network.satnogs.org/stations/5063/",
-   "https": false
-  },
-  {
    "id": 2865,
    "name": "OK9UWU",
    "loc": "JN99be · UHF",
@@ -1961,16 +1971,6 @@
    "lng": 5.029968,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/2173/",
-   "https": false
-  },
-  {
-   "id": 1696,
-   "name": "PE0SAT-31",
-   "loc": "JO21mr · UHF",
-   "lat": 51.721268,
-   "lng": 5.029,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/1696/",
    "https": false
   },
   {
@@ -2294,16 +2294,6 @@
    "https": false
   },
   {
-   "id": 2830,
-   "name": "SM0TGU - L and S-Band",
-   "loc": "JO89wk · L / S",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
    "id": 858,
    "name": "SM0TGU - VHF UHF",
    "loc": "JO89wk · UHF / VHF",
@@ -2414,16 +2404,6 @@
    "https": false
   },
   {
-   "id": 3794,
-   "name": "SPUTNIX-VHF/UHF-Murmansk",
-   "loc": "KP68mw · VHF / UHF",
-   "lat": 68.955,
-   "lng": 33.062,
-   "alt": 203,
-   "url": "https://network.satnogs.org/stations/3794/",
-   "https": false
-  },
-  {
    "id": 4309,
    "name": "SQ7RAD",
    "loc": "KO01nb · UHF / VHF",
@@ -2524,6 +2504,16 @@
    "https": false
   },
   {
+   "id": 4242,
+   "name": "TA2NJH Ground Station",
+   "loc": "KM69kw · UHF / L",
+   "lat": 39.958,
+   "lng": 32.8362,
+   "alt": 851,
+   "url": "https://network.satnogs.org/stations/4242/",
+   "https": false
+  },
+  {
    "id": 3161,
    "name": "TA2NMU #3 (Turnstile)",
    "loc": "KN91pa · UHF",
@@ -2591,6 +2581,26 @@
    "lng": -8.6595,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/4518/",
+   "https": false
+  },
+  {
+   "id": 579,
+   "name": "Um Alaish 4",
+   "loc": "LL49bc · UHF",
+   "lat": 29.1042,
+   "lng": 48.125,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/579/",
+   "https": false
+  },
+  {
+   "id": 2549,
+   "name": "Um Alaish 4b",
+   "loc": "LL49bc · UHF",
+   "lat": 29.11,
+   "lng": 48.124,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/2549/",
    "https": false
   },
   {
@@ -2741,16 +2751,6 @@
    "lng": 105.31395,
    "alt": 120,
    "url": "https://network.satnogs.org/stations/5017/",
-   "https": false
-  },
-  {
-   "id": 4957,
-   "name": "Veve-UHF",
-   "loc": "JN79sd · UHF",
-   "lat": 49.138054,
-   "lng": 15.560547,
-   "alt": 560,
-   "url": "https://network.satnogs.org/stations/4957/",
    "https": false
   },
   {
