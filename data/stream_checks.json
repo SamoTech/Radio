@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-13T09:30:29+00:00",
+ "updated": "2026-11-14T08:57:57+00:00",
  "checked": 1185,
- "alive": 1073,
+ "alive": 1075,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -345,7 +345,7 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://stream-40.zeno.fm/xa4yhh4k838uv": {
    "alive": true,
@@ -999,7 +999,7 @@
   },
   "https://s4.radio.co/s6fc4c7d4b/listen": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://s4.radio.co/sefb41c1b0/listen": {
@@ -3333,10 +3333,9 @@
    "strategy": "bot"
   },
   "https://icecast-vgtrk.cdnvideo.ru/mayakfm_aac_64kbps": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://fhhalle.streamabc.net/fhhal-rblive-mp3-128-7094006?sABC=6n291952%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23fcn&aw_0_1st.playerid=spa&amsparams=playerid:spa;skey:1781078354": {
    "alive": true,
@@ -3756,7 +3755,7 @@
   },
   "https://audio5.tustreaming.cl/8030/stream": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://securestreams.autopo.st:1174/stream": {
@@ -3771,7 +3770,7 @@
   },
   "https://streaming01.shockmedia.com.ar:10453/stream": {
    "alive": true,
-   "code": 200,
+   "code": 401,
    "strategy": "bot"
   },
   "https://live-bauerdk.sharp-stream.com/popfm-premium_96.aac": {
@@ -3908,7 +3907,7 @@
   "https://radio.sonicpanel.ro/8052/stream": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://22903.live.streamtheworld.com/YES933_PREM.aac": {
    "alive": true,
@@ -4037,10 +4036,9 @@
    "strategy": "bot"
   },
   "https://s12.myradiostream.com:5608/listen.mp3": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://kreuzbergswiss.spcast.eu/stream?time=1781078406": {
    "alive": true,
@@ -4158,7 +4156,7 @@
   "https://stream.rcs.revma.com/etq1un32w42vv": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://powerradio181.stream.laut.fm/powerradio181?t302=2026-06-10_08-00-11&uuid=7ef6e765-2647-4466-bbff-c31d572c8953": {
    "alive": true,
@@ -4177,7 +4175,7 @@
   },
   "https://impactfm-annees2000.ice.infomaniak.ch/impactfm-annees2000-64.aac": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://live.radiooradea.ro:9000/stream": {
@@ -4559,8 +4557,9 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404,
-   "strategy": "bot"
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -4966,9 +4965,10 @@
    "strategy": "bot"
   },
   "https://c01.lexycast.de:2840/listen1": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://icy.unitedradio.it/1052kandMore.mp3": {
    "alive": true,
@@ -5107,10 +5107,9 @@
    "strategy": "bot"
   },
   "https://summerhitslive.radionoise.ro:9050/": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://regiocast.streamabc.net/regc-antennemvschlager9872688-mp3-192-7563524?sABC=6n2919no%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078443": {
    "alive": true,
@@ -5364,7 +5363,7 @@
   },
   "https://radioscoopannees2000.ice.infomaniak.ch/radioscoop-annees2000-64.aac": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://generations-2000.ice.infomaniak.ch/generations-2000.aac": {
@@ -5580,7 +5579,7 @@
   },
   "https://scoopannees2010.ice.infomaniak.ch/radioscoop-annees2010-64.aac": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://regiocast.streamabc.net/regc-rshdeutsch9884746-mp3-128-1628067?sABC=6n272r62%230%23pssns1378n69n37q99qo17p9n86qqp7q%23bayvarenqvbobk&aw_0_1st.playerid=onlineradiobox&amsparams=playerid:onlineradiobox;skey:1780952674": {
@@ -5968,7 +5967,7 @@
   },
   "https://pureplay.cdnstream1.com/6038_64.aac/playlist.m3u8": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://sonic.streamingchilenos.com:8138/stream": {

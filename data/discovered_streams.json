@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T09:30:29+00:00",
+ "updated": "2026-11-14T08:57:57+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 7,
  "sites": [
@@ -11,7 +11,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "googlebot",
+   "fetch_strategy": "browser",
    "fetch_error": "",
    "streams": []
   },
@@ -23,7 +23,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "mobile",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -35,7 +35,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "mobile",
+   "fetch_strategy": "googlebot",
    "fetch_error": "",
    "streams": []
   },
@@ -71,7 +71,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "browser",
    "fetch_error": "",
    "streams": []
   },
@@ -83,7 +83,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "mobile",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -95,7 +95,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "googlebot",
+   "fetch_strategy": "bot",
    "fetch_error": "",
    "streams": []
   },
@@ -107,7 +107,7 @@
    "tags": "رسمي,official,scraper",
    "official": true,
    "catalog": true,
-   "fetch_strategy": "browser",
+   "fetch_strategy": "googlebot",
    "fetch_error": "",
    "streams": []
   },
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/13/europaeische_sicherheitsarchitektur_interview_mit_riho_dlf_20261113_0650_2a7f3510.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/13/europaeische_sicherheitsarchitektur_interview_mit_riho_dlf_20261113_0650_2a7f3510.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/14/us_vizepraesidenten_sprungbrett_in_die_bedeutungslosigkeit_dlf_20261114_0500_62cfd815.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/14/us_vizepraesidenten_sprungbrett_in_die_bedeutungslosigkeit_dlf_20261114_0500_62cfd815.mp3"
    ]
   },
   {
