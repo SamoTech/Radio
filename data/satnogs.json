@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-14T06:08:40+00:00",
+ "updated": "2026-11-14T13:25:18+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 312,
+ "count": 310,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -254,16 +264,6 @@
    "https": false
   },
   {
-   "id": 4856,
-   "name": "biGS",
-   "loc": "PM95rn · VHF / UHF",
-   "lat": 35.57,
-   "lng": 139.433,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/4856/",
-   "https": false
-  },
-  {
    "id": 355,
    "name": "Black Mensa Ground Station",
    "loc": "JN58ug · VHF",
@@ -341,6 +341,16 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
+   "https": false
+  },
+  {
+   "id": 5112,
+   "name": "CIA_S4",
+   "loc": "PL04ox · UHF",
+   "lat": 24.971562604021216,
+   "lng": 121.19205965975814,
+   "alt": 190,
+   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -541,16 +551,6 @@
    "lng": 6.216,
    "alt": 277,
    "url": "https://network.satnogs.org/stations/37/",
-   "https": false
-  },
-  {
-   "id": 4768,
-   "name": "DL7NDR VHF+UHF",
-   "loc": "JN48ap · VHF / UHF",
-   "lat": 48.65,
-   "lng": 8.04,
-   "alt": 144,
-   "url": "https://network.satnogs.org/stations/4768/",
    "https": false
   },
   {
@@ -961,6 +961,16 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1834,16 +1844,6 @@
    "https": false
   },
   {
-   "id": 2694,
-   "name": "OE6ISP_High_Gain_LimeSDR",
-   "loc": "JN77pa · UHF",
-   "lat": 47.02,
-   "lng": 15.263,
-   "alt": 410,
-   "url": "https://network.satnogs.org/stations/2694/",
-   "https": false
-  },
-  {
    "id": 4545,
    "name": "OE9BKJ",
    "loc": "JN47ul · UHF / VHF",
@@ -2031,16 +2031,6 @@
    "lng": -114.099444,
    "alt": 1055,
    "url": "https://network.satnogs.org/stations/4910/",
-   "https": false
-  },
-  {
-   "id": 5171,
-   "name": "Pelt-UHF-Testing",
-   "loc": "DO21wb · UHF",
-   "lat": 51.0425,
-   "lng": -114.099544,
-   "alt": 1056,
-   "url": "https://network.satnogs.org/stations/5171/",
    "https": false
   },
   {
@@ -2534,6 +2524,16 @@
    "https": false
   },
   {
+   "id": 3161,
+   "name": "TA2NMU #3 (Turnstile)",
+   "loc": "KN91pa · UHF",
+   "lat": 41.0053,
+   "lng": 39.2978,
+   "alt": 490,
+   "url": "https://network.satnogs.org/stations/3161/",
+   "https": false
+  },
+  {
    "id": 1616,
    "name": "TA2NMU (QFH-South)",
    "loc": "KM69kw · UHF",
@@ -2591,26 +2591,6 @@
    "lng": -8.6595,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/4518/",
-   "https": false
-  },
-  {
-   "id": 579,
-   "name": "Um Alaish 4",
-   "loc": "LL49bc · UHF",
-   "lat": 29.1042,
-   "lng": 48.125,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/579/",
-   "https": false
-  },
-  {
-   "id": 2549,
-   "name": "Um Alaish 4b",
-   "loc": "LL49bc · UHF",
-   "lat": 29.11,
-   "lng": 48.124,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/2549/",
    "https": false
   },
   {
