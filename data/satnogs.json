@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-14T22:16:40+00:00",
+ "updated": "2026-11-15T06:15:17+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 310,
+ "count": 313,
  "stations": [
   {
    "id": 3944,
@@ -774,16 +774,6 @@
    "https": false
   },
   {
-   "id": 3704,
-   "name": "ESOC Radio Club 2",
-   "loc": "JN49hu · UHF",
-   "lat": 49.872,
-   "lng": 8.622,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/3704/",
-   "https": false
-  },
-  {
    "id": 4136,
    "name": "estima5633",
    "loc": "PM85ma · UHF",
@@ -1071,6 +1061,16 @@
    "lng": 12.243,
    "alt": 15,
    "url": "https://network.satnogs.org/stations/939/",
+   "https": false
+  },
+  {
+   "id": 5150,
+   "name": "IU4VXO",
+   "loc": "JN64af · UHF",
+   "lat": 44.2355,
+   "lng": 12.0366,
+   "alt": 35,
+   "url": "https://network.satnogs.org/stations/5150/",
    "https": false
   },
   {
@@ -1874,6 +1874,16 @@
    "https": false
   },
   {
+   "id": 5063,
+   "name": "OK2TMQ",
+   "loc": "JN89ea · UHF",
+   "lat": 49.0191,
+   "lng": 16.3858,
+   "alt": 245,
+   "url": "https://network.satnogs.org/stations/5063/",
+   "https": false
+  },
+  {
    "id": 2865,
    "name": "OK9UWU",
    "loc": "JN99be · UHF",
@@ -2031,6 +2041,16 @@
    "lng": -114.099444,
    "alt": 1055,
    "url": "https://network.satnogs.org/stations/4910/",
+   "https": false
+  },
+  {
+   "id": 5171,
+   "name": "Pelt-UHF-Testing",
+   "loc": "DO21wb · UHF",
+   "lat": 51.0425,
+   "lng": -114.099544,
+   "alt": 1056,
+   "url": "https://network.satnogs.org/stations/5171/",
    "https": false
   },
   {
@@ -2554,16 +2574,6 @@
    "https": false
   },
   {
-   "id": 438,
-   "name": "Timisoara - VHF QHA",
-   "loc": "KN05or · VHF",
-   "lat": 45.7469,
-   "lng": 21.2125,
-   "alt": 80,
-   "url": "https://network.satnogs.org/stations/438/",
-   "https": false
-  },
-  {
    "id": 5271,
    "name": "TJ's Ground Station",
    "loc": "FM18hx · VHF",
@@ -2614,6 +2624,16 @@
    "https": false
   },
   {
+   "id": 2550,
+   "name": "USU GAS Yagi Az+El",
+   "loc": "DN41cr · UHF",
+   "lat": 41.743,
+   "lng": -111.807,
+   "alt": 1382,
+   "url": "https://network.satnogs.org/stations/2550/",
+   "https": false
+  },
+  {
    "id": 5092,
    "name": "USU GAS Yagi Fixed SW",
    "loc": "DN41cr · UHF",
@@ -2641,6 +2661,16 @@
    "lng": 29.914,
    "alt": 145,
    "url": "https://network.satnogs.org/stations/3925/",
+   "https": false
+  },
+  {
+   "id": 3166,
+   "name": "UVSD-SatNOGS",
+   "loc": "CN88il · UHF / VHF",
+   "lat": 48.4612,
+   "lng": -123.31053,
+   "alt": 75,
+   "url": "https://network.satnogs.org/stations/3166/",
    "https": false
   },
   {
@@ -2751,6 +2781,16 @@
    "lng": 105.31395,
    "alt": 120,
    "url": "https://network.satnogs.org/stations/5017/",
+   "https": false
+  },
+  {
+   "id": 4957,
+   "name": "Veve-UHF",
+   "loc": "JN79sd · UHF",
+   "lat": 49.138054,
+   "lng": 15.560547,
+   "alt": 560,
+   "url": "https://network.satnogs.org/stations/4957/",
    "https": false
   },
   {
@@ -2881,16 +2921,6 @@
    "lng": 77.576969,
    "alt": 919,
    "url": "https://network.satnogs.org/stations/4254/",
-   "https": false
-  },
-  {
-   "id": 4821,
-   "name": "VU3IPU - Varun (Weather Satellite)",
-   "loc": "MK82sx · VHF",
-   "lat": 12.9913,
-   "lng": 77.5774,
-   "alt": 919,
-   "url": "https://network.satnogs.org/stations/4821/",
    "https": false
   },
   {
