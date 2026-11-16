@@ -1,9 +1,23 @@
 {
- "updated": "2026-11-15T09:25:11+00:00",
+ "updated": "2026-11-16T09:42:22+00:00",
  "cumulative": {
-  "err-total": 45
+  "err-total": 48,
+  "err-abort": 1,
+  "err-network": 1,
+  "err-decode": 0,
+  "err-src": 37,
+  "err-hls": 0,
+  "err-token": 0,
+  "err-other": 8
  },
  "daily": {
-  "err-total": 0
+  "err-total": 3,
+  "err-abort": 1,
+  "err-network": 1,
+  "err-decode": 0,
+  "err-src": 37,
+  "err-hls": 0,
+  "err-token": 0,
+  "err-other": 8
  }
 }

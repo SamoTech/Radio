@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T09:25:11+00:00",
+ "updated": "2026-11-16T09:42:22+00:00",
  "checked": 1185,
  "alive": 1070,
  "results": {
@@ -257,7 +257,7 @@
   },
   "https://l3.itworkscdn.net/itwaudio/9032/stream": {
    "alive": true,
-   "code": 200,
+   "code": 401,
    "strategy": "bot"
   },
   "https://melodiab.com:8000/radio.mp3": {
@@ -345,7 +345,7 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://stream-40.zeno.fm/xa4yhh4k838uv": {
    "alive": true,
@@ -454,9 +454,10 @@
    "strategy": "bot"
   },
   "https://radio.yabiladi.com:8102/;stream.mp3": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://streaming2.toutech.net:8000/jawharafm": {
    "alive": false,
@@ -486,8 +487,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streams.radio.co/s0975ec186/listen": {
@@ -806,8 +807,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
@@ -897,11 +898,6 @@
    "strategy": "bot"
   },
   "https://www.dailymotion.com/video/x8n6ebs": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
-  },
-  "https://www.dailymotion.com/video/x8n6dqq": {
    "alive": true,
    "code": 200,
    "strategy": "bot"
@@ -1039,10 +1035,9 @@
    "maybe_alive": true
   },
   "https://asculta.muzicaok.de:8034/stream": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://s47.radiolize.com/radio/8240/radio.mp3": {
    "alive": true,
@@ -1061,7 +1056,7 @@
   },
   "https://dj91.hostingnuclear.com/8042/stream": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://audiotainment-sw.streamabc.net/atsw-2000erpop-mp3-128-5224126?sABC=6n291872%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23gjy65&aw_0_1st.playerid=twl65&amsparams=playerid:twl65;skey:1781078130": {
@@ -1666,7 +1661,7 @@
   },
   "https://streamingcwsradio30.com:7032/stream?n=673e6a5cf7dd26727d5c": {
    "alive": true,
-   "code": 200,
+   "code": 401,
    "strategy": "bot"
   },
   "https://easy108.net/listen.pls?n=75873170bad006fb37c0": {
@@ -1816,9 +1811,10 @@
    "strategy": "bot"
   },
   "https://www.radiosotenas.se/live.pls?n=a2ad60dee92067766034": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://vramacciv2-danidi01.radioca.st/stream?n=a0351eba51e69233d34b": {
    "alive": true,
@@ -1982,9 +1978,10 @@
    "strategy": "bot"
   },
   "https://www.youtube.com/watch?v=sQYMmIqih8I": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 429,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://www.spreaker.com/user/entrepreneur-wilderness--4981175": {
    "alive": true,
@@ -2297,9 +2294,10 @@
    "strategy": "bot"
   },
   "https://server13.srvsh.com.br:7056/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://yourtime-fm.stream.laut.fm/yourtime-fm?": {
    "alive": true,
@@ -3756,7 +3754,7 @@
   },
   "https://audio5.tustreaming.cl/8030/stream": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://securestreams.autopo.st:1174/stream": {
@@ -4034,7 +4032,7 @@
   "https://mettaswara.com:8700/theonest": {
    "alive": true,
    "code": 206,
-   "strategy": "curl_cffi"
+   "strategy": "bot"
   },
   "https://s12.myradiostream.com:5608/listen.mp3": {
    "alive": true,
@@ -4557,8 +4555,9 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404,
-   "strategy": "bot"
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -4989,10 +4988,9 @@
    "strategy": "bot"
   },
   "https://radio2.myhitmusic.de/Toms-Club00s.mp3": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://listen-nation.sharp-stream.com/nationparty.aac": {
    "alive": true,
@@ -5458,8 +5456,8 @@
   },
   "https://free.rcast.net/245226": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
+   "code": 500,
+   "strategy": "curl_cffi",
    "maybe_alive": true
   },
   "https://free.rcast.net/207746#EXTM3U": {
@@ -5987,6 +5985,11 @@
    "strategy": "bot"
   },
   "https://rnrw.stream12.radiohost.de/rnrw-deinradio03_mp3-192?addradio&sid=01a1&upd-meta&upd-scheme=https&_art=dD0xNzgwOTA0MDQ2JmQ9ODFiOTY3MzY2NmM0MWYyZTNmYzE": {
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
+  },
+  "https://dreisig.stream.laut.fm/dreisig": {
    "alive": true,
    "code": 200,
    "strategy": "bot"
