@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-16T21:56:06+00:00",
+ "updated": "2026-11-17T07:46:55+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 315,
+ "count": 316,
  "stations": [
   {
    "id": 3944,
@@ -351,16 +351,6 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
-   "https": false
-  },
-  {
-   "id": 5112,
-   "name": "CIA_S4",
-   "loc": "PL04ox · UHF",
-   "lat": 24.971562604021216,
-   "lng": 121.19205965975814,
-   "alt": 190,
-   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -1291,6 +1281,16 @@
    "lng": -86.888,
    "alt": 231,
    "url": "https://network.satnogs.org/stations/1442/",
+   "https": false
+  },
+  {
+   "id": 760,
+   "name": "KD5QZG - VHF/UHF",
+   "loc": "EM30xe · VHF, UHF",
+   "lat": 30.179,
+   "lng": -92.054,
+   "alt": 11,
+   "url": "https://network.satnogs.org/stations/760/",
    "https": false
   },
   {
@@ -2474,6 +2474,16 @@
    "https": false
   },
   {
+   "id": 3794,
+   "name": "SPUTNIX-VHF/UHF-Murmansk",
+   "loc": "KP68mw · VHF / UHF",
+   "lat": 68.955,
+   "lng": 33.062,
+   "alt": 203,
+   "url": "https://network.satnogs.org/stations/3794/",
+   "https": false
+  },
+  {
    "id": 4309,
    "name": "SQ7RAD",
    "loc": "KO01nb · UHF / VHF",
@@ -2614,6 +2624,16 @@
    "https": false
   },
   {
+   "id": 438,
+   "name": "Timisoara - VHF QHA",
+   "loc": "KN05or · VHF",
+   "lat": 45.7469,
+   "lng": 21.2125,
+   "alt": 80,
+   "url": "https://network.satnogs.org/stations/438/",
+   "https": false
+  },
+  {
    "id": 5271,
    "name": "TJ's Ground Station",
    "loc": "FM18hx · VHF",
@@ -2701,6 +2721,16 @@
    "lng": -123.31053,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3166/",
+   "https": false
+  },
+  {
+   "id": 2968,
+   "name": "UX5UL",
+   "loc": "KO50ei · UHF",
+   "lat": 50.359,
+   "lng": 30.388,
+   "alt": 200,
+   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
@@ -2801,16 +2831,6 @@
    "lng": 105.31395,
    "alt": 120,
    "url": "https://network.satnogs.org/stations/5017/",
-   "https": false
-  },
-  {
-   "id": 4957,
-   "name": "Veve-UHF",
-   "loc": "JN79sd · UHF",
-   "lat": 49.138054,
-   "lng": 15.560547,
-   "alt": 560,
-   "url": "https://network.satnogs.org/stations/4957/",
    "https": false
   },
   {
@@ -2931,16 +2951,6 @@
    "lng": 77.5417,
    "alt": 900,
    "url": "https://network.satnogs.org/stations/2987/",
-   "https": false
-  },
-  {
-   "id": 4254,
-   "name": "VU3IPU - Varun",
-   "loc": "MK82sx · VHF / UHF",
-   "lat": 12.991308,
-   "lng": 77.576969,
-   "alt": 919,
-   "url": "https://network.satnogs.org/stations/4254/",
    "https": false
   },
   {
