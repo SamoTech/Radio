@@ -1,231 +1,225 @@
 {
- "updated": "2026-11-17T07:46:55+00:00",
+ "updated": "2026-11-17T20:48:17+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
-   "band": 7,
-   "c": 246615,
-   "avg_km": 2142,
-   "max_km": 19931
-  },
-  {
    "band": 14,
-   "c": 88401,
-   "avg_km": 2679,
-   "max_km": 19926
+   "c": 207323,
+   "avg_km": 2240,
+   "max_km": 19786
   },
   {
-   "band": 3,
-   "c": 82914,
-   "avg_km": 1208,
-   "max_km": 19662
+   "band": 7,
+   "c": 119288,
+   "avg_km": 1689,
+   "max_km": 18652
   },
   {
    "band": 10,
-   "c": 73307,
-   "avg_km": 2493,
-   "max_km": 19889
-  },
-  {
-   "band": 0,
-   "c": 20543,
-   "avg_km": 996,
-   "max_km": 14892
-  },
-  {
-   "band": 5,
-   "c": 13602,
-   "avg_km": 1980,
-   "max_km": 17198
-  },
-  {
-   "band": 1,
-   "c": 12203,
-   "avg_km": 763,
-   "max_km": 7382
-  },
-  {
-   "band": 18,
-   "c": 9528,
-   "avg_km": 2801,
-   "max_km": 19485
+   "c": 79901,
+   "avg_km": 1875,
+   "max_km": 19168
   },
   {
    "band": 21,
-   "c": 8342,
-   "avg_km": 3201,
-   "max_km": 18836
+   "c": 58098,
+   "avg_km": 2661,
+   "max_km": 18718
+  },
+  {
+   "band": 18,
+   "c": 55948,
+   "avg_km": 2658,
+   "max_km": 19300
+  },
+  {
+   "band": 3,
+   "c": 54971,
+   "avg_km": 892,
+   "max_km": 18256
   },
   {
    "band": 28,
-   "c": 4955,
-   "avg_km": 3301,
-   "max_km": 18717
+   "c": 30970,
+   "avg_km": 2934,
+   "max_km": 18451
   },
   {
    "band": 24,
-   "c": 2567,
-   "avg_km": 3459,
-   "max_km": 16689
+   "c": 22850,
+   "avg_km": 2970,
+   "max_km": 18183
   },
   {
-   "band": 50,
-   "c": 787,
-   "avg_km": 95,
-   "max_km": 14107
+   "band": 0,
+   "c": 16155,
+   "avg_km": 779,
+   "max_km": 14597
   },
   {
-   "band": -1,
-   "c": 545,
-   "avg_km": 714,
-   "max_km": 11652
+   "band": 1,
+   "c": 10423,
+   "avg_km": 705,
+   "max_km": 18495
   },
   {
-   "band": 144,
-   "c": 160,
-   "avg_km": 283,
-   "max_km": 7381
+   "band": 5,
+   "c": 7410,
+   "avg_km": 1523,
+   "max_km": 16954
   },
   {
    "band": 13,
-   "c": 126,
-   "avg_km": 904,
-   "max_km": 1487
+   "c": 999,
+   "avg_km": 1249,
+   "max_km": 3222
+  },
+  {
+   "band": 50,
+   "c": 668,
+   "avg_km": 72,
+   "max_km": 1215
+  },
+  {
+   "band": -1,
+   "c": 445,
+   "avg_km": 674,
+   "max_km": 15761
+  },
+  {
+   "band": 144,
+   "c": 175,
+   "avg_km": 237,
+   "max_km": 5259
   },
   {
    "band": 40,
-   "c": 116,
-   "avg_km": 1,
-   "max_km": 72
+   "c": 117,
+   "avg_km": 268,
+   "max_km": 15694
   },
   {
    "band": 1296,
-   "c": 21,
-   "avg_km": 113,
+   "c": 19,
+   "avg_km": 210,
    "max_km": 335
   },
   {
    "band": 2301,
-   "c": 5,
+   "c": 3,
    "avg_km": 9,
    "max_km": 9
-  },
-  {
-   "band": 432,
-   "c": 4,
-   "avg_km": 88,
-   "max_km": 88
   }
  ],
  "top": [
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL3BCJ",
-   "rx_loc": "RE66de",
-   "km": 19931,
-   "band": 7,
-   "snr": -18
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL3TKI",
-   "rx_loc": "RE66hk",
-   "km": 19926,
+   "tx": "109EAE",
+   "tx_loc": "ME28",
+   "rx": "KD7EFG",
+   "rx_loc": "DN31uo",
+   "km": 19786,
    "band": 14,
-   "snr": -22
+   "snr": -16
   },
   {
-   "tx": "ZL2BH",
-   "tx_loc": "RE68",
-   "rx": "CT2HMR",
-   "rx_loc": "IN51wg",
-   "km": 19921,
-   "band": 7,
-   "snr": -25
-  },
-  {
-   "tx": "Q46ZTV",
-   "tx_loc": "GF74",
-   "rx": "JG3HGD/SDR5",
-   "rx_loc": "PM74uv",
-   "km": 19918,
+   "tx": "109EAE",
+   "tx_loc": "ME28",
+   "rx": "KD7EFG-1",
+   "rx_loc": "DN31uo",
+   "km": 19786,
    "band": 14,
-   "snr": -25
+   "snr": -14
   },
   {
-   "tx": "VK9NT",
-   "tx_loc": "RG30",
-   "rx": "EA8/DF4UE",
-   "rx_loc": "IL38bp",
-   "km": 19889,
-   "band": 10,
-   "snr": -26
-  },
-  {
-   "tx": "VK9NT",
-   "tx_loc": "RG30",
-   "rx": "EA8BFK",
-   "rx_loc": "IL38bo",
-   "km": 19885,
-   "band": 10,
-   "snr": -21
-  },
-  {
-   "tx": "Q46ZTV",
-   "tx_loc": "GF74",
-   "rx": "JA5NVN",
-   "rx_loc": "PM74ec",
-   "km": 19849,
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "VE7LGN",
+   "rx_loc": "CO90ln",
+   "km": 19716,
    "band": 14,
-   "snr": -8
+   "snr": -23
   },
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL2005SWL",
-   "rx_loc": "RE68mx",
-   "km": 19743,
-   "band": 7,
-   "snr": -20
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL2005SWL",
-   "rx_loc": "RE68mx",
-   "km": 19743,
-   "band": 10,
-   "snr": -20
-  },
-  {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL2005SWL",
-   "rx_loc": "RE68mx",
-   "km": 19743,
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "VE6FT",
+   "rx_loc": "DO24ka",
+   "km": 19709,
    "band": 14,
-   "snr": -20
+   "snr": -17
   },
   {
-   "tx": "EA5RKP",
-   "tx_loc": "IM99",
-   "rx": "ZL2BKW",
-   "rx_loc": "RE79tr",
-   "km": 19717,
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "VE6JY",
+   "rx_loc": "DO33or",
+   "km": 19638,
+   "band": 14,
+   "snr": -14
+  },
+  {
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "W7WKR/2",
+   "rx_loc": "CN98pi",
+   "km": 19576,
+   "band": 14,
+   "snr": -28
+  },
+  {
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "VE6PDQ",
+   "rx_loc": "DO34lr",
+   "km": 19570,
    "band": 14,
    "snr": -26
   },
   {
-   "tx": "EB1A",
-   "tx_loc": "IN53tf",
-   "rx": "ZL4JL",
-   "rx_loc": "RE54gd",
-   "km": 19711,
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "WB6CXC/7",
+   "rx_loc": "CN88ll",
+   "km": 19469,
    "band": 14,
-   "snr": -18
+   "snr": -25
+  },
+  {
+   "tx": "109EAE",
+   "tx_loc": "ME28",
+   "rx": "W0AY",
+   "rx_loc": "DN26",
+   "km": 19464,
+   "band": 14,
+   "snr": -33
+  },
+  {
+   "tx": "109EAE",
+   "tx_loc": "ME28",
+   "rx": "KB7GF",
+   "rx_loc": "DN06ta",
+   "km": 19448,
+   "band": 14,
+   "snr": -20
+  },
+  {
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "KF7NOP",
+   "rx_loc": "CN87up",
+   "km": 19442,
+   "band": 14,
+   "snr": -28
+  },
+  {
+   "tx": "109ACE",
+   "tx_loc": "MD18",
+   "rx": "W0AY",
+   "rx_loc": "DN26",
+   "km": 19436,
+   "band": 14,
+   "snr": -32
   }
  ]
 }

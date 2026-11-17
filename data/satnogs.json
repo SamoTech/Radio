@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-17T07:46:55+00:00",
+ "updated": "2026-11-17T20:48:17+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 316,
+ "count": 319,
  "stations": [
   {
    "id": 3944,
@@ -41,6 +41,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -154,13 +164,13 @@
    "https": false
   },
   {
-   "id": 1492,
-   "name": "Archenhold",
-   "loc": "JO62rl · VHF",
-   "lat": 52.487,
-   "lng": 13.475,
-   "alt": 23,
-   "url": "https://network.satnogs.org/stations/1492/",
+   "id": 5130,
+   "name": "Antenna Test Lab Co 436 MHz Patch",
+   "loc": "FM05qu · UHF",
+   "lat": 35.847,
+   "lng": -78.601,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/5130/",
    "https": false
   },
   {
@@ -241,6 +251,16 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
+   "https": false
+  },
+  {
+   "id": 106,
+   "name": "BEEGND-1",
+   "loc": "JO62fb · UHF",
+   "lat": 52.073657,
+   "lng": 12.462608,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -351,6 +371,16 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
+   "https": false
+  },
+  {
+   "id": 5112,
+   "name": "CIA_S4",
+   "loc": "PL04ox · UHF",
+   "lat": 24.971562604021216,
+   "lng": 121.19205965975814,
+   "alt": 190,
+   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -681,6 +711,16 @@
    "lng": 2.080809,
    "alt": 210,
    "url": "https://network.satnogs.org/stations/4526/",
+   "https": false
+  },
+  {
+   "id": 4600,
+   "name": "EA4RKU",
+   "loc": "IN80hm · VHF",
+   "lat": 40.513,
+   "lng": -3.35,
+   "alt": 628,
+   "url": "https://network.satnogs.org/stations/4600/",
    "https": false
   },
   {
@@ -1224,6 +1264,26 @@
    "https": false
   },
   {
+   "id": 4520,
+   "name": "KB3IAI_UHF",
+   "loc": "FM19pb · UHF",
+   "lat": 39.048,
+   "lng": -76.697,
+   "alt": 30,
+   "url": "https://network.satnogs.org/stations/4520/",
+   "https": false
+  },
+  {
+   "id": 4414,
+   "name": "KB3IAI_VHF",
+   "loc": "FM19pb · VHF",
+   "lat": 39.048,
+   "lng": -76.697,
+   "alt": 30,
+   "url": "https://network.satnogs.org/stations/4414/",
+   "https": false
+  },
+  {
    "id": 4326,
    "name": "KB9LEB_Debian_12",
    "loc": "EL99ma · VHF / UHF",
@@ -1321,16 +1381,6 @@
    "lng": -122.2978,
    "alt": 15,
    "url": "https://network.satnogs.org/stations/984/",
-   "https": false
-  },
-  {
-   "id": 1561,
-   "name": "KK6NOW - Palm Desert, CA, US",
-   "loc": "DM13tr · VHF / UHF",
-   "lat": 33.718908,
-   "lng": -116.39262,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/1561/",
    "https": false
   },
   {
@@ -1974,16 +2024,6 @@
    "https": false
   },
   {
-   "id": 3295,
-   "name": "PAULO PV8DX",
-   "loc": "FJ92pt · VHF",
-   "lat": 2.811185,
-   "lng": -60.680964,
-   "alt": 9,
-   "url": "https://network.satnogs.org/stations/3295/",
-   "https": false
-  },
-  {
    "id": 2154,
    "name": "PC4L",
    "loc": "JO11vl · UHF",
@@ -2161,16 +2201,6 @@
    "lng": -122.681,
    "alt": 72,
    "url": "https://network.satnogs.org/stations/2882/",
-   "https": false
-  },
-  {
-   "id": 71,
-   "name": "PV8DX",
-   "loc": "FJ92pt · UHF",
-   "lat": 2.811185,
-   "lng": -60.680964,
-   "alt": 9,
-   "url": "https://network.satnogs.org/stations/71/",
    "https": false
   },
   {
@@ -2474,16 +2504,6 @@
    "https": false
   },
   {
-   "id": 3794,
-   "name": "SPUTNIX-VHF/UHF-Murmansk",
-   "loc": "KP68mw · VHF / UHF",
-   "lat": 68.955,
-   "lng": 33.062,
-   "alt": 203,
-   "url": "https://network.satnogs.org/stations/3794/",
-   "https": false
-  },
-  {
    "id": 4309,
    "name": "SQ7RAD",
    "loc": "KO01nb · UHF / VHF",
@@ -2651,6 +2671,16 @@
    "lng": -8.6595,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/4518/",
+   "https": false
+  },
+  {
+   "id": 579,
+   "name": "Um Alaish 4",
+   "loc": "LL49bc · UHF",
+   "lat": 29.1042,
+   "lng": 48.125,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/579/",
    "https": false
   },
   {
