@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18T07:14:06+00:00",
+ "updated": "2026-11-18T20:24:59+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 316,
+ "count": 320,
  "stations": [
   {
    "id": 3944,
@@ -24,6 +24,16 @@
    "https": false
   },
   {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
    "id": 5065,
    "name": "329CZ144",
    "loc": "JN99bu · VHF / UHF",
@@ -31,6 +41,16 @@
    "lng": 18.164306,
    "alt": 230,
    "url": "https://network.satnogs.org/stations/5065/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -244,16 +264,6 @@
    "https": false
   },
   {
-   "id": 106,
-   "name": "BEEGND-1",
-   "loc": "JO62fb · UHF",
-   "lat": 52.073657,
-   "lng": 12.462608,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/106/",
-   "https": false
-  },
-  {
    "id": 5137,
    "name": "berlin_ma_sat",
    "loc": "FN42ej · UHF",
@@ -344,16 +354,6 @@
    "https": false
   },
   {
-   "id": 5228,
-   "name": "CHOSUN SSIL",
-   "loc": "PM35ld · UHF",
-   "lat": 35.141,
-   "lng": 126.928,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/5228/",
-   "https": false
-  },
-  {
    "id": 3969,
    "name": "Churchlands SHS Main",
    "loc": "OF78vb · UHF",
@@ -381,6 +381,16 @@
    "lng": 127.333,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/4643/",
+   "https": false
+  },
+  {
+   "id": 673,
+   "name": "CT7AFR",
+   "loc": "IN51oq · VHF / UHF",
+   "lat": 41.70158,
+   "lng": -8.82569,
+   "alt": 46,
+   "url": "https://network.satnogs.org/stations/673/",
    "https": false
   },
   {
@@ -984,6 +994,16 @@
    "https": false
   },
   {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
+   "https": false
+  },
+  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1084,16 +1104,6 @@
    "https": false
   },
   {
-   "id": 5150,
-   "name": "IU4VXO",
-   "loc": "JN64af · UHF",
-   "lat": 44.2355,
-   "lng": 12.0366,
-   "alt": 35,
-   "url": "https://network.satnogs.org/stations/5150/",
-   "https": false
-  },
-  {
    "id": 4869,
    "name": "JA1HCB-pi3",
    "loc": "PM95tx · UHF",
@@ -1181,16 +1191,6 @@
    "lng": 9.973,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/3348/",
-   "https": false
-  },
-  {
-   "id": 4738,
-   "name": "JUN SatNOGS",
-   "loc": "PM35ld · UHF",
-   "lat": 35.141,
-   "lng": 126.928,
-   "alt": 100,
-   "url": "https://network.satnogs.org/stations/4738/",
    "https": false
   },
   {
@@ -1634,16 +1634,6 @@
    "https": false
   },
   {
-   "id": 4791,
-   "name": "MEGANISI_1",
-   "loc": "KM08ip · UHF",
-   "lat": 38.65,
-   "lng": 20.739,
-   "alt": 13,
-   "url": "https://network.satnogs.org/stations/4791/",
-   "https": false
-  },
-  {
    "id": 4828,
    "name": "MuthSatNOGS1",
    "loc": "LL75qh · VHF",
@@ -1804,26 +1794,6 @@
    "https": false
   },
   {
-   "id": 5264,
-   "name": "Norfolk - Back Yard",
-   "loc": "FM16vu · VHF",
-   "lat": 36.85663,
-   "lng": -76.17929,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/5264/",
-   "https": false
-  },
-  {
-   "id": 5267,
-   "name": "Norfolk - Back Yard UHF",
-   "loc": "FM16vu · UHF",
-   "lat": 36.85663,
-   "lng": -76.17929,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/5267/",
-   "https": false
-  },
-  {
    "id": 1519,
    "name": "Not Quite ESL",
    "loc": "EM58an · UHF",
@@ -1891,6 +1861,16 @@
    "lng": 69.204427,
    "alt": 15,
    "url": "https://network.satnogs.org/stations/4206/",
+   "https": false
+  },
+  {
+   "id": 5331,
+   "name": "OE1AYS",
+   "loc": "JN88ff · VHF / UHF",
+   "lat": 48.2208,
+   "lng": 16.4686,
+   "alt": 162,
+   "url": "https://network.satnogs.org/stations/5331/",
    "https": false
   },
   {
@@ -2004,6 +1984,16 @@
    "https": false
   },
   {
+   "id": 431,
+   "name": "PE0SAT-11",
+   "loc": "JO21mr · UHF",
+   "lat": 51.721268,
+   "lng": 5.029968,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/431/",
+   "https": false
+  },
+  {
    "id": 2173,
    "name": "PE0SAT-21",
    "loc": "JO21mr · UHF",
@@ -2094,16 +2084,6 @@
    "https": false
   },
   {
-   "id": 5250,
-   "name": "Pelt-UHF-Valley-Rotator",
-   "loc": "DO21qh · UHF",
-   "lat": 51.32378,
-   "lng": -114.60201,
-   "alt": 1304,
-   "url": "https://network.satnogs.org/stations/5250/",
-   "https": false
-  },
-  {
    "id": 5061,
    "name": "Peters-GS1",
    "loc": "PM37ki · UHF",
@@ -2174,6 +2154,16 @@
    "https": false
   },
   {
+   "id": 3538,
+   "name": "PU4ELT",
+   "loc": "GH70qd · UHF",
+   "lat": -19.861,
+   "lng": -44.619,
+   "alt": 800,
+   "url": "https://network.satnogs.org/stations/3538/",
+   "https": false
+  },
+  {
    "id": 71,
    "name": "PV8DX",
    "loc": "FJ92pt · UHF",
@@ -2231,16 +2221,6 @@
    "lng": 14.386951,
    "alt": 460,
    "url": "https://network.satnogs.org/stations/804/",
-   "https": false
-  },
-  {
-   "id": 5066,
-   "name": "SA1CKW",
-   "loc": "JO97fg · VHF",
-   "lat": 57.276,
-   "lng": 18.471,
-   "alt": 38,
-   "url": "https://network.satnogs.org/stations/5066/",
    "https": false
   },
   {
@@ -2321,6 +2301,16 @@
    "lng": 77.1794,
    "alt": 387,
    "url": "https://network.satnogs.org/stations/5215/",
+   "https": false
+  },
+  {
+   "id": 4882,
+   "name": "Shadi",
+   "loc": "KM18ua · VHF / UHF",
+   "lat": 38.0170436840529,
+   "lng": 23.732455911409634,
+   "alt": 210,
+   "url": "https://network.satnogs.org/stations/4882/",
    "https": false
   },
   {
@@ -2594,6 +2584,16 @@
    "https": false
   },
   {
+   "id": 3161,
+   "name": "TA2NMU #3 (Turnstile)",
+   "loc": "KN91pa · UHF",
+   "lat": 41.0053,
+   "lng": 39.2978,
+   "alt": 490,
+   "url": "https://network.satnogs.org/stations/3161/",
+   "https": false
+  },
+  {
    "id": 1616,
    "name": "TA2NMU (QFH-South)",
    "loc": "KM69kw · UHF",
@@ -2834,6 +2834,16 @@
    "https": false
   },
   {
+   "id": 4957,
+   "name": "Veve-UHF",
+   "loc": "JN79sd · UHF",
+   "lat": 49.138054,
+   "lng": 15.560547,
+   "alt": 560,
+   "url": "https://network.satnogs.org/stations/4957/",
+   "https": false
+  },
+  {
    "id": 568,
    "name": "VK2BYF-VHF",
    "loc": "QF55hd · VHF",
@@ -2951,6 +2961,26 @@
    "lng": 77.5417,
    "alt": 900,
    "url": "https://network.satnogs.org/stations/2987/",
+   "https": false
+  },
+  {
+   "id": 4254,
+   "name": "VU3IPU - Varun",
+   "loc": "MK82sx · VHF / UHF",
+   "lat": 12.991308,
+   "lng": 77.576969,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4254/",
+   "https": false
+  },
+  {
+   "id": 4821,
+   "name": "VU3IPU - Varun (Weather Satellite)",
+   "loc": "MK82sx · VHF",
+   "lat": 12.9913,
+   "lng": 77.5774,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4821/",
    "https": false
   },
   {
@@ -3151,6 +3181,16 @@
    "lng": 151.51,
    "alt": 340,
    "url": "https://network.satnogs.org/stations/2108/",
+   "https": false
+  },
+  {
+   "id": 4801,
+   "name": "YO4ESB_Groundstation",
+   "loc": "KN44he · UHF",
+   "lat": 44.202,
+   "lng": 28.624,
+   "alt": 70,
+   "url": "https://network.satnogs.org/stations/4801/",
    "https": false
   },
   {
