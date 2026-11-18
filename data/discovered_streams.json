@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-17T10:43:40+00:00",
+ "updated": "2026-11-18T10:09:21+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 7,
+ "count": 6,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -208,8 +208,8 @@
    "streams": [
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web&quot;,&quot;title&quot;:&quot;Deutschlandfunk",
     "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web",
-    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/17/interview_mit_sebastian_roloff_spd_mdb_landes_vs_bayern_zur_dlf_20261117_0715_3632d133.mp3",
-    "https://download.deutschlandfunk.de/file/dradio/2026/11/17/interview_mit_sebastian_roloff_spd_mdb_landes_vs_bayern_zur_dlf_20261117_0715_3632d133.mp3"
+    "https://ondemand-mp3.dradio.de/file/dradio/2026/11/18/entwicklungszusammenarbeit_mit_dem_irak_interview_alabali_dlf_20261118_0516_f2fa258c.mp3",
+    "https://download.deutschlandfunk.de/file/dradio/2026/11/18/entwicklungszusammenarbeit_mit_dem_irak_interview_alabali_dlf_20261118_0516_f2fa258c.mp3"
    ]
   },
   {
@@ -268,7 +268,7 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -280,7 +280,7 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -292,7 +292,7 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -304,7 +304,7 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
    "streams": []
   },
@@ -316,11 +316,9 @@
    "tags": "",
    "official": false,
    "catalog": false,
-   "fetch_strategy": "bot",
+   "fetch_strategy": "curl_cffi",
    "fetch_error": "",
-   "streams": [
-    "https://snrtlive.ma/fr/radio-regionale"
-   ]
+   "streams": []
   },
   {
    "site": "https://www.mia.gov.bh/media-center/bahrain-fm-93-3/",
