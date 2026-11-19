@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -38,6 +39,12 @@ class CountryPagesTests(unittest.TestCase):
             self.assertIn("#play=", page)
             self.assertIn('<script defer src="../js/analytics.js"></script>', page)
             self.assertNotIn("googletagmanager.com", page)
+            self.assertIn('property="og:image" content="' + MODULE.SITE_URL + 'icons/icon-512.png"', page)
+            schema = re.search(r'<script type="application/ld\+json">(.*?)</script>', page)
+            collection = json.loads(schema.group(1))
+            self.assertEqual(collection["@type"], "CollectionPage")
+            self.assertEqual(collection["url"], MODULE.SITE_URL + "countries/eg.html")
+            self.assertEqual(collection["inLanguage"], "ar")
             self.assertIn('name="keywords"', page)
             self.assertNotIn("il.example", page)
             self.assertEqual(len(page.split("<li>")) - 1, 60)
