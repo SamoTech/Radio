@@ -190,3 +190,6 @@
 
 
 
+
+
+- Release QA: أداة `scripts/deployment_provenance.py` تُولّد `build-info.json` داخل أثر نشر GitHub Pages، ثم تفحص الـSHA الفعلي وإصدار Service Worker وSHA-256 لملفات الإنتاج. تفاصيل الحالات في [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). الدمج وحده ليس تحققًا من الإنتاج.
