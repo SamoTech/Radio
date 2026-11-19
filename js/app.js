@@ -1344,6 +1344,8 @@ function renderFeatured() {
 
 var previousSDRFocus = null;
 function initResume() {
+  // An in-flight catalog refresh must never reinitialize an active player.
+  if (state.playbackStation) return;
   var last = null;
   try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) { last = null; }
   if (!last || !safeHttpsUrl(last.url)) return;
