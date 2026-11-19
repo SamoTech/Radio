@@ -184,6 +184,12 @@ async function shot(page,name) {
     await page.reload({waitUntil:'domcontentloaded',timeout:15000});
     check('Offline application shell reopens',await page.locator('#tab-fm').count()===1);
     check('Favorites survive offline reload',await page.evaluate(()=>localStorage.getItem('ra-favs'))===favBefore);
+    await page.waitForFunction(()=>window.state&&state.fm&&state.fm.length>0,{timeout:20000});
+    check('Offline catalog retains available station data',await page.evaluate(()=>state.fm.length>0));
+    check('Listening history survives offline reopening',await page.evaluate(url=>{
+      const list=JSON.parse(localStorage.getItem('ra-history')||'[]');
+      return list.some(item=>item.url===url);
+    },TEST_URL));
     await shot(page,'10-offline-pwa');
     await context.setOffline(false);
   } catch (e) {
