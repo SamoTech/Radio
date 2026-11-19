@@ -1,9 +1,25 @@
 /* Radio Atlas mobile navigation / saved favorites; loaded on demand. */
 var STR_MOBILE={
-  ar:{mobile_home:'الرئيسية',mobile_explore:'استكشف',mobile_favorites:'المفضلة',mobile_sdr:'SDR',home_favorites_title:'محطاتك المفضلة'},
-  en:{mobile_home:'Home',mobile_explore:'Explore',mobile_favorites:'Favorites',mobile_sdr:'SDR',home_favorites_title:'Your favorites'}
+  ar:{mobile_home:'الرئيسية',mobile_explore:'استكشف',mobile_favorites:'المفضلة',mobile_sdr:'SDR',home_favorites_title:'محطاتك المفضلة',mobile_quick_listen:'استمع الآن'},
+  en:{mobile_home:'Home',mobile_explore:'Explore',mobile_favorites:'Favorites',mobile_sdr:'SDR',home_favorites_title:'Your favorites',mobile_quick_listen:'Listen now'}
 };
+function renderMobileHomePreview(home){
+  var wrap=$('mobile-home-preview'),row=$('mobile-home-preview-row');
+  if(!wrap||!row)return;
+  if(!home){wrap.hidden=true;row.innerHTML='';return;}
+  var candidates=[],seen={};
+  function add(s){
+    if(!s||!safeHttpsUrl(s.url)||seen[s.url])return;
+    seen[s.url]=true;candidates.push(s);
+  }
+  if(state.history&&state.history.length)add(stationByUrl(state.history[0].url));
+  featuredList().slice(0,6).forEach(add);
+  if(candidates.length<3)homeList().slice(0,6).forEach(add);
+  wrap.hidden=!candidates.length;
+  row.innerHTML=candidates.slice(0,3).map(cardFm).join('');
+}
 function renderHomeFavorites(home) {
+  renderMobileHomePreview(home);
   var wrap=$('home-favorites-wrap'),row=$('home-favorites-row');
   if(!wrap||!row)return;
   var urls=Object.keys(state.favs||{}).slice(0,6);
