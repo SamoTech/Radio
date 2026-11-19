@@ -1,0 +1,56 @@
+name: Radio Atlas Mobile Browser QA
+
+on:
+  pull_request:
+    paths:
+      - scripts/browser_qa.cjs
+      - .github/workflows/mobile-browser-qa.yml
+      - js/**
+      - css/**
+      - index.html
+      - sw.js
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v5
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Install ephemeral Chromium QA dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Serve the checkout and exercise it with real Chromium
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 > /tmp/radio-atlas-local-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          STARTED=0
+          for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1; then STARTED=1; break; fi
+            sleep 1
+          done
+          if [ "$STARTED" != "1" ]; then
+            echo "Local server failed; diagnostic log follows:"
+            cat /tmp/radio-atlas-local-server.log
+            ps aux | grep -E 'http.server|python' || true
+            exit 1
+          fi
+          node scripts/browser_qa.cjs
+      - name: Upload actual screenshots and browser test report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-mobile-browser-evidence
+          path: artifacts/mobile-browser-qa/
+          if-no-files-found: warn
