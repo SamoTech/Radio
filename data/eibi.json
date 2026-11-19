@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:40:01+00:00",
+ "updated": "2026-11-19T14:54:59+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1446,
+ "count": 1449,
  "rows": [
   {
    "f": 2054,
@@ -842,12 +842,6 @@
    "s": "1225",
    "e": "1715",
    "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
-  },
-  {
-   "f": 4170,
-   "s": "1425",
-   "e": "1450",
-   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 4177,
@@ -2284,12 +2278,6 @@
    "n": "HOL | Radio Piepzender | NL | Eu"
   },
   {
-   "f": 6185,
-   "s": "1400",
-   "e": "1450",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
-  },
-  {
    "f": 6190,
    "s": "1200",
    "e": "1800",
@@ -2396,6 +2384,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSG Shanghai Radio | -TY | FE"
+  },
+  {
+   "f": 6328,
+   "s": "1445",
+   "e": "1510",
+   "n": "RUS | RBW Murmansk Meteo Fax | NEu"
   },
   {
    "f": 6340,
@@ -2915,9 +2909,9 @@
   },
   {
    "f": 7210,
-   "s": "1400",
-   "e": "1445",
-   "n": "CHN | PBS Yunnan Minority Sce | LAH | CHN"
+   "s": "1445",
+   "e": "1500",
+   "n": "CHN | PBS Yunnan Minority Sce | M | CHN"
   },
   {
    "f": 7210,
@@ -3334,6 +3328,12 @@
    "n": "USA | Radio Farda | FS | IRN"
   },
   {
+   "f": 7480,
+   "s": "1445",
+   "e": "1500",
+   "n": "USA | Trans World Radio | KZ | CAs"
+  },
+  {
    "f": 7490,
    "s": "1300",
    "e": "1600",
@@ -3473,9 +3473,9 @@
   },
   {
    "f": 7906,
-   "s": "1435",
-   "e": "1445",
-   "n": "VTN | Quy Nhon Radio | VN | SEA"
+   "s": "1450",
+   "e": "1500",
+   "n": "VTN | Hue Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -3526,6 +3526,12 @@
    "n": "CHN | BAF Beijing Meteo Fax | FE"
   },
   {
+   "f": 8126,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 8176,
    "s": "0800",
    "e": "2100",
@@ -3536,12 +3542,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 8302,
-   "s": "1425",
-   "e": "1450",
-   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 8310,
@@ -3620,6 +3620,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CHN | XSQ Guangzhou Radio | -TY | FE"
+  },
+  {
+   "f": 8444,
+   "s": "1445",
+   "e": "1510",
+   "n": "RUS | RBW Murmansk Meteo Fax | NEu"
   },
   {
    "f": 8484,
@@ -4246,12 +4252,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 9226,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
    "f": 9230,
    "s": "2100",
    "e": "1600",
@@ -4276,6 +4276,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 9274,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 9275,
    "s": "1000",
    "e": "1600",
@@ -4292,6 +4298,12 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 9293,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 9300,
@@ -4532,12 +4544,6 @@
    "s": "1400",
    "e": "1500",
    "n": "KOR | KBS World Radio | IN | SEA"
-  },
-  {
-   "f": 9585,
-   "s": "1428",
-   "e": "1443",
-   "n": "SWZ | Trans World Radio | LO | MOZ"
   },
   {
    "f": 9590,
@@ -4842,12 +4848,6 @@
   {
    "f": 9850,
    "s": "1400",
-   "e": "1450",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
-  },
-  {
-   "f": 9850,
-   "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
   },
@@ -4916,6 +4916,12 @@
    "s": "1400",
    "e": "1500",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
+  },
+  {
+   "f": 9950,
+   "s": "1445",
+   "e": "1500",
+   "n": "USA | Trans World Radio | KZ | CAs"
   },
   {
    "f": 9950,
@@ -5342,6 +5348,12 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 11168,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 11175,
@@ -5830,12 +5842,6 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
-   "f": 11735,
-   "s": "1400",
-   "e": "1450",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
-  },
-  {
    "f": 11740,
    "s": "1000",
    "e": "1605",
@@ -5960,12 +5966,6 @@
    "s": "1300",
    "e": "1700",
    "n": "MLA | RTM Sabah V FM | DU | MLA"
-  },
-  {
-   "f": 11920,
-   "s": "1430",
-   "e": "1450",
-   "n": "J | NHK Radio Japan | BR | SEA"
   },
   {
    "f": 11925,
@@ -6154,12 +6154,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 12168,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
    "f": 12190,
    "s": "2200",
    "e": "1600",
@@ -6236,12 +6230,6 @@
    "s": "1225",
    "e": "1715",
    "n": "CHN | XSQ Guangzhou Meteo Fax | E | FE"
-  },
-  {
-   "f": 12382,
-   "s": "1425",
-   "e": "1450",
-   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 12430,
@@ -6850,10 +6838,22 @@
    "n": "SEN | Dakar Radio | E | WAf"
   },
   {
+   "f": 13384,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 13417,
    "s": "0600",
    "e": "1800",
    "n": "F | FUG French Navy FSK | F | Eu"
+  },
+  {
+   "f": 13449,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 13470,
@@ -6946,6 +6946,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 13536,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 13550,
    "s": "1400",
    "e": "1500",
@@ -7010,12 +7016,6 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 13650,
-   "s": "1400",
-   "e": "1450",
-   "n": "KRE | Voice of Korea KCBS | K | SEA"
   },
   {
    "f": 13670,
@@ -7252,12 +7252,6 @@
    "n": "D | DWD 2 Pinneberg RTTY | E | Eu"
   },
   {
-   "f": 14536,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
    "f": 14560,
    "s": "2200",
    "e": "1500",
@@ -7300,12 +7294,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 14717,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
    "f": 14725,
    "s": "1400",
    "e": "1500",
@@ -7324,12 +7312,6 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 14819,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
    "f": 14820,
    "s": "2100",
    "e": "1500",
@@ -7342,21 +7324,9 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
-   "f": 14849,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
-   "f": 14854,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
-   "f": 14862,
-   "s": "1430",
-   "e": "1440",
+   "f": 14831,
+   "s": "1450",
+   "e": "1500",
    "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
@@ -7394,6 +7364,12 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 14928,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 14940,
@@ -7607,9 +7583,9 @@
   },
   {
    "f": 15490,
-   "s": "1430",
-   "e": "1450",
-   "n": "CVA | Radio Vaticana | HI | SAs"
+   "s": "1450",
+   "e": "1510",
+   "n": "CVA | Radio Vaticana | TAM | SAs"
   },
   {
    "f": 15515,
@@ -7768,6 +7744,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 15817,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 15870,
    "s": "2100",
    "e": "1700",
@@ -7786,16 +7768,16 @@
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
   },
   {
+   "f": 15919,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 15920,
    "s": "0000",
    "e": "2400",
    "n": "CHN | CNR1 Jammer/Firedrake | M | FE"
-  },
-  {
-   "f": 15928,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 15940,
@@ -7856,6 +7838,12 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 16162,
+   "s": "1450",
+   "e": "1500",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 16213,
@@ -7940,12 +7928,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
-  },
-  {
-   "f": 16559,
-   "s": "1425",
-   "e": "1450",
-   "n": "CHN | XSG Shanghai Radio Fax | M | FE"
   },
   {
    "f": 16562,
@@ -8153,9 +8135,9 @@
   },
   {
    "f": 17700,
-   "s": "1430",
-   "e": "1445",
-   "n": "USA | Trans World Radio | DZ | SAs"
+   "s": "1446",
+   "e": "1500",
+   "n": "USA | Trans World Radio | HI | SAs"
   },
   {
    "f": 17720,
@@ -8165,9 +8147,9 @@
   },
   {
    "f": 17790,
-   "s": "1430",
-   "e": "1450",
-   "n": "CVA | Radio Vaticana | HI | SAs"
+   "s": "1450",
+   "e": "1510",
+   "n": "CVA | Radio Vaticana | TAM | SAs"
   },
   {
    "f": 17820,
