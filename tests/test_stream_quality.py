@@ -201,6 +201,20 @@ class IntegrityTests(unittest.TestCase):
         self.assertEqual(len({x["url"] for x in selected}), 12)
         self.assertTrue(all(x["cc"] != "IL" for x in selected))
 
+    def test_failed_probe_exponential_daily_backoff(self):
+        date = "2026-11-19T00:00:00+00:00"
+        for failures, last_checked, due in (
+            (1, "2026-11-18T00:00:00+00:00", True),
+            (2, "2026-11-18T00:00:00+00:00", False),
+            (2, "2026-11-17T00:00:00+00:00", True),
+            (3, "2026-11-16T00:00:00+00:00", False),
+            (3, "2026-11-15T00:00:00+00:00", True),
+        ):
+            self.assertEqual(health.retry_due({
+                "consecutive_failures": failures,
+                "last_checked": last_checked,
+            }, date), due)
+
     def test_quality_report_records_only_sample_not_false_global_success(self):
         stations = [{"url": "https://radio.example.test/" + str(i), "cc": "EG"}
                     for i in range(30)]
