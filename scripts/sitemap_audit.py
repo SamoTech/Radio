@@ -8,6 +8,7 @@ including /robots.txt on the actual host root. No submissions or state changes.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import json
 import sys
 import xml.etree.ElementTree as ET
@@ -130,13 +131,15 @@ def fetch(url, timeout):
         with urlopen(req, timeout=timeout) as response:
             return {"status": response.status, "final_url": response.url,
                     "content_type": response.headers.get("Content-Type", ""),
+                    "x_robots_tag": response.headers.get("X-Robots-Tag", ""),
                     "body": response.read(MAX_BODY).decode("utf-8-sig", errors="replace")}
     except HTTPError as exc:
         return {"status": exc.code, "final_url": exc.url,
                 "content_type": exc.headers.get("Content-Type", ""),
+                "x_robots_tag": exc.headers.get("X-Robots-Tag", ""),
                 "body": exc.read(1024).decode("utf-8", errors="replace")}
     except (OSError, URLError) as exc:
-        return {"status": None, "final_url": url, "content_type": "",
+        return {"status": None, "final_url": url, "content_type": "", "x_robots_tag": "",
                 "error": str(exc), "body": ""}
 
 
@@ -160,8 +163,9 @@ def audit_live(locs, timeout):
     report["host_root_robots"] = {k: v for k, v in robots.items() if k != "body"}
     if robots["status"] == 200 and "Disallow: /Radio/" in robots["body"]:
         report["issues"].append({"url": HOST_ROOT_ROBOTS, "reason": "host root robots.txt disallows /Radio/"})
-    for loc in locs:
-        response = fetch(loc, timeout)
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        responses = list(executor.map(lambda loc: fetch(loc, timeout), locs))
+    for loc, response in zip(locs, responses):
         report["pages_checked"] += 1
         reason = None
         if response["status"] != 200:
@@ -170,6 +174,8 @@ def audit_live(locs, timeout):
             reason = "redirected sitemap URL"
         elif "text/html" not in response["content_type"].lower():
             reason = "unexpected HTML content type"
+        elif "noindex" in response["x_robots_tag"].lower():
+            reason = "HTTP X-Robots-Tag noindex"
         else:
             meta = read_metadata(response["body"])
             if meta.canonical != loc:
