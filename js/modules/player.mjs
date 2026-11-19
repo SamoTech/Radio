@@ -302,6 +302,12 @@ function toggleMute() {
   applyVolume();
 }
 
+function syncActiveStationCards(){
+  var url=state.isAudioPlaying&&state.playbackStation&&state.playbackStation.url;
+  document.querySelectorAll('.station-card').forEach(function(card){
+    card.classList.toggle('is-playing',!!url&&card.getAttribute('data-station-url')===url);
+  });
+}
 function setPlayerStatus(kind) {
   var el = $('player-status');
   if (!el) return;
