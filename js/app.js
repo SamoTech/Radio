@@ -61,8 +61,7 @@ var LANGUAGE_ALIASES = {
   quechua:['quechua','qu'], guarani:['guarani','gn'], aymara:['aymara','ay'],
   burmese:['burmese','my'], khmer:['khmer','km'], lao:['lao','lo'], mongolian:['mongolian','mn']
 };
-/* Every alias entry is pre-normalized (lowercase, accents stripped) and folded
-   into one flat lookup so canonicalLanguage stays a single map access. */
+/* Pre-normalized language aliases. */
 var LANGUAGE_ALIAS_INDEX = (function () {
   var index = {};
   for (var key in LANGUAGE_ALIASES) {
@@ -132,11 +131,7 @@ function scheduleFMClientRender() {
 function canonicalLanguage(value) {
   var raw=String(value||'').trim().toLowerCase();
   if(!raw)return '';
-  /* Normalize hard before matching: strip Latin combining marks (Français →
-     francais, čeština → cestina, Türkçe → turkce), Arabic tashkeel, stray
-     apostrophes (O'zbek → ozbek) and collapse whitespace — so every spelling
-     of the same language lands on ONE canonical key instead of showing up
-     as several near-duplicate entries in the language filter. */
+  /* Normalize accents and punctuation before matching. */
   try { raw=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,''); } catch(e) {}
   raw=raw.replace(/[\u064B-\u065F\u0670]/g,'').replace(/['\u2018\u2019`´]/g,'').replace(/\s+/g,' ').trim();
   return LANGUAGE_ALIAS_INDEX[raw] || raw;
@@ -505,9 +500,7 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
-/* Cloudflare Worker relay (see proxy/README.md). Empty until the worker is
-   deployed; when set it becomes the last-resort playback source for streams
-   that fail direct playback (CORS or geo blocks). */
+/* Optional stream relay; see proxy/README.md. */
 var STREAM_PROXY = '';
 
 function proxyStreamUrl(url) {
@@ -823,10 +816,7 @@ function isHomeMode() {
 }
 
 /* ===== الصفحة الرئيسية: شبكة «الرسمية · مصر» — إذاعات مصر فقط ===== */
-/* إصلاح PR #114: القسم كان بياخد كل الرسميين من أي دولة (BBC/France...) تحت عنوان
-   «مصر» + مكررات نفس المحطة + أسماء نُتفة (X_X...) + كروت فيديو Dailymotion
-   بتتصدر القابل للتشغيل. الترتيب الجديد: مصر فقط، بلا مكررات (دمج بالاسم
-   المطبّع + الاحتواء)، بلا أسماء نُتفة، والقابل للتشغيل داخل التطبيق أولًا. */
+/* Egypt home cards: playable first; reject junk and duplicate station names. */
 function isHomeJunkName(name) {
   var n = normalizeSearchText(name);
   if (!n) return true;
@@ -932,9 +922,7 @@ function stationKey(value) {
 }
 
 function applyCatalogDelta(rows, delta) {
-  /* تطبيق دلتا {added, updated, removed} على الصفوف المحفوظة:
-     updated يعدل الصف في مكانه بنفس المفتاح، added يُلحق في النهاية،
-     removed يشطب بالمفتاح. الحقول الناقصة تتعامل كفارغة. */
+  /* Apply the catalog delta without changing existing station order. */
   var source = Array.isArray(rows) ? rows : [];
   var d = delta || {};
   var added = Array.isArray(d.added) ? d.added : [];
