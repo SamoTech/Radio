@@ -500,6 +500,27 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
+/* An ordered, bounded list of sources for ONE station.
+   No HTTP mixed content, unsafe protocols, credentials, duplicate mounts,
+   or unlimited retries from untrusted directory fallback arrays. */
+function buildPlaybackSourceList(primary, fallbacks, original, relay) {
+  var sources = [];
+  function add(candidate, limit) {
+    var url = safeHttpsUrl(candidate);
+    if (url && sources.length < limit && sources.indexOf(url) === -1) {
+      sources.push(url);
+    }
+  }
+  add(primary, 4);
+  if (Array.isArray(fallbacks)) {
+    for (var i = 0; i < fallbacks.length; i++) add(fallbacks[i], 4);
+  }
+  add(original, 4);
+  // The optional relay is always the LAST attempt; never retry the relay.
+  add(relay, 5);
+  return sources;
+}
+
 /* Optional stream relay; see proxy/README.md. */
 var STREAM_PROXY = '';
 
@@ -1352,11 +1373,10 @@ function initResume() {
   if (isDmEmbed(last.url)) return;
   var station = stationByUrl(last.url);
   state.playbackStation = station || { name: last.name || '', url: last.url };
-  state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
   var resumeRelay = (station && station.tokenEndpoint && station.tokenType === 'easy_b') ? '' : proxyStreamUrl(last.url);
-  if (resumeRelay && state.playbackSources.indexOf(resumeRelay) === -1) {
-    state.playbackSources.push(resumeRelay);
-  }
+  state.playbackSources = buildPlaybackSourceList(
+    last.url, state.playbackStation.fallbacks, '', resumeRelay
+  );
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
