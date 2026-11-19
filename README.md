@@ -131,7 +131,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v78)
+├── sw.js                # Service Worker (v79)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
