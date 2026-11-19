@@ -193,3 +193,6 @@
 
 
 - Release QA: أداة `scripts/deployment_provenance.py` تُولّد `build-info.json` داخل أثر نشر GitHub Pages، ثم تفحص الـSHA الفعلي وإصدار Service Worker وSHA-256 لملفات الإنتاج. تفاصيل الحالات في [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). الدمج وحده ليس تحققًا من الإنتاج.
+
+
+- إصدار Radio Atlas: نشر تغييرات `main` لا يُعيد الزحف الكامل للكتالوج، ويُنفّذ مباشرة بعد فحص الصياغة؛ تحديث المحطات اليومي وSDR كل 6 ساعات والتحديث اليدوي `all/stations/sdr` مستمرون. القبول النهائي مشروط بتحقق `build-info.json` وبصمات الملفات المنشورة.
