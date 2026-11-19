@@ -199,6 +199,20 @@ def probe_stream(url, previous=None, official=False, timeout=6, opener=None,
     return res
 
 
+def retry_due(previous, now_iso):
+    """Exponential day backoff: 1, 2, 4, then at most 7 days after failures."""
+    failures = int(previous.get("consecutive_failures") or 0)
+    last = str(previous.get("last_checked") or "")[:10]
+    if not failures or not last:
+        return True
+    try:
+        elapsed = (datetime.fromisoformat(now_iso[:10]).date()
+                   - datetime.fromisoformat(last).date()).days
+    except ValueError:
+        return True
+    return elapsed >= min(7, 2 ** min(3, failures - 1))
+
+
 def select_incremental(stations, previous, now_iso, limit=CHECKS_PER_RUN):
     """Prioritize curated, previous failures, then rotate across whole world."""
     urls, seen = [], set()
@@ -223,15 +237,17 @@ def select_incremental(stations, previous, now_iso, limit=CHECKS_PER_RUN):
         if len(chosen) >= min(16, limit // 3):
             break
         last = previous.get(row["url"], {}).get("last_checked", "")[:10]
-        if not last or (datetime.fromisoformat(now_iso[:10]).date()
-                        - datetime.fromisoformat(last).date()).days >= 3:
+        if retry_due(previous.get(row["url"], {}), now_iso) and (
+            not last or (datetime.fromisoformat(now_iso[:10]).date()
+                         - datetime.fromisoformat(last).date()).days >= 3
+        ):
             add(row)
     for row in urls:
         if len(chosen) >= min(24, limit // 2):
             break
         info = previous.get(row["url"], {})
         if info.get("status") in ("TEMPORARILY_UNAVAILABLE", "BROKEN") and (
-            info.get("last_checked", "")[:10] != now_iso[:10]
+            retry_due(info, now_iso)
         ):
             add(row)
     if urls:
@@ -239,7 +255,8 @@ def select_incremental(stations, previous, now_iso, limit=CHECKS_PER_RUN):
         start = (day * 97 * limit) % len(urls)
         for i in range(len(urls)):
             row = urls[(start + i) % len(urls)]
-            if previous.get(row["url"], {}).get("last_checked", "")[:10] != now_iso[:10]:
+            info = previous.get(row["url"], {})
+            if info.get("last_checked", "")[:10] != now_iso[:10] and retry_due(info, now_iso):
                 add(row)
             if len(chosen) == limit:
                 break
