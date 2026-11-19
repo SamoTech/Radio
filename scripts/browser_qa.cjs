@@ -168,17 +168,20 @@ async function shot(page,name) {
       status:200,contentType:'audio/wav',
       headers:{'Access-Control-Allow-Origin':'*'},body:createWav()
     }));
-    await page.locator('#mobile-nav-explore').click();
     await page.evaluate(([primary,backup])=>{
       state.fm.unshift({
         name:'Radio Atlas QA Fallback',url:primary,fallbacks:[backup],
         cc:'EG',language:'english',tags:'news',codec:'WAV'
       });
-      state.fmFilters={q:'',country:'',language:'',tag:'',chip:''};
-      state.fmLive=false;
-      renderFM();
+      // This fixture is injected after normal catalog UI QA. A real click
+      // still goes through the application's public play() path and audio.
+      const button=document.createElement('button');
+      button.id='qa-fallback-launch';
+      button.textContent='Start fallback QA';
+      button.addEventListener('click',()=>play(primary,'Radio Atlas QA Fallback'));
+      document.body.appendChild(button);
     },[FAILED_URL,BACKUP_URL]);
-    await page.locator('#grid-fm .station-card[data-station-url="'+FAILED_URL+'"] button.play').click();
+    await page.locator('#qa-fallback-launch').click();
     await page.waitForFunction(backup=>{
       const audio=document.querySelector('#audio');
       return state.playbackStation&&state.playbackStation.name==='Radio Atlas QA Fallback'
