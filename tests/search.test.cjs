@@ -523,3 +523,21 @@ test('SDR keeps quick discovery outside the advanced disclosures', () => {
   assert.match(parts[1], /id="minsnr"/);
   for (const id of ['space-panel', 'wspr-panel', 'eibi-panel']) assert.ok(parts[2].includes('id="' + id + '"'));
 });
+
+test('worker precaches offline modules without taking over existing tabs', async () => {
+  const handlers = {};
+  const requests = [];
+  vm.runInNewContext(fs.readFileSync('sw.js', 'utf8'), {
+    Request: class { constructor(url, options) { this.url = url; this.cache = options.cache; } },
+    self: { addEventListener: (event, handler) => { handlers[event] = handler; } },
+    caches: { open: async () => ({ addAll: async batch => requests.push(...batch) }) }
+  });
+  let installation;
+  handlers.install({ waitUntil: promise => { installation = promise; } });
+  await installation;
+  for (const module of fs.readdirSync('js/modules').filter(name => name.endsWith('.mjs'))) {
+    assert.ok(requests.some(request => request.url === './js/modules/' + module && request.cache === 'reload'));
+  }
+  const manifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
+  for (const icon of manifest.icons) assert.ok(requests.some(request => request.url === './' + icon.src));
+});
