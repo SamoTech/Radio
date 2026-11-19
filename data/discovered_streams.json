@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T13:57:02+00:00",
+ "updated": "2026-11-19T14:06:58+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
  "count": 8,
  "sites": [
@@ -397,7 +397,7 @@
    "official": false,
    "catalog": false,
    "fetch_strategy": "",
-   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)>",
+   "fetch_error": "<urlopen error timed out>",
    "streams": []
   }
  ]

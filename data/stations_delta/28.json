@@ -74,8 +74,8 @@
    "bitrate": 0
   },
   {
-   "name": "Space Beat",
-   "url": "https://spacebeat.ignorelist.com/listen/space_beat/radio.mp3",
+   "name": "M40 Pride",
+   "url": "https://live.m40radio.fr/listen/m40-pride/m40-pride-128.mp3",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -83,8 +83,8 @@
    "bitrate": 0
   },
   {
-   "name": "M40 Pride",
-   "url": "https://live.m40radio.fr/listen/m40-pride/m40-pride-128.mp3",
+   "name": "LRN.fm2",
+   "url": "https://stream.proliberty.dev",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -110,6 +110,15 @@
    "tags": "",
    "codec": "AAC",
    "bitrate": 96
+  },
+  {
+   "name": "RTBF Tipik",
+   "url": "https://radio.rtbf.be/tipik/mp3-160/me",
+   "cc": "BE",
+   "language": "french",
+   "tags": "pop",
+   "codec": "MP3",
+   "bitrate": 0
   },
   {
    "name": "China Radio-1 综合频道",
@@ -159,8 +168,8 @@
  ],
  "removed": [
   "https://harder-fm.nl/listen/tek/;",
-  "https://s25.ssl-stream.com:8050/radio.mp3",
-  "https://chourmovs.ddnsfree.com/listen/kill_hop_radio/radio.mp3",
-  "https://chourmovs.ddnsfree.com/listen/kill_hop_radio/radio128.mp3"
+  "https://online.radio.moe/listen/radiokult-disco/radio.mp3",
+  "https://spacebeat.ignorelist.com/listen/space_beat/mobile.aac",
+  "https://chourmovs.ddnsfree.com/listen/kill_hop_radio/radio.mp3"
  ]
 }
