@@ -1,11 +1,17 @@
 {
- "updated": "2026-11-18T10:09:21+00:00",
+ "updated": "2026-11-19T10:19:48+00:00",
  "cumulative": {
-  "err-network": 1,
-  "err-decode": 0
+  "err-total": 54,
+  "err-decode": 0,
+  "err-src": 43,
+  "err-hls": 0,
+  "err-token": 0
  },
  "daily": {
-  "err-network": 0,
-  "err-decode": 0
+  "err-total": 54,
+  "err-decode": 0,
+  "err-src": 43,
+  "err-hls": 0,
+  "err-token": 0
  }
 }
