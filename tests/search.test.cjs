@@ -431,7 +431,10 @@ test('catalog falls back to the full snapshot when any delta is missing or misma
       document: { addEventListener() {} }
     };
     vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
-    scope.catalogDbOpen = async () => ({});
+    scope.catalogDbOpen = async () => ({
+      transaction: () => ({ objectStore: () => ({}) }),
+      close() {}
+    });
     scope.catalogDbGet = async (_, key) => key === 'rows' ? rows : 10;
     scope.fetchJSON = async url => {
       requests.push(url);
@@ -455,5 +458,23 @@ test('compact player and filters expose native controls with unique IDs', () => 
   assert.match(page, /id="player-controls"[^>]* hidden>/);
   for (const id of ['audio', 'player-toggle', 'player-close', 'sleep-btn', 'alarm-btn', 'vol-slider']) {
     assert.equal(page.split('id="' + id + '"').length, 2, id + ' appears once');
+  }
+});
+
+test('full refresh renders stations but caches only a matching manifest', async () => {
+  const rows = [{ url: 'https://example.test/live' }];
+  for (const matches of [true, false]) {
+    const writes = [];
+    const scope = { ...sandbox, document: { addEventListener() {} } };
+    vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
+    scope.fetchJSON = async url => {
+      if (url.endsWith('_head.json')) return null;
+      if (url.endsWith('manifest.json')) return { updated: matches ? 'today' : 'yesterday', count: 1, version: 4 };
+      return { updated: 'today', count: 1, stations: rows };
+    };
+    scope.catalogIdbWrite = async (...args) => { writes.push(args); };
+    scope.finishStations = stations => assert.equal(stations, rows);
+    await scope.legacyLoadStations();
+    assert.deepEqual(writes, matches ? [[rows, 4]] : []);
   }
 });
