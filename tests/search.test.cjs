@@ -554,3 +554,13 @@ test('full catalog yields between batches and publishes one ordered snapshot', a
   assert.equal(yields, 2);
   assert.deepEqual(rendered, [rows.map(row => row.name)]);
 });
+
+test('home discovery links point to the existing station directories', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const navigation = html.split('<nav class="station-directory"')[1].split('</nav>')[0];
+  for (const folder of ['countries', 'genres', 'languages']) {
+    assert.ok(navigation.includes('href="' + folder + '/"'));
+    assert.ok(fs.existsSync(folder + '/index.html'));
+  }
+  assert.ok(html.indexOf('class="stats"') > html.indexOf('id="panel-sdr"'));
+});

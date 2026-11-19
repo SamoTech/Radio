@@ -391,3 +391,9 @@ body:has(#player:not([hidden])){padding-block-end:calc(74px + env(safe-area-inse
   #panel-sdr>.toolbar #q{flex-basis:100%;min-block-size:44px}
   #panel-sdr select{min-block-size:44px}
 }
+
+.station-directory{margin-block:12px 16px}
+html[lang="ar"] #station-directory-title [lang="en"],
+html[lang="en"] #station-directory-title [lang="ar"]{display:none}
+.station-directory-links{display:flex;flex-wrap:wrap;gap:8px}
+.station-directory-links a{display:inline-flex;align-items:center;min-block-size:44px;text-decoration:none}
