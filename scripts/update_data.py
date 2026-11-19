@@ -2617,6 +2617,28 @@ def guard_catalog_snapshot(stations, previous_rows):
         raise RuntimeError("invalid or duplicated stream URLs in new snapshot")
 
 
+def publish_station_catalog(payload, previous_rows, now_iso):
+    """Publish one consistent catalog/head/delta/manifest set for either path.
+
+    Correct pre-existing discrepancies between embedded catalog count and
+    actual station-list length. Generate deltas from the original snapshot.
+    """
+    stations = payload["stations"]
+    guard_catalog_snapshot(stations, previous_rows)
+    updated = payload.get("updated") or now_iso
+    source = payload.get("source") or ""
+    normalized = dict(payload, count=len(stations))
+    head = stations[:2500]
+    # Files are committed/deployed together by the serialized Actions job;
+    # a failed job never publishes the incomplete staging directory.
+    write_station_deltas(stations, previous_rows, now_iso)
+    write_json(DATA_DIR / "stations_head.json", {
+        "updated": updated, "source": source,
+        "count": len(head), "stations": head,
+    })
+    write_json(DATA_DIR / "stations.json", normalized)
+
+
 def write_quality_report(stations, now_iso):
     """Optional observational health checks; failures never block the catalog."""
     try:
@@ -2856,26 +2878,16 @@ def main():
                 f"scraper {len(discovered)} + dailymotion {len(dm_entries)} + "
                 f"radio-browser {len(rb_stations)} + world {len(world_extra)})"
             )
-            write_json(
-                DATA_DIR / "stations.json",
+            publish_station_catalog(
                 {
                     "updated": now_iso,
                     "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
                     "count": len(stations),
                     "stations": stations,
                 },
+                previous_rows,
+                now_iso,
             )
-            head = stations[:2500]
-            write_json(
-                DATA_DIR / "stations_head.json",
-                {
-                    "updated": now_iso,
-                    "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
-                    "count": len(head),
-                    "stations": head,
-                },
-            )
-            write_station_deltas(stations, previous_rows, now_iso)
             ok = True
             write_stream_checks(
                 officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX],
@@ -2897,7 +2909,8 @@ def main():
                 )
                 merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
                 if merged:
-                    write_json(DATA_DIR / "stations.json", merged)
+                    previous_rows = read_catalog_rows(DATA_DIR / "stations.json")
+                    publish_station_catalog(merged, previous_rows, now_iso)
                     print(f"stations: merged curated data into existing snapshot ({merged['count']})")
                     ok = True
                 else:
