@@ -500,25 +500,14 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
-/* An ordered, bounded list of sources for ONE station.
-   No HTTP mixed content, unsafe protocols, credentials, duplicate mounts,
-   or unlimited retries from untrusted directory fallback arrays. */
-function buildPlaybackSourceList(primary, fallbacks, original, relay) {
-  var sources = [];
-  function add(candidate, limit) {
-    var url = safeHttpsUrl(candidate);
-    if (url && sources.length < limit && sources.indexOf(url) === -1) {
-      sources.push(url);
-    }
-  }
-  add(primary, 4);
-  if (Array.isArray(fallbacks)) {
-    for (var i = 0; i < fallbacks.length; i++) add(fallbacks[i], 4);
-  }
-  add(original, 4);
-  // The optional relay is always the LAST attempt; never retry the relay.
-  add(relay, 5);
-  return sources;
+/* Four HTTPS mounts per station, then at most one optional HTTPS relay. */
+function buildPlaybackSourceList(p, f, o, r) {
+  var out=[];
+  function add(v,n){v=safeHttpsUrl(v);if(v&&out.length<n&&out.indexOf(v)<0)out.push(v);}
+  add(p,4);
+  if(Array.isArray(f))for(var i=0;i<f.length&&i<16;i++)add(f[i],4);
+  add(o,4);add(r,5);
+  return out;
 }
 
 /* Optional stream relay; see proxy/README.md. */
