@@ -659,3 +659,12 @@ test('mobile Home quick listening shows only unique playable catalog/history ent
   assert.equal(wrap.hidden,true);
   assert.equal(row.innerHTML,'');
 });
+
+test('expanded player external stream button has Arabic and English labels', () => {
+  const player = fs.readFileSync('js/modules/player.mjs', 'utf8');
+  const html = fs.readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('id="player-ext"'));
+  assert.ok(html.includes('data-i18n="open_ext2"'));
+  assert.match(player, /open_ext2:\s*'فتح البث خارجيًا'/);
+  assert.match(player, /open_ext2:\s*'Open stream externally'/);
+});
