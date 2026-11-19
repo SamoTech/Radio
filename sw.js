@@ -6,10 +6,28 @@ self.addEventListener('install', function (e) {
 });
 
 self.addEventListener('activate', function (e) {
-  e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+  e.waitUntil(caches.keys().then(async function (keys) {
+    var current = await caches.open(CACHE);
+    for (var key of keys.slice().reverse()) {
+      if (key === CACHE || !/^radio-atlas-v\d+$/.test(key)) continue;
+      try {
+        var previous = await caches.open(key);
+        for (var request of await previous.keys()) {
+          if (new URL(request.url).pathname.indexOf('/data/') === -1 || await current.match(request)) continue;
+          await current.put(request, await previous.match(request));
+        }
+        await caches.delete(key);
+      } catch (error) {
+        // Keep the previous data available if migration hits a storage limit.
+        console.warn('Radio Atlas cache migration:', error);
+      }
+    }
   }).then(function () { return self.clients.claim(); }));
 });
+
+function matchShell(request) {
+  return caches.open(CACHE).then(function (cache) { return cache.match(request); });
+}
 
 self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
@@ -19,10 +37,10 @@ self.addEventListener('fetch', function (e) {
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request).catch(function () {
-        return caches.match(e.request).then(function (hit) {
-          return hit || caches.match('./index.html');
+        return matchShell(e.request).then(function (hit) {
+          return hit || matchShell('./index.html');
         }).then(function (hit) {
-          return hit || caches.match('./offline.html');
+          return hit || matchShell('./offline.html');
         });
       })
     );
@@ -51,8 +69,8 @@ self.addEventListener('fetch', function (e) {
     }
     return r;
   }).catch(function () {
-    return caches.match(e.request).then(function (hit) {
-      return hit || caches.match('./offline.html');
+    return matchShell(e.request).then(function (hit) {
+      return hit || Response.error();
     });
   }));
 });
