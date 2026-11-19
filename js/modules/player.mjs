@@ -412,6 +412,7 @@ function openDmNotice(url, name) {
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  state.playbackRequestedInSession = true;
   if (isDmEmbed(url)) {
     openDmNotice(url, name);
     pushHistory(url, name);
