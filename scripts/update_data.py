@@ -1912,7 +1912,16 @@ def write_error_report(now_iso):
 
 
 def write_json(path, payload):
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    """Stage JSON beside its target, then atomically replace the last good file."""
+    serialized = json.dumps(payload, ensure_ascii=False, indent=1)
+    target = Path(path)
+    temporary = target.with_name(target.name + ".tmp")
+    try:
+        temporary.write_text(serialized, encoding="utf-8")
+        temporary.replace(target)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def write_stream_checks(stations, now_iso):
@@ -2587,6 +2596,69 @@ def write_station_deltas(stations, previous_rows, now_iso, data_dir=None):
     })
 
 
+def guard_catalog_snapshot(stations, previous_rows):
+    """Reject sudden incomplete source rebuilds before touching the last good.
+
+    A disappearing directory page must not remove thousands of favorites.
+    This is a safety gate, not evidence that individual stations are broken.
+    """
+    previous_count = len(previous_rows)
+    if len(stations) < 10_000:
+        raise RuntimeError(f"suspiciously small catalog: {len(stations)}")
+    if previous_count >= 10_000 and len(stations) < int(previous_count * 0.8):
+        raise RuntimeError(
+            f"catalog quarantine: {previous_count} -> {len(stations)} "
+            "(more than 20% lost; preserving the previous snapshot)"
+        )
+    if any(str(s.get("cc") or "").upper() == "IL" for s in stations):
+        raise RuntimeError("catalog contains excluded country code")
+    keys = [station_url_key(s.get("url")) for s in stations]
+    if not all(keys) or len(set(keys)) != len(keys):
+        raise RuntimeError("invalid or duplicated stream URLs in new snapshot")
+
+
+def publish_station_catalog(payload, previous_rows, now_iso):
+    """Publish one consistent catalog/head/delta/manifest set for either path.
+
+    Correct pre-existing discrepancies between embedded catalog count and
+    actual station-list length. Generate deltas from the original snapshot.
+    """
+    stations = payload["stations"]
+    guard_catalog_snapshot(stations, previous_rows)
+    updated = payload.get("updated") or now_iso
+    source = payload.get("source") or ""
+    normalized = dict(payload, count=len(stations))
+    head = stations[:2500]
+    # Files are committed/deployed together by the serialized Actions job;
+    # a failed job never publishes the incomplete staging directory.
+    write_station_deltas(stations, previous_rows, now_iso)
+    write_json(DATA_DIR / "stations_head.json", {
+        "updated": updated, "source": source,
+        "count": len(head), "stations": head,
+    })
+    write_json(DATA_DIR / "stations.json", normalized)
+
+
+def write_quality_report(stations, now_iso):
+    """Optional observational health checks; failures never block the catalog."""
+    try:
+        from stream_quality import update_quality_report
+        report = update_quality_report(
+            stations, DATA_DIR / "stream_quality.json", now_iso
+        )
+        print(
+            "evidence-based stream quality: "
+            f"{report['checked_this_run']} sampled, "
+            f"{report['ever_checked']}/{report['catalog_count']} ever checked, "
+            f"statuses {report['status_counts']}"
+        )
+    except Exception as error:  # noqa: BLE001
+        print(
+            f"stream quality probe FAILED: {error} — keeping existing report",
+            file=sys.stderr,
+        )
+
+
 def main():
     mode = (sys.argv[1] if len(sys.argv) > 1 else "all").lower()
     if mode not in {"all", "stations", "sdr"}:
@@ -2798,6 +2870,7 @@ def main():
                 if key and key not in seen_urls:
                     seen_urls.add(key)
                     stations.append(station)
+            guard_catalog_snapshot(stations, previous_rows)
             print(
                 f"stations: {len(stations)} total "
                 f"(officials {len(officials)} + arabic {len(arabic)} + "
@@ -2805,31 +2878,22 @@ def main():
                 f"scraper {len(discovered)} + dailymotion {len(dm_entries)} + "
                 f"radio-browser {len(rb_stations)} + world {len(world_extra)})"
             )
-            write_json(
-                DATA_DIR / "stations.json",
+            publish_station_catalog(
                 {
                     "updated": now_iso,
                     "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
                     "count": len(stations),
                     "stations": stations,
                 },
+                previous_rows,
+                now_iso,
             )
-            head = stations[:2500]
-            write_json(
-                DATA_DIR / "stations_head.json",
-                {
-                    "updated": now_iso,
-                    "source": "Radio-Browser + IPRD + verified-streams + Icecast YP + community playlists + own scraper + Dailymotion (multi-source)",
-                    "count": len(head),
-                    "stations": head,
-                },
-            )
-            write_station_deltas(stations, previous_rows, now_iso)
             ok = True
             write_stream_checks(
                 officials + arabic + arab_extra + stations[:CHECK_HEAD_MAX],
                 now_iso,
             )
+            write_quality_report(stations, now_iso)
         except Exception as e:  # noqa: BLE001
             print(f"stations FAILED: {e} — preserving last good snapshot", file=sys.stderr)
             curated = None
@@ -2845,7 +2909,8 @@ def main():
                 )
                 merged = merge_curated_into_snapshot(curated, DATA_DIR / "stations.json")
                 if merged:
-                    write_json(DATA_DIR / "stations.json", merged)
+                    previous_rows = read_catalog_rows(DATA_DIR / "stations.json")
+                    publish_station_catalog(merged, previous_rows, now_iso)
                     print(f"stations: merged curated data into existing snapshot ({merged['count']})")
                     ok = True
                 else:
