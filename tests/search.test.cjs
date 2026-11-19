@@ -604,3 +604,26 @@ test('mobile navigation and expanded player targets remain present in HTML', () 
   ].forEach(id => assert.ok(html.includes('id="' + id + '"'), 'missing ' + id));
   assert.equal((html.match(/id="audio"/g) || []).length, 1);
 });
+
+test('late full catalog initialization never resets a station already playing', () => {
+  const oldStorage = sandbox.localStorage;
+  const oldStation = sandbox.state.playbackStation;
+  const oldGen = sandbox.state.playbackGeneration;
+  const playing = {url: 'https://example.test/live', name: 'Still playing'};
+  let storageReads = 0;
+  sandbox.localStorage = {
+    getItem() { storageReads++; return JSON.stringify({url:'https://example.test/old',name:'Old station'}); }
+  };
+  sandbox.state.playbackStation = playing;
+  sandbox.state.playbackGeneration = 42;
+  try {
+    assert.doesNotThrow(() => sandbox.initResume());
+    assert.equal(storageReads, 0, 'should not even inspect last station while playback is underway');
+    assert.equal(sandbox.state.playbackStation, playing, 'active playback station must not change');
+    assert.equal(sandbox.state.playbackGeneration, 42, 'audio generation must not be invalidated');
+  } finally {
+    sandbox.localStorage = oldStorage;
+    sandbox.state.playbackStation = oldStation;
+    sandbox.state.playbackGeneration = oldGen;
+  }
+});
