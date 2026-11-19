@@ -564,3 +564,43 @@ test('home discovery links point to the existing station directories', () => {
   }
   assert.ok(html.indexOf('class="stats"') > html.indexOf('id="panel-sdr"'));
 });
+
+test('mobile Explore is distinct from Home without losing any catalog stations', () => {
+  seedStations();
+  sandbox.state.mobileExplore = false;
+  assert.equal(sandbox.isHomeMode(), true);
+  sandbox.state.mobileExplore = true;
+  assert.equal(sandbox.isHomeMode(), false);
+  assert.equal(sandbox.filterFM().length, 3);
+  sandbox.state.mobileExplore = false;
+});
+
+test('station cards use safe optional logos and a permanent fallback', () => {
+  seedStations();
+  sandbox.state.streamChecks = {};
+  const station = sandbox.normalizeFm({
+    name: 'Example Radio', url: 'https://example.test/live',
+    countrycode: 'EG', favicon: 'https://example.test/logo.png'
+  }, 'english', 'news');
+  assert.equal(station.favicon, 'https://example.test/logo.png');
+  const html = sandbox.cardFm(station);
+  assert.match(html, /station-art-fallback/);
+  assert.match(html, /loading="lazy"/);
+  assert.match(html, /station-card-actions/);
+  const unsafe = sandbox.normalizeFm({
+    name: 'Blocked artwork', url: 'https://example.test/live',
+    favicon: 'javascript:alert(1)'
+  }, '', '');
+  assert.equal(unsafe.favicon, '');
+});
+
+test('mobile navigation and expanded player targets remain present in HTML', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  [
+    'mobile-nav-home', 'mobile-nav-explore', 'mobile-nav-fav', 'mobile-nav-sdr',
+    'home-favorites-row', 'player-collapse', 'player-artwork',
+    'player-expanded-name', 'player-stage-status',
+    'player-favorite', 'player-share', 'player-retry'
+  ].forEach(id => assert.ok(html.includes('id="' + id + '"'), 'missing ' + id));
+  assert.equal((html.match(/id="audio"/g) || []).length, 1);
+});
