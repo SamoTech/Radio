@@ -30,14 +30,23 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.62.1
           npx playwright install --with-deps chromium
-      - name: Start the checked-out application over localhost
+      - name: Serve the checkout and exercise it with real Chromium
         run: |
           python -m http.server 8765 --bind 127.0.0.1 > /tmp/radio-atlas-local-server.log 2>&1 &
-          echo $! > /tmp/radio-atlas-local-server.pid
-          sleep 2
-          curl -fsS http://127.0.0.1:8765/ > /dev/null
-      - name: Exercise mobile application with real Chromium
-        run: node scripts/browser_qa.cjs
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          STARTED=0
+          for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1; then STARTED=1; break; fi
+            sleep 1
+          done
+          if [ "$STARTED" != "1" ]; then
+            echo "Local server failed; diagnostic log follows:"
+            cat /tmp/radio-atlas-local-server.log
+            ps aux | grep -E 'http.server|python' || true
+            exit 1
+          fi
+          node scripts/browser_qa.cjs
       - name: Upload actual screenshots and browser test report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
