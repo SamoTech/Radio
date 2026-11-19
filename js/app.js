@@ -500,14 +500,10 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
-/* Four HTTPS mounts per station, then at most one optional HTTPS relay. */
-function buildPlaybackSourceList(p, f, o, r) {
-  var out=[];
-  function add(v,n){v=safeHttpsUrl(v);if(v&&out.length<n&&out.indexOf(v)<0)out.push(v);}
-  add(p,4);
-  if(Array.isArray(f))for(var i=0;i<f.length&&i<16;i++)add(f[i],4);
-  add(o,4);add(r,5);
-  return out;
+function buildPlaybackSourceList(p,f,o,r) {
+  var s=[],a=[p].concat(Array.isArray(f)?f.slice(0,16):[],[o,r]);
+  a.forEach(function(v,i){v=safeHttpsUrl(v);if(v&&s.length<(i===a.length-1?5:4)&&s.indexOf(v)<0)s.push(v);});
+  return s;
 }
 
 /* Optional stream relay; see proxy/README.md. */
