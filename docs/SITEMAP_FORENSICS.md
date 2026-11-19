@@ -3,6 +3,15 @@
 Scope: [ROADMAP.md P2-2](../ROADMAP.md), property `https://samotech.github.io/Radio/`.
 Date first inspected: 2026-11-19. **Search Console result: NOT VERIFIED** without authenticated browser access.
 
+## Independent runner evidence (2026-11-19, UTC)
+
+- [Sitemap live-audit run](https://github.com/SamoTech/Radio/actions/runs/44571413772) checked all 160 live page URLs.
+- Published `/Radio/sitemap.xml`: HTTP 200, `application/xml`, and URL set equal to the source sitemap at test time.
+- Host-root `https://samotech.github.io/robots.txt`: HTTP 200 with `User-agent: *`, `Allow: /`, and sitemap directives for both `/sitemap.xml` and `/Radio/sitemap.xml`.
+- All 160 live pages returned HTTP 200 with the expected final URL and canonical. There were no observed HTTP `X-Robots-Tag: noindex` or HTML `noindex` directives.
+- [Earlier audit run](https://github.com/SamoTech/Radio/actions/runs/44571267145) saw one intermittent HTTP 503 on `/Radio/genres/top40.html`; the subsequent audit returned HTTP 200. **Do not infer permanent failure or Googlebot behavior from this transient response.**
+- Google Search Console selected-property details, Google's fetch status and last-read time were not accessible to the repository runner. A successful independent HTTP probe does not prove Google ingestion.
+
 ## What the source establishes (not a Google processing claim)
 
 - `sitemap.xml` at repository root contains 160 unique absolute URLs under the exact case-sensitive `/Radio/` project path. Each URL corresponds to a tracked static HTML file or index in the repository.
