@@ -500,3 +500,16 @@ test('worker activation migrates offline data and leaves unrelated caches alone'
   assert.deepEqual(copied, [data.url]);
   assert.deepEqual(removed, ['radio-atlas-v69']);
 });
+
+test('catalog batches preserve per-station languages, categories and ordering', () => {
+  const rows = [
+    { name: 'A', url: 'https://example.test/one', cc: 'EG', language: 'Arabic;Arabic', tags: 'news|talk' },
+    { name: 'B', url: 'https://example.test/two', cc: 'GB', language: 'Arabic;Arabic', tags: 'news|talk' }
+  ];
+  const result = sandbox.catalogStations(rows);
+  assert.deepEqual(Array.from(result, row => row.name), ['A', 'B']);
+  for (const row of result) {
+    assert.equal(row.language, sandbox.normalizeLanguages(rows[0].language));
+    assert.equal(row.tags, sandbox.normalizeCategories(rows[0].tags));
+  }
+});
