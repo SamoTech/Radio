@@ -65,17 +65,23 @@ function fixtureWorkers() {
     check('Old worker also controls second tab',
       await p2.evaluate(()=>navigator.serviceWorker.controller.scriptURL.endsWith('/sw.js')));
     await p1.evaluate(()=>navigator.serviceWorker.register('./sw-upgrade-qa.js',{scope:'./',updateViaCache:'none'}));
-    await p1.waitForFunction(async()=>{
-      const registration=await navigator.serviceWorker.getRegistration('./');
-      return !!registration&&!!registration.waiting;
-    },{timeout:30000});
-    const waiting=await p1.evaluate(async()=>{
-      const r=await navigator.serviceWorker.getRegistration('./');
-      return {active:r.active&&r.active.scriptURL,waiting:r.waiting&&r.waiting.scriptURL};
-    });
+    const lifecycle=[];
+    for(let i=0;i<12;i++){
+      lifecycle.push(await p1.evaluate(async()=>{
+        const r=await navigator.serviceWorker.getRegistration('./');
+        return {active:r&&r.active&&r.active.scriptURL,
+          waiting:r&&r.waiting&&r.waiting.scriptURL,
+          installing:r&&r.installing&&r.installing.scriptURL,
+          controller:navigator.serviceWorker.controller&&navigator.serviceWorker.controller.scriptURL};
+      }));
+      await p1.waitForTimeout(200);
+    }
+    const waiting=lifecycle[lifecycle.length-1];
+    records.workerTimeline=lifecycle;
     records.waiting=waiting;
     check('New worker waits while two old clients are open',
-      waiting.active.endsWith('/sw.js')&&waiting.waiting.endsWith('/sw-upgrade-qa.js'),
+      !!waiting.active&&waiting.active.endsWith('/sw.js')
+        &&!!waiting.waiting&&waiting.waiting.endsWith('/sw-upgrade-qa.js'),
       JSON.stringify(waiting));
     await p1.close();
     const p2Waiting=await p2.evaluate(async()=>{
