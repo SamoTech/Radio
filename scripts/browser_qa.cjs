@@ -182,12 +182,26 @@ async function shot(page,name) {
       document.body.appendChild(button);
     },[FAILED_URL,BACKUP_URL]);
     await page.locator('#qa-fallback-launch').click();
-    await page.waitForFunction(backup=>{
-      const audio=document.querySelector('#audio');
-      return state.playbackStation&&state.playbackStation.name==='Radio Atlas QA Fallback'
-        &&state.currentName==='Radio Atlas QA Fallback'
-        &&audio.currentSrc===backup&&!audio.paused&&audio.readyState>=2;
-    },BACKUP_URL,{timeout:20000});
+    try {
+      await page.waitForFunction(backup=>{
+        const audio=document.querySelector('#audio');
+        return state.playbackStation&&state.playbackStation.name==='Radio Atlas QA Fallback'
+          &&state.currentName==='Radio Atlas QA Fallback'
+          &&audio.currentSrc===backup&&!audio.paused&&audio.readyState>=2;
+      },BACKUP_URL,{timeout:20000});
+    } catch (error) {
+      const diagnostics=await page.evaluate(()=>{
+        const a=document.querySelector('#audio');
+        return {sources:state.playbackSources,index:state.playbackIndex,
+          generation:state.playbackGeneration,attemptFailed:state.playbackAttemptFailed,
+          currentSrc:a.currentSrc,paused:a.paused,readyState:a.readyState,
+          error:a.error&&{code:a.error.code,message:a.error.message},
+          name:state.currentName,station:state.playbackStation&&state.playbackStation.url,
+          status:document.querySelector('#player-status').textContent};
+      });
+      results.fallbackDiagnostics=diagnostics;
+      throw new Error(error.message+'; fallback diagnostics: '+JSON.stringify(diagnostics));
+    }
     const failover=await page.evaluate(()=>({
       station:state.playbackStation&&state.playbackStation.url,
       stationName:state.currentName,
