@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - scripts/browser_qa.cjs
+      - scripts/pwa_upgrade_qa.cjs
       - .github/workflows/mobile-browser-qa.yml
       - js/**
       - css/**
@@ -47,10 +48,18 @@ jobs:
             exit 1
           fi
           node scripts/browser_qa.cjs
+          node scripts/pwa_upgrade_qa.cjs
       - name: Upload actual screenshots and browser test report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: radio-atlas-mobile-browser-evidence
           path: artifacts/mobile-browser-qa/
+          if-no-files-found: warn
+      - name: Upload Service Worker upgrade and offline evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-pwa-upgrade-evidence
+          path: artifacts/pwa-upgrade-qa/
           if-no-files-found: warn
