@@ -84,6 +84,8 @@ jobs:
   deploy:
     needs: update
     runs-on: ubuntu-latest
+    outputs:
+      source_sha: ${{ steps.source.outputs.sha }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -91,6 +93,11 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: main
+      - name: Stamp actual checked-out source and asset digests
+        id: source
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          python3 scripts/deployment_provenance.py stamp --commit "$(git rev-parse HEAD)"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
@@ -98,3 +105,25 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ needs.deploy.outputs.source_sha }}
+      - name: Verify actual public Pages commit and asset hashes
+        run: |
+          set -o pipefail
+          python3 scripts/deployment_provenance.py verify --commit "${{ needs.deploy.outputs.source_sha }}" --attempts 20 --delay 6 2>&1 | tee production-verification.log
+      - name: Upload deployed release verification evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-production-provenance
+          path: production-verification.log
+          if-no-files-found: warn
