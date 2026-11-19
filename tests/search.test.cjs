@@ -478,3 +478,25 @@ test('full refresh renders stations but caches only a matching manifest', async 
     assert.deepEqual(writes, matches ? [[rows, 4]] : []);
   }
 });
+
+test('worker activation migrates offline data and leaves unrelated caches alone', async () => {
+  const data = { url: 'https://example.test/Radio/data/stations.json' };
+  const script = { url: 'https://example.test/Radio/js/app.js' };
+  const copied = [], removed = [], handlers = {};
+  const old = { keys: async () => [data, script], match: async request => request.url };
+  const next = { match: async () => undefined, put: async request => copied.push(request.url) };
+  vm.runInNewContext(fs.readFileSync('sw.js', 'utf8'), {
+    URL, console,
+    self: { addEventListener: (event, handler) => { handlers[event] = handler; }, clients: { claim() {} } },
+    caches: {
+      keys: async () => ['radio-atlas-v69', 'another-app', 'radio-atlas-v70'],
+      open: async key => key === 'radio-atlas-v69' ? old : next,
+      delete: async key => removed.push(key)
+    }
+  });
+  let done;
+  handlers.activate({ waitUntil: promise => { done = promise; } });
+  await done;
+  assert.deepEqual(copied, [data.url]);
+  assert.deepEqual(removed, ['radio-atlas-v69']);
+});
