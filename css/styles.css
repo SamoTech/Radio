@@ -383,3 +383,11 @@ body:has(#player:not([hidden])){padding-block-end:calc(74px + env(safe-area-inse
   .fm-search-row #qfm{flex-basis:100%}
   .player-actions #vol-slider{flex:0 1 100px}
 }
+
+.sdr-disclosure{margin-block:8px;border:1px solid var(--line);border-radius:12px;padding-inline:12px}
+.sdr-disclosure summary{cursor:pointer;min-block-size:44px;align-content:center;color:var(--accent)}
+.sdr-disclosure[open] summary{margin-block-end:8px}
+@media(max-width:720px){
+  #panel-sdr>.toolbar #q{flex-basis:100%;min-block-size:44px}
+  #panel-sdr select{min-block-size:44px}
+}
