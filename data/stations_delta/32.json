@@ -74,6 +74,15 @@
    "bitrate": 128
   },
   {
+   "name": "Radyo Bozcaada",
+   "url": "https://radyobozcaada.80.yayin.com.tr/listen.pls?sid=1",
+   "cc": "TR",
+   "language": "türkçe",
+   "tags": "slowcore,greek pop,türkçe",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "RadioFRL 4",
    "url": "https://player.radiofrl.com/listen/radiofrl_4/Mobiel",
    "cc": "",
@@ -101,6 +110,15 @@
    "bitrate": 0
   },
   {
+   "name": "radio Free Fm Uk",
+   "url": "https://r23.freefm.uk/listen/live/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "A1Radio",
    "url": "https://listen.a1radio.co.uk/listen/a1radio/lo",
    "cc": "",
@@ -119,8 +137,8 @@
    "bitrate": 0
   },
   {
-   "name": "radio Free Fm Uk",
-   "url": "https://r23.freefm.uk/listen/live/radio.mp3",
+   "name": "Soul Club Radio",
+   "url": "https://vega.streamerr.co/listen/soul_club_radio/radio.mp3",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -130,15 +148,6 @@
   {
    "name": "AkroRadio - www.akroradio.com",
    "url": "https://stream.akroradio.com/listen/akroradio/Akrogg64.ogg",
-   "cc": "",
-   "language": "",
-   "tags": "icecast,yp",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
-   "name": "Soul Club Radio",
-   "url": "https://vega.streamerr.co/listen/soul_club_radio/radio.mp3",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -398,15 +407,6 @@
    "bitrate": 0
   },
   {
-   "name": "*HARDER-FM THE HARDERSOUND*",
-   "url": "https://harder-fm.nl/listen/tek/;",
-   "cc": "",
-   "language": "",
-   "tags": "icecast,yp",
-   "codec": "",
-   "bitrate": 0
-  },
-  {
    "name": "RadioMonster.FM - Evergreens (320kbps)",
    "url": "https://evergreens.radiomonster.fm/ultra",
    "cc": "",
@@ -452,6 +452,15 @@
    "tags": "italodisco,oldies & retro hits 70s 80s 90s 00s,polish",
    "codec": "MP3",
    "bitrate": 64
+  },
+  {
+   "name": "Kairaly TV",
+   "url": "https://mumt01.tangotv.in/O5aw8Zn3KAIRALI/index.m3u8",
+   "cc": "IN",
+   "language": "malayalam",
+   "tags": "indian,malayalam,tv",
+   "codec": "AAC,H.264",
+   "bitrate": 2010
   },
   {
    "name": "I love music – I love radio",
