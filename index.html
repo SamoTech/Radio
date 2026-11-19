@@ -99,6 +99,10 @@
         <a href="languages/" class="btn ghost" data-i18n="filter_language">اللغة</a>
       </div>
     </nav>
+    <div id="home-favorites-wrap" hidden>
+      <h2 class="featured-title" data-i18n="home_favorites_title">محطاتك المفضلة</h2>
+      <div id="home-favorites-row" class="featured-row"></div>
+    </div>
     <div id="featured-wrap" hidden>
       <h2 class="featured-title" data-i18n="featured_title">الأشهر عالميًا وعربيًا</h2>
       <div id="featured-row" class="featured-row"></div>
@@ -274,6 +278,12 @@
   </section>
 </main>
 
+<nav id="mobile-primary-nav" class="mobile-primary-nav" aria-label="Radio Atlas">
+  <button type="button" id="mobile-nav-home" class="mobile-nav-item active" aria-current="page"><span aria-hidden="true">⌂</span><span data-i18n="mobile_home">الرئيسية</span></button>
+  <button type="button" id="mobile-nav-explore" class="mobile-nav-item"><span aria-hidden="true">⌕</span><span data-i18n="mobile_explore">استكشف</span></button>
+  <button type="button" id="mobile-nav-fav" class="mobile-nav-item"><span aria-hidden="true">♡</span><span data-i18n="mobile_favorites">المفضلة</span></button>
+  <button type="button" id="mobile-nav-sdr" class="mobile-nav-item"><span aria-hidden="true">◉</span><span data-i18n="mobile_sdr">SDR</span></button>
+</nav>
 <div id="quick-bar" class="quick-bar" hidden role="region" data-i18n-aria="quick_bar_aria" aria-label="الأشهر — تشغيل سريع">
   <span class="qb-label" aria-hidden="true">🔥</span>
   <div id="quick-bar-row" class="qb-row"></div>
@@ -290,7 +300,17 @@
     <button id="player-close" type="button" title="إغلاق" data-i18n-aria="close_aria">✕</button>
   </div>
   <div id="player-controls" class="player-controls" hidden>
+    <div class="player-stage">
+      <button id="player-collapse" class="player-tool player-collapse" type="button" data-i18n-aria="player_collapse_aria" aria-label="تصغير المشغل">⌄</button>
+      <div id="player-artwork" class="player-artwork" aria-hidden="true">📻</div>
+      <h2 id="player-expanded-name"></h2>
+      <div id="player-expanded-meta" class="player-expanded-meta"></div>
+      <div id="player-stage-status" class="player-stage-status" role="status" aria-live="polite"></div>
+    </div>
     <div class="player-actions">
+      <button id="player-favorite" class="player-tool" type="button" data-i18n-aria="fav_aria" aria-pressed="false" aria-label="المفضلة">♡</button>
+      <button id="player-share" class="player-tool" type="button" data-i18n-aria="share_aria" aria-label="مشاركة">↗</button>
+      <button id="player-retry" class="player-tool" type="button" data-i18n-aria="player_retry_aria" aria-label="إعادة المحاولة" hidden>↻</button>
       <button id="player-prev" class="player-tool" type="button" data-i18n-aria="prev_aria" title="⏮">⏮</button>
       <button id="player-next" class="player-tool" type="button" data-i18n-aria="next_aria" title="⏭">⏭</button>
       <button id="vol-mute" class="player-tool" type="button" data-i18n-aria="mute_aria" title="🔇">🔊</button>
