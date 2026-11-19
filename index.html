@@ -73,11 +73,14 @@
         <button id="fm-clear-btn" class="btn ghost" type="button" data-i18n="clear_filters">مسح الفلاتر</button>
         <button id="fm-random-btn" class="btn ghost" type="button" data-i18n="random_station" data-i18n-aria="random_aria" title="🎲">🎲 محطة عشوائية</button>
       </div>
+      <details class="station-filters">
+        <summary data-i18n="station_filters">فلاتر المحطات</summary>
       <div class="fm-filter-grid" aria-label="تصفية المحطات">
         <div class="filter-field"><label for="fm-country-search" data-i18n="filter_country">الدولة</label><input id="fm-country-search" type="search" autocomplete="off" placeholder="ابحث عن دولة…" data-i18n-ph="search_country_ph" data-i18n-aria="search_country_aria"><select id="fm-country" title="الدولة" data-i18n-aria="select_country_aria"></select></div>
         <div class="filter-field"><label for="fm-language-search" data-i18n="filter_language">اللغة</label><input id="fm-language-search" type="search" autocomplete="off" placeholder="ابحث عن لغة…" data-i18n-ph="search_language_ph" data-i18n-aria="search_language_aria"><select id="fm-language" title="اللغة" data-i18n-aria="select_language_aria"></select></div>
         <div class="filter-field"><label for="fm-tag-search" data-i18n="filter_category">الفئة</label><input id="fm-tag-search" type="search" autocomplete="off" placeholder="ابحث عن فئة…" data-i18n-ph="search_tag_ph" data-i18n-aria="search_category_aria"><select id="fm-tag" title="الفئة" data-i18n-aria="select_category_aria"></select></div>
       </div>
+      </details>
       <div class="fm-results-row"><label class="check fm-alive-check"><input id="alive-only" type="checkbox"><span data-i18n="alive_only">شغالة بس</span></label><span id="count-fm" class="count" aria-live="polite"></span><span class="fm-search-note" data-i18n="fm_search_note">البحث الفوري داخل الكتالوج المحمّل؛ «بحث مباشر» يجلب نتائج أحدث من المصدر.</span></div>
     </div>
     <div id="quick-chips" class="quick-chips">
@@ -257,21 +260,29 @@
 </div>
 
 <div id="player" class="player" hidden>
-  <button id="player-close" type="button" title="إغلاق" data-i18n-aria="close_aria">✕</button>
-  <button id="player-prev" class="player-tool" type="button" data-i18n-aria="prev_aria" title="⏮">⏮</button>
-  <button id="player-next" class="player-tool" type="button" data-i18n-aria="next_aria" title="⏭">⏭</button>
-  <button id="vol-mute" class="player-tool" type="button" data-i18n-aria="mute_aria" title="🔇">🔊</button>
-  <input id="vol-slider" type="range" min="0" max="100" value="100" data-i18n-aria="vol_aria">
-  <a id="player-ext" class="btn ghost" target="_blank" rel="noopener" href="#" hidden data-i18n="open_ext2">فتح خارجي ↗</a>
-  <a id="player-official" class="btn ghost" target="_blank" rel="noopener noreferrer" href="#" hidden data-i18n="open_official_site">الموقع الرسمي ↗</a>
-  <canvas id="player-vis" width="56" height="30" aria-hidden="true"></canvas>
-  <button id="sleep-btn" class="player-tool" type="button" data-i18n-aria="sleep_aria" title="⏱">⏱</button>
-  <button id="alarm-btn" class="player-tool" type="button" data-i18n-aria="alarm_aria" title="⏰">⏰</button>
-  <div class="player-body">
-    <div id="player-name"></div>
+  <div class="player-strip">
+    <div class="player-station">
+      <div id="player-name"></div>
+      <div id="player-status" class="player-status" role="status"></div>
+    </div>
+    <button id="player-toggle" class="player-tool" type="button" data-i18n-aria="player_play_aria" aria-label="تشغيل">▶</button>
+    <button id="player-expand" class="player-tool" type="button" aria-expanded="false" aria-controls="player-controls" data-i18n="player_controls">التحكم</button>
+    <button id="player-close" type="button" title="إغلاق" data-i18n-aria="close_aria">✕</button>
+  </div>
+  <div id="player-controls" class="player-controls" hidden>
+    <div class="player-actions">
+      <button id="player-prev" class="player-tool" type="button" data-i18n-aria="prev_aria" title="⏮">⏮</button>
+      <button id="player-next" class="player-tool" type="button" data-i18n-aria="next_aria" title="⏭">⏭</button>
+      <button id="vol-mute" class="player-tool" type="button" data-i18n-aria="mute_aria" title="🔇">🔊</button>
+      <input id="vol-slider" type="range" min="0" max="100" value="100" data-i18n-aria="vol_aria">
+      <button id="sleep-btn" class="player-tool" type="button" data-i18n-aria="sleep_aria" title="⏱">⏱</button>
+      <button id="alarm-btn" class="player-tool" type="button" data-i18n-aria="alarm_aria" title="⏰">⏰</button>
+      <canvas id="player-vis" width="56" height="30" aria-hidden="true"></canvas>
+      <a id="player-ext" class="btn ghost" target="_blank" rel="noopener" href="#" hidden data-i18n="open_ext2">فتح خارجي ↗</a>
+      <a id="player-official" class="btn ghost" target="_blank" rel="noopener noreferrer" href="#" hidden data-i18n="open_official_site">الموقع الرسمي ↗</a>
+    </div>
     <div id="player-meta" class="player-meta" hidden></div>
     <div id="player-alt" class="player-alt" hidden></div>
-    <div id="player-status" class="player-status"></div>
     <audio id="audio" controls preload="none"></audio>
   </div>
 </div>
