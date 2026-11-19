@@ -85,11 +85,22 @@ async function shot(page,name) {
       renderFM();
     },TEST_URL);
     const testCard=page.locator('#grid-fm .station-card[data-station-url="'+TEST_URL+'"]');
+    results.playTrigger={
+      cardName:await testCard.locator('h3').textContent(),
+      buttonName:await testCard.locator('button.play').getAttribute('data-name'),
+      buttonUrl:await testCard.locator('button.play').getAttribute('data-url')
+    };
     await testCard.locator('button.play').click();
+    results.playInitialState=await page.evaluate(()=>({
+      currentName:state.currentName,
+      stationName:state.playbackStation&&state.playbackStation.name,
+      stationUrl:state.playbackStation&&state.playbackStation.url
+    }));
     await page.waitForFunction(()=>!document.querySelector('#audio').paused
       &&document.querySelector('#audio').readyState>=2,{timeout:20000});
     check('Real HTMLAudioElement plays fixture',await page.locator('#audio').evaluate(a=>!a.paused));
     const beforeAudio=await page.evaluate(()=>({
+      currentName:state.currentName,stationName:state.playbackStation&&state.playbackStation.name,
       currentTime:document.querySelector('#audio').currentTime,
       src:document.querySelector('#audio').currentSrc,
       generation:state.playbackGeneration
@@ -97,6 +108,7 @@ async function shot(page,name) {
     await page.locator('#mobile-nav-sdr').click();
     await page.waitForTimeout(650);
     const afterAudio=await page.evaluate(()=>({
+      currentName:state.currentName,stationName:state.playbackStation&&state.playbackStation.name,
       currentTime:document.querySelector('#audio').currentTime,
       src:document.querySelector('#audio').currentSrc,
       generation:state.playbackGeneration,
