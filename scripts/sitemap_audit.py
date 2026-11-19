@@ -36,7 +36,8 @@ class Metadata(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        if tag == "title":\n            self._title = True
+        if tag == "title":
+            self._title = True
         if tag == "link" and "canonical" in attrs.get("rel", "").lower().split():
             self.canonical = attrs.get("href", "")
         if tag == "meta" and attrs.get("name", "").lower() == "robots":
