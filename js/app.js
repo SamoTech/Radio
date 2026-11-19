@@ -646,10 +646,17 @@ function splitList(v) {
 
 function buildFMFacets() {
   var countries={},langs={},categories={};
+  var languageKeys=Object.create(null), tagKeys=Object.create(null);
   state.fm.forEach(function(s){
     if(s.cc)countries[s.cc]=(countries[s.cc]||0)+1;
-    splitList(s.language).forEach(function(l){var c=canonicalLanguage(l);if(c)langs[c]=(langs[c]||0)+1;});
-    splitList(normalizeCategories(s.tags)).forEach(function(tag){categories[tag]=(categories[tag]||0)+1;});
+    splitList(s.language).forEach(function(lang){
+      if (!(lang in languageKeys)) languageKeys[lang]=canonicalLanguage(lang);
+      var key=languageKeys[lang];
+      if (key) langs[key]=(langs[key]||0)+1;
+    });
+    var tags=s.tags||'';
+    if (!(tags in tagKeys)) tagKeys[tags]=splitList(normalizeCategories(tags));
+    tagKeys[tags].forEach(function(tag){categories[tag]=(categories[tag]||0)+1;});
   });
   var countryItems=Object.keys(countries).map(function(k){
     var name=regionName(k,k);return {value:k,name:name,label:flagOf(k)+' '+name+' ('+countries[k]+')'};
@@ -883,11 +890,7 @@ renderQuickBar();
 }
 
 /* ===== P1-1: differential catalog via IndexedDB ===== */
-/* الزيارة الثانية بتنزل دلتا يومية صغيرة بدل الكتالوج كاملًا كل مرة.
-   المصدر: data/stations.manifest.json (version/count/keep) وسلسلة
-   data/stations_delta/<version>.json — الـ crawler بيكتبهم مع كل تشغيل
-   بيانات ناجح. لو IndexedDB أو الشبكة فشلوا، بنرجع تلقائيًا للمسار
-   القديم (head ثم الكتالوج الكامل) من غير أي كسر. */
+/* Missing deltas fall back to the full snapshot without advancing IndexedDB. */
 var CATALOG_DB_NAME = 'radio-atlas-catalog';
 var CATALOG_DB_STORE = 'catalog';
 var CATALOG_DELTA_FALLBACK_KEEP = 3;
@@ -1003,8 +1006,9 @@ function catalogIdbRows() {
             (function (version) {
               chain = chain.then(function (acc) {
                 return fetchJSON('data/stations_delta/' + version + '.json').then(function (delta) {
+                  if (!delta || delta.version !== version) throw new Error('Catalog delta version mismatch');
                   return applyCatalogDelta(acc, delta);
-                }, function () { return acc; });
+                });
               });
             })(v);
           }
