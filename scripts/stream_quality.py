@@ -273,6 +273,12 @@ def update_quality_report(stations, path, now_iso, limit=CHECKS_PER_RUN,
               "checked_this_run": len(picked), "ever_checked": len(results),
               "not_checked": max(0, len(stations) - len(results)),
               "status_counts": counts, "results": results}
-    path.write_text(json.dumps(report, ensure_ascii=False, indent=1),
-                    encoding="utf-8")
+    temporary = path.with_name(path.name + ".tmp")
+    try:
+        temporary.write_text(json.dumps(report, ensure_ascii=False, indent=1),
+                             encoding="utf-8")
+        temporary.replace(path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
     return report
