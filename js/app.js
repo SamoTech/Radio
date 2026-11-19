@@ -172,7 +172,6 @@ var CHIP_TAGS = {
 var STR = {
   ar: {
     station_filters: 'فلاتر المحطات',
-    mobile_home:'الرئيسية', mobile_explore:'استكشف', mobile_favorites:'المفضلة', mobile_sdr:'SDR', home_favorites_title:'محطاتك المفضلة',
     locale: 'ar-EG',
     dateLocale: 'ar',
     dir: 'rtl',
@@ -270,7 +269,6 @@ var STR = {
   },
   en: {
     station_filters: 'Station filters',
-    mobile_home:'Home', mobile_explore:'Explore', mobile_favorites:'Favorites', mobile_sdr:'SDR', home_favorites_title:'Your favorites',
     locale: 'en-US',
     dateLocale: 'en',
     dir: 'ltr',
@@ -740,44 +738,35 @@ function normalizeFm(s, language, tags) {
   };
 }
 
-function stationArtwork(s, kind) {
+function stationArtwork(s,kind){
   var src=safeHttpsUrl(s&&s.favicon);
-  return '<span class="station-art station-art-'+(kind==='player'?'player':'card')+'" aria-hidden="true"><span class="station-art-fallback">📻</span>'
-    +(src?'<img class="station-art-image" src="'+esc(src)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'')+'</span>';
+  return '<span class="station-art station-art-'+(kind==='player'?'player':'card')+'" aria-hidden="true"><span class="station-art-fallback">📻</span>'+(src?'<img class="station-art-image" src="'+esc(src)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'')+'</span>';
 }
-function syncActiveStationCards() {
-  if(!document.querySelectorAll)return;
-  var playing=state.isAudioPlaying&&state.playbackStation&&state.playbackStation.url;
-  var cards=document.querySelectorAll('.station-card');
-  for(var i=0;i<cards.length;i++)cards[i].classList.toggle('is-playing',!!playing&&cards[i].getAttribute('data-station-url')===playing);
-}
-function cardFm(s) {
-  var isFav=!!state.favs[s.url];
-  var playing=!!state.isAudioPlaying&&!!state.playbackStation&&state.playbackStation.url===s.url;
-  var heart='<button class="fav'+(isFav?' active':'')+'" type="button" aria-pressed="'+(isFav?'true':'false')+'" aria-label="'+esc(t('fav_aria'))+'" data-fav-url="'+esc(s.url)+'" data-name="'+esc(s.name)+'">'+(isFav?'❤️':'🤍')+'</button>';
-  var share='<button class="share" type="button" aria-label="'+esc(t('share_aria'))+'" data-share-url="'+esc(s.url)+'" data-name="'+esc(s.name)+'">🔗</button>';
-  var report='<button class="report" type="button" aria-label="'+esc(t('report_aria'))+'" data-report-url="'+esc(s.url)+'" data-name="'+esc(s.name)+'">🚩</button>';
-  var labels=[];
-  if(s.cc)labels.push(flagOf(s.cc)+' '+esc(regionName(s.cc,s.cc)));
-  if(s.language)labels.push(esc(s.language.split(', ').filter(Boolean).slice(0,2).map(languageLabel).join('، ')));
-  var tags=String(s.tags||'').split(',').map(function(x){return x.trim();}).filter(Boolean);
-  if(tags.length)labels.push(esc(tags[0]));
-  var chips='';
-  if(isOfficialStation(s))chips+='<span class="chip official">🏛 '+esc(state.lang==='ar'?'رسمي':'Official')+'</span>';
-  var check=state.streamChecks?state.streamChecks[s.url]:null;
-  if(check&&check.alive)chips+='<span class="chip ok">'+esc(t('chip_alive'))+'</span>';
-  else if(check&&check.maybe_alive)chips+='<span class="chip maybe">'+esc(t('chip_maybe'))+'</span>';
-  else if(check&&!check.alive)chips+='<span class="chip dead">'+esc(t('chip_dead'))+'</span>';
-  var url=safeHttpUrl(s.url);
-  var action=url&&/^https:/i.test(url)
-    ?'<button class="open play station-play" type="button" data-url="'+esc(url)+'" data-name="'+esc(s.name)+'">'+esc(t('listen'))+'</button>'
-    :(url?'<a class="open http-warning" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">HTTP — '+esc(state.lang==='ar'?'فتح خارجي فقط':'Open externally')+'</a>':'<span class="meta">'+esc(state.lang==='ar'?'رابط البث غير صالح':'Invalid stream URL')+'</span>');
-  return '<article class="card station-card'+(playing?' is-playing':'')+'" data-station-url="'+esc(s.url)+'">'
-    +'<div class="station-card-top">'+stationArtwork(s,'card')+'<div class="station-card-title"><h3>'+esc(s.name)+'</h3><div class="station-card-details">'+labels.join(' · ')+'</div></div>'+heart+'</div>'
-    +(chips?'<div class="chips station-card-chips">'+chips+'</div>':'')
-    +'<div class="station-card-actions">'+action+share+report+'</div>'
-    +(safeHttpUrl(s.website)?'<a class="station-website official-link" href="'+esc(safeHttpUrl(s.website))+'" target="_blank" rel="noopener noreferrer">'+esc(t('open_official_site'))+'</a>':'')
-    +'</article>';
+function cardFm(s){
+  var url=esc(s.url),name=esc(s.name),fav=!!state.favs[s.url],lang=state.lang==='ar';
+  var playing=state.isAudioPlaying&&state.playbackStation&&state.playbackStation.url===s.url;
+  var details=[];
+  if(s.cc)details.push(flagOf(s.cc)+' '+esc(regionName(s.cc,s.cc)));
+  if(s.language)details.push(esc(s.language.split(', ').slice(0,2).map(languageLabel).join('، ')));
+  if(s.tags)details.push(esc(String(s.tags).split(',')[0]));
+  var check=state.streamChecks&&state.streamChecks[s.url],chips='';
+  if(isOfficialStation(s))chips+='<span class="chip official">🏛 '+(lang?'رسمي':'Official')+'</span>';
+  if(check){
+    var status=check.alive?'ok':check.maybe_alive?'maybe':'dead';
+    var key=check.alive?'chip_alive':check.maybe_alive?'chip_maybe':'chip_dead';
+    chips+='<span class="chip '+status+'">'+esc(t(key))+'</span>';
+  }
+  var stream=safeHttpUrl(s.url),action=stream&&/^https:/i.test(stream)
+    ?'<button class="open play station-play" type="button" data-url="'+esc(stream)+'" data-name="'+name+'">'+esc(t('listen'))+'</button>'
+    :stream?'<a class="open http-warning" href="'+esc(stream)+'" target="_blank" rel="noopener noreferrer">HTTP — '+(lang?'فتح خارجي فقط':'open externally only')+'</a>'
+    :'<span class="meta">'+(lang?'رابط البث غير صالح':'Invalid stream URL')+'</span>';
+  var button=function(cls,label,attr,icon){return '<button class="'+cls+'" type="button" aria-label="'+esc(t(label))+'" '+attr+'="'+url+'" data-name="'+name+'">'+icon+'</button>';};
+  var heart='<button class="fav'+(fav?' active':'')+'" type="button" aria-pressed="'+fav+'" aria-label="'+esc(t('fav_aria'))+'" data-fav-url="'+url+'" data-name="'+name+'">'+(fav?'❤️':'🤍')+'</button>';
+  var website=safeHttpUrl(s.website),link=website?'<a class="station-website official-link" href="'+esc(website)+'" target="_blank" rel="noopener noreferrer">'+esc(t('open_official_site'))+'</a>':'';
+  return '<article class="card station-card'+(playing?' is-playing':'')+'" data-station-url="'+url+'"><div class="station-card-top">'
+    +stationArtwork(s,'card')+'<div class="station-card-title"><h3>'+name+'</h3><div class="station-card-details">'+details.join(' · ')+'</div></div>'+heart+'</div>'
+    +(chips?'<div class="chips station-card-chips">'+chips+'</div>':'')+'<div class="station-card-actions">'+action
+    +button('share','share_aria','data-share-url','🔗')+button('report','report_aria','data-report-url','🚩')+'</div>'+link+'</article>';
 }
 
 function filterFM() {
@@ -919,15 +908,7 @@ function renderFM() {
   grid.innerHTML = html;
 }
 
-function renderHomeFavorites(home) {
-  var wrap=$('home-favorites-wrap'),row=$('home-favorites-row');
-  if(!wrap||!row)return;
-  var urls=Object.keys(state.favs||{}).slice(0,6);
-  var stations=urls.map(function(url){return stationByUrl(url)||state.favs[url];}).filter(function(s){return !!s&&!!safeHttpUrl(s.url);});
-  wrap.hidden=!home||!stations.length;
-  if(wrap.hidden){row.innerHTML='';return;}
-  row.innerHTML=stations.map(cardFm).join('');
-}
+function renderHomeFavorites(home){raModuleCall('mobile','renderHomeFavorites',home);}
 /* ===== P1-1: differential catalog via IndexedDB ===== */
 /* Missing deltas fall back to the full snapshot without advancing IndexedDB. */
 var CATALOG_DB_NAME = 'radio-atlas-catalog';
@@ -1738,19 +1719,8 @@ function switchTab(x) {
   });
   syncPrimaryNav();
 }
-function syncPrimaryNav(){
-  var active=state.activeTab==='fm'?(state.mobileExplore?'explore':'home'):state.activeTab;
-  ['home','explore','fav','sdr'].forEach(function(item){
-    var b=$('mobile-nav-'+item);if(!b)return;
-    var current=active===item;b.classList.toggle('active',current);
-    if(current)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
-  });
-}
-function switchPrimaryNav(item){
-  if(item==='home'){state.mobileExplore=false;clearFMFilters();switchTab('fm');renderFM();}
-  else if(item==='explore'){state.mobileExplore=true;switchTab('fm');renderFM();var q=$('qfm');if(q)q.focus({preventScroll:true});}
-  else if(item==='fav'||item==='sdr')switchTab(item);
-}
+function syncPrimaryNav(){raModuleCall('mobile','syncPrimaryNav');}
+function switchPrimaryNav(item){loadModule('mobile').then(function(m){m.switchPrimaryNav(item);});}
 /* ---- PWA install hint + hero quick-play ---- */
 var deferredInstallPrompt = null;
 function isStandalone() {
@@ -1951,6 +1921,7 @@ function init() {
   state.favs = loadFavs();
   state.history = loadHistory();
   initUI();
+  loadModule('mobile').then(function(){if(state.fm.length)renderFM();}).catch(function(){});
   initPlayers();
   setTheme('dark');
   try {
