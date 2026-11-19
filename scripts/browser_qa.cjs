@@ -116,12 +116,15 @@ async function shot(page,name) {
       const title=document.querySelector('#player-expanded-name');
       return {className:player.className,playerHidden:player.hidden,controlsHidden:controls.hidden,
         controlsDisplay:getComputedStyle(controls).display,stageDisplay:getComputedStyle(stage).display,
-        titleDisplay:getComputedStyle(title).display,viewport:innerWidth,expanded:document.querySelector('#player-expand').getAttribute('aria-expanded')};
+        titleDisplay:getComputedStyle(title).display,titleText:title.textContent,
+        stationName:state.playbackStation&&state.playbackStation.name,currentName:state.currentName,
+        viewport:innerWidth,expanded:document.querySelector('#player-expand').getAttribute('aria-expanded')};
     });
     results.expandedDebug=expandedDebug;
     await shot(page,'07-expanded-player-ar');
     check('Expanded mobile player has visible controls and station identity',
-      expandedDebug.expanded==='true'&&!expandedDebug.controlsHidden&&expandedDebug.titleDisplay!=='none',
+      expandedDebug.expanded==='true'&&!expandedDebug.controlsHidden&&expandedDebug.titleDisplay!=='none'
+        &&expandedDebug.titleText.includes('Radio Atlas QA Audio'),
       JSON.stringify(expandedDebug));
     check('Expanded player reuses one audio',await page.locator('#audio').count()===1);
     await page.locator('#player-favorite').click();
