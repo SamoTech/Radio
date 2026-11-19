@@ -460,3 +460,18 @@ html[lang="en"] #station-directory-title [lang="ar"]{display:none}
   .station-card,.mobile-nav-item,.player-tool{transition:none!important}
   .station-card:hover{transform:none}
 }
+
+/* P1-3: protect the mobile title from the absolutely positioned controls. */
+.mobile-home-preview{display:none}
+@media(max-width:720px){
+  .hero{padding-block-start:70px}
+  .hero .controls{top:10px;inset-inline:12px;max-width:calc(100% - 24px);justify-content:flex-end;gap:6px}
+  .hero .controls .ctrl{min-width:42px;min-height:42px;padding:7px 10px}
+  .hero h1{font-size:clamp(1.35rem,5.3vw,1.65rem);line-height:1.35}
+  .hero p{font-size:.83rem;margin:.3rem 0 .55rem;line-height:1.55}
+  .hero .tabs{margin-block-start:6px}
+  .mobile-home-preview:not([hidden]){display:block;margin-block-end:14px}
+  .mobile-home-preview .featured-title{font-size:1.12rem;margin:3px 0 12px}
+  .mobile-home-preview .featured-row{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  .mobile-home-preview .station-card{border-color:rgba(212,175,55,.35)}
+}
