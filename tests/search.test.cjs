@@ -431,7 +431,10 @@ test('catalog falls back to the full snapshot when any delta is missing or misma
       document: { addEventListener() {} }
     };
     vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
-    scope.catalogDbOpen = async () => ({});
+    scope.catalogDbOpen = async () => ({
+      transaction: () => ({ objectStore: () => ({}) }),
+      close() {}
+    });
     scope.catalogDbGet = async (_, key) => key === 'rows' ? rows : 10;
     scope.fetchJSON = async url => {
       requests.push(url);
@@ -456,4 +459,44 @@ test('compact player and filters expose native controls with unique IDs', () => 
   for (const id of ['audio', 'player-toggle', 'player-close', 'sleep-btn', 'alarm-btn', 'vol-slider']) {
     assert.equal(page.split('id="' + id + '"').length, 2, id + ' appears once');
   }
+});
+
+test('full refresh renders stations but caches only a matching manifest', async () => {
+  const rows = [{ url: 'https://example.test/live' }];
+  for (const matches of [true, false]) {
+    const writes = [];
+    const scope = { ...sandbox, document: { addEventListener() {} } };
+    vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
+    scope.fetchJSON = async url => {
+      if (url.endsWith('_head.json')) return null;
+      if (url.endsWith('manifest.json')) return { updated: matches ? 'today' : 'yesterday', count: 1, version: 4 };
+      return { updated: 'today', count: 1, stations: rows };
+    };
+    scope.catalogIdbWrite = async (...args) => { writes.push(args); };
+    scope.finishStations = stations => assert.equal(stations, rows);
+    await scope.legacyLoadStations();
+    assert.deepEqual(writes, matches ? [[rows, 4]] : []);
+  }
+});
+
+test('worker activation migrates offline data and leaves unrelated caches alone', async () => {
+  const data = { url: 'https://example.test/Radio/data/stations.json' };
+  const script = { url: 'https://example.test/Radio/js/app.js' };
+  const copied = [], removed = [], handlers = {};
+  const old = { keys: async () => [data, script], match: async request => request.url };
+  const next = { match: async () => undefined, put: async request => copied.push(request.url) };
+  vm.runInNewContext(fs.readFileSync('sw.js', 'utf8'), {
+    URL, console,
+    self: { addEventListener: (event, handler) => { handlers[event] = handler; }, clients: { claim() {} } },
+    caches: {
+      keys: async () => ['radio-atlas-v69', 'another-app', 'radio-atlas-v70'],
+      open: async key => key === 'radio-atlas-v69' ? old : next,
+      delete: async key => removed.push(key)
+    }
+  });
+  let done;
+  handlers.activate({ waitUntil: promise => { done = promise; } });
+  await done;
+  assert.deepEqual(copied, [data.url]);
+  assert.deepEqual(removed, ['radio-atlas-v69']);
 });

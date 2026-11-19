@@ -957,70 +957,57 @@ function catalogDbOpen() {
   });
 }
 
-function catalogDbGet(db, key) {
+function catalogDbGet(store, key) {
   return new Promise(function (resolve, reject) {
-    var request = db.transaction(CATALOG_DB_STORE, 'readonly').objectStore(CATALOG_DB_STORE).get(key);
+    var request = store.get(key);
     request.onsuccess = function () { resolve(request.result); };
     request.onerror = function () { reject(request.error || new Error('idb get failed')); };
   });
 }
 
-function catalogDbPut(db, key, value) {
-  return new Promise(function (resolve, reject) {
-    var tx = db.transaction(CATALOG_DB_STORE, 'readwrite');
-    tx.objectStore(CATALOG_DB_STORE).put(value, key);
-    tx.oncomplete = function () { resolve(); };
-    tx.onerror = function () { reject(tx.error || new Error('idb put failed')); };
-  });
-}
-
 function catalogIdbWrite(rows, version) {
   return catalogDbOpen().then(function (db) {
-    return catalogDbPut(db, 'rows', rows).then(function () {
-      return catalogDbPut(db, 'version', version);
-    });
-  });
-}
-
-function catalogIdbStoreFull(rows) {
-  return fetchJSON('data/stations.manifest.json').then(function (manifest) {
-    return catalogIdbWrite(rows, manifest && Number(manifest.version) || 0);
-  }).catch(function () {
-    return catalogIdbWrite(rows, 0);
+    return new Promise(function (resolve, reject) {
+      var tx = db.transaction(CATALOG_DB_STORE, 'readwrite'), store = tx.objectStore(CATALOG_DB_STORE);
+      store.put(rows, 'rows');
+      store.put(version, 'version');
+      tx.oncomplete = resolve;
+      tx.onabort = function () { reject(tx.error); };
+    }).finally(function () { db.close(); });
   });
 }
 
 function catalogIdbRows() {
   if (!window.indexedDB) return Promise.resolve(null);
   return catalogDbOpen().then(function (db) {
-    return catalogDbGet(db, 'rows').then(function (rows) {
+    var store = db.transaction(CATALOG_DB_STORE, 'readonly').objectStore(CATALOG_DB_STORE);
+    return Promise.all([catalogDbGet(store, 'rows'), catalogDbGet(store, 'version')]).then(function (saved) {
+      var rows = saved[0], from = Number(saved[1]) || 0;
       if (!rows || !rows.length) return null;
-      return catalogDbGet(db, 'version').then(function (storedVersion) {
-        var from = Number(storedVersion) || 0;
-        return fetchJSON('data/stations.manifest.json').then(function (manifest) {
-          if (!manifest || !manifest.version) return rows;
-          var current = Number(manifest.version) || 0;
-          if (!from || !current || current <= from) return rows;
-          var keep = Number(manifest.keep) || CATALOG_DELTA_FALLBACK_KEEP;
-          if (current - from > keep) return null;
-          var chain = Promise.resolve(rows);
-          for (var v = from + 1; v <= current; v++) {
-            (function (version) {
-              chain = chain.then(function (acc) {
-                return fetchJSON('data/stations_delta/' + version + '.json').then(function (delta) {
-                  if (!delta || delta.version !== version) throw new Error('Catalog delta version mismatch');
-                  return applyCatalogDelta(acc, delta);
-                });
+      return fetchJSON('data/stations.manifest.json').then(function (manifest) {
+        if (!manifest || !manifest.version) return rows;
+        var current = Number(manifest.version) || 0;
+        if (!current || current <= from) return rows;
+        if (!from) return null;
+        var keep = Number(manifest.keep) || CATALOG_DELTA_FALLBACK_KEEP;
+        if (current - from > keep) return null;
+        var chain = Promise.resolve(rows);
+        for (var v = from + 1; v <= current; v++) {
+          (function (version) {
+            chain = chain.then(function (acc) {
+              return fetchJSON('data/stations_delta/' + version + '.json').then(function (delta) {
+                if (!delta || delta.version !== version) throw new Error('Catalog delta version mismatch');
+                return applyCatalogDelta(acc, delta);
               });
-            })(v);
-          }
-          return chain.then(function (finalRows) {
-            catalogIdbWrite(finalRows, current).catch(function () {});
-            return finalRows;
-          });
-        }, function () { return rows; });
-      });
-    });
+            });
+          })(v);
+        }
+        return chain.then(function (finalRows) {
+          catalogIdbWrite(finalRows, current).catch(function () {});
+          return finalRows;
+        });
+      }, function () { return rows; });
+    }).finally(function () { db.close(); });
   }).catch(function () { return null; });
 }
 
@@ -1061,20 +1048,15 @@ function legacyLoadStations() {
   }).catch(function (e) {
     console.warn('stations head:', e);
   }).then(function () {
-    return fetchJSON('data/stations.json');
-  }).then(function (data) {
+    return Promise.all([fetchJSON('data/stations.json'), fetchJSON('data/stations.manifest.json').catch(function () {})]);
+  }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function (pair) {
+    var data = pair && pair[0], manifest = pair && pair[1];
     if (data && Array.isArray(data.stations)) {
-      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
-      state.featuredCache = null;
-      buildFMFacets();
-      catalogIdbStoreFull(data.stations).catch(function () {});
+      if (manifest && data.updated && data.updated === manifest.updated && data.count === manifest.count) {
+        catalogIdbWrite(data.stations, manifest.version).catch(function () {});
+      }
+      return finishStations(data.stations);
     }
-  }).catch(function (e) { console.warn('stations snapshot:', e); }).then(function () {
-    renderFM();
-    renderFav();
-    renderEG();
-    renderAR();
-    renderRel();
     initTrending();
     initResume();
     loadStreamChecks();
