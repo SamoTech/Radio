@@ -1912,7 +1912,16 @@ def write_error_report(now_iso):
 
 
 def write_json(path, payload):
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    """Stage JSON beside its target, then atomically replace the last good file."""
+    serialized = json.dumps(payload, ensure_ascii=False, indent=1)
+    target = Path(path)
+    temporary = target.with_name(target.name + ".tmp")
+    try:
+        temporary.write_text(serialized, encoding="utf-8")
+        temporary.replace(target)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def write_stream_checks(stations, now_iso):
