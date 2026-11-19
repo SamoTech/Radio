@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T13:29:46+00:00",
+ "updated": "2026-11-19T13:43:32+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 318,
+ "count": 320,
  "stations": [
   {
    "id": 3944,
@@ -601,6 +601,16 @@
    "lng": -111.9054,
    "alt": 400,
    "url": "https://network.satnogs.org/stations/5078/",
+   "https": false
+  },
+  {
+   "id": 365,
+   "name": "DS-1 (VHF)",
+   "loc": "JO22ff · VHF",
+   "lat": 52.216,
+   "lng": 4.417,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/365/",
    "https": false
   },
   {
@@ -2351,6 +2361,16 @@
    "lng": 17.788,
    "alt": 55,
    "url": "https://network.satnogs.org/stations/949/",
+   "https": false
+  },
+  {
+   "id": 2830,
+   "name": "SM0TGU - L and S-Band",
+   "loc": "JO89wk · L / S",
+   "lat": 59.453,
+   "lng": 17.89,
+   "alt": 32,
+   "url": "https://network.satnogs.org/stations/2830/",
    "https": false
   },
   {
