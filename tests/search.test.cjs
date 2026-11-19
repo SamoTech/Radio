@@ -419,3 +419,31 @@ test('station cards expose accessible names for icon-only buttons (P1-3)', () =>
   assert.ok(sandbox.STR.ar.theme_aria && sandbox.STR.en.theme_aria);
   assert.ok(sandbox.STR.ar.doc_title && sandbox.STR.en.doc_title);
 });
+
+test('catalog falls back to the full snapshot when any delta is missing or mismatched', async () => {
+  const rows = [{ url: 'https://example.test/live', name: 'Cached station' }];
+  for (const firstDelta of [null, { version: 12 }]) {
+    const requests = [];
+    const writes = [];
+    const scope = {
+      ...sandbox,
+      window: { indexedDB: {} },
+      document: { addEventListener() {} }
+    };
+    vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
+    scope.catalogDbOpen = async () => ({});
+    scope.catalogDbGet = async (_, key) => key === 'rows' ? rows : 10;
+    scope.fetchJSON = async url => {
+      requests.push(url);
+      if (url.endsWith('manifest.json')) return { version: 12, keep: 3 };
+      if (firstDelta) return firstDelta;
+      throw new Error('Missing delta');
+    };
+    scope.catalogIdbWrite = (...args) => writes.push(args);
+    scope.legacyLoadStations = async () => 'full snapshot';
+
+    assert.equal(await scope.loadStations(), 'full snapshot');
+    assert.deepEqual(requests, ['data/stations.manifest.json', 'data/stations_delta/11.json']);
+    assert.deepEqual(writes, []);
+  }
+});
