@@ -4,7 +4,8 @@ Baseline from repository tracked assets at 17:35:19 UTC.
 
 | Metric | Before | Meaning |
 | --- | ---: | --- |
-| Catalog entries | 60,732 | data/stations.manifest.json, version 34 |
+| Catalog declared count | 60,732 | data/stations.manifest.json v34 AND stations.json count field |
+| Actual station rows in stations.json | 60,741 | full JSON array parsed in CI 2026-11-19; mismatch of +9 rows, existing before PR |
 | Historical stream checks | 1,185 | data/stream_checks.json |
 | Historical results classified alive | 1,071 (90.4%) | HTTP probe, NOT verified browser playback |
 | Historical results not classified alive | 114 (9.6%) | Includes blocks, no proof these are broken |
