@@ -390,7 +390,7 @@ function raModuleCall(name, fn, a, b) {
 
 /* Thin stubs: the real implementations live in the lazy modules.
    Callers across app.js keep using these names unchanged. */
-function play(url, name) { loadModule('player').then(function (m) { m.play(url, name); }); }
+function play(url, name) { state.playbackRequestedInSession = true; loadModule('player').then(function (m) { m.play(url, name); }); }
 function setMedia(name) { loadModule('player').then(function (m) { m.setMedia(name); }); }
 function loadHlsLib(cb) { loadModule('player').then(function (m) { m.loadHlsLib(cb); }); }
 function attachHls(url, generation, station) {
