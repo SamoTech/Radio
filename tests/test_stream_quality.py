@@ -221,5 +221,52 @@ class IntegrityTests(unittest.TestCase):
             self.assertEqual(json.dumps(stations), immutable)
 
 
+class CatalogCoverageAuditTests(unittest.TestCase):
+    def test_read_only_full_catalog_baseline_and_invariants(self):
+        audit = load_module("radio_catalog_audit", "scripts/catalog_audit.py")
+        path = ROOT / "data" / "stations.json"
+        with path.open(encoding="utf-8") as handle:
+            payload = json.load(handle)
+        rows = payload["stations"]
+        report = audit.audit_catalog(rows)
+        self.assertEqual(report["total"], payload["count"])
+        self.assertGreater(report["total"], 10000)
+        self.assertEqual(report["country_counts"].get("IL", 0), 0)
+        self.assertEqual(sum(report["country_counts"].values()), report["total"])
+        # Print grounded live artifact metrics to the CI logs.
+        compact = {key: report[key] for key in (
+            "total", "countries", "languages", "missing_country",
+            "missing_language", "missing_logo_field", "missing_name",
+            "http_only", "invalid_url", "duplicate_stream_urls",
+            "potential_same_country_name_groups_not_merged")}
+        compact["top_countries"] = dict(list(report["country_counts"].items())[:20])
+        compact["top_languages"] = dict(list(report["language_counts"].items())[:20])
+        print("GLOBAL RADIO BASELINE:", json.dumps(compact, ensure_ascii=False))
+
+    def test_same_name_different_stream_is_only_review_candidate(self):
+        audit = load_module("radio_catalog_audit_names", "scripts/catalog_audit.py")
+        rows = [
+            {"name": "Radio X", "cc": "EG",
+             "url": "https://radio.example.test/live1", "language": "arabic"},
+            {"name": "RADIO X", "cc": "EG",
+             "url": "https://radio.example.test/live2", "language": "arabic"},
+        ]
+        report = audit.audit_catalog(rows)
+        self.assertEqual(report["duplicate_stream_urls"], 0)
+        self.assertEqual(report["potential_same_country_name_groups_not_merged"], 1)
+        self.assertEqual(report["total"], 2)
+
+    def test_atomic_write_keeps_old_snapshot_when_replace_fails(self):
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "stations.json"
+            path.write_text('{"count": 123}', encoding="utf-8")
+            with mock.patch.object(Path, "replace", side_effect=OSError("disk error")):
+                with self.assertRaises(OSError):
+                    crawler.write_json(path, {"count": 456})
+            self.assertEqual(path.read_text(encoding="utf-8"), '{"count": 123}')
+            self.assertFalse((Path(folder) / "stations.json.tmp").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
