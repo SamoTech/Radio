@@ -776,7 +776,7 @@ function cardFm(s) {
     +'<div class="station-card-top">'+stationArtwork(s,'card')+'<div class="station-card-title"><h3>'+esc(s.name)+'</h3><div class="station-card-details">'+labels.join(' · ')+'</div></div>'+heart+'</div>'
     +(chips?'<div class="chips station-card-chips">'+chips+'</div>':'')
     +'<div class="station-card-actions">'+action+share+report+'</div>'
-    +(safeHttpUrl(s.website)?'<a class="station-website" href="'+esc(safeHttpUrl(s.website))+'" target="_blank" rel="noopener noreferrer">'+esc(t('open_official_site'))+'</a>':'')
+    +(safeHttpUrl(s.website)?'<a class="station-website official-link" href="'+esc(safeHttpUrl(s.website))+'" target="_blank" rel="noopener noreferrer">'+esc(t('open_official_site'))+'</a>':'')
     +'</article>';
 }
 
