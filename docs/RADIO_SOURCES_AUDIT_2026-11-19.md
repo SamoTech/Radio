@@ -40,6 +40,7 @@ These are existing providers. This PR does not add an unvalidated provider.
 - Historic HTTP-based checks can classify 200 and certain access errors
   as alive without actual sound bytes.
 - 1,185 historic checks are just a small curated/head subset.
+- The stored count fields differ from the actual stations array by 9 rows (60,732 vs 60,741) at this baseline. Both normal refresh and fallback now use one snapshot publication function that recalculates count and synchronizes head and delta manifest; the persisted historical data remains unchanged until the next successful station refresh.
 - The old absolute minimum of 10,000 catalog records would still permit a
   severe incomplete rebuild from 60k to 40k.
 - Station identity is URL-based; collapsing records by broadcaster name would
