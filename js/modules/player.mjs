@@ -412,6 +412,7 @@ function openDmNotice(url, name) {
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  state.playbackRequestedInSession = true;
   if (isDmEmbed(url)) {
     openDmNotice(url, name);
     pushHistory(url, name);
@@ -838,6 +839,7 @@ export function boot() {
     if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
   });
   $('audio').addEventListener('play', function () {
+    state.playbackRequestedInSession = true;
     if (hls && !hls.__raStarted) {
       hls.__raStarted = true;
       try { hls.startLoad(); } catch (e) {}

@@ -668,3 +668,28 @@ test('expanded player external stream button has Arabic and English labels', () 
   assert.match(player, /open_ext2:\s*'فتح البث خارجيًا'/);
   assert.match(player, /open_ext2:\s*'Open stream externally'/);
 });
+
+test('late shared-link handling never restarts a station selected during this session', () => {
+  const toolsSource = fs.readFileSync('js/modules/tools.mjs','utf8')
+    .replace('export function boot()', 'function boot()');
+  const appSource = fs.readFileSync('js/app.js','utf8');
+  assert.ok(appSource.includes('state.playbackRequestedInSession = true'),
+    'core play stub should mark the request before lazy module load');
+  const url = 'https://example.test/live';
+  function attempt(active) {
+    const calls = [];
+    const scope = vm.createContext({
+      state: {playbackRequestedInSession:active},
+      location: {hash:'#play='+encodeURIComponent(url)},
+      safeHttpsUrl:value=>value,
+      stationByUrl:value=>({name:'Current station',url:value}),
+      play:(u,name)=>calls.push([u,name])
+    });
+    vm.runInContext(toolsSource,scope);
+    scope.handleShareHash();
+    scope.handleShareHash();
+    return calls;
+  }
+  assert.deepEqual(attempt(true), [], 'in-session playback should not be replaced');
+  assert.deepEqual(attempt(false), [[url,'Current station']], 'fresh deep link should start exactly once');
+});
