@@ -12,6 +12,8 @@ const BASE = process.env.RADIO_QA_BASE || 'http://127.0.0.1:8765/';
 const DIR = path.resolve(process.env.RADIO_QA_OUTPUT || 'artifacts/mobile-browser-qa');
 fs.mkdirSync(DIR, {recursive: true});
 const TEST_URL = 'https://qa.radio.invalid/test-live.wav';
+const FAILED_URL = 'https://qa.radio.invalid/fail-live.wav';
+const BACKUP_URL = 'https://qa.radio.invalid/backup-live.wav';
 const results = {base: BASE, run: new Date().toISOString(), checks: [], screenshots: [], errors: [],
   note: 'Playback uses a deterministic WAV fixture intercepted by Playwright, not a live radio endpoint.'};
 
@@ -156,6 +158,46 @@ async function shot(page,name) {
       return !!favs[url];
     },TEST_URL));
     await page.locator('#player-collapse').click();
+
+    // Real Chromium native audio error (HTTP 404) -> verified-in-fixture
+    // alternative WAV playback, preserving the chosen broadcaster identity.
+    await page.route(FAILED_URL,route=>route.fulfill({
+      status:404,contentType:'text/html',body:'No stream'
+    }));
+    await page.route(BACKUP_URL,route=>route.fulfill({
+      status:200,contentType:'audio/wav',
+      headers:{'Access-Control-Allow-Origin':'*'},body:createWav()
+    }));
+    await page.locator('#mobile-nav-explore').click();
+    await page.evaluate(([primary,backup])=>{
+      state.fm.unshift({
+        name:'Radio Atlas QA Fallback',url:primary,fallbacks:[backup],
+        cc:'EG',language:'english',tags:'news',codec:'WAV'
+      });
+      state.fmFilters={q:'',country:'',language:'',tag:'',chip:''};
+      state.fmLive=false;
+      renderFM();
+    },[FAILED_URL,BACKUP_URL]);
+    await page.locator('#grid-fm .station-card[data-station-url="'+FAILED_URL+'"] button.play').click();
+    await page.waitForFunction(backup=>{
+      const audio=document.querySelector('#audio');
+      return state.playbackStation&&state.playbackStation.name==='Radio Atlas QA Fallback'
+        &&state.currentName==='Radio Atlas QA Fallback'
+        &&audio.currentSrc===backup&&!audio.paused&&audio.readyState>=2;
+    },BACKUP_URL,{timeout:20000});
+    const failover=await page.evaluate(()=>({
+      station:state.playbackStation&&state.playbackStation.url,
+      stationName:state.currentName,
+      currentSrc:document.querySelector('#audio').currentSrc,
+      index:state.playbackIndex,
+      sources:state.playbackSources,
+      audioCount:document.querySelectorAll('#audio').length
+    }));
+    results.fallbackPlayback=failover;
+    check('Failed primary switches to its own HTTPS backup',
+      failover.index===1&&failover.currentSrc===BACKUP_URL
+        &&failover.station===FAILED_URL&&failover.audioCount===1,
+      JSON.stringify(failover));
 
     await page.locator('#lang-btn').click();
     check('English LTR',await page.locator('html').getAttribute('dir')==='ltr');
