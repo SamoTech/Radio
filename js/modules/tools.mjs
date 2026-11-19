@@ -151,6 +151,8 @@ function shareStation(url, name) {
 function handleShareHash() {
   if (shareHashHandled) return;
   shareHashHandled = true;
+  // Don't re-play the just-selected station when a late catalog refresh finishes.
+  if (state.playbackRequestedInSession) return;
   try {
     var h = location.hash || '';
     if (h.indexOf('#play=') !== 0) return;
