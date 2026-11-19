@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T15:04:33+00:00",
+ "updated": "2026-11-19T16:53:09+00:00",
  "checked": 1185,
- "alive": 1067,
+ "alive": 1072,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -170,12 +170,12 @@
   },
   "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://stream.radiojar.com/8s5u5tpdtwzuv": {
@@ -215,7 +215,7 @@
   },
   "https://live-hls-audio-web-aje.getaj.net/VOICE-AJE/01.m3u8": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://osrnstream.olivesuno.com/olive1063.mp3": {
@@ -345,7 +345,7 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://stream-40.zeno.fm/xa4yhh4k838uv": {
    "alive": true,
@@ -486,8 +486,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streams.radio.co/s0975ec186/listen": {
@@ -806,8 +806,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": false,
-   "code": 404,
+   "alive": true,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
@@ -1420,7 +1420,7 @@
   },
   "https://radio.tvstream.cl/8008/stream": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://sonic.portalfoxmix.club/8330/stream": {
@@ -1440,7 +1440,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
@@ -1982,10 +1982,9 @@
    "strategy": "bot"
   },
   "https://www.youtube.com/watch?v=sQYMmIqih8I": {
-   "alive": false,
-   "code": 429,
-   "strategy": "curl_cffi",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://www.spreaker.com/user/entrepreneur-wilderness--4981175": {
    "alive": true,
@@ -1999,7 +1998,7 @@
   },
   "https://streema.com/radios/play/Skyhighradio?ref=http://www.skyhighradio.co.uk/en/cms/index.php/on_air/listen_live.html&amptype=radio": {
    "alive": true,
-   "code": 206,
+   "code": 202,
    "strategy": "bot"
   },
   "https://radiostorm.com/": {
@@ -3797,7 +3796,7 @@
   },
   "https://www.969hitsfm.com/player/?playerID=1564": {
    "alive": true,
-   "code": 206,
+   "code": 200,
    "strategy": "bot"
   },
   "https://edge.iono.fm/xice/158_medium.aac": {
@@ -4292,10 +4291,9 @@
    "strategy": "bot"
   },
   "https://18533.live.streamtheworld.com/MOREFM_S01.aac": {
-   "alive": false,
-   "code": 503,
-   "strategy": "curl_cffi",
-   "maybe_alive": true
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
   },
   "https://https.nvradios.com/radio/9496/radio.mp3": {
    "alive": true,
@@ -4564,9 +4562,8 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "code": 404,
+   "strategy": "bot"
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -5126,7 +5123,7 @@
   },
   "https://s2.radio.co/scbfaf00d4/listen": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://fhhalle.streamabc.net/fhhal-rbhall-mp3-128-3225039": {
@@ -5468,8 +5465,8 @@
   },
   "https://free.rcast.net/245226": {
    "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
+   "code": 500,
+   "strategy": "curl_cffi",
    "maybe_alive": true
   },
   "https://free.rcast.net/207746#EXTM3U": {
@@ -5790,10 +5787,9 @@
    "strategy": "bot"
   },
   "https://s1-bos.liveatc.net/sunfunlive1?nocache=2026060821051059685": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://free.rcast.net/213649": {
    "alive": true,
