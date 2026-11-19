@@ -2,8 +2,8 @@
  "version": 31,
  "added": [
   {
-   "name": "PartyRadio.pro",
-   "url": "https://stream.partyradio.pro/listen/partyradio/stream192",
+   "name": "M40 So British",
+   "url": "https://live.m40radio.fr/listen/m40-so-british/m40-so-british-128.mp3",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -11,8 +11,17 @@
    "bitrate": 0
   },
   {
-   "name": "Mix Grupero Radio",
-   "url": "https://mixgrupero.online:8000/radio.mp3",
+   "name": "Innervison Records Radio",
+   "url": "https://s25.ssl-stream.com:8270/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "RadioFRL 6",
+   "url": "https://player.radiofrl.com/listen/radiofrl_6/HQ",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -29,6 +38,33 @@
    "bitrate": 0
   },
   {
+   "name": "LUX Radio",
+   "url": "https://mira.streamerr.co/listen/lux_radio/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "RadioFRL 9",
+   "url": "https://player.radiofrl.com/listen/radiofrl_9/Mobiel",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "PopnovaRock",
+   "url": "https://streams.hostwoof.com/listen/popnovarock/rock",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "A1Radio",
    "url": "https://listen.a1radio.co.uk/listen/a1radio/shd",
    "cc": "",
@@ -38,8 +74,44 @@
    "bitrate": 0
   },
   {
-   "name": "Paraklete Radio Station",
-   "url": "https://jbc-ars.galaxcast.com/listen/prs/radio.mp3",
+   "name": "tilderadio",
+   "url": "https://azuracast.tilderadio.org/listen/tilderadio/320k.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radyo Natin Argao",
+   "url": "https://sound.radyonatinfm.com/listen/ch4/argao",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "M40 Daft Punk",
+   "url": "https://live.m40radio.fr/listen//m40-daft-punk/m40-daft-punk-128.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "M40 Hard Rock / Metal",
+   "url": "https://live.m40radio.fr/listen/m40-hard-rock-metal/m40-hard-rock-metal-128.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "TOPCHARTSFM",
+   "url": "https://stream.laut.fm/topchartsfm",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -157,5 +229,24 @@
    "bitrate": 64
   }
  ],
- "removed": []
+ "removed": [
+  "https://xcsb.live/listen/xcsb-cleveland/xcsb64.aac",
+  "https://artemis.streamerr.co/listen/hitsradioestonia/MPGE",
+  "https://harder-fm.nl/listen/tek/;",
+  "https://azuracast.radio.skoczow.pl/listen/radior1/radio-ogg",
+  "https://icecast.lapopulai.re/radio.aac",
+  "https://easy.wallydj.com/listen/radiomusic101__________________rock_70s_80s_90s_00s/radio.mp3",
+  "https://radio.spritelayerradio.com:8030/rock.mp3",
+  "https://streams.hostwoof.com/listen/popnova/popnova",
+  "https://listen.a1radio.co.uk/listen/a1radio/lo",
+  "https://s25.ssl-stream.com:8220/radio.mp3",
+  "https://listen.a1radio.co.uk/listen/a1radio/hi",
+  "https://stream.24dubstep.pl/listen/dubstep/hifi",
+  "https://stream.exosferaradio.com/listen/destella/radio.mp3",
+  "https://stream.24dubstep.pl/listen/dubstep/mp3_normal",
+  "https://live.m40radio.fr/listen/m40-black-music/m40-black-music-128.mp3",
+  "https://sound.radyonatinfm.com/listen/ch1/calapan",
+  "https://vega.streamerr.co/listen/poppunk101/radio.mp3",
+  "https://live.m40radio.fr/listen/m40-rap-us/m40-rap-us-128.mp3"
+ ]
 }

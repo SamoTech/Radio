@@ -1,13 +1,11 @@
 {
- "updated": "2026-11-19T14:54:59+00:00",
+ "updated": "2026-11-19T15:04:33+00:00",
  "cumulative": {
   "err-abort": 1,
-  "err-token": 0,
-  "err-other": 8
+  "err-network": 1
  },
  "daily": {
-  "err-abort": 0,
-  "err-token": 0,
-  "err-other": 8
+  "err-abort": 1,
+  "err-network": 1
  }
 }

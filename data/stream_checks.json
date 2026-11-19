@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:54:59+00:00",
+ "updated": "2026-11-19T15:04:33+00:00",
  "checked": 1185,
- "alive": 1073,
+ "alive": 1067,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -170,12 +170,12 @@
   },
   "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://stream.radiojar.com/8s5u5tpdtwzuv": {
@@ -253,7 +253,7 @@
   "https://securestreams3.autopo.st:1380/stream/1/": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://l3.itworkscdn.net/itwaudio/9032/stream": {
    "alive": true,
@@ -1121,10 +1121,9 @@
    "strategy": "bot"
   },
   "https://ice64.securenetsystems.net/WCKA": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://das-edge63-live365-dal03.cdnstream.com/a72854?dist=theonestopradio": {
    "alive": false,
@@ -1157,10 +1156,9 @@
    "strategy": "bot"
   },
   "https://ice8.securenetsystems.net/KXLS": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://das-edge11-live365-dal03.cdnstream.com/a30884?dist=theonestopradio": {
    "alive": true,
@@ -1178,10 +1176,9 @@
    "strategy": "bot"
   },
   "https://ice41.securenetsystems.net/KJJZ": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://das-edge14-live365-dal02.cdnstream.com/a57014?dist=theonestopradio": {
    "alive": true,
@@ -1199,10 +1196,9 @@
    "strategy": "bot"
   },
   "https://ice24.securenetsystems.net/KLLP": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://das-edge16-live365-dal02.cdnstream.com/a28904?dist=theonestopradio": {
    "alive": false,
@@ -1986,9 +1982,10 @@
    "strategy": "bot"
   },
   "https://www.youtube.com/watch?v=sQYMmIqih8I": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 429,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://www.spreaker.com/user/entrepreneur-wilderness--4981175": {
    "alive": true,
@@ -2002,7 +1999,7 @@
   },
   "https://streema.com/radios/play/Skyhighradio?ref=http://www.skyhighradio.co.uk/en/cms/index.php/on_air/listen_live.html&amptype=radio": {
    "alive": true,
-   "code": 202,
+   "code": 206,
    "strategy": "bot"
   },
   "https://radiostorm.com/": {
@@ -2176,10 +2173,9 @@
    "strategy": "bot"
   },
   "https://ice2.securenetsystems.net/KGUMFM?ver=274640": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://23153.live.streamtheworld.com/NOVA_THROWBACK_AAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -2801,7 +2797,7 @@
   "https://mix1043fm.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "curl_cffi"
+   "strategy": "bot"
   },
   "https://radio-mueritz.stream.laut.fm/radio-mueritz?t302=2026-06-10_07-58-42&uuid=0f320288-ce14-4620-ab0b-973276df2a11": {
    "alive": true,
@@ -3306,18 +3302,17 @@
   "https://kissbinghamton.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://925theranch.com/listen-live/": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 206,
+   "strategy": "bot"
   },
   "https://retro1025.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "mobile"
+   "strategy": "bot"
   },
   "https://streamdb4web.securenetsystems.net/v5/KWFB": {
    "alive": true,
@@ -3476,10 +3471,9 @@
    "strategy": "bot"
   },
   "https://ice66.securenetsystems.net/WRON": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://stream2.hippynet.co.uk/stream/york/": {
    "alive": true,
@@ -3537,10 +3531,9 @@
    "strategy": "bot"
   },
   "https://ice8.securenetsystems.net/KXLS?playSessionID=1F265CC4-D6E6-3752-4D7DA560049AE586": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://ais-sa2.cdnstream1.com/2336_128.mp3": {
    "alive": true,
@@ -3553,10 +3546,9 @@
    "strategy": "bot"
   },
   "https://ice9.securenetsystems.net/KABX": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://27143.live.streamtheworld.com/KQLKFMAAC.aac?dist=onlineradiobox": {
    "alive": true,
@@ -4300,9 +4292,10 @@
    "strategy": "bot"
   },
   "https://18533.live.streamtheworld.com/MOREFM_S01.aac": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
+   "alive": false,
+   "code": 503,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://https.nvradios.com/radio/9496/radio.mp3": {
    "alive": true,
@@ -5288,9 +5281,10 @@
    "strategy": "bot"
   },
   "https://sv12.hdradios.net:9102/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://rsa.streamabc.net/regc-rsasachsenevent017364573-mp3-128-6343895?sABC=6n2919nr%230%23qs606978q0q2r8oqnpo1o66p9n1qn892%23&aw_0_1st.playerid=&amsparams=playerid:;skey:1781078446": {
    "alive": true,
@@ -5796,9 +5790,10 @@
    "strategy": "bot"
   },
   "https://s1-bos.liveatc.net/sunfunlive1?nocache=2026060821051059685": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://free.rcast.net/213649": {
    "alive": true,
