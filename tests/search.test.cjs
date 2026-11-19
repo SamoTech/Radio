@@ -513,3 +513,13 @@ test('catalog batches preserve per-station languages, categories and ordering', 
     assert.equal(row.tags, sandbox.normalizeCategories(rows[0].tags));
   }
 });
+
+test('SDR keeps quick discovery outside the advanced disclosures', () => {
+  const html = fs.readFileSync('index.html', 'utf8').split('id="panel-sdr"')[1].split('</section>')[0];
+  const parts = html.split('<details class="sdr-disclosure">');
+  assert.equal(parts.length, 3);
+  assert.match(parts[0], /id="q"/);
+  assert.match(parts[0], /id="rx-type"/);
+  assert.match(parts[1], /id="minsnr"/);
+  for (const id of ['space-panel', 'wspr-panel', 'eibi-panel']) assert.ok(parts[2].includes('id="' + id + '"'));
+});

@@ -8,6 +8,8 @@
 
 var STR_SDR = {
   ar: {
+    sdr_filters: 'فلاتر الاستقبال المتقدمة',
+    sdr_tools: 'حالة النطاقات وجداول البث',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
     search_sdr_aria: 'البحث في أجهزة الاستقبال',
     all_bands: 'كل النطاقات',
@@ -64,6 +66,8 @@ var STR_SDR = {
     kiwi_mode: 'الوضع'
   },
   en: {
+    sdr_filters: 'Advanced receiver filters',
+    sdr_tools: 'Band conditions and broadcast schedules',
     search_sdr_ph: 'Search: name, country, callsign…',
     search_sdr_aria: 'Search receivers',
     all_bands: 'All bands',
