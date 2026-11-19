@@ -1,0 +1,36 @@
+name: Diagnose published Radio Atlas sitemap
+
+on:
+  pull_request:
+    paths:
+      - scripts/sitemap_audit.py
+      - tests/test_sitemap_forensics.py
+      - sitemap.xml
+      - .github/workflows/sitemap-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Audit local generated sitemap and page canonicals
+        run: python scripts/sitemap_audit.py --output sitemap-local-audit.json
+      - name: Independently probe published XML, host robots, and 160 URLs
+        run: python scripts/sitemap_audit.py --live --timeout 12 --output sitemap-live-audit.json
+      - name: Save diagnosis report, including any failed HTTP checks
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-sitemap-audit
+          path: |
+            sitemap-local-audit.json
+            sitemap-live-audit.json
+          if-no-files-found: warn
