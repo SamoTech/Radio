@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T20:24:59+00:00",
+ "updated": "2026-11-19T07:14:23+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 320,
  "stations": [
@@ -354,6 +354,16 @@
    "https": false
   },
   {
+   "id": 5228,
+   "name": "CHOSUN SSIL",
+   "loc": "PM35ld · UHF",
+   "lat": 35.141,
+   "lng": 126.928,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/5228/",
+   "https": false
+  },
+  {
    "id": 3969,
    "name": "Churchlands SHS Main",
    "loc": "OF78vb · UHF",
@@ -541,16 +551,6 @@
    "lng": 12.05716,
    "alt": 430,
    "url": "https://network.satnogs.org/stations/3806/",
-   "https": false
-  },
-  {
-   "id": 4036,
-   "name": "dl0odx_2m",
-   "loc": "JN49mp · VHF",
-   "lat": 49.65,
-   "lng": 9.064,
-   "alt": 542,
-   "url": "https://network.satnogs.org/stations/4036/",
    "https": false
   },
   {
@@ -994,16 +994,6 @@
    "https": false
   },
   {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
-   "https": false
-  },
-  {
    "id": 2925,
    "name": "hb9mfl_2m-Band",
    "loc": "JN37tf · VHF",
@@ -1194,6 +1184,16 @@
    "https": false
   },
   {
+   "id": 4738,
+   "name": "JUN SatNOGS",
+   "loc": "PM35ld · UHF",
+   "lat": 35.141,
+   "lng": 126.928,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/4738/",
+   "https": false
+  },
+  {
    "id": 2617,
    "name": "K2PI",
    "loc": "FM18cq · UHF / VHF",
@@ -1351,6 +1351,16 @@
    "lng": -122.2978,
    "alt": 15,
    "url": "https://network.satnogs.org/stations/984/",
+   "https": false
+  },
+  {
+   "id": 1561,
+   "name": "KK6NOW - Palm Desert, CA, US",
+   "loc": "DM13tr · VHF / UHF",
+   "lat": 33.718908,
+   "lng": -116.39262,
+   "alt": 100,
+   "url": "https://network.satnogs.org/stations/1561/",
    "https": false
   },
   {
@@ -1664,16 +1674,6 @@
    "https": false
   },
   {
-   "id": 4341,
-   "name": "N0NQD-SatScanner VHF",
-   "loc": "EN35dg · VHF",
-   "lat": 45.288962,
-   "lng": -93.74652,
-   "alt": 325,
-   "url": "https://network.satnogs.org/stations/4341/",
-   "https": false
-  },
-  {
    "id": 2461,
    "name": "N1ESK-Loudon",
    "loc": "EM75uq · UHF",
@@ -1791,6 +1791,26 @@
    "lng": 23.648095,
    "alt": 48,
    "url": "https://network.satnogs.org/stations/5026/",
+   "https": false
+  },
+  {
+   "id": 5264,
+   "name": "Norfolk - Back Yard",
+   "loc": "FM16vu · VHF",
+   "lat": 36.85663,
+   "lng": -76.17929,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/5264/",
+   "https": false
+  },
+  {
+   "id": 5267,
+   "name": "Norfolk - Back Yard UHF",
+   "loc": "FM16vu · UHF",
+   "lat": 36.85663,
+   "lng": -76.17929,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/5267/",
    "https": false
   },
   {
@@ -1981,16 +2001,6 @@
    "lng": 3.8236,
    "alt": 0,
    "url": "https://network.satnogs.org/stations/2154/",
-   "https": false
-  },
-  {
-   "id": 431,
-   "name": "PE0SAT-11",
-   "loc": "JO21mr · UHF",
-   "lat": 51.721268,
-   "lng": 5.029968,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/431/",
    "https": false
   },
   {
@@ -2224,6 +2234,16 @@
    "https": false
   },
   {
+   "id": 5066,
+   "name": "SA1CKW",
+   "loc": "JO97fg · VHF",
+   "lat": 57.276,
+   "lng": 18.471,
+   "alt": 38,
+   "url": "https://network.satnogs.org/stations/5066/",
+   "https": false
+  },
+  {
    "id": 1864,
    "name": "SA2KNG Omni UHF/VHF",
    "loc": "KP03cu · UHF",
@@ -2284,16 +2304,6 @@
    "https": false
   },
   {
-   "id": 4842,
-   "name": "SENA Metalmechanic Center Ground Station",
-   "loc": "FJ24wo · VHF / UHF",
-   "lat": 4.596,
-   "lng": -74.111,
-   "alt": 2600,
-   "url": "https://network.satnogs.org/stations/4842/",
-   "https": false
-  },
-  {
    "id": 5215,
    "name": "SGP",
    "loc": "MK80oo · VHF / UHF",
@@ -2301,16 +2311,6 @@
    "lng": 77.1794,
    "alt": 387,
    "url": "https://network.satnogs.org/stations/5215/",
-   "https": false
-  },
-  {
-   "id": 4882,
-   "name": "Shadi",
-   "loc": "KM18ua · VHF / UHF",
-   "lat": 38.0170436840529,
-   "lng": 23.732455911409634,
-   "alt": 210,
-   "url": "https://network.satnogs.org/stations/4882/",
    "https": false
   },
   {
