@@ -137,13 +137,13 @@ class SeoGenreLanguagePagesTests(unittest.TestCase):
             MODULE.generate_genre_language_pages(self._write_snapshot(tmp, stations), out_root=tmp)
             self.assertFalse((Path(tmp) / "genres").exists())
 
-    def test_write_sitemap_dedup_and_lastmod(self):
+    def test_write_sitemap_dedup_without_unverified_lastmod(self):
         with tempfile.TemporaryDirectory() as tmp:
-            MODULE.write_sitemap(tmp, ["https://x.test/", "https://x.test/", "https://y.test/"],
-                                 "2026-11-05T00:00:00Z")
+            MODULE.write_sitemap(tmp, ["https://x.test/", "https://x.test/", "https://y.test/?a=1&b=2"])
             sitemap = (Path(tmp) / "sitemap.xml").read_text(encoding="utf-8")
             self.assertEqual(sitemap.count("https://x.test/"), 1)
-            self.assertIn("2026-11-05", sitemap)
+            self.assertNotIn("<lastmod>", sitemap)
+            self.assertIn("https://y.test/?a=1&amp;b=2", sitemap)
 
 if __name__ == "__main__":
     unittest.main()

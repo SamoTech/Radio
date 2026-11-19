@@ -72,6 +72,7 @@ KiwiSDR receivers, space weather, and shortwave schedules refresh every 6 hours.
 import csv
 import gzip
 import io
+import html
 import json
 import re
 import sys
@@ -533,14 +534,14 @@ def generate_country_pages(snapshot_path, out_root=None):
         _cp_index_page(ranked), encoding="utf-8"
     )
 
-    write_sitemap(root, sitemap_urls, updated)
+    write_sitemap(root, sitemap_urls)
     robots = "User-agent: *\nAllow: /\n\nSitemap: " + SITE_URL + "sitemap.xml\n"
     (root / "robots.txt").write_text(robots, encoding="utf-8")
     print("country pages: " + str(len(ranked)) + " country pages + sitemap + robots")
 
-def write_sitemap(root, urls, updated=""):
+def write_sitemap(root, urls):
     """Write sitemap.xml with the given URL list (dedup, first-come order)."""
-    lastmod = str(updated)[:10] if len(str(updated)) >= 10 else ""
+    # A catalog refresh is not a reliable modification date for individual pages.
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -550,10 +551,7 @@ def write_sitemap(root, urls, updated=""):
         if url in seen:
             continue
         seen.add(url)
-        entry = "<url><loc>" + url + "</loc>"
-        if lastmod:
-            entry += "<lastmod>" + lastmod + "</lastmod>"
-        lines.append(entry + "</url>")
+        lines.append("<url><loc>" + _cp_escape(url) + "</loc></url>")
     lines.append("</urlset>")
     (Path(root) / "sitemap.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -563,7 +561,7 @@ def _sitemap_locs(root):
     path = Path(root) / "sitemap.xml"
     if not path.exists():
         return []
-    return re.findall(r"<loc>(.*?)</loc>", path.read_text(encoding="utf-8"))
+    return [html.unescape(url) for url in re.findall(r"<loc>(.*?)</loc>", path.read_text(encoding="utf-8"))]
 
 
 
@@ -836,7 +834,7 @@ def generate_genre_language_pages(snapshot_path, out_root=None):
         print("genre/language pages: no genres/languages over the minimum — nothing generated")
         return
     existing = _sitemap_locs(root)
-    write_sitemap(root, existing + sitemap_urls, updated)
+    write_sitemap(root, existing + sitemap_urls)
     print(
         "genre/language pages: "
         + str(len(genres)) + " genre pages + "
