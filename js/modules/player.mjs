@@ -743,11 +743,12 @@ export function boot() {
     $('player').classList.toggle('player-expanded',open);
     expand.setAttribute('aria-expanded',String(open));
     if(open){
-      $('player').setAttribute('role','dialog');
-      $('player').setAttribute('aria-modal','true');
+      var mobile=window.matchMedia&&window.matchMedia('(max-width:720px)').matches;
+      $('player').setAttribute('role',mobile?'dialog':'region');
+      if(mobile)$('player').setAttribute('aria-modal','true');
+      else $('player').removeAttribute('aria-modal');
       $('player').setAttribute('aria-label',state.currentName||t('player_controls'));
       renderExpandedPlayerIdentity();
-      var mobile=window.matchMedia&&window.matchMedia('(max-width:720px)').matches;
       (mobile?$('player-collapse'):$('player-prev')).focus();
       if(!audio.paused&&!visRaf)visRaf=requestAnimationFrame(visFrame);
     }else{
@@ -843,7 +844,7 @@ export function boot() {
 
 
   document.addEventListener('keydown',function(e){
-    if($('player').classList.contains('player-expanded')){
+    if($('player').classList.contains('player-expanded')&&window.matchMedia&&window.matchMedia('(max-width:720px)').matches){
       if(e.key==='Escape'){e.preventDefault();setPlayerExpanded(false);return;}
       if(e.key==='Tab'){
         var focusable=Array.from(controls.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),audio[controls]')).filter(function(el){return !el.hidden&&el.getClientRects().length;});
