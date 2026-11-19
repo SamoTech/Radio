@@ -52,8 +52,19 @@ async function shot(page,name) {
     await page.locator('#grid-fm .station-card').first().waitFor({timeout:30000});
     await shot(page,'01-mobile-home-ar');
     check('Arabic RTL',await page.locator('html').getAttribute('dir')==='rtl');
+    const headerOverlap=await page.evaluate(()=>{
+      const heading=document.querySelector('.hero h1').getBoundingClientRect();
+      const controls=document.querySelector('.hero .controls').getBoundingClientRect();
+      return heading.left<controls.right&&heading.right>controls.left
+        &&heading.top<controls.bottom&&heading.bottom>controls.top;
+    });
+    check('Mobile title does not overlap header controls',!headerOverlap);
+    check('Home surfaces playable catalog cards before search',
+      await page.locator('#mobile-home-preview .station-card').count()>0);
 
     await page.locator('#mobile-nav-explore').click();
+    check('Explore hides the mobile home quick-listen section',
+      await page.locator('#mobile-home-preview').isHidden());
     await page.locator('#grid-fm .station-card').first().waitFor();
     await shot(page,'02-explore');
     check('Explore shows catalog beyond home subset',await page.locator('#grid-fm .station-card').count()>0);
