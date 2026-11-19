@@ -272,3 +272,8 @@ python -m http.server 8000
 
 
 
+
+
+### Production provenance and deployment verification
+
+GitHub Pages deployment stamps a generated `build-info.json` with the exact deployment commit, Service Worker cache version, catalog version and asset SHA-256 digests. The separate post-deploy verification job fetches the live artifact and checks every tracked asset byte-for-byte. See [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). A merged PR or an HTTP 200 response alone does not establish that the new release is live.
