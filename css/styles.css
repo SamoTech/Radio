@@ -362,3 +362,24 @@ body{-webkit-tap-highlight-color:transparent}
 .vlead-bar{flex:1;height:8px;border-radius:999px;background:var(--chipbg);overflow:hidden}
 .vlead-fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#d4af37,#f3d276)}
 .vlead-count{flex:none;font-size:.85rem;color:var(--accent)}
+
+/* Compact listening controls, shared by mobile and desktop. */
+.station-filters summary{cursor:pointer;color:var(--accent);width:fit-content;min-height:44px;align-content:center}
+.station-filters .fm-filter-grid{margin-block:4px 10px}
+.player{display:block;max-height:75vh;overflow:auto;padding-block-end:calc(10px + env(safe-area-inset-bottom))}
+.player-strip{display:flex;align-items:center;gap:8px;max-width:960px;margin-inline:auto}
+.player-station{flex:1;min-width:0}
+.player-strip button{min-width:44px;min-height:44px}
+.player-controls{max-width:960px;margin:10px auto 0;border-top:1px solid var(--line);padding-block-start:10px}
+.player-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-block-end:8px}
+.player-actions button{min-height:44px}
+.player-controls #audio{width:100%}
+body:has(#player:not([hidden])){padding-block-end:calc(74px + env(safe-area-inset-bottom))}
+@media(max-width:720px){
+  .hero .stats{gap:4px}
+  .hero .stat{min-width:0;padding:4px 7px}
+  .tabs{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;padding-block:4px}
+  .tabs .tab{min-height:44px;flex:none}
+  .fm-search-row #qfm{flex-basis:100%}
+  .player-actions #vol-slider{flex:0 1 100px}
+}

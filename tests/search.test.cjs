@@ -447,3 +447,13 @@ test('catalog falls back to the full snapshot when any delta is missing or misma
     assert.deepEqual(writes, []);
   }
 });
+
+test('compact player and filters expose native controls with unique IDs', () => {
+  const page = fs.readFileSync('index.html', 'utf8');
+  assert.match(page, /<details class="station-filters">\s*<summary data-i18n="station_filters">/);
+  assert.match(page, /id="player-expand"[^>]*aria-expanded="false" aria-controls="player-controls"/);
+  assert.match(page, /id="player-controls"[^>]* hidden>/);
+  for (const id of ['audio', 'player-toggle', 'player-close', 'sleep-btn', 'alarm-btn', 'vol-slider']) {
+    assert.equal(page.split('id="' + id + '"').length, 2, id + ' appears once');
+  }
+});

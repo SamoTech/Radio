@@ -171,6 +171,7 @@ var CHIP_TAGS = {
 
 var STR = {
   ar: {
+    station_filters: 'فلاتر المحطات',
     locale: 'ar-EG',
     dateLocale: 'ar',
     dir: 'rtl',
@@ -267,6 +268,7 @@ var STR = {
     offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
   },
   en: {
+    station_filters: 'Station filters',
     locale: 'en-US',
     dateLocale: 'en',
     dir: 'ltr',
@@ -1935,12 +1937,3 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
-
-
-
-
-
-
-
-
-

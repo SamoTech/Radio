@@ -8,6 +8,9 @@
 
 var STR_PLAYER = {
   ar: {
+    player_controls: 'التحكم',
+    player_play_aria: 'تشغيل',
+    player_pause_aria: 'إيقاف مؤقت',
     player_status_connecting: 'جارٍ الاتصال…',
     player_status_live: '● يبث الآن',
     player_status_paused: '⏸ متوقف مؤقتًا',
@@ -38,6 +41,9 @@ var STR_PLAYER = {
     alarm_no_station: 'شغّل أي محطة الأول عشان المنبه يعرف يشغّلها.'
   },
   en: {
+    player_controls: 'Controls',
+    player_play_aria: 'Play',
+    player_pause_aria: 'Pause',
     player_status_connecting: 'Connecting…',
     player_status_live: '● On air',
     player_status_paused: '⏸ Paused',
@@ -676,6 +682,29 @@ export function boot() {
   raMergeStr(STR_PLAYER);
   applyI18n();
 
+  var audio = $('audio');
+  var toggle = $('player-toggle');
+  var expand = $('player-expand');
+  var controls = $('player-controls');
+  function syncToggle() {
+    var key = audio.paused ? 'player_play_aria' : 'player_pause_aria';
+    toggle.textContent = audio.paused ? '▶' : '❚❚';
+    toggle.setAttribute('data-i18n-aria', key);
+    toggle.setAttribute('aria-label', t(key));
+  }
+  toggle.addEventListener('click', function () {
+    if (audio.paused) audio.play().catch(syncToggle);
+    else audio.pause();
+  });
+  ['play', 'pause', 'ended', 'emptied'].forEach(function (event) {
+    audio.addEventListener(event, syncToggle);
+  });
+  expand.addEventListener('click', function () {
+    controls.hidden = !controls.hidden;
+    expand.setAttribute('aria-expanded', String(!controls.hidden));
+    if (!controls.hidden && !audio.paused && !visRaf) visRaf = requestAnimationFrame(visFrame);
+    if (controls.hidden) visStop();
+  });
   $('player-close').addEventListener('click', function () {
     state.playbackGeneration += 1;
     state.playbackSources = [];
@@ -692,6 +721,8 @@ export function boot() {
     var altBox = $('player-alt');
     if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
     $('player').hidden = true;
+    controls.hidden = true;
+    expand.setAttribute('aria-expanded', 'false');
     setMediaPlaybackState('none');
     updateDocTitle();
     renderQuickBar();
@@ -722,7 +753,7 @@ export function boot() {
     }
     setPlayerStatus('live');
     setMediaPlaybackState('playing');
-    if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
+    if (!visRaf && !controls.hidden && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
   });
   $('audio').addEventListener('pause', function () {
     setPlayerStatus('paused');
