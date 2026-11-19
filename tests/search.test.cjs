@@ -693,3 +693,49 @@ test('late shared-link handling never restarts a station selected during this se
   assert.deepEqual(attempt(true), [], 'in-session playback should not be replaced');
   assert.deepEqual(attempt(false), [[url,'Current station']], 'fresh deep link should start exactly once');
 });
+
+
+test('player fallback list is HTTPS-only, unique and preserves the selected station', () => {
+  const sources = Array.from(sandbox.buildPlaybackSourceList(
+    'https://radio.test/live',
+    ['http://insecure.test/live', 'javascript:alert(1)',
+     'https://radio.test/live', 'https://radio.test/backup',
+     'https://user:pass@radio.test/secret'],
+    'https://radio.test/original',
+    'https://relay.test/stream?url=encoded'
+  ));
+  assert.deepEqual(sources, [
+    'https://radio.test/live',
+    'https://radio.test/backup',
+    'https://radio.test/original',
+    'https://relay.test/stream?url=encoded'
+  ]);
+});
+
+test('player fallback attempts are bounded to four direct sources and relay last', () => {
+  const tooMany = Array.from({length: 20}, (_, i) => 'https://radio.test/alt' + i);
+  const sources = Array.from(sandbox.buildPlaybackSourceList(
+    'https://radio.test/live', tooMany, 'https://radio.test/original',
+    'https://relay.test/stream'
+  ));
+  assert.equal(sources.length, 5);
+  assert.equal(sources[0], 'https://radio.test/live');
+  assert.deepEqual(sources.slice(1, 4), tooMany.slice(0, 3));
+  assert.equal(sources[4], 'https://relay.test/stream');
+});
+
+test('untrusted fallback strings do not turn into individual characters or URL attempts', () => {
+  const sources = Array.from(sandbox.buildPlaybackSourceList(
+    'https://radio.test/live', 'https://untrusted.test/stream', '', ''
+  ));
+  assert.deepEqual(sources, ['https://radio.test/live']);
+});
+
+test('player resume and direct play share the same safe source builder', () => {
+  const app = fs.readFileSync('js/app.js', 'utf8');
+  const player = fs.readFileSync('js/modules/player.mjs', 'utf8');
+  assert.match(app, /state\.playbackSources = buildPlaybackSourceList\(/);
+  assert.match(player, /state\.playbackSources = buildPlaybackSourceList\(/);
+  assert.match(player, /state\.playbackIndex < state\.playbackSources\.length/);
+  assert.match(player, /generation !== state\.playbackGeneration/);
+});

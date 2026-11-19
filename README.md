@@ -35,6 +35,7 @@
 - local search matches name/language/tags/cc/localized country name (Intl.DisplayNames)
 
 - مشغّل مصغّر ثابت، مع لوحة قابلة للتوسيع للصوت والتنقل ومؤقت النوم.
+- **تبديل آمن بين روابط المحطة:** أربع وصلات HTTPS مباشرة بحد أقصى ورابط relay اختياري كآخر محاولة؛ يتم رفض HTTP والرابط ذي بيانات الدخول، وإزالة المكرر، مع إبقاء اسم المحطة والمفضلة والاستماع على عنصر الصوت نفسه. روابط البدائل هي روابط مرشحة وليست ضمانًا للتشغيل ما لم يُثبت فحص الصوت ذلك.
 
 ### 🌍 تبويب عربي
 - تبويب مستقل «🌍 عربي» يعرض جميع المحطات العربية في 22 دولة عربية
@@ -93,7 +94,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v78) لـ caching و offline
+- **Service Worker** (sw.js v79) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -131,7 +132,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v78)
+├── sw.js                # Service Worker (v79)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt

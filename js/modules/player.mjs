@@ -132,8 +132,11 @@ function loadHlsLib(cb) {
   }
   next();
 }
-function failCurrentPlayback(generation, reason) {
-  if (generation !== state.playbackGeneration || state.playbackAttemptFailed) return;
+function failCurrentPlayback(generation, reason, sourceUrl) {
+  // A rejected play() promise from an earlier attempt must not stop the
+  // working fallback after playbackIndex has already advanced.
+  if (generation !== state.playbackGeneration || state.playbackAttemptFailed ||
+      (sourceUrl && state.playbackSources[state.playbackIndex] !== sourceUrl)) return;
   state.playbackAttemptFailed = true;
   destroyHls();
   var audio = $('audio');
@@ -211,7 +214,7 @@ function attachHls(url, generation, station) {
       mediaRetries += 1;
       try { hls.recoverMediaError(); return; } catch (e) {}
     }
-    failCurrentPlayback(generation, data.details || data.type || 'fatal HLS error');
+    failCurrentPlayback(generation, data.details || data.type || 'fatal HLS error', url);
   });
   hls.loadSource(url);
   hls.attachMedia(audio);
@@ -245,21 +248,22 @@ function startCurrentPlayback(generation) {
   var needsHlsJs = isHlsUrl(baseUrl) && (requiresTokenLoader || !audio.canPlayType('application/vnd.apple.mpegurl'));
   if (needsHlsJs) {
     loadHlsLib(function (loaded) {
-      if (generation !== state.playbackGeneration) return;
+      if (generation !== state.playbackGeneration ||
+          state.playbackSources[state.playbackIndex] !== baseUrl) return;
       if (!loaded || !attachHls(baseUrl, generation, station)) {
-        failCurrentPlayback(generation, 'HLS.js unavailable or MediaSource unsupported');
+        failCurrentPlayback(generation, 'HLS.js unavailable or MediaSource unsupported', baseUrl);
         return;
       }
       audio.play().catch(function (error) {
         if (error && error.name === 'NotAllowedError') {
           toast(t('toast_tap_play'));
         } else {
-          failCurrentPlayback(generation, error && error.message);
+          failCurrentPlayback(generation, error && error.message, baseUrl);
         }
       });
     });
   } else if (requiresTokenLoader) {
-    failCurrentPlayback(generation, 'Token-protected HLS requires HLS.js');
+    failCurrentPlayback(generation, 'Token-protected HLS requires HLS.js', baseUrl);
   } else {
     audio.src = baseUrl;
     audio.load();
@@ -267,7 +271,7 @@ function startCurrentPlayback(generation) {
       if (error && error.name === 'NotAllowedError') {
         toast(t('toast_tap_play'));
       } else {
-        failCurrentPlayback(generation, error && error.message);
+        failCurrentPlayback(generation, error && error.message, baseUrl);
       }
     });
   }
@@ -427,21 +431,18 @@ function play(url, name) {
   }
   state.playbackStation = station || { name: name || '', url: url };
   var saverStation = pickSaverStation(state.playbackStation, url);
-  state.playbackSources = [saverStation ? saverStation.url : url]
-    .concat(state.playbackStation.fallbacks || [])
-    .concat(saverStation ? [url] : [])
-    .filter(function (source, index, list) {
-    return !!source && list.indexOf(source) === index;
-  });
-  // Last-resort relay tier: some streams fail direct playback from the
-  // browser (CORS or geo blocks) while our Cloudflare Worker relay can
-  // still fetch them. Token-gated easybroadcast streams are skipped: their
-  // loader signs the original playlist URL and would break through a proxy.
+  // Preserve the original station identity while retrying its OWN verified
+  // or curated alternative mounts; never mix stations by similar names.
+  // Bound to four direct HTTPS sources and one optional last-resort relay.
+  // Token-gated easybroadcast must never go through the relay.
   var isEasyB = station && station.tokenEndpoint && station.tokenType === 'easy_b';
   var relayUrl = isEasyB ? '' : proxyStreamUrl(url);
-  if (relayUrl && state.playbackSources.indexOf(relayUrl) === -1) {
-    state.playbackSources.push(relayUrl);
-  }
+  state.playbackSources = buildPlaybackSourceList(
+    saverStation ? saverStation.url : url,
+    state.playbackStation.fallbacks,
+    saverStation ? url : '',
+    relayUrl
+  );
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
@@ -836,7 +837,11 @@ export function boot() {
   $('audio').addEventListener('waiting', function () { setPlayerStatus('connecting'); });
   $('audio').addEventListener('stalled', function () { setPlayerStatus('connecting'); });
   $('audio').addEventListener('error', function () {
-    if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
+    if (hls || !state.playbackSources.length) return;
+    var source = $('audio').currentSrc;
+    if (source && source === state.playbackSources[state.playbackIndex]) {
+      failCurrentPlayback(state.playbackGeneration, 'HTML audio element error', source);
+    }
   });
   $('audio').addEventListener('play', function () {
     state.playbackRequestedInSession = true;

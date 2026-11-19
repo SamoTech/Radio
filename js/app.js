@@ -500,6 +500,12 @@ function safeHttpsUrl(value) {
   return url && /^https:/i.test(url) ? url : '';
 }
 
+function buildPlaybackSourceList(p,f,o,r) {
+  var s=[],a=[p].concat(Array.isArray(f)?f.slice(0,16):[],[o,r]);
+  a.forEach(function(v,i){v=safeHttpsUrl(v);if(v&&s.length<(i===a.length-1?5:4)&&s.indexOf(v)<0)s.push(v);});
+  return s;
+}
+
 /* Optional stream relay; see proxy/README.md. */
 var STREAM_PROXY = '';
 
@@ -1340,7 +1346,7 @@ function renderFeatured() {
 }
 
 
-/* Modal focus bookkeeping shared by the sdr and player modules. */
+/* Shared modal focus. */
 
 var previousSDRFocus = null;
 function initResume() {
@@ -1352,11 +1358,10 @@ function initResume() {
   if (isDmEmbed(last.url)) return;
   var station = stationByUrl(last.url);
   state.playbackStation = station || { name: last.name || '', url: last.url };
-  state.playbackSources = [last.url].concat(state.playbackStation.fallbacks || []);
   var resumeRelay = (station && station.tokenEndpoint && station.tokenType === 'easy_b') ? '' : proxyStreamUrl(last.url);
-  if (resumeRelay && state.playbackSources.indexOf(resumeRelay) === -1) {
-    state.playbackSources.push(resumeRelay);
-  }
+  state.playbackSources = buildPlaybackSourceList(
+    last.url, state.playbackStation.fallbacks, '', resumeRelay
+  );
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
