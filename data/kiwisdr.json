@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T17:05:59+00:00",
+ "updated": "2026-11-19T17:16:09+00:00",
  "source": "https://cdn.aethersdr.com/kiwi.json",
  "origin_fetched_at": "2026-11-19T17:00:21.000Z",
  "count": 831,
@@ -76,24 +76,8 @@
    "max_users": 8,
    "snr": 41,
    "gps": [
-    60.4667,
-    26.9458
-   ],
-   "band": "0-30 MHz",
-   "loc": "Kotka, Finland 🇫🇮",
-   "antenna": "DX Engineering AVA-3 10m LNV",
-   "ext_api": 0
-  },
-  {
-   "name": "80m Dipole | Chichester UK",
-   "url": "http://g8ure.ddns.net:8077",
-   "online": true,
-   "users": 3,
-   "max_users": 8,
-   "snr": 35,
-   "gps": [
-    50.85,
-    -0.66
+    50.846315,
+    -0.661952
    ],
    "band": "0-30 MHz",
    "loc": "Chichester UK",
@@ -330,15 +314,15 @@
    "online": true,
    "users": 2,
    "max_users": 2,
-   "snr": 35,
+   "snr": 37,
    "gps": [
-    57.141052,
-    12.343837
+    -34.2737,
+    138.771
    ],
-   "band": "0-30 MHz",
-   "loc": "Varberg, Sweden",
-   "antenna": "Dipole FD-4",
-   "ext_api": 4
+   "band": "1.8 MHz-30 MHz",
+   "loc": "Near Tarlee, South Australia",
+   "antenna": "Broadband Monopole (\\\"J-Dart\\\")",
+   "ext_api": 1
   },
   {
    "name": "DF3LZ, KiwiSDR2 | Hamburg, Germany",
@@ -483,86 +467,6 @@
    "loc": "Ironstone Range, South Australia",
    "antenna": "12m Duoconical Monopole Antenna",
    "ext_api": 4
-  },
-  {
-   "name": "OH3AA Hameenlinnan Radioamatoorit KiwiSDR 0-30 MHz | Hämeenlinna, Finland",
-   "url": "http://oh3aa.ddns.net:18073",
-   "online": true,
-   "users": 4,
-   "max_users": 4,
-   "snr": 35,
-   "gps": [
-    60.950613,
-    24.483177
-   ],
-   "band": "0-30 MHz",
-   "loc": "Hämeenlinna, Finland",
-   "antenna": "Crossed Loop Antennas with LZ1AQ AAA-1C Active Antenna Amplifier",
-   "ext_api": 2
-  },
-  {
-   "name": "Ireland North West.....Ireland",
-   "url": "http://irelandnorthwest.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 4,
-   "snr": 34,
-   "gps": [
-    54.229144,
-    -9.312494
-   ],
-   "band": "0-30 MHz",
-   "loc": "Ireland",
-   "antenna": "Dipole",
-   "ext_api": null
-  },
-  {
-   "name": "80m dipole | Chichester UK",
-   "url": "http://g8ure.ddns.net:8072",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 36,
-   "gps": [
-    50.846198,
-    -0.661326
-   ],
-   "band": "0-30 MHz",
-   "loc": "Chichester UK",
-   "antenna": "80m dipole",
-   "ext_api": 0
-  },
-  {
-   "name": "Web-SDR Friesland MW | Fryslan, the Netherlands",
-   "url": "http://77.167.31.211:8073",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 37,
-   "gps": [
-    53.195481,
-    5.987106
-   ],
-   "band": "0-30 MHz",
-   "loc": "Fryslan, the Netherlands",
-   "antenna": "Inverted-v dipool, 2x45 m",
-   "ext_api": 1
-  },
-  {
-   "name": "2-30MHZ SDR #3, VK5ARG Remote Receiver Site | Near Tarlee, South Australia",
-   "url": "http://kiwisdr.areg.org.au:8075",
-   "online": true,
-   "users": 2,
-   "max_users": 2,
-   "snr": 36,
-   "gps": [
-    -34.2737,
-    138.771
-   ],
-   "band": "1.8 MHz-30 MHz",
-   "loc": "Near Tarlee, South Australia",
-   "antenna": "Broadband Monopole (\\\"J-Dart\\\")",
-   "ext_api": 1
   },
   {
    "name": "███ 0-30 MHz SDR #1, VK5PH, Ironstone Range, South Australia ███",
@@ -1720,9 +1624,9 @@
    "name": "0-30 MHz SDR TreDXK #3 | Tampere, Finland",
    "url": "http://tredxk.no-ip.org:8075",
    "online": true,
-   "users": 2,
+   "users": 4,
    "max_users": 8,
-   "snr": 32,
+   "snr": 31,
    "gps": [
     61.525062,
     23.889774
@@ -1834,7 +1738,7 @@
    "online": true,
    "users": 4,
    "max_users": 8,
-   "snr": 29,
+   "snr": 28,
    "gps": [
     40.730154,
     13.90228
@@ -2005,19 +1909,19 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR, HB9RLM | Zielebach Switzerland",
-   "url": "http://hb9rlm.ddns.net:8073",
+   "name": "0-30 MHz KiwiSDR 🇮🇪 IK7FMO, RICCARDO GIULIANI & GIUSEPPE CISTERNINO | CONVERSANO (BARI) - CENTRAL PUGLIA - ITALIA - ITALY ***O***",
+   "url": "http://ik7fmo.ddns.net:8073",
    "online": true,
    "users": 2,
    "max_users": 3,
    "snr": 27,
    "gps": [
-    47.160165,
-    7.580429
+    40.97,
+    17.12
    ],
    "band": "0-30 MHz",
-   "loc": "Zielebach Switzerland",
-   "antenna": "W2000",
+   "loc": "CONVERSANO (BARI) - CENTRAL PUGLIA - ITALIA - ITALY ***O***",
+   "antenna": "Vertical CB Dipole",
    "ext_api": 4
   },
   {
@@ -2282,10 +2186,10 @@
    "online": true,
    "users": 1,
    "max_users": 8,
-   "snr": 31,
+   "snr": 27,
    "gps": [
-    50.80546,
-    6.26035
+    50.08,
+    -113.68
    ],
    "band": "0-30 MHz",
    "loc": "Southern Alberta 1",
@@ -2748,12 +2652,12 @@
    "max_users": 8,
    "snr": 31,
    "gps": [
-    43.94,
-    -122.93
+    53.85,
+    16.68
    ],
-   "band": "1.8 MHz-30 MHz",
-   "loc": "Creswell, Oregon USA",
-   "antenna": "IdaFab K6VZK 8ft active antenna",
+   "band": "10 kHz-30 MHz",
+   "loc": "Stare Wierzchowo, POLAND",
+   "antenna": "GP",
    "ext_api": 0
   },
   {
@@ -2780,12 +2684,12 @@
    "max_users": 1,
    "snr": 25,
    "gps": [
-    64.917631,
-    -147.557494
+    40.657471,
+    -7.913866
    ],
    "band": "0-30 MHz",
-   "loc": "Fairbanks Alaska USA",
-   "antenna": "End Fed Half Wave",
+   "loc": "VISEU PORTUGAL",
+   "antenna": "",
    "ext_api": 4
   },
   {
@@ -2842,7 +2746,7 @@
    "online": true,
    "users": 0,
    "max_users": 8,
-   "snr": 24,
+   "snr": 29,
    "gps": [
     49.898228,
     11.718324
@@ -2851,134 +2755,6 @@
    "loc": "Seybothenreuth",
    "antenna": "Long-wire",
    "ext_api": 4
-  },
-  {
-   "name": "K6VZK 0-30 MHZ KiwiSDR #1 | Palomar Moutain, CA",
-   "url": "http://palomar-1.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 2,
-   "snr": 32,
-   "gps": [
-    33.31,
-    -116.85
-   ],
-   "band": "0-30 MHz",
-   "loc": "Palomar Moutain, CA",
-   "antenna": "IDAFAB / N1CL Designs Active Antenna",
-   "ext_api": null
-  },
-  {
-   "name": "Kernow - G8JNJ - 10KHz-30MHz SDR - Cornwall - South West UK",
-   "url": "http://kernow.hopto.org:8073",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 24,
-   "gps": [
-    50.05,
-    -5.18
-   ],
-   "band": "10 kHz-30 MHz",
-   "loc": "Kernow - Cornwall - South West UK",
-   "antenna": "Active dipole",
-   "ext_api": 3
-  },
-  {
-   "name": "0-30 MHz SDR 13OZ1 🌍 | Donauwörth Germany",
-   "url": "http://13oz1.ddns.net:8073",
-   "online": true,
-   "users": 0,
-   "max_users": 4,
-   "snr": 24,
-   "gps": [
-    48.705575,
-    10.788925
-   ],
-   "band": "0-30 MHz",
-   "loc": "Donauwörth Germany",
-   "antenna": "Mini Whip Antenne für 10 kHz - 30 MHz (LW, MW, KW)",
-   "ext_api": 0
-  },
-  {
-   "name": "KB7GF-3, College Place, WA, Northwest USA",
-   "url": "http://22959.proxy.kiwisdr.com",
-   "online": true,
-   "users": 7,
-   "max_users": 8,
-   "snr": 26,
-   "gps": [
-    46.0311,
-    -118.373247
-   ],
-   "band": "0-30 MHz",
-   "loc": "College PLace, WA",
-   "antenna": "0-3MHz: Vertical Loop (1.4m Dia) with notch; 3-30MHz: Horizontal Bicon Dipole (2.5m long) up 7m",
-   "ext_api": 4
-  },
-  {
-   "name": "0-30 MHz SDR / Steinberg, North-Germany",
-   "url": "http://steinberg-sdr.proxy.kiwisdr.com",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 26,
-   "gps": [
-    54.7557,
-    9.7975
-   ],
-   "band": "0-30 MHz",
-   "loc": "Steinberg (Schleswig-Holstein), North-Germany",
-   "antenna": "Longwire",
-   "ext_api": 4
-  },
-  {
-   "name": "SM5VXO, 0-30 MHz SDR | Linkoping, Sweden",
-   "url": "http://lodsdr.proxy.kiwisdr.com",
-   "online": true,
-   "users": 0,
-   "max_users": 8,
-   "snr": 25,
-   "gps": [
-    58.378687,
-    15.640412
-   ],
-   "band": "0-30 MHz",
-   "loc": "Linkoping, Sweden",
-   "antenna": "FD4",
-   "ext_api": 4
-  },
-  {
-   "name": "ZL2BKW | Palmerston North, New Zealand",
-   "url": "http://zl2bkw.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 8,
-   "snr": 25,
-   "gps": [
-    -40.289538,
-    175.606062
-   ],
-   "band": "0-30 MHz",
-   "loc": "Palmerston North, New Zealand",
-   "antenna": "",
-   "ext_api": 4
-  },
-  {
-   "name": "KiwiSDR-2 PA8AD | De Kiel, Netherlands",
-   "url": "http://pa8ad-2.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 4,
-   "snr": 29,
-   "gps": [
-    52.855925,
-    6.737133
-   ],
-   "band": "0-30 MHz",
-   "loc": "De Kiel, Netherlands",
-   "antenna": "22m long vertical / 64 radials",
-   "ext_api": 8
   },
   {
    "name": "LA6LU KiwiSDR - Cha-Am, Thailand (0-30 MHz SDR)",
@@ -3221,35 +2997,19 @@
    "ext_api": 4
   },
   {
-   "name": "🗲 0-30MHz 8 x Kiwi Card SDR, VK3KHZ, Victoria, Australia 🗲",
-   "url": "http://sdr-amradioantennas.com:8072",
+   "name": "3-30 MHz SDR, VK3CMZ, Victoria",
+   "url": "http://vk3cmz.ddns.net:8074",
    "online": true,
    "users": 4,
    "max_users": 8,
    "snr": 24,
    "gps": [
-    -6.97,
-    107.55
+    -36.98,
+    143.98
    ],
-   "band": "0-30 MHz",
-   "loc": "Bandung - Indonesia",
-   "antenna": "Dipole 40m Band/MLA-30 Magnetic Loop",
-   "ext_api": 2
-  },
-  {
-   "name": "F4knp, RC MONTBELIARD, Doubs, France 0-30 MHz SDR",
-   "url": "http://176.170.38.29:8073",
-   "online": true,
-   "users": 1,
-   "max_users": 8,
-   "snr": 23,
-   "gps": [
-    47.45,
-    6.8
-   ],
-   "band": "0-30 MHz",
-   "loc": "Mandeure, Doubs, France",
-   "antenna": "Verticale CP-6SR",
+   "band": "3 MHz-30 MHz",
+   "loc": "Baringhup. Victoria, Australia",
+   "antenna": "End Fed Half Wave - Optimised for Amateur Bands 80 .. 10 metres",
    "ext_api": 4
   },
   {
@@ -3589,15 +3349,15 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR | Evergem - Belgium",
-   "url": "http://22894.proxy.kiwisdr.com",
+   "name": "F4knp, RC MONTBELIARD, Doubs, France 0-30 MHz SDR",
+   "url": "http://176.170.38.29:8073",
    "online": true,
-   "users": 1,
+   "users": 0,
    "max_users": 8,
-   "snr": 25,
+   "snr": 23,
    "gps": [
-    51.16,
-    3.73
+    47.45,
+    6.8
    ],
    "band": "0-30 MHz",
    "loc": "Mandeure, Doubs, France",
@@ -3642,7 +3402,7 @@
    "online": true,
    "users": 0,
    "max_users": 8,
-   "snr": 21,
+   "snr": 24,
    "gps": [
     44.4263,
     -121.2623
@@ -3820,12 +3580,28 @@
    "max_users": 4,
    "snr": 24,
    "gps": [
-    39.42,
-    -31.26
+    -19.398133,
+    146.708223
    ],
    "band": "0-30 MHz",
-   "loc": "FLORES ISLAND,AZORES",
-   "antenna": "4 loops and LZ1AQ amp.Swit450 foot Loop on Ground with LZ1AQ amp or directional loops",
+   "loc": "Townsville, Queensland",
+   "antenna": "49:1 41.2m End Fed Wire",
+   "ext_api": 0
+  },
+  {
+   "name": "DL2SBA | Filderstadt/Germany",
+   "url": "http://dl2sba.ddns.net:8073",
+   "online": true,
+   "users": 0,
+   "max_users": 4,
+   "snr": 30,
+   "gps": [
+    48.67,
+    9.24
+   ],
+   "band": "0-30 MHz",
+   "loc": "Filderstadt/Germany",
+   "antenna": "<a href",
    "ext_api": 1
   },
   {
@@ -3836,8 +3612,8 @@
    "max_users": 8,
    "snr": 24,
    "gps": [
-    53.630673,
-    8.026295
+    49.142333,
+    8.222333
    ],
    "band": "0-30 MHz",
    "loc": "Hooksiel, Germany",
@@ -3996,12 +3772,12 @@
    "max_users": 8,
    "snr": 26,
    "gps": [
-    35.78,
-    -88.65
+    53.324393,
+    12.649082
    ],
-   "band": "10 kHz-30 MHz",
-   "loc": "Jackson TN, USA",
-   "antenna": "Hygain 18ht 54 foot vertical ground mounted",
+   "band": "0-30 MHz",
+   "loc": "Vipperow, North East Germany",
+   "antenna": "Mini-Whip or 28m End-Fed",
    "ext_api": 4
   },
   {
@@ -4088,7 +3864,7 @@
    "name": "0-30 MHz SDR, KB5AVY, New Orleans, Louisiana",
    "url": "http://68.227.147.245:8073",
    "online": true,
-   "users": 1,
+   "users": 4,
    "max_users": 20,
    "snr": 21,
    "gps": [
@@ -4136,7 +3912,7 @@
    "name": "AJ7C-McShack-SDR | Culver City, CA, USA",
    "url": "http://23085.proxy.kiwisdr.com",
    "online": true,
-   "users": 3,
+   "users": 4,
    "max_users": 8,
    "snr": 26,
    "gps": [
@@ -5066,7 +4842,7 @@
    "online": true,
    "users": 0,
    "max_users": 8,
-   "snr": 21,
+   "snr": 20,
    "gps": [
     50.142758,
     9.140906
@@ -5388,13 +5164,13 @@
    "max_users": 8,
    "snr": 22,
    "gps": [
-    60.14741,
-    11.14604
+    51.34598,
+    7.508826
    ],
    "band": "0-30 MHz",
-   "loc": "Jessheim, Norway",
-   "antenna": "Bonito MegaLoop FX",
-   "ext_api": 2
+   "loc": "Hagen, Germany",
+   "antenna": "MiniWhip Clone - Better poor than none Antenna! .-)",
+   "ext_api": 4
   },
   {
    "name": "VP9NI KiwiSDR | Smiths Parish, Bermuda",
@@ -5445,15 +5221,15 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR, DK0TE, DHBW Ravensburg Campus Friedrichshafen, Germany",
-   "url": "http://kiwisdr.inf.dhbw-ravensburg.de:8073",
+   "name": "0-30 MHz KiwiSDR Central NC KIWI 1",
+   "url": "http://75.189.217.152:8073",
    "online": true,
-   "users": 3,
+   "users": 5,
    "max_users": 8,
    "snr": 19,
    "gps": [
-    47.665021,
-    9.448193
+    35.65,
+    -78.45
    ],
    "band": "0-30 MHz",
    "loc": "Central NC",
@@ -5480,7 +5256,7 @@
    "name": "0-30 MHz SDR | Ihrhove, Germany",
    "url": "http://22857.proxy.kiwisdr.com",
    "online": true,
-   "users": 3,
+   "users": 1,
    "max_users": 8,
    "snr": 23,
    "gps": [
@@ -5594,23 +5370,7 @@
    "online": true,
    "users": 0,
    "max_users": 8,
-   "snr": 18,
-   "gps": [
-    48.173209,
-    11.235934
-   ],
-   "band": "0-30 MHz",
-   "loc": "Fürstenfeldbruck, Germany",
-   "antenna": "10m multiband vertical",
-   "ext_api": 4
-  },
-  {
-   "name": "0-30 MHz SDR | LOUISVILLE, KY. USA",
-   "url": "http://23198.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 8,
-   "snr": 22,
+   "snr": 24,
    "gps": [
     48.231823,
     8.663999
@@ -5676,13 +5436,13 @@
    "max_users": 8,
    "snr": 19,
    "gps": [
-    48.231823,
-    8.663999
+    65.7461,
+    -19.6394
    ],
    "band": "0-30 MHz",
-   "loc": "Rottweil, Baden - Württemberg, Germany",
-   "antenna": "Gap Titan DX & Sirio GPA 27",
-   "ext_api": 3
+   "loc": "Saudarkrokur / Iceland",
+   "antenna": "random wire",
+   "ext_api": 4
   },
   {
    "name": "Milano Sdr",
@@ -6156,8 +5916,8 @@
    "max_users": 4,
    "snr": 17,
    "gps": [
-    50.67,
-    11.27
+    49.142938,
+    15.006931
    ],
    "band": "0-30 MHz",
    "loc": "J. Hradec, Czech Republic",
@@ -6424,7 +6184,7 @@
    "name": "VA3XA HF SDR | Ottawa, Canada",
    "url": "http://21263.proxy.kiwisdr.com",
    "online": true,
-   "users": 3,
+   "users": 0,
    "max_users": 8,
    "snr": 20,
    "gps": [
@@ -6469,26 +6229,10 @@
    "ext_api": 3
   },
   {
-   "name": "OE9NGH | Langenegg Vorarlber Austria",
-   "url": "http://21528.proxy.kiwisdr.com",
-   "online": true,
-   "users": 0,
-   "max_users": 8,
-   "snr": 18,
-   "gps": [
-    47.46,
-    9.91
-   ],
-   "band": "0-30 MHz",
-   "loc": "Langenegg Vorarlber Austria",
-   "antenna": "Diamond BB7V (vertical antenna)",
-   "ext_api": 4
-  },
-  {
    "name": "TWR | Johannesburg",
    "url": "http://jnb.twrmon.net:8073",
    "online": true,
-   "users": 3,
+   "users": 5,
    "max_users": 7,
    "snr": 20,
    "gps": [
@@ -6613,86 +6357,6 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR | Kyoto, Japan",
-   "url": "http://182.165.15.219:8073",
-   "online": true,
-   "users": 2,
-   "max_users": 3,
-   "snr": 19,
-   "gps": [
-    34.945505,
-    135.778699
-   ],
-   "band": "0-30 MHz",
-   "loc": "Kyoto, Japan",
-   "antenna": "MLA-30",
-   "ext_api": 4
-  },
-  {
-   "name": "F1UBL - JN08 near Paris - Yvelines - France - 0-30 MHz SDR",
-   "url": "http://f1ubl.ddns.net:8072",
-   "online": true,
-   "users": 3,
-   "max_users": 8,
-   "snr": 17,
-   "gps": [
-    48.77,
-    1.94
-   ],
-   "band": "0-30 MHz",
-   "loc": "Maurepas, France",
-   "antenna": "MLA 30+ Loop",
-   "ext_api": 4
-  },
-  {
-   "name": "Bedford UK 0-30 MHz V2 KiwiSDR",
-   "url": "http://remoteradio.changeip.org:8086",
-   "online": true,
-   "users": 0,
-   "max_users": 7,
-   "snr": 20,
-   "gps": [
-    52.12,
-    -0.45
-   ],
-   "band": "0-30 MHz",
-   "loc": "Bedford, England, UK",
-   "antenna": "Various, use Ant switch to choose antenna.",
-   "ext_api": 0
-  },
-  {
-   "name": "RRR | Rouveen, Nederland",
-   "url": "http://23126.proxy.kiwisdr.com",
-   "online": true,
-   "users": 4,
-   "max_users": 8,
-   "snr": 26,
-   "gps": [
-    52.61,
-    6.2
-   ],
-   "band": "0-30 MHz",
-   "loc": "Rouveen, Nederland",
-   "antenna": "Mini-Whip",
-   "ext_api": 4
-  },
-  {
-   "name": "0,5-30 MHz SDR, Bad Münstereifel",
-   "url": "http://5.10.166.25:8073",
-   "online": true,
-   "users": 1,
-   "max_users": 4,
-   "snr": 19,
-   "gps": [
-    50.612055,
-    6.822181
-   ],
-   "band": "500 kHz-30 MHz",
-   "loc": "Eifel, Germany",
-   "antenna": "MLA 30",
-   "ext_api": 3
-  },
-  {
    "name": "🗲 0-30MHz 8 x Kiwi Card SDR, VK3KHZ, Victoria, Australia 🗲",
    "url": "http://sdr-amradioantennas.com:8077",
    "online": true,
@@ -6712,7 +6376,7 @@
    "name": "Pembleton Farms KiwiSDR 1 | Northfield Township, Michigan, USA",
    "url": "http://misdr.proxy.kiwisdr.com",
    "online": true,
-   "users": 3,
+   "users": 4,
    "max_users": 8,
    "snr": 23,
    "gps": [
@@ -6841,12 +6505,12 @@
    "max_users": 8,
    "snr": 17,
    "gps": [
-    46.1351,
-    7.116
+    41.852336,
+    -88.327603
    ],
-   "band": "70 kHz-30 MHz",
-   "loc": "Fully VS, Switzerland",
-   "antenna": "Loop 65 m.",
+   "band": "2 MHz-30 MHz",
+   "loc": "Batavia, IL, USA",
+   "antenna": "40M Dipole",
    "ext_api": 4
   },
   {
@@ -6898,15 +6562,15 @@
    "ext_api": 3
   },
   {
-   "name": "0-30 MHz SDR#2, DG2SAX, Albstadt/Germany",
-   "url": "http://dg2sax.ddns.net:8074",
+   "name": "Central Czechia SDR",
+   "url": "http://centralczechia.proxy.kiwisdr.com",
    "online": true,
-   "users": 0,
+   "users": 3,
    "max_users": 8,
-   "snr": 18,
+   "snr": 17,
    "gps": [
-    48.27,
-    9.01
+    49.91161,
+    14.22891
    ],
    "band": "0-30 MHz",
    "loc": "Řevnice, Czechia",
@@ -7879,7 +7543,7 @@
    "online": true,
    "users": 0,
    "max_users": 8,
-   "snr": 15,
+   "snr": 16,
    "gps": [
     53.01154,
     -1.2005
@@ -8338,19 +8002,19 @@
    "ext_api": 6
   },
   {
-   "name": "S53A | Polsece Slovenia 900m ASL",
-   "url": "http://21909.proxy.kiwisdr.com",
+   "name": "VE9CIB | Haut-Sheila, New-Brunswick",
+   "url": "http://22947.proxy.kiwisdr.com",
    "online": true,
    "users": 1,
    "max_users": 3,
    "snr": 15,
    "gps": [
-    45.83,
-    14.49
+    47.460142,
+    -64.955632
    ],
    "band": "0-30 MHz",
-   "loc": "Polsece Slovenia 900m ASL",
-   "antenna": "40m 2 el beam; 14-28 3 el tribander",
+   "loc": "Haut-Sheila, New-Brunswick",
+   "antenna": "20m Inverted V",
    "ext_api": 4
   },
   {
@@ -8471,7 +8135,7 @@
    "online": true,
    "users": 6,
    "max_users": 8,
-   "snr": 20,
+   "snr": 19,
    "gps": [
     35.734348,
     139.875461
@@ -8551,7 +8215,7 @@
    "online": true,
    "users": 2,
    "max_users": 4,
-   "snr": 18,
+   "snr": 17,
    "gps": [
     50.596914,
     3.082035
@@ -9058,20 +8722,20 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR | Loveland, Colorado",
-   "url": "http://kw5usa.proxy.kiwisdr.com",
+   "name": "0-30 MHz SDR KiwiSDR | IW2KPL Franco | Antenna : Windom 7-band OFC dipole (42 mt. long, from 80 mt. to 10 mt. bands) | Bergamo, Italy | JN45TQ",
+   "url": "http://www.dxcluster.world:8073",
    "online": true,
-   "users": 1,
+   "users": 3,
    "max_users": 8,
-   "snr": 17,
+   "snr": 19,
    "gps": [
-    40.43,
-    -105.11
+    45.69,
+    9.66
    ],
    "band": "0-30 MHz",
-   "loc": "Loveland, Colorado",
-   "antenna": "CF Dipole - May not be available when the Shack is in use...",
-   "ext_api": 1
+   "loc": "Bergamo, Italy",
+   "antenna": "Windom 7-band OFC dipole (42 mt. long, from 80 mt. to 10 mt. bands)",
+   "ext_api": 4
   },
   {
    "name": "0-30 MHZ SDR#1, JH1PGF, TOKYO, JAPAN. Up to Sixteen users can listen simultaneously.",
@@ -9173,7 +8837,7 @@
    "name": "0-30 MHz SDR | St Just in Penwith, Cornwall, England",
    "url": "http://21246.proxy.kiwisdr.com",
    "online": true,
-   "users": 1,
+   "users": 2,
    "max_users": 8,
    "snr": 14,
    "gps": [
@@ -9273,13 +8937,13 @@
    "max_users": 4,
    "snr": 14,
    "gps": [
-    41.5457,
-    1.67358
+    40.68819,
+    14.77103
    ],
    "band": "0-30 MHz",
-   "loc": "La Torre de Claramunt, Barcelona, España",
-   "antenna": "DIAMOND W8010",
-   "ext_api": 4
+   "loc": "Salerno, Italy 🇮🇹",
+   "antenna": "M1GEO WellGood Active Receiving Loop Ø 0.60 meter",
+   "ext_api": 0
   },
   {
    "name": "0-30 MHz SDR HB9BB, Buchserberg, Switzerland",
@@ -9334,7 +8998,7 @@
    "url": "http://kf2da.ddns.net:8073",
    "online": true,
    "users": 0,
-   "max_users": 3,
+   "max_users": 8,
    "snr": 14,
    "gps": [
     42.08,
@@ -9415,7 +9079,7 @@
    "online": true,
    "users": 1,
    "max_users": 8,
-   "snr": 20,
+   "snr": 15,
    "gps": [
     36.664578,
     -121.796716
@@ -9442,35 +9106,19 @@
    "ext_api": 4
   },
   {
-   "name": "0-32 MHz SDR, Pardinho, SP - Brazil",
-   "url": "http://pardinho.websdr.com.br:8073",
+   "name": "0-30 MHz SDR | Whitley Bay, UK",
+   "url": "http://22788.proxy.kiwisdr.com",
    "online": true,
    "users": 0,
    "max_users": 3,
    "snr": 13,
    "gps": [
-    62.5,
-    30.18
+    55.04,
+    -1.47
    ],
    "band": "0-30 MHz",
-   "loc": "Joensuu, Finland",
-   "antenna": "Beverage 600 m 95° day, 400 m 295° night",
-   "ext_api": 0
-  },
-  {
-   "name": "Monterey Bay Amateur Radio Association | Marina, California",
-   "url": "https://sdr.n6ij.com",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 14,
-   "gps": [
-    36.664578,
-    -121.796716
-   ],
-   "band": "0-30 MHz",
-   "loc": "Marina, California",
-   "antenna": "Mini-Whip by pa0rdt",
+   "loc": "Whitley Bay, UK",
+   "antenna": "Discone",
    "ext_api": 4
   },
   {
@@ -9685,9 +9333,9 @@
    "name": "0.06-30 MHz SDR | West Bend, WI, USA",
    "url": "http://21223.proxy.kiwisdr.com",
    "online": true,
-   "users": 1,
+   "users": 0,
    "max_users": 8,
-   "snr": 17,
+   "snr": 19,
    "gps": [
     43.43,
     -88.26
@@ -9782,8 +9430,8 @@
    "url": "http://22701.proxy.kiwisdr.com",
    "online": true,
    "users": 0,
-   "max_users": 2,
-   "snr": 16,
+   "max_users": 4,
+   "snr": 13,
    "gps": [
     46.573134,
     6.774186
@@ -9792,6 +9440,38 @@
    "loc": "Servion, Switzerland",
    "antenna": "magnetic loop",
    "ext_api": 3
+  },
+  {
+   "name": "SV8RV | Zakynthos (Zante) isl., GREECE",
+   "url": "http://sv8rv.dyndns.org:8073",
+   "online": true,
+   "users": 5,
+   "max_users": 8,
+   "snr": 20,
+   "gps": [
+    37.783103,
+    20.896453
+   ],
+   "band": "0-30 MHz",
+   "loc": "Zakynthos (Zante) isl., GREECE",
+   "antenna": "ALA-1530 loop",
+   "ext_api": 8
+  },
+  {
+   "name": "PA0ZAP 0-30 MHz SDR | Haren (GN), NL",
+   "url": "http://212.204.138.247:8073",
+   "online": true,
+   "users": 2,
+   "max_users": 8,
+   "snr": 15,
+   "gps": [
+    53.168614,
+    6.598247
+   ],
+   "band": "0-30 MHz",
+   "loc": "Haren (GN), NL",
+   "antenna": "Amplified loop: PAHGOR RLA - 4 meters of 2.5mm copper wire",
+   "ext_api": 4
   },
   {
    "name": "SV8RV | Zakynthos (Zante) isl., GREECE",
@@ -9856,38 +9536,6 @@
    "loc": "Edogawa-ku, Tokyo, Japan",
    "antenna": "AD370",
    "ext_api": 8
-  },
-  {
-   "name": "0-30 MHz SDR | G7JUR Farnham, England, UK",
-   "url": "http://22820.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 3,
-   "snr": 14,
-   "gps": [
-    51.239961,
-    -0.787096
-   ],
-   "band": "0-30 MHz",
-   "loc": "G7JUR Farnham, England, UK",
-   "antenna": "MLA30+ Mag Loop",
-   "ext_api": 4
-  },
-  {
-   "name": "IK8SUT - 0-30 MHz - KIWISDR2 - SOUTH ITALY - 🇮🇹",
-   "url": "http://21443.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 4,
-   "snr": 13,
-   "gps": [
-    40.68819,
-    14.77103
-   ],
-   "band": "0-30 MHz",
-   "loc": "Salerno, Italy 🇮🇹",
-   "antenna": "M1GEO WellGood Active Receiving Loop Ø 0.60 meter",
-   "ext_api": 0
   },
   {
    "name": "OA4DFF | LIMA - PERU",
@@ -10087,7 +9735,7 @@
    "online": true,
    "users": 4,
    "max_users": 8,
-   "snr": 13,
+   "snr": 12,
    "gps": [
     52.528447,
     -1.507791
@@ -10357,7 +10005,7 @@
    "name": "Pop's Kiwi SDR, W. Central Florida USA 1B",
    "url": "http://75.115.112.187:8073",
    "online": true,
-   "users": 3,
+   "users": 1,
    "max_users": 3,
    "snr": 13,
    "gps": [
@@ -10873,13 +10521,13 @@
    "max_users": 8,
    "snr": 11,
    "gps": [
-    -25.312036,
-    -57.50517
+    40.1,
+    -88.29
    ],
    "band": "0-30 MHz",
-   "loc": "Paraguay",
-   "antenna": "",
-   "ext_api": null
+   "loc": "Champaign, Illinois USA",
+   "antenna": "Random long wire",
+   "ext_api": 1
   },
   {
    "name": "K7CMA KiwiSDR2 | Beaverton, Oregon USA",
@@ -10967,7 +10615,7 @@
    "online": true,
    "users": 1,
    "max_users": 8,
-   "snr": 11,
+   "snr": 13,
    "gps": [
     46.9233,
     -98.0032
@@ -11559,7 +11207,7 @@
    "online": true,
    "users": 1,
    "max_users": 3,
-   "snr": 9,
+   "snr": 10,
    "gps": [
     49.45516,
     11.07939
@@ -11570,12 +11218,508 @@
    "ext_api": 2
   },
   {
+   "name": "0-30 MHz SDR XQ4KTM | San Carlos, Chile",
+   "url": "http://22560.proxy.kiwisdr.com",
+   "online": true,
+   "users": 5,
+   "max_users": 8,
+   "snr": 11,
+   "gps": [
+    -36.426579,
+    -71.978947
+   ],
+   "band": "0-30 MHz",
+   "loc": "San Carlos, Chile",
+   "antenna": "Walmar MA1140",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR | Youngsville, NC",
+   "url": "http://22091.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 3,
+   "snr": 18,
+   "gps": [
+    36,
+    -78.5
+   ],
+   "band": "0-30 MHz",
+   "loc": "Youngsville, NC",
+   "antenna": "DXE-AVA-3 Active Antenna, 10ft whip @ Ground level",
+   "ext_api": 3
+  },
+  {
+   "name": "0-30 MHz SDR - AM MW filtered out | Regina, Saskatchewan, Canada",
+   "url": "http://ve5sar-kiwisdr.ddns.net:8073",
+   "online": true,
+   "users": 7,
+   "max_users": 7,
+   "snr": 11,
+   "gps": [
+    50.44,
+    -104.53
+   ],
+   "band": "540 kHz-30 MHz",
+   "loc": "Regina, Saskatchewan, Canada",
+   "antenna": "Wellbrook ALA1530LNP Active Loop",
+   "ext_api": 0
+  },
+  {
+   "name": "0-30 MHz SDR, W9AD Barrington Hills , Il",
+   "url": "http://w9adkiwi.hopto.org:8073",
+   "online": true,
+   "users": 1,
+   "max_users": 3,
+   "snr": 10,
+   "gps": [
+    42.14,
+    -88.2
+   ],
+   "band": "0-30 MHz",
+   "loc": "Barrington Hills, Il USA",
+   "antenna": "dipole",
+   "ext_api": 3
+  },
+  {
+   "name": "Cyprus Amateur Radio Society (0-30 MHZ SDR)",
+   "url": "http://sdr.cyhams.org",
+   "online": true,
+   "users": 1,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    35.082,
+    32.912
+   ],
+   "band": "0-30 MHz",
+   "loc": "Skourgiotissa, Cyprus",
+   "antenna": "MLA-30 Plus MegaLoop 500 Khz - 30 Mhz",
+   "ext_api": 1
+  },
+  {
+   "name": "Happy-OM-SDR | Bonn",
+   "url": "http://dl4kal.proxy.kiwisdr.com",
+   "online": true,
+   "users": 4,
+   "max_users": 4,
+   "snr": 11,
+   "gps": [
+    50.756728,
+    7.049463
+   ],
+   "band": "3 kHz-30 MHz",
+   "loc": "Bonn",
+   "antenna": "MLA 30+",
+   "ext_api": 3
+  },
+  {
+   "name": "AG1LE 0-30 MHz SDR | Lexington, Massachusetts",
+   "url": "http://22729.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 13,
+   "gps": [
+    42.4812,
+    -71.2503
+   ],
+   "band": "0-30 MHz",
+   "loc": "Lexington, Massachusetts",
+   "antenna": "Gap multiband vertical dipole",
+   "ext_api": 4
+  },
+  {
+   "name": "PA3GUK 0-30 MHz SDR | Beilen, Netherlands",
+   "url": "http://21033.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 2,
+   "snr": 12,
+   "gps": [
+    52.87,
+    6.51
+   ],
+   "band": "0-30 MHz",
+   "loc": "Beilen, Netherlands",
+   "antenna": "LZ1AQ-active loop - switchable",
+   "ext_api": 1
+  },
+  {
+   "name": "🇨🇳 0-30 MHz KiwiSDR 2 📻 欢迎光临 | 新竹市 Hsinchu city, Taiwan, China",
+   "url": "http://jjm0311.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 19,
+   "gps": [
+    24.785624,
+    121.019415
+   ],
+   "band": "0-30 MHz",
+   "loc": "Hsinchu city",
+   "antenna": "Apexradio 303WA-2",
+   "ext_api": 3
+  },
+  {
+   "name": "0-30 MHz SDR, TF3GZ Kopavogur Iceland",
+   "url": "http://kop.utvarp.com",
+   "online": true,
+   "users": 2,
+   "max_users": 8,
+   "snr": 12,
+   "gps": [
+    64.08205,
+    -21.80273
+   ],
+   "band": "20 kHz-30 MHz",
+   "loc": "Kopavogur Iceland",
+   "antenna": "20 m Wire antenna",
+   "ext_api": 4
+  },
+  {
+   "name": "Wolf River Monitoring Station #2 (0-30 MHz) | Fayette County, TN, USA",
+   "url": "http://23075.proxy.kiwisdr.com",
+   "online": true,
+   "users": 2,
+   "max_users": 7,
+   "snr": 13,
+   "gps": [
+    35.0747,
+    -89.458
+   ],
+   "band": "0-30 MHz",
+   "loc": "Fayette County, TN, USA",
+   "antenna": "AziLoop DF-72 K9AY Loop",
+   "ext_api": 1
+  },
+  {
+   "name": "0-30 MHz SDR | SWITZERLAND Hasenberg03 AG 700m / Antenna: Sirio Gain-Master 25.5-30MHz",
+   "url": "http://hasenberg03.proxy.kiwisdr.com",
+   "online": true,
+   "users": 3,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    47.378283,
+    8.365203
+   ],
+   "band": "0-30 MHz",
+   "loc": "SWITZERLAND Hasenberg03 AG 700m JN47EJ",
+   "antenna": "Sirio Gain-Master 25.5-30MHz",
+   "ext_api": 4
+  },
+  {
+   "name": "KiwiSDR - DN9WHV WILHELMSHAVEN GERMANY 0-30MHz",
+   "url": "http://21902.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 4,
+   "snr": 10,
+   "gps": [
+    53.539454,
+    8.062304
+   ],
+   "band": "0-30 MHz",
+   "loc": "Wilhelmshaven GERMANY",
+   "antenna": "G5RV Multibanddipol 6m bis 20m MAAS Unterdach",
+   "ext_api": 3
+  },
+  {
+   "name": "0-30 MHz SDR, IK2BIY Italy",
+   "url": "http://ik2biy.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 2,
+   "snr": 10,
+   "gps": [
+    45.709315,
+    10.212806
+   ],
+   "band": "0-30 MHz",
+   "loc": "Botticino, Brescia, Italy",
+   "antenna": "G5RV",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR, | Halle Saale Saxony Anhalt Germany",
+   "url": "http://alfaromeo170.myqnapcloud.com:8073",
+   "online": true,
+   "users": 1,
+   "max_users": 3,
+   "snr": 11,
+   "gps": [
+    51.480518,
+    12.033653
+   ],
+   "band": "0-30 MHz",
+   "loc": "Halle Saale Saxony Anhalt Germany",
+   "antenna": "Mini-Whip or Aktivdipol",
+   "ext_api": 4
+  },
+  {
+   "name": "VE4ACE Listening Post | Winnipeg Manitoba Canada",
+   "url": "http://204.112.144.96:8073",
+   "online": true,
+   "users": 2,
+   "max_users": 8,
+   "snr": 11,
+   "gps": [
+    49.8365,
+    -97.1076
+   ],
+   "band": "0-30 MHz",
+   "loc": "Winnipeg Manitoba Canada",
+   "antenna": "18’ Vertical @ 18’ to the base",
+   "ext_api": 4
+  },
+  {
+   "name": "0-32 MHz SDR, Montevideo, Uruguay",
+   "url": "http://cx8bit.proxy.kiwisdr.com",
+   "online": true,
+   "users": 6,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    -34.900049,
+    -56.156356
+   ],
+   "band": "100 kHz-32 MHz",
+   "loc": "Montevideo, Uruguay",
+   "antenna": "MLA-30+ | Common Mode Choke | Distill AM | HF LPF",
+   "ext_api": 1
+  },
+  {
+   "name": "0-30MHz KiwiSDR | SWITZERLAND Zurich Altstetten01 JN47FJ (HB9HEH)",
+   "url": "http://altstetten01.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 9,
+   "gps": [
+    47.390882,
+    8.484905
+   ],
+   "band": "0-30 MHz",
+   "loc": "SWITZERLAND Zurich Altstetten01 JN47FJ",
+   "antenna": "GT Nero1 CB Funkantenne ½ Lambda",
+   "ext_api": 3
+  },
+  {
+   "name": "M7SDJ | 0-30 MHz SDR | Chepstow, United Kingdom",
+   "url": "http://21603.proxy.kiwisdr.com",
+   "online": true,
+   "users": 3,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    51.63568,
+    -2.672454
+   ],
+   "band": "0-30 MHz",
+   "loc": "Chepstow, United Kingdom",
+   "antenna": "Active Loop",
+   "ext_api": 4
+  },
+  {
+   "name": "LA5FBA / LA6LLA 0-30 MHz SDR SIGDAL, Norway",
+   "url": "http://82.146.85.60:8073",
+   "online": true,
+   "users": 6,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    59.97,
+    9.78
+   ],
+   "band": "0-30 MHz",
+   "loc": "SIGDAL, Norway",
+   "antenna": "Skywire-Loop-80",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR | De Haan, Belgium",
+   "url": "http://kiwisdr.on3rvh.be",
+   "online": true,
+   "users": 4,
+   "max_users": 4,
+   "snr": 9,
+   "gps": [
+    52.553597,
+    13.375746
+   ],
+   "band": "0-32 MHz",
+   "loc": "Berlin, Germany",
+   "antenna": "Vertical 1,5m \\\"Outback 2012\\\"",
+   "ext_api": 2
+  },
+  {
+   "name": "0-30 MHz SDR | Kita-Nagoya, Aichi, Japan",
+   "url": "http://21805.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 7,
+   "snr": 15,
+   "gps": [
+    30.212135,
+    -84.333924
+   ],
+   "band": "0-30 MHz",
+   "loc": "Kita-Nagoya, Aichi, Japan",
+   "antenna": "Whip Antenna on the rooftop, 7mH",
+   "ext_api": 0
+  },
+  {
+   "name": "0-30 MHz SDR | Arlington, VA",
+   "url": "http://22840.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 9,
+   "gps": [
+    38.892108,
+    -77.093691
+   ],
+   "band": "0-30 MHz",
+   "loc": "Arlington, VA",
+   "antenna": "Mini-Whip",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR | Baghdad, IRAQ",
+   "url": "http://21987.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    33.3355,
+    44.387736
+   ],
+   "band": "0-30 MHz",
+   "loc": "Baghdad, IRAQ",
+   "antenna": "MLA-30+",
+   "ext_api": 1
+  },
+  {
+   "name": "0-30 MHz SDR | Boone, NC, USA",
+   "url": "http://k1he.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 4,
+   "snr": 9,
+   "gps": [
+    36.17,
+    -81.61
+   ],
+   "band": "0-30 MHz",
+   "loc": "Boone, NC, USA",
+   "antenna": "MLA-30 MAGA Loop",
+   "ext_api": null
+  },
+  {
+   "name": "0-30 MHz SDR, DL7ASM | Berlin, Germany",
+   "url": "http://21377.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 9,
+   "gps": [
+    52.547299,
+    13.35839
+   ],
+   "band": "0-30 MHz",
+   "loc": "Berlin, Germany",
+   "antenna": "MLA-30+",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR | Hünxe, Germany",
+   "url": "http://22098.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 11,
+   "gps": [
+    51.641667,
+    6.767222
+   ],
+   "band": "0-30 MHz",
+   "loc": "Hünxe, Germany",
+   "antenna": "MiniWhip in Garden",
+   "ext_api": 3
+  },
+  {
+   "name": "0-30 MHz SDR, EA2RCF Radioclub Foronda. | Vitoria-Gasteiz, Spain",
+   "url": "http://kiwi.ea2rcf.org:8073",
+   "online": true,
+   "users": 2,
+   "max_users": 8,
+   "snr": 10,
+   "gps": [
+    42.859133,
+    -2.681861
+   ],
+   "band": "0-32 MHz",
+   "loc": "Vitoria-Gasteiz, Spain",
+   "antenna": "Magnetic Loop",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR, JAVARADIOFRANCE",
+   "url": "http://javaradiofrance.ddns.net:8073",
+   "online": true,
+   "users": 2,
+   "max_users": 8,
+   "snr": 17,
+   "gps": [
+    47.25,
+    6.04
+   ],
+   "band": "0-30 MHz",
+   "loc": "Besançon, France",
+   "antenna": "Antenne MLA-30 (Première génération)",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz SDR | Big Bend Florida",
+   "url": "http://21310.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 7,
+   "snr": 15,
+   "gps": [
+    30.211738,
+    -84.333785
+   ],
+   "band": "0-30 MHz",
+   "loc": "Big Bend Florida",
+   "antenna": "Wellbrook ALA-1530LNP",
+   "ext_api": 0
+  },
+  {
+   "name": "RF-PRO-1 North South Receive | Fayetteville, GA",
+   "url": "http://22018.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 14,
+   "gps": [
+    33.453056,
+    -84.511667
+   ],
+   "band": "0-30 MHz",
+   "loc": "Fayetteville, GA",
+   "antenna": "RF-PRO-1 North South Receive",
+   "ext_api": 4
+  },
+  {
    "name": "0-30 MHz KiwiSDR2,JK4FBX | Hiroshima, Japan",
    "url": "http://hirolin.ddns.net:8073",
    "online": true,
    "users": 5,
    "max_users": 8,
-   "snr": 16,
+   "snr": 14,
    "gps": [
     34.36126,
     132.34964
@@ -12389,7 +12533,7 @@
    "name": "KFS NW KiwiSDR | Half Moon Bay, California",
    "url": "http://kiwisdr.kfsdr.com:8074",
    "online": true,
-   "users": 0,
+   "users": 2,
    "max_users": 8,
    "snr": 8,
    "gps": [
@@ -12825,12 +12969,12 @@
    "max_users": 2,
    "snr": 7,
    "gps": [
-    52.719449,
-    6.434624
+    48.00728,
+    16.135059
    ],
    "band": "0-30 MHz",
-   "loc": "Hoogeveen, Drenthe",
-   "antenna": "Wellbrook ALA 1530LN",
+   "loc": "Baden",
+   "antenna": "Longwire",
    "ext_api": 4
   },
   {
@@ -12951,7 +13095,7 @@
    "online": true,
    "users": 3,
    "max_users": 8,
-   "snr": 8,
+   "snr": 7,
    "gps": [
     41.355,
     -75.7778
@@ -12985,13 +13129,13 @@
    "max_users": 7,
    "snr": 6,
    "gps": [
-    25.704,
-    -80.284
+    36.290461,
+    -81.605628
    ],
    "band": "0-30 MHz",
-   "loc": "South Miami, Florida USA",
-   "antenna": "Wellbrook ALA1530LN Indoors",
-   "ext_api": 2
+   "loc": "Boone, NC USA",
+   "antenna": "Mag Loop - oriented to NE/SW",
+   "ext_api": 0
   },
   {
    "name": "0-30 MHz SDR - AE6RQ | San Jose, CA USA",
@@ -13298,6 +13442,86 @@
    "ext_api": 2
   },
   {
+   "name": "KM6CQ Ponderosa SDR .1-30 MHz | Washoe Valley, Nevada USA",
+   "url": "http://71.9.250.2:8073",
+   "online": true,
+   "users": 5,
+   "max_users": 8,
+   "snr": 11,
+   "gps": [
+    39.31,
+    -119.79
+   ],
+   "band": "0-30 MHz",
+   "loc": "Washoe Valley, Nevada USA",
+   "antenna": "KiwiSDR 325' Long Wire Antenna 25\" Up.",
+   "ext_api": 4
+  },
+  {
+   "name": "0-30 MHz KiwiSDR, VK2KTJ, Australia",
+   "url": "http://nikola.animats.net:8073",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 14,
+   "gps": [
+    -33.64,
+    150.28
+   ],
+   "band": "0-30 MHz",
+   "loc": "Blackheath, NSW, Australia",
+   "antenna": "Active magnetic loop",
+   "ext_api": 0
+  },
+  {
+   "name": "East Wenatchee-kiwi",
+   "url": "http://stehekin-kiwi.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 1,
+   "snr": 6,
+   "gps": [
+    47.399292,
+    -120.263625
+   ],
+   "band": "0-30 MHz",
+   "loc": "East Wenatchee, WA",
+   "antenna": "60-ft long dipole at 20-feet AGL, balun-to-75-Ohm coax, wires E/W along roof ridge-line",
+   "ext_api": 8
+  },
+  {
+   "name": "0-30 MHz SDR | San Diego, CA",
+   "url": "http://kiwisdr.ka9q.net:8073",
+   "online": true,
+   "users": 0,
+   "max_users": 8,
+   "snr": 5,
+   "gps": [
+    32.860591,
+    -117.188889
+   ],
+   "band": "0-30 MHz",
+   "loc": "San Diego, CA",
+   "antenna": "W6LVP loop",
+   "ext_api": 1
+  },
+  {
+   "name": "0-30 MHz SDR | Lake Merwin, Washington State, U.S.A.",
+   "url": "http://21185.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 8,
+   "snr": 4,
+   "gps": [
+    45.96,
+    -122.4
+   ],
+   "band": "0-30 MHz",
+   "loc": "Lake Merwin, Washington State, U.S.A.",
+   "antenna": "MLA-30+ Active Loop",
+   "ext_api": 4
+  },
+  {
    "name": "ES-SWL 30m SDR | Tallinn, Estonia",
    "url": "http://21712.proxy.kiwisdr.com",
    "online": true,
@@ -13346,83 +13570,19 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR | San Diego, CA",
-   "url": "http://kiwisdr.ka9q.net:8073",
-   "online": true,
-   "users": 0,
-   "max_users": 8,
-   "snr": 5,
-   "gps": [
-    32.860591,
-    -117.188889
-   ],
-   "band": "0-30 MHz",
-   "loc": "San Diego, CA",
-   "antenna": "W6LVP loop",
-   "ext_api": 1
-  },
-  {
-   "name": "0-30 MHz SDR | Lake Merwin, Washington State, U.S.A.",
-   "url": "http://21185.proxy.kiwisdr.com",
-   "online": true,
-   "users": 1,
-   "max_users": 8,
-   "snr": 4,
-   "gps": [
-    45.96,
-    -122.4
-   ],
-   "band": "0-30 MHz",
-   "loc": "Lake Merwin, Washington State, U.S.A.",
-   "antenna": "MLA-30+ Active Loop",
-   "ext_api": 4
-  },
-  {
-   "name": "ES-SWL 30m SDR | Tallinn, Estonia",
-   "url": "http://21712.proxy.kiwisdr.com",
+   "name": "DO3MLA 0-30 MHz SDR Off grid station | Vevelstad, Norway",
+   "url": "http://do3mla.proxy.kiwisdr.com",
    "online": true,
    "users": 0,
    "max_users": 1,
    "snr": 5,
    "gps": [
-    -39.574552,
-    174.434932
+    65.69,
+    12.38
    ],
    "band": "0-30 MHz",
-   "loc": "Hawera, New Zealand",
-   "antenna": "Testing an Active Loop - Awaiting Permanent Install",
-   "ext_api": 4
-  },
-  {
-   "name": "Dave M1CTK 0-30 MHz SDR | Wellbrook 1530 MW/SW Loop | Brighton, United Kingdom",
-   "url": "http://193.237.202.87:8073",
-   "online": true,
-   "users": 3,
-   "max_users": 3,
-   "snr": 4,
-   "gps": [
-    50.86,
-    -0.14
-   ],
-   "band": "0-30 MHz",
-   "loc": "Brighton, United Kingdom",
-   "antenna": "Wellbrook 1530 loop or long wire",
-   "ext_api": 3
-  },
-  {
-   "name": "0-30 MHz SDR | La Serena, Chile",
-   "url": "http://22352.proxy.kiwisdr.com",
-   "online": true,
-   "users": 2,
-   "max_users": 3,
-   "snr": 4,
-   "gps": [
-    -29.96,
-    -71.23
-   ],
-   "band": "0-30 MHz",
-   "loc": "La Serena, Chile",
-   "antenna": "Dipolo rigido chino, 750V, 40-20-15-10m",
+   "loc": "Vevelstad, Norway",
+   "antenna": "Cross Country Loop",
    "ext_api": 4
   },
   {
@@ -13442,12 +13602,28 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR, ZL2QF - Banch 87, New Zealand",
-   "url": "http://sdr.zapto.org:8073",
+   "name": "0-30 MHz SDR | Lake Merwin, Washington State, U.S.A.",
+   "url": "http://21185.proxy.kiwisdr.com",
    "online": true,
    "users": 4,
    "max_users": 8,
    "snr": 4,
+   "gps": [
+    45.96,
+    -122.4
+   ],
+   "band": "0-30 MHz",
+   "loc": "Lake Merwin, Washington State, U.S.A.",
+   "antenna": "MLA-30+ Active Loop",
+   "ext_api": 4
+  },
+  {
+   "name": "ES-SWL 30m SDR | Tallinn, Estonia",
+   "url": "http://21712.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
+   "max_users": 1,
+   "snr": 5,
    "gps": [
     -39.574552,
     174.434932
@@ -13497,28 +13673,12 @@
    "max_users": 3,
    "snr": 4,
    "gps": [
-    47.399292,
-    -120.263625
+    -29.96,
+    -71.23
    ],
    "band": "0-30 MHz",
-   "loc": "East Wenatchee, WA",
-   "antenna": "60-ft long dipole at 20-feet AGL, balun-to-75-Ohm coax, wires E/W along roof ridge-line",
-   "ext_api": 8
-  },
-  {
-   "name": "KiwiSDR2 at WF4V | Lorton, VA",
-   "url": "http://21238.proxy.kiwisdr.com",
-   "online": true,
-   "users": 6,
-   "max_users": 8,
-   "snr": 6,
-   "gps": [
-    38.72,
-    -77.23
-   ],
-   "band": "0-30 MHz",
-   "loc": "Lorton, VA",
-   "antenna": "93 foot loop on ground (LOG)",
+   "loc": "La Serena, Chile",
+   "antenna": "Dipolo rigido chino, 750V, 40-20-15-10m",
    "ext_api": 4
   },
   {

@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T17:05:59+00:00",
+ "updated": "2026-11-19T17:16:09+00:00",
  "checked": 1185,
- "alive": 1070,
+ "alive": 1071,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -345,7 +345,7 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://stream-40.zeno.fm/xa4yhh4k838uv": {
    "alive": true,
@@ -1440,7 +1440,7 @@
   },
   "https://maggie.torontocast.com:8136/stream": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://ais-sa1.streamon.fm/7133_48k.aac": {
@@ -3847,7 +3847,7 @@
   "https://stream.radio.co/sf442d6ae2/listen": {
    "alive": true,
    "code": 200,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://p6.p4groupaudio.com/P06_MH": {
    "alive": true,
@@ -4291,9 +4291,10 @@
    "strategy": "bot"
   },
   "https://18533.live.streamtheworld.com/MOREFM_S01.aac": {
-   "alive": true,
-   "code": 206,
-   "strategy": "bot"
+   "alive": false,
+   "code": 503,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://https.nvradios.com/radio/9496/radio.mp3": {
    "alive": true,
@@ -4562,8 +4563,9 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404,
-   "strategy": "bot"
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T17:05:59+00:00",
+ "updated": "2026-11-19T17:16:09+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -1993,14 +1993,6 @@
    "lon": 6.1790743615517
   },
   {
-   "name": "OH6AH - Club Station - Seinäjoki - Finland",
-   "url": "https://rx.oh6ah.fi/",
-   "loc": "",
-   "https": true,
-   "lat": 62.748933830565946,
-   "lon": 22.845037960341692
-  },
-  {
    "name": "F1UBL OpenWebRX public (est)",
    "url": "http://f1ubl.ddns.net:8073/",
    "loc": "",
@@ -2127,6 +2119,14 @@
    "https": false,
    "lat": 44.9967,
    "lon": -122.9743
+  },
+  {
+   "name": "LA4M",
+   "url": "https://sdr2forbord.la4m.no/",
+   "loc": "",
+   "https": true,
+   "lat": 63.524932,
+   "lon": 10.892206
   },
   {
    "name": "G1WOR",
@@ -2585,6 +2585,14 @@
    "lon": 0.8307115249043973
   },
   {
+   "name": "Maritime Radio",
+   "url": "http://maritime.nkpa.co.uk:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 51.473694431844116,
+   "lon": 0.07288181746124334
+  },
+  {
    "name": "PI6EHV 2320 - 2321 MHz",
    "url": "http://websdr.pi6ehv.ampr.org:8073/",
    "loc": "",
@@ -2599,14 +2607,6 @@
    "https": false,
    "lat": -51.68000987480535,
    "lon": -69.21657773703642
-  },
-  {
-   "name": "S50SL",
-   "url": "https://sdr.sluga.eu/",
-   "loc": "",
-   "https": true,
-   "lat": 46.33523932247837,
-   "lon": 15.248273991306656
   },
   {
    "name": "SDR Bahía Blanca LU3EHB <a href='https://cafecito.app/lu3ehb' rel='noopener' target='_blank'><img style=\"height:33px;ver",
@@ -2785,6 +2785,14 @@
    "lon": 16.7917336492992
   },
   {
+   "name": "SR4DON OLSZTYN/POLAND 70cm/2m/4m/6m/8m/10-15m",
+   "url": "https://1.websdr.jestok.com/",
+   "loc": "",
+   "https": true,
+   "lat": 53.7395098759501,
+   "lon": 20.5079901026012
+  },
+  {
    "name": "Серпуховский WEB SDR",
    "url": "https://sdr-serpuhov.ru/",
    "loc": "",
@@ -2799,6 +2807,14 @@
    "https": false,
    "lat": 19.08069956130074,
    "lon": -98.26422124919387
+  },
+  {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
   },
   {
    "name": "XplorePilots",
@@ -3641,6 +3657,14 @@
    "lon": -66.93224034342178
   },
   {
+   "name": "Vietanh's Full Band SDR",
+   "url": "https://sdr.maytinhvietanh.id.vn/",
+   "loc": "",
+   "https": true,
+   "lat": 20.959719766727403,
+   "lon": 105.84418201729143
+  },
+  {
    "name": "Indonesia | VHF | UHF | Airband | FM Broadcast",
    "url": "https://openwebrx.dpdns.org/",
    "loc": "",
@@ -4023,30 +4047,6 @@
    "https": true,
    "lat": 37.18173150302818,
    "lon": -5.788800912950329
-  },
-  {
-   "name": "CT1EIF",
-   "url": "http://ct1eif-sdr.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 38.1437235963955,
-   "lon": -7.45127503708746
-  },
-  {
-   "name": "<p style=\"color: black;\">DF4IAJ - Pforzheim SDR",
-   "url": "http://lighttux.spdns.eu:6166/",
-   "loc": "",
-   "https": false,
-   "lat": 48.8830498386239,
-   "lon": 8.73786169677969
-  },
-  {
-   "name": "Nortex RX",
-   "url": "https://openweb.kwolf.us/",
-   "loc": "",
-   "https": true,
-   "lat": 33.651711406052094,
-   "lon": -97.37675717638865
   }
  ]
 }
