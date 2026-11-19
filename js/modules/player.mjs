@@ -9,6 +9,8 @@
 var STR_PLAYER = {
   ar: {
     player_controls: 'التحكم',
+    player_collapse_aria: 'تصغير المشغل',
+    player_retry_aria: 'إعادة تشغيل المحطة',
     player_play_aria: 'تشغيل',
     player_pause_aria: 'إيقاف مؤقت',
     player_status_connecting: 'جارٍ الاتصال…',
@@ -42,6 +44,8 @@ var STR_PLAYER = {
   },
   en: {
     player_controls: 'Controls',
+    player_collapse_aria: 'Minimize player',
+    player_retry_aria: 'Retry station',
     player_play_aria: 'Play',
     player_pause_aria: 'Pause',
     player_status_connecting: 'Connecting…',
@@ -304,6 +308,11 @@ function setPlayerStatus(kind) {
   var key = { connecting: 'player_status_connecting', live: 'player_status_live', paused: 'player_status_paused', dead: 'player_status_dead' }[kind] || 'player_status_connecting';
   el.textContent = t(key);
   el.classList.toggle('dead', kind === 'dead');
+  var stage=$('player-stage-status');
+  if(stage){stage.textContent=t(key);stage.classList.toggle('dead',kind==='dead');}
+  var retry=$('player-retry');if(retry)retry.hidden=kind!=='dead';
+  state.isAudioPlaying=kind==='live';
+  syncActiveStationCards();
 }
 
 function renderPlayerMeta() {
@@ -320,6 +329,29 @@ function renderPlayerMeta() {
   el.hidden = false;
 }
 
+
+function renderExpandedPlayerIdentity() {
+  var s=state.playbackStation||{};
+  var artwork=$('player-artwork');
+  if(artwork)artwork.innerHTML=stationArtwork(s,'player');
+  var title=$('player-expanded-name');
+  if(title)title.textContent=state.currentName||s.name||'';
+  var bits=[];
+  if(s.cc)bits.push((flagOf(s.cc)||'')+' '+regionName(s.cc,s.cc));
+  if(s.tags)bits.push(String(s.tags).split(',').slice(0,2).join(' · '));
+  if(s.language)bits.push(String(s.language).split(',').slice(0,2).join(' · '));
+  var meta=$('player-expanded-meta');if(meta)meta.textContent=bits.join(' · ');
+  syncPlayerFavorite();
+}
+function syncPlayerFavorite() {
+  var btn=$('player-favorite');
+  if(!btn)return;
+  var s=state.playbackStation||{};
+  var isFav=!!(s.url&&state.favs[s.url]);
+  btn.textContent=isFav?'♥':'♡';
+  btn.setAttribute('aria-pressed',String(isFav));
+  btn.disabled=!s.url;
+}
 function playStepStation(dir) {
   var list = (state.playerQueue && state.playerQueue.length) ? state.playerQueue : currentFMList().filter(function (s) { return !!safeHttpsUrl(s.url); });
   if (!list.length) { toast(t('random_none')); return; }
@@ -410,6 +442,7 @@ function play(url, name) {
   $('player').hidden = false;
   $('player-name').textContent = '▶ ' + state.currentName;
   renderPlayerMeta();
+  renderExpandedPlayerIdentity();
   setPlayerStatus('connecting');
   updateDocTitle();
   renderQuickBar();
@@ -673,7 +706,7 @@ function renderPlayerAlternatives() {
 }
 
 
-var API = { play: play, setMedia: setMedia, loadHlsLib: loadHlsLib, attachHls: attachHls, closeAlarmModal: closeAlarmModal };
+var API = { play: play, setMedia: setMedia, loadHlsLib: loadHlsLib, attachHls: attachHls, closeAlarmModal: closeAlarmModal, syncPlayerFavorite: syncPlayerFavorite };
 var booted = false;
 export function boot() {
   if (booted) return API;
@@ -699,11 +732,39 @@ export function boot() {
   ['play', 'pause', 'ended', 'emptied'].forEach(function (event) {
     audio.addEventListener(event, syncToggle);
   });
-  expand.addEventListener('click', function () {
-    controls.hidden = !controls.hidden;
-    expand.setAttribute('aria-expanded', String(!controls.hidden));
-    if (!controls.hidden && !audio.paused && !visRaf) visRaf = requestAnimationFrame(visFrame);
-    if (controls.hidden) visStop();
+  function setPlayerExpanded(open) {
+    controls.hidden=!open;
+    $('player').classList.toggle('player-expanded',open);
+    expand.setAttribute('aria-expanded',String(open));
+    if(open){
+      $('player').setAttribute('role','dialog');
+      $('player').setAttribute('aria-modal','true');
+      $('player').setAttribute('aria-label',state.currentName||t('player_controls'));
+      renderExpandedPlayerIdentity();
+      var mobile=window.matchMedia&&window.matchMedia('(max-width:720px)').matches;
+      (mobile?$('player-collapse'):$('player-prev')).focus();
+      if(!audio.paused&&!visRaf)visRaf=requestAnimationFrame(visFrame);
+    }else{
+      $('player').setAttribute('role','region');
+      $('player').removeAttribute('aria-modal');
+      expand.focus();
+      visStop();
+    }
+  }
+  expand.addEventListener('click',function(){setPlayerExpanded(controls.hidden);});
+  $('player-collapse').addEventListener('click',function(){setPlayerExpanded(false);});
+  $('player-favorite').addEventListener('click',function(){
+    var station=state.playbackStation;
+    if(station&&station.url)toggleFav(station);
+    syncPlayerFavorite();
+  });
+  $('player-share').addEventListener('click',function(){
+    var station=state.playbackStation;
+    if(station&&station.url)shareStation(station.url,state.currentName||station.name);
+  });
+  $('player-retry').addEventListener('click',function(){
+    var station=state.playbackStation;
+    if(station&&station.url)play(station.url,state.currentName||station.name);
   });
   $('player-close').addEventListener('click', function () {
     state.playbackGeneration += 1;
@@ -722,6 +783,8 @@ export function boot() {
     if (altBox) { altBox.hidden = true; altBox.innerHTML = ''; }
     $('player').hidden = true;
     controls.hidden = true;
+    $('player').classList.remove('player-expanded');
+    $('player').removeAttribute('aria-modal');
     expand.setAttribute('aria-expanded', 'false');
     setMediaPlaybackState('none');
     updateDocTitle();
@@ -773,7 +836,17 @@ export function boot() {
   });
 
 
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener('keydown',function(e){
+    if($('player').classList.contains('player-expanded')){
+      if(e.key==='Escape'){e.preventDefault();setPlayerExpanded(false);return;}
+      if(e.key==='Tab'){
+        var focusable=Array.from(controls.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),audio[controls]')).filter(function(el){return !el.hidden&&el.getClientRects().length;});
+        if(focusable.length){
+          if(e.shiftKey&&document.activeElement===focusable[0]){e.preventDefault();focusable[focusable.length-1].focus();}
+          else if(!e.shiftKey&&document.activeElement===focusable[focusable.length-1]){e.preventDefault();focusable[0].focus();}
+        }
+      }
+    }
     if (e.key === 'Escape') {
       if (!$('sdr-modal').hidden) closeSDR();
       if (!$('kiwi-modal').hidden) closeKiwiAudio();
@@ -815,6 +888,7 @@ export function boot() {
 
 
   renderAlarmBtn();
+  if(state.playbackStation)renderExpandedPlayerIdentity();
   alarmTick = setInterval(checkAlarm, 15000);
 
 
