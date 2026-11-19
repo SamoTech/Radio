@@ -229,7 +229,9 @@ class CatalogCoverageAuditTests(unittest.TestCase):
             payload = json.load(handle)
         rows = payload["stations"]
         report = audit.audit_catalog(rows)
-        self.assertEqual(report["total"], payload["count"])
+        self.assertEqual(report["total"], len(rows))
+        # Pre-existing count drift is itself an audited finding. This test
+        # observes it rather than silently redefining the baseline.
         self.assertGreater(report["total"], 10000)
         self.assertEqual(report["country_counts"].get("IL", 0), 0)
         self.assertEqual(sum(report["country_counts"].values()), report["total"])
@@ -242,6 +244,29 @@ class CatalogCoverageAuditTests(unittest.TestCase):
         compact["top_countries"] = dict(list(report["country_counts"].items())[:20])
         compact["top_languages"] = dict(list(report["language_counts"].items())[:20])
         print("GLOBAL RADIO BASELINE:", json.dumps(compact, ensure_ascii=False))
+
+    def test_fallback_publishes_synced_counts_head_and_delta(self):
+        from unittest import mock
+        stations = [{"name": "Radio " + str(i),
+                     "url": "https://station.example.test/" + str(i), "cc": "EG"}
+                    for i in range(4)]
+        with tempfile.TemporaryDirectory() as folder:
+            with mock.patch.object(crawler, "DATA_DIR", Path(folder)):
+                with mock.patch.object(crawler, "guard_catalog_snapshot"):
+                    crawler.publish_station_catalog(
+                        {"updated": "2026-11-19T00:00:00Z",
+                         "source": "fallback snapshot", "count": 1,
+                         "stations": stations},
+                        [], "2026-11-19T17:35:19Z"
+                    )
+                full = json.loads((Path(folder) / "stations.json").read_text())
+                head = json.loads((Path(folder) / "stations_head.json").read_text())
+                manifest = json.loads((Path(folder) / "stations.manifest.json").read_text())
+                delta = json.loads((Path(folder) / "stations_delta/1.json").read_text())
+                self.assertEqual(full["count"], 4)
+                self.assertEqual(head["count"], 4)
+                self.assertEqual(manifest["count"], 4)
+                self.assertEqual(len(delta["added"]), 4)
 
     def test_same_name_different_stream_is_only_review_candidate(self):
         audit = load_module("radio_catalog_audit_names", "scripts/catalog_audit.py")
