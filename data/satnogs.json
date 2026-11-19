@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T07:14:23+00:00",
+ "updated": "2026-11-19T13:19:15+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 320,
+ "count": 318,
  "stations": [
   {
    "id": 3944,
@@ -604,16 +604,6 @@
    "https": false
   },
   {
-   "id": 365,
-   "name": "DS-1 (VHF)",
-   "loc": "JO22ff · VHF",
-   "lat": 52.216,
-   "lng": 4.417,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/365/",
-   "https": false
-  },
-  {
    "id": 897,
    "name": "DS-2 (UHF)",
    "loc": "JO22ff · UHF",
@@ -991,6 +981,16 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -2354,16 +2354,6 @@
    "https": false
   },
   {
-   "id": 2830,
-   "name": "SM0TGU - L and S-Band",
-   "loc": "JO89wk · L / S",
-   "lat": 59.453,
-   "lng": 17.89,
-   "alt": 32,
-   "url": "https://network.satnogs.org/stations/2830/",
-   "https": false
-  },
-  {
    "id": 858,
    "name": "SM0TGU - VHF UHF",
    "loc": "JO89wk · UHF / VHF",
@@ -2641,16 +2631,6 @@
    "lng": -8.6595,
    "alt": 30,
    "url": "https://network.satnogs.org/stations/4518/",
-   "https": false
-  },
-  {
-   "id": 579,
-   "name": "Um Alaish 4",
-   "loc": "LL49bc · UHF",
-   "lat": 29.1042,
-   "lng": 48.125,
-   "alt": 20,
-   "url": "https://network.satnogs.org/stations/579/",
    "https": false
   },
   {
