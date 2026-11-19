@@ -63,6 +63,7 @@ These are existing providers. This PR does not add an unvalidated provider.
 - No delete-on-failure; 404/410 needs three consecutive checked failures to
   reach BROKEN; historical last success preserved.
 - Observational sample stored separately in data/stream_quality.json.
+- Atomically stage individual JSON files; normal and fallback station refreshes synchronize station, head, delta and manifest counts.
 - Detect major incomplete source crawls: a new catalog over 20% smaller than
   previous is quarantined before writing the new stations.json/head/deltas.
 - Old URL-based station IDs and player schema remain unchanged.
