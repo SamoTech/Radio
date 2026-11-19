@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T13:19:15+00:00",
+ "updated": "2026-11-19T13:29:46+00:00",
  "checked": 1185,
- "alive": 1072,
+ "alive": 1073,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -105,7 +105,7 @@
   },
   "https://live-hls-audio-web-aja.getaj.net/VOICE-AJA/01.m3u8": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://l3.itworkscdn.net/alarabyradiolive/alarabyradio_audio/icecast.audio": {
@@ -170,12 +170,12 @@
   },
   "https://audio.nrpstream.com/listen/nile_fm/radio.mp3": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://audio.nrpstream.com/listen/nogoumfm/radio.mp3": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://stream.radiojar.com/8s5u5tpdtwzuv": {
@@ -345,7 +345,7 @@
   "https://stream.zeno.fm/du2izs2nmquvv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://stream-40.zeno.fm/xa4yhh4k838uv": {
    "alive": true,
@@ -603,8 +603,8 @@
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 500,
-   "strategy": "curl_cffi",
+   "code": 0,
+   "strategy": "googlebot",
    "maybe_alive": true
   },
   "https://streaming.rimradio.ma/live": {
@@ -806,8 +806,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": true,
-   "code": 200,
+   "alive": false,
+   "code": 404,
    "strategy": "bot"
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
@@ -817,8 +817,8 @@
   },
   "https://s2.radio.co/sd3c7f8539/listen": {
    "alive": true,
-   "code": 403,
-   "strategy": "curl_cffi"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://a8.asurahosting.com:7850/radio.mp3": {
    "alive": true,
@@ -1360,8 +1360,8 @@
   },
   "https://s2.radio.co/s8e5dffe5e/listen": {
    "alive": true,
-   "code": 403,
-   "strategy": "browser"
+   "code": 200,
+   "strategy": "bot"
   },
   "https://webprod.sipse.com.mx:8080/kissfm/": {
    "alive": true,
@@ -1596,7 +1596,7 @@
   },
   "https://danubiusradio.hu/danubius_HiFi.m3u?n=b3e8244f59b503576e1a": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://dfm-dancegold00.hostingradio.ru/dancegold0096.aacp?n=81427cd9dbdd083402d4": {
@@ -1636,7 +1636,7 @@
   },
   "https://s2.radio.co/sf25229e16/listen?n=37f243963aa33cbbef97": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://sonic.mediacp.eu/8014/stream?n=7ef411fa68822aa4824d": {
@@ -1671,7 +1671,7 @@
   },
   "https://easy108.net/listen.pls?n=75873170bad006fb37c0": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://likeradiostream.com/likeanthemsaac?n=1ecb7156ba3ab140d3df": {
@@ -1947,7 +1947,7 @@
   },
   "https://s2.radio.co/s44bb88930/listen": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://playoutonestreaming.com/proxy/forcewear?mp=/stream": {
@@ -1982,10 +1982,9 @@
    "strategy": "bot"
   },
   "https://www.youtube.com/watch?v=sQYMmIqih8I": {
-   "alive": false,
-   "code": 429,
-   "strategy": "curl_cffi",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://www.spreaker.com/user/entrepreneur-wilderness--4981175": {
    "alive": true,
@@ -1999,7 +1998,7 @@
   },
   "https://streema.com/radios/play/Skyhighradio?ref=http://www.skyhighradio.co.uk/en/cms/index.php/on_air/listen_live.html&amptype=radio": {
    "alive": true,
-   "code": 206,
+   "code": 202,
    "strategy": "bot"
   },
   "https://radiostorm.com/": {
@@ -2014,7 +2013,7 @@
   },
   "https://www.ippf.org.br/": {
    "alive": true,
-   "code": 200,
+   "code": 206,
    "strategy": "bot"
   },
   "https://s4.radio.co/s3dccdde7b/listen": {
@@ -2250,7 +2249,7 @@
   "https://mix941kmxj.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "mobile"
   },
   "https://stm1.ahtvox.com.br:7002/stream": {
    "alive": true,
@@ -2506,7 +2505,7 @@
   "https://965kvki.com/listen-live/": {
    "alive": true,
    "code": 206,
-   "strategy": "bot"
+   "strategy": "browser"
   },
   "https://djstephpra-radio.stream.laut.fm/djstephpra-radio?t302=2026-06-10_07-58-21&uuid=cbaa0494-9bf5-4daa-ab0d-889c2df2dd76": {
    "alive": true,
@@ -4162,7 +4161,7 @@
   "https://stream.rcs.revma.com/etq1un32w42vv": {
    "alive": true,
    "code": 200,
-   "strategy": "browser"
+   "strategy": "bot"
   },
   "https://powerradio181.stream.laut.fm/powerradio181?t302=2026-06-10_08-00-11&uuid=7ef6e765-2647-4466-bbff-c31d572c8953": {
    "alive": true,
@@ -4563,8 +4562,9 @@
   },
   "https://radiomastergold.ice.infomaniak.ch/gold.aac": {
    "alive": false,
-   "code": 404,
-   "strategy": "mobile"
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://breisgaulive.stream.laut.fm/breisgaulive?t302=2026-06-10_08-00-24&uuid=0b4c7ee7-66ce-482c-bbce-8c5b843708f6": {
    "alive": true,
@@ -5124,7 +5124,7 @@
   },
   "https://s2.radio.co/scbfaf00d4/listen": {
    "alive": true,
-   "code": 403,
+   "code": 200,
    "strategy": "bot"
   },
   "https://fhhalle.streamabc.net/fhhal-rbhall-mp3-128-3225039": {
@@ -5786,10 +5786,9 @@
    "strategy": "bot"
   },
   "https://s1-bos.liveatc.net/sunfunlive1?nocache=2026060821051059685": {
-   "alive": false,
-   "code": 0,
-   "strategy": "googlebot",
-   "maybe_alive": true
+   "alive": true,
+   "code": 200,
+   "strategy": "bot"
   },
   "https://free.rcast.net/213649": {
    "alive": true,

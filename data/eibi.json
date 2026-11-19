@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T13:19:15+00:00",
+ "updated": "2026-11-19T13:29:46+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1466,
+ "count": 1463,
  "rows": [
   {
    "f": 2054,
@@ -44,12 +44,6 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VCS Halifax Radio | E,F | ENA"
-  },
-  {
-   "f": 2226,
-   "s": "1310",
-   "e": "1325",
-   "n": "G | Falmouth Coastguard Wx | E | WEu"
   },
   {
    "f": 2310,
@@ -98,6 +92,12 @@
    "s": "0000",
    "e": "2400",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 2514,
+   "s": "1320",
+   "e": "1400",
+   "n": "CAN | VFF Iqaluit Radio | E | ENA"
   },
   {
    "f": 2514,
@@ -206,12 +206,6 @@
    "s": "0000",
    "e": "2400",
    "n": "I | Romaradio IAR | I | SEu"
-  },
-  {
-   "f": 2640,
-   "s": "1300",
-   "e": "1325",
-   "n": "RUS | St.Peterburg Wx Fax | R | NEu"
   },
   {
    "f": 2642,
@@ -386,6 +380,12 @@
    "s": "1305",
    "e": "0240",
    "n": "IND | Kolkata Volmet x05,x35 | E | SAs"
+  },
+  {
+   "f": 2965,
+   "s": "1325",
+   "e": "0300",
+   "n": "IND | Mumbai Volmet x25,x55 | E | SAs"
   },
   {
    "f": 2965,
@@ -2315,9 +2315,9 @@
   },
   {
    "f": 6190,
-   "s": "1300",
-   "e": "1320",
-   "n": "J | NHK Radio Japan | K | FE"
+   "s": "1320",
+   "e": "1340",
+   "n": "J | NHK Radio Japan | M | FE"
   },
   {
    "f": 6200,
@@ -3256,12 +3256,6 @@
    "n": "NZL | RNZ Pacific | E | Oc"
   },
   {
-   "f": 7396,
-   "s": "1300",
-   "e": "1320",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
-  },
-  {
    "f": 7400,
    "s": "0000",
    "e": "2400",
@@ -3494,6 +3488,12 @@
    "s": "1236",
    "e": "1551",
    "n": "D | DWD Pinneberg Met Fax | Eu"
+  },
+  {
+   "f": 7906,
+   "s": "1320",
+   "e": "1330",
+   "n": "VTN | Mong Cai Radio XVM | VN | SEA"
   },
   {
    "f": 8000,
@@ -4523,6 +4523,12 @@
   },
   {
    "f": 9570,
+   "s": "1320",
+   "e": "1420",
+   "n": "IRN | IRIB Voice of I.R.Iran | KU | ME"
+  },
+  {
+   "f": 9570,
    "s": "1300",
    "e": "1400",
    "n": "KOR | KBS World Radio | E | SEA"
@@ -4772,12 +4778,6 @@
    "s": "1230",
    "e": "1330",
    "n": "CHN | China Radio Int. | LAO | SEA"
-  },
-  {
-   "f": 9790,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
   },
   {
    "f": 9810,
@@ -5777,9 +5777,9 @@
   },
   {
    "f": 11710,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
+   "s": "1320",
+   "e": "1420",
+   "n": "IRN | IRIB Voice of I.R.Iran | KU | ME"
   },
   {
    "f": 11710,
@@ -5926,12 +5926,6 @@
    "n": "USA | Radio Marti | S | CUB"
   },
   {
-   "f": 11880,
-   "s": "1220",
-   "e": "1320",
-   "n": "IRN | IRIB Voice of I.R.Iran | PS | CAs"
-  },
-  {
    "f": 11885,
    "s": "1200",
    "e": "1400",
@@ -5960,12 +5954,6 @@
    "s": "1200",
    "e": "1805",
    "n": "CHN | China National Radio 1 | M | CHN"
-  },
-  {
-   "f": 11925,
-   "s": "1245",
-   "e": "1325",
-   "n": "USA | Trans World Radio | M | FE"
   },
   {
    "f": 11930,
@@ -8174,12 +8162,6 @@
    "s": "1300",
    "e": "1400",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 17520,
-   "s": "1300",
-   "e": "1320",
-   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
   },
   {
    "f": 17600,
