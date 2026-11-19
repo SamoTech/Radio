@@ -9,6 +9,7 @@
 var STR_PLAYER = {
   ar: {
     player_controls: 'التحكم',
+    open_ext2: 'فتح البث خارجيًا',
     player_collapse_aria: 'تصغير المشغل',
     player_retry_aria: 'إعادة تشغيل المحطة',
     player_play_aria: 'تشغيل',
@@ -44,6 +45,7 @@ var STR_PLAYER = {
   },
   en: {
     player_controls: 'Controls',
+    open_ext2: 'Open stream externally',
     player_collapse_aria: 'Minimize player',
     player_retry_aria: 'Retry station',
     player_play_aria: 'Play',

@@ -39,7 +39,7 @@
 | ملف الإقلاع السريع | stations_head.json (~530KB) | data/ |
 | تدفق منسّق مُتحقق | 1185 مُفحوص · 1086 شغّال · 50 «جرّبها» · 49 ميت | data/stream_checks.json |
 | جسم الواجهة | js/app.js ~79KB (نواة) + 5 وحدات ES Modules | js/app.js |
-| إصدار Service Worker | v76 | sw.js (الجذر — المسار المسجل في js/app.js) |
+| إصدار Service Worker | v77 | sw.js (الجذر — المسار المسجل في js/app.js) |
 | الاختبارات | 92 اختبار crawler + مجموعة اختبارات JS (node --test) | tests/ |
 | جدولة التحديث | SDR كل 6 ساعات · المحطات يوميًا | .github/workflows/update-data.yml |
 

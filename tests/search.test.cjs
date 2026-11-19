@@ -627,3 +627,44 @@ test('late full catalog initialization never resets a station already playing', 
     sandbox.state.playbackGeneration = oldGen;
   }
 });
+
+test('mobile Home quick listening shows only unique playable catalog/history entries', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  assert.ok(html.indexOf('id="mobile-home-preview"') < html.indexOf('class="fm-toolbar"'),
+    'quick listening should appear before the search toolbar');
+  const source = fs.readFileSync('js/modules/mobile.mjs', 'utf8');
+  const wrap = {hidden:true}, row = {innerHTML:''};
+  const stations = [
+    {name:'Recent Radio',url:'https://radio.test/recent'},
+    {name:'Featured',url:'https://radio.test/featured'},
+    {name:'Home',url:'https://radio.test/home'},
+    {name:'Legacy HTTP',url:'http://radio.test/legacy'}
+  ];
+  const scope = vm.createContext({
+    $:id=>id==='mobile-home-preview'?wrap:id==='mobile-home-preview-row'?row:null,
+    state:{history:[{url:stations[0].url}]},
+    safeHttpsUrl:url=>typeof url==='string'&&url.startsWith('https://')?url:'',
+    stationByUrl:url=>stations.find(s=>s.url===url),
+    featuredList:()=>[stations[1],stations[0],stations[3]],
+    homeList:()=>[stations[2]],
+    cardFm:s=>'<article>'+s.name+'</article>'
+  });
+  vm.runInContext(source.replace('export function boot()', 'function boot()'),scope);
+  scope.renderMobileHomePreview(true);
+  assert.equal(wrap.hidden,false);
+  assert.equal((row.innerHTML.match(/<article>/g)||[]).length,3);
+  assert.ok(!row.innerHTML.includes('Legacy HTTP'));
+  assert.ok(row.innerHTML.includes('Recent Radio'));
+  scope.renderMobileHomePreview(false);
+  assert.equal(wrap.hidden,true);
+  assert.equal(row.innerHTML,'');
+});
+
+test('expanded player external stream button has Arabic and English labels', () => {
+  const player = fs.readFileSync('js/modules/player.mjs', 'utf8');
+  const html = fs.readFileSync('index.html', 'utf8');
+  assert.ok(html.includes('id="player-ext"'));
+  assert.ok(html.includes('data-i18n="open_ext2"'));
+  assert.match(player, /open_ext2:\s*'فتح البث خارجيًا'/);
+  assert.match(player, /open_ext2:\s*'Open stream externally'/);
+});
