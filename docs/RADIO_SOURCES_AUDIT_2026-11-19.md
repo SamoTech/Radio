@@ -59,6 +59,7 @@ These are existing providers. This PR does not add an unvalidated provider.
   checks alone are labelled DEGRADED (not verified browser playback).
 - Separate 0-100 score and five internal statuses: VERIFIED, DEGRADED,
   UNVERIFIED, TEMPORARILY_UNAVAILABLE, BROKEN.
+- Exponential retry backoff for failed streams (1, 2, 4, max 7 days).
 - No delete-on-failure; 404/410 needs three consecutive checked failures to
   reach BROKEN; historical last success preserved.
 - Observational sample stored separately in data/stream_quality.json.
