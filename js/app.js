@@ -1021,8 +1021,8 @@ function catalogIdbRows() {
   }).catch(function () { return null; });
 }
 
-function finishStations(rows) {
-  state.fm = catalogStations(rows);
+function renderCatalog(rows) {
+  state.fm = rows;
   state.featuredCache = null;
   buildFMFacets();
   renderFM();
@@ -1030,6 +1030,15 @@ function finishStations(rows) {
   renderEG();
   renderAR();
   renderRel();
+}
+
+async function finishStations(rows) {
+  var stations = [];
+  for (var i = 0; i < rows.length; i += 768) {
+    if (i) await new Promise(function (resume) { setTimeout(resume, 0); });
+    stations.push(...catalogStations(rows.slice(i, i + 768)));
+  }
+  renderCatalog(stations);
   initTrending();
   initResume();
   loadStreamChecks();
@@ -1046,14 +1055,7 @@ function loadStations() {
 function legacyLoadStations() {
   return fetchJSON('data/stations_head.json').then(function (data) {
     if (data && Array.isArray(data.stations)) {
-      state.fm = catalogStations(data.stations);
-      state.featuredCache = null;
-      buildFMFacets();
-      renderFM();
-      renderFav();
-      renderEG();
-      renderAR();
-      renderRel();
+      renderCatalog(catalogStations(data.stations));
     }
   }).catch(function (e) {
     console.warn('stations head:', e);

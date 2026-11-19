@@ -541,3 +541,16 @@ test('worker precaches offline modules without taking over existing tabs', async
   const manifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
   for (const icon of manifest.icons) assert.ok(requests.some(request => request.url === './' + icon.src));
 });
+
+test('full catalog yields between batches and publishes one ordered snapshot', async () => {
+  const rows = Array.from({ length: 1537 }, (_, i) => ({ name: String(i), url: 'https://example.test/' + i }));
+  let yields = 0;
+  const rendered = [];
+  const scope = { ...sandbox, document: { addEventListener() {} }, setTimeout: resume => { yields++; resume(); } };
+  vm.runInNewContext(fs.readFileSync('js/app.js', 'utf8'), scope);
+  scope.renderCatalog = stations => rendered.push(Array.from(stations, station => station.name));
+  for (const name of ['initTrending', 'initResume', 'loadStreamChecks', 'handleShareHash']) scope[name] = () => {};
+  await scope.finishStations(rows);
+  assert.equal(yields, 2);
+  assert.deepEqual(rendered, [rows.map(row => row.name)]);
+});
