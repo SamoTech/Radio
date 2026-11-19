@@ -586,6 +586,7 @@ function reportPlaybackError(generation, reason) {
      retries through alternative sources do not inflate the counts. */
   if (generation === playbackErrorReportedGen) return;
   playbackErrorReportedGen = generation;
+  if (window.radioAtlasTrack) window.radioAtlasTrack('station_play_error');
   visitorCounterRequest('hit', {}, 'err-total').catch(function () {});
   visitorCounterRequest('hit', {}, 'err-' + coarsePlaybackError(reason)).catch(function () {});
 }
@@ -713,7 +714,12 @@ export function boot() {
   loadVolume();
 
 
+  var measuredGeneration = -1;
   $('audio').addEventListener('playing', function () {
+    if (measuredGeneration !== state.playbackGeneration) {
+      measuredGeneration = state.playbackGeneration;
+      if (window.radioAtlasTrack) window.radioAtlasTrack('station_play');
+    }
     setPlayerStatus('live');
     setMediaPlaybackState('playing');
     if (!visRaf && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
