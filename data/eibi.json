@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:06:58+00:00",
+ "updated": "2026-11-19T14:16:28+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1430,
+ "count": 1443,
  "rows": [
   {
    "f": 2054,
@@ -89,6 +89,12 @@
   },
   {
    "f": 2514,
+   "s": "1410",
+   "e": "1430",
+   "n": "CAN | VFF Iqaluit Radio | E | ENA"
+  },
+  {
+   "f": 2514,
    "s": "0000",
    "e": "2400",
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
@@ -155,9 +161,21 @@
   },
   {
    "f": 2582,
+   "s": "1410",
+   "e": "1430",
+   "n": "CAN | VFF Iqaluit Radio | E | ENA"
+  },
+  {
+   "f": 2582,
    "s": "0000",
    "e": "2400",
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
+  },
+  {
+   "f": 2598,
+   "s": "1407",
+   "e": "1430",
+   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
   },
   {
    "f": 2600,
@@ -236,6 +254,12 @@
    "s": "0000",
    "e": "2400",
    "n": "GRC | Olimpia Radio | -TY | SEE"
+  },
+  {
+   "f": 2749,
+   "s": "1407",
+   "e": "1430",
+   "n": "CAN | VCF Les Escoumins QC | F,E | ENA"
   },
   {
    "f": 2750,
@@ -506,6 +530,12 @@
    "s": "1400",
    "e": "1500",
    "n": "INS | Voice of Indonesia | IN | INS"
+  },
+  {
+   "f": 3364,
+   "s": "1410",
+   "e": "0600",
+   "n": "RUS | The Squeaky Wheel | RUS"
   },
   {
    "f": 3407,
@@ -791,12 +821,6 @@
   },
   {
    "f": 3990,
-   "s": "1020",
-   "e": "1410",
-   "n": "CHN | PBS Gannan | TB | CHN"
-  },
-  {
-   "f": 3990,
    "s": "1225",
    "e": "1800",
    "n": "CHN | PBS Xinjiang | UI | CHN"
@@ -925,6 +949,12 @@
    "f": 4363,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 4363,
+   "s": "1410",
+   "e": "1430",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
@@ -1369,12 +1399,6 @@
    "f": 5367,
    "s": "0500",
    "e": "1500",
-   "n": "RUS | The Squeaky Wheel | RUS"
-  },
-  {
-   "f": 5367,
-   "s": "0600",
-   "e": "1410",
    "n": "RUS | The Squeaky Wheel | RUS"
   },
   {
@@ -1868,12 +1892,6 @@
    "s": "1400",
    "e": "1500",
    "n": "CHN | China Radio Int. | K | FE"
-  },
-  {
-   "f": 5970,
-   "s": "1020",
-   "e": "1410",
-   "n": "CHN | PBS Gannan | TB | CHN"
   },
   {
    "f": 5975,
@@ -3446,12 +3464,6 @@
    "s": "1236",
    "e": "1551",
    "n": "D | DWD Pinneberg Met Fax | Eu"
-  },
-  {
-   "f": 7906,
-   "s": "1405",
-   "e": "1415",
-   "n": "VTN | Can Tho Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -5098,6 +5110,12 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 10226,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 10536,
    "s": "1000",
    "e": "2200",
@@ -5614,6 +5632,12 @@
    "n": "USA | Voice of America | TB | FE"
   },
   {
+   "f": 11574,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 11575,
    "s": "1400",
    "e": "2000",
@@ -5630,6 +5654,12 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
+  },
+  {
+   "f": 11593,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 11600,
@@ -6766,10 +6796,22 @@
    "n": "SEN | Dakar Radio | E | WAf"
   },
   {
+   "f": 13368,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 13417,
    "s": "0600",
    "e": "1800",
    "n": "F | FUG French Navy FSK | F | Eu"
+  },
+  {
+   "f": 13417,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 13470,
@@ -6800,6 +6842,12 @@
    "s": "1000",
    "e": "2200",
    "n": "CAN | CFH Halifax Radio | -TY | NAm"
+  },
+  {
+   "f": 13519,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 13527,
@@ -6872,6 +6920,12 @@
    "s": "0000",
    "e": "2400",
    "n": "XUU | RFID devices"
+  },
+  {
+   "f": 13562,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 13570,
@@ -7642,6 +7696,18 @@
    "n": "TWN | Sound of Hope | M | FE"
   },
   {
+   "f": 15836,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
+   "f": 15849,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 15870,
    "s": "2100",
    "e": "1700",
@@ -7732,6 +7798,12 @@
    "n": "PTR | NAU US Navy | -TY | NAm"
   },
   {
+   "f": 16228,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
+  },
+  {
    "f": 16249,
    "s": "1400",
    "e": "1500",
@@ -7742,6 +7814,12 @@
    "s": "2130",
    "e": "1700",
    "n": "CHN | CNR1 Jammer/Firedrake | M | CHN"
+  },
+  {
+   "f": 16284,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 16300,
@@ -7772,6 +7850,12 @@
    "s": "0000",
    "e": "2400",
    "n": "RUS | Channel Marker S | -CW | RUS"
+  },
+  {
+   "f": 16331,
+   "s": "1410",
+   "e": "1420",
+   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 16332,
@@ -8003,9 +8087,9 @@
   },
   {
    "f": 17700,
-   "s": "1400",
-   "e": "1415",
-   "n": "USA | Trans World Radio | KUI | SAs"
+   "s": "1415",
+   "e": "1430",
+   "n": "USA | Trans World Radio | HI | SAs"
   },
   {
    "f": 17720,
