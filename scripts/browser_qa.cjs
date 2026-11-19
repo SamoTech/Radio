@@ -58,6 +58,7 @@ async function shot(page,name) {
     await shot(page,'02-explore');
     check('Explore shows catalog beyond home subset',await page.locator('#grid-fm .station-card').count()>0);
 
+    await page.locator('.station-filters summary').click();
     await page.selectOption('#fm-country','EG');
     await page.locator('#grid-fm .station-card').first().waitFor();
     await shot(page,'03-station-list-eg');
