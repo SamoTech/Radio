@@ -47,7 +47,10 @@ function fixtureWorkers() {
   const p1=await context.newPage();
   p1.on('pageerror',e=>records.errors.push('PAGE '+e.message));
   try {
-    await p1.goto(BASE,{waitUntil:'domcontentloaded'});
+    // Use a real same-scope PWA document without app.js auto-registration,
+    // so our synthetic worker update cannot race with the app's initial register().
+    await p1.goto(BASE+'offline.html',{waitUntil:'domcontentloaded'});
+    await p1.evaluate(()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}));
     await p1.evaluate(()=>navigator.serviceWorker.ready);
     await p1.reload({waitUntil:'domcontentloaded'});
     await p1.waitForFunction(()=>navigator.serviceWorker.controller!==null,{timeout:30000});
@@ -57,7 +60,7 @@ function fixtureWorkers() {
       'https://qa.invalid/test':{url:'https://qa.invalid/test',name:'Saved before worker upgrade'}
     })));
     const p2=await context.newPage();
-    await p2.goto(BASE,{waitUntil:'domcontentloaded'});
+    await p2.goto(BASE+'offline.html',{waitUntil:'domcontentloaded'});
     await p2.waitForFunction(()=>navigator.serviceWorker.controller!==null,{timeout:15000});
     check('Old worker also controls second tab',
       await p2.evaluate(()=>navigator.serviceWorker.controller.scriptURL.endsWith('/sw.js')));
@@ -82,7 +85,7 @@ function fixtureWorkers() {
     check('Closing one old tab does not force activation',p2Waiting);
     await p2.close();
     const p3=await context.newPage();
-    await p3.goto(BASE,{waitUntil:'domcontentloaded'});
+    await p3.goto(BASE+'offline.html',{waitUntil:'domcontentloaded'});
     await p3.waitForFunction(async()=>{
       const r=await navigator.serviceWorker.getRegistration('./');
       return !!r&&!!r.active&&r.active.scriptURL.endsWith('/sw-upgrade-qa.js');
@@ -122,7 +125,7 @@ function fixtureWorkers() {
       activeAfterFailed.active.endsWith('/sw-upgrade-qa.js')&&!activeAfterFailed.waiting,
       JSON.stringify(activeAfterFailed));
     await context.setOffline(true);
-    await p3.reload({waitUntil:'domcontentloaded',timeout:15000});
+    await p3.goto(BASE,{waitUntil:'domcontentloaded',timeout:15000});
     check('Offline shell still loads after update',await p3.locator('#tab-fm').count()===1);
     check('Offline favorites persist through update',await p3.evaluate(()=>{
       const favs=JSON.parse(localStorage.getItem('ra-favs')||'{}');
