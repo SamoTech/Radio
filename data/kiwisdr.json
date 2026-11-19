@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T17:25:45+00:00",
+ "updated": "2026-11-19T17:35:19+00:00",
  "source": "https://cdn.aethersdr.com/kiwi.json",
  "origin_fetched_at": "2026-11-19T17:00:21.000Z",
  "count": 831,
@@ -3580,28 +3580,12 @@
    "max_users": 4,
    "snr": 24,
    "gps": [
-    -19.398133,
-    146.708223
+    39.42,
+    -31.26
    ],
    "band": "0-30 MHz",
-   "loc": "Townsville, Queensland",
-   "antenna": "49:1 41.2m End Fed Wire",
-   "ext_api": 0
-  },
-  {
-   "name": "DL2SBA | Filderstadt/Germany",
-   "url": "http://dl2sba.ddns.net:8073",
-   "online": true,
-   "users": 0,
-   "max_users": 4,
-   "snr": 30,
-   "gps": [
-    48.67,
-    9.24
-   ],
-   "band": "0-30 MHz",
-   "loc": "Filderstadt/Germany",
-   "antenna": "<a href",
+   "loc": "FLORES ISLAND,AZORES",
+   "antenna": "4 loops and LZ1AQ amp.Swit450 foot Loop on Ground with LZ1AQ amp or directional loops",
    "ext_api": 1
   },
   {
@@ -3612,8 +3596,8 @@
    "max_users": 8,
    "snr": 24,
    "gps": [
-    49.142333,
-    8.222333
+    53.630673,
+    8.026295
    ],
    "band": "0-30 MHz",
    "loc": "Hooksiel, Germany",
@@ -8002,19 +7986,19 @@
    "ext_api": 6
   },
   {
-   "name": "VE9CIB | Haut-Sheila, New-Brunswick",
-   "url": "http://22947.proxy.kiwisdr.com",
+   "name": "S53A | Polsece Slovenia 900m ASL",
+   "url": "http://21909.proxy.kiwisdr.com",
    "online": true,
    "users": 1,
    "max_users": 3,
    "snr": 15,
    "gps": [
-    47.460142,
-    -64.955632
+    45.83,
+    14.49
    ],
    "band": "0-30 MHz",
-   "loc": "Haut-Sheila, New-Brunswick",
-   "antenna": "20m Inverted V",
+   "loc": "Polsece Slovenia 900m ASL",
+   "antenna": "40m 2 el beam; 14-28 3 el tribander",
    "ext_api": 4
   },
   {
@@ -8135,7 +8119,7 @@
    "online": true,
    "users": 6,
    "max_users": 8,
-   "snr": 19,
+   "snr": 20,
    "gps": [
     35.734348,
     139.875461
@@ -8722,20 +8706,20 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR KiwiSDR | IW2KPL Franco | Antenna : Windom 7-band OFC dipole (42 mt. long, from 80 mt. to 10 mt. bands) | Bergamo, Italy | JN45TQ",
-   "url": "http://www.dxcluster.world:8073",
+   "name": "0-30 MHz SDR | Loveland, Colorado",
+   "url": "http://kw5usa.proxy.kiwisdr.com",
    "online": true,
-   "users": 3,
+   "users": 1,
    "max_users": 8,
-   "snr": 19,
+   "snr": 17,
    "gps": [
-    45.69,
-    9.66
+    40.43,
+    -105.11
    ],
    "band": "0-30 MHz",
-   "loc": "Bergamo, Italy",
-   "antenna": "Windom 7-band OFC dipole (42 mt. long, from 80 mt. to 10 mt. bands)",
-   "ext_api": 4
+   "loc": "Loveland, Colorado",
+   "antenna": "CF Dipole - May not be available when the Shack is in use...",
+   "ext_api": 1
   },
   {
    "name": "0-30 MHZ SDR#1, JH1PGF, TOKYO, JAPAN. Up to Sixteen users can listen simultaneously.",
@@ -8837,7 +8821,7 @@
    "name": "0-30 MHz SDR | St Just in Penwith, Cornwall, England",
    "url": "http://21246.proxy.kiwisdr.com",
    "online": true,
-   "users": 2,
+   "users": 1,
    "max_users": 8,
    "snr": 14,
    "gps": [
@@ -9439,38 +9423,6 @@
    "band": "0-30 MHz",
    "loc": "Smiths Parish, Bermuda",
    "antenna": "End fed multiband antenna",
-   "ext_api": 4
-  },
-  {
-   "name": "SV8RV | Zakynthos (Zante) isl., GREECE",
-   "url": "http://sv8rv.dyndns.org:8073",
-   "online": true,
-   "users": 5,
-   "max_users": 8,
-   "snr": 20,
-   "gps": [
-    37.783103,
-    20.896453
-   ],
-   "band": "0-30 MHz",
-   "loc": "Zakynthos (Zante) isl., GREECE",
-   "antenna": "ALA-1530 loop",
-   "ext_api": 8
-  },
-  {
-   "name": "PA0ZAP 0-30 MHz SDR | Haren (GN), NL",
-   "url": "http://212.204.138.247:8073",
-   "online": true,
-   "users": 2,
-   "max_users": 8,
-   "snr": 15,
-   "gps": [
-    53.168614,
-    6.598247
-   ],
-   "band": "0-30 MHz",
-   "loc": "Haren (GN), NL",
-   "antenna": "Amplified loop: PAHGOR RLA - 4 meters of 2.5mm copper wire",
    "ext_api": 4
   },
   {
@@ -12998,6 +12950,38 @@
    "url": "http://do3mla.proxy.kiwisdr.com",
    "online": true,
    "users": 0,
+   "max_users": 8,
+   "snr": 5,
+   "gps": [
+    32.860591,
+    -117.188889
+   ],
+   "band": "0-30 MHz",
+   "loc": "San Diego, CA",
+   "antenna": "W6LVP loop",
+   "ext_api": 1
+  },
+  {
+   "name": "0-30 MHz SDR | Lake Merwin, Washington State, U.S.A.",
+   "url": "http://21185.proxy.kiwisdr.com",
+   "online": true,
+   "users": 1,
+   "max_users": 8,
+   "snr": 4,
+   "gps": [
+    45.96,
+    -122.4
+   ],
+   "band": "0-30 MHz",
+   "loc": "Lake Merwin, Washington State, U.S.A.",
+   "antenna": "MLA-30+ Active Loop",
+   "ext_api": 4
+  },
+  {
+   "name": "ES-SWL 30m SDR | Tallinn, Estonia",
+   "url": "http://21712.proxy.kiwisdr.com",
+   "online": true,
+   "users": 0,
    "max_users": 1,
    "snr": 5,
    "gps": [
@@ -13042,28 +13026,12 @@
    "ext_api": 4
   },
   {
-   "name": "0-30 MHz SDR | Lake Merwin, Washington State, U.S.A.",
-   "url": "http://21185.proxy.kiwisdr.com",
+   "name": "0-30 MHz SDR, ZL2QF - Banch 87, New Zealand",
+   "url": "http://sdr.zapto.org:8073",
    "online": true,
    "users": 4,
    "max_users": 8,
    "snr": 4,
-   "gps": [
-    45.96,
-    -122.4
-   ],
-   "band": "0-30 MHz",
-   "loc": "Lake Merwin, Washington State, U.S.A.",
-   "antenna": "MLA-30+ Active Loop",
-   "ext_api": 4
-  },
-  {
-   "name": "ES-SWL 30m SDR | Tallinn, Estonia",
-   "url": "http://21712.proxy.kiwisdr.com",
-   "online": true,
-   "users": 0,
-   "max_users": 1,
-   "snr": 5,
    "gps": [
     -39.574552,
     174.434932
