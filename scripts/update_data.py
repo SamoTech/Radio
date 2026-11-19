@@ -376,6 +376,14 @@ _CP_STYLE = (
 
 
 def _cp_head(title, description, canonical, keywords=""):
+    collection = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": title,
+        "description": description,
+        "url": canonical,
+        "inLanguage": "ar",
+    }, ensure_ascii=False).replace("<", "\\u003c")
     return (
         '<!DOCTYPE html>\n<html lang="ar" dir="rtl">\n<head>\n'
         '<meta charset="UTF-8">\n'
@@ -391,6 +399,9 @@ def _cp_head(title, description, canonical, keywords=""):
         '<meta property="og:description" content="' + _cp_escape(description) + '">\n'
         '<meta property="og:type" content="website">\n'
         '<meta property="og:url" content="' + canonical + '">\n'
+        '<meta property="og:image" content="' + SITE_URL + 'icons/icon-512.png">\n'
+        '<meta property="og:image:alt" content="شعار راديو أطلس">\n'
+        '<script type="application/ld+json">' + collection + '</script>\n'
         '<link rel="icon" type="image/svg+xml" href="../icons/icon.svg">\n'
         "<style>" + _CP_STYLE + "</style>\n"
         "</head>\n<body>\n"
