@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:16:28+00:00",
+ "updated": "2026-11-19T14:30:05+00:00",
  "source": "own website scraper (broadcaster portals + curated station sites)",
- "count": 8,
+ "count": 7,
  "sites": [
   {
    "site": "https://maspero.eg/stream/9",
@@ -234,9 +234,7 @@
    "catalog": false,
    "fetch_strategy": "bot",
    "fetch_error": "",
-   "streams": [
-    "https://radioimages.npox.nl/RAD1/image/f245f313-d613-4ece-b1bd-84434c7f32b8/IMG_1668.HEIC"
-   ]
+   "streams": []
   },
   {
    "site": "https://www.nporadio2.nl/",
@@ -397,7 +395,7 @@
    "official": false,
    "catalog": false,
    "fetch_strategy": "",
-   "fetch_error": "<urlopen error timed out>",
+   "fetch_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1011)>",
    "streams": []
   }
  ]
