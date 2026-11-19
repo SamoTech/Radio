@@ -89,11 +89,24 @@ async function shot(page,name) {
     await page.waitForFunction(()=>!document.querySelector('#audio').paused
       &&document.querySelector('#audio').readyState>=2,{timeout:20000});
     check('Real HTMLAudioElement plays fixture',await page.locator('#audio').evaluate(a=>!a.paused));
-    const current=await page.locator('#audio').evaluate(a=>a.currentTime);
+    const beforeAudio=await page.evaluate(()=>({
+      currentTime:document.querySelector('#audio').currentTime,
+      src:document.querySelector('#audio').currentSrc,
+      generation:state.playbackGeneration
+    }));
     await page.locator('#mobile-nav-sdr').click();
-    await page.waitForTimeout(500);
-    const later=await page.locator('#audio').evaluate(a=>a.currentTime);
-    check('Audio continues during navigation',later>current,'before='+current+' after='+later);
+    await page.waitForTimeout(650);
+    const afterAudio=await page.evaluate(()=>({
+      currentTime:document.querySelector('#audio').currentTime,
+      src:document.querySelector('#audio').currentSrc,
+      generation:state.playbackGeneration,
+      paused:document.querySelector('#audio').paused,
+      error:document.querySelector('#audio').error&&document.querySelector('#audio').error.code
+    }));
+    results.audioNavigation={before:beforeAudio,after:afterAudio};
+    check('Audio generation survives screen navigation',afterAudio.generation===beforeAudio.generation,JSON.stringify(results.audioNavigation));
+    check('Audio stream source survives screen navigation',afterAudio.src===beforeAudio.src,JSON.stringify(results.audioNavigation));
+    check('Audio continues during navigation',!afterAudio.paused&&afterAudio.currentTime>beforeAudio.currentTime,JSON.stringify(results.audioNavigation));
     await shot(page,'06-mini-player-playing');
     await page.locator('#player-expand').click();
     await page.locator('#player-expanded-name').waitFor({state:'visible'});
