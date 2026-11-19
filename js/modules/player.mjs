@@ -427,21 +427,18 @@ function play(url, name) {
   }
   state.playbackStation = station || { name: name || '', url: url };
   var saverStation = pickSaverStation(state.playbackStation, url);
-  state.playbackSources = [saverStation ? saverStation.url : url]
-    .concat(state.playbackStation.fallbacks || [])
-    .concat(saverStation ? [url] : [])
-    .filter(function (source, index, list) {
-    return !!source && list.indexOf(source) === index;
-  });
-  // Last-resort relay tier: some streams fail direct playback from the
-  // browser (CORS or geo blocks) while our Cloudflare Worker relay can
-  // still fetch them. Token-gated easybroadcast streams are skipped: their
-  // loader signs the original playlist URL and would break through a proxy.
+  // Preserve the original station identity while retrying its OWN verified
+  // or curated alternative mounts; never mix stations by similar names.
+  // Bound to four direct HTTPS sources and one optional last-resort relay.
+  // Token-gated easybroadcast must never go through the relay.
   var isEasyB = station && station.tokenEndpoint && station.tokenType === 'easy_b';
   var relayUrl = isEasyB ? '' : proxyStreamUrl(url);
-  if (relayUrl && state.playbackSources.indexOf(relayUrl) === -1) {
-    state.playbackSources.push(relayUrl);
-  }
+  state.playbackSources = buildPlaybackSourceList(
+    saverStation ? saverStation.url : url,
+    state.playbackStation.fallbacks,
+    saverStation ? url : '',
+    relayUrl
+  );
   state.playbackIndex = 0;
   state.playbackGeneration += 1;
   var generation = state.playbackGeneration;
