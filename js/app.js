@@ -1346,7 +1346,7 @@ function renderFeatured() {
 }
 
 
-/* Modal focus bookkeeping shared by the sdr and player modules. */
+/* Shared modal focus. */
 
 var previousSDRFocus = null;
 function initResume() {
