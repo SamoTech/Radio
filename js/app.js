@@ -1865,6 +1865,7 @@ function renderQuickBar() {
 }
 
 function initUI() {
+  document.addEventListener('error',function(e){var el=e.target;if(el&&el.classList&&el.classList.contains('station-art-image'))el.remove();},true);
   ['home','explore','fav','sdr'].forEach(function(item){var b=$('mobile-nav-'+item);if(b)b.addEventListener('click',function(){switchPrimaryNav(item);});});
   syncPrimaryNav();
   $('tab-fm').addEventListener('click', function () { state.mobileExplore=false; switchTab('fm'); renderFM(); });
