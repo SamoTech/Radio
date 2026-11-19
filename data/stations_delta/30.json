@@ -11,6 +11,15 @@
    "bitrate": 0
   },
   {
+   "name": "*HARDER-FM THE HARDERSOUND*",
+   "url": "https://harder-fm.nl/listen/tek/;",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
    "name": "Pidi Radio Your LGBTQ Radio",
    "url": "https://eu-stream.pidiradio.nl/listen/pidi-radio/radio.aac",
    "cc": "",
@@ -38,8 +47,8 @@
    "bitrate": 0
   },
   {
-   "name": "PH Lite - Easy Sound of the Philippines",
-   "url": "https://stream.amfm.link:8000/phlite128",
+   "name": "RadioFRL 0 Tune-IN",
+   "url": "https://player.radiofrl.com/listen/radiofrl_tune-in/Radio",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -47,8 +56,8 @@
    "bitrate": 0
   },
   {
-   "name": "RadioFRL 0 Tune-IN",
-   "url": "https://player.radiofrl.com/listen/radiofrl_tune-in/Radio",
+   "name": "PH Lite - Easy Sound of the Philippines",
+   "url": "https://stream.amfm.link:8000/phlite128",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -76,6 +85,15 @@
   {
    "name": "Ambassador.Radio",
    "url": "https://online.radio.moe/listen/ambassador/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Paraklete Radio Station",
+   "url": "https://jbc-ars.galaxcast.com/listen/prs/radio.mp3",
    "cc": "",
    "language": "",
    "tags": "icecast,yp",
@@ -130,10 +148,8 @@
  ],
  "updated": [],
  "removed": [
-  "https://radio.beyondprompting.live/listen/beyond_prompting/radio.mp3",
   "https://stream.partyradio.pro/listen/partyradio/stream256",
-  "https://mixgrupero.online:8000/radio.mp3",
-  "https://stream.partyradio.pro/listen/partyradio/stream192",
+  "https://live.m40radio.fr/listen/m40-so-british/m40-so-british-128.mp3",
   "https://stream.partyradio.pro/listen/partyradio/stream96",
   "https://stream.partyradio.pro/listen/partyradio/stream128",
   "https://stream.partyradio.pro/listen/partyradio/stream64"

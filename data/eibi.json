@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-19T14:30:05+00:00",
+ "updated": "2026-11-19T14:40:01+00:00",
  "source": "EiBi (eibispace.de)",
- "count": 1453,
+ "count": 1446,
  "rows": [
   {
    "f": 2054,
@@ -160,6 +160,12 @@
    "n": "CAN | VOJ Port aux Basques NL | E,F | ENA"
   },
   {
+   "f": 2598,
+   "s": "1437",
+   "e": "1500",
+   "n": "CAN | VOK Labrador Coastguard | E | ENA"
+  },
+  {
    "f": 2600,
    "s": "0000",
    "e": "2400",
@@ -226,6 +232,12 @@
    "n": "GRC | Olimpia Radio | -TY | SEE"
   },
   {
+   "f": 2749,
+   "s": "1440",
+   "e": "1500",
+   "n": "CAN | VCO Sydney Radio NS | E,F | ENA"
+  },
+  {
    "f": 2750,
    "s": "0000",
    "e": "2400",
@@ -236,6 +248,12 @@
    "s": "0000",
    "e": "2400",
    "n": "HOL | PFC Navy Den Helder | E | Eu"
+  },
+  {
+   "f": 2761,
+   "s": "1433",
+   "e": "1448",
+   "n": "BEL | OSU Oostende Radio | E | WEu"
   },
   {
    "f": 2789,
@@ -737,12 +755,6 @@
   },
   {
    "f": 3900,
-   "s": "0900",
-   "e": "1440",
-   "n": "CHN | PBS Hulun Buir | M | CHN"
-  },
-  {
-   "f": 3900,
    "s": "0000",
    "e": "2400",
    "n": "ISL | Reykjavik HFDL (ID3) | -HF | NAO"
@@ -920,6 +932,12 @@
    "s": "1400",
    "e": "1615",
    "n": "USA | NMC Fax Pt Reyes CA | WNA"
+  },
+  {
+   "f": 4357,
+   "s": "1433",
+   "e": "1448",
+   "n": "NOR | Telenor Kystradio North | NO | NEu"
   },
   {
    "f": 4363,
@@ -2002,12 +2020,6 @@
    "n": "HOL | Radio Delta Int. | NL | Eu"
   },
   {
-   "f": 6045,
-   "s": "1405",
-   "e": "1435",
-   "n": "J | Shiokaze | J | KRE"
-  },
-  {
    "f": 6050,
    "s": "1000",
    "e": "1800",
@@ -2311,6 +2323,12 @@
    "f": 6218,
    "s": "0000",
    "e": "2400",
+   "n": "CAN | VFF Iqaluit Radio | E | NAm"
+  },
+  {
+   "f": 6218,
+   "s": "1435",
+   "e": "1500",
    "n": "CAN | VFF Iqaluit Radio | E | NAm"
   },
   {
@@ -3202,16 +3220,16 @@
    "n": "CHN | Xizang RTV | TB | CHN"
   },
   {
-   "f": 7385,
-   "s": "1405",
-   "e": "1435",
-   "n": "J | Shiokaze | J | KRE"
-  },
-  {
    "f": 7390,
    "s": "1259",
    "e": "1650",
    "n": "NZL | RNZ Pacific | E | Oc"
+  },
+  {
+   "f": 7396,
+   "s": "1440",
+   "e": "1445",
+   "n": "THA | HSW64 Bangkok Meteo Fax | SEA"
   },
   {
    "f": 7400,
@@ -3452,6 +3470,12 @@
    "s": "1236",
    "e": "1551",
    "n": "D | DWD Pinneberg Met Fax | Eu"
+  },
+  {
+   "f": 7906,
+   "s": "1435",
+   "e": "1445",
+   "n": "VTN | Quy Nhon Radio | VN | SEA"
   },
   {
    "f": 8000,
@@ -5138,18 +5162,6 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 10274,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
-  },
-  {
-   "f": 10293,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 10536,
@@ -7456,6 +7468,12 @@
    "n": "HOL | SunDance Radio | NL | Eu"
   },
   {
+   "f": 15105,
+   "s": "1440",
+   "e": "1457",
+   "n": "SWZ | Trans World Radio | AFA | EAf"
+  },
+  {
    "f": 15110,
    "s": "0000",
    "e": "2400",
@@ -7748,12 +7766,6 @@
    "s": "1400",
    "e": "1500",
    "n": "TWN | Sound of Hope | M | FE"
-  },
-  {
-   "f": 15831,
-   "s": "1430",
-   "e": "1440",
-   "n": "RUS | E07 Russian Spy Numbers | E | RUS"
   },
   {
    "f": 15870,
