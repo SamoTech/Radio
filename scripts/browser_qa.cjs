@@ -109,8 +109,20 @@ async function shot(page,name) {
     check('Audio continues during navigation',!afterAudio.paused&&afterAudio.currentTime>beforeAudio.currentTime,JSON.stringify(results.audioNavigation));
     await shot(page,'06-mini-player-playing');
     await page.locator('#player-expand').click();
-    await page.locator('#player-expanded-name').waitFor({state:'visible'});
+    const expandedDebug=await page.evaluate(()=>{
+      const player=document.querySelector('#player');
+      const controls=document.querySelector('#player-controls');
+      const stage=document.querySelector('.player-stage');
+      const title=document.querySelector('#player-expanded-name');
+      return {className:player.className,playerHidden:player.hidden,controlsHidden:controls.hidden,
+        controlsDisplay:getComputedStyle(controls).display,stageDisplay:getComputedStyle(stage).display,
+        titleDisplay:getComputedStyle(title).display,viewport:innerWidth,expanded:document.querySelector('#player-expand').getAttribute('aria-expanded')};
+    });
+    results.expandedDebug=expandedDebug;
     await shot(page,'07-expanded-player-ar');
+    check('Expanded mobile player has visible controls and station identity',
+      expandedDebug.expanded==='true'&&!expandedDebug.controlsHidden&&expandedDebug.titleDisplay!=='none',
+      JSON.stringify(expandedDebug));
     check('Expanded player reuses one audio',await page.locator('#audio').count()===1);
     await page.locator('#player-favorite').click();
     check('Expanded favorite updates storage',await page.evaluate(url=>{
