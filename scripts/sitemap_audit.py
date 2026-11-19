@@ -11,6 +11,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
 import sys
+import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from html.parser import HTMLParser
@@ -123,8 +124,8 @@ def audit_source(root):
             "note": "Repository /Radio/robots.txt is NOT the host-root /robots.txt controlling Googlebot."}
 
 
-def fetch(url, timeout):
-    """Independent HTTP request, not a claim about Google's fetch."""
+def _fetch_once(url, timeout):
+    """One independent HTTP request; does not emulate or verify Googlebot."""
     req = Request(url, headers={"User-Agent": "RadioAtlas-Sitemap-Diagnostics/1.0",
                                 "Accept": "application/xml,text/xml,text/html,*/*"})
     try:
@@ -143,9 +144,21 @@ def fetch(url, timeout):
                 "error": str(exc), "body": ""}
 
 
+def fetch(url, timeout):
+    first = _fetch_once(url, timeout)
+    if first["status"] in (429, 500, 502, 503, 504, None):
+        time.sleep(0.6)
+        retry = _fetch_once(url, timeout)
+        retry["attempts"] = 2
+        retry["initial_status"] = first["status"]
+        return retry
+    first["attempts"] = 1
+    return first
+
+
 def audit_live(locs, timeout):
     report = {"sitemap": {}, "host_root_robots": {}, "pages_checked": 0,
-              "issues": [], "google_search_console": "NOT VERIFIED"}
+              "recoveries": [], "issues": [], "google_search_console": "NOT VERIFIED"}
     sitemap = fetch(SITE + "sitemap.xml", timeout)
     report["sitemap"] = {k: v for k, v in sitemap.items() if k != "body"}
     if sitemap["status"] != 200 or "xml" not in sitemap["content_type"].lower():
@@ -161,12 +174,16 @@ def audit_live(locs, timeout):
             report["issues"].append({"url": SITE + "sitemap.xml", "reason": "invalid published sitemap: " + str(exc)})
     robots = fetch(HOST_ROOT_ROBOTS, timeout)
     report["host_root_robots"] = {k: v for k, v in robots.items() if k != "body"}
+    report["host_root_robots"]["text"] = robots["body"][:4096]
     if robots["status"] == 200 and "Disallow: /Radio/" in robots["body"]:
         report["issues"].append({"url": HOST_ROOT_ROBOTS, "reason": "host root robots.txt disallows /Radio/"})
     with ThreadPoolExecutor(max_workers=6) as executor:
         responses = list(executor.map(lambda loc: fetch(loc, timeout), locs))
     for loc, response in zip(locs, responses):
         report["pages_checked"] += 1
+        if response.get("attempts", 1) > 1 and response["status"] == 200:
+            report["recoveries"].append({"url": loc, "initial_status": response.get("initial_status"),
+                                         "final_status": response["status"]})
         reason = None
         if response["status"] != 200:
             reason = "unexpected HTTP response"
