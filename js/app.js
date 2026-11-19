@@ -712,10 +712,20 @@ function facetLiveApply(kind) {
   }
 }
 
-function normalizeFm(s) {
+function catalogStations(rows) {
+  var languages = new Map(), tags = new Map();
+  return rows.map(function (s) {
+    var l = s.language, t = s.tags;
+    if (!languages.has(l)) languages.set(l, normalizeLanguages(l));
+    if (!tags.has(t)) tags.set(t, normalizeCategories(t));
+    return normalizeFm(s, languages.get(l), tags.get(t));
+  }).filter(function (s) { return s.cc !== 'IL'; });
+}
+
+function normalizeFm(s, language, tags) {
   return {
     name:s.name||'—',url:safeHttpUrl(s.url_resolved||s.url||''),cc:String(s.countrycode||s.cc||'').toUpperCase(),
-    language:normalizeLanguages(s.language||''),tags:normalizeCategories(s.tags||''),official:isOfficialStation(s),
+    language:language,tags:tags,official:isOfficialStation(s),
     codec:s.codec||'',bitrate:s.bitrate||0,
     fallbacks:Array.isArray(s.fallbacks)?s.fallbacks.map(safeHttpsUrl).filter(Boolean):[],
     website:safeHttpUrl(s.website||s.officialUrl||''),
@@ -1012,7 +1022,7 @@ function catalogIdbRows() {
 }
 
 function finishStations(rows) {
-  state.fm = rows.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+  state.fm = catalogStations(rows);
   state.featuredCache = null;
   buildFMFacets();
   renderFM();
@@ -1036,7 +1046,7 @@ function loadStations() {
 function legacyLoadStations() {
   return fetchJSON('data/stations_head.json').then(function (data) {
     if (data && Array.isArray(data.stations)) {
-      state.fm = data.stations.map(normalizeFm).filter(function (s) { return s.cc !== 'IL'; });
+      state.fm = catalogStations(data.stations);
       state.featuredCache = null;
       buildFMFacets();
       renderFM();
@@ -1150,9 +1160,7 @@ function searchFM() {
     .then(function (rows) {
       if (requestId !== fmSearchSequence) return;
       state.fmLive = true;
-      state.fmLiveRows = rows
-        .filter(function (s) { return (s.url_resolved || s.url) && (s.countrycode || '').toUpperCase() !== 'IL'; })
-        .map(normalizeFm);
+      state.fmLiveRows = catalogStations(rows.filter(function (s) { return s.url_resolved || s.url; }));
       if (f.chip === 'fav') {
         state.fmLiveRows = state.fmLiveRows.filter(function (s) { return !!state.favs[s.url]; });
       }
