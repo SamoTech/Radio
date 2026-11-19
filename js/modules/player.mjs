@@ -839,6 +839,7 @@ export function boot() {
     if (state.playbackSources.length) failCurrentPlayback(state.playbackGeneration, 'HTML audio element error');
   });
   $('audio').addEventListener('play', function () {
+    state.playbackRequestedInSession = true;
     if (hls && !hls.__raStarted) {
       hls.__raStarted = true;
       try { hls.startLoad(); } catch (e) {}
