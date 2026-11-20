@@ -10,11 +10,22 @@ const DIRECTORY = SITE_ORIGIN + '/Radio/data/kiwisdr.json';
 const ORIGINS = new Set([SITE_ORIGIN, 'http://localhost:8000', 'http://127.0.0.1:8000']);
 const WINDOW_MS = 60 * 1000;
 const RATE_LIMIT = 24;
+const CONNECT_TIMEOUT_MS = 9000;
+const SWEEP_MS = 5 * 60 * 1000;
 const counters = new Map();
+let lastSweep = 0;
 let directoryCache = null;
 let directoryDeadline = 0;
 
-function error(status, reason) {
+function log(level, code, detail) {
+  const record = { event: 'kiwi_bridge', code };
+  if (detail) Object.assign(record, detail);
+  const line = JSON.stringify(record);
+  if (level === 'warn') console.warn(line); else console.log(line);
+}
+
+function error(status, code, reason) {
+  log('warn', code, { status });
   return new Response(reason, {status, headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
 }
 
@@ -51,18 +62,27 @@ function normalizeReceiver(input) {
   return u.origin + '/';
 }
 
+function sweep(now) {
+  if (now - lastSweep < SWEEP_MS) return;
+  lastSweep = now;
+  for (const [ip, entry] of counters) {
+    if (now - entry.start >= WINDOW_MS) counters.delete(ip);
+  }
+}
+
 function permitRequest(request) {
   const origin = request.headers.get('Origin');
-  if (!ORIGINS.has(origin)) return false;
+  if (!ORIGINS.has(origin)) return 'origin';
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
   const now = Date.now();
+  sweep(now);
   const prev = counters.get(ip);
   if (!prev || now - prev.start >= WINDOW_MS) {
     counters.set(ip, {start:now,count:1});
-    return true;
+    return 'ok';
   }
   prev.count++;
-  return prev.count <= RATE_LIMIT;
+  return prev.count <= RATE_LIMIT ? 'ok' : 'rate';
 }
 
 async function permittedCatalog() {
@@ -77,7 +97,10 @@ async function permittedCatalog() {
   if (!Array.isArray(doc.receivers)) throw new Error('Invalid SDR directory');
   const allow = new Set();
   for (const receiver of doc.receivers) {
-    if (Number(receiver.ext_api) <= 0 || receiver.online === false) continue;
+    if (!receiver || typeof receiver !== 'object') continue;
+    // Missing or non-numeric ext_api values are not valid authorization.
+    if (!(Number(receiver.ext_api) > 0)) continue;
+    if (receiver.online === false) continue;
     const users = Number(receiver.users);
     const slots = Number(receiver.max_users);
     if (Number.isFinite(users) && Number.isFinite(slots) && slots > 0 && users >= slots) continue;
@@ -97,32 +120,46 @@ export default {
   async fetch(request) {
     const url = new URL(request.url);
     if (url.pathname === '/healthz') return new Response('ok', {headers:{'Content-Type':'text/plain'}});
-    if (url.pathname !== '/kiwi/ws') return error(404, 'Not found');
-    if (request.headers.get('Upgrade')?.toLowerCase() !== 'websocket') return error(426, 'WebSocket upgrade required');
-    if (!permitRequest(request)) return error(403, 'Origin forbidden or request limit reached');
+    if (url.pathname !== '/kiwi/ws') return error(404, 'not_found', 'Not found');
+    if (request.headers.get('Upgrade')?.toLowerCase() !== 'websocket') return error(426, 'upgrade_required', 'WebSocket upgrade required');
+    const permit = permitRequest(request);
+    if (permit === 'origin') return error(403, 'origin_forbidden', 'Origin forbidden');
+    if (permit === 'rate') return error(429, 'rate_limited', 'Request limit reached');
     const receiver = normalizeReceiver(url.searchParams.get('receiver') || '');
-    if (!receiver) return error(400, 'Invalid receiver');
+    if (!receiver) return error(400, 'invalid_receiver', 'Invalid receiver');
     let allow;
-    try { allow = await permittedCatalog(); } catch { return error(503, 'Receiver directory unavailable'); }
-    if (!allow.has(receiver)) return error(403, 'Receiver is not approved for external API connections');
+    try { allow = await permittedCatalog(); } catch { return error(503, 'directory_unavailable', 'Receiver directory unavailable'); }
+    if (!allow.has(receiver)) return error(403, 'receiver_not_allowed', 'Receiver is not approved for external API connections');
 
     // The user cannot choose the upstream path or arbitrary WebSocket service.
     const target = new URL(receiver);
     target.pathname = '/' + Date.now() + '/SND';
     target.search = '';
+    // Bound only connection establishment, never an active audio session.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CONNECT_TIMEOUT_MS);
     let upstreamResponse;
     try {
       upstreamResponse = await fetch(target.toString(), {
         headers:{Upgrade:'websocket'},
         redirect:'manual',
-        signal:AbortSignal.timeout(9000)
+        signal:controller.signal
       });
-    } catch { return error(502, 'Receiver connection failed'); }
-    if (!upstreamResponse.webSocket) return error(502, 'Receiver refused WebSocket connection');
+    } catch (err) {
+      log('warn', 'upstream_connect_failed', { receiver, aborted: controller.signal.aborted });
+      return error(502, 'upstream_connect_failed', 'Receiver connection failed');
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!upstreamResponse.webSocket) {
+      log('warn', 'upstream_refused', { receiver, status: upstreamResponse.status });
+      return error(502, 'upstream_refused', 'Receiver refused WebSocket connection');
+    }
     const upstream = upstreamResponse.webSocket;
     const [client, server] = Object.values(new WebSocketPair());
     server.accept();
     upstream.accept();
+    log('info', 'session_open', { receiver });
 
     // Byte-for-byte proxy; native Kiwi protocol remains end-to-end.
     server.addEventListener('message', event => {
