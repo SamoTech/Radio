@@ -345,26 +345,56 @@
 
 <div id="kiwi-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kiwi-modal-name" hidden>
   <div class="modal-head">
-    <strong id="kiwi-modal-name"></strong>
+    <div><span class="kiwi-kicker" data-i18n="kiwi_studio">استوديو الاستقبال</span><strong id="kiwi-modal-name"></strong></div>
     <div class="modal-actions">
-      <a id="kiwi-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
+      <button id="kiwi-fullscreen" class="btn ghost" type="button" aria-pressed="false" data-i18n="kiwi_fullscreen">ملء الشاشة</button>
       <button id="kiwi-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
   </div>
-  <p class="kiwi-explainer" lang="ar">استقبال مباشر داخل راديو أطلس · استخدم التردد والوضع لضبط الصوت · الاتصال حسب إتاحة الجهاز</p>
+  <p class="kiwi-explainer" data-i18n="kiwi_explainer">اضبط التردد والوضع والمرشح مباشرةً. للشلال الطيفي وملحقات الجهاز افتح واجهته الكاملة بالتردد الحالي.</p>
+  <div class="kiwi-receiver-nav">
+    <label for="kiwi-receiver" data-i18n="kiwi_receiver">جهاز الاستقبال</label>
+    <select id="kiwi-receiver"></select>
+    <div class="kiwi-nav-buttons">
+      <button id="kiwi-prev" class="btn ghost" type="button" data-i18n="kiwi_prev">الجهاز السابق</button>
+      <button id="kiwi-next" class="btn ghost" type="button" data-i18n="kiwi_next">الجهاز التالي</button>
+      <button id="kiwi-reconnect" class="btn" type="button" data-i18n="kiwi_reconnect">إعادة الاتصال</button>
+      <button id="kiwi-restore" class="btn ghost" type="button" disabled data-i18n="kiwi_restore">آخر جهاز ناجح</button>
+    </div>
+  </div>
   <div class="kiwi-controls">
-    <label class="check"><span data-i18n="kiwi_freq">التردد (kHz)</span> <input type="number" id="kiwi-freq" value="7100" min="10" max="30000" step="1" style="width:96px"></label>
-    <label class="check"><span data-i18n="kiwi_mode">الوضع</span>
-      <select id="kiwi-mode">
-        <option value="am">AM</option>
-        <option value="usb">USB</option>
-        <option value="lsb">LSB</option>
-        <option value="cw">CW</option>
-      </select>
+    <div class="kiwi-tuning">
+      <label for="kiwi-freq" data-i18n="kiwi_freq">التردد (kHz)</label>
+      <div class="kiwi-frequency-row">
+        <button id="kiwi-down" class="btn ghost" type="button" data-i18n-aria="kiwi_down" aria-label="خفض التردد خطوة">−</button>
+        <input type="number" id="kiwi-freq" value="7100" min="10" max="30000" step="1" inputmode="decimal">
+        <button id="kiwi-up" class="btn ghost" type="button" data-i18n-aria="kiwi_up" aria-label="رفع التردد خطوة">+</button>
+      </div>
+    </div>
+    <label class="kiwi-field"><span data-i18n="kiwi_step">خطوة الضبط</span>
+      <select id="kiwi-step"><option value="0.01">10 Hz</option><option value="0.1">100 Hz</option><option value="1" selected>1 kHz</option><option value="5">5 kHz</option><option value="9">9 kHz</option><option value="10">10 kHz</option></select>
     </label>
-    <span id="kiwi-status" class="kiwi-status"></span>
+    <label class="kiwi-field"><span data-i18n="kiwi_mode">الوضع</span>
+      <select id="kiwi-mode"><option value="am">AM</option><option value="amn">AMN</option><option value="sam">SAM</option><option value="usb">USB</option><option value="lsb">LSB</option><option value="cw">CW</option><option value="nbfm">NBFM</option></select>
+    </label>
+    <label class="kiwi-field"><span data-i18n="kiwi_bandwidth">عرض المرشح</span>
+      <select id="kiwi-bandwidth"><option value="narrow" data-i18n="kiwi_narrow">ضيق</option><option value="normal" selected data-i18n="kiwi_normal">عادي</option><option value="wide" data-i18n="kiwi_wide">واسع</option></select>
+    </label>
+  </div>
+  <details class="kiwi-advanced">
+    <summary data-i18n="kiwi_advanced">تحكم متقدم في الاستقبال</summary>
+    <div class="kiwi-advanced-grid">
+      <label class="check"><input id="kiwi-agc" type="checkbox" checked><span data-i18n="kiwi_agc">ضبط الكسب تلقائيًا AGC</span></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_gain">الكسب اليدوي (dB)</span><input id="kiwi-gain" type="range" min="0" max="120" step="1" value="50" disabled><output id="kiwi-gain-value" for="kiwi-gain">50 dB</output></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_squelch">إسكات الضوضاء (0 = إيقاف)</span><input id="kiwi-squelch" type="range" min="0" max="40" step="1" value="0"><output id="kiwi-squelch-value" for="kiwi-squelch">0</output></label>
+    </div>
+  </details>
+  <div class="kiwi-connection-row">
+    <span id="kiwi-status" class="kiwi-status" role="status" aria-live="polite"></span>
+    <div class="kiwi-signal-wrap"><label for="kiwi-signal-meter" data-i18n="kiwi_signal">مستوى الإشارة من الجهاز</label><meter id="kiwi-signal-meter" min="-160" max="10" value="-160"></meter><output id="kiwi-signal">—</output></div>
   </div>
   <audio id="kiwi-audio" controls aria-label="KiwiSDR live audio"></audio>
+  <div class="kiwi-footer"><a id="kiwi-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="kiwi_full_ui">واجهة الجهاز الكاملة ↗</a><small data-i18n="kiwi_saved_hint">تُحفظ آخر إعدادات ناجحة على جهازك؛ التشغيل يبدأ بضغطك فقط</small></div>
 </div>
 
 <footer>
