@@ -33,7 +33,9 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
     await page.route('**/googletagmanager.com/**',route=>route.abort());
     await page.route('**/abacus.jasoncameron.dev/**',route=>route.abort());
     page.on('pageerror',e=>report.errors.push(e.message));
+    const routedSockets=[];
     if(!live) await page.routeWebSocket('**/kiwi/ws?**',ws=>{
+      routedSockets.push(ws.url());
       let timer=null,started=false;
       ws.onMessage(message=>{
         if(message==='SET auth t=kiwi p=') {
@@ -81,8 +83,8 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
         result.status='PASS';
       }catch(error){result.status='FAIL';result.error=error.message;}
       result.diagnostics=await page.evaluate(()=>RA_MODULES.sdr.kiwiDiagnostics());
-      result.uiStatus=await page.locator('#kiwi-status').textContent();result.sockets=sockets;
-      assert.ok(sockets.some(url=>url.includes('radio-atlas-kiwi-bridge')&&url.includes('/kiwi/ws')),'must use bridge');
+      result.uiStatus=await page.locator('#kiwi-status').textContent();result.sockets=live?sockets:routedSockets.splice(0);
+      assert.ok(result.sockets.some(url=>url.includes('radio-atlas-kiwi-bridge')&&url.includes('/kiwi/ws')),'must use bridge');
       await page.screenshot({path:path.join(output,'session-'+report.sessions.length+'.png')});
       report.sessions.push(result);
       page.off('websocket',observeSocket);
