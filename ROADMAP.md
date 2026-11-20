@@ -212,3 +212,9 @@
 - Owner supplied confirmed Workers hostname `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` and reports HTTP 200 from `/healthz` (response body inferred from deployed code, not separately byte-checked).
 - Frontend configured to attempt WSS relay for HTTP-only publicly listed KiwiSDR receivers (when `ext_api > 0`). Receiver remains in-app on failure; normal station player unaffected. Cache bumped to v81.
 - **Acceptance limitation:** Cloudflare Agent could not test unauthorized WebSocket rejection or real SND playback. Before claiming end-to-end availability, test 403 origin rejection, 403 non-catalog receiver, a permitted WSS handshake, valid `SND` frames and actual audio from consenting receivers on Android and desktop. Avoid claiming all receivers work.
+
+
+### KiwiSDR Cloudflare Worker source synchronization — 2026-11-20
+- Cloudflare Agent reported live Worker version `3e349979-4861-4f78-aa7d-8dc1fdc42b56` deployed at 10:36:08Z with four code corrections: handshake abort timer cleared after connection, fail-closed ext_api, counter sweep and structured error types (403/429/502/503). These are synchronized into `proxy/kiwi-worker.js` with updated unit tests.
+- Independent Github Actions live Worker tests previously returned 200/403/403/426. The latest Cloudflare Agent reported zero events in its observability view, which contradicts known CI requests; investigate query window/sampling before drawing conclusions.
+- Live WebSocket 101, real SND frames, actual audible receiver playback and comprehensive SSRF protections remain **unverified**. Do not mark end-to-end playback as complete.
