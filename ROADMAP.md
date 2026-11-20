@@ -200,3 +200,9 @@
 
 
 - إصدار Radio Atlas: نشر تغييرات `main` لا يُعيد الزحف الكامل للكتالوج، ويُنفّذ مباشرة بعد فحص الصياغة؛ تحديث المحطات اليومي وSDR كل 6 ساعات والتحديث اليدوي `all/stations/sdr` مستمرون. القبول النهائي مشروط بتحقق `build-info.json` وبصمات الملفات المنشورة.
+
+
+### KiwiSDR WSS relay infrastructure — 2026-11-20
+- Cloudflare Worker `proxy/kiwi-worker.js` added as a separate, **not deployed** service. It restricts WebSocket upstreams to the published Kiwi catalogue's opted-in `ext_api` receivers, checks Origin/receiver URL and disallows explicit private/local hostnames.
+- Deployment gated on user Cloudflare Worker hosting, a verified `/healthz`, an actual end-to-end public receiver audio test, a production WAF / stronger global quota policy, and a separate frontend `KIWI_WS_RELAY` activation PR.
+- Existing `proxy/worker.js` continues to serve regular audio relay independently. Static Pages cannot host the Kiwi Worker.
