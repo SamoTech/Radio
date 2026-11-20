@@ -63,6 +63,7 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
       page.on('websocket',socket=>sockets.push(socket.url()));
       await page.evaluate(r=>{
         const button=document.createElement('button');button.id='kiwi-qa-start';button.textContent='Start audio QA';
+        button.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
         button.onclick=()=>RA_MODULES.sdr.openKiwiAudio(r.url,r.name);document.body.append(button);
       },receiver);
       await page.locator('#kiwi-qa-start').click();

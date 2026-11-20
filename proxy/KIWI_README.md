@@ -56,7 +56,7 @@ For strict fleet-wide quotas, use Cloudflare's available global rate-limiting/co
 
 The regular **Radio Atlas Mobile Browser QA** workflow runs `scripts/kiwi_audio_qa.cjs` in recorded mode against the actual app in Chromium. This exercises binary protocol parsing, PCM scheduling and browser audio output with a captured Kiwi SND fixture; it does not establish receiver or deployed Worker availability.
 
-Use the manual **Radio Atlas KiwiSDR Live Audio QA** workflow for live verification through the public Worker. Its optional `receivers` input is a JSON array of catalogue URLs; absent that input it selects three eligible catalogue receivers. Live runs are serialized and are not triggered on every PR, to avoid unnecessarily occupying operators' receiver slots. Each run uploads its JSON measurements and screenshots under the `radio-atlas-kiwi-live-audio-evidence` artifact.
+Use the **Radio Atlas KiwiSDR Live Audio QA** workflow for live verification through the public Worker. Its optional `receivers` input is a JSON array of catalogue URLs; absent that input the workflow tests its three configured catalogue receivers (`ea8bfk.ddns.net:8073`, `websdr.heppen.be:8073`, and `kiwisdr.dfm.hu`). Live runs are serialized and triggered only manually or when a PR edits `.github/workflows/kiwi-live-audio-qa.yml`, to avoid unnecessarily occupying operators' receiver slots on unrelated PRs. Any selected receiver failure fails the run; none is silently skipped. Each run uploads its JSON measurements and screenshots under the `radio-atlas-kiwi-live-audio-evidence` artifact.
 
 For a minimal local reproduction, serve the checkout at the permitted development origin and run:
 

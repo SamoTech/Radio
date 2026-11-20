@@ -23,7 +23,11 @@ Status: **INCOMPLETE / pending runtime gates**. P1–P3 have not started.
 | Other live attempts | Cortland `71.127.178.35`, `oh1rj.proxy.kiwisdr.com`, `23175.proxy.kiwisdr.com`, `mtkiwi.proxy.kiwisdr.com`: no completed WebSocket handshake; client emitted `WebSocket was closed before the connection was established` / close 1006 after timeout |
 | Production app via cloud browser | EA8BFK player reached explicit connection-failed status; production still contains old binary-control bug |
 | Local Chromium | Launch blocked: `socket() failed: Operation not permitted (1)`; headless-shell download returned HTTP 403 `Site Unavailable` |
-| Browser/PWA/Lighthouse and hardened Worker deployment | Pending; no claim of successful production playback |
+| Chromium Browser QA | 21 PASS in CI run 44762345891 |
+| Chromium PWA Upgrade QA | 9 PASS in CI run 44762345891 |
+| Lighthouse accessibility | 92 in Validate run 44762346050 |
+| Recorded Kiwi browser smoke | Initial run blocked before playback by quick-bar overlay on test-only trigger; trigger position fixed, rerun pending |
+| Hardened Worker deployment | Pending; no claim of successful production playback |
 
 The transport probe used a WebSocket client with site Origin, auth, compression disabled, AR negotiation and 10000 kHz AM tuning. It is **not** evidence of physical speaker output. `tests/fixtures/kiwi-snd-recording.json` contains only captured SND packets and receiver/rate/time metadata (no client IP or receiver configuration messages).
 
@@ -49,7 +53,7 @@ Run the full live pipeline through the deployed bridge against three catalog-lis
 KIWI_QA_LIVE=1 KIWI_QA_RECEIVERS='["http://ea8bfk.ddns.net:8073/","http://71.127.178.35:8073/","http://oh1rj.proxy.kiwisdr.com/"]' node scripts/kiwi_audio_qa.cjs
 ```
 
-This exits nonzero if any session lacks nonzero decoded PCM **and** nonzero AnalyserNode output with a running AudioContext and playing HTMLAudioElement. Reports and screenshots are written to `artifacts/kiwi-audio-qa/`. Recorded mode does not allocate receiver slots; live mode does. These are distinct evidence categories. The manual `Radio Atlas KiwiSDR Live Audio QA` workflow provides the same live command; regular Browser QA includes recorded mode.
+This exits nonzero if any session lacks nonzero decoded PCM **and** nonzero AnalyserNode output with a running AudioContext and playing HTMLAudioElement. Reports and screenshots are written to `artifacts/kiwi-audio-qa/`. Recorded mode does not allocate receiver slots; live mode does. These are distinct evidence categories. The `Radio Atlas KiwiSDR Live Audio QA` workflow runs manually or when its own workflow file changes (three receiver slots maximum per run), with EA8BFK, Heppen and DFM as defaults; regular Browser QA includes recorded mode.
 
 ## Remaining completion gates
 
