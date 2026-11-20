@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T07:02:06+00:00",
+ "updated": "2026-11-20T20:01:38+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 320,
+ "count": 323,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,26 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -284,16 +304,6 @@
    "https": false
   },
   {
-   "id": 3010,
-   "name": "BV2DQ /WJ2I Beam Taiwan",
-   "loc": "PL04pv · VHF / UHF",
-   "lat": 24.894,
-   "lng": 121.274,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/3010/",
-   "https": false
-  },
-  {
    "id": 1187,
    "name": "Campus Borsbeek",
    "loc": "JO21fe · VHF",
@@ -371,6 +381,16 @@
    "lng": 127.333,
    "alt": 60,
    "url": "https://network.satnogs.org/stations/4643/",
+   "https": false
+  },
+  {
+   "id": 1729,
+   "name": "CSPDHQ",
+   "loc": "JN95vf · VHF / UHF",
+   "lat": 45.239,
+   "lng": 19.809,
+   "alt": 85,
+   "url": "https://network.satnogs.org/stations/1729/",
    "https": false
   },
   {
@@ -981,6 +1001,16 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1644,6 +1674,16 @@
    "https": false
   },
   {
+   "id": 5299,
+   "name": "mpippins",
+   "loc": "DN06jg · VHF / UHF",
+   "lat": 46.2708,
+   "lng": -119.2083,
+   "alt": 120,
+   "url": "https://network.satnogs.org/stations/5299/",
+   "https": false
+  },
+  {
    "id": 4828,
    "name": "MuthSatNOGS1",
    "loc": "LL75qh · VHF",
@@ -1791,26 +1831,6 @@
    "lng": 23.648095,
    "alt": 48,
    "url": "https://network.satnogs.org/stations/5026/",
-   "https": false
-  },
-  {
-   "id": 5264,
-   "name": "Norfolk - Back Yard",
-   "loc": "FM16vu · VHF",
-   "lat": 36.85663,
-   "lng": -76.17929,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/5264/",
-   "https": false
-  },
-  {
-   "id": 5267,
-   "name": "Norfolk - Back Yard UHF",
-   "loc": "FM16vu · UHF",
-   "lat": 36.85663,
-   "lng": -76.17929,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/5267/",
    "https": false
   },
   {
@@ -1964,6 +1984,16 @@
    "https": false
   },
   {
+   "id": 5256,
+   "name": "ONBSPACE x ASCL",
+   "loc": "PM36qj · UHF",
+   "lat": 36.375,
+   "lng": 127.33722222,
+   "alt": 63,
+   "url": "https://network.satnogs.org/stations/5256/",
+   "https": false
+  },
+  {
    "id": 4934,
    "name": "Paolo IT9IPQ",
    "loc": "JM78sd · VHF / UHF",
@@ -2001,6 +2031,16 @@
    "lng": 3.8236,
    "alt": 0,
    "url": "https://network.satnogs.org/stations/2154/",
+   "https": false
+  },
+  {
+   "id": 431,
+   "name": "PE0SAT-11",
+   "loc": "JO21mr · UHF",
+   "lat": 51.721268,
+   "lng": 5.029968,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/431/",
    "https": false
   },
   {
@@ -2731,16 +2771,6 @@
    "lng": -123.31053,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3166/",
-   "https": false
-  },
-  {
-   "id": 2968,
-   "name": "UX5UL",
-   "loc": "KO50ei · UHF",
-   "lat": 50.359,
-   "lng": 30.388,
-   "alt": 200,
-   "url": "https://network.satnogs.org/stations/2968/",
    "https": false
   },
   {
