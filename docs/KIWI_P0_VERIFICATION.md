@@ -1,41 +1,80 @@
-# KiwiSDR P0 — implementation and verification, 2026-11-20
+# KiwiSDR P0 verification — 2026-11-20
 
-Status: **INCOMPLETE / pending runtime gates**. P1–P3 have not started.
+Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. P1–P3 have not started.
 
-## Changes
+## Deployment provenance
 
-- Native client recognizes binary `MSG` controls, waits for successful auth and `audio_rate`, negotiates the actual AudioContext output rate, rejects compressed/IQ payloads, and handles PCM endian flags.
-- Failure closes the socket/context and keepalive. Read-only `kiwiDiagnostics()` exposes frame/sample counts for QA, with no audio upload or persistent telemetry.
-- Worker enforces catalogue origin opt-in, public hostname/address checks, fresh A/AAAA DNS verification, no redirects, bounded attempt/concurrency/command/frame limits and session cleanup. See `proxy/KIWI_README.md` for exact limits and remaining DNS TOCTOU/isolate-local restrictions.
-- Service Worker v82. No framework, backend, database, content-policy or catalog-storage changes.
+The owner reports deploying repository commit `5dbdbd720f42ae380c7e93dd78f0b7530e91fd18` through the Cloudflare Workers API:
 
-## Observed evidence
-
-| Check | Result |
+| Field | Value |
 | --- | --- |
-| Native Kiwi tests | 8 passed, including captured PCM and binary handshake lifecycle |
-| Worker tests | 20 passed; mocked Cloudflare WebSocket lifecycle, DNS and abuse cases |
-| JS suite | 90 passed |
-| Python suite | 125 passed |
-| Existing deployed bridge checks | 4 passed: health, Origin, catalog rejection, missing upgrade |
-| Local sitemap audit | 160 URLs, no issues; GSC not verified |
-| EA8BFK via deployed WSS bridge | Auth successful, audio_rate 12000, tune sent; 32 decoded PCM frames / 7,670 nonzero samples |
-| Other live attempts | Cortland `71.127.178.35`, `oh1rj.proxy.kiwisdr.com`, `23175.proxy.kiwisdr.com`, `mtkiwi.proxy.kiwisdr.com`: no completed WebSocket handshake; client emitted `WebSocket was closed before the connection was established` / close 1006 after timeout |
-| Production app via cloud browser | EA8BFK player reached explicit connection-failed status; production still contains old binary-control bug |
-| Local Chromium | Launch blocked: `socket() failed: Operation not permitted (1)`; headless-shell download returned HTTP 403 `Site Unavailable` |
-| Chromium Browser QA | 21 PASS, including Arabic/English, navigation, real HTML audio, fallback, offline and layout at 320–1280px; run 44765192083 |
-| Chromium PWA Upgrade QA | 9 PASS; run 44765192083 |
-| Lighthouse accessibility | 92; Validate green (including run 44765192047) |
-| Recorded Kiwi browser smoke | PASS: 5 PCM frames, 1,190 nonzero samples, 12000 Hz; running AudioContext, playing element and nonzero graph output; run 44765192083 |
-| Live Chromium | PASS for both selected active receivers: EA8BFK 5 frames / 1,189 nonzero samples; Heppen 5 frames / 1,188 nonzero samples. Running contexts, playing elements and nonzero graph output; run 44763385912 |
-| Initial three-receiver live run | EA8BFK and Heppen passed; DFM failed at 20s with 0 frames / context closed. Overall run 44762784484 failed; no selected receiver was skipped. |
-| Hardened Worker deployment | Pending; no claim of successful production playback |
+| Worker | `radio-atlas-kiwi-bridge` |
+| Version | `2dbe0921-40bc-47f2-8425-11506c5da4a4` |
+| Deployment | `c066198f-3126-4ee3-aa56-7dffd25c851a` |
+| Deployed UTC | `2026-11-20T16:05:22.228585Z` |
+| Main module | `kiwi-worker.js` |
+| Source size | 14,224 bytes |
+| Source SHA256 | `ea1ad562d179d8c0faba11cb13d8e5692cb74df70586e3d5db4b3273fcd69496` |
+| Rollback version | `3e349979-4861-4f78-aa7d-8dc1fdc42b56` |
+| Compatibility date | `2025-09-01` |
+| Configuration | No bindings; workers.dev enabled; previews disabled; observability sampling 1 |
 
-The transport probe used a WebSocket client with site Origin, auth, compression disabled, AR negotiation and 10000 kHz AM tuning. It is **not** evidence of physical speaker output. `tests/fixtures/kiwi-snd-recording.json` contains only captured SND packets and receiver/rate/time metadata (no client IP or receiver configuration messages).
+The owner computed the same hash from supplied bytes and authenticated `content/v2` read-back. This session did not independently query that authenticated API; the external observations below are separate runtime evidence.
 
-## Reproduce browser audio verification
+## Post-deployment runtime evidence
 
-Install ephemeral test dependencies and start a static server in the checkout:
+Raw observations: [machine-readable evidence](evidence/kiwi-worker-2026-11-20-postdeploy.json).
+
+| Check | Observed result |
+| --- | --- |
+| Existing live HTTP suite | 4 PASS: health 200/body `ok`, foreign Origin 403, unlisted receiver 403, missing upgrade 426 |
+| Private/local destinations | 6 probes rejected with 400: loopback, RFC1918, metadata/link-local, IPv6 loopback and localhost |
+| Oversized client command | 4,097-byte text message closed with code 1008 / `Client message limit` |
+| Cleanup/reconnection | A fresh session succeeded after the held sessions closed |
+| EA8BFK transport | Auth successful; 32 PCM frames / 7,672 nonzero samples at 12,000 Hz |
+| Heppen transport | Auth successful; 32 PCM frames / 7,675 nonzero samples at 12,000 Hz |
+| POST WebSocket | Cloudflare edge rejected with 400; the Worker's 405 branch was not independently reached |
+| Concurrent-session ceilings | NOT VERIFIED across the service: three simultaneous sessions were accepted. Isolate identity and Worker-observed IP attribution were unavailable |
+| Request-rate ceiling / Retry-After | NOT VERIFIED live: bounded unauthorized-host probe stopped after 6 requests over 33,467 ms, all 403; no 429 was observed |
+
+The bounded unauthorized-host probe allocated no receiver slots. The concurrency probe did not establish that its connections shared a Worker isolate or the same Worker-observed IP; it must not be presented as a successful global-cap test. Quotas are explicitly isolate-local, not global.
+
+## Live browser audio after hardening
+
+GitHub Actions run `44763385912`, attempt **2**, job `136405182087` completed successfully after deployment. Measurements were logged at `2026-11-20T16:15:27Z` and `16:15:28Z`. Artifact ID: `14647692047`.
+
+| Receiver | PCM frames | Samples | Nonzero samples | PCM Hz | Context | Element / graph |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| `http://ea8bfk.ddns.net:8073/` | 5 | 1,200 | 1,192 | 12,000 | running | playing / nonzero output |
+| `http://websdr.heppen.be:8073/` | 5 | 1,200 | 1,191 | 12,000 | running | playing / nonzero output |
+
+The rerun uses earlier QA commit `68472754af2d33975ffed0d369bb4be07dcaf300`; its native player module bytes were compared with deployed frontend commit `5dbdbd72` and are identical (SHA256 `dff0c3a6961bfcff4e5b6ef2e37113f87ccda50e40556b13cd9fe16367d40b8f`). These are real Worker/receiver connections, not the recorded fixture.
+
+The actual production website was also exercised with fresh connections after Worker deployment:
+
+- EA8BFK reached live status with an unmuted, playing audio element and readyState 4. Playback advanced from 21.738 to 28.282 seconds after tuning to 10,000 kHz.
+- Heppen reached live status with an unmuted, playing element, readyState 4 and currentTime 15.404 seconds.
+- Both sessions were closed through the application controls after evidence collection.
+
+Playback/graph measurements are not a claim that a human listened to physical speakers.
+
+## Regression evidence
+
+| Suite | Result |
+| --- | --- |
+| JS unit suite, rerun after Worker deployment | 90 PASS, including 8 native Kiwi and 20 mocked Worker tests |
+| Python suite, rerun after Worker deployment | 125 PASS |
+| Browser QA / PWA Upgrade QA on unchanged application source | 21 / 9 PASS; run `44765192083` |
+| Recorded Kiwi Chromium smoke | PASS; run `44765192083` |
+| Lighthouse accessibility | 92; Validate green |
+| Initial frontend deployment / provenance | Commit `5dbdbd72`, Service Worker v82 and nine public assets verified; SDR module additionally hash-matched |
+| Local sitemap audit | 160 URLs, no source issues; GSC not verified |
+
+The recorded fixture contains 32 captured Kiwi SND packets and receiver/rate/time metadata only. Earlier checks before the frontend repair failed; those historical failures do not describe the current published player. The initial three-receiver run `44762784484` also recorded DFM timing out after 20 seconds with zero frames; that failure was not silently skipped. Subsequent two-receiver runs explicitly selected the two confirmed active receivers.
+
+## Reproduction
+
+Install ephemeral QA dependencies and serve the checkout in one terminal:
 
 ```sh
 npm install --no-save --no-package-lock playwright@1.62.1
@@ -43,25 +82,23 @@ npx playwright install --with-deps chromium
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-In another terminal, exercise the actual client graph using captured Kiwi audio:
+Recorded smoke in another terminal:
 
 ```sh
 node scripts/kiwi_audio_qa.cjs
 ```
 
-Run the full live pipeline through the deployed bridge against the two receivers verified active in Chromium:
+Live smoke, allocating receiver slots sequentially:
 
 ```sh
 KIWI_QA_LIVE=1 KIWI_QA_RECEIVERS='["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]' node scripts/kiwi_audio_qa.cjs
 ```
 
-This exits nonzero if any session lacks nonzero decoded PCM **and** nonzero AnalyserNode output with a running AudioContext and playing HTMLAudioElement. Reports and screenshots are written to `artifacts/kiwi-audio-qa/`. Recorded mode does not allocate receiver slots; live mode does. These are distinct evidence categories. The `Radio Atlas KiwiSDR Live Audio QA` workflow is manual-only (three receiver slots maximum per run; the initial audit used a temporary PR trigger, removed after the successful two-receiver live run), with EA8BFK and Heppen as defaults after the observed DFM timeout; regular Browser QA includes recorded mode.
+The manual `Radio Atlas KiwiSDR Live Audio QA` workflow runs the same test. Every selected receiver must produce nonzero PCM and nonzero graph output, with a running context and playing audio element. Reports/screenshots are saved to `artifacts/kiwi-audio-qa/`. Recorded success cannot substitute for live verification.
 
-To reproduce the third-receiver failure, set `KIWI_QA_RECEIVERS='["http://kiwisdr.dfm.hu/"]'` with `KIWI_QA_LIVE=1` and run the same script. No selected receiver is skipped. Human speaker audibility is still not established by headless CI.
+## Remaining limits and acceptance
 
-## Remaining completion gates
-
-1. All source regression gates above are green on `f1afe3944e092a127ab0406169a4fb83acf43e5e`; subsequent changes in this PR only finalize documentation. The browser harness waits for full catalog/stream-check rendering, finds its fixture through real UI search, and observes mocked socket URLs at the route handler.
-2. The two-receiver live run is green. Repeat after deploying the hardened Worker, preserving the failed three-receiver result above; receiver availability and ext_api permissions must be honored.
-3. Deploy the hardened Worker separately and recheck its live security/runtime behavior. No new secret/binding is required; this session has no Cloudflare deployment connector or authenticated CLI credential.
-4. Merge through a reviewed green PR, verify Validate on main and production provenance, then check audible output in the published app. Human listening confirmation must be reported separately from graph measurements.
+- Exact request/concurrency ceilings, private/mixed DNS-answer rejection, redirect rejection, isolate-wide 32-session ceiling and 30-minute session timeout are not all proven by induced public runtime tests. Source/mocked-test evidence is identified separately.
+- DNS preflight mitigates rebinding but `fetch` resolves again; no IP pinning or complete TOCTOU protection is claimed.
+- No global rate/concurrency enforcement is claimed. Accepting three test sessions is preserved in the evidence.
+- Human listening is unconfirmed. P0 is not marked complete and P1–P3 have not started.
