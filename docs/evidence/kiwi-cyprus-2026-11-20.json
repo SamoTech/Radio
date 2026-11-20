@@ -43,7 +43,7 @@
     "error": "Cloud browser HTTP2 protocol error followed by URL policy denial for direct receiver interface. No bypass attempted."
   },
   "human_audibility": "NOT VERIFIED",
-  "regression_runtime": "See PR #150 for final regression results and immutable CI run references. Attempts below retain measured failures as well as successes.",
+  "regression_runtime": "PASS: native audio controls, automatic recovery without a fresh gesture, mobile AR/EN, Browser QA, PWA Upgrade QA and Validate. Production publication is separately verified after merge.",
   "qa_attempts": [
     {
       "commit": "76f13091e0f16df2f2dc21416db3d18adf8cbdbb",
@@ -80,6 +80,93 @@
       "pwa_upgrade_checks_passed": 9,
       "recorded_controls": "FAIL: test expected gain label65 but UI correctly displayed65 dB. Assertion corrected; no product change.",
       "live_artifact_id": 14669471958
+    },
+    {
+      "commit": "0943099a20a7dc9406a3179c1b7fcea79e2f787c",
+      "validate_run": 44815926114,
+      "browser_run": 44815926134,
+      "validate": "PASS",
+      "js_tests_passed": 102,
+      "kiwi_native_tests_passed": 20,
+      "python_tests_passed": 125,
+      "lighthouse_accessibility": 92,
+      "browser_checks_passed": 21,
+      "pwa_upgrade_checks_passed": 9,
+      "recorded": {
+        "receiver": "http://ea8bfk.ddns.net:8073/",
+        "controls": {
+          "observations": [
+            "frequency step up/down tuned the active receiver",
+            "mode and passband changes reached the receiver",
+            "AGC, manual gain and squelch reached the receiver with numeric feedback",
+            "previous/next replace the socket and preserve tuning and volume",
+            "receiver selector switches between approved receivers without losing volume",
+            "reconnect reapplies selected mode, frequency, gain and squelch",
+            "last successful receiver restores saved tuning and volume",
+            "automatic retry recovers nonzero Web Audio after code 1011 without a new click",
+            "S-meter and full receiver link reflect active tuning"
+          ],
+          "signal": "-127.0 dBm",
+          "external": "http://ea8bfk.ddns.net:8073/?f=7100.000usbz5",
+          "connections": 8,
+          "automaticRetry": {
+            "contextState": "running",
+            "retries": 1,
+            "receiver": "http://ea8bfk.ddns.net:8073/",
+            "frames": 5,
+            "samples": 1200,
+            "nonZeroSamples": 1190,
+            "sampleRate": 12000,
+            "signalDbm": -89.6
+          }
+        },
+        "mobileAr": {
+          "dir": "rtl",
+          "width": 390,
+          "documentWidth": 390,
+          "modalWidth": 368,
+          "contentWidth": 368,
+          "overflow": []
+        },
+        "mobileEn": {
+          "dir": "ltr",
+          "width": 390,
+          "documentWidth": 390,
+          "modalWidth": 368,
+          "contentWidth": 368,
+          "overflow": []
+        },
+        "status": "PASS",
+        "diagnostics": {
+          "contextState": "running",
+          "retries": 0,
+          "receiver": "http://ea8bfk.ddns.net:8073/",
+          "frames": 6,
+          "samples": 1440,
+          "nonZeroSamples": 1430,
+          "sampleRate": 12000,
+          "signalDbm": -89.6
+        },
+        "uiStatus": "Receiving ✔",
+        "sockets": [
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F"
+        ]
+      },
+      "artifact_ids": {
+        "browser": 14668374894,
+        "pwa": 14668954753,
+        "recorded": 14668094932
+      },
+      "live_audio": "PASS from identical sdr.mjs source in earlier run44815552201; subsequent changes only QA/docs and temporary trigger removal."
     }
-  ]
+  ],
+  "sdr_sha256": "1ef6d844b5fc83b0baed151dcced318324c1ee6f768d8f886a2c3416648a97f5"
 }
