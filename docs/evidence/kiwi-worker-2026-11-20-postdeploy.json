@@ -1,0 +1,262 @@
+{
+  "checked_at_utc": "2026-11-20T16:17:13.801586+00:00",
+  "deployment_reported_by_owner": {
+    "worker": "radio-atlas-kiwi-bridge",
+    "version": "2dbe0921-40bc-47f2-8425-11506c5da4a4",
+    "deployment": "c066198f-3126-4ee3-aa56-7dffd25c851a",
+    "deployed_at_utc": "2026-11-20T16:05:22.228585Z",
+    "source_commit": "5dbdbd720f42ae380c7e93dd78f0b7530e91fd18",
+    "source_sha256": "ea1ad562d179d8c0faba11cb13d8e5692cb74df70586e3d5db4b3273fcd69496",
+    "source_readback_note": "Hash/version reported by owner from authenticated Cloudflare API; not independently retrieved through that API here."
+  },
+  "local_regression_tests": {
+    "js_pass": 90,
+    "python_pass": 125,
+    "native_kiwi_pass": 8,
+    "worker_mock_pass": 20,
+    "live_bridge_basic_pass": 4
+  },
+  "transport_probes": [
+    {
+      "receiver": "http://ea8bfk.ddns.net:8073/",
+      "messages": [
+        "MSG badp=0",
+        "MSG audio_init=0 audio_rate=12000"
+      ],
+      "frames": 32,
+      "nonzero": 7672,
+      "open": true,
+      "close": {
+        "code": 1000,
+        "reason": "Client closed"
+      }
+    },
+    {
+      "receiver": "http://websdr.heppen.be:8073/",
+      "messages": [
+        "MSG badp=0",
+        "MSG audio_init=0 audio_rate=12000"
+      ],
+      "frames": 32,
+      "nonzero": 7675,
+      "open": true,
+      "close": {
+        "code": 1000,
+        "reason": "Client closed"
+      }
+    }
+  ],
+  "http_probes": [
+    {
+      "receiver": "http://127.0.0.1/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "http://10.0.0.1/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "http://169.254.169.254/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "http://192.168.1.1/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "http://[::1]/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "http://localhost/",
+      "method": "GET",
+      "status": 400,
+      "retryAfter": null,
+      "body": "Invalid receiver"
+    },
+    {
+      "receiver": "https://example.com/",
+      "method": "POST",
+      "status": 400,
+      "retryAfter": null,
+      "body": "<html>\r\n<head><title>400 Bad Request</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<hr><center>cloudflare</center>\r\n</body>\r\n</html>\r\n"
+    }
+  ],
+  "concurrency_and_frame_probes": [
+    {
+      "label": "holder-1",
+      "frames": 1,
+      "upgraded": true,
+      "ready": true
+    },
+    {
+      "label": "holder-2",
+      "frames": 1,
+      "upgraded": true,
+      "ready": true
+    },
+    {
+      "label": "third-concurrent",
+      "frames": 1,
+      "upgraded": true,
+      "ready": true
+    },
+    {
+      "label": "after-release",
+      "frames": 1,
+      "upgraded": true,
+      "ready": true
+    },
+    {
+      "label": "oversized-client-command",
+      "code": 1008,
+      "reason": "Client message limit"
+    },
+    {
+      "concurrencyRejected": false,
+      "reservationReused": true
+    }
+  ],
+  "bounded_rate_probe": [
+    {
+      "attempt": 1,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "attempt": 2,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "attempt": 3,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "attempt": 4,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "attempt": 5,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "attempt": 6,
+      "receiver": "https://example.com/",
+      "method": "GET",
+      "status": 403,
+      "retryAfter": null,
+      "body": "Receiver is not approved for external API connections"
+    },
+    {
+      "limited": false,
+      "attempts": 6,
+      "elapsedMs": 33467
+    }
+  ],
+  "live_browser_run": {
+    "run_id": 44763385912,
+    "job_id": 136405182087,
+    "status": "PASS",
+    "native_module_sha256": "dff0c3a6961bfcff4e5b6ef2e37113f87ccda50e40556b13cd9fe16367d40b8f",
+    "source_equivalence": "Rerun uses earlier QA commit68472754; native sdr.mjs bytes match deployed frontend commit5dbdbd72 exactly.",
+    "attempt": 2,
+    "artifact_id": 14647692047,
+    "results": [
+      {
+        "time_utc": "2026-11-20T16:15:27.1404764Z",
+        "receiver": "http://ea8bfk.ddns.net:8073",
+        "status": "PASS",
+        "diagnostics": {
+          "contextState": "running",
+          "frames": 5,
+          "samples": 1200,
+          "nonZeroSamples": 1192,
+          "sampleRate": 12000
+        },
+        "uiStatus": "\u064a\u0633\u062a\u0642\u0628\u0644 \u2714",
+        "sockets": [
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F"
+        ]
+      },
+      {
+        "time_utc": "2026-11-20T16:15:28.8102756Z",
+        "receiver": "http://websdr.heppen.be:8073",
+        "status": "PASS",
+        "diagnostics": {
+          "contextState": "running",
+          "frames": 5,
+          "samples": 1200,
+          "nonZeroSamples": 1191,
+          "sampleRate": 12000
+        },
+        "uiStatus": "\u064a\u0633\u062a\u0642\u0628\u0644 \u2714",
+        "sockets": [
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fwebsdr.heppen.be%3A8073%2F"
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Three concurrent sessions were accepted. Isolate identity and Worker-observed source IP attribution were unavailable; the per-isolate ceiling is not proven across the service.",
+    "Rate probe sent only6 unauthorized requests in33467ms and stopped at its time budget; rate threshold/Retry-After were NOT VERIFIED live.",
+    "POST WebSocket was rejected by Cloudflare edge with400; Worker405 handler was not independently reached.",
+    "Private/mixed DNS answers, redirect rejection, isolate32 ceiling and30min session timeout remain source/mocked-test evidence, not induced public runtime cases.",
+    "Physical speaker output / human listening not confirmed."
+  ],
+  "postdeploy_production_browser": {
+    "site": "https://samotech.github.io/Radio/",
+    "fresh_connections_after_deployment": true,
+    "EA8BFK": {
+      "ui_status": "\u064a\u0633\u062a\u0642\u0628\u0644 \u2714",
+      "paused": false,
+      "muted": false,
+      "readyState": 4,
+      "currentTime_before_tune": 21.738479,
+      "frequency_khz_after_tune": 10000,
+      "currentTime_after_tune": 28.281552
+    },
+    "Heppen": {
+      "ui_status": "\u064a\u0633\u062a\u0642\u0628\u0644 \u2714",
+      "paused": false,
+      "muted": false,
+      "readyState": 4,
+      "currentTime": 15.404232
+    },
+    "cleanup": "Both sessions closed using the application modal close control.",
+    "human_listening": "NOT VERIFIED"
+  }
+}
