@@ -22,7 +22,7 @@ var STR_SDR = {
     free_only: 'فيه مكان فاضي',
     snr_min: 'SNR ≥',
     https_only: 'شغال داخل التطبيق',
-    sdr_hint: '🎧 الاستماع داخل التطبيق متاح لأجهزة HTTPS فقط (قيود أمان المتصفح) — الأجهزة التي على HTTP تفتح في نافذة جديدة.',
+    sdr_hint: '🎧 شغّل أجهزة KiwiSDR المسموح بها مباشرة من راديو أطلس. أجهزة HTTP تحتاج وسيط WebSocket منشور؛ وضع التشغيل يظهر بوضوح لكل جهاز.',
     no_band: 'غير محدد',
     no_match: 'مفيش نتائج مطابقة — جرب تخفف الفلاتر.',
     results: '{n} نتيجة',
@@ -61,7 +61,7 @@ var STR_SDR = {
     kiwi_audio: '🎧 صوت مباشر (تجريبي)',
     kiwi_connecting: 'جاري الاتصال بالجهاز…',
     kiwi_live: 'يستقبل ✔',
-    kiwi_failed: 'تعذر الصوت المباشر — فتحت واجهة الجهاز بدلاً منه',
+    kiwi_failed: 'تعذر الاتصال الصوتي بالجهاز — يمكن فتح صفحة الجهاز الأصلية عند الحاجة',
     kiwi_freq: 'التردد (kHz)',
     kiwi_mode: 'الوضع'
   },
@@ -80,7 +80,7 @@ var STR_SDR = {
     free_only: 'Has a free slot',
     snr_min: 'SNR ≥',
     https_only: 'Playable in-app',
-    sdr_hint: '🎧 In-app listening works for HTTPS receivers only (browser security) — HTTP receivers open in a new window.',
+    sdr_hint: '🎧 Listen to permitted KiwiSDR receivers directly in Radio Atlas. HTTP receivers need a deployed WebSocket relay; each receiver shows its available connection type.',
     no_band: 'Unspecified',
     no_match: 'No matching results — try lighter filters.',
     results: '{n} results',
@@ -120,7 +120,7 @@ var STR_SDR = {
     kiwi_audio: '🎧 Direct audio (beta)',
     kiwi_connecting: 'Connecting to the receiver…',
     kiwi_live: 'Receiving ✔',
-    kiwi_failed: 'Direct audio failed — opening the receiver web UI instead',
+    kiwi_failed: 'Could not connect to receiver audio — the original receiver page remains available',
     kiwi_freq: 'Frequency (kHz)',
     kiwi_mode: 'Mode'
   }
@@ -271,8 +271,8 @@ function cardRx(r) {
       ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
       : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
   }
-  if (r.url && r.https && r.extApi > 0) {
-    action += '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" title="' + esc(t('kiwi_audio')) + '">' + esc(t('kiwi_audio')) + '</button>';
+  if (r.url && r.extApi > 0 && (r.https || KIWI_WS_RELAY)) {
+    action = '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" title="' + esc(t('kiwi_audio')) + '">' + esc(t('kiwi_audio')) + '</button>' + action;
   }
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
@@ -601,121 +601,180 @@ function closeSDR() {
 
 
 
-/* ================= KiwiSDR WebSocket audio (experimental) ================= */
-
+/* ================= KiwiSDR native WebSocket audio ================= */
+// Set this only after the independently deployed Cloudflare WebSocket relay
+// is live and its /healthz check passes. GitHub Pages cannot proxy sockets.
+var KIWI_WS_RELAY = '';
 var kiwiWs = null;
 var kiwiAudioCtx = null;
 var kiwiGain = null;
 var kiwiNextTime = 0;
 var kiwiKeepAlive = null;
+var kiwiFailTimer = null;
+var kiwiSession = 0;
+var kiwiReady = false;
 
 function kiwiSetStatus(text) {
   var el = $('kiwi-status');
   if (el) el.textContent = text;
 }
 
+function kiwiSocketAddress(raw) {
+  var url;
+  try { url = new URL(raw); } catch (e) { return ''; }
+  if (!/^https?:$/.test(url.protocol) || !url.hostname || url.username || url.password) return '';
+  if (url.protocol === 'https:') {
+    return 'wss://' + url.host + '/' + Date.now() + '/SND';
+  }
+  if (!KIWI_WS_RELAY) return '';
+  try {
+    var relay = new URL(KIWI_WS_RELAY);
+    if (relay.protocol !== 'https:' || relay.username || relay.password) return '';
+    return 'wss://' + relay.host + '/kiwi/ws?receiver=' + encodeURIComponent(url.origin + '/');
+  } catch (e) { return ''; }
+}
+
+function kiwiTuneCommand() {
+  var freq = Number($('kiwi-freq').value);
+  if (!Number.isFinite(freq) || freq < 10 || freq > 30000) return '';
+  var mode = $('kiwi-mode').value.toLowerCase();
+  var cuts = {am:[-4900,4900],usb:[300,2900],lsb:[-2900,-300],cw:[-350,350]};
+  if (!cuts[mode]) return '';
+  return 'SET mod=' + mode + ' low_cut=' + cuts[mode][0] +
+    ' high_cut=' + cuts[mode][1] + ' freq=' + freq.toFixed(3);
+}
+
+function kiwiSendTune() {
+  var command = kiwiTuneCommand();
+  if (command && kiwiWs && kiwiWs.readyState === WebSocket.OPEN && kiwiReady) {
+    kiwiWs.send(command);
+  }
+}
+
 function closeKiwiAudio() {
+  kiwiSession++;
+  kiwiReady = false;
+  if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
   if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
   if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
   var audio = $('kiwi-audio');
   if (audio) { try { audio.pause(); audio.srcObject = null; } catch (e) {} }
+  if (kiwiAudioCtx) { try { kiwiAudioCtx.close(); } catch (e) {} kiwiAudioCtx = null; }
   kiwiGain = null;
+  kiwiNextTime = 0;
   var modal = $('kiwi-modal');
   if (modal) modal.hidden = true;
 }
 
-function kiwiFeedAudio(samples) {
-  // samples: Int16Array PCM at 11.025 kHz mono (KiwiSDR 'SET ar o-f s11').
+function kiwiFeedAudio(samples, sampleRate) {
   if (!kiwiAudioCtx || !kiwiGain || !samples.length) return;
   try {
-    var buffer = kiwiAudioCtx.createBuffer(1, samples.length, 11025);
+    var buffer = kiwiAudioCtx.createBuffer(1, samples.length, sampleRate);
     var channel = buffer.getChannelData(0);
     for (var i = 0; i < samples.length; i++) channel[i] = samples[i] / 32768;
     var source = kiwiAudioCtx.createBufferSource();
     source.buffer = buffer;
     source.connect(kiwiGain);
     var now = kiwiAudioCtx.currentTime;
-    if (kiwiNextTime < now + 0.05) kiwiNextTime = now + 0.05;
+    if (kiwiNextTime < now + 0.04 || kiwiNextTime > now + 0.75) kiwiNextTime = now + 0.06;
     source.start(kiwiNextTime);
     kiwiNextTime += buffer.duration;
-  } catch (e) {}
+  } catch (e) { console.warn('KiwiSDR audio:', e); }
+}
+
+// KiwiSDR sends SND frames: ASCII "SND", flags (1), sequence (4),
+// S-meter (2), then big-endian 16-bit PCM when compression is disabled.
+// Decoder explicitly rejects compressed frames and invalid packet tags.
+function kiwiDecodeSnd(buffer) {
+  if (!(buffer instanceof ArrayBuffer)) return null;
+  var bytes = new Uint8Array(buffer);
+  if (bytes.length <= 10 || bytes[0] !== 83 || bytes[1] !== 78 || bytes[2] !== 68) return null;
+  if ((bytes.length - 10) % 2 !== 0) return null;
+  var samples = new Int16Array((bytes.length - 10) / 2);
+  var view = new DataView(buffer);
+  for (var i = 0; i < samples.length; i++) samples[i] = view.getInt16(10 + i * 2, false);
+  return samples;
 }
 
 function openKiwiAudio(url, name) {
-  // Experimental direct audio over the KiwiSDR WebSocket protocol for
-  // HTTPS receivers whose operator allows API connections (ext_api > 0).
-  // Any failure falls back to the embedded receiver web UI (openSDR).
-  var parsed = null;
-  try { parsed = new URL(url); } catch (e) {}
-  if (!parsed || parsed.protocol !== 'https:') { openSDR(url, name); return; }
+  var socketUrl = kiwiSocketAddress(url);
+  if (!socketUrl) {
+    toast(t('kiwi_failed'));
+    return;
+  }
+  var tune = kiwiTuneCommand();
+  if (!tune) { kiwiSetStatus(t('kiwi_failed')); return; }
   closeKiwiAudio();
-  kiwiNextTime = 0;
+  var session = kiwiSession;
+  var sampleRate = 12000;
+  var gotSamples = false;
   $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
-  $('kiwi-open-ext').href = url;
+  $('kiwi-open-ext').href = safeHttpUrl(url) || '#';
   $('kiwi-modal').hidden = false;
   kiwiSetStatus(t('kiwi_connecting'));
   var audio = $('kiwi-audio');
-  var failed = false;
-  var failTimer = null;
   function fail() {
-    if (failed) return;
-    failed = true;
-    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
-    closeKiwiAudio();
+    if (session !== kiwiSession) return;
+    kiwiSetStatus(t('kiwi_failed'));
     toast(t('kiwi_failed'));
-    openSDR(url, name);
+    if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
+    if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
   }
   var Ctx = window.AudioContext || window.webkitAudioContext;
-  if (!Ctx) { fail(); return; }
+  if (!Ctx || !window.WebSocket) { fail(); return; }
   try {
     kiwiAudioCtx = new Ctx();
     kiwiGain = kiwiAudioCtx.createGain();
     var dest = kiwiAudioCtx.createMediaStreamDestination();
     kiwiGain.connect(dest);
     audio.srcObject = dest.stream;
-    audio.play().catch(function () {});
+    kiwiAudioCtx.resume().catch(function () {});
+    audio.play().catch(function () { kiwiSetStatus(t('kiwi_connecting')); });
   } catch (e) { fail(); return; }
-  failTimer = setTimeout(fail, 8000);
-  var ws = new WebSocket('wss://' + parsed.host + '/0');
+  var ws;
+  try { ws = new WebSocket(socketUrl); } catch (e) { fail(); return; }
   ws.binaryType = 'arraybuffer';
   kiwiWs = ws;
-  ws.onopen = function () { ws.send('SET auth t=1'); };
+  kiwiFailTimer = setTimeout(fail, 12000);
+  ws.onopen = function () {
+    if (session !== kiwiSession) return;
+    ws.send('SET auth t=kiwi p=');
+  };
   ws.onmessage = function (ev) {
+    if (session !== kiwiSession) return;
     if (typeof ev.data === 'string') {
       var msg = ev.data;
-      if (msg.indexOf('BAD_AUTH') !== -1 || msg.indexOf('MSG fault') !== -1) { fail(); return; }
-      if (msg.indexOf('MSG auth') !== -1) {
-        var freqEl = $('kiwi-freq');
-        var modeEl = $('kiwi-mode');
-        ws.send('SET freq ' + (Number(freqEl && freqEl.value) || 7100));
-        ws.send('SET mod ' + ((modeEl && modeEl.value) || 'am'));
-        ws.send('SET ar o-f s11');
-        ws.send('SET sound out buf_size=512');
+      if (/badp=[1-9]|too_busy|MSG down=|MSG fault|no_channels/i.test(msg)) { fail(); return; }
+      var rate = /(?:sample_rate|audio_rate)=([0-9.]+)/.exec(msg);
+      if (rate && Number(rate[1]) > 1000 && Number(rate[1]) < 96000) sampleRate = Number(rate[1]);
+      if (!kiwiReady && (/badp=0|audio_rate=|sample_rate=/.test(msg))) {
+        kiwiReady = true;
+        ws.send('SET compression=0');
+        ws.send('SET AR OK in=' + Math.round(sampleRate) + ' out=44100');
+        ws.send('SET squelch=0 max=0');
+        ws.send('SET ident_user=Radio%20Atlas');
+        ws.send('SET agc=1 hang=0 thresh=-100 slope=6 decay=1000 manGain=50');
+        ws.send(tune);
+        ws.send('SET keepalive');
       }
       return;
     }
-    if (!(ev.data instanceof ArrayBuffer)) return;
-    var bytes = new Uint8Array(ev.data);
-    if (bytes.length < 10) return;
-    var type = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
-    if (type !== 3) return;
-    if (failTimer) { clearTimeout(failTimer); failTimer = null; }
-    kiwiSetStatus(t('kiwi_live'));
-    var sampleLen = (bytes.length - 9) >> 1;
-    if (sampleLen <= 0) return;
-    var samples = new Int16Array(sampleLen);
-    for (var i = 0; i < sampleLen; i++) {
-      samples[i] = bytes[9 + i * 2] | (bytes[10 + i * 2] << 8);
+    if (!kiwiReady) return;
+    var samples = kiwiDecodeSnd(ev.data);
+    if (!samples || !samples.length) return;
+    if (!gotSamples) {
+      gotSamples = true;
+      if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
+      kiwiSetStatus(t('kiwi_live'));
     }
-    kiwiFeedAudio(samples);
+    kiwiFeedAudio(samples, sampleRate);
   };
-  ws.onerror = function () { fail(); };
-  ws.onclose = function () { if (!failed) fail(); };
+  ws.onerror = fail;
+  ws.onclose = function () { if (session === kiwiSession && !gotSamples) fail(); else if (session === kiwiSession) kiwiSetStatus(t('kiwi_failed')); };
   kiwiKeepAlive = setInterval(function () {
-    if (ws && ws.readyState === 1) ws.send('SET keepalive');
-  }, 30000);
+    if (session === kiwiSession && ws.readyState === WebSocket.OPEN) ws.send('SET keepalive');
+  }, 10000);
 }
-
 
 
 var API = { renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
@@ -766,10 +825,10 @@ export function boot() {
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
   $('kiwi-freq').addEventListener('change', function () {
-    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET freq ' + (Number(this.value) || 7100));
+    kiwiSendTune();
   });
   $('kiwi-mode').addEventListener('change', function () {
-    if (kiwiWs && kiwiWs.readyState === 1) kiwiWs.send('SET mod ' + this.value);
+    kiwiSendTune();
   });
 
 
