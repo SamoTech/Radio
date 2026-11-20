@@ -42,10 +42,11 @@
     <button id="saver-btn" class="ctrl" type="button" data-i18n-aria="saver_aria" title="🪫">🪫</button>
     <button id="install-btn" class="ctrl" type="button" data-i18n-aria="install_aria" hidden>📲</button>
   </div>
+  <div class="hero-kicker" aria-hidden="true"><span class="live-pulse"></span> RADIO ATLAS · GLOBAL LISTENING</div>
   <h1 data-i18n="app_title">📻 راديو أطلس</h1>
   <p data-i18n="tagline">دليل بحث ذكي لأجهزة الاستقبال ومحطات البث المتاحة أونلاين</p>
   <button id="hero-play" class="btn primary hero-play" type="button" data-i18n="hero_play" data-i18n-aria="hero_play_aria" hidden>▶ شغّل آخر محطة</button>
-  <nav class="tabs">
+  <nav class="tabs" aria-label="Radio Atlas sections">
     <button id="tab-fm" class="tab active" type="button" data-i18n="tab_fm">📻 محطات البث</button>
     <button id="tab-fav" class="tab" type="button" data-i18n="tab_fav">⭐ المفضلة</button>
     <button id="tab-ar" class="tab" type="button" data-i18n="tab_ar">🌍 عربي</button>
@@ -350,6 +351,7 @@
       <button id="kiwi-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
     </div>
   </div>
+  <p class="kiwi-explainer" lang="ar">استقبال مباشر داخل راديو أطلس · استخدم التردد والوضع لضبط الصوت · الاتصال حسب إتاحة الجهاز</p>
   <div class="kiwi-controls">
     <label class="check"><span data-i18n="kiwi_freq">التردد (kHz)</span> <input type="number" id="kiwi-freq" value="7100" min="10" max="30000" step="1" style="width:96px"></label>
     <label class="check"><span data-i18n="kiwi_mode">الوضع</span>
@@ -362,7 +364,7 @@
     </label>
     <span id="kiwi-status" class="kiwi-status"></span>
   </div>
-  <audio id="kiwi-audio" controls></audio>
+  <audio id="kiwi-audio" controls aria-label="KiwiSDR live audio"></audio>
 </div>
 
 <footer>

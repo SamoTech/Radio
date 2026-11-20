@@ -475,3 +475,88 @@ html[lang="en"] #station-directory-title [lang="ar"]{display:none}
   .mobile-home-preview .featured-row{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
   .mobile-home-preview .station-card{border-color:rgba(212,175,55,.35)}
 }
+
+
+/* Radio Atlas listening cockpit: responsive desktop and handheld experience. */
+:root{
+  --atlas-radius:22px;
+  --atlas-shadow:0 16px 48px rgba(0,0,0,.20);
+}
+body{
+  background:radial-gradient(ellipse 80vw 54vw at 50% -12%,rgba(212,175,55,.085),transparent 72%),var(--bg);
+  line-height:1.55;
+}
+.hero{
+  isolation:isolate;
+  padding:30px clamp(16px,4vw,64px) 22px;
+  background:linear-gradient(150deg,rgba(212,175,55,.1),transparent 48%),var(--panel);
+  border-bottom:1px solid var(--line);
+}
+.hero-kicker{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  direction:ltr;letter-spacing:.14em;font-size:.68rem;font-weight:800;color:var(--muted);
+  margin:8px auto 12px;
+}
+.live-pulse{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 5px color-mix(in srgb,var(--good) 16%,transparent)}
+.hero h1{font-size:clamp(1.85rem,3.2vw,3.25rem);letter-spacing:-.035em;line-height:1.24}
+.hero>p{max-width:660px;margin:12px auto 20px;line-height:1.8}
+.hero .tabs{
+  gap:7px;max-width:1120px;margin-inline:auto;
+  padding:8px;border:1px solid var(--line);border-radius:20px;
+  background:color-mix(in srgb,var(--bg) 55%,transparent);
+}
+.hero .tabs .tab{flex:1;min-width:110px;min-height:45px;border-radius:12px;font-weight:700;transition:background .18s,border-color .18s}
+main{width:min(100% - 32px,1480px);margin-inline:auto}
+main>section{animation:atlas-appear .22s ease-out}
+@keyframes atlas-appear{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.grid{gap:clamp(12px,1.6vw,22px)}
+.card,.station-card{
+  border-radius:var(--atlas-radius);
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  .card:hover,.station-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--atlas-shadow)}
+}
+#panel-sdr>.toolbar{border:1px solid var(--line);border-radius:18px;padding:12px;background:var(--panel)}
+#panel-sdr>.hint{max-width:900px;line-height:1.8}
+#grid-sdr .card{display:flex;flex-direction:column;gap:9px;min-width:0}
+#grid-sdr .card .open{min-height:44px;margin-top:auto}
+#grid-sdr .card .kiwi-ws{background:var(--accent);color:var(--accent-text);border:1px solid var(--accent)}
+#grid-sdr .card .kiwi-ws:focus-visible{outline-offset:3px}
+#kiwi-modal{
+  width:min(760px,calc(100vw - 24px));max-height:calc(100dvh - 24px);
+  inset-inline:50%;transform:translateX(50%);overflow-y:auto;border:1px solid var(--line);
+  border-radius:24px;padding:clamp(14px,3vw,25px);background:var(--panel);box-shadow:0 28px 100px rgba(0,0,0,.55)
+}
+#kiwi-modal .modal-head{gap:12px;align-items:center}
+#kiwi-modal .kiwi-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+#kiwi-modal .kiwi-controls .check{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+#kiwi-modal .kiwi-controls input,#kiwi-modal .kiwi-controls select{min-height:44px;width:110px;max-width:55%}
+#kiwi-modal .kiwi-status{grid-column:1/-1}
+#kiwi-modal .kiwi-explainer{color:var(--muted);font-size:.88rem;line-height:1.8}
+#kiwi-audio{display:block;width:100%;margin:14px 0 4px}
+@media(min-width:1080px){
+  .hero .controls{inset-inline-end:max(20px,calc((100vw - 1460px)/2))}
+  #panel-fm .grid,#grid-sdr{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .hero .stats{gap:14px}
+  .hero .stats .stat{min-width:140px;padding:14px 22px}
+}
+@media(max-width:720px){
+  .hero{padding:69px 12px 14px;border-radius:0}
+  .hero-kicker{font-size:.58rem;margin:0 auto 8px;letter-spacing:.08em}
+  .hero h1{font-size:clamp(1.55rem,6vw,2rem)}
+  .hero>p{margin:7px auto 12px}
+  .hero .tabs{padding:5px;gap:5px;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:thin}
+  .hero .tabs .tab{flex:0 0 auto;min-width:92px;min-height:44px;font-size:.8rem}
+  main{width:calc(100% - 20px)}
+  #grid-sdr{grid-template-columns:minmax(0,1fr)}
+  #kiwi-modal{inset:12px;width:calc(100% - 24px);transform:none;max-height:calc(100dvh - 24px);border-radius:18px}
+  #kiwi-modal .kiwi-controls{grid-template-columns:minmax(0,1fr)}
+  #kiwi-modal .kiwi-controls input,#kiwi-modal .kiwi-controls select{max-width:55%}
+  #kiwi-modal .modal-head{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){
+  main>section{animation:none}
+  .card,.station-card{transition:none}
+}
