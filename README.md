@@ -288,17 +288,17 @@ GitHub Pages deployment stamps a generated `build-info.json` with the exact depl
 Merges to `main` now publish the checked-out application without first crawling the entire station catalog. Catalog refresh policy is unchanged: stations update daily at 02:17 UTC, SDR every six hours at :11 UTC, and the `workflow_dispatch` action still supports `all`, `stations`, `sdr`. The upload and post-deploy provenance verifier run for both fast code deploys and scheduled data deploys, so a merge is **not** proof of a published release until the verifier passes.
 
 
-### KiwiSDR native playback and responsive listening cockpit (v82)
+### KiwiSDR native playback and responsive listening cockpit (v81)
 The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` WebSocket and Kiwi text commands with uncompressed big-endian PCM audio. The first real SND packet, rather than merely opening a WebSocket, confirms a playable receiver. Manual frequency/mode tuning, bounded audio buffering, audio-context cleanup, and operator API permissions are preserved. The optional Cloudflare WebSocket bridge remains disabled until separately deployed and verified; HTTP receivers cannot be played natively from a secure GitHub Pages context without that service. The original receiver URL remains accessible as a fallback. The responsive header, directory grid and Kiwi listening dialog have been updated for phone and desktop screens.
 
 
-### KiwiSDR Cloudflare relay activation (v82)
+### KiwiSDR Cloudflare relay activation (v81)
 Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` has been enabled and `/healthz` returned HTTP 200. HTTP KiwiSDR devices that advertise `ext_api > 0` now *attempt* the in-app secure WSS bridge; HTTPS devices connect directly. Failed connections stay in Radio Atlas, show a receiver error and retain a clearly labeled optional original-device link. The owner reported no successful real WebSocket or decoded audio test yet. `healthz` alone does **not** demonstrate working stream relaying. See `proxy/KIWI_README.md` for staged browser/audio verification and origin requirements.
 
 
 ### KiwiSDR bridge deployed Worker sync (November 20, 2026)
-Cloudflare Worker code in `proxy/kiwi-worker.js` tracks the Cloudflare AI Agent's deployed version `3e349979-4861-4f78-aa7d-8dc1fdc42b56`: handshake timeout limited to setup, missing/non-numeric `ext_api` denied, expired per-isolate rate counters pruned, and structured error codes distinguish forbidden origin, 429 rate limiting, and upstream errors. This does not constitute a verified end-to-end KiwiSDR audio session; real public receiver audio and mobile browser validation are still required.
+Before this P0 hardening, `proxy/kiwi-worker.js` matched the Cloudflare AI Agent's deployed version `3e349979-4861-4f78-aa7d-8dc1fdc42b56`: handshake timeout limited to setup, missing/non-numeric `ext_api` denied, expired per-isolate rate counters pruned, and structured error codes distinguish forbidden origin, 429 rate limiting, and upstream errors. This does not constitute a verified end-to-end KiwiSDR audio session; real public receiver audio and mobile browser validation are still required.
 
 ### KiwiSDR P0 verification (2026-11-20)
 
-Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Live Worker transport delivered PCM from EA8BFK, but production browser audibility and hardened Worker deployment remain outstanding. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.
+Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Chromium verified nonzero PCM and Web Audio graph output through the deployed bridge from EA8BFK and Heppen. Human audibility, hardened Worker deployment and final regression gates remain outstanding. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.

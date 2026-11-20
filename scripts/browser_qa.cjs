@@ -14,6 +14,8 @@ fs.mkdirSync(DIR, {recursive: true});
 const TEST_URL = 'https://qa.radio.invalid/test-live.wav';
 const FAILED_URL = 'https://qa.radio.invalid/fail-live.wav';
 const BACKUP_URL = 'https://qa.radio.invalid/backup-live.wav';
+const CATALOG_COUNT = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/stations.manifest.json'), 'utf8')).count;
+assert.ok(Number.isInteger(CATALOG_COUNT) && CATALOG_COUNT > 0, 'catalog manifest must declare its full count');
 const results = {base: BASE, run: new Date().toISOString(), checks: [], screenshots: [], errors: [],
   note: 'Playback uses a deterministic WAV fixture intercepted by Playwright, not a live radio endpoint.'};
 
@@ -85,6 +87,17 @@ async function shot(page,name) {
     await page.locator('#panel-sdr').waitFor({state:'visible',timeout:15000});
     await shot(page,'05-sdr');
 
+    // The early UI checks can run against stations_head.json. Before adding
+    // playback fixtures, wait for finishStations() to replace that head with
+    // the full catalog and for its subsequent stream-check render to finish.
+    // Otherwise either normal startup update may remove/re-render our card
+    // between locating it and the real user click.
+    await page.waitForFunction(expectedCount=>window.state&&state.fm
+      &&state.fm.length===expectedCount&&state.streamChecks
+      &&Object.keys(state.streamChecks).length>0,CATALOG_COUNT,{timeout:90000});
+    results.catalogReady=await page.evaluate(()=>({
+      stations:state.fm.length,streamChecks:Object.keys(state.streamChecks).length
+    }));
     await page.locator('#mobile-nav-explore').click();
     await page.evaluate(url=>{
       state.fm.unshift({name:'Radio Atlas QA Audio',url,cc:'EG',language:'english',tags:'news',codec:'WAV',bitrate:128});
