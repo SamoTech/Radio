@@ -30,7 +30,7 @@ async function waitForTrace(predicate,message) {
   assert.ok(predicate(),message);
 }
 
-async function exerciseRecordedControls(page,traces) {
+async function exerciseRecordedControls(page,traces,fixtureSockets) {
   const observations=[];
   const commands=()=>traces.flatMap(x=>x.commands);
   await page.locator('#kiwi-freq').fill('7100');
@@ -106,12 +106,31 @@ async function exerciseRecordedControls(page,traces) {
   assert.equal(Number(await page.locator('#kiwi-freq').inputValue()),7100);
   assert.equal(await page.locator('#kiwi-audio').evaluate(audio=>audio.volume),0.37);
   observations.push('last successful receiver restores saved tuning and volume');
+  // Server-side loss provides no fresh user gesture. Verify the real browser
+  // unlock/output path survives an automatic transport + AudioContext rebuild.
+  const beforeLoss=traces.length;
+  await fixtureSockets.at(-1).close();
+  await page.waitForFunction(()=>{
+    const diagnostics=RA_MODULES.sdr.kiwiDiagnostics();
+    return diagnostics.retries===1&&diagnostics.contextState==='running';
+  },null,{timeout:20000});
+  await waitForAudio(page);
+  assert.equal(traces.length,beforeLoss+1,'network loss opens one automatic replacement socket');
+  assert.equal(traces.at(-2).closed,true);
+  const recovered=traces.at(-1).commands;
+  assert.equal(recovered[0],'SET auth t=kiwi p=');
+  assert.ok(recovered.some(x=>/^SET mod=usb .*freq=7100\.000$/.test(String(x))));
+  assert.equal(Number(await page.locator('#kiwi-freq').inputValue()),7100);
+  assert.equal(await page.locator('#kiwi-audio').evaluate(audio=>audio.volume),0.37);
+  const automaticRetry=await page.evaluate(()=>RA_MODULES.sdr.kiwiDiagnostics());
+  assert.equal(automaticRetry.retries,1);
+  observations.push('automatic retry recovers nonzero Web Audio after code 1011 without a new click');
   const signal=await page.locator('#kiwi-signal').textContent();
   assert.match(signal,/-?\d/,'live S-meter must show a numeric value');
   const external=await page.locator('#kiwi-open-ext').getAttribute('href');
   assert.ok(external.includes('7100')&&external.includes('usb'),'full receiver link includes tuning');
   observations.push('S-meter and full receiver link reflect active tuning');
-  return {observations,signal,external,connections:traces.length};
+  return {observations,signal,external,connections:traces.length,automaticRetry};
 }
 
 async function checkMobileLayout(page,language) {
@@ -152,7 +171,7 @@ async function checkMobileLayout(page,language) {
     await page.route('**/googletagmanager.com/**',route=>route.abort());
     await page.route('**/abacus.jasoncameron.dev/**',route=>route.abort());
     page.on('pageerror',e=>report.errors.push(e.message));
-    const routedSockets=[],traces=[];
+    const routedSockets=[],traces=[],fixtureSockets=[];
     if(!live) await page.routeWebSocket(/\/kiwi\/ws\?|\/\d+\/SND$/,ws=>{
       routedSockets.push(ws.url());
       const trace={url:ws.url(),commands:[],closed:false};traces.push(trace);
@@ -170,7 +189,14 @@ async function checkMobileLayout(page,language) {
           fixtureTimers.add(timer);
         }
       });
-      ws.onClose(()=>{trace.closed=true;clearInterval(timer);fixtureTimers.delete(timer);});
+      const cleanup=()=>{trace.closed=true;clearInterval(timer);fixtureTimers.delete(timer);};
+      // Keep route handles separate from JSON evidence; this fixture owns only
+      // the recorded WebSocket endpoint, never a real receiver connection.
+      fixtureSockets.push({close:async()=>{
+        cleanup();
+        await ws.close({code:1011,reason:'Recorded network loss'});
+      }});
+      ws.onClose(cleanup);
     });
     const catalog=JSON.parse(fs.readFileSync('data/kiwisdr.json','utf8')).receivers;
     if(!live){
@@ -181,7 +207,7 @@ async function checkMobileLayout(page,language) {
         body:JSON.stringify({updated:recording.recorded,receivers:fixtureReceivers})}));
     }
     await page.goto(BASE,{waitUntil:'domcontentloaded'});
-    await page.locator('#tab-sdr').click();
+    await page.locator('#mobile-nav-sdr').click();
     await page.waitForFunction(()=>window.RA_MODULES&&RA_MODULES.sdr);
     await page.waitForFunction(()=>state.receivers&&state.receivers.length>=2);
     let receivers=live?catalog.filter(x=>Number(x.ext_api)>0&&x.online!==false&&Number(x.users)<Number(x.max_users)&&x.url.startsWith('http:')).slice(0,3):[{url:recording.receiver,name:'Recorded KiwiSDR PCM'}];
@@ -204,7 +230,7 @@ async function checkMobileLayout(page,language) {
       try{
         await waitForAudio(page);
         if(!live){
-          result.controls=await exerciseRecordedControls(page,traces);
+          result.controls=await exerciseRecordedControls(page,traces,fixtureSockets);
           result.mobileAr=await checkMobileLayout(page,'ar');
           await page.screenshot({path:path.join(output,'controls-mobile-ar.png')});
           await page.locator('#kiwi-modal-close').click();

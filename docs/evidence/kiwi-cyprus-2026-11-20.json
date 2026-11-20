@@ -43,5 +43,19 @@
     "error": "Cloud browser HTTP2 protocol error followed by URL policy denial for direct receiver interface. No bypass attempted."
   },
   "human_audibility": "NOT VERIFIED",
-  "regression_runtime": "Pending PR Chromium and production verification; do not infer success from transport alone."
+  "regression_runtime": "Pending PR Chromium and production verification; do not infer success from transport alone.",
+  "qa_attempts": [
+    {
+      "commit": "76f13091e0f16df2f2dc21416db3d18adf8cbdbb",
+      "validate_run": 44815116277,
+      "js_tests_passed": 102,
+      "python_tests_passed": 125,
+      "lighthouse_accessibility": 92,
+      "browser_checks_passed": 21,
+      "pwa_upgrade_checks_passed": 9,
+      "recorded_and_live_audio": "FAIL before connection: #tab-sdr is hidden at390px; test must use #mobile-nav-sdr. No receiver/audio result inferred.",
+      "browser_run": 44815116374,
+      "live_run": 44815116289
+    }
+  ]
 }
