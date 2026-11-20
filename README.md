@@ -94,7 +94,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v81) لـ caching و offline
+- **Service Worker** (sw.js v82) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -132,7 +132,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v81)
+├── sw.js                # Service Worker (v82)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -297,4 +297,8 @@ Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam
 
 
 ### KiwiSDR bridge deployed Worker sync (November 20, 2026)
-Cloudflare Worker code in `proxy/kiwi-worker.js` tracks the Cloudflare AI Agent's deployed version `3e349979-4861-4f78-aa7d-8dc1fdc42b56`: handshake timeout limited to setup, missing/non-numeric `ext_api` denied, expired per-isolate rate counters pruned, and structured error codes distinguish forbidden origin, 429 rate limiting, and upstream errors. This does not constitute a verified end-to-end KiwiSDR audio session; real public receiver audio and mobile browser validation are still required.
+Before this P0 hardening, `proxy/kiwi-worker.js` matched the Cloudflare AI Agent's deployed version `3e349979-4861-4f78-aa7d-8dc1fdc42b56`: handshake timeout limited to setup, missing/non-numeric `ext_api` denied, expired per-isolate rate counters pruned, and structured error codes distinguish forbidden origin, 429 rate limiting, and upstream errors. This does not constitute a verified end-to-end KiwiSDR audio session; real public receiver audio and mobile browser validation are still required.
+
+### KiwiSDR P0 verification (2026-11-20)
+
+Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Chromium verified nonzero PCM and Web Audio graph output through the deployed bridge from EA8BFK and Heppen. Human audibility, hardened Worker deployment and final regression gates remain outstanding. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.

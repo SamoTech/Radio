@@ -1,0 +1,62 @@
+name: Radio Atlas KiwiSDR Live Audio QA
+
+# Manual only: a run temporarily occupies up to three receiver slots.
+# The regular browser QA workflow always exercises the recorded-stream path.
+on:
+  workflow_dispatch:
+    inputs:
+      receivers:
+        description: 'Optional JSON array of catalogue receiver URLs; empty uses two receivers previously verified active'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kiwi-live-audio-qa
+  cancel-in-progress: false
+
+jobs:
+  live-audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v5
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Install ephemeral Chromium QA dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Verify live audio through the deployed Kiwi bridge
+        env:
+          RADIO_QA_BASE: http://127.0.0.1:8000/
+          KIWI_QA_LIVE: '1'
+          KIWI_QA_RECEIVERS: ${{ inputs.receivers || '["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]' }}
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 > /tmp/radio-atlas-kiwi-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          STARTED=0
+          for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:8000/ > /dev/null 2>&1; then STARTED=1; break; fi
+            sleep 1
+          done
+          if [ "$STARTED" != "1" ]; then
+            cat /tmp/radio-atlas-kiwi-server.log
+            exit 1
+          fi
+          node scripts/kiwi_audio_qa.cjs
+      - name: Upload live audio measurements and screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-kiwi-live-audio-evidence
+          path: artifacts/kiwi-audio-qa/
+          if-no-files-found: warn
