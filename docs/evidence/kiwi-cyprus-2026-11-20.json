@@ -43,7 +43,7 @@
     "error": "Cloud browser HTTP2 protocol error followed by URL policy denial for direct receiver interface. No bypass attempted."
   },
   "human_audibility": "NOT VERIFIED",
-  "regression_runtime": "Pending PR Chromium and production verification; do not infer success from transport alone.",
+  "regression_runtime": "See PR #150 for final regression results and immutable CI run references. Attempts below retain measured failures as well as successes.",
   "qa_attempts": [
     {
       "commit": "76f13091e0f16df2f2dc21416db3d18adf8cbdbb",
@@ -56,6 +56,30 @@
       "recorded_and_live_audio": "FAIL before connection: #tab-sdr is hidden at390px; test must use #mobile-nav-sdr. No receiver/audio result inferred.",
       "browser_run": 44815116374,
       "live_run": 44815116289
+    },
+    {
+      "commit": "2a931ab32b7c134f477886c81e5285c17e4183d8",
+      "validate_run": 44815552197,
+      "validate": "PASS",
+      "live_run": 44815552201,
+      "live_job": 136562812201,
+      "live_result": {
+        "status": "PASS",
+        "receiver": "http://cyp.twrmon.net:8073",
+        "frames": 7,
+        "samples": 3584,
+        "nonZeroSamples": 3583,
+        "sampleRate": 12000,
+        "signalDbm": -109,
+        "contextState": "running",
+        "graph_output": "nonzero",
+        "html_audio": "playing"
+      },
+      "browser_run": 44815552359,
+      "browser_checks_passed": 21,
+      "pwa_upgrade_checks_passed": 9,
+      "recorded_controls": "FAIL: test expected gain label65 but UI correctly displayed65 dB. Assertion corrected; no product change.",
+      "live_artifact_id": 14669471958
     }
   ]
 }

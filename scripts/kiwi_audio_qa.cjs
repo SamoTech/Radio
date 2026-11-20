@@ -60,7 +60,7 @@ async function exerciseRecordedControls(page,traces,fixtureSockets) {
   await page.locator('#kiwi-squelch').press('Tab');
   await waitForTrace(()=>commands().some(x=>/^SET agc=0 .*manGain=65$/.test(String(x))),'manual AGC/gain command');
   await waitForTrace(()=>commands().some(x=>/^SET squelch=20 /.test(String(x))),'squelch command');
-  assert.equal(await page.locator('#kiwi-gain-value').textContent(),'65');
+  assert.equal(await page.locator('#kiwi-gain-value').textContent(),'65 dB');
   assert.equal(await page.locator('#kiwi-squelch-value').textContent(),'20');
   observations.push('AGC, manual gain and squelch reached the receiver with numeric feedback');
   // HTMLAudioElement's native volume is part of the persistent player output.
