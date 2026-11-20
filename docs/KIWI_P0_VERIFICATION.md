@@ -26,7 +26,8 @@ Status: **INCOMPLETE / pending runtime gates**. P1–P3 have not started.
 | Chromium Browser QA | 21 PASS in CI run 44762345891 |
 | Chromium PWA Upgrade QA | 9 PASS in CI run 44762345891 |
 | Lighthouse accessibility | 92 in Validate run 44762346050 |
-| Recorded Kiwi browser smoke | Initial run blocked before playback by quick-bar overlay on test-only trigger; trigger position fixed, rerun pending |
+| Recorded Kiwi browser smoke | Initial run hit a test-trigger overlay; second run did not exit. Trigger position and fixture timer teardown corrected; rerun pending |
+| Live Chromium (run 44762784484) | EA8BFK PASS: 6 frames / 1,429 nonzero samples; Heppen PASS: 5 frames / 1,195 nonzero samples. Both: running AudioContext, playing element and nonzero graph output. DFM FAIL: timeout 20s, 0 frames, context closed. Overall three-receiver run failed. |
 | Hardened Worker deployment | Pending; no claim of successful production playback |
 
 The transport probe used a WebSocket client with site Origin, auth, compression disabled, AR negotiation and 10000 kHz AM tuning. It is **not** evidence of physical speaker output. `tests/fixtures/kiwi-snd-recording.json` contains only captured SND packets and receiver/rate/time metadata (no client IP or receiver configuration messages).
@@ -47,17 +48,19 @@ In another terminal, exercise the actual client graph using captured Kiwi audio:
 node scripts/kiwi_audio_qa.cjs
 ```
 
-Run the full live pipeline through the deployed bridge against three catalog-listed receivers:
+Run the full live pipeline through the deployed bridge against the two receivers verified active in Chromium:
 
 ```sh
-KIWI_QA_LIVE=1 KIWI_QA_RECEIVERS='["http://ea8bfk.ddns.net:8073/","http://71.127.178.35:8073/","http://oh1rj.proxy.kiwisdr.com/"]' node scripts/kiwi_audio_qa.cjs
+KIWI_QA_LIVE=1 KIWI_QA_RECEIVERS='["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]' node scripts/kiwi_audio_qa.cjs
 ```
 
-This exits nonzero if any session lacks nonzero decoded PCM **and** nonzero AnalyserNode output with a running AudioContext and playing HTMLAudioElement. Reports and screenshots are written to `artifacts/kiwi-audio-qa/`. Recorded mode does not allocate receiver slots; live mode does. These are distinct evidence categories. The `Radio Atlas KiwiSDR Live Audio QA` workflow runs manually or when its own workflow file changes (three receiver slots maximum per run), with EA8BFK, Heppen and DFM as defaults; regular Browser QA includes recorded mode.
+This exits nonzero if any session lacks nonzero decoded PCM **and** nonzero AnalyserNode output with a running AudioContext and playing HTMLAudioElement. Reports and screenshots are written to `artifacts/kiwi-audio-qa/`. Recorded mode does not allocate receiver slots; live mode does. These are distinct evidence categories. The `Radio Atlas KiwiSDR Live Audio QA` workflow runs manually or when its own workflow file changes (three receiver slots maximum per run), with EA8BFK and Heppen as defaults after the observed DFM timeout; regular Browser QA includes recorded mode.
+
+To reproduce the third-receiver failure, set `KIWI_QA_RECEIVERS='["http://kiwisdr.dfm.hu/"]'` with `KIWI_QA_LIVE=1` and run the same script. No selected receiver is skipped. Human speaker audibility is still not established by headless CI.
 
 ## Remaining completion gates
 
 1. Recorded browser smoke, Browser QA, PWA Upgrade QA and Lighthouse must pass against the changed source.
-2. Obtain successful browser audio evidence for 2–3 active catalog receivers. Receiver availability and ext_api permissions must be honored; failures are not silently skipped.
+2. Complete a green live run for the two confirmed active receivers, preserving the failed three-receiver result above. Repeat after deploying the hardened Worker; receiver availability and ext_api permissions must be honored.
 3. Deploy the hardened Worker separately and recheck its live security/runtime behavior. No new secret/binding is required; this session has no Cloudflare deployment connector or authenticated CLI credential.
 4. Merge through a reviewed green PR, verify Validate on main and production provenance, then check audible output in the published app. Human listening confirmation must be reported separately from graph measurements.

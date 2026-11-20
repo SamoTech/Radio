@@ -11,6 +11,7 @@ const live=process.env.KIWI_QA_LIVE==='1';
 const output=path.resolve('artifacts/kiwi-audio-qa');
 fs.mkdirSync(output,{recursive:true});
 const recording=require('../tests/fixtures/kiwi-snd-recording.json');
+const fixtureTimers=new Set();
 const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:[],errors:[],
   note:'Nonzero Web Audio graph output is machine evidence; it does not certify human audibility or physical speakers.'};
 (async()=>{
@@ -43,9 +44,10 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
         if(String(message).startsWith('SET mod=')&&!started){
           started=true;let i=0;
           timer=setInterval(()=>ws.send(Buffer.from(recording.frames[i++%recording.frames.length],'base64')),20);
+          fixtureTimers.add(timer);
         }
       });
-      ws.onClose(()=>clearInterval(timer));
+      ws.onClose(()=>{clearInterval(timer);fixtureTimers.delete(timer);});
     });
     await page.goto(BASE,{waitUntil:'domcontentloaded'});
     await page.locator('#tab-sdr').click();
@@ -60,7 +62,8 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
     for(const receiver of receivers){
       const result={receiver:receiver.url};
       const sockets=[];
-      page.on('websocket',socket=>sockets.push(socket.url()));
+      const observeSocket=socket=>sockets.push(socket.url());
+      page.on('websocket',observeSocket);
       await page.evaluate(r=>{
         const button=document.createElement('button');button.id='kiwi-qa-start';button.textContent='Start audio QA';
         button.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
@@ -82,6 +85,8 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
       assert.ok(sockets.some(url=>url.includes('radio-atlas-kiwi-bridge')&&url.includes('/kiwi/ws')),'must use bridge');
       await page.screenshot({path:path.join(output,'session-'+report.sessions.length+'.png')});
       report.sessions.push(result);
+      page.off('websocket',observeSocket);
+      console.log(JSON.stringify(result));
       await page.locator('#kiwi-modal-close').click();
       await page.locator('#kiwi-qa-start').evaluate(button=>button.remove());
     }
@@ -89,6 +94,7 @@ const report={run:new Date().toISOString(),mode:live?'live':'recorded',sessions:
     assert.ok(report.sessions.length>0);
     assert.ok(report.sessions.every(x=>x.status==='PASS'),JSON.stringify(report.sessions));
   }finally{
+    for(const timer of fixtureTimers) clearInterval(timer);
     fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));
     await browser.close();
   }

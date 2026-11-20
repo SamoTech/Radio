@@ -12,7 +12,16 @@ This is a **separate Cloudflare Worker** for KiwiSDR hardware which is HTTP/WS-o
 **Restrictions:** no iframe proxying, no bypass of receiver login/password or owner API restrictions, and no proxying OpenWebRX/WebSDR proprietary APIs. The worker does not record sessions. Rate limiting is *per-isolate* and is not sufficient for a high-traffic public production service; use Cloudflare WAF or Durable Objects for robust global quotas. HTTP receiver connections from the Worker to hardware are not encrypted on that leg; prefer HTTPS receivers where possible. DNS-rebinding checks are bounded by the hosting platform's networking controls — consider dedicated curated host allowlists for high-assurance deployments.
 
 ## Deployment
-Deploy `proxy/kiwi-worker.js` to its own Cloudflare Worker (Workers & Pages). Do not overwrite the radio audio relay worker in `proxy/worker.js`. On a successful deployment, verify `https://<your-worker>.workers.dev/healthz` returns `ok`.
+Deploy `proxy/kiwi-worker.js` to its own Cloudflare Worker (Workers & Pages). The dedicated configuration `proxy/kiwi-wrangler.toml` names **only** `radio-atlas-kiwi-bridge`, uses compatibility date `2025-09-01`, enables workers.dev, disables preview URLs and enables observability at 100% sampling. It requires no bindings or secrets.
+
+From the repository root, after authenticating Wrangler to the Cloudflare account that owns `ossam-hashim.workers.dev`, deploy with:
+
+```sh
+npx wrangler deploy --config proxy/kiwi-wrangler.toml
+curl --fail --show-error https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/healthz
+```
+
+The health response must be exactly `ok`; then repeat the security and live audio checks below. This command is the deployment procedure, not evidence that deployment occurred. Do not use the existing `proxy/wrangler.toml` for KiwiSDR: that configuration targets `radio-atlas-stream-relay` and `proxy/worker.js`.
 
 Production route: `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev`. The website has already activated this endpoint (PR #146). Public GitHub Actions CI previously independently verified health, origin rejection, noncatalogue rejection, and missing upgrade; **real SND/audio sessions have not yet been verified**. A failed receiver must stay on-site with an explicit error, and the original receiver link remains optional. Cloudflare Agent reported Worker deployment version `3e349979-4861-4f78-aa7d-8dc1fdc42b56` on 2026-11-20 10:36 UTC. Cloudflare code was corrected to fail closed on absent `ext_api`, bound handshake timeouts, prune counters and distinguish 403/429. That version is the prior deployment baseline. The P0 source hardening below still needs separate Worker deployment and live verification; a GitHub Pages deployment does not update this Worker. Managed global limits and real browser/audio QA remain outstanding.
 
@@ -56,7 +65,7 @@ For strict fleet-wide quotas, use Cloudflare's available global rate-limiting/co
 
 The regular **Radio Atlas Mobile Browser QA** workflow runs `scripts/kiwi_audio_qa.cjs` in recorded mode against the actual app in Chromium. This exercises binary protocol parsing, PCM scheduling and browser audio output with a captured Kiwi SND fixture; it does not establish receiver or deployed Worker availability.
 
-Use the **Radio Atlas KiwiSDR Live Audio QA** workflow for live verification through the public Worker. Its optional `receivers` input is a JSON array of catalogue URLs; absent that input the workflow tests its three configured catalogue receivers (`ea8bfk.ddns.net:8073`, `websdr.heppen.be:8073`, and `kiwisdr.dfm.hu`). Live runs are serialized and triggered only manually or when a PR edits `.github/workflows/kiwi-live-audio-qa.yml`, to avoid unnecessarily occupying operators' receiver slots on unrelated PRs. Any selected receiver failure fails the run; none is silently skipped. Each run uploads its JSON measurements and screenshots under the `radio-atlas-kiwi-live-audio-evidence` artifact.
+Use the **Radio Atlas KiwiSDR Live Audio QA** workflow for live verification through the public Worker. Its optional `receivers` input is a JSON array of catalogue URLs; absent that input the workflow tests the two receivers verified active in Chromium (`ea8bfk.ddns.net:8073` and `websdr.heppen.be:8073`). The first three-receiver run failed because `kiwisdr.dfm.hu` timed out with zero frames; that failure remains recorded in `docs/KIWI_P0_VERIFICATION.md`. Live runs are serialized and triggered only manually or when a PR edits `.github/workflows/kiwi-live-audio-qa.yml`, to avoid unnecessarily occupying operators' receiver slots on unrelated PRs. Any selected receiver failure fails the run; none is silently skipped. Each run uploads its JSON measurements and screenshots under the `radio-atlas-kiwi-live-audio-evidence` artifact.
 
 For a minimal local reproduction, serve the checkout at the permitted development origin and run:
 

@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       receivers:
-        description: 'Optional JSON array of catalogue receiver URLs; empty uses the three configured catalogue receivers'
+        description: 'Optional JSON array of catalogue receiver URLs; empty uses two receivers previously verified active'
         required: false
         default: ''
         type: string
@@ -41,7 +41,7 @@ jobs:
         env:
           RADIO_QA_BASE: http://127.0.0.1:8000/
           KIWI_QA_LIVE: '1'
-          KIWI_QA_RECEIVERS: ${{ inputs.receivers || '["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/","http://kiwisdr.dfm.hu/"]' }}
+          KIWI_QA_RECEIVERS: ${{ inputs.receivers || '["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]' }}
         run: |
           python -m http.server 8000 --bind 127.0.0.1 > /tmp/radio-atlas-kiwi-server.log 2>&1 &
           SERVER_PID=$!

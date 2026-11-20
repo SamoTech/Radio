@@ -1,0 +1,13 @@
+# Dedicated KiwiSDR bridge. Paths are relative to this configuration file.
+# From the repository root:
+#   npx wrangler deploy --config proxy/kiwi-wrangler.toml
+# No bindings or secrets required. This does not deploy the stream relay.
+name = "radio-atlas-kiwi-bridge"
+main = "kiwi-worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+preview_urls = false
+
+[observability]
+enabled = true
+head_sampling_rate = 1
