@@ -8,7 +8,10 @@ const code=fs.readFileSync('proxy/kiwi-worker.js','utf8')
 const sandbox={ URL, Set, Map, Number, Date, Response, AbortSignal,
   fetch:async()=>({ok:true,headers:{get:()=>null},text:async()=>JSON.stringify({receivers:[
     {url:'http://public.receiver.org:8073/',ext_api:1,online:true,users:0,max_users:4},
-    {url:'http://not-opted-in.org:8073/',ext_api:0,online:true,users:0,max_users:4}
+    {url:'http://not-opted-in.org:8073/',ext_api:0,online:true,users:0,max_users:4},
+    {url:'http://missing-api.org:8073/',online:true,users:0,max_users:4},
+    {url:'http://nan-api.org:8073/',ext_api:'not-a-number',online:true,users:0,max_users:4},
+    null
   ]})}) };
 vm.createContext(sandbox);
 vm.runInContext(code,sandbox);
@@ -28,9 +31,18 @@ test('directory only permits operators who allow external API connections',async
   const allowed=await sandbox.permittedCatalog();
   assert.ok(allowed.has('http://public.receiver.org:8073/'));
   assert.ok(!allowed.has('http://not-opted-in.org:8073/'));
+  assert.ok(!allowed.has('http://missing-api.org:8073/'));
+  assert.ok(!allowed.has('http://nan-api.org:8073/'));
 });
 test('requires Radio Atlas origin and rejects foreign origins',()=>{
   const req=(Origin)=>({headers:{get:(name)=>name==='Origin'?Origin:'198.51.100.4'}});
-  assert.equal(sandbox.permitRequest(req('https://malicious.example')),false);
-  assert.equal(sandbox.permitRequest(req('https://samotech.github.io')),true);
+  assert.equal(sandbox.permitRequest(req('https://malicious.example')),'origin');
+  assert.equal(sandbox.permitRequest(req('https://samotech.github.io')),'ok');
+});
+
+test('rate limit distinguishes valid requests from throttled traffic',()=>{
+  const request={headers:{get:name=>name==='Origin'?'https://samotech.github.io':'192.0.2.31'}};
+  const statuses=Array.from({length:25},()=>sandbox.permitRequest(request));
+  assert.deepEqual(statuses.slice(0,24),Array(24).fill('ok'));
+  assert.equal(statuses[24],'rate');
 });
