@@ -94,7 +94,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v79) لـ caching و offline
+- **Service Worker** (sw.js v80) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -132,7 +132,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v79)
+├── sw.js                # Service Worker (v80)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -286,3 +286,7 @@ GitHub Pages deployment stamps a generated `build-info.json` with the exact depl
 ### Immediate GitHub Pages deploys vs. data crawls
 
 Merges to `main` now publish the checked-out application without first crawling the entire station catalog. Catalog refresh policy is unchanged: stations update daily at 02:17 UTC, SDR every six hours at :11 UTC, and the `workflow_dispatch` action still supports `all`, `stations`, `sdr`. The upload and post-deploy provenance verifier run for both fast code deploys and scheduled data deploys, so a merge is **not** proof of a published release until the verifier passes.
+
+
+### KiwiSDR native playback and responsive listening cockpit (v80)
+The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` WebSocket and Kiwi text commands with uncompressed big-endian PCM audio. The first real SND packet, rather than merely opening a WebSocket, confirms a playable receiver. Manual frequency/mode tuning, bounded audio buffering, audio-context cleanup, and operator API permissions are preserved. The optional Cloudflare WebSocket bridge remains disabled until separately deployed and verified; HTTP receivers cannot be played natively from a secure GitHub Pages context without that service. The original receiver URL remains accessible as a fallback. The responsive header, directory grid and Kiwi listening dialog have been updated for phone and desktop screens.
