@@ -23,12 +23,12 @@ Status: **INCOMPLETE / pending runtime gates**. P1–P3 have not started.
 | Other live attempts | Cortland `71.127.178.35`, `oh1rj.proxy.kiwisdr.com`, `23175.proxy.kiwisdr.com`, `mtkiwi.proxy.kiwisdr.com`: no completed WebSocket handshake; client emitted `WebSocket was closed before the connection was established` / close 1006 after timeout |
 | Production app via cloud browser | EA8BFK player reached explicit connection-failed status; production still contains old binary-control bug |
 | Local Chromium | Launch blocked: `socket() failed: Operation not permitted (1)`; headless-shell download returned HTTP 403 `Site Unavailable` |
-| Chromium Browser QA | 21 PASS in CI run 44762345891 |
-| Chromium PWA Upgrade QA | 9 PASS in CI run 44762345891 |
-| Lighthouse accessibility | 92 in Validate run 44762346050 |
-| Recorded Kiwi browser smoke | Initial run hit a test-trigger overlay; fixture timer teardown also corrected. Later Browser QA exposed a head/full-catalog fixture insertion race before the Kiwi check could run. Browser QA now waits for full catalog/stream checks and searches for its fixture; 21 checks and PWA9 passed in run44764758737. Recorded Kiwi then reached its URL assertion: mocked WebSockets are observed by the route handler, not network events. URL measurement corrected to use the actual intercepted route URL; final rerun pending |
-| Live Chromium (run 44763385912) | **PASS for both selected active receivers:** EA8BFK 5 frames / 1,189 nonzero samples; Heppen 5 frames / 1,188 nonzero samples. Both had running contexts, playing elements and nonzero graph output. |
-| Initial live Chromium (run 44762784484) | EA8BFK PASS: 6 frames / 1,429 nonzero samples; Heppen PASS: 5 frames / 1,195 nonzero samples. Both: running AudioContext, playing element and nonzero graph output. DFM FAIL: timeout 20s, 0 frames, context closed. Overall three-receiver run failed. |
+| Chromium Browser QA | 21 PASS, including Arabic/English, navigation, real HTML audio, fallback, offline and layout at 320–1280px; run 44765192083 |
+| Chromium PWA Upgrade QA | 9 PASS; run 44765192083 |
+| Lighthouse accessibility | 92; Validate green (including run 44765192047) |
+| Recorded Kiwi browser smoke | PASS: 5 PCM frames, 1,190 nonzero samples, 12000 Hz; running AudioContext, playing element and nonzero graph output; run 44765192083 |
+| Live Chromium | PASS for both selected active receivers: EA8BFK 5 frames / 1,189 nonzero samples; Heppen 5 frames / 1,188 nonzero samples. Running contexts, playing elements and nonzero graph output; run 44763385912 |
+| Initial three-receiver live run | EA8BFK and Heppen passed; DFM failed at 20s with 0 frames / context closed. Overall run 44762784484 failed; no selected receiver was skipped. |
 | Hardened Worker deployment | Pending; no claim of successful production playback |
 
 The transport probe used a WebSocket client with site Origin, auth, compression disabled, AR negotiation and 10000 kHz AM tuning. It is **not** evidence of physical speaker output. `tests/fixtures/kiwi-snd-recording.json` contains only captured SND packets and receiver/rate/time metadata (no client IP or receiver configuration messages).
@@ -61,7 +61,7 @@ To reproduce the third-receiver failure, set `KIWI_QA_RECEIVERS='["http://kiwisd
 
 ## Remaining completion gates
 
-1. Recorded browser smoke, Browser QA, PWA Upgrade QA and Lighthouse must pass against the changed source.
+1. All source regression gates above are green on `f1afe3944e092a127ab0406169a4fb83acf43e5e`; subsequent changes in this PR only finalize documentation. The browser harness waits for full catalog/stream-check rendering, finds its fixture through real UI search, and observes mocked socket URLs at the route handler.
 2. The two-receiver live run is green. Repeat after deploying the hardened Worker, preserving the failed three-receiver result above; receiver availability and ext_api permissions must be honored.
 3. Deploy the hardened Worker separately and recheck its live security/runtime behavior. No new secret/binding is required; this session has no Cloudflare deployment connector or authenticated CLI credential.
 4. Merge through a reviewed green PR, verify Validate on main and production provenance, then check audible output in the published app. Human listening confirmation must be reported separately from graph measurements.
