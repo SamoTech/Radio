@@ -125,7 +125,7 @@ Radio/
 ├── js/
 │   ├── app.js           # نواة التطبيق: الكتالوج/FM/i18n/التمهيد (~79KB)
 │   └── modules/         # وحدات ES Modules بتحميل كسول عند أول استخدام (P1-2)
-│       ├── sdr.mjs      # KiwiSDR + WSPR + WebSDR + الفضاء + EIBI (~32KB)
+│       ├── sdr.mjs      # KiwiSDR + WSPR + WebSDR + الفضاء + EIBI (~53KB، تحميل كسول)
 │       ├── map.mjs      # الخريطة التفاعلية + طبقة الزوار (~15KB)
 │       ├── player.mjs   # المشغل: HLS + المنبه + EQ + Media Session (~29KB)
 │       ├── regions.mjs  # المفضلة + مصر + عربي + الديني (~7KB)
@@ -302,3 +302,9 @@ Before this P0 hardening, `proxy/kiwi-worker.js` matched the Cloudflare AI Agent
 ### KiwiSDR P0 verification (2026-11-20)
 
 Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Chromium verified nonzero PCM and Web Audio graph output through the deployed bridge from EA8BFK and Heppen. The owner reports hardened Worker version `2dbe0921-40bc-47f2-8425-11506c5da4a4` deployed with matching source bytes. Post-deployment probes received PCM from both receivers and confirmed private-host rejection and oversized-command closure. Human audibility and exact live quota ceilings remain unverified; limits are isolate-local. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.
+
+### Cyprus KiwiSDR listening controls (v83)
+
+The native listening dialog adds eligible receiver selection, frequency steps, mode-aware passband presets, AGC/manual gain, squelch, live S-meter and explicit reconnect. Tuning and volume survive receiver changes. Last successful tuning can be restored without autoplay. The original receiver link opens its complete interface for waterfall and operator-supported extensions; Radio Atlas bridges audio only.
+
+On 2026-11-20, `http://cyp.twrmon.net:8073/` played unmuted inside Radio Atlas through the deployed bridge; a separate transport probe decoded 10 PCM frames, 5,120 samples (5,100 nonzero) at 12 kHz. `http://sdr.cyhams.org/` upgraded but produced no PCM within 20 seconds. These observations do not certify human audibility or continuous receiver availability. Runtime regression evidence is recorded in the related PR.

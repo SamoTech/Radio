@@ -1,8 +1,12 @@
 name: Radio Atlas KiwiSDR Live Audio QA
 
-# Manual only: a run temporarily occupies up to three receiver slots.
+# Manual, plus temporary Cyprus branch verification: up to three receiver slots.
 # The regular browser QA workflow always exercises the recorded-stream path.
 on:
+  # Temporary live check; remove this PR trigger before merging Cyprus usability.
+  pull_request:
+    paths:
+      - .github/workflows/kiwi-live-audio-qa.yml
   workflow_dispatch:
     inputs:
       receivers:
@@ -20,6 +24,7 @@ concurrency:
 
 jobs:
   live-audio:
+    if: github.event_name != 'pull_request' || github.head_ref == 'feat/kiwi-studio-cyprus'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -38,7 +43,7 @@ jobs:
         env:
           RADIO_QA_BASE: http://127.0.0.1:8000/
           KIWI_QA_LIVE: '1'
-          KIWI_QA_RECEIVERS: ${{ inputs.receivers || '["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]' }}
+          KIWI_QA_RECEIVERS: ${{ inputs.receivers || (github.event_name == 'pull_request' && '["http://cyp.twrmon.net:8073/"]' || '["http://ea8bfk.ddns.net:8073/","http://websdr.heppen.be:8073/"]') }}
         run: |
           python -m http.server 8000 --bind 127.0.0.1 > /tmp/radio-atlas-kiwi-server.log 2>&1 &
           SERVER_PID=$!

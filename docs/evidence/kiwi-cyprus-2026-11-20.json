@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-20",
+  "scope": "Cyprus native KiwiSDR controls",
+  "worker_version_reported_by_owner": "2dbe0921-40bc-47f2-8425-11506c5da4a4",
+  "transport": [
+    {
+      "receiver": "http://cyp.twrmon.net:8073/",
+      "at": "2026-11-20T20:43:35.347Z",
+      "frames": 10,
+      "samples": 5120,
+      "nonzero": 5100,
+      "upgrade": true,
+      "rate": 12000
+    },
+    {
+      "receiver": "http://sdr.cyhams.org/",
+      "at": "2026-11-20T20:43:42.890Z",
+      "frames": 0,
+      "samples": 0,
+      "nonzero": 0,
+      "upgrade": true,
+      "error": "timeout"
+    }
+  ],
+  "production_browser_before_changes": {
+    "receiver": "http://cyp.twrmon.net:8073/",
+    "site": "https://samotech.github.io/Radio/",
+    "status": "يستقبل ✔",
+    "audio": {
+      "paused": false,
+      "muted": false,
+      "readyState": 4,
+      "currentTime_observations": [
+        11.056077,
+        18.652363
+      ]
+    },
+    "mode_changed": "lsb",
+    "frequency_khz": 7100
+  },
+  "original_receiver_ui": {
+    "status": "NOT VERIFIED",
+    "error": "Cloud browser HTTP2 protocol error followed by URL policy denial for direct receiver interface. No bypass attempted."
+  },
+  "human_audibility": "NOT VERIFIED",
+  "regression_runtime": "Pending PR Chromium and production verification; do not infer success from transport alone."
+}

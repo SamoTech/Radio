@@ -560,3 +560,42 @@ main>section{animation:atlas-appear .22s ease-out}
   main>section{animation:none}
   .card,.station-card{transition:none}
 }
+
+/* Kiwi receiver studio: real audio controls, no synthetic RF waterfall. */
+#kiwi-modal{width:min(940px,calc(100vw - 24px));transform:translateX(50%);direction:inherit}
+#kiwi-modal .modal-head>div:first-child{min-width:0;display:grid;gap:5px}
+#kiwi-modal .modal-head strong{overflow-wrap:anywhere}
+.kiwi-kicker{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted)}
+.kiwi-receiver-nav{display:grid;grid-template-columns:1fr;gap:9px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.kiwi-receiver-nav label,.kiwi-field>span,.kiwi-tuning>label{font-size:.82rem;font-weight:600;color:var(--muted)}
+#kiwi-receiver{width:100%;min-width:0;max-width:100%;min-height:44px;text-overflow:ellipsis}
+.kiwi-nav-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.kiwi-nav-buttons .btn{flex:1 1 135px;min-height:44px;white-space:normal}
+#kiwi-modal .kiwi-controls{grid-template-columns:minmax(220px,2fr) repeat(3,minmax(100px,1fr));align-items:end;gap:12px}
+.kiwi-field,.kiwi-tuning{display:grid;gap:7px;min-width:0}
+#kiwi-modal .kiwi-controls input,#kiwi-modal .kiwi-controls select{width:100%;max-width:100%;min-width:0}
+.kiwi-frequency-row{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:6px;direction:ltr}
+#kiwi-freq{font:700 1.15rem ui-monospace,monospace;text-align:center;direction:ltr}
+.kiwi-frequency-row .btn{padding:8px;font-size:1.25rem;min-width:44px;min-height:44px}
+.kiwi-advanced{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kiwi-advanced summary{cursor:pointer;font-weight:600;min-height:28px}
+.kiwi-advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:15px}
+.kiwi-advanced-grid .check{grid-column:1/-1}
+.kiwi-advanced-grid input[type=range]{width:100%;accent-color:var(--accent);min-height:32px}
+.kiwi-connection-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px}
+.kiwi-signal-wrap{display:grid;grid-template-columns:auto minmax(75px,140px) auto;align-items:center;gap:9px;font-size:.75rem;color:var(--muted)}
+.kiwi-signal-wrap meter{width:100%;accent-color:var(--accent)}
+#kiwi-signal{font-family:ui-monospace,monospace;direction:ltr;white-space:nowrap}
+.kiwi-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.kiwi-footer small{color:var(--muted);max-width:420px;line-height:1.65}
+#kiwi-modal.kiwi-expanded{inset:12px;width:calc(100vw - 24px);max-height:calc(100dvh - 24px);transform:none}
+html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
+@media(max-width:720px){
+ #kiwi-modal{inset:10px;width:calc(100% - 20px);max-height:calc(100dvh - 20px);transform:none!important;padding:14px}
+ #kiwi-modal .kiwi-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #kiwi-modal .kiwi-tuning{grid-column:1/-1}
+ .kiwi-advanced-grid{grid-template-columns:minmax(0,1fr)}
+ .kiwi-signal-wrap{width:100%;grid-template-columns:minmax(0,1fr) minmax(70px,120px) auto}
+ .kiwi-footer{align-items:stretch}.kiwi-footer .btn{width:100%;text-align:center}
+ #kiwi-modal .modal-actions{flex-wrap:wrap}.kiwi-nav-buttons .btn{flex-basis:calc(50% - 8px)}
+}
