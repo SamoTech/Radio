@@ -8,7 +8,7 @@ const source = fs.readFileSync('js/modules/sdr.mjs', 'utf8');
 const start = source.indexOf('var KIWI_WS_RELAY =');
 const end = source.indexOf('\n\n\nvar API =', start);
 assert.ok(start > 0 && end > start, 'native player implementation must be available');
-const values = { freq: { value: '7100' }, mode: { value: 'am' } };
+const values = { 'kiwi-freq': { value: '7100' }, 'kiwi-mode': { value: 'am' } };
 const ctx = { URL, Date, Uint8Array, Int16Array, ArrayBuffer, DataView, Number,
   window: {}, console, KIWI_UNUSED: null, WebSocket: { OPEN: 1 },
   $: key => values[key], setTimeout, clearTimeout, setInterval, clearInterval };
@@ -32,11 +32,11 @@ test('KiwiSDR audio decodes big-endian uncompressed SND frame', () => {
 
 test('KiwiSDR tuning uses validated frequency and passband limits', () => {
   assert.equal(ctx.kiwiTuneCommand(), 'SET mod=am low_cut=-4900 high_cut=4900 freq=7100.000');
-  values.mode.value = 'usb';
+  values['kiwi-mode'].value = 'usb';
   assert.equal(ctx.kiwiTuneCommand(), 'SET mod=usb low_cut=300 high_cut=2900 freq=7100.000');
-  values.mode.value = 'unsafe';
+  values['kiwi-mode'].value = 'unsafe';
   assert.equal(ctx.kiwiTuneCommand(), '');
-  values.mode.value = 'cw'; values.freq.value = '-12';
+  values['kiwi-mode'].value = 'cw'; values['kiwi-freq'].value = '-12';
   assert.equal(ctx.kiwiTuneCommand(), '');
 });
 
