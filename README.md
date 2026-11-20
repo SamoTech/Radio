@@ -294,3 +294,7 @@ The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` We
 
 ### KiwiSDR Cloudflare relay activation (v81)
 Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` has been enabled and `/healthz` returned HTTP 200. HTTP KiwiSDR devices that advertise `ext_api > 0` now *attempt* the in-app secure WSS bridge; HTTPS devices connect directly. Failed connections stay in Radio Atlas, show a receiver error and retain a clearly labeled optional original-device link. The owner reported no successful real WebSocket or decoded audio test yet. `healthz` alone does **not** demonstrate working stream relaying. See `proxy/KIWI_README.md` for staged browser/audio verification and origin requirements.
+
+
+### KiwiSDR bridge deployed Worker sync (November 20, 2026)
+Cloudflare Worker code in `proxy/kiwi-worker.js` tracks the Cloudflare AI Agent's deployed version `3e349979-4861-4f78-aa7d-8dc1fdc42b56`: handshake timeout limited to setup, missing/non-numeric `ext_api` denied, expired per-isolate rate counters pruned, and structured error codes distinguish forbidden origin, 429 rate limiting, and upstream errors. This does not constitute a verified end-to-end KiwiSDR audio session; real public receiver audio and mobile browser validation are still required.
