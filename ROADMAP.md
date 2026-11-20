@@ -8,7 +8,15 @@
 
 > **صيانة المصادر العالمية — 2026-11-19:** خط الأساس المعلن في manifest v34 هو 60,732 محطة، بينما صفوف stations.json الفعلية 60,741 (انحراف سابق +9)؛ آخر سجل قديم فحص 1,185 رابطًا وصنّف 1,071 alive (مش ضمان تشغيل صوت). أضفنا فاحص دليل الصوت التدريجي (48 رابطًا في دورة المحطات)، وحماية تمنع فقد أكثر من 20% من المحطات بسبب جلب ناقص. لا حذف للمحطات ولا تغيير لمعرّفاتها. التفاصيل والتقييم في [تقرير تدقيق المصادر](docs/RADIO_SOURCES_AUDIT_2026-11-19.md). اكتمال التفعيل معلق على CI والنشر ودورة صيانة فعلية.
 
-> **تحسين موثوقية تشغيل البث — 2026-11-19:** استكمال بند المشغّل P1-3: قائمة بدائل المحطة نفسها أصبحت HTTPS فقط، تُزال منها الروابط المكررة وغير الآمنة، ويُسمح بأربع محاولات مباشرة كحد أقصى ثم بروكسي اختياري مرة واحدة، وتُستخدم نفس القائمة عند استعادة آخر محطة. لا دمج حسب تشابه الأسماء، ولا تغيير لعنصر الصوت أو بيانات المفضلة. Service Worker v81.
+> **تحسين موثوقية تشغيل البث — 2026-11-19:** استكمال بند المشغّل P1-3: قائمة بدائل المحطة نفسها أصبحت HTTPS فقط، تُزال منها الروابط المكررة وغير الآمنة، ويُسمح بأربع محاولات مباشرة كحد أقصى ثم بروكسي اختياري مرة واحدة، وتُستخدم نفس القائمة عند استعادة آخر محطة. لا دمج حسب تشابه الأسماء، ولا تغيير لعنصر الصوت أو بيانات المفضلة. Service Worker v82.
+
+### P0 — KiwiSDR audio/security verification (2026-11-20, قيد التحقق)
+
+- إصلاح قراءة رسائل MSG الثنائية، انتظار auth ومعدل audio_rate، وفك PCM حسب endian مع رفض ADPCM/IQ. تنظيف جلسة الصوت عند الفشل، Service Worker v82.
+- تحصين bridge بالكتالوج وDNS العام وحدود التزامن والمحاولات والرسائل؛ التفاصيل والحد المتبقي لإعادة حل DNS في proxy/KIWI_README.md.
+- تحقق حي عبر Worker القديم من EA8BFK: 32 إطار PCM، 7,670 عينة غير صفرية. أربعة أجهزة أخرى لم تكمل اتصال WebSocket؛ هذا لا يثبت إخراج الصوت في المتصفح.
+- عينة PCM فعلية محفوظة لاختبار الانحدار، واختبار Chromium يقيس PCM غير صفري عند graph المشغّل. P0 **غير مكتملة** حتى نجاح browser/PWA QA وValidate وتأكيد صوت المتصفح الحي ونشر Worker المحصّن.
+- لا تغييرات P1/P2/P3 ضمن هذا العمل. تقرير الأدلة: docs/KIWI_P0_VERIFICATION.md.
 
 ## 1) الوضع الحالي — نوفمبر 2026
 
@@ -43,7 +51,7 @@
 | ملف الإقلاع السريع | stations_head.json (~530KB) | data/ |
 | تدفق منسّق مُتحقق | 1185 مُفحوص · 1086 شغّال · 50 «جرّبها» · 49 ميت | data/stream_checks.json |
 | جسم الواجهة | js/app.js ~79KB (نواة) + 5 وحدات ES Modules | js/app.js |
-| إصدار Service Worker | v81 | sw.js (الجذر — المسار المسجل في js/app.js) |
+| إصدار Service Worker | v82 | sw.js (الجذر — المسار المسجل في js/app.js) |
 | الاختبارات | 92 اختبار crawler + مجموعة اختبارات JS (node --test) | tests/ |
 | جدولة التحديث | SDR كل 6 ساعات · المحطات يوميًا | .github/workflows/update-data.yml |
 
@@ -203,14 +211,14 @@
 
 
 ### KiwiSDR native player / listening cockpit — 2026-11-20
-- Frontend PR: native KiwiSDR `SND` WebSocket, proper authorization and tuning commands, big-endian PCM decoding, responsive desktop/mobile SDR dialog and listening shell. Incremented root Service Worker to v81.
+- Frontend PR: native KiwiSDR `SND` WebSocket, proper authorization and tuning commands, big-endian PCM decoding, responsive desktop/mobile SDR dialog and listening shell. Incremented root Service Worker to v82.
 - **Deployment dependency:** GitHub Pages cannot operate a server-side HTTP/WS-to-WSS bridge; HTTP-only Kiwi receivers require a separately deployed, origin-restricted relay, its verified workers.dev URL and a controlled frontend activation.
 - **Acceptance:** browser test on publicly consenting Kiwi receivers, real decoded audio over HTTPS and HTTP relay, no iframe escape, accessibility and full CI checks; never classify as globally verified before those pass.
 
 
 ### KiwiSDR hosted bridge activation — 2026-11-20
 - Owner supplied confirmed Workers hostname `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` and reports HTTP 200 from `/healthz` (response body inferred from deployed code, not separately byte-checked).
-- Frontend configured to attempt WSS relay for HTTP-only publicly listed KiwiSDR receivers (when `ext_api > 0`). Receiver remains in-app on failure; normal station player unaffected. Cache bumped to v81.
+- Frontend configured to attempt WSS relay for HTTP-only publicly listed KiwiSDR receivers (when `ext_api > 0`). Receiver remains in-app on failure; normal station player unaffected. Cache bumped to v82.
 - **Acceptance limitation:** Cloudflare Agent could not test unauthorized WebSocket rejection or real SND playback. Before claiming end-to-end availability, test 403 origin rejection, 403 non-catalog receiver, a permitted WSS handshake, valid `SND` frames and actual audio from consenting receivers on Android and desktop. Avoid claiming all receivers work.
 
 

@@ -615,6 +615,7 @@ var kiwiKeepAlive = null;
 var kiwiFailTimer = null;
 var kiwiSession = 0;
 var kiwiReady = false;
+var kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0};
 
 function kiwiSetStatus(text) {
   var el = $('kiwi-status');
@@ -691,11 +692,24 @@ function kiwiDecodeSnd(buffer) {
   if (!(buffer instanceof ArrayBuffer)) return null;
   var bytes = new Uint8Array(buffer);
   if (bytes.length <= 10 || bytes[0] !== 83 || bytes[1] !== 78 || bytes[2] !== 68) return null;
+  // IQ uses a different header; ADPCM must never be interpreted as PCM.
+  if (bytes[3] & 0x18) return null;
   if ((bytes.length - 10) % 2 !== 0) return null;
   var samples = new Int16Array((bytes.length - 10) / 2);
   var view = new DataView(buffer);
-  for (var i = 0; i < samples.length; i++) samples[i] = view.getInt16(10 + i * 2, false);
+  for (var i = 0; i < samples.length; i++) samples[i] = view.getInt16(10 + i * 2, !!(bytes[3] & 0x80));
   return samples;
+}
+
+// Control messages are commonly binary frames, just like SND packets.
+function kiwiControlMessage(data) {
+  if (typeof data === 'string') return data.indexOf('MSG ') === 0 ? data : '';
+  if (!(data instanceof ArrayBuffer) || data.byteLength < 4 || data.byteLength > 65536) return '';
+  var bytes = new Uint8Array(data);
+  if (bytes[0] !== 77 || bytes[1] !== 83 || bytes[2] !== 71 || bytes[3] !== 32) return '';
+  var message = '';
+  for (var i = 0; i < bytes.length; i++) message += String.fromCharCode(bytes[i]);
+  return message;
 }
 
 function openKiwiAudio(url, name) {
@@ -709,17 +723,26 @@ function openKiwiAudio(url, name) {
   closeKiwiAudio();
   var session = kiwiSession;
   var sampleRate = 12000;
+  var authenticated = false;
+  var haveRate = false;
+  kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0};
   var gotSamples = false;
+  var failed = false;
   $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
   $('kiwi-open-ext').href = safeHttpUrl(url) || '#';
   $('kiwi-modal').hidden = false;
   kiwiSetStatus(t('kiwi_connecting'));
   var audio = $('kiwi-audio');
   function fail() {
-    if (session !== kiwiSession) return;
+    if (session !== kiwiSession || failed) return;
+    failed = true;
     kiwiSetStatus(t('kiwi_failed'));
     toast(t('kiwi_failed'));
+    kiwiReady = false;
+    if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
     if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
+    if (kiwiAudioCtx) { kiwiAudioCtx.close().catch(function () {}); kiwiAudioCtx = null; }
+    kiwiGain = null;
     if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
   }
   var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -730,8 +753,8 @@ function openKiwiAudio(url, name) {
     var dest = kiwiAudioCtx.createMediaStreamDestination();
     kiwiGain.connect(dest);
     audio.srcObject = dest.stream;
-    kiwiAudioCtx.resume().catch(function () {});
-    audio.play().catch(function () { kiwiSetStatus(t('kiwi_connecting')); });
+    kiwiAudioCtx.resume().catch(fail);
+    audio.play().catch(fail);
   } catch (e) { fail(); return; }
   var ws;
   try { ws = new WebSocket(socketUrl); } catch (e) { fail(); return; }
@@ -743,16 +766,22 @@ function openKiwiAudio(url, name) {
     ws.send('SET auth t=kiwi p=');
   };
   ws.onmessage = function (ev) {
-    if (session !== kiwiSession) return;
-    if (typeof ev.data === 'string') {
-      var msg = ev.data;
-      if (/badp=[1-9]|too_busy|MSG down=|MSG fault|no_channels/i.test(msg)) { fail(); return; }
-      var rate = /(?:sample_rate|audio_rate)=([0-9.]+)/.exec(msg);
-      if (rate && Number(rate[1]) > 1000 && Number(rate[1]) < 96000) sampleRate = Number(rate[1]);
-      if (!kiwiReady && (/badp=0|audio_rate=|sample_rate=/.test(msg))) {
+    if (session !== kiwiSession || failed) return;
+    var msg = kiwiControlMessage(ev.data);
+    if (msg) {
+      if (/(?:^|\s)(?:badp=[1-9][0-9]*|too_busy(?:=|\s|$)|down=|fault(?:=|\s|$)|no_channels(?:=|\s|$))/i.test(msg)) { fail(); return; }
+      if (/(?:^|\s)badp=0(?:\s|$)/.test(msg)) authenticated = true;
+      // audio_rate is the negotiated PCM rate; sample_rate may describe SDR processing.
+      var rate = /(?:^|\s)audio_rate=([0-9.]+)/.exec(msg);
+      if (rate && Number(rate[1]) > 1000 && Number(rate[1]) < 96000) {
+        sampleRate = Number(rate[1]);
+        haveRate = true;
+        if (kiwiReady) ws.send('SET AR OK in=' + sampleRate + ' out=' + kiwiAudioCtx.sampleRate);
+      }
+      if (!kiwiReady && authenticated && haveRate) {
         kiwiReady = true;
         ws.send('SET compression=0');
-        ws.send('SET AR OK in=' + Math.round(sampleRate) + ' out=44100');
+        ws.send('SET AR OK in=' + sampleRate + ' out=' + kiwiAudioCtx.sampleRate);
         ws.send('SET squelch=0 max=0');
         ws.send('SET ident_user=Radio%20Atlas');
         ws.send('SET agc=1 hang=0 thresh=-100 slope=6 decay=1000 manGain=50');
@@ -764,6 +793,10 @@ function openKiwiAudio(url, name) {
     if (!kiwiReady) return;
     var samples = kiwiDecodeSnd(ev.data);
     if (!samples || !samples.length) return;
+    kiwiStats.frames++;
+    kiwiStats.samples += samples.length;
+    kiwiStats.sampleRate = sampleRate;
+    for (var i = 0; i < samples.length; i++) if (samples[i] !== 0) kiwiStats.nonZeroSamples++;
     if (!gotSamples) {
       gotSamples = true;
       if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
@@ -772,14 +805,14 @@ function openKiwiAudio(url, name) {
     kiwiFeedAudio(samples, sampleRate);
   };
   ws.onerror = fail;
-  ws.onclose = function () { if (session === kiwiSession && !gotSamples) fail(); else if (session === kiwiSession) kiwiSetStatus(t('kiwi_failed')); };
+  ws.onclose = function () { if (session === kiwiSession) fail(); };
   kiwiKeepAlive = setInterval(function () {
     if (session === kiwiSession && ws.readyState === WebSocket.OPEN) ws.send('SET keepalive');
   }, 10000);
 }
 
 
-var API = { renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
+var API = { kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed'}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
 var booted = false;
 export function boot() {
   if (booted) return API;
