@@ -19,8 +19,9 @@ test('KiwiSDR connects to timestamped SND endpoint, not obsolete /0', () => {
   const addr = ctx.kiwiSocketAddress('https://receiver.example:8073/');
   assert.match(addr, /^wss:\/\/receiver\.example:8073\/\d+\/SND$/);
   assert.equal(ctx.kiwiSocketAddress('javascript:alert(1)'), '');
-  assert.equal(ctx.kiwiSocketAddress('http://receiver.example:8073/'), '');
+  assert.equal(ctx.kiwiSocketAddress('http://receiver.example:8073/'), 'wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Freceiver.example%3A8073%2F');
   assert.equal(ctx.kiwiSocketAddress('https://user:pass@receiver.example/'), '');
+  assert.equal(ctx.kiwiSocketAddress('http://user:pass@receiver.example/'), '');
 });
 
 test('KiwiSDR audio decodes big-endian uncompressed SND frame', () => {

@@ -602,9 +602,11 @@ function closeSDR() {
 
 
 /* ================= KiwiSDR native WebSocket audio ================= */
-// Set this only after the independently deployed Cloudflare WebSocket relay
-// is live and its /healthz check passes. GitHub Pages cannot proxy sockets.
-var KIWI_WS_RELAY = '';
+// Separate Cloudflare Worker public hostname supplied by site owner on 2026-11-20.
+// Worker deployment and /healthz are reported live; actual WebSocket audio
+// remains subject to separate per-receiver verification and permission.
+// A failed relay must not cause a cross-site navigation or disrupt FM playback.
+var KIWI_WS_RELAY = 'https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev';
 var kiwiWs = null;
 var kiwiAudioCtx = null;
 var kiwiGain = null;

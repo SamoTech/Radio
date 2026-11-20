@@ -94,7 +94,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v80) لـ caching و offline
+- **Service Worker** (sw.js v81) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -132,7 +132,7 @@ Radio/
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v80)
+├── sw.js                # Service Worker (v81)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -288,5 +288,9 @@ GitHub Pages deployment stamps a generated `build-info.json` with the exact depl
 Merges to `main` now publish the checked-out application without first crawling the entire station catalog. Catalog refresh policy is unchanged: stations update daily at 02:17 UTC, SDR every six hours at :11 UTC, and the `workflow_dispatch` action still supports `all`, `stations`, `sdr`. The upload and post-deploy provenance verifier run for both fast code deploys and scheduled data deploys, so a merge is **not** proof of a published release until the verifier passes.
 
 
-### KiwiSDR native playback and responsive listening cockpit (v80)
+### KiwiSDR native playback and responsive listening cockpit (v81)
 The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` WebSocket and Kiwi text commands with uncompressed big-endian PCM audio. The first real SND packet, rather than merely opening a WebSocket, confirms a playable receiver. Manual frequency/mode tuning, bounded audio buffering, audio-context cleanup, and operator API permissions are preserved. The optional Cloudflare WebSocket bridge remains disabled until separately deployed and verified; HTTP receivers cannot be played natively from a secure GitHub Pages context without that service. The original receiver URL remains accessible as a fallback. The responsive header, directory grid and Kiwi listening dialog have been updated for phone and desktop screens.
+
+
+### KiwiSDR Cloudflare relay activation (v81)
+Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` has been enabled and `/healthz` returned HTTP 200. HTTP KiwiSDR devices that advertise `ext_api > 0` now *attempt* the in-app secure WSS bridge; HTTPS devices connect directly. Failed connections stay in Radio Atlas, show a receiver error and retain a clearly labeled optional original-device link. The owner reported no successful real WebSocket or decoded audio test yet. `healthz` alone does **not** demonstrate working stream relaying. See `proxy/KIWI_README.md` for staged browser/audio verification and origin requirements.
