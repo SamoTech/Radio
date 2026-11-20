@@ -110,6 +110,9 @@ async function shot(page,name) {
       state.fmLive=false;
       renderFM();
     },TEST_URL);
+    // Search through the UI: official/verified stations may otherwise push
+    // this intentionally unknown fixture beyond the first catalog page.
+    await page.locator('#qfm').fill('Radio Atlas QA Audio');
     const testCard=page.locator('#grid-fm .station-card[data-station-url="'+TEST_URL+'"]');
     results.playTrigger={
       cardName:await testCard.locator('h3').textContent(),
@@ -191,10 +194,12 @@ async function shot(page,name) {
       const button=document.createElement('button');
       button.id='qa-fallback-launch';
       button.textContent='Start fallback QA';
+      button.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
       button.addEventListener('click',()=>play(primary,'Radio Atlas QA Fallback'));
       document.body.appendChild(button);
     },[FAILED_URL,BACKUP_URL]);
     await page.locator('#qa-fallback-launch').click();
+    await page.locator('#qa-fallback-launch').evaluate(button=>button.remove());
     try {
       await page.waitForFunction(backup=>{
         const audio=document.querySelector('#audio');

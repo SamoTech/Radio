@@ -1,11 +1,8 @@
 name: Radio Atlas KiwiSDR Live Audio QA
 
-# Manual or edits to this workflow only: a run temporarily occupies up to three receiver slots.
+# Manual only: a run temporarily occupies up to three receiver slots.
 # The regular browser QA workflow always exercises the recorded-stream path.
 on:
-  pull_request:
-    paths:
-      - .github/workflows/kiwi-live-audio-qa.yml
   workflow_dispatch:
     inputs:
       receivers:
