@@ -19,7 +19,7 @@ The project owner supplied an authenticated Cloudflare AI Agent deployment repor
 | New source SHA-256 | `84b84114b05fdd50adfaba8aa37c1efee755799679437884bcfe0e8bdb31d802` (reported 24,473 bytes) |
 | Main module | `worker.js` |
 | DO binding | `KIWI_QUOTAS` → `KiwiQuota` |
-| SQLite DO namespace | `522c0aacfbc5424199009e835edc3089`, `use_sqlite: true` |
+| SQLite DO namespace | confirmed by owner report; `use_sqlite: true` (namespace ID intentionally omitted from public docs) |
 | Migration | `kiwi-global-quota-v1`, `new_sqlite_classes: ["KiwiQuota"]` |
 | Compatibility | `2025-09-01` |
 | Plan | Free |
