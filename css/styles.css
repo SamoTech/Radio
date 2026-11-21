@@ -581,6 +581,21 @@ main>section{animation:atlas-appear .22s ease-out}
 .kiwi-advanced summary{cursor:pointer;font-weight:600;min-height:28px}
 .kiwi-advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:15px}
 .kiwi-advanced-grid .check{grid-column:1/-1}
+.kiwi-memories{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kiwi-memories summary{cursor:pointer;font-weight:600;min-height:28px}
+.kiwi-memory-tools{display:grid;gap:9px;padding-top:12px}
+.kiwi-memory-save-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+#kiwi-memory-name{min-width:0;width:100%;min-height:44px}
+#kiwi-memory-status{margin:0;min-height:1.25em;color:var(--muted);font-size:.8rem}
+.kiwi-memory-list{display:grid;gap:8px}
+.kiwi-memory-empty{margin:0;color:var(--muted);font-size:.82rem}
+.kiwi-memory-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.kiwi-memory-info{display:grid;gap:3px;min-width:0}
+.kiwi-memory-info strong,.kiwi-memory-info span{overflow-wrap:anywhere}
+.kiwi-memory-info span{font: .76rem ui-monospace,monospace;color:var(--muted);white-space:normal}
+.kiwi-memory-actions{display:flex;flex-wrap:wrap;gap:6px}
+.kiwi-memory-actions .btn{min-height:40px}
+
 .kiwi-advanced-grid input[type=range]{width:100%;accent-color:var(--accent);min-height:32px}
 .kiwi-connection-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px}
 .kiwi-signal-wrap{display:grid;grid-template-columns:auto minmax(75px,140px) auto;align-items:center;gap:9px;font-size:.75rem;color:var(--muted)}
@@ -595,6 +610,9 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
  #kiwi-modal .kiwi-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
  #kiwi-modal .kiwi-tuning{grid-column:1/-1}
  .kiwi-advanced-grid{grid-template-columns:minmax(0,1fr)}
+ .kiwi-memory-save-row{grid-template-columns:minmax(0,1fr)}
+ .kiwi-memory-row{align-items:stretch;flex-direction:column}
+ .kiwi-memory-actions .btn{flex:1}
  .kiwi-signal-wrap{width:100%;grid-template-columns:minmax(0,1fr) minmax(70px,120px) auto}
  .kiwi-footer{align-items:stretch}.kiwi-footer .btn{width:100%;text-align:center}
  #kiwi-modal .modal-actions{flex-wrap:wrap}.kiwi-nav-buttons .btn{flex-basis:calc(50% - 8px)}

@@ -161,6 +161,19 @@ var STR_SDR = {
     kiwi_no_receivers: 'لا توجد أجهزة متاحة',
     kiwi_cyprus: 'قبرص',
     kiwi_saved_hint: 'تُحفظ آخر إعدادات ناجحة على جهازك؛ التشغيل يبدأ بضغطك فقط',
+    kiwi_memories: 'ذاكرة الترددات المحفوظة',
+    kiwi_memory_name: 'اسم المحطة أو التردد',
+    kiwi_memory_name_ph: 'مثال: إذاعة BBC أو 20m USB',
+    kiwi_memory_save: 'احفظ التردد الحالي',
+    kiwi_memory_empty: 'لسه مفيش ترددات محفوظة.',
+    kiwi_memory_use: 'استدعاء',
+    kiwi_memory_remove: 'حذف',
+    kiwi_memory_saved: 'تم حفظ التردد على جهازك.',
+    kiwi_memory_loaded: 'تم استدعاء إعداد التردد.',
+    kiwi_memory_removed: 'تم حذف التردد المحفوظ.',
+    kiwi_memory_invalid: 'راجع التردد والوضع وعرض المرشح قبل الحفظ.',
+    kiwi_memory_limit: 'وصلت للحد الأقصى: 40 ترددًا محفوظًا.',
+    kiwi_memory_storage: 'تعذر الحفظ في مساحة المتصفح.',
     kiwi_fullscreen: 'ملء الشاشة',
     kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
   },
@@ -315,6 +328,19 @@ var STR_SDR = {
     kiwi_no_receivers: 'No eligible receivers',
     kiwi_cyprus: 'Cyprus',
     kiwi_saved_hint: 'Last successful settings stay on your device; playback starts only after your click',
+    kiwi_memories: 'Saved frequency memories',
+    kiwi_memory_name: 'Station or frequency name',
+    kiwi_memory_name_ph: 'Example: BBC World Service or 20m USB',
+    kiwi_memory_save: 'Save current frequency',
+    kiwi_memory_empty: 'No saved frequencies yet.',
+    kiwi_memory_use: 'Recall',
+    kiwi_memory_remove: 'Remove',
+    kiwi_memory_saved: 'Frequency saved on this device.',
+    kiwi_memory_loaded: 'Frequency settings recalled.',
+    kiwi_memory_removed: 'Saved frequency removed.',
+    kiwi_memory_invalid: 'Check the frequency, mode and passband before saving.',
+    kiwi_memory_limit: 'Maximum reached: 40 saved frequencies.',
+    kiwi_memory_storage: 'The browser could not save this memory.',
     kiwi_fullscreen: 'Full screen',
     kiwi_leave_fullscreen: 'Exit full screen'
   }
@@ -1222,6 +1248,8 @@ var kiwiReady = false;
 var kiwiCurrentReceiver = null;
 var kiwiLastReceiver = null;
 var KIWI_SETTINGS_KEY = 'ra-kiwi-session-v1';
+var KIWI_MEMORIES_KEY = 'ra-kiwi-memories-v1';
+var KIWI_MEMORIES_MAX = 40;
 var kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0, signalDbm:null};
 var kiwiLastFrame = 0;
 var kiwiLastMeter = 0;
@@ -1312,6 +1340,96 @@ function kiwiUpdateControls() {
   if (external && kiwiCurrentReceiver) external.href = kiwiFullReceiverUrl(kiwiCurrentReceiver.url) || '#';
   var input = $('kiwi-freq');
   if (input) input.step = kiwiControlValue('kiwi-step','1');
+}
+function kiwiReadMemories() {
+  try {
+    var raw = localStorage.getItem(KIWI_MEMORIES_KEY);
+    if (!raw || raw.length > 16000) return [];
+    var parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.slice(0,KIWI_MEMORIES_MAX).filter(function (row) {
+      return row && typeof row.name === 'string' && row.name.trim().length > 0 &&
+        row.name.length <= 48 && Number.isFinite(row.frequency) &&
+        row.frequency >= 10 && row.frequency <= 30000 &&
+        !!kiwiModeCuts(row.mode,row.bandwidth);
+    }).map(function (row) {
+      return {name:row.name.trim(),frequency:Number(row.frequency),mode:String(row.mode),
+        bandwidth:String(row.bandwidth),savedAt:Number.isFinite(row.savedAt) ? row.savedAt : 0};
+    });
+  } catch (e) { return []; }
+}
+function kiwiRenderMemories() {
+  var list = $('kiwi-memory-list');
+  if (!list) return;
+  var rows = kiwiReadMemories();
+  if (!rows.length) {
+    list.innerHTML = '<p class="kiwi-memory-empty">' + esc(t('kiwi_memory_empty')) + '</p>';
+    return;
+  }
+  list.innerHTML = rows.map(function (row,index) {
+    var label = row.frequency.toFixed(3) + ' kHz · ' + row.mode.toUpperCase() + ' · ' + row.bandwidth;
+    return '<div class="kiwi-memory-row"><div class="kiwi-memory-info"><strong>' + esc(row.name) +
+      '</strong><span dir="ltr">' + esc(label) + '</span></div><div class="kiwi-memory-actions">' +
+      '<button class="btn ghost" type="button" data-kiwi-memory-use="' + index + '">' + esc(t('kiwi_memory_use')) + '</button>' +
+      '<button class="btn ghost" type="button" data-kiwi-memory-remove="' + index + '">' + esc(t('kiwi_memory_remove')) + '</button>' +
+      '</div></div>';
+  }).join('');
+}
+function kiwiSetMemoryStatus(key) {
+  var el = $('kiwi-memory-status');
+  if (el) el.textContent = t(key);
+}
+function kiwiSaveMemory() {
+  var frequency = Number(kiwiControlValue('kiwi-freq',''));
+  var mode = String(kiwiControlValue('kiwi-mode','am')).toLowerCase();
+  var bandwidth = String(kiwiControlValue('kiwi-bandwidth','normal')).toLowerCase();
+  if (!Number.isFinite(frequency) || frequency < 10 || frequency > 30000 || !kiwiModeCuts(mode,bandwidth)) {
+    kiwiSetMemoryStatus('kiwi_memory_invalid');
+    return false;
+  }
+  var input = $('kiwi-memory-name');
+  var name = input && typeof input.value === 'string' ? input.value.trim().slice(0,48) : '';
+  if (!name) name = frequency.toFixed(3) + ' kHz ' + mode.toUpperCase();
+  var rows = kiwiReadMemories();
+  var duplicate = rows.findIndex(function (row) {
+    return row.frequency === frequency && row.mode === mode && row.bandwidth === bandwidth;
+  });
+  var memory = {name:name,frequency:frequency,mode:mode,bandwidth:bandwidth,savedAt:Date.now()};
+  if (duplicate >= 0) rows.splice(duplicate,1);
+  else if (rows.length >= KIWI_MEMORIES_MAX) {
+    kiwiSetMemoryStatus('kiwi_memory_limit');
+    return false;
+  }
+  rows.unshift(memory);
+  try { localStorage.setItem(KIWI_MEMORIES_KEY,JSON.stringify(rows)); }
+  catch (e) { kiwiSetMemoryStatus('kiwi_memory_storage');return false; }
+  if (input) input.value = '';
+  kiwiRenderMemories();
+  kiwiSetMemoryStatus('kiwi_memory_saved');
+  return true;
+}
+function kiwiApplyMemory(index) {
+  var row = kiwiReadMemories()[index];
+  if (!row || !Number.isFinite(row.frequency) || row.frequency < 10 || row.frequency > 30000 ||
+      !kiwiModeCuts(row.mode,row.bandwidth)) return false;
+  var frequency = $('kiwi-freq'), mode = $('kiwi-mode'), bandwidth = $('kiwi-bandwidth');
+  if (frequency) frequency.value = row.frequency.toFixed(3);
+  if (mode) mode.value = row.mode;
+  if (bandwidth) bandwidth.value = row.bandwidth;
+  kiwiUpdateControls();
+  if (kiwiReady) kiwiSendTune();
+  kiwiSetMemoryStatus('kiwi_memory_loaded');
+  return true;
+}
+function kiwiRemoveMemory(index) {
+  var rows = kiwiReadMemories();
+  if (!Number.isInteger(index) || index < 0 || index >= rows.length) return false;
+  rows.splice(index,1);
+  try { localStorage.setItem(KIWI_MEMORIES_KEY,JSON.stringify(rows)); }
+  catch (e) { kiwiSetMemoryStatus('kiwi_memory_storage');return false; }
+  kiwiRenderMemories();
+  kiwiSetMemoryStatus('kiwi_memory_removed');
+  return true;
 }
 function kiwiSaveSession() {
   if (!kiwiCurrentReceiver || !kiwiReady || kiwiStats.frames < 1 || !kiwiTuneCommand()) return;
@@ -1625,7 +1743,7 @@ function openKiwiAudio(url, name, options) {
 }
 
 
-var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
+var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,memoryCount:kiwiReadMemories().length}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
 var booted = false;
 export function boot() {
   if (booted) return API;
@@ -1762,6 +1880,16 @@ export function boot() {
   if ($('kiwi-squelch')) $('kiwi-squelch').addEventListener('change',function () { kiwiSendControl(kiwiSquelchCommand());kiwiSaveSession(); });
   if ($('kiwi-reconnect')) $('kiwi-reconnect').addEventListener('click',kiwiReconnect);
   if ($('kiwi-restore')) $('kiwi-restore').addEventListener('click',kiwiRestoreSession);
+  if ($('kiwi-memory-save')) $('kiwi-memory-save').addEventListener('click',kiwiSaveMemory);
+  if ($('kiwi-memory-list')) $('kiwi-memory-list').addEventListener('click',function (event) {
+    var button = event.target && event.target.closest ? event.target.closest('button') : null;
+    if (!button) return;
+    var useIndex = button.getAttribute('data-kiwi-memory-use');
+    var removeIndex = button.getAttribute('data-kiwi-memory-remove');
+    if (useIndex !== null) kiwiApplyMemory(Number(useIndex));
+    else if (removeIndex !== null) kiwiRemoveMemory(Number(removeIndex));
+  });
+  kiwiRenderMemories();
   if ($('kiwi-prev')) $('kiwi-prev').addEventListener('click',function () { kiwiNavigateReceiver(-1); });
   if ($('kiwi-next')) $('kiwi-next').addEventListener('click',function () { kiwiNavigateReceiver(1); });
   if ($('kiwi-receiver')) $('kiwi-receiver').addEventListener('change',function () {

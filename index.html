@@ -425,6 +425,18 @@
       <select id="kiwi-bandwidth"><option value="narrow" data-i18n="kiwi_narrow">ضيق</option><option value="normal" selected data-i18n="kiwi_normal">عادي</option><option value="wide" data-i18n="kiwi_wide">واسع</option></select>
     </label>
   </div>
+  <details class="kiwi-memories">
+    <summary data-i18n="kiwi_memories">ذاكرة الترددات المحفوظة</summary>
+    <div class="kiwi-memory-tools">
+      <label for="kiwi-memory-name" data-i18n="kiwi_memory_name">اسم المحطة أو التردد</label>
+      <div class="kiwi-memory-save-row">
+        <input id="kiwi-memory-name" type="text" maxlength="48" autocomplete="off" data-i18n-ph="kiwi_memory_name_ph" placeholder="مثال: إذاعة BBC أو 20m USB">
+        <button id="kiwi-memory-save" class="btn" type="button" data-i18n="kiwi_memory_save">احفظ التردد الحالي</button>
+      </div>
+      <p id="kiwi-memory-status" role="status" aria-live="polite"></p>
+      <div id="kiwi-memory-list" class="kiwi-memory-list"></div>
+    </div>
+  </details>
   <details class="kiwi-advanced">
     <summary data-i18n="kiwi_advanced">تحكم متقدم في الاستقبال</summary>
     <div class="kiwi-advanced-grid">

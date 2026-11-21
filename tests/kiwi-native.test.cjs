@@ -49,7 +49,8 @@ test('KiwiSDR browser UI and mobile navigation retain essential controls', () =>
   const css = fs.readFileSync('css/styles.css', 'utf8');
   for (const id of ['kiwi-modal','kiwi-freq','kiwi-mode','kiwi-audio','kiwi-status','mobile-nav-sdr',
     'kiwi-step','kiwi-down','kiwi-up','kiwi-bandwidth','kiwi-agc','kiwi-gain','kiwi-squelch',
-    'kiwi-signal','kiwi-receiver','kiwi-prev','kiwi-next','kiwi-reconnect','kiwi-restore']) assert.ok(html.includes('id="'+id+'"'), id);
+    'kiwi-signal','kiwi-receiver','kiwi-prev','kiwi-next','kiwi-reconnect','kiwi-restore',
+    'kiwi-memory-name','kiwi-memory-save','kiwi-memory-list','kiwi-memory-status']) assert.ok(html.includes('id="'+id+'"'), id);
   assert.ok(css.includes('.hero-kicker'));
   assert.ok(css.includes('@media(max-width:720px)'));
 });
@@ -95,6 +96,7 @@ function nativeSession() {
     'kiwi-signal':{},'kiwi-receiver':{value:'',innerHTML:''},
     'kiwi-prev':{},'kiwi-next':{},'kiwi-reconnect':{},'kiwi-restore':{},
     'kiwi-modal-name':{},'kiwi-open-ext':{},'kiwi-modal':{},'kiwi-status':{},
+    'kiwi-memory-name':{value:''},'kiwi-memory-list':{innerHTML:''},'kiwi-memory-status':{textContent:''},
     'kiwi-audio':{volume:1,muted:false,paused:true,pause(){this.paused=true;},play(){this.paused=false;return Promise.resolve();}}
   };
   class Socket {
@@ -288,6 +290,76 @@ test('KiwiSDR full receiver link carries validated tuning without stale URL para
   assert.equal(target.searchParams.get('other'),null);
   e['kiwi-freq'].value='-1';assert.equal(h.session.kiwiFullReceiverUrl('http://cyprus.example/'),'');
   assert.equal(h.session.kiwiFullReceiverUrl('javascript:alert(1)'),'');
+});
+
+test('Kiwi frequency memories save validated presets and recall without auto-connecting', () => {
+  const h=nativeSession(), {session,elements,sockets,storage}=h;
+  try {
+    elements['kiwi-freq'].value='7100';
+    elements['kiwi-mode'].value='am';
+    elements['kiwi-bandwidth'].value='normal';
+    elements['kiwi-memory-name'].value='BBC World Service';
+    assert.equal(session.kiwiSaveMemory(),true);
+    assert.equal(elements['kiwi-memory-name'].value,'');
+    let memories=JSON.parse(storage.get('ra-kiwi-memories-v1'));
+    assert.equal(memories.length,1);
+    assert.equal(memories[0].name,'BBC World Service');
+    assert.equal(memories[0].frequency,7100);
+    assert.match(elements['kiwi-memory-list'].innerHTML,/BBC World Service/);
+
+    elements['kiwi-freq'].value='30001';
+    assert.equal(session.kiwiSaveMemory(),false,'out-of-range memories must be rejected');
+    assert.equal(JSON.parse(storage.get('ra-kiwi-memories-v1')).length,1);
+
+    elements['kiwi-freq'].value='14205.5';
+    elements['kiwi-mode'].value='usb';
+    elements['kiwi-bandwidth'].value='narrow';
+    elements['kiwi-memory-name'].value='20m USB DX';
+    assert.equal(session.kiwiSaveMemory(),true);
+    memories=JSON.parse(storage.get('ra-kiwi-memories-v1'));
+    assert.equal(memories.length,2);
+    assert.equal(memories[0].frequency,14205.5);
+
+    elements['kiwi-freq'].value='7100';
+    elements['kiwi-mode'].value='am';
+    elements['kiwi-bandwidth'].value='normal';
+    assert.equal(session.kiwiApplyMemory(0),true);
+    assert.equal(elements['kiwi-freq'].value,'14205.500');
+    assert.equal(elements['kiwi-mode'].value,'usb');
+    assert.equal(elements['kiwi-bandwidth'].value,'narrow');
+    assert.equal(sockets.length,0,'recalling a memory must never open a receiver automatically');
+
+    session.openKiwiAudio('http://receiver.example/','Memory test');
+    h.authenticate();
+    session.kiwiApplyMemory(0);
+    assert.ok(sockets[0].sent.some(x=>x==='SET mod=usb low_cut=300 high_cut=2100 freq=14205.500'),
+      'an active receiver receives the recalled tuning command');
+
+    assert.equal(session.kiwiRemoveMemory(0),true);
+    assert.equal(JSON.parse(storage.get('ra-kiwi-memories-v1')).length,1);
+    assert.equal(session.kiwiRemoveMemory(8),false,'invalid memory indexes are ignored');
+  } finally {session.closeKiwiAudio();}
+});
+
+test('Kiwi frequency memories deduplicate the same tuning and cap storage at 40', () => {
+  const h=nativeSession(), {session,elements,storage}=h;
+  try {
+    elements['kiwi-memory-name'].value='First label';
+    assert.equal(session.kiwiSaveMemory(),true);
+    elements['kiwi-memory-name'].value='Updated label';
+    assert.equal(session.kiwiSaveMemory(),true);
+    let memories=JSON.parse(storage.get('ra-kiwi-memories-v1'));
+    assert.equal(memories.length,1);
+    assert.equal(memories[0].name,'Updated label');
+    for(let i=1;i<40;i++) {
+      elements['kiwi-freq'].value=String(7100+i);
+      elements['kiwi-memory-name'].value='Memory '+i;
+      assert.equal(session.kiwiSaveMemory(),true);
+    }
+    elements['kiwi-freq'].value='7200';
+    assert.equal(session.kiwiSaveMemory(),false);
+    assert.equal(JSON.parse(storage.get('ra-kiwi-memories-v1')).length,40);
+  } finally {session.closeKiwiAudio();}
 });
 
 test('KiwiSDR retries unexpected loss with 8s then 65s backoff, only after PCM', () => {
