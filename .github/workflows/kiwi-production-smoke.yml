@@ -1,0 +1,27 @@
+name: KiwiSDR safe production acceptance
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/kiwi_production_smoke.cjs
+      - .github/workflows/kiwi-production-smoke.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safe-smoke:
+    name: Kiwi P0 non-disruptive HTTP checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v5
+        with:
+          node-version: '22'
+      - name: Verify script parses
+        run: node --check scripts/kiwi_production_smoke.cjs
+      - name: Run six bounded read-only Kiwi Worker checks
+        run: node scripts/kiwi_production_smoke.cjs
