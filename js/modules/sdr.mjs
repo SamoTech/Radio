@@ -1,4 +1,5 @@
 import {OpenWebRxClient} from './openwebrx-native.mjs';
+import {paintWaterfall, clearWaterfall} from './sdr-waterfall.mjs';
 import {validateReceiverUrl, nativeKiwiAllowed, nativeOpenWebRxAllowed, receiverProfile, receiverCatalog, resolveCatalogReceiver} from './sdr-adapters.mjs';
 
 /* =====================================================================
@@ -32,6 +33,7 @@ var STR_SDR = {
     owrx_invalid: 'اختار ترددًا داخل نطاق الجهاز ووضعًا متاحًا.',
     owrx_range: 'نطاق الضبط الحالي',
     owrx_spectrum: 'طيف فعلي مستلم من الجهاز',
+    owrx_waterfall: 'شلال طيفي حي من إطارات FFT الفعلية',
     owrx_no_spectrum: 'الطيف يظهر لو الجهاز أرسل بياناته.',
     owrx_session: 'بيانات الجلسة',
     owrx_disconnect: 'فصل الاتصال',
@@ -180,6 +182,7 @@ var STR_SDR = {
     owrx_invalid: 'Choose a frequency inside the receiver band and an available mode.',
     owrx_range: 'Current tuning range',
     owrx_spectrum: 'Actual spectrum received from the device',
+    owrx_waterfall: 'Live waterfall from actual receiver FFT frames',
     owrx_no_spectrum: 'The spectrum appears when the receiver sends its data.',
     owrx_session: 'Session details',
     owrx_disconnect: 'Disconnect',
@@ -883,13 +886,14 @@ var owrxConfigKey = '';
 var owrxDeadline = null;
 var owrxWatchdog = null;
 var owrxLastAudio = 0;
+var owrxLastWaterfallAt = 0;
 var owrxPendingTune = null;
 var owrxPreferredProfile = null;
 var owrxProfileSelected = false;
 var owrxExpectedProfile = null;
 var owrxPreviousFocus = null;
 var owrxFailActive = null;
-var owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
+var owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0,waterfallFrames:0};
 var OWRX_ANALOG_MODES = ['am','nfm','wfm','usb','lsb','cw'];
 function directResultKey(type,url) { return type + '|' + validateReceiverUrl(url); }
 function loadReceiverAudioChecks() {
@@ -998,7 +1002,7 @@ function owrxApplyConfig(config) {
   input.min = (range.min / 1000).toFixed(3);input.max = (range.max / 1000).toFixed(3);
   $('owrx-range').textContent = (range.min / 1000).toFixed(3) + ' – ' + (range.max / 1000).toFixed(3) + ' kHz';
   if (owrxConfigKey !== key) {
-    owrxArmAudioDeadline();owrxFlushAudio();
+    owrxArmAudioDeadline();owrxFlushAudio();owrxResetSpectrum();
     owrxConfigKey = key;
     var initial = Number.isFinite(config.start_freq) ? config.start_freq : config.center_freq + (Number(config.start_offset_freq) || 0);
     var mode = modes.indexOf(config.start_mod) !== -1 ? config.start_mod : modes[0];
@@ -1026,6 +1030,17 @@ function owrxStepTune(direction) {
   $('owrx-freq').value = (Math.max(range.min / 1000,Math.min(range.max / 1000,frequency + direction * step))).toFixed(3);
   owrxTune();
 }
+function owrxResetSpectrum() {
+  var spectrum = $('owrx-spectrum');
+  if (spectrum) {
+    var ctx = spectrum.getContext('2d');
+    if (ctx) ctx.clearRect(0,0,spectrum.width,spectrum.height);
+  }
+  clearWaterfall($('owrx-waterfall'));
+  owrxLastWaterfallAt = 0;
+  if ($('owrx-spectrum-wrap')) $('owrx-spectrum-wrap').hidden = true;
+  if ($('owrx-waterfall-wrap')) $('owrx-waterfall-wrap').hidden = true;
+}
 function owrxDrawSpectrum(values) {
   if (!(values instanceof Float32Array) || values.length < 2 || values.length > 65536) return;
   var canvas = $('owrx-spectrum'), ctx = canvas.getContext('2d');
@@ -1043,6 +1058,14 @@ function owrxDrawSpectrum(values) {
     if (x === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
   ctx.stroke();
+  // The waterfall is intentionally absent until an actual receiver FFT
+  // arrives. Bound drawing to ~10fps on mobile without generating samples.
+  var now = Date.now();
+  if (now - owrxLastWaterfallAt >= 95 && paintWaterfall($('owrx-waterfall'),values)) {
+    owrxLastWaterfallAt = now;
+    owrxStats.waterfallFrames++;
+    $('owrx-waterfall-wrap').hidden = false;
+  }
 }
 function owrxFlushAudio() {
   owrxSources.forEach(function (source) { try { source.stop();source.disconnect(); } catch (e) {} });
@@ -1059,7 +1082,7 @@ function owrxFeedAudio(samples,sampleRate) {
   source.onended = function () { owrxSources.delete(source);source.disconnect(); };
 }
 function owrxStopSession() {
-  owrxSession++;owrxFailActive = null;owrxFlushAudio();
+  owrxSession++;owrxFailActive = null;owrxFlushAudio();owrxResetSpectrum();
   if (owrxDeadline) { clearTimeout(owrxDeadline);owrxDeadline = null; }
   if (owrxWatchdog) { clearInterval(owrxWatchdog);owrxWatchdog = null; }
   if (owrxClient) { try { owrxClient.close(); } catch (e) {} owrxClient = null; }
@@ -1090,14 +1113,14 @@ function openOpenWebRx(url,name) {
   owrxProfileSelected = false;owrxExpectedProfile = null;
   var fm = $('audio');if (fm) fm.pause();
   owrxReceiver = row;owrxConfig = null;owrxConfigKey = '';
-  owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
+  owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0,waterfallFrames:0};
   var session = owrxSession, failed = false;
   var audio = $('owrx-audio');
   $('owrx-modal-name').textContent = row.name || name || 'OpenWebRX';
   $('owrx-original').href = row.url;$('owrx-modal').hidden = false;
   $('owrx-profile').innerHTML = '<option value="">' + esc(t('owrx_no_profiles')) + '</option>';$('owrx-profile').disabled = true;
   $('owrx-range').textContent = '—';$('owrx-signal').textContent = '—';$('owrx-session').textContent = '—';
-  $('owrx-spectrum-wrap').hidden = true;owrxSetStatus('owrx_wait_config');
+  owrxResetSpectrum();owrxSetStatus('owrx_wait_config');
   $('owrx-close').focus();
   function fail(code,detail) {
     if (session !== owrxSession || failed) return;
@@ -1648,7 +1671,7 @@ export function boot() {
     if (!owrxClient || !owrxClient.selectProfile(this.value)) { owrxSetStatus('owrx_invalid');return; }
     owrxExpectedProfile = this.value;owrxProfileSelected = true;owrxPreferredProfile = null;
     owrxArmAudioDeadline();owrxFlushAudio();
-    owrxPendingTune = null;owrxConfigKey = '';owrxSetControls(false);$('owrx-spectrum-wrap').hidden = true;owrxSetStatus('owrx_wait_config');
+    owrxPendingTune = null;owrxConfigKey = '';owrxSetControls(false);owrxResetSpectrum();owrxSetStatus('owrx_wait_config');
   });
   $('owrx-freq').addEventListener('keydown',function (event) {
     if (event.key === 'Enter') { event.preventDefault();owrxTune(); }
