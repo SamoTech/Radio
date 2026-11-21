@@ -1,7 +1,8 @@
 # Dedicated KiwiSDR bridge. Paths are relative to this configuration file.
 # From the repository root:
 #   npx wrangler deploy --config proxy/kiwi-wrangler.toml
-# No bindings or secrets required. This does not deploy the stream relay.
+# Requires a SQLite-backed Durable Object; no paid-plan services or secrets.
+# Deploy this config together with kiwi-worker.js; it is NOT retroactive.
 name = "radio-atlas-kiwi-bridge"
 main = "kiwi-worker.js"
 compatibility_date = "2025-09-01"
@@ -11,3 +12,12 @@ preview_urls = false
 [observability]
 enabled = true
 head_sampling_rate = 1
+
+# One fleet-wide object serializes quota decisions across all Worker isolates.
+[[durable_objects.bindings]]
+name = "KIWI_QUOTAS"
+class_name = "KiwiQuota"
+
+[[migrations]]
+tag = "kiwi-global-quota-v1"
+new_sqlite_classes = ["KiwiQuota"]
