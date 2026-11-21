@@ -739,6 +739,12 @@ function sdrStartFrame() {
   $('sdr-frame-fallback').hidden = profile.transport === 'embed';
   $('sdr-frame-fallback').textContent = t(profile.transport === 'embed' ? 'sdr_frame_wait' : profile.reason);
   if (profile.transport !== 'embed') { status.textContent = t('sdr_external_ready');return; }
+  // A fresh browsing context makes reload reliable even with a fragment URL.
+  // Reusing a frame after about:blank can race a same-document navigation.
+  var previousFrame = frame;
+  frame = previousFrame.cloneNode(false);
+  frame.removeAttribute('src');
+  frame.removeAttribute('srcdoc');
   var generation = sdrFrameGeneration;
   status.textContent = t('sdr_loading');
   frame.title = t('sdr_frame_title') + ': ' + (sdrCurrentReceiver.name || profile.label);
@@ -758,6 +764,7 @@ function sdrStartFrame() {
     status.textContent = t('sdr_frame_wait');$('sdr-frame-fallback').hidden = false;
   },15000);
   frame.src = sdrCurrentReceiver.url;
+  previousFrame.replaceWith(frame);
 }
 function openSDR(url, name, type) {
   var row = resolveCatalogReceiver(url,type,receiverRows());

@@ -22,7 +22,7 @@ const recording=require('../tests/fixtures/kiwi-snd-recording.json');
 const timers=new Set();
 const report={run:new Date().toISOString(),base:BASE,mode:'recorded-and-local-iframe-fixtures',
   note:'Iframe load is receiver-UI evidence only. Kiwi output uses recorded SND frames; no live remote receiver or physical audibility is claimed.',
-  checks:[],layouts:[],requests:[],noticeRequests:[],policyDenials:[],errors:[]};
+  checks:[],layouts:[],requests:[],requestFailures:[],fixtureResponses:[],noticeRequests:[],policyDenials:[],errors:[]};
 function check(name,ok,detail='') {
   report.checks.push({name,status:ok?'PASS':'FAIL',detail});
   assert.ok(ok,name+(detail?': '+detail:''));
@@ -45,7 +45,22 @@ async function openCard(page,url) {
   await page.locator('#sdr-modal').waitFor({state:'visible'});
   return trigger;
 }
+async function failureDiagnostics(page) {
+  if(!page||page.isClosed())return {page:'unavailable'};
+  const dom=await page.evaluate(()=>{
+    const frame=document.querySelector('#sdr-frame'),modal=document.querySelector('#sdr-modal');
+    return {pageUrl:location.href,modalHidden:modal&&modal.hidden,
+      frame:frame?{src:frame.getAttribute('src'),srcdoc:frame.getAttribute('srcdoc'),
+        hidden:frame.hidden,title:frame.title,sandbox:frame.getAttribute('sandbox')}:null,
+      status:document.querySelector('#sdr-status')?.textContent,
+      selected:document.querySelector('#sdr-receiver')?.value,
+      original:document.querySelector('#sdr-open-ext')?.getAttribute('href')};
+  });
+  return {...dom,frames:page.frames().map(frame=>({url:frame.url(),name:frame.name()})),
+    requests:report.requests,requestFailures:report.requestFailures,fixtureResponses:report.fixtureResponses};
+}
 async function loadedInterface(page,url,title) {
+  report.expectedInterface={url,title};
   await page.frameLocator('#sdr-frame').locator('#fixture-title').waitFor({state:'visible',timeout:15000});
   assert.equal(await page.frameLocator('#sdr-frame').locator('#fixture-title').textContent(),title);
   assert.equal(await page.locator('#sdr-frame').getAttribute('src'),url);
@@ -92,6 +107,7 @@ async function waitForNative(page) {
 }
 (async()=>{
   const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  let page;
   try {
     const context=await browser.newContext({viewport:{width:390,height:844},locale:'ar-EG',serviceWorkers:'block'});
     await context.addInitScript(()=>{
@@ -104,12 +120,15 @@ async function waitForNative(page) {
         return connect.call(this,destination,...args);
       };
     });
-    const page=await context.newPage();
+    page=await context.newPage();
     page.on('pageerror',error=>report.errors.push(error.message));
     page.on('console',message=>{if(/frame-ancestors|X-Frame-Options|Refused to (?:frame|display)/i.test(message.text()))report.policyDenials.push(message.text());});
     page.on('request',request=>{
       if(/\.studio\.invalid/.test(request.url()))report.requests.push({url:request.url(),frame:request.isNavigationRequest()});
       if(/dailymotion\.com|dmcdn\.net/.test(request.url()))report.noticeRequests.push(request.url());
+    });
+    page.on('requestfailed',request=>{
+      if(/\.studio\.invalid/.test(request.url()))report.requestFailures.push({url:request.url(),error:request.failure()?.errorText});
     });
     await page.route('**/googletagmanager.com/**',route=>route.abort());
     await page.route('**/abacus.jasoncameron.dev/**',route=>route.abort());
@@ -126,7 +145,10 @@ async function waitForNative(page) {
       {id:42,name:'Studio SatNOGS station fixture',url:URLS.satnogs,https:true}
     ]})}));
     for(const [url,label] of [[URLS.websdr,'Local WebSDR interface'],[URLS.owrx,'Local OpenWebRX interface'],[URLS.kiwi,'Local KiwiSDR interface']]) {
-      await page.route(url.replace(/#.*$/,''),route=>route.fulfill({contentType:'text/html',body:interfaceHtml(label)}));
+      await page.route(url.replace(/#.*$/,''),route=>{
+        report.fixtureResponses.push({url:route.request().url(),label});
+        return route.fulfill({contentType:'text/html',body:interfaceHtml(label)});
+      });
     }
     await page.route(URLS.blocked,route=>route.fulfill({contentType:'text/html',
       headers:{'Content-Security-Policy':"frame-ancestors 'none'",'X-Frame-Options':'DENY'},
@@ -222,7 +244,11 @@ async function waitForNative(page) {
 
     await openCard(page,URLS.owrx);await loadedInterface(page,URLS.owrx,'Local OpenWebRX interface');
     check('OpenWebRX original path, query and fragment remain intact',/OpenWebRX/.test(await page.locator('#sdr-protocol').textContent()));
+    const beforeReload=report.requests.filter(request=>request.url.replace(/#.*$/,'')===URLS.owrx.replace(/#.*$/,'')).length;
     await page.locator('#sdr-reload').click();await loadedInterface(page,URLS.owrx,'Local OpenWebRX interface');
+    const afterReload=report.requests.filter(request=>request.url.replace(/#.*$/,'')===URLS.owrx.replace(/#.*$/,'')).length;
+    check('Reload requests the original receiver URL again without cache-busting or losing its fragment',afterReload===beforeReload+1,
+      JSON.stringify({beforeReload,afterReload,url:await page.locator('#sdr-frame').getAttribute('src')}));
     await page.locator('#sdr-modal-close').click();
     await openCard(page,URLS.kiwi);await loadedInterface(page,URLS.kiwi,'Local KiwiSDR interface');
     await page.locator('#sdr-native').click();await waitForNative(page);
@@ -244,10 +270,16 @@ async function waitForNative(page) {
     check('FM notice never started remote video during the full test',report.noticeRequests.length===0,JSON.stringify(report.noticeRequests));
     check('No application page errors',report.errors.length===0,JSON.stringify(report.errors));
     report.status='PASS';
-  }catch(error){report.status='FAIL';report.error=error.stack||String(error);throw error;}
+  }catch(error){
+    report.status='FAIL';report.error=error.stack||String(error);
+    try {report.failureDiagnostics=await failureDiagnostics(page);}catch(diagnosticError){report.diagnosticError=String(diagnosticError);}
+    if(page&&!page.isClosed())await screenshot(page,'failure').catch(()=>{});
+    throw error;
+  }
   finally {
     for(const timer of timers)clearInterval(timer);
     fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify(report,null,2));
+    console.log('SDR_STUDIO_QA_REPORT '+JSON.stringify(report));
     await browser.close();
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});
