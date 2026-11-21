@@ -32,6 +32,12 @@ jobs:
       - name: Check ES module syntax (js/modules/*.mjs)
         run: |
           for f in js/modules/*.mjs; do node --check "$f"; done
+      - name: Validate Kiwi Worker source and Cloudflare bundle (no deploy)
+        run: |
+          node --check proxy/kiwi-worker.js
+          node --check proxy/kiwi-quota.js
+          npx --yes wrangler@4.165.0 deploy --config proxy/kiwi-wrangler.toml \
+            --dry-run --outdir "$RUNNER_TEMP/kiwi-bridge-dist"
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
