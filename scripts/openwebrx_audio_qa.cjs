@@ -133,6 +133,8 @@ async function startFm(page){await page.evaluate(url=>{
    await page.waitForFunction(()=>{const d=RA_MODULES.sdr.owrxDiagnostics();return d.fftFrames>0&&Number.isFinite(d.signalDbm);},null,{timeout:15000});
    report.live=await page.evaluate(()=>RA_MODULES.sdr.owrxDiagnostics());
    check('Live receiver supplies actual FFT and S-meter',report.live.fftFrames>0&&Number.isFinite(report.live.signalDbm));
+   await page.waitForFunction(()=>RA_MODULES.sdr.owrxDiagnostics().waterfallFrames>0,null,{timeout:15000});
+   check('Live waterfall contains decoded receiver FFT rows',await page.locator('#owrx-waterfall-wrap').isVisible());
   }
   check('Native playback opens no receiver iframe',await page.locator('#sdr-modal').isHidden()&&await page.locator('#sdr-frame').getAttribute('src')==='about:blank');
   if(!LIVE){
@@ -172,6 +174,14 @@ async function startFm(page){await page.evaluate(url=>{
     &&negotiation[0].type==='connectionproperties'&&negotiation[0].params.output_rate===12000&&negotiation[0].params.hd_output_rate===48000);
    await page.waitForFunction(()=>RA_MODULES.sdr.owrxDiagnostics().fftFrames>0);
    check('Spectrum renders actual decoded FFT frames',await page.locator('#owrx-spectrum-wrap').isVisible());
+   await page.waitForFunction(()=>RA_MODULES.sdr.owrxDiagnostics().waterfallFrames>0);
+   const waterfallEvidence=await page.locator('#owrx-waterfall').evaluate(canvas=>{
+    const ctx=canvas.getContext('2d'),pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let visible=0;for(let i=3;i<pixels.length;i+=4)if(pixels[i])visible++;
+    return {width:canvas.width,height:canvas.height,visiblePixels:visible};
+   });report.waterfall=waterfallEvidence;
+   check('Actual FFT paints nonempty waterfall pixels without image placeholders',
+    await page.locator('#owrx-waterfall-wrap').isVisible()&&waterfallEvidence.visiblePixels>0,JSON.stringify(waterfallEvidence));
    await page.locator('#owrx-freq').fill('14201.000');await page.locator('#owrx-freq').press('Tab');
    await page.selectOption('#owrx-step','1');await page.locator('#owrx-up').click();
    check('Frequency stepping uses kHz correctly',Number(await page.locator('#owrx-freq').inputValue())===14202);
@@ -207,6 +217,8 @@ async function startFm(page){await page.evaluate(url=>{
    await traceReady(()=>traces.at(-1).closed,'Starting FM closes the receiver WebSocket');
    check('Starting FM releases native audio and closes its panel',await page.locator('#owrx-modal').isHidden()
     &&await page.locator('#owrx-audio').evaluate(a=>a.paused&&a.srcObject===null));
+   check('FM switching clears old receiver waterfall evidence',
+    await page.locator('#owrx-waterfall-wrap').isHidden());
    nextCase='unsupported';await direct.first().click();
    await page.waitForFunction(()=>document.querySelector('#owrx-status').textContent.includes('unsupported_codec'));
    check('Unsupported compression fails visibly without audio',await page.evaluate(()=>{const d=RA_MODULES.sdr.owrxDiagnostics();return d.contextState==='closed'&&d.nonZeroSamples===0;}));
