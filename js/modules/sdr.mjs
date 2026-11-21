@@ -174,6 +174,9 @@ var STR_SDR = {
     kiwi_memory_invalid: 'راجع التردد والوضع وعرض المرشح قبل الحفظ.',
     kiwi_memory_limit: 'وصلت للحد الأقصى: 40 ترددًا محفوظًا.',
     kiwi_memory_storage: 'تعذر الحفظ في مساحة المتصفح.',
+    kiwi_cyprus_presets: 'ترددات مصرية للتجربة من مستقبل قبرص',
+    kiwi_cyprus_presets_hint: 'موجة متوسطة AM. دي ترددات مرجعية مش ضمان بث أو استقبال حالي. 558 مُدرج في المراجع للبرنامج التعليمي، وصوت العرب 621 تاريخيًا. اضغط لاختيار التردد على نفس الجهاز فقط.',
+    kiwi_cyprus_selected: 'تم ضبط التردد ووضع AM على مستقبل قبرص؛ ظهور الصوت يتوقف على الإشارة الفعلية.',
     kiwi_fullscreen: 'ملء الشاشة',
     kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
   },
@@ -341,6 +344,9 @@ var STR_SDR = {
     kiwi_memory_invalid: 'Check the frequency, mode and passband before saving.',
     kiwi_memory_limit: 'Maximum reached: 40 saved frequencies.',
     kiwi_memory_storage: 'The browser could not save this memory.',
+    kiwi_cyprus_presets: 'Egyptian MW frequencies to try on Cyprus',
+    kiwi_cyprus_presets_hint: 'Medium wave AM. These are reference frequencies, not verified current broadcasts or reception. Guides assign 558 kHz to Educational Radio; 621 kHz is a historical Voice of the Arabs frequency. Selection only retunes this receiver.',
+    kiwi_cyprus_selected: 'Tuned the Cyprus receiver to AM; audible reception depends on the actual signal.',
     kiwi_fullscreen: 'Full screen',
     kiwi_leave_fullscreen: 'Exit full screen'
   }
@@ -1250,6 +1256,15 @@ var kiwiLastReceiver = null;
 var KIWI_SETTINGS_KEY = 'ra-kiwi-session-v1';
 var KIWI_MEMORIES_KEY = 'ra-kiwi-memories-v1';
 var KIWI_MEMORIES_MAX = 40;
+// Reference MW frequencies, not stations with verified live audio.
+var KIWI_CYPRUS_PRESETS = [
+  {frequency:864,ar:'القرآن الكريم',en:'Quran Radio'},
+  {frequency:819,ar:'البرنامج العام',en:'General Programme'},
+  {frequency:774,ar:'الشرق الأوسط',en:'Middle East Radio'},
+  {frequency:711,ar:'الشباب والرياضة',en:'Youth & Sport'},
+  {frequency:558,ar:'تجربة 558 — التعليمية في الأدلة',en:'Try 558 — listed as Educational'},
+  {frequency:621,ar:'صوت العرب — مرجع تاريخي',en:'Voice of the Arabs — historical'}
+];
 var kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0, signalDbm:null};
 var kiwiLastFrame = 0;
 var kiwiLastMeter = 0;
@@ -1340,6 +1355,38 @@ function kiwiUpdateControls() {
   if (external && kiwiCurrentReceiver) external.href = kiwiFullReceiverUrl(kiwiCurrentReceiver.url) || '#';
   var input = $('kiwi-freq');
   if (input) input.step = kiwiControlValue('kiwi-step','1');
+}
+function kiwiIsCyprusReceiver() {
+  if (!kiwiCurrentReceiver) return false;
+  try { return new URL(kiwiCurrentReceiver.url).hostname.toLowerCase() === 'cyp.twrmon.net'; }
+  catch (e) { return false; }
+}
+function kiwiRenderCyprusPresets() {
+  var wrap = $('kiwi-cyprus-presets'), list = $('kiwi-cyprus-presets-list');
+  if (!wrap || !list) return;
+  wrap.hidden = !kiwiIsCyprusReceiver();
+  if (wrap.hidden) { list.innerHTML = '';return; }
+  var language = typeof document !== 'undefined' && document.documentElement &&
+    document.documentElement.lang === 'en' ? 'en' : 'ar';
+  list.innerHTML = KIWI_CYPRUS_PRESETS.map(function (row,index) {
+    return '<button type="button" class="btn ghost kiwi-preset-button" data-kiwi-cyprus-preset="' + index +
+      '"><strong dir="ltr">' + row.frequency + ' kHz</strong><span>' + esc(row[language]) + '</span></button>';
+  }).join('');
+  if ($('kiwi-cyprus-presets-status')) $('kiwi-cyprus-presets-status').textContent = '';
+}
+function kiwiApplyCyprusPreset(index) {
+  if (!kiwiIsCyprusReceiver() || !Number.isInteger(index) || index < 0 || index >= KIWI_CYPRUS_PRESETS.length) return false;
+  var row = KIWI_CYPRUS_PRESETS[index];
+  var frequency = $('kiwi-freq'), mode = $('kiwi-mode'), bandwidth = $('kiwi-bandwidth');
+  if (!frequency || !mode || !bandwidth) return false;
+  frequency.value = String(row.frequency);
+  mode.value = 'am';
+  bandwidth.value = 'narrow';
+  kiwiUpdateControls();
+  if (kiwiReady) kiwiSendTune();
+  var status = $('kiwi-cyprus-presets-status');
+  if (status) status.textContent = t('kiwi_cyprus_selected');
+  return true;
 }
 function kiwiReadMemories() {
   try {
@@ -1625,6 +1672,7 @@ function openKiwiAudio(url, name, options) {
   $('kiwi-modal').hidden = false;
   kiwiUpdateControls();
   kiwiRenderReceiverChoices();
+  kiwiRenderCyprusPresets();
   if ($('kiwi-signal')) $('kiwi-signal').textContent = t('kiwi_signal_wait');
   if ($('kiwi-signal-meter')) $('kiwi-signal-meter').value = -160;
   kiwiSetStatus(t('kiwi_connecting'));
@@ -1890,6 +1938,11 @@ export function boot() {
     else if (removeIndex !== null) kiwiRemoveMemory(Number(removeIndex));
   });
   kiwiRenderMemories();
+  if ($('kiwi-cyprus-presets-list')) $('kiwi-cyprus-presets-list').addEventListener('click',function (event) {
+    var button = event.target && event.target.closest ? event.target.closest('[data-kiwi-cyprus-preset]') : null;
+    if (!button) return;
+    kiwiApplyCyprusPreset(Number(button.getAttribute('data-kiwi-cyprus-preset')));
+  });
   if ($('kiwi-prev')) $('kiwi-prev').addEventListener('click',function () { kiwiNavigateReceiver(-1); });
   if ($('kiwi-next')) $('kiwi-next').addEventListener('click',function () { kiwiNavigateReceiver(1); });
   if ($('kiwi-receiver')) $('kiwi-receiver').addEventListener('change',function () {
