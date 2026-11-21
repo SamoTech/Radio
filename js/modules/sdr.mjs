@@ -176,7 +176,8 @@ var STR_SDR = {
     kiwi_memory_storage: 'تعذر الحفظ في مساحة المتصفح.',
     kiwi_cyprus_presets: 'ترددات مصرية للتجربة من مستقبل قبرص',
     kiwi_cyprus_presets_hint: 'موجة متوسطة AM. دي ترددات مرجعية مش ضمان بث أو استقبال حالي. 558 مُدرج في المراجع للبرنامج التعليمي، وصوت العرب 621 تاريخيًا. اضغط لاختيار التردد على نفس الجهاز فقط.',
-    kiwi_cyprus_selected: 'تم ضبط التردد ووضع AM على مستقبل قبرص؛ ظهور الصوت يتوقف على الإشارة الفعلية.',
+    kiwi_cyprus_selected: 'تم ضبط AM بخطوة 9 kHz وAGC تلقائي وإلغاء كتم الإشارة (Squelch=0). جودة السماع تعتمد على البث الفعلي.',
+    kiwi_cyprus_staged: 'ضبطنا AM وSquelch=0 والتردد المختار. الجهاز غير متصل حاليًا؛ انتظر قليلًا قبل إعادة الاتصال، أو جرّب واجهته الأصلية.',
     kiwi_fullscreen: 'ملء الشاشة',
     kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
   },
@@ -346,7 +347,8 @@ var STR_SDR = {
     kiwi_memory_storage: 'The browser could not save this memory.',
     kiwi_cyprus_presets: 'Egyptian MW frequencies to try on Cyprus',
     kiwi_cyprus_presets_hint: 'Medium wave AM. These are reference frequencies, not verified current broadcasts or reception. Guides assign 558 kHz to Educational Radio; 621 kHz is a historical Voice of the Arabs frequency. Selection only retunes this receiver.',
-    kiwi_cyprus_selected: 'Tuned the Cyprus receiver to AM; audible reception depends on the actual signal.',
+    kiwi_cyprus_selected: 'Tuned AM with 9 kHz steps, automatic AGC and squelch off (0). Reception still depends on the real signal.',
+    kiwi_cyprus_staged: 'AM, squelch off and the frequency are set. The receiver is currently disconnected; wait before reconnecting or try its original interface.',
     kiwi_fullscreen: 'Full screen',
     kiwi_leave_fullscreen: 'Exit full screen'
   }
@@ -1249,6 +1251,8 @@ var kiwiRetryCount = 0;
 var KIWI_RETRY_DELAYS_MS = [8000, 65000];
 var kiwiLastFailureCode = '';
 var kiwiLastCloseCode = null;
+// Do not overwrite the last audible settings before new PCM arrives after retuning.
+var kiwiTuneAwaitingAudio = false;
 var kiwiSession = 0;
 var kiwiReady = false;
 var kiwiCurrentReceiver = null;
@@ -1381,11 +1385,21 @@ function kiwiApplyCyprusPreset(index) {
   if (!frequency || !mode || !bandwidth) return false;
   frequency.value = String(row.frequency);
   mode.value = 'am';
-  bandwidth.value = 'narrow';
+  bandwidth.value = 'normal';
+  // AM/MW broadcast frequencies in the region use the 9 kHz channel grid.
+  if ($('kiwi-step')) $('kiwi-step').value = '9';
+  // Restore actual reception defaults rather than inheriting a previous
+  // Squelch=20/disabled AGC configuration that can silence weak signals.
+  if ($('kiwi-agc')) $('kiwi-agc').checked = true;
+  if ($('kiwi-squelch')) $('kiwi-squelch').value = '0';
   kiwiUpdateControls();
-  if (kiwiReady) kiwiSendTune();
+  var connected = kiwiReady;
+  if (connected) {
+    kiwiSendControl(kiwiAgcCommand());
+    kiwiSendTune(); // also sends the squelch=0 setting on the existing socket
+  }
   var status = $('kiwi-cyprus-presets-status');
-  if (status) status.textContent = t('kiwi_cyprus_selected');
+  if (status) status.textContent = t(connected ? 'kiwi_cyprus_selected' : 'kiwi_cyprus_staged');
   return true;
 }
 function kiwiReadMemories() {
@@ -1479,7 +1493,7 @@ function kiwiRemoveMemory(index) {
   return true;
 }
 function kiwiSaveSession() {
-  if (!kiwiCurrentReceiver || !kiwiReady || kiwiStats.frames < 1 || !kiwiTuneCommand()) return;
+  if (!kiwiCurrentReceiver || !kiwiReady || kiwiStats.frames < 1 || kiwiTuneAwaitingAudio || !kiwiTuneCommand()) return;
   var audio = $('kiwi-audio'), agc = $('kiwi-agc');
   var saved = {
     url:kiwiCurrentReceiver.url,name:kiwiCurrentReceiver.name,
@@ -1567,10 +1581,11 @@ function kiwiRestoreSession() {
 function kiwiSendTune() {
   var command = kiwiTuneCommand();
   if (!command) { kiwiSetStatus(t('kiwi_invalid')); return; }
+  if (kiwiReady) kiwiTuneAwaitingAudio = true;
   kiwiSendControl(command);
   kiwiUpdateControls();
   kiwiSendControl(kiwiSquelchCommand());
-  kiwiSaveSession();
+  kiwiSaveSession(); // no-op until a fresh SND packet confirms the retune
 }
 function kiwiStepTune(direction) {
   var step = Number(kiwiControlValue('kiwi-step','1'));
@@ -1593,6 +1608,7 @@ function closeKiwiAudio() {
   if (kiwiAudioCtx) { try { kiwiAudioCtx.close(); } catch (e) {} kiwiAudioCtx = null; }
   kiwiGain = null;
   kiwiNextTime = 0;
+  kiwiTuneAwaitingAudio = false;
   var modal = $('kiwi-modal');
   if (modal) modal.hidden = true;
 }
@@ -1668,6 +1684,7 @@ function openKiwiAudio(url, name, options) {
   kiwiLastMeter = 0;
   kiwiLastFailureCode = '';
   kiwiLastCloseCode = null;
+  kiwiTuneAwaitingAudio = false;
   $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
   $('kiwi-modal').hidden = false;
   kiwiUpdateControls();
@@ -1758,7 +1775,10 @@ function openKiwiAudio(url, name, options) {
     kiwiLastFrame = Date.now();
     kiwiStats.frames++;kiwiStats.samples += samples.length;kiwiStats.sampleRate = sampleRate;
     kiwiStats.signalDbm = kiwiSignalDbm(ev.data);
-    for (var i = 0; i < samples.length; i++) if (samples[i] !== 0) kiwiStats.nonZeroSamples++;
+    var currentHasAudio = false;
+    for (var i = 0; i < samples.length; i++) if (samples[i] !== 0) { kiwiStats.nonZeroSamples++; currentHasAudio = true; }
+    var tuneConfirmed = kiwiTuneAwaitingAudio && currentHasAudio;
+    if (tuneConfirmed) kiwiTuneAwaitingAudio = false;
     if (Date.now() - kiwiLastMeter >= 250 && kiwiStats.signalDbm !== null) {
       kiwiLastMeter = Date.now();
       if ($('kiwi-signal')) $('kiwi-signal').textContent = kiwiStats.signalDbm.toFixed(1) + ' dBm';
@@ -1768,7 +1788,7 @@ function openKiwiAudio(url, name, options) {
       gotSamples = true;
       if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
       kiwiSetStatus(t('kiwi_live'));kiwiSaveSession();
-    }
+    } else if (tuneConfirmed) kiwiSaveSession();
     kiwiFeedAudio(samples,sampleRate);
     if (typeof directMarkVerified === 'function' && kiwiStats.nonZeroSamples > 0 && kiwiAudioCtx && kiwiAudioCtx.state === 'running' && !audio.paused) directMarkVerified('kiwi',url);
   };
