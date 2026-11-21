@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-20T10:00:22+00:00",
+ "updated": "2026-11-21T09:49:37+00:00",
  "checked": 1185,
- "alive": 1072,
+ "alive": 1067,
  "results": {
   "https://stream.live.vc.bbcmedia.co.uk/bbc_world_service": {
    "alive": true,
@@ -276,9 +276,10 @@
    "strategy": "bot"
   },
   "https://jufmstreaming.ju.edu.jo/;": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://stream.zeno.fm/u1wbm3k7gxquv": {
    "alive": true,
@@ -455,7 +456,7 @@
   },
   "https://radio.yabiladi.com:8102/;stream.mp3": {
    "alive": true,
-   "code": 401,
+   "code": 200,
    "strategy": "bot"
   },
   "https://streaming2.toutech.net:8000/jawharafm": {
@@ -486,8 +487,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm": {
-   "alive": true,
-   "code": 200,
+   "alive": false,
+   "code": 404,
    "strategy": "bot"
   },
   "https://streams.radio.co/s0975ec186/listen": {
@@ -593,7 +594,7 @@
   },
   "https://rstream.hadara.ps/proxy/amen24/stream": {
    "alive": true,
-   "code": 401,
+   "code": 200,
    "strategy": "bot"
   },
   "https://radio12.pro-fhi.net/live/Hits1radio": {
@@ -603,7 +604,7 @@
   },
   "https://stream.bodkas.com/playlist?id=mfmradio": {
    "alive": false,
-   "code": 502,
+   "code": 500,
    "strategy": "curl_cffi",
    "maybe_alive": true
   },
@@ -806,8 +807,8 @@
    "strategy": "bot"
   },
   "https://streaming.shoutcast.com/alrasheed-fm?1739706082672": {
-   "alive": true,
-   "code": 200,
+   "alive": false,
+   "code": 404,
    "strategy": "bot"
   },
   "https://streams.radiomast.io/04b1ce4c-24f2-4172-b756-065832ef78bf?cachebuster=1885364415580368.8": {
@@ -1167,7 +1168,7 @@
   },
   "https://s3.radio.co/s8efa33b63/listen": {
    "alive": true,
-   "code": 200,
+   "code": 403,
    "strategy": "bot"
   },
   "https://das-edge11-live365-dal03.cdnstream.com/a54182?dist=theonestopradio": {
@@ -1369,9 +1370,10 @@
    "strategy": "bot"
   },
   "https://01.solumedia.com.ar:10004/stream": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 0,
+   "strategy": "googlebot",
+   "maybe_alive": true
   },
   "https://radiosar.com/9380/stream": {
    "alive": true,
@@ -1917,7 +1919,7 @@
   },
   "https://sonic.nnw.cl:7009/?n=7ed7679a82325392b106": {
    "alive": true,
-   "code": 401,
+   "code": 200,
    "strategy": "bot"
   },
   "https://24253.live.streamtheworld.com/MUSICABLU.mp3?n=1ba6aadc2f9c1a749e1c": {
@@ -3535,9 +3537,10 @@
    "strategy": "bot"
   },
   "https://ais-sa2.cdnstream1.com/2336_128.mp3": {
-   "alive": true,
-   "code": 200,
-   "strategy": "bot"
+   "alive": false,
+   "code": 503,
+   "strategy": "curl_cffi",
+   "maybe_alive": true
   },
   "https://14923.live.streamtheworld.com/KJJYFMAAC.aac": {
    "alive": true,
