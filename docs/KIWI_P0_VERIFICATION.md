@@ -46,7 +46,7 @@ The owner reports `/healthz` returning HTTP 200 through Cloudflare URL Scanner a
 | Approved Origin + malformed receiver | **400 PASS** | 289ms |
 | Approved Origin + catalog-unlisted public host | **403 PASS** | 508ms |
 
-The 400 response is important: the deployed Worker checks `KIWI_QUOTAS.checkIp(ip)` **before** receiver normalization. Returning 400 on that path establishes that the live quota admission RPC succeeded at least once rather than failing closed with 503. This does **not** establish actual quota thresholds, distributed concurrency, receiver-level `reserve`, long-lived session cleanup, PCM output or physical audibility. Those tests remain **NOT VERIFIED**. The new read-only acceptance automation can be rerun manually via GitHub Actions without load on public receivers.
+The 400 response is important: **under the uploaded source's documented control flow**, the Worker invokes `KIWI_QUOTAS.checkIp(ip)` before receiver normalization, so this is strong indirect evidence that the quota RPC succeeded rather than returning 503. **However, the exact deployed source has not been independently read back**; a different deployed implementation could also return 400. Treat direct Durable Object RPC execution as **LIKELY, NOT INDEPENDENTLY PROVEN** until authenticated source readback or targeted Worker logs confirm the path. This does **not** establish actual quota thresholds, distributed concurrency, receiver-level `reserve`, long-lived session cleanup, PCM output or physical audibility. Those tests remain **NOT VERIFIED**. The new read-only acceptance automation can be rerun manually via GitHub Actions without load on public receivers.
 
 ## Previous P0 global-quota implementation background (historical)
 
