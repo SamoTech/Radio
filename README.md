@@ -39,7 +39,7 @@
 
 **KiwiSDR P0:** أُضيفت طبقة حصص عالمية مبنية على Cloudflare Durable Objects (SQLite) في مصدر Worker المنفصل، لكنها **غير مفعلة على الخدمة الحية** قبل النشر المستقل من حساب المالك. تفاصيل الضمانات وحدودها في [KIWI_README](proxy/KIWI_README.md)؛ المصدر المنشور من GitHub Pages لا يحدّث Worker.
 
-### 🌍 تبويب عربي
+**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ ميزة Kiwi waterfall ما زالت تتطلب مسار W/F مستقلًا في Worker. Service Worker v86.\n\n### 🌍 تبويب عربي
 - تبويب مستقل «🌍 عربي» يعرض جميع المحطات العربية في 22 دولة عربية
 - ترتيبا حسب الدولة مع الأعلام وعدد المحطات
 - المحطات الرسمية أولا + ترتيب حسب الاسم
@@ -96,7 +96,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v85) لـ caching و offline
+- **Service Worker** (sw.js v86) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
