@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const code = fs.readFileSync('proxy/kiwi-worker.js', 'utf8')
+  .replace("export { KiwiQuota } from './kiwi-quota.js';", '')
   .replace('export default {', 'var exported = {');
 const RECEIVER = 'http://public.receiver.org:8073/';
 const DIRECTORY = 'https://samotech.github.io/Radio/data/kiwisdr.json';
@@ -38,7 +39,16 @@ class Socket {
   }
 }
 function harness(options = {}) {
-  const calls = [], upstreams = [], pairs = [], timers = new Map();
+  const calls = [], upstreams = [], pairs = [], timers = new Map(), waitUntil = [];
+  let reservations = 0, releases = 0;
+  const quota = options.quota || {
+    async checkIp() { return true; },
+    async reserve() {
+      reservations++;
+      return {status:'ok', token:'00000000-0000-4000-8000-' + String(reservations).padStart(12,'0')};
+    },
+    async release() { releases++; return true; }
+  };
   let timerId = 0;
   const ctx = {URL, Set, Map, Number, Date, Headers, AbortSignal, AbortController, TextEncoder,
     console: {log() {}, warn() {}},
@@ -66,7 +76,11 @@ function harness(options = {}) {
       return {status: 101, webSocket: socket};
     }};
   vm.createContext(ctx); vm.runInContext(code, ctx);
-  return {ctx, calls, upstreams, pairs, timers,
+  const realFetch = ctx.exported.fetch;
+  ctx.fetchRaw = (req, env) => realFetch(req, env, {waitUntil:p => waitUntil.push(p)});
+  ctx.exported.fetch = req => ctx.fetchRaw(req, {KIWI_QUOTAS:{getByName:() => quota}});
+  return {ctx, calls, upstreams, pairs, timers, waitUntil, quota,
+    globalCounts: () => ({reservations, releases}),
     sessions: () => vm.runInContext('activeSessions', ctx),
     maps: () => vm.runInContext('[ipSessions.size, receiverSessions.size]', ctx)};
 }
@@ -299,4 +313,40 @@ test('concurrent catalog reads share one network request and failures may retry'
   await assert.rejects(failing.ctx.permittedCatalog(), /temporary/);
   assert.ok((await failing.ctx.permittedCatalog()).has(RECEIVER));
   assert.equal(attempts, 2);
+});
+
+test('global limiter absence or failure prevents all SDR network work', async () => {
+  const h = harness();
+  assert.equal((await h.ctx.fetchRaw(request(), {})).status, 503);
+  assert.equal(h.calls.length, 0);
+  const denied = harness({quota:{
+    async checkIp() { return false; },
+    async reserve() { throw new Error('should not reserve'); }
+  }});
+  assert.equal((await denied.ctx.exported.fetch(request())).status, 429);
+  assert.equal(denied.calls.length, 0);
+});
+
+test('fleet-wide receiver quota refusal releases isolate-local reservations', async () => {
+  const h = harness({quota:{
+    async checkIp() { return true; },
+    async reserve() { return {status:'concurrency'}; },
+    async release() { throw new Error('should not release'); }
+  }});
+  assert.equal((await h.ctx.exported.fetch(request())).status, 429);
+  assert.equal(h.sessions(), 0);
+  assert.deepEqual(Array.from(h.maps()), [0, 0]);
+  assert.equal(h.upstreams.length, 0);
+});
+
+test('quota lease released for both peer close and failed upstream; waitUntil invoked', async () => {
+  const h = harness();
+  assert.equal((await h.ctx.exported.fetch(request())).status, 101);
+  h.pairs[0][1].emit('close');
+  await Promise.all(h.waitUntil);
+  assert.deepEqual(h.globalCounts(), {reservations:1,releases:1});
+  assert.equal(h.sessions(), 0);
+  const bad = harness({upstream: async () => ({status:503})});
+  assert.equal((await bad.ctx.exported.fetch(request())).status, 502);
+  assert.deepEqual(bad.globalCounts(), {reservations:1,releases:1});
 });
