@@ -245,7 +245,9 @@ export default {
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     let quota, allowedIp;
     try {
-      quota = env.KIWI_QUOTAS.getByName('global');
+      // RPC admission methods increment quotas and issue leases; disable automatic
+      // retries to avoid counting or reserving twice after an ambiguous failure.
+      quota = env.KIWI_QUOTAS.getByName('global', {retry:{maxRetries:0}});
       allowedIp = await quota.checkIp(ip);
     } catch {
       return error(503, 'quota_unavailable', 'Global admission control unavailable');
