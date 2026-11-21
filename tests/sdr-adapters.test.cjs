@@ -94,3 +94,12 @@ test('SDR URL validation rejects normalized loopback, private and link-local des
     assert.equal(adapters.validateReceiverUrl(url),'',url);
   }
 });
+
+test('Direct OpenWebRX eligibility requires its own safe HTTPS provider URL',()=>{
+ const good={type:'owrx',url:'https://receiver.example/radio/'};
+ assert.equal(adapters.nativeOpenWebRxAllowed(good),true);
+ for(const override of [{type:'websdr'},{type:'kiwi'},{url:'http://receiver.example/'},
+  {url:'https://user:pass@receiver.example/'},{url:'https://127.0.0.1/'},
+  {url:'javascript:alert(1)'}])assert.equal(adapters.nativeOpenWebRxAllowed({...good,...override}),false,JSON.stringify(override));
+ assert.equal(adapters.nativeOpenWebRxAllowed(null),false);
+});

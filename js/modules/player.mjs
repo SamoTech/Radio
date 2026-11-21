@@ -132,7 +132,13 @@ function loadHlsLib(cb) {
   }
   next();
 }
+function receiverPanelActive() {
+  return ['kiwi-modal','owrx-modal','sdr-modal'].some(function (id) {
+    var panel = $(id);return panel && !panel.hidden;
+  });
+}
 function failCurrentPlayback(generation, reason, sourceUrl) {
+  if (typeof receiverPanelActive === 'function' && receiverPanelActive()) return;
   // A rejected play() promise from an earlier attempt must not stop the
   // working fallback after playbackIndex has already advanced.
   if (generation !== state.playbackGeneration || state.playbackAttemptFailed ||
@@ -205,7 +211,7 @@ function attachHls(url, generation, station) {
   var networkRetries = 0;
   var mediaRetries = 0;
   hls.on(window.Hls.Events.ERROR, function (evt, data) {
-    if (!data || !data.fatal || generation !== state.playbackGeneration) return;
+    if (!data || !data.fatal || generation !== state.playbackGeneration || (typeof receiverPanelActive === 'function' && receiverPanelActive())) return;
     if (data.type === window.Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 1) {
       networkRetries += 1;
       try { hls.startLoad(); return; } catch (e) {}
@@ -221,7 +227,7 @@ function attachHls(url, generation, station) {
   return true;
 }
 function startCurrentPlayback(generation) {
-  if (generation !== state.playbackGeneration) return;
+  if (generation !== state.playbackGeneration || (typeof receiverPanelActive === 'function' && receiverPanelActive())) return;
   var baseUrl = state.playbackSources[state.playbackIndex];
   if (!baseUrl) { failCurrentPlayback(generation, 'No source URL'); return; }
   state.playbackAttemptFailed = false;
@@ -248,7 +254,7 @@ function startCurrentPlayback(generation) {
   var needsHlsJs = isHlsUrl(baseUrl) && (requiresTokenLoader || !audio.canPlayType('application/vnd.apple.mpegurl'));
   if (needsHlsJs) {
     loadHlsLib(function (loaded) {
-      if (generation !== state.playbackGeneration ||
+      if (generation !== state.playbackGeneration || (typeof receiverPanelActive === 'function' && receiverPanelActive()) ||
           state.playbackSources[state.playbackIndex] !== baseUrl) return;
       if (!loaded || !attachHls(baseUrl, generation, station)) {
         failCurrentPlayback(generation, 'HLS.js unavailable or MediaSource unsupported', baseUrl);
@@ -425,6 +431,7 @@ function openDmNotice(url, name) {
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  if (typeof RA_MODULES !== 'undefined' && RA_MODULES.sdr && typeof RA_MODULES.sdr.stopReceivers === 'function') RA_MODULES.sdr.stopReceivers();
   state.playbackRequestedInSession = true;
   if (isDmEmbed(url)) {
     openDmNotice(url, name);
@@ -853,6 +860,8 @@ export function boot() {
     }
   });
   $('audio').addEventListener('play', function () {
+    // Native controls, keyboard and Media Session can resume the existing source.
+    if (!this.paused && typeof RA_MODULES !== 'undefined' && RA_MODULES.sdr && typeof RA_MODULES.sdr.stopReceivers === 'function') RA_MODULES.sdr.stopReceivers();
     state.playbackRequestedInSession = true;
     if (hls && !hls.__raStarted) {
       hls.__raStarted = true;

@@ -1,0 +1,166 @@
+{
+  "testedCommit": "2f25fb9c98075eada9476e182be9526bbfa7a3ff",
+  "openwebrx": {
+    "run": "https://github.com/SamoTech/Radio/actions/runs/44895979966",
+    "report": {
+      "run": "2026-11-21T10:47:43.014Z",
+      "mode": "live",
+      "checks": [
+        {
+          "name": "Native OpenWebRX has real nonzero Web Audio output",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "name": "Live receiver supplies actual FFT and S-meter",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "name": "Native playback opens no receiver iframe",
+          "status": "PASS",
+          "detail": ""
+        },
+        {
+          "name": "No application page errors",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "layouts": [],
+      "errors": [],
+      "note": "Recorded PCM and FFT are genuine received S52MP 20m frames. Profile-control replies reuse that recorded band range as a test fixture; they do not validate other real hardware profiles. Graph output does not certify physical audibility.",
+      "receiver": "https://sdr.v4.si/",
+      "initial": {
+        "contextState": "running",
+        "receiver": "https://sdr.v4.si/",
+        "frequencyHz": 14200000,
+        "mode": "usb",
+        "profiles": [
+          {
+            "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+            "name": "VHF 2m"
+          },
+          {
+            "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+            "name": "20m 14MHz"
+          },
+          {
+            "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+            "name": "10m 28MHz"
+          }
+        ],
+        "frames": 5,
+        "samples": 5120,
+        "nonZeroSamples": 5059,
+        "sampleRate": 12000,
+        "signalDbm": -63.801982972519255,
+        "verifiedAt": "2026-11-21T10:47:48.712Z",
+        "fftFrames": 3
+      },
+      "live": {
+        "contextState": "running",
+        "receiver": "https://sdr.v4.si/",
+        "frequencyHz": 14200000,
+        "mode": "usb",
+        "profiles": [
+          {
+            "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+            "name": "VHF 2m"
+          },
+          {
+            "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+            "name": "20m 14MHz"
+          },
+          {
+            "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+            "name": "10m 28MHz"
+          }
+        ],
+        "frames": 5,
+        "samples": 5120,
+        "nonZeroSamples": 5059,
+        "sampleRate": 12000,
+        "signalDbm": -63.801982972519255,
+        "verifiedAt": "2026-11-21T10:47:48.712Z",
+        "fftFrames": 3
+      },
+      "final": {
+        "contextState": "running",
+        "receiver": "https://sdr.v4.si/",
+        "frequencyHz": 14200000,
+        "mode": "usb",
+        "profiles": [
+          {
+            "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+            "name": "VHF 2m"
+          },
+          {
+            "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+            "name": "20m 14MHz"
+          },
+          {
+            "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+            "name": "10m 28MHz"
+          }
+        ],
+        "frames": 5,
+        "samples": 5120,
+        "nonZeroSamples": 5059,
+        "sampleRate": 12000,
+        "signalDbm": -63.801982972519255,
+        "verifiedAt": "2026-11-21T10:47:48.712Z",
+        "fftFrames": 3
+      },
+      "status": "PASS",
+      "sockets": []
+    }
+  },
+  "kiwi": {
+    "run": "https://github.com/SamoTech/Radio/actions/runs/44895979940",
+    "sessions": [
+      {
+        "receiver": "http://cyp.twrmon.net:8073",
+        "status": "PASS",
+        "diagnostics": {
+          "contextState": "running",
+          "retries": 0,
+          "receiver": "http://cyp.twrmon.net:8073",
+          "frames": 6,
+          "samples": 3072,
+          "nonZeroSamples": 3069,
+          "sampleRate": 12000,
+          "signalDbm": -109.8
+        },
+        "uiStatus": "يستقبل ✔",
+        "sockets": [
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F"
+        ]
+      },
+      {
+        "receiver": "http://ea8bfk.ddns.net:8073",
+        "status": "PASS",
+        "diagnostics": {
+          "contextState": "running",
+          "retries": 0,
+          "receiver": "http://ea8bfk.ddns.net:8073",
+          "frames": 5,
+          "samples": 1200,
+          "nonZeroSamples": 1191,
+          "sampleRate": 12000,
+          "signalDbm": -89.8
+        },
+        "uiStatus": "يستقبل ✔",
+        "sockets": [
+          "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F"
+        ]
+      }
+    ]
+  },
+  "humanAudibility": "NOT VERIFIED",
+  "workerHttpProbe": {
+    "status": 403,
+    "body": "error code: 1010",
+    "scope": "Python urllib client in this execution environment; not a worker handler assertion."
+  }
+}
