@@ -168,6 +168,21 @@ async function checkMobileLayout(page,language) {
       };
     });
     const page=await context.newPage();
+    // WebSocket.onerror hides the HTTP response: capture it via CDP only.
+    // Never retain client IP, cookies, full headers or WebSocket payloads.
+    const handshakeUrls=new Map(),handshakeResponses=new Map();
+    if(live) {
+      const cdp=await context.newCDPSession(page);
+      await cdp.send('Network.enable');
+      cdp.on('Network.webSocketCreated',event=>handshakeUrls.set(event.requestId,event.url));
+      cdp.on('Network.webSocketHandshakeResponseReceived',event=>{
+        const url=handshakeUrls.get(event.requestId);
+        if(!url || !url.includes('/kiwi/ws?')) return;
+        const headers=event.response.headers||{};
+        const retryKey=Object.keys(headers).find(key=>key.toLowerCase()==='retry-after');
+        handshakeResponses.set(url,{status:event.response.status,retryAfter:retryKey?String(headers[retryKey]):null});
+      });
+    }
     await page.route('**/googletagmanager.com/**',route=>route.abort());
     await page.route('**/abacus.jasoncameron.dev/**',route=>route.abort());
     page.on('pageerror',e=>report.errors.push(e.message));
@@ -246,12 +261,26 @@ async function checkMobileLayout(page,language) {
       result.diagnostics=await page.evaluate(()=>RA_MODULES.sdr.kiwiDiagnostics());
       result.uiStatus=await page.locator('#kiwi-status').textContent();result.sockets=live?sockets:routedSockets.splice(0);
       assert.ok(result.sockets.some(url=>url.includes('radio-atlas-kiwi-bridge')&&url.includes('/kiwi/ws')),'must use bridge');
+      if(live) {
+        const bridgeUrl=result.sockets.find(url=>url.includes('/kiwi/ws?'));
+        result.handshake=handshakeResponses.get(bridgeUrl)||{status:null,retryAfter:null};
+        if(result.status==='FAIL') {
+          result.failureCategory=result.handshake.status===429?'admission_rate_or_concurrency_limit':
+            result.handshake.status===403?'bridge_forbidden':
+            result.handshake.status===502?'upstream_connection_failed':
+            result.handshake.status===503?'bridge_unavailable':
+            result.handshake.status===101?'upgraded_but_no_audio':
+            'handshake_or_audio_unconfirmed';
+        }
+      }
       await page.screenshot({path:path.join(output,'session-'+report.sessions.length+'.png')});
       report.sessions.push(result);
       page.off('websocket',observeSocket);
       console.log(JSON.stringify(result));
       await page.locator('#kiwi-modal-close').click();
       await page.locator('#kiwi-qa-start').evaluate(button=>button.remove());
+      // After a live 429, further public receiver admission probes add no value.
+      if(live && result.handshake.status===429) break;
     }
     assert.equal(report.errors.length,0,JSON.stringify(report.errors));
     assert.ok(report.sessions.length>0);
