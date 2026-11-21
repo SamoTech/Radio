@@ -13,7 +13,8 @@ var STR_SDR = {
   ar: {
     direct_title: 'راديو مباشر من الجهاز',
     direct_hint: 'اختار جهازًا وشغّله هنا. الأجهزة المرشحة مش ضمان اتصال؛ علامة الصوت بتظهر بعد استقبال صوت فعلي في الجلسة دي.',
-    direct_candidate: 'مرشح للتشغيل — لسه ما اتجربش',
+    direct_candidate: 'مرشح للتشغيل — لسه ما اتجربش في الجلسة دي',
+    direct_previous_test: 'نجح في اختبار سابق',
     direct_verified: 'صوت اتأكد في الجلسة دي',
     direct_failed: 'آخر محاولة اتصال لم تكتمل',
     direct_verified_only: 'الأجهزة اللي استقبلت صوت في الجلسة دي بس',
@@ -160,7 +161,8 @@ var STR_SDR = {
   en: {
     direct_title: 'Direct receiver radio',
     direct_hint: 'Choose a receiver and listen here. Candidates are not guaranteed to connect; the audio badge appears after real audio is received in this session.',
-    direct_candidate: 'Candidate — not tested yet',
+    direct_candidate: 'Candidate — not tested in this session',
+    direct_previous_test: 'Previously audio-tested',
     direct_verified: 'Audio received this session',
     direct_failed: 'Last connection attempt did not complete',
     direct_verified_only: 'Only receivers with audio received this session',
@@ -867,6 +869,7 @@ function closeSDR() {
 
 /* ================= Direct receiver candidates and OpenWebRX audio ================= */
 var directSessionResults = new Map();
+var directAudioChecks = new Map();
 var directLimit = 24;
 var owrxClient = null;
 var owrxAudioCtx = null;
@@ -881,11 +884,30 @@ var owrxDeadline = null;
 var owrxWatchdog = null;
 var owrxLastAudio = 0;
 var owrxPendingTune = null;
+var owrxPreferredProfile = null;
+var owrxProfileSelected = false;
+var owrxExpectedProfile = null;
 var owrxPreviousFocus = null;
 var owrxFailActive = null;
 var owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
 var OWRX_ANALOG_MODES = ['am','nfm','wfm','usb','lsb','cw'];
 function directResultKey(type,url) { return type + '|' + validateReceiverUrl(url); }
+function loadReceiverAudioChecks() {
+  // Historical evidence is optional and fetched only after the SDR module boots.
+  return fetchJSON('data/receiver_audio_checks.json').then(function (data) {
+    if (!data || data.version !== 1 || typeof data.checked_at !== 'string' || !Number.isFinite(Date.parse(data.checked_at)) || !Array.isArray(data.checks) || data.checks.length > 1000) return;
+    var next = new Map();
+    data.checks.forEach(function (check) {
+      if (!check || ['kiwi','owrx'].indexOf(check.type) === -1 || check.status !== 'verified') return;
+      var url = validateReceiverUrl(check.url), at = Date.parse(check.checked_at);
+      if (!url || typeof check.checked_at !== 'string' || !Number.isFinite(at) || at <= 0 || !['frames','nonZeroSamples','sampleRate'].every(function (key) { return Number.isFinite(check[key]) && check[key] > 0; })) return;
+      var key = directResultKey(check.type,url), old = next.get(key);
+      if (!old || old.timestamp < at) next.set(key,{at:new Date(at).toISOString(),timestamp:at,profileId:typeof check.profile_id === 'string' && check.profile_id.length <= 256 && check.profile_id.indexOf('|') !== -1 ? check.profile_id : null});
+    });
+    directAudioChecks = next;
+    renderDirectReceivers();
+  }).catch(function () { /* Optional evidence never blocks receiver discovery. */ });
+}
 function directMarkVerified(type,url) {
   var key = directResultKey(type,url), old = directSessionResults.get(key);
   if (old && old.status === 'verified') return old.at;
@@ -922,15 +944,18 @@ function renderDirectReceivers() {
   }
   mixed.sort(function (a,b) {
     var ar = directSessionResults.get(a.key), br = directSessionResults.get(b.key);
-    return Number(!!br && br.status === 'verified') - Number(!!ar && ar.status === 'verified');
+    return Number(!!br && br.status === 'verified') - Number(!!ar && ar.status === 'verified') || Number(directAudioChecks.has(b.key)) - Number(directAudioChecks.has(a.key));
   });
   grid.innerHTML = mixed.slice(0,directLimit).map(function (r) {
     var result = directSessionResults.get(r.key);
+    // Keys include the canonical full URL and provider from the current catalog.
+    var historical = directAudioChecks.get(r.key);
     var status = result ? result.status : 'candidate';
     var label = t(status === 'verified' ? 'direct_verified' : status === 'failed' ? 'direct_failed' : 'direct_candidate');
     return '<article class="card direct-card" data-native-status="' + status + '" data-receiver-url="' + esc(r.url) + '">' +
       '<div class="card-head"><span class="chip">' + esc(receiverProfile(r.type,r.url).label) + '</span><h3>' + esc(r.name || r.url) + '</h3></div>' +
       '<p class="direct-session-state">' + esc(label) + (result ? ' <time datetime="' + esc(result.at) + '">' + esc(new Date(result.at).toLocaleTimeString(state.lang)) + '</time>' : '') + '</p>' +
+      (historical ? '<p class="direct-session-state" data-audio-history="verified">' + esc(t('direct_previous_test')) + ' · <time datetime="' + esc(historical.at) + '">' + esc(new Date(historical.at).toLocaleString(state.lang)) + '</time></p>' : '') +
       '<button class="open ' + (r.type === 'kiwi' ? 'kiwi-ws' : 'owrx-native') + '" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" data-type="' + r.type + '">' + esc(t('direct_start')) + '</button></article>';
   }).join('') || '<p class="empty">' + esc(t('direct_empty')) + '</p>';
   if ($('direct-count')) $('direct-count').textContent = fmtNum(rows.length);
@@ -964,7 +989,10 @@ function owrxApplyConfig(config) {
   $('owrx-mode').innerHTML = modes.map(function (mode) { return '<option value="' + mode + '">' + mode.toUpperCase() + '</option>'; }).join('');
   if (modes.indexOf(oldMode) !== -1) $('owrx-mode').value = oldMode;
   var range = owrxRange();
-  if (!range) return;
+  if (!range) { owrxSetControls(false);return; }
+  var profileId = config.sdr_id !== undefined && config.profile_id !== undefined ? config.sdr_id + '|' + config.profile_id : config.profile_id;
+  if (owrxExpectedProfile && String(profileId) !== owrxExpectedProfile) { owrxSetControls(false);return; }
+  if (owrxExpectedProfile === String(profileId)) owrxExpectedProfile = null;
   var key = [config.sdr_id,config.profile_id,config.center_freq,config.samp_rate].join('|');
   var input = $('owrx-freq');
   input.min = (range.min / 1000).toFixed(3);input.max = (range.max / 1000).toFixed(3);
@@ -974,14 +1002,13 @@ function owrxApplyConfig(config) {
     owrxConfigKey = key;
     var initial = Number.isFinite(config.start_freq) ? config.start_freq : config.center_freq + (Number(config.start_offset_freq) || 0);
     var mode = modes.indexOf(config.start_mod) !== -1 ? config.start_mod : modes[0];
-    if (owrxPendingTune && modes.indexOf(owrxPendingTune.mode) !== -1 && owrxPendingTune.frequency >= range.min && owrxPendingTune.frequency <= range.max) {
+    if (owrxPendingTune && (!owrxPendingTune.profileId || String(profileId) === owrxPendingTune.profileId) && modes.indexOf(owrxPendingTune.mode) !== -1 && owrxPendingTune.frequency >= range.min && owrxPendingTune.frequency <= range.max) {
       initial = owrxPendingTune.frequency;mode = owrxPendingTune.mode;owrxPendingTune = null;
     }
     if (owrxClient && !owrxClient.validTune(initial,mode)) initial = config.center_freq;
     input.value = (initial / 1000).toFixed(3);$('owrx-mode').value = mode;
     if (owrxClient) owrxClient.tune(initial,mode);
   }
-  var profileId = config.sdr_id !== undefined && config.profile_id !== undefined ? config.sdr_id + '|' + config.profile_id : config.profile_id;
   if (profileId !== undefined && Array.from($('owrx-profile').options).some(function (o) { return o.value === String(profileId); })) $('owrx-profile').value = String(profileId);
   owrxSetControls(modes.length > 0);owrxUpdateSession();
 }
@@ -1058,6 +1085,9 @@ function openOpenWebRx(url,name) {
   if ($('owrx-modal').hidden) owrxPreviousFocus = document.activeElement;
   closeSDR();closeKiwiAudio();owrxStopSession();
   owrxPendingTune = previousTune;
+  var historical = directAudioChecks.get(row.key);
+  owrxPreferredProfile = !previousTune && historical ? historical.profileId : null;
+  owrxProfileSelected = false;owrxExpectedProfile = null;
   var fm = $('audio');if (fm) fm.pause();
   owrxReceiver = row;owrxConfig = null;owrxConfigKey = '';
   owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
@@ -1095,9 +1125,15 @@ function openOpenWebRx(url,name) {
         if (session !== owrxSession || failed || !Array.isArray(profiles)) return;
         $('owrx-profile').innerHTML = profiles.map(function (p) { return '<option value="' + esc(String(p.id)) + '">' + esc(p.name || String(p.id)) + '</option>'; }).join('');
         $('owrx-profile').disabled = profiles.length < 2;
-        if (owrxPendingTune && profiles.some(function (p) { return p.id === owrxPendingTune.profileId; })) {
-          $('owrx-profile').value = owrxPendingTune.profileId;
-          owrxClient.selectProfile(owrxPendingTune.profileId);
+        var preferred = owrxPendingTune ? owrxPendingTune.profileId : owrxPreferredProfile;
+        if (!owrxProfileSelected && preferred && profiles.some(function (p) { return p.id === preferred; })) {
+          owrxProfileSelected = true;owrxPreferredProfile = null;
+          $('owrx-profile').value = preferred;
+          var current = owrxConfig && owrxConfig.sdr_id + '|' + owrxConfig.profile_id;
+          if (current !== preferred || !owrxRange()) {
+            owrxExpectedProfile = preferred;owrxSetControls(false);
+            owrxClient.selectProfile(preferred);
+          }
         }
       },
       onPcm:function (samples,sampleRate) {
@@ -1559,6 +1595,7 @@ export function boot() {
   loadWspr();
   loadWebSdrs();
   loadSatnogs();
+  loadReceiverAudioChecks();
 
   var qTimer = null;
   $('q').addEventListener('input', function () {
@@ -1606,7 +1643,10 @@ export function boot() {
   $('owrx-down').addEventListener('click',function () { owrxStepTune(-1); });
   $('owrx-up').addEventListener('click',function () { owrxStepTune(1); });
   $('owrx-profile').addEventListener('change',function () {
+    var current = owrxConfig && owrxConfig.sdr_id + '|' + owrxConfig.profile_id;
+    if (this.value === current && owrxRange() && !owrxExpectedProfile) return;
     if (!owrxClient || !owrxClient.selectProfile(this.value)) { owrxSetStatus('owrx_invalid');return; }
+    owrxExpectedProfile = this.value;owrxProfileSelected = true;owrxPreferredProfile = null;
     owrxArmAudioDeadline();owrxFlushAudio();
     owrxPendingTune = null;owrxConfigKey = '';owrxSetControls(false);$('owrx-spectrum-wrap').hidden = true;owrxSetStatus('owrx_wait_config');
   });

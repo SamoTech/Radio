@@ -38,6 +38,10 @@ async function startFm(page){await page.evaluate(url=>{
 (async()=>{
  const catalog=JSON.parse(fs.readFileSync('data/web_sdrs.json','utf8')).openwebrx;
  const requested=process.env.OWRX_QA_RECEIVER||recording.receiver;
+ const checksPath='data/receiver_audio_checks.json';
+ const historicalChecks=fs.existsSync(checksPath)?JSON.parse(fs.readFileSync(checksPath,'utf8')).checks||[]:[];
+ const historicalProfile=historicalChecks.find(check=>check.type==='owrx'&&check.status==='verified'&&new URL(check.url).href===new URL(requested).href&&typeof check.profile_id==='string')?.profile_id;
+ const recordedProfile=recording.config.sdr_id+'|'+recording.config.profile_id;
  const receiver=catalog.find(r=>new URL(r.url).href===new URL(requested).href&&r.url.startsWith('https:'));
  assert.ok(receiver,'receiver must be an exact catalog-listed HTTPS OpenWebRX URL');report.receiver=receiver.url;
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});let page,nextCase='normal';
@@ -51,11 +55,15 @@ async function startFm(page){await page.evaluate(url=>{
   await page.route('**/googletagmanager.com/**',r=>r.abort());await page.route('**/abacus.jasoncameron.dev/**',r=>r.abort());
   await page.route(FM,r=>r.fulfill({contentType:'audio/wav',headers:{'Access-Control-Allow-Origin':'*'},body:wav()}));
   if(!LIVE){
-   await page.route('**/data/web_sdrs.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({updated:recording.recorded,websdr:[],openwebrx:[receiver]})}));
+   const candidates=Array.from({length:30},(_,index)=>({name:'Untested candidate '+String(index+1).padStart(2,'0'),url:'https://candidate'+(index+1)+'.example/',https:true}));
+   await page.route('**/data/web_sdrs.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({updated:recording.recorded,websdr:[],openwebrx:[...candidates,receiver]})}));
+   await page.route('**/data/receiver_audio_checks.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({version:1,checked_at:recording.recorded,checks:[{
+    type:'owrx',url:receiver.url,checked_at:recording.recorded,status:'verified',frames:recording.audio_frames.length,nonZeroSamples:16318,sampleRate:recording.sampleRate,profile_id:recordedProfile
+   }]})}));
    await page.route('**/data/kiwisdr.json',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({receivers:[]})}));
    await page.routeWebSocket(/^wss:\/\/sdr\.v4\.si\/ws\/$/,ws=>{
-    const trace={url:ws.url(),commands:[],closed:false,case:nextCase};traces.push(trace);nextCase='normal';
-    let timer=null,activeProfile=recording.config.sdr_id+'|'+recording.config.profile_id;
+    const trace={url:ws.url(),commands:[],profileSelections:[],firstPcmProfile:null,closed:false,case:nextCase};traces.push(trace);nextCase='normal';
+    let timer=null,selectedProfile=false,activeProfile=recording.profiles[0].id;
     const stop=()=>{clearInterval(timer);timers.delete(timer);timer=null;};
     const config=id=>{activeProfile=id;const [sdr_id,profile_id]=id.split('|');return {...recording.config,sdr_id,profile_id,audio_compression:trace.case==='unsupported'?'adpcm':'none'};};
     ws.onMessage(raw=>{
@@ -67,11 +75,13 @@ async function startFm(page){await page.evaluate(url=>{
       ws.send(JSON.stringify({type:'config',value:config(activeProfile)}));
      }
      if(m.type==='selectprofile'){
+      selectedProfile=true;trace.profileSelections.push(m.params.profile);
       stop();ws.send(JSON.stringify({type:'config',value:{center_freq:null,samp_rate:null,profile_id:null,start_freq:null,start_mod:null}}));
       ws.send(JSON.stringify({type:'config',value:config(m.params.profile)}));
      }
-     if(m.type==='dspcontrol'&&m.action==='start'&&!timer&&trace.case==='normal'){
+     if(m.type==='dspcontrol'&&m.action==='start'&&!timer&&selectedProfile&&trace.case==='normal'){
       let i=0;timer=setInterval(()=>{
+       if(trace.firstPcmProfile===null)trace.firstPcmProfile=activeProfile;
        ws.send(Buffer.from(recording.audio_frames[i%recording.audio_frames.length],'base64'));
        if(i%3===0)ws.send(Buffer.from(recording.fft_frames[i%recording.fft_frames.length],'base64'));
        if(i%8===0)ws.send(JSON.stringify({type:'smeter',value:1e-9}));i++;
@@ -83,17 +93,32 @@ async function startFm(page){await page.evaluate(url=>{
   await page.goto(BASE,{waitUntil:'domcontentloaded'});await page.locator('#mobile-nav-sdr').click();
   await page.waitForFunction(()=>window.RA_MODULES&&RA_MODULES.sdr&&state.webSdrs);
   const direct=page.locator('#grid-direct button.owrx-native[data-url='+JSON.stringify(receiver.url)+']');
+  const receiverCard=page.locator('#grid-direct .direct-card[data-receiver-url='+JSON.stringify(receiver.url)+']');
+  if(!LIVE){
+   await receiverCard.locator('[data-audio-history="verified"]').waitFor({state:'visible'});
+   check('Historical audio-tested receiver appears in the initial 24 candidates',await page.locator('#grid-direct .direct-card').count()===24&&await direct.count()===1);
+   check('Historical evidence retains its own timestamp without claiming current playback',
+    await receiverCard.getAttribute('data-native-status')==='candidate'
+    &&await receiverCard.locator('[data-audio-history="verified"] time').getAttribute('datetime')===new Date(recording.recorded).toISOString());
+   await page.locator('#direct-only-verified').check();
+   check('Previous audio test alone does not satisfy the current-session filter',await direct.count()===0&&await page.locator('#grid-direct .direct-card').count()===0);
+   await page.locator('#direct-only-verified').uncheck();
+  }
+  if(LIVE&&historicalProfile)await receiverCard.locator('[data-audio-history="verified"]').waitFor({state:'visible'});
   while(!await direct.count()&&await page.locator('#direct-more').isVisible())await page.locator('#direct-more').click();
   await direct.first().waitFor({state:'visible'});
   if(!LIVE)await startFm(page);
   const fmBefore=await page.evaluate(()=>({src:document.querySelector('#audio').currentSrc,name:state.currentName,generation:state.playbackGeneration}));
   await direct.first().click();
-  if(LIVE){
+  if(LIVE&&!historicalProfile){
    await page.waitForFunction(()=>Array.from(document.querySelector('#owrx-profile').options).some(o=>/20m|14\s*MHz/i.test(o.textContent)),null,{timeout:15000});
    const profile=await page.locator('#owrx-profile option').evaluateAll(rows=>rows.find(r=>/20m|14\s*MHz/i.test(r.textContent))?.value);
-   await page.selectOption('#owrx-profile',profile);
-  }
-  await audioReady(page);report.initial=await page.evaluate(()=>RA_MODULES.sdr.owrxDiagnostics());
+   await page.selectOption('#owrx-profile',profile);report.profileSelection='manual-fallback-without-history';
+  }else report.profileSelection='historical-auto';
+  await audioReady(page);
+  if(LIVE&&historicalProfile)check('One-click live start selects the fresh advertised historical profile without manual tuning',await page.locator('#owrx-profile').inputValue()===historicalProfile);
+  if(!LIVE)check('One-click historical profile selection precedes the first PCM frame',traces[0].profileSelections[0]===recordedProfile&&traces[0].firstPcmProfile===recordedProfile);
+  report.initial=await page.evaluate(()=>RA_MODULES.sdr.owrxDiagnostics());
   check('Native OpenWebRX has real nonzero Web Audio output',report.initial.frames>=5&&report.initial.nonZeroSamples>0&&!!report.initial.verifiedAt);
   if(LIVE){
    await page.waitForFunction(()=>{const d=RA_MODULES.sdr.owrxDiagnostics();return d.fftFrames>0&&Number.isFinite(d.signalDbm);},null,{timeout:15000});
@@ -128,6 +153,9 @@ async function startFm(page){await page.evaluate(url=>{
    check('Existing FM resume retains station/source/generation and releases native audio',
     resumed.src===fmBefore.src&&resumed.name===fmBefore.name&&resumed.generation===fmBefore.generation
     &&resumed.context==='closed'&&resumed.receiverPaused&&resumed.receiverStream&&!resumed.resumeError,JSON.stringify(resumed));
+   await page.locator('#direct-only-verified').check();
+   check('Actual PCM playback now satisfies the current-session filter',await direct.count()===1&&await receiverCard.getAttribute('data-native-status')==='verified');
+   await page.locator('#direct-only-verified').uncheck();
    await direct.first().click();await audioReady(page);
    check('Native receiver restarts cleanly after FM resume',traces.length===beforeResumeSocket+1);
    const trace=traces[0],negotiation=trace.commands.filter(x=>x.startsWith('{')).map(x=>JSON.parse(x));

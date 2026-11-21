@@ -624,6 +624,8 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
 /* Direct radio controls display actual receiver/audio data only. */
 .direct-receivers{border:1px solid var(--line);border-radius:18px;padding:18px;margin-block:16px 24px;background:var(--panel)}
 .direct-receivers h2{margin:0;font-size:1.2rem}.direct-verified-filter{margin-block:12px 18px}.direct-card[data-native-status=verified]{border-color:var(--accent)}
+.direct-verified-filter>span{min-width:0;flex:1;white-space:normal;overflow-wrap:anywhere}
+.direct-verified-filter>input{flex:none}
 #grid-direct{grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));min-width:0}
 #grid-direct .card,#grid-direct .card-head,#grid-direct h3{min-width:0}
 #grid-direct .card{overflow-wrap:anywhere}
