@@ -404,9 +404,18 @@ function dmNoticeHtml(link) {
 function openDmNotice(url, name) {
   var link = dmVideoUrl(safeHttpsUrl(url));
   if (!/^https:\/\//.test(link)) { toast(t('toast_broken')); return; }
+  // The notice shares receiver dialog controls, including a cold first open.
+  if (!RA_MODULES.sdr) {
+    loadModule('sdr').then(function () { openDmNotice(url,name); });
+    return;
+  }
+  RA_MODULES.sdr.closeSDR();
+  RA_MODULES.sdr.closeKiwiAudio();
+  ['sdr-toolbar','sdr-provider','sdr-status','sdr-frame-fallback','sdr-fullscreen'].forEach(function (id) { if ($(id)) $(id).hidden = true; });
   $('sdr-modal-name').textContent = '📻 ' + (name || '');
   $('sdr-open-ext').href = link;
   previousSDRFocus = document.activeElement;
+  $('sdr-frame').hidden = false;
   $('sdr-frame').removeAttribute('src');
   try { $('sdr-frame').srcdoc = dmNoticeHtml(link); } catch (e) { $('sdr-frame').src = link; }
   $('sdr-modal').hidden = false;

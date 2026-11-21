@@ -1,3 +1,5 @@
+import {validateReceiverUrl, nativeKiwiAllowed, receiverProfile, receiverCatalog, resolveCatalogReceiver} from './sdr-adapters.mjs';
+
 /* =====================================================================
    Radio Atlas — sdr module (KiwiSDR / WebSDR / WSPR / space weather / EIBI panels)
    Split out of js/app.js in P1-2; loaded lazily via loadModule('sdr').
@@ -8,6 +10,36 @@
 
 var STR_SDR = {
   ar: {
+    sdr_workspace: 'مساحة أجهزة الاستقبال',
+    sdr_open_workspace: 'افتح مساحة الجهاز',
+    sdr_choose: 'اختار جهازًا من كل الأدلة',
+    sdr_prev: 'السابق',
+    sdr_next: 'التالي',
+    sdr_reload: 'إعادة تحميل الواجهة',
+    sdr_native: 'صوت Kiwi داخل التطبيق',
+    sdr_original: 'واجهة الجهاز الأصلية ↗',
+    sdr_capabilities: 'إمكانيات الواجهة الأصلية حسب إعدادات صاحب الجهاز',
+    sdr_embed_hint: 'واجهة الجهاز الأصلية. ابدأ الصوت واضبط الاستقبال من أدوات الجهاز؛ بعض الأجهزة تحتاج الفتح في تبويب مستقل.',
+    sdr_http_hint: 'افتح واجهة الجهاز الأصلية في تبويب مستقل لاستخدام أدوات الاستقبال المتاحة.',
+    sdr_satnogs_hint: 'صفحة محطة وأرصاد أقمار صناعية، وليست جهازًا صوتيًا قابلًا للضبط المباشر. افتح شبكة SatNOGS للأرصاد والبيانات المتاحة.',
+    sdr_unknown_hint: 'نوع الجهاز غير معروف؛ تتاح الصفحة الأصلية فقط دون افتراض بروتوكول أو إمكانيات.',
+    sdr_invalid: 'الرابط غير آمن أو غير موجود في دليل أجهزة الاستقبال.',
+    sdr_loading: 'جاري فتح واجهة الجهاز…',
+    sdr_loaded: 'ابدأ الصوت من أدوات الجهاز. لو الواجهة ما ظهرتش، افتح صفحته الأصلية.',
+    sdr_frame_wait: 'لم نتأكد من عرض الواجهة. قد يمنع الجهاز التضمين؛ جرّب فتح واجهته الأصلية.',
+    sdr_external_ready: 'واجهة خارجية فقط — اضغط «واجهة الجهاز الأصلية» للمتابعة.',
+    sdr_feature_tuning: 'ضبط التردد والأوضاع',
+    sdr_feature_waterfall: 'الشلال الطيفي',
+    sdr_feature_extensions: 'ملحقات Kiwi',
+    sdr_feature_recording: 'أدوات الاستقبال والتسجيل إن توفرت',
+    sdr_feature_profiles: 'ملفات الأجهزة والنطاقات',
+    sdr_feature_digital: 'فك الإشارات الرقمية إن توفر',
+    sdr_feature_observations: 'أرصاد وبيانات مسجلة',
+    sdr_feature_satellites: 'جدولة ومتابعة الأقمار',
+    sdr_unavailable_native: 'صوت Kiwi يحتاج جهازًا متاحًا، غير ممتلئ، مع سماح ext_api.',
+    sdr_frame_title: 'واجهة جهاز الاستقبال الأصلية',
+    sdr_provider: 'نظام الاستقبال',
+
     sdr_filters: 'فلاتر الاستقبال المتقدمة',
     sdr_tools: 'حالة النطاقات وجداول البث',
     search_sdr_ph: 'ابحث: اسم، بلد، نداء…',
@@ -96,6 +128,36 @@ var STR_SDR = {
     kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
   },
   en: {
+    sdr_workspace: 'Receiver workspace',
+    sdr_open_workspace: 'Open receiver workspace',
+    sdr_choose: 'Choose from all receiver directories',
+    sdr_prev: 'Previous',
+    sdr_next: 'Next',
+    sdr_reload: 'Reload original interface',
+    sdr_native: 'Native Kiwi audio',
+    sdr_original: 'Original receiver interface ↗',
+    sdr_capabilities: 'Original interface features depend on the receiver operator',
+    sdr_embed_hint: 'Use the original receiver controls to start audio and tune. Some receivers require a separate tab.',
+    sdr_http_hint: 'Open the original receiver interface in a separate tab to use its available controls.',
+    sdr_satnogs_hint: 'A satellite station and observations page, not a directly tunable audio receiver. Open SatNOGS for available observations and data.',
+    sdr_unknown_hint: 'Unknown receiver type. Only the original page is offered; no protocol or features are assumed.',
+    sdr_invalid: 'Unsafe URL or receiver not found in the receiver directory.',
+    sdr_loading: 'Opening receiver interface…',
+    sdr_loaded: 'Start audio using the receiver controls. If the interface does not appear, open its original page.',
+    sdr_frame_wait: 'Interface display could not be confirmed. The receiver may prevent embedding; try its original interface.',
+    sdr_external_ready: 'External interface only — select “Original receiver interface” to continue.',
+    sdr_feature_tuning: 'Frequency and mode tuning',
+    sdr_feature_waterfall: 'RF waterfall',
+    sdr_feature_extensions: 'Kiwi extensions',
+    sdr_feature_recording: 'Receiver and recording tools when available',
+    sdr_feature_profiles: 'Device and band profiles',
+    sdr_feature_digital: 'Digital decoding when available',
+    sdr_feature_observations: 'Recorded observations and data',
+    sdr_feature_satellites: 'Satellite scheduling and tracking',
+    sdr_unavailable_native: 'Native Kiwi audio requires an online, non-full receiver with ext_api permission.',
+    sdr_frame_title: 'Original receiver interface',
+    sdr_provider: 'Receiver system',
+
     sdr_filters: 'Advanced receiver filters',
     sdr_tools: 'Band conditions and broadcast schedules',
     search_sdr_ph: 'Search: name, country, callsign…',
@@ -326,18 +388,13 @@ function cardRx(r) {
   if (r.loc) chips += '<span class="chip">📍 ' + esc(r.loc) + '</span>';
   if (r.gps) chips += '<span class="chip gps">📡 GPS</span>';
   if (r.dist != null) chips += '<span class="chip">🧭 ' + fmtNum(r.dist) + ' km</span>';
-  var action = '';
-  if (r.url) {
-    action = r.https
-      ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
-      : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
-  }
-  if (r.url && r.extApi > 0 && (r.https || KIWI_WS_RELAY)) {
-    action = '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" title="' + esc(t('kiwi_audio')) + '">' + esc(t('kiwi_audio')) + '</button>' + action;
+  var action = receiverAction(r);
+  if (nativeKiwiAllowed(r)) {
+    action = '<button class="open kiwi-ws" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('kiwi_audio')) + '</button>' + action;
   }
   return '<article class="' + cls + '">' +
     '<div class="card-head"><span class="dot ' + (r.online ? 'on' : 'off') + '"></span>' +
-    '<h3>' + esc(r.name) + '</h3></div>' +
+    '<h3>' + esc(r.name) + '</h3><span class="chip receiver-provider">' + esc(receiverProfile(r.type,r.url).label) + '</span></div>' +
     (chips ? '<div class="chips">' + chips + '</div>' : '') +
     '<div class="meta"><span>👥 ' + users + '</span><span class="snr">📶 SNR ' + snr + '</span></div>' +
     (r.antenna ? '<div class="meta antenna" title="' + esc(r.antenna) + '">🛰 ' + esc(r.antenna) + '</div>' : '') +
@@ -397,9 +454,7 @@ function loadWspr() {
 /* ================= WebSDR / OpenWebRX directories ================= */
 
 function webSdrCard(r) {
-  var action = r.https
-    ? '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('listen_in_app')) + '</button>'
-    : '<a class="open" target="_blank" rel="noopener" href="' + esc(r.url) + '">' + esc(t('open_ext')) + '</a>';
+  var action = receiverAction(r);
   return '<article class="card">' +
     '<div class="card-head"><h3>' + esc(r.name) + '</h3></div>' +
     (r.loc ? '<div class="chips"><span class="chip">📍 ' + esc(r.loc) + '</span></div>' : '') +
@@ -454,6 +509,7 @@ function loadWebSdrs() {
       (data.openwebrx || []).forEach(function (r) { r.type = 'owrx'; });
       state.webSdrs = data;
       renderWebSdrs();
+      sdrRenderChoices();
       renderMap();
     }
   }).catch(function (e) {
@@ -472,6 +528,7 @@ function loadSatnogs() {
       data.stations.forEach(function (r) { r.type = 'satnogs'; });
       state.satnogs = data;
       renderSatnogs();
+      sdrRenderChoices();
       renderMap();
     }
   }).catch(function (e) {
@@ -641,25 +698,107 @@ function renderEibi() {
 
 
 
-function openSDR(url, name) {
-  url = safeHttpsUrl(url);
-  if (!url) { toast(t('toast_broken')); return; }
-  $('sdr-modal-name').textContent = '🎧 ' + (name || '');
-  $('sdr-open-ext').href = url;
-  previousSDRFocus = document.activeElement;
-  $('sdr-frame').src = url;
+var sdrCurrentReceiver = null;
+var sdrFrameTimer = null;
+var sdrFrameGeneration = 0;
+function receiverRows() {
+  return receiverCatalog({kiwi:state.receivers,websdr:state.webSdrs && state.webSdrs.websdr,
+    owrx:state.webSdrs && state.webSdrs.openwebrx,satnogs:state.satnogs && state.satnogs.stations});
+}
+function receiverAction(r) {
+  if (!validateReceiverUrl(r.url)) return '';
+  return '<button class="open play-sdr" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" data-type="' + esc(r.type || 'unknown') + '">' + esc(t('sdr_open_workspace')) + '</button>';
+}
+function sdrRenderChoices() {
+  var select = $('sdr-receiver');
+  if (!select) return;
+  var rows = receiverRows();
+  select.innerHTML = rows.map(function (r) {
+    return '<option value="' + esc(r.key) + '">' + esc(receiverProfile(r.type,r.url).label + ' · ' + (r.name || r.url)) + '</option>';
+  }).join('');
+  if (sdrCurrentReceiver) select.value = sdrCurrentReceiver.key;
+  ['sdr-prev','sdr-next'].forEach(function (id) { if ($(id)) $(id).disabled = rows.length < 2; });
+}
+function sdrStopFrame() {
+  sdrFrameGeneration++;
+  if (sdrFrameTimer) { clearTimeout(sdrFrameTimer);sdrFrameTimer = null; }
+  var frame = $('sdr-frame');
+  if (frame) {
+    frame.onload = null;frame.onerror = null;
+    frame.removeAttribute('srcdoc');
+    frame.src = 'about:blank';
+  }
+}
+function sdrStartFrame() {
+  sdrStopFrame();
+  if (!sdrCurrentReceiver) return;
+  var profile = receiverProfile(sdrCurrentReceiver.type,sdrCurrentReceiver.url);
+  var frame = $('sdr-frame'), status = $('sdr-status');
+  frame.hidden = profile.transport !== 'embed';
+  $('sdr-reload').disabled = profile.transport !== 'embed';
+  $('sdr-frame-fallback').hidden = profile.transport === 'embed';
+  $('sdr-frame-fallback').textContent = t(profile.transport === 'embed' ? 'sdr_frame_wait' : profile.reason);
+  if (profile.transport !== 'embed') { status.textContent = t('sdr_external_ready');return; }
+  // A fresh browsing context makes reload reliable even with a fragment URL.
+  // Reusing a frame after about:blank can race a same-document navigation.
+  var previousFrame = frame;
+  frame = previousFrame.cloneNode(false);
+  frame.removeAttribute('src');
+  frame.removeAttribute('srcdoc');
+  var generation = sdrFrameGeneration;
+  status.textContent = t('sdr_loading');
+  frame.title = t('sdr_frame_title') + ': ' + (sdrCurrentReceiver.name || profile.label);
+  frame.onload = function () {
+    if (generation !== sdrFrameGeneration) return;
+    if (sdrFrameTimer) { clearTimeout(sdrFrameTimer);sdrFrameTimer = null; }
+    status.textContent = t('sdr_loaded');
+    // Cross-origin load events cannot establish rendering, permission or audio.
+    $('sdr-frame-fallback').hidden = false;
+  };
+  frame.onerror = function () {
+    if (generation !== sdrFrameGeneration) return;
+    status.textContent = t('sdr_frame_wait');$('sdr-frame-fallback').hidden = false;
+  };
+  sdrFrameTimer = setTimeout(function () {
+    if (generation !== sdrFrameGeneration) return;
+    status.textContent = t('sdr_frame_wait');$('sdr-frame-fallback').hidden = false;
+  },15000);
+  frame.src = sdrCurrentReceiver.url;
+  previousFrame.replaceWith(frame);
+}
+function openSDR(url, name, type) {
+  var row = resolveCatalogReceiver(url,type,receiverRows());
+  if (!row) { toast(t('sdr_invalid'));return; }
+  closeKiwiAudio();
+  sdrCurrentReceiver = row;
+  ['sdr-toolbar','sdr-provider','sdr-status','sdr-fullscreen'].forEach(function (id) { if ($(id)) $(id).hidden = false; });
+  var profile = receiverProfile(row.type,row.url);
+  $('sdr-modal-name').textContent = row.name || name || profile.label;
+  $('sdr-open-ext').href = row.url;
+  $('sdr-protocol').textContent = profile.label;
+  $('sdr-provider-hint').textContent = t(profile.reason);
+  $('sdr-capabilities').innerHTML = profile.features.map(function (key) { return '<span class="chip">' + esc(t(key)) + '</span>'; }).join('');
+  $('sdr-native').hidden = row.type !== 'kiwi';
+  $('sdr-native').disabled = !nativeKiwiAllowed(row);
+  $('sdr-native').title = nativeKiwiAllowed(row) ? t('sdr_native') : t('sdr_unavailable_native');
+  if ($('sdr-modal').hidden) previousSDRFocus = document.activeElement;
   $('sdr-modal').hidden = false;
+  sdrRenderChoices();sdrStartFrame();
   $('sdr-modal-close').focus();
 }
-
+function sdrNavigate(direction) {
+  var rows = receiverRows();
+  if (!rows.length) return;
+  var index = rows.findIndex(function (r) { return sdrCurrentReceiver && r.key === sdrCurrentReceiver.key; });
+  index = index < 0 ? 0 : (index + (direction < 0 ? -1 : 1) + rows.length) % rows.length;
+  openSDR(rows[index].url,rows[index].name,rows[index].type);
+}
 function closeSDR() {
-  $('sdr-frame').src = 'about:blank';
-  try { $('sdr-frame').removeAttribute('srcdoc'); } catch (e) {}
+  sdrStopFrame();
   $('sdr-modal').hidden = true;
   if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
   previousSDRFocus = null;
 }
-
 
 
 /* ================= KiwiSDR native WebSocket audio ================= */
@@ -941,6 +1080,11 @@ function kiwiControlMessage(data) {
 }
 
 function openKiwiAudio(url, name, options) {
+  var authorized = typeof state !== 'undefined' && Array.isArray(state.receivers) && state.receivers.some(function (row) {
+    return nativeKiwiAllowed(row) && validateReceiverUrl(row.url) === validateReceiverUrl(url);
+  });
+  if (!authorized) { toast(t('sdr_unavailable_native'));return; }
+  if (typeof closeSDR === 'function' && $('sdr-modal') && !$('sdr-modal').hidden) closeSDR();
   var socketUrl = kiwiSocketAddress(url);
   if (!socketUrl) { toast(t('kiwi_failed')); return; }
   var tune = kiwiTuneCommand();
@@ -1114,6 +1258,31 @@ export function boot() {
 
 
   $('sdr-modal-close').addEventListener('click', closeSDR);
+  $('sdr-modal').addEventListener('keydown',function (event) {
+    if (event.key === 'Escape') { event.preventDefault();closeSDR();return; }
+    if (event.key !== 'Tab') return;
+    var controls = Array.from(this.querySelectorAll('button:not([disabled]),a[href],select:not([disabled]),summary,iframe')).filter(function (el) {
+      return !el.hidden && el.getClientRects().length > 0;
+    });
+    var first = controls[0], last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault();last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault();first.focus(); }
+  });
+  $('sdr-receiver').addEventListener('change',function () {
+    var row = receiverRows().find(function (r) { return r.key === $('sdr-receiver').value; });
+    if (row) openSDR(row.url,row.name,row.type);
+  });
+  $('sdr-prev').addEventListener('click',function () { sdrNavigate(-1); });
+  $('sdr-next').addEventListener('click',function () { sdrNavigate(1); });
+  $('sdr-reload').addEventListener('click',sdrStartFrame);
+  $('sdr-native').addEventListener('click',function () {
+    if (nativeKiwiAllowed(sdrCurrentReceiver)) openKiwiAudio(sdrCurrentReceiver.url,sdrCurrentReceiver.name);
+  });
+  $('sdr-fullscreen').addEventListener('click',function () {
+    var expanded = $('sdr-modal').classList.toggle('sdr-expanded');
+    this.setAttribute('aria-pressed',String(expanded));
+    this.textContent = t(expanded ? 'kiwi_leave_fullscreen' : 'kiwi_fullscreen');
+  });
   $('kiwi-modal-close').addEventListener('click', closeKiwiAudio);
   $('kiwi-freq').addEventListener('change', function () {
     kiwiSendTune();

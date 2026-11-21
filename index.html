@@ -332,15 +332,32 @@
   </div>
 </div>
 
-<div id="sdr-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="sdr-modal-name" hidden>
+<div id="sdr-modal" class="modal receiver-workspace" role="dialog" aria-modal="true" aria-labelledby="sdr-modal-name" hidden>
   <div class="modal-head">
-    <strong id="sdr-modal-name"></strong>
+    <div class="receiver-heading"><span class="kiwi-kicker" data-i18n="sdr_workspace">مساحة أجهزة الاستقبال</span><strong id="sdr-modal-name"></strong></div>
     <div class="modal-actions">
-      <a id="sdr-open-ext" class="btn ghost" target="_blank" rel="noopener" href="#" data-i18n="open_ext2">فتح خارجي ↗</a>
-      <button id="sdr-modal-close" class="btn ghost" type="button" data-i18n="close">✕ إغلاق</button>
+      <button id="sdr-fullscreen" class="btn ghost" type="button" aria-pressed="false" data-i18n="kiwi_fullscreen">ملء الشاشة</button>
+      <button id="sdr-modal-close" class="btn ghost" type="button" data-i18n="close">إغلاق</button>
     </div>
   </div>
-  <iframe id="sdr-frame" title="جهاز استقبال" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+  <div id="sdr-toolbar" class="receiver-toolbar">
+    <label class="kiwi-field" for="sdr-receiver"><span data-i18n="sdr_choose">اختار جهازًا من كل الأدلة</span><select id="sdr-receiver"></select></label>
+    <div class="receiver-buttons">
+      <button id="sdr-prev" class="btn ghost" type="button" data-i18n="sdr_prev">السابق</button>
+      <button id="sdr-next" class="btn ghost" type="button" data-i18n="sdr_next">التالي</button>
+      <button id="sdr-reload" class="btn ghost" type="button" data-i18n="sdr_reload">إعادة تحميل الواجهة</button>
+      <button id="sdr-native" class="btn" type="button" data-i18n="sdr_native" hidden>صوت Kiwi داخل التطبيق</button>
+      <a id="sdr-open-ext" class="btn" target="_blank" rel="noopener noreferrer" href="#" data-i18n="sdr_original">واجهة الجهاز الأصلية ↗</a>
+    </div>
+  </div>
+  <div id="sdr-provider" class="receiver-info">
+    <span class="chip" id="sdr-protocol"></span>
+    <p id="sdr-provider-hint"></p>
+    <details class="receiver-capability-details"><summary data-i18n="sdr_capabilities">إمكانيات الواجهة الأصلية حسب إعدادات صاحب الجهاز</summary><div class="chips" id="sdr-capabilities"></div></details>
+  </div>
+  <p id="sdr-status" role="status" aria-live="polite"></p>
+  <p id="sdr-frame-fallback" class="hint" data-i18n="sdr_frame_wait" hidden>قد يمنع الجهاز التضمين؛ جرّب فتح واجهته الأصلية.</p>
+  <iframe id="sdr-frame" title="واجهة جهاز الاستقبال الأصلية" allow="autoplay; fullscreen" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox" hidden></iframe>
 </div>
 
 <div id="kiwi-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kiwi-modal-name" hidden>

@@ -388,8 +388,7 @@ function raModuleCall(name, fn, a, b) {
   if (m && typeof m[fn] === 'function') return m[fn](a, b);
 }
 
-/* Thin stubs: the real implementations live in the lazy modules.
-   Callers across app.js keep using these names unchanged. */
+/* Thin stubs preserve caller APIs for the lazy modules. */
 function play(url, name) { state.playbackRequestedInSession = true; loadModule('player').then(function (m) { m.play(url, name); }); }
 function setMedia(name) { loadModule('player').then(function (m) { m.setMedia(name); }); }
 function loadHlsLib(cb) { loadModule('player').then(function (m) { m.loadHlsLib(cb); }); }
@@ -398,7 +397,7 @@ function attachHls(url, generation, station) {
   return m ? m.attachHls(url, generation, station) : false;
 }
 function closeAlarmModal() { raModuleCall('player', 'closeAlarmModal'); }
-function openSDR(url, name) { loadModule('sdr').then(function (m) { m.openSDR(url, name); }); }
+function openSDR(url, name, type) { loadModule('sdr').then(function (m) { m.openSDR(url, name, type); }); }
 function closeSDR() { raModuleCall('sdr', 'closeSDR'); }
 function openKiwiAudio(url, name) { loadModule('sdr').then(function (m) { m.openKiwiAudio(url, name); }); }
 function closeKiwiAudio() { raModuleCall('sdr', 'closeKiwiAudio'); }
@@ -1416,7 +1415,7 @@ function initPlayers() {
     }
     var sdr = el.closest('button.play-sdr');
     if (sdr) {
-      openSDR(sdr.getAttribute('data-url'), sdr.getAttribute('data-name'));
+      openSDR(sdr.getAttribute('data-url'), sdr.getAttribute('data-name'), sdr.getAttribute('data-type'));
       return;
     }
     var kw = el.closest('button.kiwi-ws');

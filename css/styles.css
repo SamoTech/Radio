@@ -599,3 +599,24 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
  .kiwi-footer{align-items:stretch}.kiwi-footer .btn{width:100%;text-align:center}
  #kiwi-modal .modal-actions{flex-wrap:wrap}.kiwi-nav-buttons .btn{flex-basis:calc(50% - 8px)}
 }
+
+/* Catalog-bound original receiver interfaces. These pages retain native controls. */
+#sdr-modal.receiver-workspace{inset:20px;max-width:1500px;margin-inline:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 18px 80px #0008;overflow:auto}
+.receiver-heading{display:grid;gap:5px;min-width:0}.receiver-heading strong{overflow-wrap:anywhere}
+.receiver-toolbar{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:14px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+#sdr-receiver{width:100%;min-width:0;max-width:100%;min-height:44px}
+.receiver-buttons{display:flex;flex-wrap:wrap;align-items:center;gap:7px}.receiver-buttons .btn{min-height:44px;white-space:normal}
+.receiver-info{display:grid;grid-template-columns:auto 1fr;align-items:start;gap:8px 12px;padding:8px}
+#sdr-provider-hint{margin:0;color:var(--muted);font-size:.85rem;line-height:1.65}
+.receiver-capability-details{grid-column:1/-1;color:var(--muted);font-size:.8rem}.receiver-capability-details summary{cursor:pointer;min-height:28px}.receiver-capability-details .chips{margin-top:8px}
+#sdr-status{margin:0;font-size:.8rem;line-height:1.6;color:var(--muted)}
+#sdr-frame{min-height:240px;flex:1 0 300px}#sdr-frame[hidden]{display:none}
+#sdr-modal.sdr-expanded{inset:0;border-radius:0;max-width:none}
+@media(max-width:820px){
+ #sdr-modal.receiver-workspace{inset:8px;padding:12px;border-radius:12px}
+ .receiver-toolbar{grid-template-columns:minmax(0,1fr)}
+ .receiver-buttons .btn{flex:1 1 110px;text-align:center}
+ #sdr-modal .modal-head{align-items:flex-start}#sdr-modal .modal-actions{flex-wrap:wrap;justify-content:flex-end}
+ .receiver-info{grid-template-columns:minmax(0,1fr)}
+ #sdr-frame{min-height:350px}
+}
