@@ -50,7 +50,8 @@ test('KiwiSDR browser UI and mobile navigation retain essential controls', () =>
   for (const id of ['kiwi-modal','kiwi-freq','kiwi-mode','kiwi-audio','kiwi-status','mobile-nav-sdr',
     'kiwi-step','kiwi-down','kiwi-up','kiwi-bandwidth','kiwi-agc','kiwi-gain','kiwi-squelch',
     'kiwi-signal','kiwi-receiver','kiwi-prev','kiwi-next','kiwi-reconnect','kiwi-restore',
-    'kiwi-memory-name','kiwi-memory-save','kiwi-memory-list','kiwi-memory-status']) assert.ok(html.includes('id="'+id+'"'), id);
+    'kiwi-memory-name','kiwi-memory-save','kiwi-memory-list','kiwi-memory-status',
+    'kiwi-cyprus-presets','kiwi-cyprus-presets-list','kiwi-cyprus-presets-status']) assert.ok(html.includes('id="'+id+'"'), id);
   assert.ok(css.includes('.hero-kicker'));
   assert.ok(css.includes('@media(max-width:720px)'));
 });
@@ -97,6 +98,7 @@ function nativeSession() {
     'kiwi-prev':{},'kiwi-next':{},'kiwi-reconnect':{},'kiwi-restore':{},
     'kiwi-modal-name':{},'kiwi-open-ext':{},'kiwi-modal':{},'kiwi-status':{},
     'kiwi-memory-name':{value:''},'kiwi-memory-list':{innerHTML:''},'kiwi-memory-status':{textContent:''},
+    'kiwi-cyprus-presets':{hidden:true},'kiwi-cyprus-presets-list':{innerHTML:''},'kiwi-cyprus-presets-status':{textContent:''},
     'kiwi-audio':{volume:1,muted:false,paused:true,pause(){this.paused=true;},play(){this.paused=false;return Promise.resolve();}}
   };
   class Socket {
@@ -290,6 +292,39 @@ test('KiwiSDR full receiver link carries validated tuning without stale URL para
   assert.equal(target.searchParams.get('other'),null);
   e['kiwi-freq'].value='-1';assert.equal(h.session.kiwiFullReceiverUrl('http://cyprus.example/'),'');
   assert.equal(h.session.kiwiFullReceiverUrl('javascript:alert(1)'),'');
+});
+
+test('Cyprus mediumwave presets tune verified reference frequencies without opening extra sockets', () => {
+  const h=nativeSession(), {session,elements,sockets}=h;
+  try {
+    const expected=[864,819,774,711,558,621];
+    assert.equal(session.kiwiApplyCyprusPreset(0),false,'without Cyprus selected no station may be tuned');
+    session.state.receivers.push({type:'kiwi',name:'0-30 MHz SDR | Cyprus',
+      url:'http://cyp.twrmon.net:8073/',online:true,extApi:1,users:0,maxUsers:8});
+    session.openKiwiAudio('http://cyp.twrmon.net:8073/','0-30 MHz SDR | Cyprus');
+    assert.equal(elements['kiwi-cyprus-presets'].hidden,false,'preset controls visible only on target receiver');
+    for(const freq of expected) assert.ok(elements['kiwi-cyprus-presets-list'].innerHTML.includes(freq+' kHz'));
+    const socket=sockets[0];
+    h.authenticate();
+    const priorLength=socket.sent.length;
+    for(let i=0;i<expected.length;i++){
+      assert.equal(session.kiwiApplyCyprusPreset(i),true);
+      assert.equal(Number(elements['kiwi-freq'].value),expected[i]);
+      assert.equal(elements['kiwi-mode'].value,'am');
+      assert.equal(elements['kiwi-bandwidth'].value,'narrow');
+    }
+    assert.equal(sockets.length,1,'preset selection must not allocate any new SDR session');
+    const tunes=socket.sent.slice(priorLength).filter(x=>/^SET mod=am /.test(x));
+    assert.equal(tunes.length,expected.length,'all six presets must tune the active WebSocket');
+    for(const freq of expected) assert.ok(tunes.some(x=>x.endsWith(' freq='+freq.toFixed(3))));
+    assert.equal(session.kiwiApplyCyprusPreset(-1),false);
+    assert.equal(session.kiwiApplyCyprusPreset(99),false);
+
+    session.openKiwiAudio('http://receiver.example/','Other receiver');
+    assert.equal(elements['kiwi-cyprus-presets'].hidden,true);
+    assert.equal(elements['kiwi-cyprus-presets-list'].innerHTML,'');
+    assert.equal(session.kiwiApplyCyprusPreset(0),false,'a different receiver must reject Cyprus quick tunes');
+  } finally { session.closeKiwiAudio(); }
 });
 
 test('Kiwi frequency memories save validated presets and recall without auto-connecting', () => {
