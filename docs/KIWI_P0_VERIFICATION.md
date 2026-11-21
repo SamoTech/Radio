@@ -33,6 +33,21 @@ The owner reports `/healthz` returning HTTP 200 through Cloudflare URL Scanner a
 
 `scripts/kiwi_production_smoke.cjs` sends **six sequential HTTP requests only** via `.github/workflows/kiwi-production-smoke.yml` (PR-change gated and manual dispatch; no scheduled load). It checks exact `/healthz` body, unknown route, missing upgrade, forbidden Origin, a malformed receiver with valid Origin (which must first call `KiwiQuota.checkIp`), and an unlisted otherwise well-formed receiver. It never upgrades a permitted SDR receiver and cannot consume an operator's slot. **Test results must be copied here from the actual run before declaring any PASS.** Quota thresholds, PCM, and human listening remain separate requirements.
 
+### Independent live results — GitHub Actions, 2026-11-21 15:19 UTC
+
+[Read-only acceptance run 44918568490](https://github.com/SamoTech/Radio/actions/runs/44918568490) completed **SUCCESS** on the branch `5c4037e27df704f30dd267b1e5521b19ed6bce1d`. The test used six sequential requests to the deployed Worker and preserved the returned bodies, with **no approved SDR receiver contacted**:
+
+| Check | Actual HTTP | Latency |
+| --- | --- | ---: |
+| `/healthz` exact body `ok` | **200 PASS** | 106ms |
+| Unknown endpoint | **404 PASS** | 55ms |
+| Missing WebSocket upgrade | **426 PASS** | 71ms |
+| Disallowed Origin in WebSocket handshake | **403 PASS** | 74ms |
+| Approved Origin + malformed receiver | **400 PASS** | 289ms |
+| Approved Origin + catalog-unlisted public host | **403 PASS** | 508ms |
+
+The 400 response is important: the deployed Worker checks `KIWI_QUOTAS.checkIp(ip)` **before** receiver normalization. Returning 400 on that path establishes that the live quota admission RPC succeeded at least once rather than failing closed with 503. This does **not** establish actual quota thresholds, distributed concurrency, receiver-level `reserve`, long-lived session cleanup, PCM output or physical audibility. Those tests remain **NOT VERIFIED**. The new read-only acceptance automation can be rerun manually via GitHub Actions without load on public receivers.
+
 ## Previous P0 global-quota implementation background (historical)
 
 
