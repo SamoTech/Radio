@@ -3,9 +3,6 @@ name: Radio Atlas OpenWebRX Live Audio QA
 # Manual only: a run temporarily occupies one receiver slot.
 # The regular browser QA workflow always exercises the recorded-stream path.
 on:
-  pull_request:
-    branches: [main]
-    paths: ["js/modules/sdr.mjs", "data/receiver_audio_checks.json"]
   workflow_dispatch:
     inputs:
       receiver:
@@ -23,7 +20,6 @@ concurrency:
 
 jobs:
   live-audio:
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feat/native-sdr-radio-player'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
