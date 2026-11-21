@@ -1,3 +1,5 @@
+export { KiwiQuota } from './kiwi-quota.js';
+
 /**
  * Radio Atlas KiwiSDR WebSocket bridge (Cloudflare Worker).
  *
@@ -229,7 +231,7 @@ function closePeer(ws, code, reason) {
 }
 
 export default {
-  async fetch(request) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/healthz') return new Response('ok', {headers:{'Content-Type':'text/plain'}});
     if (url.pathname !== '/kiwi/ws') return error(404, 'not_found', 'Not found');
@@ -238,6 +240,17 @@ export default {
     const permit = permitRequest(request);
     if (permit === 'origin') return error(403, 'origin_forbidden', 'Origin forbidden');
     if (permit === 'rate') return error(429, 'rate_limited', 'Request limit reached');
+    // Fleet-wide checks must run before any directory/network work. Both
+    // the global coordinator and isolate-local limits fail closed.
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    let quota, allowedIp;
+    try {
+      quota = env.KIWI_QUOTAS.getByName('global');
+      allowedIp = await quota.checkIp(ip);
+    } catch {
+      return error(503, 'quota_unavailable', 'Global admission control unavailable');
+    }
+    if (allowedIp !== true) return error(429, 'global_rate_limited', 'Request limit reached');
     const receiver = normalizeReceiver(url.searchParams.get('receiver') || '');
     if (!receiver) return error(400, 'invalid_receiver', 'Invalid receiver');
     let allow;
@@ -245,11 +258,30 @@ export default {
     if (!allow.has(receiver)) return error(403, 'receiver_not_allowed', 'Receiver is not approved for external API connections');
 
     if (!permitReceiver(receiver)) return error(429, 'receiver_rate_limited', 'Receiver request limit reached');
-    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     const release = reserveSession(ip, receiver);
     if (!release) return error(429, 'concurrency_limited', 'Concurrent session limit reached');
+    let lease;
+    try { lease = await quota.reserve(ip, receiver); }
+    catch {
+      release();
+      return error(503, 'quota_unavailable', 'Global admission control unavailable');
+    }
+    if (!lease || lease.status !== 'ok' || typeof lease.token !== 'string') {
+      release();
+      if (lease && ['rate','concurrency'].includes(lease.status))
+        return error(429, 'global_' + lease.status, 'Global session limit reached');
+      return error(503, 'quota_unavailable', 'Global admission control unavailable');
+    }
+    let quotaReleased = false;
+    async function releaseWithQuota() {
+      release();
+      if (quotaReleased) return;
+      quotaReleased = true;
+      try { await quota.release(lease.token); }
+      catch { log('warn', 'quota_release_failed'); /* lease expires in 30 minutes */ }
+    }
     try { await validateReceiverDns(receiver); }
-    catch { release(); return error(403, 'unsafe_destination', 'Receiver DNS is unavailable or non-public'); }
+    catch { await releaseWithQuota(); return error(403, 'unsafe_destination', 'Receiver DNS is unavailable or non-public'); }
 
     // The user cannot choose the upstream path or arbitrary WebSocket service.
     const target = new URL(receiver);
@@ -266,14 +298,14 @@ export default {
         signal:controller.signal
       });
     } catch (err) {
-      release();
+      await releaseWithQuota();
       log('warn', 'upstream_connect_failed', { receiver, aborted: controller.signal.aborted });
       return error(502, 'upstream_connect_failed', 'Receiver connection failed');
     } finally {
       clearTimeout(timer);
     }
     if (upstreamResponse.status !== 101 || !upstreamResponse.webSocket) {
-      release();
+      await releaseWithQuota();
       if (upstreamResponse.webSocket) closePeer(upstreamResponse.webSocket,1008,'Invalid upgrade');
       log('warn', 'upstream_refused', { receiver, status: upstreamResponse.status });
       return error(502, 'upstream_refused', 'Receiver refused WebSocket connection');
@@ -285,7 +317,7 @@ export default {
       server.accept();
       upstream.accept();
     } catch {
-      release();
+      await releaseWithQuota();
       closePeer(upstream,1011,'Upgrade failed');
       if (server) closePeer(server,1011,'Upgrade failed');
       return error(502, 'upgrade_failed', 'Receiver upgrade failed');
@@ -296,7 +328,8 @@ export default {
       if (finished) return;
       finished = true;
       clearTimeout(sessionTimer);
-      release();
+      const cleanup = releaseWithQuota();
+      if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(cleanup);
       closePeer(server,code,reason);
       closePeer(upstream,code,reason);
     }
