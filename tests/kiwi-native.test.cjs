@@ -334,6 +334,25 @@ test('Cyprus mediumwave presets tune verified reference frequencies without open
   } finally { session.closeKiwiAudio(); }
 });
 
+test('Cyprus selection during a failed handshake updates settings but never claims a connection', () => {
+  const h=nativeSession(), {session,elements,sockets}=h;
+  try {
+    session.state.receivers.push({type:'kiwi',name:'0-30 MHz SDR | Cyprus',
+      url:'http://cyp.twrmon.net:8073/',online:true,extApi:1,users:0,maxUsers:8});
+    session.openKiwiAudio('http://cyp.twrmon.net:8073/','0-30 MHz SDR | Cyprus');
+    elements['kiwi-squelch'].value='20';
+    elements['kiwi-agc'].checked=false;
+    assert.equal(session.kiwiApplyCyprusPreset(1),true);
+    assert.equal(elements['kiwi-cyprus-presets-status'].textContent,'kiwi_cyprus_staged');
+    assert.equal(sockets.length,1);
+    assert.equal(sockets[0].sent.length,0,'no extra attempt or command before handshake');
+    h.authenticate();
+    assert.ok(sockets[0].sent.some(x=>x==='SET mod=am low_cut=-4900 high_cut=4900 freq=819.000'));
+    assert.ok(sockets[0].sent.includes('SET squelch=0 param=0.00'));
+    assert.ok(sockets[0].sent.some(x=>x.startsWith('SET agc=1 ')));
+  } finally {session.closeKiwiAudio();}
+});
+
 test('Kiwi frequency memories save validated presets and recall without auto-connecting', () => {
   const h=nativeSession(), {session,elements,sockets,storage}=h;
   try {
