@@ -306,13 +306,20 @@ test('Cyprus mediumwave presets tune verified reference frequencies without open
     for(const freq of expected) assert.ok(elements['kiwi-cyprus-presets-list'].innerHTML.includes(freq+' kHz'));
     const socket=sockets[0];
     h.authenticate();
+    elements['kiwi-agc'].checked=false;
+    elements['kiwi-squelch'].value='20';
     const priorLength=socket.sent.length;
     for(let i=0;i<expected.length;i++){
       assert.equal(session.kiwiApplyCyprusPreset(i),true);
       assert.equal(Number(elements['kiwi-freq'].value),expected[i]);
       assert.equal(elements['kiwi-mode'].value,'am');
-      assert.equal(elements['kiwi-bandwidth'].value,'narrow');
+      assert.equal(elements['kiwi-bandwidth'].value,'normal','broadcast AM passband');
+      assert.equal(elements['kiwi-step'].value,'9','MW channel spacing');
+      assert.equal(elements['kiwi-agc'].checked,true,'MW preset enables AGC');
+      assert.equal(elements['kiwi-squelch'].value,'0','MW preset disables inherited squelch');
     }
+    assert.ok(socket.sent.slice(priorLength).some(x=>x.startsWith('SET agc=1 ')),'new AGC command sent');
+    assert.ok(socket.sent.slice(priorLength).some(x=>x==='SET squelch=0 param=0.00'),'new squelch command sent');
     assert.equal(sockets.length,1,'preset selection must not allocate any new SDR session');
     const tunes=socket.sent.slice(priorLength).filter(x=>/^SET mod=am /.test(x));
     assert.equal(tunes.length,expected.length,'all six presets must tune the active WebSocket');
@@ -461,7 +468,11 @@ test('KiwiSDR restores successful controls and refuses receivers no longer eligi
     h.sockets[0].onmessage({data:h.frame()});
     e['kiwi-freq'].value='14205.5';e['kiwi-mode'].value='usb';e['kiwi-bandwidth'].value='narrow';
     e['kiwi-step'].value='0.1';e['kiwi-agc'].checked=false;e['kiwi-gain'].value='65';
-    e['kiwi-squelch'].value='20';e['kiwi-audio'].volume=0.37;h.session.kiwiSendTune();
+    e['kiwi-squelch'].value='20';e['kiwi-audio'].volume=0.37;
+    const beforeTune=h.storage.get('ra-kiwi-session-v1');
+    h.session.kiwiSendTune();
+    assert.equal(h.storage.get('ra-kiwi-session-v1'),beforeTune,'pending retune must not overwrite last audible settings');
+    h.sockets[0].onmessage({data:h.frame()});
     const saved=JSON.parse(h.storage.get('ra-kiwi-session-v1'));
     assert.equal(saved.frequency,14205.5);assert.equal(saved.volume,0.37);
     h.session.closeKiwiAudio();
@@ -477,6 +488,28 @@ test('KiwiSDR restores successful controls and refuses receivers no longer eligi
     assert.equal(h.sockets.length,2,'restore must revalidate operator opt-in');
     assert.equal(e['kiwi-status'].textContent,'kiwi_unavailable');
   }finally{h.session.closeKiwiAudio();}
+});
+
+test('Kiwi retune without fresh nonzero PCM retains last confirmed station settings', () => {
+  const h=nativeSession();
+  try {
+    h.session.openKiwiAudio('http://receiver.example/','Last audible settings');
+    h.authenticate();
+    h.sockets[0].onmessage({data:h.frame()});
+    const previous=h.storage.get('ra-kiwi-session-v1');
+    assert.ok(previous);
+    h.elements['kiwi-freq'].value='818';
+    h.elements['kiwi-squelch'].value='20';
+    h.session.kiwiSendTune();
+    assert.equal(h.storage.get('ra-kiwi-session-v1'),previous);
+    const silent=Uint8Array.from([83,78,68,0,0,0,0,1,0,0,0,0,0,0]).buffer;
+    h.sockets[0].onmessage({data:silent});
+    assert.equal(h.storage.get('ra-kiwi-session-v1'),previous,'silent frame is not a successful retune');
+    h.sockets[0].onmessage({data:h.frame()});
+    const confirmed=JSON.parse(h.storage.get('ra-kiwi-session-v1'));
+    assert.equal(confirmed.frequency,818);
+    assert.equal(confirmed.squelch,20);
+  } finally { h.session.closeKiwiAudio(); }
 });
 
 test('KiwiSDR a handshake without decoded audio cannot overwrite the last successful receiver', () => {
