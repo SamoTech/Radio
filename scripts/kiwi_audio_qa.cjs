@@ -64,7 +64,7 @@ async function exerciseRecordedControls(page,traces,fixtureSockets) {
   assert.equal(Number(await page.locator('#kiwi-freq').inputValue()),7100);
   assert.equal(await page.locator('#kiwi-mode').inputValue(),'usb');
   assert.equal(await page.locator('#kiwi-bandwidth').inputValue(),'narrow');
-  await waitForTrace(()=>commands().some(x=>/^SET mod=usb .*freq=7100\\.000$/.test(String(x))),'recalling a memory must retune the active receiver');
+  await waitForTrace(()=>commands().some(x=>/^SET mod=usb .*freq=7100\.000$/.test(String(x))),'recalling a memory must retune the active receiver');
   observations.push('frequency memory saves locally, recalls the active tuning and does not open a new receiver');
   await page.locator('[data-kiwi-memory-remove="0"]').click();
   assert.equal(await page.locator('.kiwi-memory-row').count(),0,'remove clears the saved memory');
