@@ -53,11 +53,13 @@ jobs:
             ps aux | grep -E 'http.server|python' || true
             exit 1
           fi
-          node scripts/browser_qa.cjs
-          node scripts/pwa_upgrade_qa.cjs
-          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs
-          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/sdr_studio_qa.cjs
-          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/openwebrx_audio_qa.cjs
+          QA_RESULT=0
+          node scripts/browser_qa.cjs || QA_RESULT=1
+          node scripts/pwa_upgrade_qa.cjs || QA_RESULT=1
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs || QA_RESULT=1
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/sdr_studio_qa.cjs || QA_RESULT=1
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/openwebrx_audio_qa.cjs || QA_RESULT=1
+          exit "$QA_RESULT"
       - name: Upload actual screenshots and browser test report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

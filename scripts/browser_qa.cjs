@@ -259,13 +259,21 @@ async function shot(page,name) {
           return Array.from(document.body.querySelectorAll('*')).flatMap(el=>{
             const rect=el.getBoundingClientRect(),style=getComputedStyle(el);
             if(!rect.width||!rect.height||style.visibility==='hidden'||style.display==='none')return [];
-            if(rect.left>=-1&&rect.right<=innerWidth+1&&el.scrollWidth<=el.clientWidth+1)return [];
+            const rectEscape=rect.left < -1 || rect.right > innerWidth+1;
+            const visibleScroll=style.overflowX==='visible'&&el.scrollWidth>el.clientWidth+1;
+            if(!rectEscape&&!visibleScroll)return [];
+            let clippedBy=null;
+            for(let parent=el.parentElement;parent;parent=parent.parentElement){
+              const overflow=getComputedStyle(parent).overflowX;
+              if(['hidden','clip','auto','scroll'].includes(overflow)){clippedBy=selector(parent);break;}
+            }
             return [{selector:selector(el),rect:{left:rect.left,right:rect.right,width:rect.width,top:rect.top},
-              scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,
+              rectEscape,clippedBy,scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,
               display:style.display,minWidth:style.minWidth,gridColumns:style.gridTemplateColumns,overflowX:style.overflowX}];
-          }).sort((a,b)=>Math.max(b.rect.right-innerWidth,-b.rect.left,b.scrollWidth-b.clientWidth)
-            -Math.max(a.rect.right-innerWidth,-a.rect.left,a.scrollWidth-a.clientWidth)).slice(0,25);
+          }).sort((a,b)=>Number(b.rectEscape)-Number(a.rectEscape)||Number(!!a.clippedBy)-Number(!!b.clippedBy)
+            ||Math.max(b.rect.right-innerWidth,-b.rect.left)-Math.max(a.rect.right-innerWidth,-a.rect.left)).slice(0,25);
         });
+        if(!overflows.length)await shot(page,'overflow-first-'+width);
         overflows.push({width,...m,elements});
       }
     }

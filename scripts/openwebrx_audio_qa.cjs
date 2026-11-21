@@ -86,7 +86,7 @@ async function startFm(page){await page.evaluate(url=>{
   while(!await direct.count()&&await page.locator('#direct-more').isVisible())await page.locator('#direct-more').click();
   await direct.first().waitFor({state:'visible'});
   if(!LIVE)await startFm(page);
-  const fmBefore=await page.evaluate(()=>({src:document.querySelector('#audio').currentSrc,name:state.currentName}));
+  const fmBefore=await page.evaluate(()=>({src:document.querySelector('#audio').currentSrc,name:state.currentName,generation:state.playbackGeneration}));
   await direct.first().click();
   if(LIVE){
    await page.waitForFunction(()=>Array.from(document.querySelector('#owrx-profile').options).some(o=>/20m|14\s*MHz/i.test(o.textContent)),null,{timeout:15000});
@@ -104,6 +104,32 @@ async function startFm(page){await page.evaluate(url=>{
   if(!LIVE){
    const fmAfter=await page.evaluate(()=>({paused:document.querySelector('#audio').paused,src:document.querySelector('#audio').currentSrc,name:state.currentName}));
    check('Native receiver pauses FM while preserving station and source',fmAfter.paused&&fmBefore.src===fmAfter.src&&fmBefore.name===fmAfter.name,JSON.stringify(fmAfter));
+   // Resuming the already-selected HTMLAudioElement bypasses play(station).
+   // A real gesture exercises the same underlying path as native controls,
+   // MediaSession or keyboard resume, without clicking through the modal.
+   const beforeResumeSocket=traces.length;
+   await page.evaluate(()=>{
+    const button=document.createElement('button');button.id='owrx-qa-resume-fm';button.textContent='Resume existing FM audio';
+    button.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
+    button.onclick=()=>{button.hidden=true;document.querySelector('#audio').play().catch(error=>{window.__fmResumeError=error.message;});};
+    document.body.append(button);
+   });
+   await page.locator('#owrx-qa-resume-fm').click();
+   await page.locator('#owrx-qa-resume-fm').evaluate(button=>button.remove());
+   await page.waitForFunction(url=>{
+    const audio=document.querySelector('#audio');
+    return !audio.paused&&audio.readyState>=2&&audio.currentSrc===url&&RA_MODULES.sdr.owrxDiagnostics().contextState==='closed';
+   },FM,{timeout:15000});
+   await traceReady(()=>traces[beforeResumeSocket-1].closed,'Resuming existing FM closes the native receiver socket');
+   const resumed=await page.evaluate(()=>({src:document.querySelector('#audio').currentSrc,name:state.currentName,
+    generation:state.playbackGeneration,context:RA_MODULES.sdr.owrxDiagnostics().contextState,
+    receiverPaused:document.querySelector('#owrx-audio').paused,receiverStream:document.querySelector('#owrx-audio').srcObject===null,
+    resumeError:window.__fmResumeError||null}));report.fmResume=resumed;
+   check('Existing FM resume retains station/source/generation and releases native audio',
+    resumed.src===fmBefore.src&&resumed.name===fmBefore.name&&resumed.generation===fmBefore.generation
+    &&resumed.context==='closed'&&resumed.receiverPaused&&resumed.receiverStream&&!resumed.resumeError,JSON.stringify(resumed));
+   await direct.first().click();await audioReady(page);
+   check('Native receiver restarts cleanly after FM resume',traces.length===beforeResumeSocket+1);
    const trace=traces[0],negotiation=trace.commands.filter(x=>x.startsWith('{')).map(x=>JSON.parse(x));
    check('OpenWebRX greeting precedes negotiated audio rates',trace.commands[0]==='SERVER DE CLIENT client=RadioAtlas type=receiver'
     &&negotiation[0].type==='connectionproperties'&&negotiation[0].params.output_rate===12000&&negotiation[0].params.hd_output_rate===48000);
