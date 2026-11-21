@@ -100,7 +100,7 @@ async function exerciseRecordedControls(page,traces,fixtureSockets) {
   assert.equal(await page.locator('#kiwi-freq').inputValue(),'864');
   assert.equal(await page.locator('#kiwi-mode').inputValue(),'am');
   assert.equal(await page.locator('#kiwi-bandwidth').inputValue(),'narrow');
-  await waitForTrace(()=>traces.at(-1).commands.slice(presetCommandsBefore).some(x=>/^SET mod=am .*freq=864\\.000$/.test(String(x))),'Cyprus AM quick tune must reach the current WebSocket');
+  await waitForTrace(()=>traces.at(-1).commands.slice(presetCommandsBefore).some(x=>/^SET mod=am .*freq=864\.000$/.test(String(x))),'Cyprus AM quick tune must reach the current WebSocket');
   assert.equal(traces.length,initialConnections+1,'presets never create another SDR connection');
   await checkMobileLayout(page,'ar');
   observations.push('Cyprus-only MW presets retune the active receiver; mobile buttons remain within the modal');
