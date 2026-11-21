@@ -25,7 +25,7 @@ class KiwiWranglerTests(unittest.TestCase):
         worker = (ROOT / "proxy/kiwi-worker.js").read_text()
         quota = (ROOT / "proxy/kiwi-quota.js").read_text()
         self.assertIn("export { KiwiQuota } from './kiwi-quota.js';", worker)
-        self.assertIn("env.KIWI_QUOTAS.getByName('global')", worker)
+        self.assertIn("env.KIWI_QUOTAS.getByName('global', {retry:{maxRetries:0}})", worker)
         self.assertIn("await quota.checkIp(ip)", worker)
         self.assertIn("await quota.reserve(ip, receiver)", worker)
         self.assertIn("export class KiwiQuota extends DurableObject", quota)

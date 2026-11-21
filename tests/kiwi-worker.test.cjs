@@ -350,3 +350,21 @@ test('quota lease released for both peer close and failed upstream; waitUntil in
   assert.equal((await bad.ctx.exported.fetch(request())).status, 502);
   assert.deepEqual(bad.globalCounts(), {reservations:1,releases:1});
 });
+
+test('global quota RPC disables Cloudflare automatic retries for non-idempotent counters', async () => {
+  const seen = [];
+  const quota = {
+    async checkIp() { return false; },
+    async reserve() { throw new Error('must not reserve'); }
+  };
+  const h = harness();
+  const req = request();
+  const result = await h.ctx.fetchRaw(req, {
+    KIWI_QUOTAS: {getByName(name, options) { seen.push({name, options}); return quota; }}
+  });
+  assert.equal(result.status, 429);
+  assert.equal(seen.length, 1);
+  assert.equal(seen[0].name, 'global');
+  assert.deepEqual(JSON.parse(JSON.stringify(seen[0].options)), {retry:{maxRetries:0}});
+  assert.equal(h.calls.length, 0);
+});
