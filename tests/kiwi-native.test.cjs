@@ -146,7 +146,9 @@ test('native session authenticates binary controls before tuning and uses real o
     assert.equal(scheduled.length,1,'decoded PCM must reach Web Audio scheduling');
     assert.equal(elements['kiwi-status'].textContent,'kiwi_live');
     socket.onclose({code:1000});
-    assert.equal(elements['kiwi-status'].textContent,'kiwi_failed');
+    assert.equal(elements['kiwi-status'].textContent,'kiwi_ended');
+    assert.equal(session.kiwiLastFailureCode,'ended');
+    assert.equal(session.kiwiLastCloseCode,1000);
     assert.equal(session.kiwiKeepAlive,null);
     assert.equal(session.kiwiAudioCtx,null);
     assert.equal(h.timers.size,0,'failure must release timers');
@@ -288,20 +290,21 @@ test('KiwiSDR full receiver link carries validated tuning without stale URL para
   assert.equal(h.session.kiwiFullReceiverUrl('javascript:alert(1)'),'');
 });
 
-test('KiwiSDR retries unexpected loss only after audio and stops after two attempts', () => {
+test('KiwiSDR retries unexpected loss with 8s then 65s backoff, only after PCM', () => {
   const h=nativeSession();
   try {
     h.session.openKiwiAudio('http://receiver.example/','Retry fixture');h.authenticate();
     const first=h.sockets[0];first.onmessage({data:h.frame()});first.onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,1);assert.equal(h.timers.size,1);
     assert.equal(h.contexts[0].state,'closed');
-    const retry1=[...h.timers.values()][0];assert.equal(retry1.delay,1500);retry1.fn();
+    const retry1=[...h.timers.values()][0];assert.equal(retry1.delay,8000);retry1.fn();
     h.authenticate();h.sockets[1].onmessage({data:h.frame()});h.sockets[1].onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,2);assert.equal(h.timers.size,1);
-    const retry2=[...h.timers.values()][0];assert.equal(retry2.delay,3000);retry2.fn();
+    const retry2=[...h.timers.values()][0];assert.equal(retry2.delay,65000);retry2.fn();
     h.authenticate();h.sockets[2].onmessage({data:h.frame()});h.sockets[2].onclose({code:1006});
     assert.equal(h.sockets.length,3);assert.equal(h.timers.size,0);
-    assert.equal(h.elements['kiwi-status'].textContent,'kiwi_failed');
+    assert.equal(h.elements['kiwi-status'].textContent,'kiwi_transport');
+    assert.equal(h.session.kiwiLastFailureCode,'transport');
     assert.ok(h.contexts.every(x=>x.state==='closed'));
   }finally{h.session.closeKiwiAudio();}
 });
@@ -315,9 +318,22 @@ test('KiwiSDR authentication refusal and deliberate session close never auto-ret
       else {h.authenticate();h.sockets[0].onmessage({data:h.frame()});h.sockets[0].onclose({code:cause==='normal-close'?1000:1008});}
       assert.equal(h.session.kiwiRetryCount,0,cause);
       assert.equal(h.timers.size,0,cause);assert.equal(h.sockets.length,1,cause);
-      assert.equal(h.elements['kiwi-status'].textContent,'kiwi_failed',cause);
+      assert.equal(h.elements['kiwi-status'].textContent,cause==='normal-close'?'kiwi_ended':'kiwi_denied',cause);
     }finally{h.session.closeKiwiAudio();}
   }
+});
+
+test('KiwiSDR never retries failed pre-audio handshake and preserves diagnostic reason', () => {
+  const h=nativeSession();
+  try {
+    h.session.openKiwiAudio('http://receiver.example/','Rejected handshake');
+    h.sockets[0].onerror();
+    assert.equal(h.session.kiwiLastFailureCode,'transport');
+    assert.equal(h.elements['kiwi-status'].textContent,'kiwi_transport');
+    assert.equal(h.session.kiwiRetryCount,0);
+    assert.equal(h.timers.size,0);
+    assert.equal(h.session.kiwiLastCloseCode,null,'HTTP status is not available to WebSocket API');
+  }finally {h.session.closeKiwiAudio();}
 });
 
 test('KiwiSDR closing while a retry is pending cancels timers and stale callbacks', () => {
