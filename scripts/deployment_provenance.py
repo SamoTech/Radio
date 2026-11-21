@@ -28,6 +28,8 @@ ASSETS = (
     "index.html", "sw.js", "sitemap.xml", "manifest.webmanifest",
     "css/styles.css", "js/app.js", "js/modules/player.mjs",
     "js/modules/mobile.mjs", "js/modules/tools.mjs",
+    "js/modules/sdr.mjs", "js/modules/sdr-adapters.mjs",
+    "js/modules/openwebrx-native.mjs", "data/receiver_audio_checks.json",
 )
 CACHE_RE = re.compile(r"var CACHE = ['\"](radio-atlas-v\d+)['\"]")
 

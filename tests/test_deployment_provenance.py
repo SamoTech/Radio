@@ -65,6 +65,27 @@ class DeploymentProvenanceTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "sw.js"):
                     MODULE.verify_once(root, SHA)
 
+    def test_native_sdr_runtime_assets_are_covered_and_checked(self):
+        required = {
+            "js/modules/sdr.mjs", "js/modules/sdr-adapters.mjs",
+            "js/modules/openwebrx-native.mjs", "data/receiver_audio_checks.json",
+        }
+        self.assertTrue(required.issubset(set(MODULE.ASSETS)))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            make_fixture(root)
+            stamp = MODULE.release_metadata(root, SHA)
+            blobs = {
+                MODULE.STAMP: json.dumps(stamp).encode("utf-8"),
+                **{name: (root / name).read_bytes() for name in MODULE.ASSETS},
+            }
+            # A correct release descriptor alone is not sufficient: every
+            # advertised native SDR runtime asset must match the live bytes.
+            blobs["js/modules/openwebrx-native.mjs"] = b"stale receiver adapter"
+            with patch.object(MODULE, "http_get", side_effect=lambda name, token: blobs[name]):
+                with self.assertRaisesRegex(ValueError, "openwebrx-native.mjs"):
+                    MODULE.verify_once(root, SHA)
+
     def test_old_commit_descriptor_must_not_be_accepted(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
