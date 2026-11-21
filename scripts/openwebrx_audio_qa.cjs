@@ -218,7 +218,7 @@ async function startFm(page){await page.evaluate(url=>{
    check('Starting FM releases native audio and closes its panel',await page.locator('#owrx-modal').isHidden()
     &&await page.locator('#owrx-audio').evaluate(a=>a.paused&&a.srcObject===null));
    check('FM switching clears old receiver waterfall evidence',
-    await page.locator('#owrx-waterfall-wrap').isHidden());
+    await page.locator('#owrx-waterfall-wrap').evaluate(el=>el.hidden));
    nextCase='unsupported';await direct.first().click();
    await page.waitForFunction(()=>document.querySelector('#owrx-status').textContent.includes('unsupported_codec'));
    check('Unsupported compression fails visibly without audio',await page.evaluate(()=>{const d=RA_MODULES.sdr.owrxDiagnostics();return d.contextState==='closed'&&d.nonZeroSamples===0;}));
