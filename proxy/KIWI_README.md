@@ -11,6 +11,12 @@ This is a **separate Cloudflare Worker** for KiwiSDR hardware which is HTTP/WS-o
 
 **Restrictions:** no iframe proxying, no bypass of receiver login/password or owner API restrictions, and no proxying OpenWebRX/WebSDR proprietary APIs. The worker does not record sessions. Source update (P0 follow-up): the new `KIWI_QUOTAS` SQLite-backed Durable Object enforces fleet-wide attempt and admission limits, while isolate-local caps remain as defense in depth. This protection is **not active on the public Worker until the owner deploys the updated Worker and its binding**. DNS preflight/pinning limitations remain. HTTP receiver connections from the Worker to hardware are not encrypted on that leg; prefer HTTPS receivers where possible. DNS-rebinding checks are bounded by the hosting platform's networking controls — consider dedicated curated host allowlists for high-assurance deployments.
 
+## Cloudflare AI Agent — complete inline-code handoff (2026-11-21)
+
+Copy the **entire** ready-to-paste [Cloudflare AI full-code execution prompt](../docs/CLOUDFLARE_AI_KIWI_P0_FULL_CODE.md) into the authenticated Cloudflare AI Agent. It embeds a complete, single-file `worker.js` equivalent to `kiwi-worker.js` + `kiwi-quota.js` and an example SQLite Durable Object binding. It performs snapshot/rollback gating and prohibits overwriting a newer unreviewed deployed Worker version. It also turns off automatic retries for non-idempotent quota RPCs to avoid double-counting. This is a **handoff artifact only**, not deployment evidence.
+
+The repository-native two-file Wrangler configuration below remains canonical for source development; the one-file bundle is for the Cloudflare Dashboard editor and requires the corresponding `KIWI_QUOTAS` binding/class provisioned together with the Worker deployment.
+
 ## Deployment
 Deploy `proxy/kiwi-worker.js` to its own Cloudflare Worker (Workers & Pages). The dedicated configuration `proxy/kiwi-wrangler.toml` names **only** `radio-atlas-kiwi-bridge`, uses compatibility date `2025-09-01`, enables workers.dev, disables preview URLs and enables observability at 100% sampling. The new source requires the `KIWI_QUOTAS` SQLite Durable Object binding (configured by `proxy/kiwi-wrangler.toml`) and no secrets.
 
