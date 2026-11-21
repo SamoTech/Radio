@@ -9,10 +9,10 @@ This is a **separate Cloudflare Worker** for KiwiSDR hardware which is HTTP/WS-o
 4. Worker upgrades to the receiver's native WebSocket and relays Kiwi frames both directions without storing audio.
 5. The radio page decodes native SND audio and exposes volume, mode and tuning in its own interface. The original receiver page remains an optional external link.
 
-**Restrictions:** no iframe proxying, no bypass of receiver login/password or owner API restrictions, and no proxying OpenWebRX/WebSDR proprietary APIs. The worker does not record sessions. Rate limiting is *per-isolate* and is not sufficient for a high-traffic public production service; use Cloudflare WAF or Durable Objects for robust global quotas. HTTP receiver connections from the Worker to hardware are not encrypted on that leg; prefer HTTPS receivers where possible. DNS-rebinding checks are bounded by the hosting platform's networking controls — consider dedicated curated host allowlists for high-assurance deployments.
+**Restrictions:** no iframe proxying, no bypass of receiver login/password or owner API restrictions, and no proxying OpenWebRX/WebSDR proprietary APIs. The worker does not record sessions. Source update (P0 follow-up): the new `KIWI_QUOTAS` SQLite-backed Durable Object enforces fleet-wide attempt and admission limits, while isolate-local caps remain as defense in depth. This protection is **not active on the public Worker until the owner deploys the updated Worker and its binding**. DNS preflight/pinning limitations remain. HTTP receiver connections from the Worker to hardware are not encrypted on that leg; prefer HTTPS receivers where possible. DNS-rebinding checks are bounded by the hosting platform's networking controls — consider dedicated curated host allowlists for high-assurance deployments.
 
 ## Deployment
-Deploy `proxy/kiwi-worker.js` to its own Cloudflare Worker (Workers & Pages). The dedicated configuration `proxy/kiwi-wrangler.toml` names **only** `radio-atlas-kiwi-bridge`, uses compatibility date `2025-09-01`, enables workers.dev, disables preview URLs and enables observability at 100% sampling. It requires no bindings or secrets.
+Deploy `proxy/kiwi-worker.js` to its own Cloudflare Worker (Workers & Pages). The dedicated configuration `proxy/kiwi-wrangler.toml` names **only** `radio-atlas-kiwi-bridge`, uses compatibility date `2025-09-01`, enables workers.dev, disables preview URLs and enables observability at 100% sampling. The new source requires the `KIWI_QUOTAS` SQLite Durable Object binding (configured by `proxy/kiwi-wrangler.toml`) and no secrets.
 
 From the repository root, after authenticating Wrangler to the Cloudflare account that owns `ossam-hashim.workers.dev`, deploy with:
 
@@ -46,7 +46,7 @@ Worker reachability/security tests do not establish functional playback. An actu
 
 ### Abuse limits
 
-All limits are **per Worker isolate**, reset on eviction/deploy, and are neither global quotas nor authentication. Browser Origin checks are an application boundary; non-browser clients can forge Origin. `CF-Connecting-IP` must come from Cloudflare, not a caller-controlled trusted proxy header.
+The original limits are still enforced **per Worker isolate** as defense in depth. The updated source additionally enforces 24 attempts/min/IP, 12 attempts/min/receiver, 2 concurrent per IP, 2 per receiver and 32 total admissions through a single SQLite-backed Durable Object. This is an admission-time distributed cap, not authentication or independent proof of live Cloudflare behavior. Browser Origin checks are an application boundary; non-browser clients can forge Origin. `CF-Connecting-IP` must come from Cloudflare, not a caller-controlled trusted proxy header.
 
 | Guard | Limit |
 |---|---:|
@@ -63,7 +63,19 @@ All limits are **per Worker isolate**, reset on eviction/deploy, and are neither
 
 Concurrency slots are reserved synchronously **before DNS/upgrade work**, include pending handshakes, and are released exactly once on connection failure, refused upgrade, peer close/error, message limit or session expiry. Upstream redirects and responses other than a real HTTP 101 upgrade are rejected. A client cannot hold an indefinite connection through missing close events because of the session deadline. Frame checks preserve accepted native Kiwi messages byte-for-byte; they do not implement a second audio protocol.
 
-For strict fleet-wide quotas, use Cloudflare's available global rate-limiting/coordination controls separately. No paid service is required by this source change. Never infer a deployed security fix from local tests or the public `/healthz` alone: redeploy this standalone Worker, repeat security tests against its public endpoint, and run the audio smoke test through `/kiwi/ws`.
+For strict fleet-wide admission, the updated code uses a single SQLite Durable Object. Cloudflare currently supports SQLite-backed Durable Objects on Workers Free within plan quotas; hitting Free limits fails closed. No paid service is required for deployment, but the namespace consumes the account's Free resource allowances. Never infer a deployed security fix from local tests or the public `/healthz` alone: redeploy this standalone Worker, repeat security tests against its public endpoint, and run the audio smoke test through `/kiwi/ws`.
+
+### Global quota source upgrade — **not deployed by a GitHub Pages release**
+
+P0 follow-up: the source now exports `KiwiQuota` from `proxy/kiwi-quota.js` and the dedicated Wrangler config binds `KIWI_QUOTAS` with a `new_sqlite_classes` migration. Only `radio-atlas-kiwi-bridge` is affected; the static site and separate FM relay are not modified. **The running Cloudflare deployment remains the previously verified binding-free version until the account owner deploys this change**.
+
+New admission flow: origin and isolate-local attempt checks → fleet-wide IP counter → fixed-directory ext_api/slot validation → isolate-local receiver counter and slot reservation → fleet-wide receiver counter and atomic SQLite lease → DNS preflight → native Kiwi WebSocket. Every failure releases the local slot and attempts to delete the distributed lease. On close/error/session timeout, `ctx.waitUntil()` sends an idempotent release; abandoned leases expire after 30 minutes. The source fails with HTTP 503 when the binding or storage is unavailable, rather than falling back to the unsafe isolate-only path. The quota object does **not** proxy audio frames.
+
+The coordinator persists attempts and leases, serializes concurrent admissions and is shared across Cloudflare regions through one stable name (`global`). The 60-second window and 30-minute leases prevent indefinite state growth, with bounded attempt-key cardinality. This does not solve DNS rebind TOCTOU or guarantee human audibility. A loss of the release callback may hold a capacity slot until lease expiry.
+
+To activate, the account owner must deploy the **entire** `proxy/kiwi-wrangler.toml` configuration and related source through their authenticated Cloudflare account. Do not paste only `kiwi-worker.js` into the dashboard: that omits the exported quota class/migration and the bridge will fail closed. After deployment, inspect the resulting binding/migration, verify health/origin/upgrade, and perform a **small, authorized** live receiver check. Do not conduct unbounded bursts against public radios or declare global limit tests from one Cloudflare location. Record deployment ID, source hash, request outcomes and teardown; only then update this document's deployed baseline.
+
+Local CI includes SQL-backed per-IP/per-receiver/fleet/session-expiration tests, Worker fail-closed and cleanup tests, and Wrangler config validation. Those are deterministic code tests, **not** production quota evidence.
 
 ### Automated audio checks
 

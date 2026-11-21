@@ -2,6 +2,12 @@
 
 Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. P1–P3 have not started.
 
+## P0 follow-up — SQLite global quota source (not live)
+
+The follow-up source adds a SQLite-backed `KiwiQuota` Durable Object in `proxy/kiwi-quota.js`, configures its `KIWI_QUOTAS` binding and migration, and keeps per-isolate quotas as a second boundary. The coordinator enforces 24 attempts/min/IP, 12 attempts/min/receiver, 2 active/IP, 2 active/receiver and 32 fleet admission leases. SQLite-backed Durable Objects are supported on Cloudflare Workers Free, subject to Free quotas.
+
+**Source and CI evidence are not production deployment evidence.** No authenticated Cloudflare deployment or live global-acceptance probe is performed as part of this repository-only change. The earlier deployment provenance and runtime evidence below apply to the old version until a new owner-authorized rollout. Re-run the bounded safety/audio tests, collect a new Worker version ID and update this report after deployment. DNS rebinding TOCTOU and physical speaker listening remain open independently.
+
 ## Deployment provenance
 
 The owner reports deploying repository commit `5dbdbd720f42ae380c7e93dd78f0b7530e91fd18` through the Cloudflare Workers API:
