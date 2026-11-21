@@ -647,3 +647,6 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
  #owrx-modal .kiwi-tuning{grid-column:1/-1}.native-radio-readouts{display:grid;grid-template-columns:minmax(0,1fr)}
  #owrx-modal .receiver-buttons .btn{flex:1 1 120px;text-align:center}
 }
+@media(max-width:400px){
+ #owrx-freq{font-size:1.05rem;letter-spacing:0}
+}

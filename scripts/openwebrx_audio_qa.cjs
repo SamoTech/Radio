@@ -23,11 +23,20 @@ async function audioReady(page){await page.waitForFunction(()=>{
 async function traceReady(predicate,label){const end=Date.now()+5000;while(!predicate()&&Date.now()<end)await new Promise(r=>setTimeout(r,10));check(label,predicate());}
 async function shot(page,name){await page.screenshot({path:path.join(OUTPUT,name+'.png'),animations:'disabled'});}
 async function layout(page,language){const d=await page.locator('#owrx-modal').evaluate(modal=>{
- const r=modal.getBoundingClientRect();return {dir:document.documentElement.dir,theme:document.documentElement.getAttribute('data-theme'),
- viewport:innerWidth,pageWidth:document.documentElement.scrollWidth,width:modal.clientWidth,scroll:modal.scrollWidth,
+ const r=modal.getBoundingClientRect(),input=modal.querySelector('#owrx-freq'),style=getComputedStyle(input);
+ const measure=document.createElement('canvas').getContext('2d');
+ measure.font=style.font||[style.fontStyle,style.fontWeight,style.fontSize,style.fontFamily].join(' ');
+ const spacing=parseFloat(style.letterSpacing)||0,paddingLeft=parseFloat(style.paddingLeft)||0,paddingRight=parseFloat(style.paddingRight)||0;
+ const frequency={value:input.value,font:measure.font,disabled:input.disabled,inputWidth:input.clientWidth,
+  textWidth:measure.measureText(input.value).width+spacing*Math.max(0,input.value.length-1),
+  available:input.clientWidth-paddingLeft-paddingRight-20,paddingLeft,paddingRight,letterSpacing:spacing,spinReserve:20};
+ return {dir:document.documentElement.dir,theme:document.documentElement.getAttribute('data-theme'),
+ viewport:innerWidth,pageWidth:document.documentElement.scrollWidth,width:modal.clientWidth,scroll:modal.scrollWidth,frequency,
  escaped:Array.from(modal.querySelectorAll('button,input,select,a,audio,canvas')).filter(el=>{const q=el.getBoundingClientRect();return q.width>0&&(q.left<r.left-1||q.right>r.right+1);}).map(el=>el.id)};});
  report.layouts.push(d);check(language+' direction',d.dir===(language==='ar'?'rtl':'ltr'));
  check(language+' '+d.theme+' no horizontal overflow',d.pageWidth<=d.viewport+1&&d.scroll<=d.width+1&&!d.escaped.length,JSON.stringify(d));
+ check(language+' '+d.theme+' full frequency value is readable at '+d.viewport+'px',
+  !d.frequency.disabled&&d.frequency.value.length>0&&d.frequency.textWidth<=d.frequency.available+1,JSON.stringify(d.frequency));
  await shot(page,language+'-'+d.theme+'-'+d.viewport);
 }
 async function startFm(page){await page.evaluate(url=>{
