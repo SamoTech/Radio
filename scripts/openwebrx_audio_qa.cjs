@@ -28,7 +28,7 @@ async function layout(page,language){const d=await page.locator('#owrx-modal').e
  escaped:Array.from(modal.querySelectorAll('button,input,select,a,audio,canvas')).filter(el=>{const q=el.getBoundingClientRect();return q.width>0&&(q.left<r.left-1||q.right>r.right+1);}).map(el=>el.id)};});
  report.layouts.push(d);check(language+' direction',d.dir===(language==='ar'?'rtl':'ltr'));
  check(language+' '+d.theme+' no horizontal overflow',d.pageWidth<=d.viewport+1&&d.scroll<=d.width+1&&!d.escaped.length,JSON.stringify(d));
- await shot(page,language+'-'+d.theme);
+ await shot(page,language+'-'+d.theme+'-'+d.viewport);
 }
 async function startFm(page){await page.evaluate(url=>{
  const b=document.createElement('button');b.id='owrx-qa-fm';b.textContent='Play FM fixture';b.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
@@ -132,7 +132,10 @@ async function startFm(page){await page.evaluate(url=>{
     &&await page.locator('#owrx-mode').inputValue()==='usb'&&await page.locator('#owrx-audio').evaluate(a=>a.volume)===0.37);
    for(const language of ['ar','en']){
     for(let i=0;i<2;i++){
-     await audioReady(page);await layout(page,language);await page.locator('#owrx-close').click();await page.locator('#theme-btn').click();await direct.first().click();
+     await audioReady(page);await layout(page,language);
+     await page.setViewportSize({width:320,height:844});await layout(page,language);
+     await page.setViewportSize({width:390,height:844});
+     await page.locator('#owrx-close').click();await page.locator('#theme-btn').click();await direct.first().click();
     }
     if(language==='ar'){await page.locator('#owrx-close').click();await page.locator('#lang-btn').click();await direct.first().click();}
    }

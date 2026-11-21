@@ -245,7 +245,29 @@ async function shot(page,name) {
       const m=await page.evaluate(()=>({
         viewport:window.innerWidth,body:document.body.scrollWidth,root:document.documentElement.scrollWidth
       }));
-      if(m.body>m.viewport||m.root>m.viewport)overflows.push({width,...m});
+      if(m.body>m.viewport||m.root>m.viewport){
+        const elements=await page.evaluate(()=>{
+          function selector(el){
+            const chain=[];
+            for(let item=el;item&&chain.length<4;item=item.parentElement){
+              chain.unshift(item.tagName.toLowerCase()+(item.id?'#'+item.id:
+                Array.from(item.classList).slice(0,3).map(c=>'.'+c).join('')));
+              if(item.id)break;
+            }
+            return chain.join(' > ');
+          }
+          return Array.from(document.body.querySelectorAll('*')).flatMap(el=>{
+            const rect=el.getBoundingClientRect(),style=getComputedStyle(el);
+            if(!rect.width||!rect.height||style.visibility==='hidden'||style.display==='none')return [];
+            if(rect.left>=-1&&rect.right<=innerWidth+1&&el.scrollWidth<=el.clientWidth+1)return [];
+            return [{selector:selector(el),rect:{left:rect.left,right:rect.right,width:rect.width,top:rect.top},
+              scrollWidth:el.scrollWidth,clientWidth:el.clientWidth,
+              display:style.display,minWidth:style.minWidth,gridColumns:style.gridTemplateColumns,overflowX:style.overflowX}];
+          }).sort((a,b)=>Math.max(b.rect.right-innerWidth,-b.rect.left,b.scrollWidth-b.clientWidth)
+            -Math.max(a.rect.right-innerWidth,-a.rect.left,a.scrollWidth-a.clientWidth)).slice(0,25);
+        });
+        overflows.push({width,...m,elements});
+      }
     }
     results.overflows=overflows;
     check('No horizontal overflow at 320–1280 widths',overflows.length===0,JSON.stringify(overflows));
