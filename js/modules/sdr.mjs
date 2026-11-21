@@ -151,7 +151,11 @@ var STR_SDR = {
     kiwi_signal: 'مستوى الإشارة من الجهاز',
     kiwi_signal_wait: 'في انتظار الإشارة',
     kiwi_advanced: 'تحكم متقدم في الاستقبال',
-    kiwi_retrying: 'انقطع الصوت — إعادة الاتصال {n}/2…',
+    kiwi_retrying: 'انقطع الصوت — إعادة محاولة {n}/2 بعد {seconds} ثانية…',
+    kiwi_ended: 'انتهت جلسة الجهاز — اضغط إعادة الاتصال إذا أردت الاستماع مجددًا',
+    kiwi_denied: 'رُفض الاتصال أو انتهت صلاحية الجلسة — جرّب جهاز استقبال آخر',
+    kiwi_timeout: 'لم يصل صوت من الجهاز خلال المهلة — جرّب جهازًا آخر',
+    kiwi_transport: 'تعذر فتح الاتصال — قد تكون الشبكة أو حد استخدام مؤقت؛ لا تكرر الضغط بسرعة',
     kiwi_unavailable: 'الجهاز غير متاح أو غير مسموح بالتشغيل الخارجي حاليًا',
     kiwi_invalid: 'أدخل ترددًا بين 10 و30,000 kHz ووضع استقبال صالحًا',
     kiwi_no_receivers: 'لا توجد أجهزة متاحة',
@@ -301,7 +305,11 @@ var STR_SDR = {
     kiwi_signal: 'Receiver signal level',
     kiwi_signal_wait: 'Waiting for signal',
     kiwi_advanced: 'Advanced receiver controls',
-    kiwi_retrying: 'Audio interrupted — reconnecting {n}/2…',
+    kiwi_retrying: 'Audio interrupted — safe retry {n}/2 in {seconds} seconds…',
+    kiwi_ended: 'Receiver session ended — select Reconnect to listen again',
+    kiwi_denied: 'Receiver refused the connection or the session expired — try another receiver',
+    kiwi_timeout: 'No audio received before the timeout — try another receiver',
+    kiwi_transport: 'Connection failed — network or temporary admission limit possible; avoid repeated attempts',
     kiwi_unavailable: 'Receiver unavailable or external audio not currently permitted',
     kiwi_invalid: 'Enter a frequency between 10 and 30,000 kHz and a valid mode',
     kiwi_no_receivers: 'No eligible receivers',
@@ -1205,6 +1213,10 @@ var kiwiFailTimer = null;
 var kiwiWatchdog = null;
 var kiwiRetryTimer = null;
 var kiwiRetryCount = 0;
+// Avoid retry storms against public SDR receivers and global Worker quotas.
+var KIWI_RETRY_DELAYS_MS = [8000, 65000];
+var kiwiLastFailureCode = '';
+var kiwiLastCloseCode = null;
 var kiwiSession = 0;
 var kiwiReady = false;
 var kiwiCurrentReceiver = null;
@@ -1489,18 +1501,21 @@ function openKiwiAudio(url, name, options) {
   kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0, signalDbm:null};
   kiwiLastFrame = Date.now();
   kiwiLastMeter = 0;
+  kiwiLastFailureCode = '';
+  kiwiLastCloseCode = null;
   $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
   $('kiwi-modal').hidden = false;
   kiwiUpdateControls();
   kiwiRenderReceiverChoices();
   if ($('kiwi-signal')) $('kiwi-signal').textContent = t('kiwi_signal_wait');
   if ($('kiwi-signal-meter')) $('kiwi-signal-meter').value = -160;
-  kiwiSetStatus(options && options.retry ? t('kiwi_retrying').replace('{n}',kiwiRetryCount) : t('kiwi_connecting'));
+  kiwiSetStatus(t('kiwi_connecting'));
   var audio = $('kiwi-audio');
-  function fail(retryable) {
+  function fail(retryable, reason) {
     if (session !== kiwiSession || failed) return;
     failed = true;
-    var retry = retryable === true && gotSamples && kiwiRetryCount < 2;
+    kiwiLastFailureCode = reason || 'unknown';
+    var retry = retryable === true && gotSamples && kiwiRetryCount < KIWI_RETRY_DELAYS_MS.length;
     kiwiReady = false;
     if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
     if (kiwiWatchdog) { clearInterval(kiwiWatchdog); kiwiWatchdog = null; }
@@ -1511,13 +1526,18 @@ function openKiwiAudio(url, name, options) {
     if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
     if (retry) {
       kiwiRetryCount++;
-      kiwiSetStatus(t('kiwi_retrying').replace('{n}',kiwiRetryCount));
+      var retryDelay = KIWI_RETRY_DELAYS_MS[kiwiRetryCount - 1];
+      kiwiSetStatus(t('kiwi_retrying').replace('{n}',kiwiRetryCount).replace('{seconds}',Math.ceil(retryDelay / 1000)));
       kiwiRetryTimer = setTimeout(function () {
         if (session === kiwiSession) openKiwiAudio(url,name,{retry:true});
-      },1500 * kiwiRetryCount);
+      },retryDelay);
     } else {
-      kiwiSetStatus(t('kiwi_failed'));
-      toast(t('kiwi_failed'));
+      var statusKey = kiwiLastFailureCode === 'ended' ? 'kiwi_ended' :
+        kiwiLastFailureCode === 'denied' ? 'kiwi_denied' :
+        kiwiLastFailureCode === 'timeout' ? 'kiwi_timeout' :
+        kiwiLastFailureCode === 'transport' ? 'kiwi_transport' : 'kiwi_failed';
+      kiwiSetStatus(t(statusKey));
+      toast(t(statusKey));
     }
   }
   var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -1536,7 +1556,7 @@ function openKiwiAudio(url, name, options) {
   ws.binaryType = 'arraybuffer';
   kiwiWs = ws;
   // Directory + DNS + upstream upgrade each have bounded setup work in the bridge.
-  kiwiFailTimer = setTimeout(function () { fail(false); },30000);
+  kiwiFailTimer = setTimeout(function () { fail(false,'timeout'); },30000);
   ws.onopen = function () {
     if (session === kiwiSession && !failed) ws.send('SET auth t=kiwi p=');
   };
@@ -1544,7 +1564,7 @@ function openKiwiAudio(url, name, options) {
     if (session !== kiwiSession || failed) return;
     var msg = kiwiControlMessage(ev.data);
     if (msg) {
-      if (/(?:^|\s)(?:badp=[1-9][0-9]*|too_busy(?:=|\s|$)|down=|fault(?:=|\s|$)|no_channels(?:=|\s|$))/i.test(msg)) { fail(false); return; }
+      if (/(?:^|\s)(?:badp=[1-9][0-9]*|too_busy(?:=|\s|$)|down=|fault(?:=|\s|$)|no_channels(?:=|\s|$))/i.test(msg)) { fail(false,'denied'); return; }
       if (/(?:^|\s)badp=0(?:\s|$)/.test(msg)) authenticated = true;
       var rate = /(?:^|\s)audio_rate=([0-9.]+)/.exec(msg);
       if (rate && Number(rate[1]) > 1000 && Number(rate[1]) < 96000) {
@@ -1586,22 +1606,26 @@ function openKiwiAudio(url, name, options) {
     kiwiFeedAudio(samples,sampleRate);
     if (typeof directMarkVerified === 'function' && kiwiStats.nonZeroSamples > 0 && kiwiAudioCtx && kiwiAudioCtx.state === 'running' && !audio.paused) directMarkVerified('kiwi',url);
   };
-  ws.onerror = function () { fail(gotSamples); };
+  ws.onerror = function () { fail(gotSamples,'transport'); };
   ws.onclose = function (event) {
-    // Policy/authentication failures and the bridge's deliberate session deadline
-    // are not retried automatically. A user can explicitly reconnect.
-    if (session === kiwiSession) fail(gotSamples && (!event || (event.code !== 1000 && event.code !== 1008 && event.code !== 1009)));
+    // WebSocket's browser API does not expose HTTP 429/502 handshake statuses.
+    // Never claim a specific quota result without server-side log evidence.
+    if (session !== kiwiSession) return;
+    kiwiLastCloseCode = event && Number.isInteger(event.code) ? event.code : null;
+    var code = kiwiLastCloseCode;
+    var retryable = gotSamples && code !== 1000 && code !== 1008 && code !== 1009 && code !== 1013;
+    fail(retryable, code === 1000 ? 'ended' : (code === 1008 || code === 1009 || code === 1013) ? 'denied' : 'transport');
   };
   kiwiKeepAlive = setInterval(function () {
     if (session === kiwiSession && !failed && ws.readyState === WebSocket.OPEN) ws.send('SET keepalive');
   },10000);
   kiwiWatchdog = setInterval(function () {
-    if (session === kiwiSession && gotSamples && Date.now() - kiwiLastFrame > 20000) fail(true);
+    if (session === kiwiSession && gotSamples && Date.now() - kiwiLastFrame > 20000) fail(true,'audio_timeout');
   },5000);
 }
 
 
-var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : ''}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
+var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
 var booted = false;
 export function boot() {
   if (booted) return API;
