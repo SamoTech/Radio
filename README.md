@@ -94,7 +94,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
-- **Service Worker** (sw.js v82) لـ caching و offline
+- **Service Worker** (sw.js v84) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -125,14 +125,14 @@ Radio/
 ├── js/
 │   ├── app.js           # نواة التطبيق: الكتالوج/FM/i18n/التمهيد (~79KB)
 │   └── modules/         # وحدات ES Modules بتحميل كسول عند أول استخدام (P1-2)
-│       ├── sdr.mjs      # KiwiSDR + WSPR + WebSDR + الفضاء + EIBI (~53KB، تحميل كسول)
+│       ├── sdr.mjs      # KiwiSDR + WSPR + WebSDR + الفضاء + EIBI (~64KB، تحميل كسول)
 │       ├── map.mjs      # الخريطة التفاعلية + طبقة الزوار (~15KB)
 │       ├── player.mjs   # المشغل: HLS + المنبه + EQ + Media Session (~29KB)
 │       ├── regions.mjs  # المفضلة + مصر + عربي + الديني (~7KB)
 │       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
 ├── css/
 │   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v82)
+├── sw.js                # Service Worker (v84)
 ├── manifest.webmanifest # PWA Manifest
 ├── offline.html         # صفحة offline
 ├── robots.txt           # robots.txt
@@ -308,3 +308,9 @@ Binary-control handshake and PCM decoding corrections, Worker security guards, a
 The native listening dialog adds eligible receiver selection, frequency steps, mode-aware passband presets, AGC/manual gain, squelch, live S-meter and explicit reconnect. Tuning and volume survive receiver changes. Last successful tuning can be restored without autoplay. The original receiver link opens its complete interface for waterfall and operator-supported extensions; Radio Atlas bridges audio only.
 
 On 2026-11-20, `http://cyp.twrmon.net:8073/` played unmuted inside Radio Atlas through the deployed bridge; a separate transport probe decoded 10 PCM frames, 5,120 samples (5,100 nonzero) at 12 kHz. `http://sdr.cyhams.org/` upgraded but produced no PCM within 20 seconds. These observations do not certify human audibility or continuous receiver availability. Chromium verified live Cyprus audio, all native controls, automatic recovery without a new gesture, and 390px Arabic/English layouts without overflow. Browser QA 21/21, PWA Upgrade QA 9/9, JS 102/102, Python 125/125 and Lighthouse Accessibility92 passed. Evidence: [Cyprus verification](docs/evidence/kiwi-cyprus-2026-11-20.json) and PR #150.
+
+### SDR Studio متعدد الأنظمة (v84)
+
+مساحة موحّدة لاختيار أجهزة KiwiSDR وWebSDR وOpenWebRX وصفحات SatNOGS مع إظهار النظام وأدواته المناسبة. واجهات HTTPS الأصلية يمكن طلب عرضها داخل الاستوديو، وHTTP وصفحات SatNOGS تفتح من الرابط الأصلي. التضمين وتشغيل أدوات الصوت يخضعان لإذن الجهاز والمتصفح؛ وصول الصفحة ليس تأكيدًا للصوت. يظل Kiwi يستخدم مشغّل PCM الداخلي للأجهزة المتاحة والمسموح بها فقط.
+
+طبقة `sdr-adapters.mjs` مستقلة وخفيفة (~3.5KB) ومخزنة ضمن Service Worker v84؛ تدير أهلية الرابط والنظام دون تحميل إطار عمل أو توسيع وسيط Cloudflare. التنقل بين الأجهزة يغلق الجلسة السابقة، وتبقى أدوات النظام الكاملة في واجهته الأصلية. [التصميم وخارطة التوسع والتحقق](docs/SDR_STUDIO_ARCHITECTURE.md). لا يوجد ادعاء بأن كل جهاز في العالم أو كل decoder اختُبر حيًا.

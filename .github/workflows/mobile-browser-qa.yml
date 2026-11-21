@@ -6,6 +6,7 @@ on:
       - scripts/browser_qa.cjs
       - scripts/pwa_upgrade_qa.cjs
       - scripts/kiwi_audio_qa.cjs
+      - scripts/sdr_studio_qa.cjs
       - tests/fixtures/kiwi-*.json
       - proxy/kiwi-worker.js
       - .github/workflows/mobile-browser-qa.yml
@@ -53,6 +54,7 @@ jobs:
           node scripts/browser_qa.cjs
           node scripts/pwa_upgrade_qa.cjs
           RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/sdr_studio_qa.cjs
       - name: Upload actual screenshots and browser test report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -73,4 +75,11 @@ jobs:
         with:
           name: radio-atlas-kiwi-recorded-audio-evidence
           path: artifacts/kiwi-audio-qa/
+          if-no-files-found: warn
+      - name: Upload SDR Studio browser evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: radio-atlas-sdr-studio-evidence
+          path: artifacts/sdr-studio-qa/
           if-no-files-found: warn

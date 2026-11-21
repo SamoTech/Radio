@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const source = fs.readFileSync('js/modules/sdr.mjs', 'utf8');
+const adapterSource = fs.readFileSync('js/modules/sdr-adapters.mjs', 'utf8').replace(/export function /g, 'function ');
 const start = source.indexOf('var KIWI_WS_RELAY =');
 const end = source.indexOf('\n\n\nvar API =', start);
 assert.ok(start > 0 && end > start, 'native player implementation must be available');
@@ -114,13 +115,15 @@ function nativeSession() {
   const session={URL,Date,Uint8Array,Int16Array,Float32Array,ArrayBuffer,DataView,Number,console,
     window:{AudioContext:Audio,WebSocket:Socket},WebSocket:Socket,$:id=>elements[id],
     t:key=>key,toast(){},safeHttpUrl:url=>url,esc:x=>String(x),
-    state:{kiwi:[],receivers:[],sdr:[]},
+    state:{kiwi:[],receivers:['receiver','successful','silent','cyprus','global'].map(name=>({
+      type:'kiwi',name:name,url:'http://'+name+'.example/',online:true,extApi:1,users:0,maxUsers:4
+    })),sdr:[]},
     localStorage:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,String(value))},
     setTimeout(fn,delay){timers.set(++timerId,{fn,delay,type:'timeout'});return timerId;},
     clearTimeout(id){timers.delete(id);},
     setInterval(fn,delay){timers.set(++timerId,{fn,delay,type:'interval'});return timerId;},
     clearInterval(id){timers.delete(id);}};
-  vm.createContext(session);vm.runInContext(source.slice(start,end),session);
+  vm.createContext(session);vm.runInContext(adapterSource,session);vm.runInContext(source.slice(start,end),session);
   const msg=(text,socket=Socket.last)=>socket.onmessage({data:Uint8Array.from(Buffer.from(text)).buffer});
   const authenticate=(socket=Socket.last)=>{socket.onopen();msg('MSG badp=0 audio_rate=12000',socket);};
   const frame=()=>Uint8Array.from(Buffer.from(require('./fixtures/kiwi-snd-recording.json').frames[0],'base64')).buffer;
@@ -251,11 +254,11 @@ test('KiwiSDR mode, passband, AGC and squelch commands validate receiver control
 test('KiwiSDR receiver navigation prioritizes eligible Cyprus receivers and replaces the connection', () => {
   const h=nativeSession();
   h.session.state.receivers=[
-    {name:'A global receiver',url:'http://global.example/',loc:'Europe',online:true,extApi:1,users:0,maxUsers:4},
-    {name:'Cyprus live',url:'http://cyprus.example/',loc:'Cyprus',online:true,extApi:6,users:0,maxUsers:4},
-    {name:'Offline',url:'http://offline.example/',online:false,extApi:1,users:0,maxUsers:4},
-    {name:'No API',url:'http://no-api.example/',online:true,extApi:0,users:0,maxUsers:4},
-    {name:'Full',url:'http://full.example/',online:true,extApi:1,users:4,maxUsers:4}
+    {type:'kiwi',name:'A global receiver',url:'http://global.example/',loc:'Europe',online:true,extApi:1,users:0,maxUsers:4},
+    {type:'kiwi',name:'Cyprus live',url:'http://cyprus.example/',loc:'Cyprus',online:true,extApi:6,users:0,maxUsers:4},
+    {type:'kiwi',name:'Offline',url:'http://offline.example/',online:false,extApi:1,users:0,maxUsers:4},
+    {type:'kiwi',name:'No API',url:'http://no-api.example/',online:true,extApi:0,users:0,maxUsers:4},
+    {type:'kiwi',name:'Full',url:'http://full.example/',online:true,extApi:1,users:4,maxUsers:4}
   ];
   assert.deepEqual(Array.from(h.session.kiwiReceiverChoices(),x=>x.name),['Cyprus live','A global receiver']);
   try {
@@ -329,7 +332,7 @@ test('KiwiSDR closing while a retry is pending cancels timers and stale callback
 
 test('KiwiSDR restores successful controls and refuses receivers no longer eligible', () => {
   const h=nativeSession(),e=h.elements;
-  h.session.state.receivers=[{name:'Cyprus',url:'http://cyprus.example/',loc:'Cyprus',online:true,extApi:1,users:0,maxUsers:4}];
+  h.session.state.receivers=[{type:'kiwi',name:'Cyprus',url:'http://cyprus.example/',loc:'Cyprus',online:true,extApi:1,users:0,maxUsers:4}];
   try {
     h.session.openKiwiAudio('http://cyprus.example/','Cyprus');h.authenticate();
     h.sockets[0].onmessage({data:h.frame()});
@@ -363,4 +366,20 @@ test('KiwiSDR a handshake without decoded audio cannot overwrite the last succes
     h.elements['kiwi-freq'].value='9000';h.session.kiwiSendTune();
     assert.equal(h.storage.get('ra-kiwi-session-v1'),saved);
   }finally{h.session.closeKiwiAudio();}
+});
+
+test('native Kiwi catalog binding rejects unlisted or modified URLs without disrupting an active session',()=>{
+  const h=nativeSession();
+  try {
+    h.session.openKiwiAudio('http://receiver.example/','Approved');h.authenticate();
+    for(const url of ['http://unlisted.example/','http://receiver.example/admin',
+      'http://receiver.example/?different=1','http://user:pass@receiver.example/','javascript:alert(1)']) {
+      h.session.openKiwiAudio(url,'Not approved');
+      assert.equal(h.sockets.length,1,url);assert.equal(h.contexts[0].state,'running',url);
+      assert.equal(h.session.kiwiReady,true,url);
+    }
+  }finally{h.session.closeKiwiAudio();}
+  h.session.state.receivers=[];
+  h.session.openKiwiAudio('http://receiver.example/','Empty catalog');
+  assert.equal(h.sockets.length,1,'an empty catalog must fail closed');
 });
