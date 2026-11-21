@@ -2,6 +2,15 @@
 
 Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. P1–P3 have not started.
 
+## Latest live receiver and quota evidence — 2026-11-21
+
+- **Human-reported:** The site owner heard radio noise on EA8BFK before playback stopped. This is evidence of audible output during that session but **not** confirmation of intelligible broadcast, stable playback, or PCM telemetry for the later deployment.
+- **Independent GitHub Actions:** [Live QA run 44920315155](https://github.com/SamoTech/Radio/actions/runs/44920315155), one EA8BFK receiver, FAILED. Chromium opened the bridge WebSocket URL but timed out at 20 s: `frames=0`, `samples=0`, `nonZeroSamples=0`, `sampleRate=0`, `contextState=closed`. In the previous QA version the handshake HTTP response status was **not captured**, so this failure cannot be attributed to audio decoding alone.
+- **Owner-provided Cloudflare Observability:** A distinct later HeadlessChrome/loopback-Origin request to EA8BFK returned **HTTP 429**, with successful Worker execution outcome and adjacent `KiwiQuota.jsrpc` invocation entries. This request originated from a cloud QA runner, **not** the owner's earlier Android request. The record confirms an admission rejection but does **not** identify whether it was IP attempt, per-receiver attempt, or concurrency quota; the adjacent `warn` detail/code was not expanded.
+- **P0 v87 frontend improvements:** automatic retries after **previously decoded PCM** use 8 s then 65 s (max two), rather than 1.5 s then 3 s; 1000/1008/1009/1013 close categories, timeout and transport failures display localized actionable messages; `kiwiDiagnostics()` adds `failureCode` and `closeCode`. Browser WebSocket events cannot expose the handshake HTTP status, so no UI label falsely asserts a specific 429.
+- **P0 v87 QA improvements:** the existing opt-in live Chromium script observes handshake HTTP response status and `Retry-After` via Chrome DevTools Protocol **on the same WebSocket attempt**; no extra probes or credentials/IP addresses are retained, and after a 429 it stops testing further receivers. Report classifications do not substitute for a passed PCM graph test.
+- **Acceptance remaining:** owner or opt-in QA must verify actual audio output after the frontend update, packet samples, authenticated session, close/release, and precise global admission limits. **Do not modify Cloudflare quotas based on one 429 or stress public receivers.** No new Cloudflare Worker deployment is part of this frontend change.
+
 ## P0 deployment update — Cloudflare AI authenticated report, 2026-11-21
 
 **Reported status: DEPLOYED WITH OPEN RISKS. P0 remains OPEN.**
