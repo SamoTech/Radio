@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T20:01:38+00:00",
+ "updated": "2026-11-21T06:56:09+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -223,14 +223,6 @@
    "lon": 22.4743
   },
   {
-   "name": "SV4BFB's WebSDR in Trigona, Mouzaki Karditsas Central HELLAS",
-   "url": "http://sv4bfb.ddns.net/",
-   "loc": "",
-   "https": false,
-   "lat": 39.3984,
-   "lon": 21.6337
-  },
-  {
    "name": "DF0HTE at Esslingen University of Applied Sciences, Germany",
    "url": "https://websdr.afunk.hs-esslingen.de/",
    "loc": "",
@@ -295,7 +287,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -423,7 +415,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -535,7 +527,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -751,12 +743,12 @@
    "lon": 104.545
   },
   {
-   "name": "Fazenda Sao Francisco - Itapeva, SP - Brazil",
-   "url": "http://itapeva.websdr.com.br:8901/",
+   "name": "0-30 MHz SDR, VU24DX, Kozhikode ,Kerala,India",
+   "url": "http://vu24dx.ddns.net:8901/",
    "loc": "",
    "https": false,
-   "lat": -23.6856,
-   "lon": -48.8712
+   "lat": 11.3144,
+   "lon": 75.7122
   },
   {
    "name": "0-30 MHz SDR, VU2CPL, Bangalore, India",
@@ -789,6 +781,14 @@
    "https": false,
    "lat": 30.0227,
    "lon": -90.1212
+  },
+  {
+   "name": "Pardinho,Brazil-VOICE Cmd: https://appr.org.br",
+   "url": "http://appr.org.br:8911/",
+   "loc": "",
+   "https": false,
+   "lat": -23.1023,
+   "lon": -48.3712
   },
   {
    "name": "QS1R SDR in RUSSIA, Irkutsk, Loc-OO22GE : Multiband",
@@ -1689,14 +1689,6 @@
    "lon": -2.076698
   },
   {
-   "name": "Funknetz.nrw",
-   "url": "http://freedmr.ddnss.de:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 51.58353546172424,
-   "lon": 7.143281367997134
-  },
-  {
    "name": "SDRPaderborn",
    "url": "http://sdr.lifoy.it:8073/",
    "loc": "",
@@ -2111,14 +2103,6 @@
    "https": false,
    "lat": 44.9967,
    "lon": -122.9743
-  },
-  {
-   "name": "*POLAND* 70cm, 2m, 10m, 11m, 17m, 20m, 40m, 80m, PMR.",
-   "url": "http://sdr.noip.pl:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.01784830798169,
-   "lon": 19.979464291512027
   },
   {
    "name": "LA4M",
@@ -2553,14 +2537,6 @@
    "lon": 77.610435
   },
   {
-   "name": "14MD30 - CB + PMR + HAM + AIR",
-   "url": "http://86.227.213.137:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 43.8014,
-   "lon": 4.4612
-  },
-  {
    "name": "SP9IPZ Jaworzno",
    "url": "https://sdr.sp9ipz.pl/",
    "loc": "",
@@ -2833,14 +2809,6 @@
    "lon": -98.26422124919387
   },
   {
-   "name": "ONL13454  UBA",
-   "url": "http://81.242.146.94:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.280753504071484,
-   "lon": 5.921694842140206
-  },
-  {
    "name": "XplorePilots",
    "url": "http://xplorepilots.duckdns.org:8073/",
    "loc": "",
@@ -2935,14 +2903,6 @@
    "https": false,
    "lat": 38.22941639662544,
    "lon": 21.74211604483649
-  },
-  {
-   "name": "2E0DGP WEBSDR",
-   "url": "http://sdr.ladar.club:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 53.65548338507698,
-   "lon": -2.631403032915911
   },
   {
    "name": "M0LHI",
@@ -3169,14 +3129,6 @@
    "lon": -47.103712381925774
   },
   {
-   "name": "M0KVH",
-   "url": "http://m0kvh.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.92374,
-   "lon": -1.195084
-  },
-  {
    "name": "HB9AK Hoernli JN47LI",
    "url": "http://sdr.swiss-artg.ch:8088/",
    "loc": "",
@@ -3281,14 +3233,6 @@
    "lon": 26.123333
   },
   {
-   "name": "EA1IOS (10-11-15-20-40m-VHF-UHF) OPERATIVO 9:00am-1:00am",
-   "url": "http://ea1ios.serveftp.com/",
-   "loc": "",
-   "https": false,
-   "lat": 43.53716641562759,
-   "lon": -5.648042322826474
-  },
-  {
    "name": "RCC01 HF/VHF/UHF Danville, CA",
    "url": "https://sdr01.ionic1k.net/",
    "loc": "",
@@ -3385,6 +3329,14 @@
    "lon": 12.773415194596408
   },
   {
+   "name": "DB0NGR VHF/UHF",
+   "url": "http://136.243.0.21:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 52.59293924918308,
+   "lon": 6.922147424948992
+  },
+  {
    "name": "🇵🇱 Anteniarski OpenWebRX+ - Coś zaś narobił...",
    "url": "https://owrx.anteniarski.pl/",
    "loc": "",
@@ -3407,14 +3359,6 @@
    "https": false,
    "lat": 47.544279255973954,
    "lon": 7.9519401465365585
-  },
-  {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
   },
   {
    "name": "S59EKL",
@@ -3479,6 +3423,14 @@
    "https": true,
    "lat": 46.2368,
    "lon": 13.2434
+  },
+  {
+   "name": "OpenWebRX+ | RTL-SDR V3 | Volokolamsk | https://t.me/sdrzao",
+   "url": "http://95.165.144.131:8074/",
+   "loc": "",
+   "https": false,
+   "lat": 55.9384874338532,
+   "lon": 35.7746538788222
   },
   {
    "name": "ITParadies",
@@ -3647,6 +3599,14 @@
    "https": true,
    "lat": 42.034885619522036,
    "lon": 23.987024070635268
+  },
+  {
+   "name": "BI4AUZ@RTL-SDR V4",
+   "url": "http://zayne-lfhome.7766.org:58073/",
+   "loc": "",
+   "https": false,
+   "lat": 31.13,
+   "lon": 121.28
   },
   {
    "name": "BOGOR.ID.1",
@@ -3841,6 +3801,14 @@
    "lon": -6.05557026752054
   },
   {
+   "name": "BHRAMI OpenWebRX NEO",
+   "url": "https://bhrami.win/",
+   "loc": "",
+   "https": true,
+   "lat": -19.88205160835266,
+   "lon": -43.90722468649083
+  },
+  {
    "name": "HF/VHF/UHF SDR de PIRAQUARA / PR",
    "url": "https://sdr.pu5mfh.com/",
    "loc": "",
@@ -3929,14 +3897,6 @@
    "lon": 7.081885499209634
   },
   {
-   "name": "SV1EFA",
-   "url": "https://sdr.sv1efa-radio.com/",
-   "loc": "",
-   "https": true,
-   "lat": 37.92913244322806,
-   "lon": 23.63744676277247
-  },
-  {
    "name": "VK5HW-OWx",
    "url": "http://vk5hw.duckdns.org:8073/",
    "loc": "",
@@ -4007,6 +3967,46 @@
    "https": false,
    "lat": 36.429827036697,
    "lon": 28.2340348392956
+  },
+  {
+   "name": "EA7KQR",
+   "url": "https://ea7kqr.tailed5f6.ts.net/",
+   "loc": "",
+   "https": true,
+   "lat": 36.544880504455,
+   "lon": -4.627629837087
+  },
+  {
+   "name": "PE1NZE",
+   "url": "https://websdr.dessie-radio.nl/",
+   "loc": "",
+   "https": true,
+   "lat": 52.29476382827833,
+   "lon": 6.771075822686683
+  },
+  {
+   "name": "EA5KAO · SDR MULTIUSUARIO",
+   "url": "https://sdr.ea5kao.ampr.org/",
+   "loc": "",
+   "https": true,
+   "lat": 38.08,
+   "lon": -1.25
+  },
+  {
+   "name": "KD5OH",
+   "url": "http://www.kd5oh.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 32.74884,
+   "lon": -105.9776
+  },
+  {
+   "name": "TA3HX WebSDR",
+   "url": "https://sdr.ta3hx.ampr.org/",
+   "loc": "",
+   "https": true,
+   "lat": 38.4375,
+   "lon": 27.125
   }
  ]
 }

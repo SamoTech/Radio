@@ -1,213 +1,231 @@
 {
- "updated": "2026-11-20T20:01:38+00:00",
+ "updated": "2026-11-21T06:56:09+00:00",
  "source": "wspr.live (db1.wspr.live ClickHouse)",
  "window_hours": 2,
  "bands": [
   {
-   "band": 14,
-   "c": 210550,
-   "avg_km": 2451,
-   "max_km": 19950
-  },
-  {
    "band": 7,
-   "c": 129061,
-   "avg_km": 1377,
-   "max_km": 19750
-  },
-  {
-   "band": 10,
-   "c": 76484,
-   "avg_km": 1684,
-   "max_km": 19558
-  },
-  {
-   "band": 21,
-   "c": 55861,
-   "avg_km": 2701,
-   "max_km": 16906
-  },
-  {
-   "band": 18,
-   "c": 52175,
-   "avg_km": 2604,
-   "max_km": 18606
+   "c": 141924,
+   "avg_km": 2871,
+   "max_km": 19743
   },
   {
    "band": 3,
-   "c": 46823,
-   "avg_km": 841,
-   "max_km": 18256
+   "c": 89908,
+   "avg_km": 1386,
+   "max_km": 18753
   },
   {
-   "band": 28,
-   "c": 27635,
-   "avg_km": 3073,
-   "max_km": 18197
+   "band": 14,
+   "c": 27713,
+   "avg_km": 3877,
+   "max_km": 19766
   },
   {
-   "band": 24,
-   "c": 17308,
-   "avg_km": 3027,
-   "max_km": 19097
+   "band": 10,
+   "c": 25671,
+   "avg_km": 3222,
+   "max_km": 19885
   },
   {
    "band": 0,
-   "c": 16016,
-   "avg_km": 783,
-   "max_km": 17850
+   "c": 24815,
+   "avg_km": 897,
+   "max_km": 13832
   },
   {
    "band": 1,
-   "c": 15836,
-   "avg_km": 688,
-   "max_km": 16497
+   "c": 19429,
+   "avg_km": 952,
+   "max_km": 16308
   },
   {
    "band": 5,
-   "c": 9243,
-   "avg_km": 1195,
-   "max_km": 16318
+   "c": 10085,
+   "avg_km": 2579,
+   "max_km": 16122
   },
   {
-   "band": 144,
-   "c": 1714,
-   "avg_km": 1831,
-   "max_km": 18873
+   "band": 21,
+   "c": 4022,
+   "avg_km": 2665,
+   "max_km": 18491
   },
   {
-   "band": 13,
-   "c": 944,
-   "avg_km": 1426,
-   "max_km": 14047
+   "band": 18,
+   "c": 3339,
+   "avg_km": 3264,
+   "max_km": 18713
   },
   {
-   "band": -1,
-   "c": 754,
-   "avg_km": 539,
-   "max_km": 3882
+   "band": 28,
+   "c": 2932,
+   "avg_km": 1581,
+   "max_km": 18808
+  },
+  {
+   "band": 24,
+   "c": 1383,
+   "avg_km": 2212,
+   "max_km": 14446
   },
   {
    "band": 50,
-   "c": 523,
-   "avg_km": 84,
-   "max_km": 1772
+   "c": 613,
+   "avg_km": 259,
+   "max_km": 3303
+  },
+  {
+   "band": -1,
+   "c": 385,
+   "avg_km": 628,
+   "max_km": 14800
+  },
+  {
+   "band": 144,
+   "c": 213,
+   "avg_km": 234,
+   "max_km": 13015
   },
   {
    "band": 40,
-   "c": 119,
-   "avg_km": 264,
+   "c": 126,
+   "avg_km": 378,
    "max_km": 15694
+  },
+  {
+   "band": 13,
+   "c": 11,
+   "avg_km": 2247,
+   "max_km": 13096
+  },
+  {
+   "band": 1296,
+   "c": 11,
+   "avg_km": 31,
+   "max_km": 88
+  },
+  {
+   "band": 432,
+   "c": 2,
+   "avg_km": 88,
+   "max_km": 88
+  },
+  {
+   "band": 2301,
+   "c": 2,
+   "avg_km": 9,
+   "max_km": 9
   }
  ],
  "top": [
   {
-   "tx": "0Z1TMO",
-   "tx_loc": "LE85",
-   "rx": "K9CZI",
-   "rx_loc": "CN83mw",
-   "km": 19950,
+   "tx": "VK9NT",
+   "tx_loc": "RG30",
+   "rx": "EA8BFK",
+   "rx_loc": "IL38bo",
+   "km": 19885,
+   "band": 10,
+   "snr": -21
+  },
+  {
+   "tx": "085NDO",
+   "tx_loc": "AE21",
+   "rx": "HB9TUP",
+   "rx_loc": "JN36qx",
+   "km": 19766,
    "band": 14,
-   "snr": -14
-  },
-  {
-   "tx": "0Z1TMO",
-   "tx_loc": "LE85",
-   "rx": "W7KKE",
-   "rx_loc": "CN75xa",
-   "km": 19919,
-   "band": 14,
-   "snr": -29
-  },
-  {
-   "tx": "0Z1TMO",
-   "tx_loc": "LE85",
-   "rx": "W0IQ",
-   "rx_loc": "CN95br",
-   "km": 19853,
-   "band": 14,
-   "snr": -19
-  },
-  {
-   "tx": "Q36QDQ",
-   "tx_loc": "ME25",
-   "rx": "W0AY",
-   "rx_loc": "DN26",
-   "km": 19797,
-   "band": 14,
-   "snr": 0
-  },
-  {
-   "tx": "ZL2II",
-   "tx_loc": "RE78mu",
-   "rx": "CT2HMR",
-   "rx_loc": "IN51wg",
-   "km": 19750,
-   "band": 7,
-   "snr": -19
-  },
-  {
-   "tx": "Q36QDQ",
-   "tx_loc": "ME25",
-   "rx": "KB7GF",
-   "rx_loc": "DN06ta",
-   "km": 19706,
-   "band": 14,
-   "snr": -12
-  },
-  {
-   "tx": "EA5UV",
-   "tx_loc": "IM99ll",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19683,
-   "band": 7,
-   "snr": -27
-  },
-  {
-   "tx": "VE3VRO",
-   "tx_loc": "GM72",
-   "rx": "VK5EI",
-   "rx_loc": "PF85xr",
-   "km": 19673,
-   "band": 14,
-   "snr": -23
-  },
-  {
-   "tx": "0Z1TMO",
-   "tx_loc": "LE85",
-   "rx": "KK4GKF",
-   "rx_loc": "CN87us",
-   "km": 19649,
-   "band": 14,
-   "snr": -26
-  },
-  {
-   "tx": "VE3VRO",
-   "tx_loc": "GM72",
-   "rx": "VK5ARG",
-   "rx_loc": "PF95ht",
-   "km": 19625,
-   "band": 14,
-   "snr": -11
-  },
-  {
-   "tx": "0Z1TMO",
-   "tx_loc": "LE85",
-   "rx": "KB7GF",
-   "rx_loc": "DN06ta",
-   "km": 19614,
-   "band": 14,
-   "snr": -12
+   "snr": 15
   },
   {
    "tx": "EB1A",
    "tx_loc": "IN53tf",
-   "rx": "ZL2J",
-   "rx_loc": "RE79sb",
-   "km": 19604,
+   "rx": "ZL2005SWL",
+   "rx_loc": "RE68mx",
+   "km": 19743,
+   "band": 14,
+   "snr": -17
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2005SWL",
+   "rx_loc": "RE68mx",
+   "km": 19743,
    "band": 7,
+   "snr": -23
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2005SWL",
+   "rx_loc": "RE68mx",
+   "km": 19743,
+   "band": 10,
+   "snr": -14
+  },
+  {
+   "tx": "EA5RKP",
+   "tx_loc": "IM99",
+   "rx": "ZL2BKW",
+   "rx_loc": "RE79tr",
+   "km": 19717,
+   "band": 14,
    "snr": -18
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL4JL",
+   "rx_loc": "RE54gd",
+   "km": 19711,
+   "band": 7,
+   "snr": -25
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL4JL",
+   "rx_loc": "RE54gd",
+   "km": 19711,
+   "band": 14,
+   "snr": -17
+  },
+  {
+   "tx": "CR7BRT",
+   "tx_loc": "IM58nm",
+   "rx": "ZL2005SWL",
+   "rx_loc": "RE68mx",
+   "km": 19692,
+   "band": 14,
+   "snr": -27
+  },
+  {
+   "tx": "EA5RKP",
+   "tx_loc": "IM99",
+   "rx": "ZL2P",
+   "rx_loc": "RE79tb",
+   "km": 19689,
+   "band": 14,
+   "snr": -9
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL2CB",
+   "rx_loc": "RE78jq",
+   "km": 19679,
+   "band": 7,
+   "snr": -22
+  },
+  {
+   "tx": "EB1A",
+   "tx_loc": "IN53tf",
+   "rx": "ZL4KYH",
+   "rx_loc": "RE78js",
+   "km": 19672,
+   "band": 14,
+   "snr": -19
   }
  ]
 }
