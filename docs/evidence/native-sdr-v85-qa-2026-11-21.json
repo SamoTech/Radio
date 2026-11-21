@@ -1,7 +1,7 @@
 {
-  "testedCommit": "3aa7e09d5f910c614fbd0a6909c34f491d4d0fdc",
+  "testedCommit": "d26d9538f2ef861b1adeceba9c6663981af11924",
   "date": "2026-11-21",
-  "browserRun": "https://github.com/SamoTech/Radio/actions/runs/44896876709",
+  "browserRun": "https://github.com/SamoTech/Radio/actions/runs/44897303220",
   "liveRun": "https://github.com/SamoTech/Radio/actions/runs/44896876746",
   "local": {
     "javascript": 123,
@@ -13,7 +13,7 @@
     "general": 21,
     "pwaUpgrade": 9,
     "studio": 49,
-    "openwebrx": 41,
+    "openwebrx": 49,
     "layouts": [
       {
         "dir": "rtl",
@@ -22,6 +22,18 @@
         "pageWidth": 390,
         "width": 372,
         "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -31,6 +43,18 @@
         "pageWidth": 320,
         "width": 302,
         "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -40,6 +64,18 @@
         "pageWidth": 390,
         "width": 372,
         "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -49,6 +85,18 @@
         "pageWidth": 320,
         "width": 302,
         "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -58,6 +106,18 @@
         "pageWidth": 390,
         "width": 372,
         "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -67,6 +127,18 @@
         "pageWidth": 320,
         "width": 302,
         "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -76,6 +148,18 @@
         "pageWidth": 390,
         "width": 372,
         "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       },
       {
@@ -85,6 +169,18 @@
         "pageWidth": 320,
         "width": 302,
         "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
         "escaped": []
       }
     ],
@@ -221,8 +317,23 @@
     {
       "run": 44896496622,
       "issue": "Unwrapped filter label and reconnect tune consumed before matching profile acknowledgement"
+    },
+    {
+      "run": 44896876709,
+      "issue": "Full frequency text clipped inside 320px input; font reduced and real font metrics asserted."
     }
   ],
   "humanAudibility": "NOT VERIFIED",
-  "scope": "Native uncompressed OpenWebRX and existing Kiwi; no all-device, digital-decoder or ADPCM claim."
+  "scope": "Native uncompressed OpenWebRX and existing Kiwi; no all-device, digital-decoder or ADPCM claim.",
+  "liveTestedCommit": "3aa7e09d5f910c614fbd0a6909c34f491d4d0fdc",
+  "infrastructureFailures": [
+    {
+      "run": 44897115390,
+      "reason": "npm E404 robots-parser-3.1.1.tgz before Lighthouse audit"
+    },
+    {
+      "run": 44897303432,
+      "reason": "Same npm E404 repeated; compatible published dependency pin required"
+    }
+  ]
 }
