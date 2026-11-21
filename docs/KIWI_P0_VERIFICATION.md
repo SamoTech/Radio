@@ -11,6 +11,13 @@ Status: **OPEN for final acceptance**. The hardened Worker is deployed according
 - **P0 v87 QA improvements:** the existing opt-in live Chromium script observes handshake HTTP response status and `Retry-After` via Chrome DevTools Protocol **on the same WebSocket attempt**; no extra probes or credentials/IP addresses are retained, and after a 429 it stops testing further receivers. Report classifications do not substitute for a passed PCM graph test.
 - **Acceptance remaining:** the current receiver/session has human-confirmed audible output. Still verify packet/authorization details on the reported Cloudflare version, close/release and lease expiry, exact global admission limits and `Retry-After`, and a small compatibility sample across distinct receiver models. **Do not modify Cloudflare quotas based on one 429 or stress public receivers.** No new Cloudflare Worker deployment is part of this frontend change.
 
+## Additional owner-observed Cloudflare log and browser evidence — 2026-11-21
+
+- A Radio Atlas browser snapshot supplied by the owner showed `0-30 MHz SDR | Cyprus` marked **«صوت اتأكد في الجلسة دي»** at 18:10:17 Cairo time. The same snapshot marked EA8BFK, EA8-DF4UE and EA2RCF as audio-verified in that browser session. This is **app-detected, session-local audio**; it does not show which AM broadcast was heard or guarantee all receivers/frequencies.
+- The owner also supplied Cloudflare Observability rows for `radio-atlas-kiwi-bridge`: a `/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F` request around **18:15:46 Cairo**, a nearby **`KiwiQuota.jsrpc`** invocation at 18:15:46.860, and additional `KiwiQuota.jsrpc` calls around 18:17:12 and 18:17:23. Requests to `example.com` in this latter period are consistent with the expected unlisted-host rejection smoke test and should not be mislabelled as a receiver outage.
+- The Worker displays `warn` events around those times, but their actual message/code bodies were **not expanded**. The logs therefore support DO RPC **invocation** as owner-provided evidence, not a conclusion about method success, quota thresholds, individual rejection causes or why a listening session might stop.
+- No Cloudflare source, quotas, binding or deployment was modified in SDR-4B; the separate P0 quota/lease acceptance remains **OPEN**.
+
 ## P0 deployment update — Cloudflare AI authenticated report, 2026-11-21
 
 **Reported status: DEPLOYED WITH OPEN RISKS. P0 remains OPEN.**
