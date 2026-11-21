@@ -1,0 +1,85 @@
+{
+  "started": "2026-11-21T10:44:02.685Z",
+  "receiver": "https://sdr.v4.si/",
+  "origin": "https://samotech.github.io",
+  "counts": {
+    "pcm": 20,
+    "samples": 20480,
+    "nonzero": 20420,
+    "fft": 14,
+    "rates": [
+      12000
+    ],
+    "smeter": 6
+  },
+  "states": [
+    {
+      "state": "connecting",
+      "detail": ""
+    },
+    {
+      "state": "connected",
+      "detail": ""
+    },
+    {
+      "state": "ready",
+      "detail": ""
+    },
+    {
+      "state": "ready",
+      "detail": "profile_pending"
+    },
+    {
+      "state": "ready",
+      "detail": ""
+    },
+    {
+      "state": "streaming",
+      "detail": ""
+    }
+  ],
+  "config": {
+    "fft_size": 4096,
+    "audio_compression": "none",
+    "fft_compression": "none",
+    "start_offset_freq": 0,
+    "sdr_id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3",
+    "center_freq": 14200000,
+    "samp_rate": 1024000,
+    "start_freq": 14200000,
+    "start_mod": "usb",
+    "profile_id": "0d24884f-889a-4369-a3e4-ade6666e9c8c",
+    "output_rate": 12000,
+    "hd_output_rate": 48000,
+    "modes": [
+      "am",
+      "nfm",
+      "wfm",
+      "usb",
+      "lsb",
+      "cw"
+    ],
+    "modesConfirmed": true
+  },
+  "profiles": [
+    {
+      "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+      "name": "VHF 2m"
+    },
+    {
+      "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+      "name": "20m 14MHz"
+    },
+    {
+      "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+      "name": "10m 28MHz"
+    }
+  ],
+  "selectedProfile": {
+    "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+    "name": "20m 14MHz"
+  },
+  "error": null,
+  "finished": "2026-11-21T10:44:14.175Z",
+  "verification_scope": "Live protocol adapter PCM/FFT only; browser Web Audio and human audibility are separate gates."
+}

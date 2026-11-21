@@ -515,7 +515,17 @@ test('catalog batches preserve per-station languages, categories and ordering', 
 });
 
 test('SDR keeps quick discovery outside the advanced disclosures', () => {
-  const html = fs.readFileSync('index.html', 'utf8').split('id="panel-sdr"')[1].split('</section>')[0];
+  const source = fs.readFileSync('index.html', 'utf8');
+  const panelStart = source.lastIndexOf('<section', source.indexOf('id="panel-sdr"'));
+  const sections = /<section\b[^>]*>|<\/section\s*>/g;
+  sections.lastIndex = panelStart;
+  let depth = 0, panelEnd = -1, match;
+  while ((match = sections.exec(source))) {
+    depth += match[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) { panelEnd = sections.lastIndex; break; }
+  }
+  assert.ok(panelEnd > panelStart, 'SDR panel must have a matching closing section');
+  const html = source.slice(panelStart, panelEnd);
   const parts = html.split('<details class="sdr-disclosure">');
   assert.equal(parts.length, 3);
   assert.match(parts[0], /id="q"/);

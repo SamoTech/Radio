@@ -318,3 +318,16 @@ On 2026-11-20, `http://cyp.twrmon.net:8073/` played unmuted inside Radio Atlas t
 ### Reliable Pages artifact publication
 
 Pages uploads and deploys use the same unique name per workflow run/attempt. A bounded metadata check waits for that artifact to appear before deployment, avoiding both an immediately invisible upload and duplicate `github-pages` artifacts after a job rerun. Existing provenance and catalog refresh scheduling remain in place; no artifacts are deleted.
+
+
+### الاستقبال المباشر OpenWebRX وتجربة الراديو (v85)
+
+مشغّل أطلس الخاص يستقبل الآن PCM من أجهزة OpenWebRX/OpenWebRX+ المدرجة عبر HTTPS/WSS حين يعلن الخادم `audio_compression=none`. اختيار بروفايل الجهاز والنطاق، وضبط التردد بخطوات، وAM/NFM/WFM/USB/LSB/CW، ومستوى الصوت وإعادة الاتصال متاحة داخل الموقع. مقياس الإشارة والطيف مأخوذان من رسائل الجهاز الفعلية؛ لا طيف اصطناعي. الإشارات الرقمية وADPCM وأدوات المشغّل الإضافية تظل في الواجهة الأصلية، ولا يُدّعى تشغيل كل إمكانيات كل جهاز.
+
+قسم «استقبال مباشر» يجمع مرشحي Kiwi المسموحين وOpenWebRX الآمن، ويميّز المرشح عن الجهاز الذي أرسل عينات غير صفرية إلى مسار صوت يعمل في جلسة المستخدم، مع وقت التحقق وفلتر لهذه النتائج. ليست قائمة ضمان دائم أو فحصًا شاملًا للكتالوج. بدء SDR يوقف FM مؤقتًا؛ العودة لمحطة FM تغلق اتصال SDR ومخرجاته. لا تحميل إضافي لوحدة SDR أثناء الاستماع المعتاد لـFM؛ `js/app.js` يبقى 81,558 بايت. Service Worker v85 يخزن الموصل الجديد.
+
+اختبارات البروتوكول والمتصفح تستخدم تسجيلًا حقيقيًا معلن المصدر من S52MP على 20 متر، منفصلًا عن الفحص الحي اليدوي في `openwebrx-live-audio-qa.yml`. تُحفظ نتائج Chromium وقياس خرج Web Audio في artifacts، ولا يُعتبر فتح WebSocket أو وصول الصفحة دليل صوت. التفاصيل والحدود في [تصميم SDR Studio](docs/SDR_STUDIO_ARCHITECTURE.md).
+
+التحقق الحي في Chromium للنسخة المرشحة `2f25fb9c`: S52MP/OpenWebRX على 20m أخرج 5 إطارات PCM و5,059 عينة غير صفرية عند 12kHz مع 3 إطارات FFT؛ Kiwi قبرص أخرج 6 إطارات و3,069 عينة غير صفرية، وEA8BFK أخرج 5 إطارات و1,191 عينة غير صفرية عبر Worker المنشور. هذه قياسات خرج Web Audio في المتصفح، وليست شهادة سماع بشري أو فحصًا لكل الأجهزة. [دليل التنفيذ الحي](docs/evidence/native-sdr-browser-live-2026-11-21.json).
+
+الأجهزة الثلاثة التي نجحت في الفحص الحي تظهر أولًا بنتيجة اختبار سابقة وتاريخها من `data/receiver_audio_checks.json`، الذي يُحمّل عند فتح SDR فقط. تظل علامة الصوت المتحقق في جلستك منفصلة؛ لا تُرفع نتيجة تاريخية إلى حالة «متصل الآن». بروفايل S52MP الذي نجح يُختار عند أول تشغيل فقط إذا بقي ضمن البروفايلات التي يعلنها الخادم، وإعادة الاتصال تحفظ اختيار المستخدم.

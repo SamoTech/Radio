@@ -1,0 +1,339 @@
+{
+  "testedCommit": "d26d9538f2ef861b1adeceba9c6663981af11924",
+  "date": "2026-11-21",
+  "browserRun": "https://github.com/SamoTech/Radio/actions/runs/44897303220",
+  "liveRun": "https://github.com/SamoTech/Radio/actions/runs/44896876746",
+  "local": {
+    "javascript": 123,
+    "python": 125,
+    "sitemapUrls": 160,
+    "sitemapIssues": 0
+  },
+  "browser": {
+    "general": 21,
+    "pwaUpgrade": 9,
+    "studio": 49,
+    "openwebrx": 49,
+    "layouts": [
+      {
+        "dir": "rtl",
+        "theme": "dark",
+        "viewport": 390,
+        "pageWidth": 390,
+        "width": 372,
+        "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "rtl",
+        "theme": "dark",
+        "viewport": 320,
+        "pageWidth": 320,
+        "width": 302,
+        "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "rtl",
+        "theme": "light",
+        "viewport": 390,
+        "pageWidth": 390,
+        "width": 372,
+        "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "rtl",
+        "theme": "light",
+        "viewport": 320,
+        "pageWidth": 320,
+        "width": 302,
+        "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "ltr",
+        "theme": "dark",
+        "viewport": 390,
+        "pageWidth": 390,
+        "width": 372,
+        "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "ltr",
+        "theme": "dark",
+        "viewport": 320,
+        "pageWidth": 320,
+        "width": 302,
+        "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "ltr",
+        "theme": "light",
+        "viewport": 390,
+        "pageWidth": 390,
+        "width": 372,
+        "scroll": 372,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 240,
+          "textWidth": 90.92848205566406,
+          "available": 196,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      },
+      {
+        "dir": "ltr",
+        "theme": "light",
+        "viewport": 320,
+        "pageWidth": 320,
+        "width": 302,
+        "scroll": 302,
+        "frequency": {
+          "value": "14203.000",
+          "font": "bold 16.8px ui-monospace, monospace",
+          "disabled": false,
+          "inputWidth": 170,
+          "textWidth": 90.92848205566406,
+          "available": 126,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "letterSpacing": 0,
+          "spinReserve": 20
+        },
+        "escaped": []
+      }
+    ],
+    "errors": []
+  },
+  "liveOpenWebRx": {
+    "run": "2026-11-21T10:59:45.835Z",
+    "mode": "live",
+    "checks": [
+      {
+        "name": "One-click live start selects the fresh advertised historical profile without manual tuning",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Native OpenWebRX has real nonzero Web Audio output",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Live receiver supplies actual FFT and S-meter",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "Native playback opens no receiver iframe",
+        "status": "PASS",
+        "detail": ""
+      },
+      {
+        "name": "No application page errors",
+        "status": "PASS",
+        "detail": "[]"
+      }
+    ],
+    "layouts": [],
+    "errors": [],
+    "note": "Recorded PCM and FFT are genuine received S52MP 20m frames. Profile-control replies reuse that recorded band range as a test fixture; they do not validate other real hardware profiles. Graph output does not certify physical audibility.",
+    "receiver": "https://sdr.v4.si/",
+    "profileSelection": "historical-auto",
+    "initial": {
+      "contextState": "running",
+      "receiver": "https://sdr.v4.si/",
+      "frequencyHz": 14200000,
+      "mode": "usb",
+      "profiles": [
+        {
+          "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+          "name": "VHF 2m"
+        },
+        {
+          "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+          "name": "20m 14MHz"
+        },
+        {
+          "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+          "name": "10m 28MHz"
+        }
+      ],
+      "frames": 5,
+      "samples": 5120,
+      "nonZeroSamples": 5048,
+      "sampleRate": 12000,
+      "signalDbm": -63.81255147635959,
+      "verifiedAt": "2026-11-21T10:59:50.939Z",
+      "fftFrames": 3
+    },
+    "live": {
+      "contextState": "running",
+      "receiver": "https://sdr.v4.si/",
+      "frequencyHz": 14200000,
+      "mode": "usb",
+      "profiles": [
+        {
+          "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+          "name": "VHF 2m"
+        },
+        {
+          "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+          "name": "20m 14MHz"
+        },
+        {
+          "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+          "name": "10m 28MHz"
+        }
+      ],
+      "frames": 5,
+      "samples": 5120,
+      "nonZeroSamples": 5048,
+      "sampleRate": 12000,
+      "signalDbm": -63.81255147635959,
+      "verifiedAt": "2026-11-21T10:59:50.939Z",
+      "fftFrames": 3
+    },
+    "final": {
+      "contextState": "running",
+      "receiver": "https://sdr.v4.si/",
+      "frequencyHz": 14200000,
+      "mode": "usb",
+      "profiles": [
+        {
+          "id": "197596d2-a018-4ec9-a155-9daf09cae716|3d799fbb-f859-462e-946b-a85054b8b82b",
+          "name": "VHF 2m"
+        },
+        {
+          "id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c",
+          "name": "20m 14MHz"
+        },
+        {
+          "id": "8b35b46a-6b2c-4da0-97bd-860269bcb5ad|c2c86068-1e70-433c-a0d0-e84aebe9e86d",
+          "name": "10m 28MHz"
+        }
+      ],
+      "frames": 5,
+      "samples": 5120,
+      "nonZeroSamples": 5048,
+      "sampleRate": 12000,
+      "signalDbm": -63.81255147635959,
+      "verifiedAt": "2026-11-21T10:59:50.939Z",
+      "fftFrames": 3
+    },
+    "status": "PASS",
+    "sockets": []
+  },
+  "fixedRegressions": [
+    {
+      "run": 44895979927,
+      "issue": "320px direct discovery layout overflow"
+    },
+    {
+      "run": 44896219125,
+      "issue": "Overflow diagnostic initially dominated by clipped antenna text"
+    },
+    {
+      "run": 44896496622,
+      "issue": "Unwrapped filter label and reconnect tune consumed before matching profile acknowledgement"
+    },
+    {
+      "run": 44896876709,
+      "issue": "Full frequency text clipped inside 320px input; font reduced and real font metrics asserted."
+    }
+  ],
+  "humanAudibility": "NOT VERIFIED",
+  "scope": "Native uncompressed OpenWebRX and existing Kiwi; no all-device, digital-decoder or ADPCM claim.",
+  "liveTestedCommit": "3aa7e09d5f910c614fbd0a6909c34f491d4d0fdc",
+  "infrastructureFailures": [
+    {
+      "run": 44897115390,
+      "reason": "npm E404 robots-parser-3.1.1.tgz before Lighthouse audit"
+    },
+    {
+      "run": 44897303432,
+      "reason": "Same npm E404 repeated; compatible published dependency pin required"
+    }
+  ]
+}

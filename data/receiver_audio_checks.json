@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "checked_at": "2026-11-21T10:47:48.712Z",
+  "source_commit": "2f25fb9c98075eada9476e182be9526bbfa7a3ff",
+  "note": "Previous Chromium nonzero Web Audio checks, not current availability or human audibility. Only exact catalogue matches are eligible.",
+  "checks": [
+    {
+      "type": "kiwi",
+      "url": "http://cyp.twrmon.net:8073/",
+      "checked_at": "2026-11-21T10:47:48.712Z",
+      "frames": 6,
+      "nonZeroSamples": 3069,
+      "sampleRate": 12000,
+      "status": "verified",
+      "evidence_url": "https://github.com/SamoTech/Radio/actions/runs/44895979940"
+    },
+    {
+      "type": "kiwi",
+      "url": "http://ea8bfk.ddns.net:8073/",
+      "checked_at": "2026-11-21T10:47:48.712Z",
+      "frames": 5,
+      "nonZeroSamples": 1191,
+      "sampleRate": 12000,
+      "status": "verified",
+      "evidence_url": "https://github.com/SamoTech/Radio/actions/runs/44895979940"
+    },
+    {
+      "type": "owrx",
+      "url": "https://sdr.v4.si/",
+      "checked_at": "2026-11-21T10:47:48.712Z",
+      "frames": 5,
+      "nonZeroSamples": 5059,
+      "sampleRate": 12000,
+      "status": "verified",
+      "profile": "20m 14MHz",
+      "evidence_url": "https://github.com/SamoTech/Radio/actions/runs/44895979966",
+      "profile_id": "67acc668-003d-4906-8ad3-deaf5e4b3ca3|0d24884f-889a-4369-a3e4-ade6666e9c8c"
+    }
+  ]
+}

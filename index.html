@@ -162,6 +162,15 @@
       <span id="count-sdr" class="count"></span>
     </div>
 
+    <section id="direct-receivers" class="direct-receivers" aria-labelledby="direct-title">
+      <div class="toolbar"><h2 id="direct-title" data-i18n="direct_title">راديو مباشر من الجهاز</h2><span id="direct-count" class="count"></span></div>
+      <p class="hint" data-i18n="direct_hint">اختار جهازًا وشغّله هنا. الأجهزة المرشحة مش ضمان اتصال؛ علامة الصوت بتظهر بعد استقبال صوت فعلي في الجلسة دي.</p>
+      <label class="check direct-verified-filter"><input id="direct-only-verified" type="checkbox"><span data-i18n="direct_verified_only">الأجهزة اللي استقبلت صوت في الجلسة دي بس</span></label>
+      <div id="grid-direct" class="grid"></div>
+      <button id="direct-more" class="btn ghost" type="button" data-i18n="direct_more" hidden>أجهزة مباشرة أكتر</button>
+    </section>
+    <h2 class="sdr-catalog-heading" data-i18n="direct_catalog">كل الأدلة والواجهات الأصلية</h2>
+
     <details class="sdr-disclosure">
       <summary data-i18n="sdr_filters">فلاتر الاستقبال المتقدمة</summary>
       <div class="toolbar">
@@ -358,6 +367,23 @@
   <p id="sdr-status" role="status" aria-live="polite"></p>
   <p id="sdr-frame-fallback" class="hint" data-i18n="sdr_frame_wait" hidden>قد يمنع الجهاز التضمين؛ جرّب فتح واجهته الأصلية.</p>
   <iframe id="sdr-frame" title="واجهة جهاز الاستقبال الأصلية" allow="autoplay; fullscreen" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox" hidden></iframe>
+</div>
+
+<div id="owrx-modal" class="modal native-radio-modal" role="dialog" aria-modal="true" aria-labelledby="owrx-modal-name" hidden>
+  <div class="modal-head"><div class="receiver-heading"><span class="kiwi-kicker" data-i18n="owrx_title">راديو OpenWebRX مباشر</span><strong id="owrx-modal-name"></strong></div><button id="owrx-close" class="btn ghost" type="button" data-i18n="close">إغلاق</button></div>
+  <p class="hint" data-i18n="owrx_hint">استقبال صوت وضبط مباشر من الجهاز. النطاقات والأوضاع المتاحة يحددها صاحب الجهاز.</p>
+  <label class="kiwi-field"><span data-i18n="owrx_profile">الجهاز / النطاق المتاح</span><select id="owrx-profile" disabled><option data-i18n="owrx_no_profiles">بانتظار بيانات الجهاز</option></select></label>
+  <div class="native-radio-controls">
+    <div class="kiwi-tuning"><label for="owrx-freq" data-i18n="owrx_frequency">التردد (kHz)</label><div class="kiwi-frequency-row"><button id="owrx-down" class="btn ghost" type="button" data-i18n-aria="kiwi_down" disabled>−</button><input id="owrx-freq" type="number" value="7100.000" step="1" inputmode="decimal" disabled><button id="owrx-up" class="btn ghost" type="button" data-i18n-aria="kiwi_up" disabled>+</button></div></div>
+    <label class="kiwi-field"><span data-i18n="kiwi_step">خطوة الضبط</span><select id="owrx-step"><option value="0.001">1 Hz</option><option value="0.01">10 Hz</option><option value="0.1">100 Hz</option><option value="1" selected>1 kHz</option><option value="5">5 kHz</option><option value="10">10 kHz</option></select></label>
+    <label class="kiwi-field"><span data-i18n="kiwi_mode">الوضع</span><select id="owrx-mode" disabled><option value="am">AM</option><option value="nfm">NFM</option><option value="wfm">WFM</option><option value="usb">USB</option><option value="lsb">LSB</option><option value="cw">CW</option></select></label>
+  </div>
+  <div class="native-radio-readouts"><span><span data-i18n="owrx_range">نطاق الضبط الحالي</span> <output id="owrx-range">—</output></span><span><span data-i18n="kiwi_signal">مستوى الإشارة من الجهاز</span> <output id="owrx-signal">—</output></span></div>
+  <figure id="owrx-spectrum-wrap" hidden><canvas id="owrx-spectrum" width="900" height="180" role="img" data-i18n-aria="owrx_spectrum" aria-label="طيف فعلي مستلم من الجهاز"></canvas><figcaption data-i18n="owrx_spectrum">طيف فعلي مستلم من الجهاز</figcaption></figure>
+  <p id="owrx-status" role="status" aria-live="polite"></p>
+  <p class="hint"><span data-i18n="owrx_session">بيانات الجلسة</span>: <output id="owrx-session">—</output></p>
+  <audio id="owrx-audio" controls preload="none" data-i18n-aria="owrx_title" aria-label="راديو OpenWebRX مباشر"></audio>
+  <div class="receiver-buttons"><button id="owrx-reconnect" class="btn" type="button" data-i18n="kiwi_reconnect">إعادة الاتصال</button><button id="owrx-disconnect" class="btn ghost" type="button" data-i18n="owrx_disconnect">فصل الاتصال</button><a id="owrx-original" class="btn ghost" href="#" target="_blank" rel="noopener noreferrer" data-i18n="owrx_original">واجهة أصلية إضافية ↗</a></div>
 </div>
 
 <div id="kiwi-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="kiwi-modal-name" hidden>

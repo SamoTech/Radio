@@ -19,6 +19,9 @@ export function nativeKiwiAllowed(row) {
   return !!row && row.type === 'kiwi' && row.online === true && Number.isFinite(row.extApi) && row.extApi > 0 &&
     Number.isFinite(row.users) && row.users >= 0 && Number.isFinite(row.maxUsers) && row.maxUsers > row.users && !!validateReceiverUrl(row.url);
 }
+export function nativeOpenWebRxAllowed(row) {
+  return !!row && row.type === 'owrx' && validateReceiverUrl(row.url).indexOf('https:') === 0;
+}
 export function receiverProfile(type, raw) {
   var url = validateReceiverUrl(raw);
   var known = ['kiwi','websdr','owrx','satnogs'].indexOf(type) !== -1;
