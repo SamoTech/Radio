@@ -425,6 +425,7 @@ function openDmNotice(url, name) {
 function play(url, name) {
   url = safeHttpsUrl(url);
   if (!url) { toast(t('toast_broken')); return; }
+  if (typeof RA_MODULES !== 'undefined' && RA_MODULES.sdr && typeof RA_MODULES.sdr.stopReceivers === 'function') RA_MODULES.sdr.stopReceivers();
   state.playbackRequestedInSession = true;
   if (isDmEmbed(url)) {
     openDmNotice(url, name);

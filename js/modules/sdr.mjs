@@ -1,4 +1,5 @@
-import {validateReceiverUrl, nativeKiwiAllowed, receiverProfile, receiverCatalog, resolveCatalogReceiver} from './sdr-adapters.mjs';
+import {OpenWebRxClient} from './openwebrx-native.mjs';
+import {validateReceiverUrl, nativeKiwiAllowed, nativeOpenWebRxAllowed, receiverProfile, receiverCatalog, resolveCatalogReceiver} from './sdr-adapters.mjs';
 
 /* =====================================================================
    Radio Atlas — sdr module (KiwiSDR / WebSDR / WSPR / space weather / EIBI panels)
@@ -10,6 +11,35 @@ import {validateReceiverUrl, nativeKiwiAllowed, receiverProfile, receiverCatalog
 
 var STR_SDR = {
   ar: {
+    direct_title: 'راديو مباشر من الجهاز',
+    direct_hint: 'اختار جهازًا وشغّله هنا. الأجهزة المرشحة مش ضمان اتصال؛ علامة الصوت بتظهر بعد استقبال صوت فعلي في الجلسة دي.',
+    direct_candidate: 'مرشح للتشغيل — لسه ما اتجربش',
+    direct_verified: 'صوت اتأكد في الجلسة دي',
+    direct_failed: 'آخر محاولة اتصال لم تكتمل',
+    direct_verified_only: 'الأجهزة اللي استقبلت صوت في الجلسة دي بس',
+    direct_start: 'تشغيل مباشر',
+    direct_more: 'أجهزة مباشرة أكتر',
+    direct_empty: 'مفيش أجهزة مباشرة مطابقة. غيّر البحث أو جرّب جهازًا من القائمة.',
+    direct_catalog: 'كل الأدلة والواجهات الأصلية',
+    owrx_title: 'راديو OpenWebRX مباشر',
+    owrx_hint: 'استقبال صوت وضبط مباشر من الجهاز. النطاقات والأوضاع المتاحة يحددها صاحب الجهاز.',
+    owrx_profile: 'الجهاز / النطاق المتاح',
+    owrx_wait_config: 'جاري قراءة نطاقات الجهاز…',
+    owrx_wait_audio: 'تم الاتصال — في انتظار الصوت…',
+    owrx_live: 'استقبال صوت مباشر',
+    owrx_failed: 'الاتصال لم يكتمل',
+    owrx_invalid: 'اختار ترددًا داخل نطاق الجهاز ووضعًا متاحًا.',
+    owrx_range: 'نطاق الضبط الحالي',
+    owrx_spectrum: 'طيف فعلي مستلم من الجهاز',
+    owrx_no_spectrum: 'الطيف يظهر لو الجهاز أرسل بياناته.',
+    owrx_session: 'بيانات الجلسة',
+    owrx_disconnect: 'فصل الاتصال',
+    owrx_no_profiles: 'بانتظار بيانات الجهاز',
+    owrx_unsupported: 'التشغيل المباشر متاح لأجهزة OpenWebRX الآمنة الموجودة في الدليل؛ الأجهزة التانية لها واجهة أصلية منفصلة.',
+    owrx_frequency: 'التردد (kHz)',
+    owrx_original: 'واجهة أصلية إضافية ↗',
+    owrx_no_audio: 'الجهاز لم يرسل صوتًا خلال المهلة. جرّب إعادة الاتصال أو جهازًا تانيًا.',
+
     sdr_workspace: 'مساحة أجهزة الاستقبال',
     sdr_open_workspace: 'افتح مساحة الجهاز',
     sdr_choose: 'اختار جهازًا من كل الأدلة',
@@ -128,6 +158,35 @@ var STR_SDR = {
     kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
   },
   en: {
+    direct_title: 'Direct receiver radio',
+    direct_hint: 'Choose a receiver and listen here. Candidates are not guaranteed to connect; the audio badge appears after real audio is received in this session.',
+    direct_candidate: 'Candidate — not tested yet',
+    direct_verified: 'Audio received this session',
+    direct_failed: 'Last connection attempt did not complete',
+    direct_verified_only: 'Only receivers with audio received this session',
+    direct_start: 'Play direct',
+    direct_more: 'More direct receivers',
+    direct_empty: 'No matching direct receivers. Change the search or try another receiver.',
+    direct_catalog: 'All directories and original interfaces',
+    owrx_title: 'Direct OpenWebRX radio',
+    owrx_hint: 'Direct audio and tuning from the receiver. Available bands and modes depend on its operator.',
+    owrx_profile: 'Available device / band',
+    owrx_wait_config: 'Reading receiver bands…',
+    owrx_wait_audio: 'Connected — waiting for audio…',
+    owrx_live: 'Receiving live audio',
+    owrx_failed: 'Connection did not complete',
+    owrx_invalid: 'Choose a frequency inside the receiver band and an available mode.',
+    owrx_range: 'Current tuning range',
+    owrx_spectrum: 'Actual spectrum received from the device',
+    owrx_no_spectrum: 'The spectrum appears when the receiver sends its data.',
+    owrx_session: 'Session details',
+    owrx_disconnect: 'Disconnect',
+    owrx_no_profiles: 'Waiting for receiver data',
+    owrx_unsupported: 'Direct playback requires a secure OpenWebRX receiver in the directory. Other receivers have a separate original interface.',
+    owrx_frequency: 'Frequency (kHz)',
+    owrx_original: 'Additional original interface ↗',
+    owrx_no_audio: 'No audio arrived within the time limit. Reconnect or try another receiver.',
+
     sdr_workspace: 'Receiver workspace',
     sdr_open_workspace: 'Open receiver workspace',
     sdr_choose: 'Choose from all receiver directories',
@@ -403,6 +462,7 @@ function cardRx(r) {
 }
 
 function renderSDR() {
+  renderDirectReceivers();
   var grid = $('grid-sdr');
   if (!state.receivers.length) {
     grid.innerHTML = '<div class="empty">' + esc(t('no_data')) + '</div>';
@@ -455,6 +515,7 @@ function loadWspr() {
 
 function webSdrCard(r) {
   var action = receiverAction(r);
+  if (nativeOpenWebRxAllowed(r)) action = '<button class="open owrx-native" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '">' + esc(t('direct_start')) + '</button>' + action;
   return '<article class="card">' +
     '<div class="card-head"><h3>' + esc(r.name) + '</h3></div>' +
     (r.loc ? '<div class="chips"><span class="chip">📍 ' + esc(r.loc) + '</span></div>' : '') +
@@ -497,6 +558,7 @@ function renderWebSdrGrid(gridId, countId, panelId, list, kind) {
 }
 
 function renderWebSdrs() {
+  renderDirectReceivers();
   if (!state.webSdrs) return;
   renderWebSdrGrid('grid-websdr', 'websdr-count', 'websdr-panel', state.webSdrs.websdr, 'websdr');
   renderWebSdrGrid('grid-owrx', 'owrx-count', 'owrx-panel', state.webSdrs.openwebrx, 'owrx');
@@ -770,6 +832,8 @@ function openSDR(url, name, type) {
   var row = resolveCatalogReceiver(url,type,receiverRows());
   if (!row) { toast(t('sdr_invalid'));return; }
   closeKiwiAudio();
+  closeOpenWebRx();
+  var fm = $('audio');if (fm && typeof fm.pause === 'function') fm.pause();
   sdrCurrentReceiver = row;
   ['sdr-toolbar','sdr-provider','sdr-status','sdr-fullscreen'].forEach(function (id) { if ($(id)) $(id).hidden = false; });
   var profile = receiverProfile(row.type,row.url);
@@ -798,6 +862,272 @@ function closeSDR() {
   $('sdr-modal').hidden = true;
   if (previousSDRFocus && typeof previousSDRFocus.focus === 'function') previousSDRFocus.focus();
   previousSDRFocus = null;
+}
+
+
+/* ================= Direct receiver candidates and OpenWebRX audio ================= */
+var directSessionResults = new Map();
+var directLimit = 24;
+var owrxClient = null;
+var owrxAudioCtx = null;
+var owrxGain = null;
+var owrxNextTime = 0;
+var owrxSources = new Set();
+var owrxSession = 0;
+var owrxReceiver = null;
+var owrxConfig = null;
+var owrxConfigKey = '';
+var owrxDeadline = null;
+var owrxWatchdog = null;
+var owrxLastAudio = 0;
+var owrxPendingTune = null;
+var owrxPreviousFocus = null;
+var owrxFailActive = null;
+var owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
+var OWRX_ANALOG_MODES = ['am','nfm','wfm','usb','lsb','cw'];
+function directResultKey(type,url) { return type + '|' + validateReceiverUrl(url); }
+function directMarkVerified(type,url) {
+  var key = directResultKey(type,url), old = directSessionResults.get(key);
+  if (old && old.status === 'verified') return old.at;
+  var at = new Date().toISOString();
+  directSessionResults.set(key,{status:'verified',at:at});
+  renderDirectReceivers();
+  return at;
+}
+function directMarkFailed(type,url) {
+  var key = directResultKey(type,url), old = directSessionResults.get(key);
+  if (!old || old.status !== 'verified') directSessionResults.set(key,{status:'failed',at:new Date().toISOString()});
+  renderDirectReceivers();
+}
+function renderDirectReceivers() {
+  var grid = $('grid-direct');
+  if (!grid) return;
+  var rows = receiverRows(), q = String(state.filters.q || '').trim().toLowerCase();
+  var onlyVerified = $('direct-only-verified') && $('direct-only-verified').checked;
+  rows = rows.filter(function (r) {
+    if (!nativeKiwiAllowed(r) && !nativeOpenWebRxAllowed(r)) return false;
+    if (state.filters.rxType && state.filters.rxType !== 'all' && state.filters.rxType !== r.type) return false;
+    if (q && (r.name + ' ' + (r.loc || '') + ' ' + r.url).toLowerCase().indexOf(q) === -1) return false;
+    var result = directSessionResults.get(r.key);
+    return !onlyVerified || result && result.status === 'verified';
+  });
+  var kiwi = rows.filter(function (r) { return r.type === 'kiwi'; }).sort(function (a,b) {
+    return Number(/cyprus/i.test(b.name + ' ' + b.loc)) - Number(/cyprus/i.test(a.name + ' ' + a.loc));
+  });
+  var owrx = rows.filter(function (r) { return r.type === 'owrx'; });
+  var mixed = [];
+  for (var i = 0; i < Math.max(kiwi.length,owrx.length); i++) {
+    if (kiwi[i]) mixed.push(kiwi[i]);
+    if (owrx[i]) mixed.push(owrx[i]);
+  }
+  mixed.sort(function (a,b) {
+    var ar = directSessionResults.get(a.key), br = directSessionResults.get(b.key);
+    return Number(!!br && br.status === 'verified') - Number(!!ar && ar.status === 'verified');
+  });
+  grid.innerHTML = mixed.slice(0,directLimit).map(function (r) {
+    var result = directSessionResults.get(r.key);
+    var status = result ? result.status : 'candidate';
+    var label = t(status === 'verified' ? 'direct_verified' : status === 'failed' ? 'direct_failed' : 'direct_candidate');
+    return '<article class="card direct-card" data-native-status="' + status + '" data-receiver-url="' + esc(r.url) + '">' +
+      '<div class="card-head"><span class="chip">' + esc(receiverProfile(r.type,r.url).label) + '</span><h3>' + esc(r.name || r.url) + '</h3></div>' +
+      '<p class="direct-session-state">' + esc(label) + (result ? ' <time datetime="' + esc(result.at) + '">' + esc(new Date(result.at).toLocaleTimeString(state.lang)) + '</time>' : '') + '</p>' +
+      '<button class="open ' + (r.type === 'kiwi' ? 'kiwi-ws' : 'owrx-native') + '" type="button" data-url="' + esc(r.url) + '" data-name="' + esc(r.name) + '" data-type="' + r.type + '">' + esc(t('direct_start')) + '</button></article>';
+  }).join('') || '<p class="empty">' + esc(t('direct_empty')) + '</p>';
+  if ($('direct-count')) $('direct-count').textContent = fmtNum(rows.length);
+  if ($('direct-more')) $('direct-more').hidden = mixed.length <= directLimit;
+}
+function owrxArmAudioDeadline() {
+  if (owrxDeadline) clearTimeout(owrxDeadline);
+  if (!owrxFailActive) return;
+  var session = owrxSession, fail = owrxFailActive;
+  owrxDeadline = setTimeout(function () { if (session === owrxSession) fail('audio_timeout'); },30000);
+}
+function owrxSetStatus(key,detail) {
+  $('owrx-status').textContent = t(key) + (detail ? ' · ' + detail : '');
+}
+function owrxSetControls(enabled) {
+  ['owrx-freq','owrx-mode','owrx-down','owrx-up'].forEach(function (id) { if ($(id)) $(id).disabled = !enabled; });
+}
+function owrxRange() {
+  if (!owrxConfig || !Number.isFinite(owrxConfig.center_freq) || !Number.isFinite(owrxConfig.samp_rate) || owrxConfig.samp_rate <= 0) return null;
+  return {min:owrxConfig.center_freq - owrxConfig.samp_rate / 2,max:owrxConfig.center_freq + owrxConfig.samp_rate / 2};
+}
+function owrxUpdateSession() {
+  var hz = Number($('owrx-freq').value) * 1000;
+  $('owrx-session').textContent = (Number.isFinite(hz) ? (hz / 1000000).toFixed(6) + ' MHz · ' : '') +
+    $('owrx-mode').value.toUpperCase() + (owrxStats.sampleRate ? ' · ' + owrxStats.sampleRate + ' Hz PCM' : '');
+}
+function owrxApplyConfig(config) {
+  owrxConfig = config;
+  var modes = Array.isArray(config.modes) ? config.modes.filter(function (mode) { return OWRX_ANALOG_MODES.indexOf(mode) !== -1; }) : OWRX_ANALOG_MODES;
+  var oldMode = $('owrx-mode').value;
+  $('owrx-mode').innerHTML = modes.map(function (mode) { return '<option value="' + mode + '">' + mode.toUpperCase() + '</option>'; }).join('');
+  if (modes.indexOf(oldMode) !== -1) $('owrx-mode').value = oldMode;
+  var range = owrxRange();
+  if (!range) return;
+  var key = [config.sdr_id,config.profile_id,config.center_freq,config.samp_rate].join('|');
+  var input = $('owrx-freq');
+  input.min = (range.min / 1000).toFixed(3);input.max = (range.max / 1000).toFixed(3);
+  $('owrx-range').textContent = (range.min / 1000).toFixed(3) + ' – ' + (range.max / 1000).toFixed(3) + ' kHz';
+  if (owrxConfigKey !== key) {
+    owrxArmAudioDeadline();owrxFlushAudio();
+    owrxConfigKey = key;
+    var initial = Number.isFinite(config.start_freq) ? config.start_freq : config.center_freq + (Number(config.start_offset_freq) || 0);
+    var mode = modes.indexOf(config.start_mod) !== -1 ? config.start_mod : modes[0];
+    if (owrxPendingTune && modes.indexOf(owrxPendingTune.mode) !== -1 && owrxPendingTune.frequency >= range.min && owrxPendingTune.frequency <= range.max) {
+      initial = owrxPendingTune.frequency;mode = owrxPendingTune.mode;owrxPendingTune = null;
+    }
+    if (owrxClient && !owrxClient.validTune(initial,mode)) initial = config.center_freq;
+    input.value = (initial / 1000).toFixed(3);$('owrx-mode').value = mode;
+    if (owrxClient) owrxClient.tune(initial,mode);
+  }
+  var profileId = config.sdr_id !== undefined && config.profile_id !== undefined ? config.sdr_id + '|' + config.profile_id : config.profile_id;
+  if (profileId !== undefined && Array.from($('owrx-profile').options).some(function (o) { return o.value === String(profileId); })) $('owrx-profile').value = String(profileId);
+  owrxSetControls(modes.length > 0);owrxUpdateSession();
+}
+function owrxTune() {
+  if (!owrxClient) return;
+  var frequency = Math.round(Number($('owrx-freq').value) * 1000), range = owrxRange();
+  if (!range || !Number.isFinite(frequency) || frequency < range.min || frequency > range.max || !owrxClient.tune(frequency,$('owrx-mode').value)) {
+    owrxSetStatus('owrx_invalid');return;
+  }
+  owrxFlushAudio();owrxUpdateSession();
+}
+function owrxStepTune(direction) {
+  var range = owrxRange(), step = Number($('owrx-step').value), frequency = Number($('owrx-freq').value);
+  if (!range || !Number.isFinite(frequency) || [0.001,0.01,0.1,1,5,10].indexOf(step) === -1) return;
+  $('owrx-freq').value = (Math.max(range.min / 1000,Math.min(range.max / 1000,frequency + direction * step))).toFixed(3);
+  owrxTune();
+}
+function owrxDrawSpectrum(values) {
+  if (!(values instanceof Float32Array) || values.length < 2 || values.length > 65536) return;
+  var canvas = $('owrx-spectrum'), ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  var valid = false;
+  for (var i = 0; i < values.length; i++) if (Number.isFinite(values[i])) { valid = true;break; }
+  if (!valid) return;
+  $('owrx-spectrum-wrap').hidden = false;
+  owrxStats.fftFrames++;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle = getComputedStyle(canvas).color;ctx.lineWidth = 1.5;ctx.beginPath();
+  for (var x = 0; x < canvas.width; x++) {
+    var value = values[Math.min(values.length - 1,Math.floor(x * values.length / canvas.width))];
+    var y = canvas.height * (1 - Math.max(0,Math.min(1,((Number.isFinite(value) ? value : -160) + 160) / 160)));
+    if (x === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+function owrxFlushAudio() {
+  owrxSources.forEach(function (source) { try { source.stop();source.disconnect(); } catch (e) {} });
+  owrxSources.clear();owrxNextTime = 0;
+}
+function owrxFeedAudio(samples,sampleRate) {
+  if (!owrxAudioCtx || !owrxGain || !samples.length || !Number.isFinite(sampleRate) || sampleRate < 1000 || sampleRate > 96000) return;
+  if (owrxStats.sampleRate && owrxStats.sampleRate !== sampleRate) owrxFlushAudio();
+  var buffer = owrxAudioCtx.createBuffer(1,samples.length,sampleRate), channel = buffer.getChannelData(0);
+  for (var i = 0; i < samples.length; i++) channel[i] = samples[i] / 32768;
+  var source = owrxAudioCtx.createBufferSource();source.buffer = buffer;source.connect(owrxGain);
+  if (owrxNextTime < owrxAudioCtx.currentTime || owrxNextTime > owrxAudioCtx.currentTime + 1) owrxNextTime = owrxAudioCtx.currentTime + 0.06;
+  owrxSources.add(source);source.start(owrxNextTime);owrxNextTime += samples.length / sampleRate;
+  source.onended = function () { owrxSources.delete(source);source.disconnect(); };
+}
+function owrxStopSession() {
+  owrxSession++;owrxFailActive = null;owrxFlushAudio();
+  if (owrxDeadline) { clearTimeout(owrxDeadline);owrxDeadline = null; }
+  if (owrxWatchdog) { clearInterval(owrxWatchdog);owrxWatchdog = null; }
+  if (owrxClient) { try { owrxClient.close(); } catch (e) {} owrxClient = null; }
+  var audio = $('owrx-audio');
+  if (audio) { try { audio.pause();audio.srcObject = null; } catch (e) {} }
+  if (owrxAudioCtx) { try { owrxAudioCtx.close().catch(function () {}); } catch (e) {} owrxAudioCtx = null; }
+  owrxGain = null;owrxNextTime = 0;owrxSetControls(false);
+}
+function closeOpenWebRx() {
+  owrxStopSession();
+  if ($('owrx-modal')) $('owrx-modal').hidden = true;
+  if (owrxPreviousFocus && owrxPreviousFocus.isConnected && typeof owrxPreviousFocus.focus === 'function') owrxPreviousFocus.focus();
+  owrxPreviousFocus = null;
+}
+function stopReceivers() { closeOpenWebRx();closeKiwiAudio();closeSDR(); }
+function openOpenWebRx(url,name) {
+  var row = resolveCatalogReceiver(url,'owrx',receiverRows());
+  if (!row || !nativeOpenWebRxAllowed(row)) { toast(t('owrx_unsupported'));return; }
+  var previousTune = owrxReceiver && validateReceiverUrl(owrxReceiver.url) === row.url && owrxRange() ? {
+    frequency:Math.round(Number($('owrx-freq').value) * 1000),mode:$('owrx-mode').value,
+    profileId:$('owrx-profile').value
+  } : null;
+  if ($('owrx-modal').hidden) owrxPreviousFocus = document.activeElement;
+  closeSDR();closeKiwiAudio();owrxStopSession();
+  owrxPendingTune = previousTune;
+  var fm = $('audio');if (fm) fm.pause();
+  owrxReceiver = row;owrxConfig = null;owrxConfigKey = '';
+  owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0};
+  var session = owrxSession, failed = false;
+  var audio = $('owrx-audio');
+  $('owrx-modal-name').textContent = row.name || name || 'OpenWebRX';
+  $('owrx-original').href = row.url;$('owrx-modal').hidden = false;
+  $('owrx-profile').innerHTML = '<option value="">' + esc(t('owrx_no_profiles')) + '</option>';$('owrx-profile').disabled = true;
+  $('owrx-range').textContent = '—';$('owrx-signal').textContent = '—';$('owrx-session').textContent = '—';
+  $('owrx-spectrum-wrap').hidden = true;owrxSetStatus('owrx_wait_config');
+  $('owrx-close').focus();
+  function fail(code,detail) {
+    if (session !== owrxSession || failed) return;
+    failed = true;owrxStopSession();
+    directMarkFailed('owrx',row.url);
+    owrxSetStatus(code === 'audio_timeout' ? 'owrx_no_audio' : 'owrx_failed',code || detail || '');
+  }
+  owrxFailActive = fail;
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) { fail('audio_unavailable');return; }
+  try {
+    owrxAudioCtx = new Ctx();owrxGain = owrxAudioCtx.createGain();
+    var destination = owrxAudioCtx.createMediaStreamDestination();owrxGain.connect(destination);
+    audio.srcObject = destination.stream;
+    owrxAudioCtx.resume().catch(function () { fail('audio_locked'); });
+    audio.play().catch(function () { fail('audio_locked'); });
+    owrxClient = new OpenWebRxClient({receiver:row,catalog:receiverRows(),
+      onState:function (stateName) {
+        if (session !== owrxSession || failed) return;
+        if (stateName === 'connected') owrxSetStatus('owrx_wait_audio');
+        if (stateName === 'closed') fail('connection_closed');
+      },
+      onConfig:function (config) { if (session === owrxSession && !failed) owrxApplyConfig(config); },
+      onProfiles:function (profiles) {
+        if (session !== owrxSession || failed || !Array.isArray(profiles)) return;
+        $('owrx-profile').innerHTML = profiles.map(function (p) { return '<option value="' + esc(String(p.id)) + '">' + esc(p.name || String(p.id)) + '</option>'; }).join('');
+        $('owrx-profile').disabled = profiles.length < 2;
+        if (owrxPendingTune && profiles.some(function (p) { return p.id === owrxPendingTune.profileId; })) {
+          $('owrx-profile').value = owrxPendingTune.profileId;
+          owrxClient.selectProfile(owrxPendingTune.profileId);
+        }
+      },
+      onPcm:function (samples,sampleRate) {
+        if (session !== owrxSession || failed) return;
+        try { owrxFeedAudio(samples,sampleRate); } catch (e) { fail('audio_decode');return; }
+        owrxLastAudio = Date.now();owrxStats.frames++;owrxStats.samples += samples.length;owrxStats.sampleRate = sampleRate;
+        for (var i = 0; i < samples.length; i++) if (samples[i] !== 0) owrxStats.nonZeroSamples++;
+        if (owrxStats.nonZeroSamples > 0 && owrxAudioCtx && owrxAudioCtx.state === 'running' && !audio.paused) {
+          if (owrxDeadline) { clearTimeout(owrxDeadline);owrxDeadline = null; }
+          owrxStats.verifiedAt = directMarkVerified('owrx',row.url);
+          owrxSetStatus('owrx_live');
+        }
+        owrxUpdateSession();
+      },
+      onSmeter:function (dbm) {
+        if (session !== owrxSession || failed || !Number.isFinite(dbm)) return;
+        owrxStats.signalDbm = dbm;$('owrx-signal').textContent = dbm.toFixed(1) + ' dBm';
+      },
+      onFft:function (values) { if (session === owrxSession && !failed) owrxDrawSpectrum(values); },
+      onError:fail
+    });
+    if (!owrxClient.connect() || failed || session !== owrxSession) return;
+    owrxArmAudioDeadline();
+    owrxWatchdog = setInterval(function () { if (owrxStats.frames > 0 && Date.now() - owrxLastAudio > 20000) fail('audio_timeout'); },5000);
+  } catch (e) { fail('connection_error'); }
+}
+function owrxDiagnostics() {
+  return Object.assign({contextState:owrxAudioCtx ? owrxAudioCtx.state : 'closed',receiver:owrxReceiver ? owrxReceiver.url : '',
+    frequencyHz:Math.round(Number($('owrx-freq').value) * 1000),mode:$('owrx-mode').value,
+    profiles:Array.from($('owrx-profile').options).map(function (o) { return {id:o.value,name:o.textContent}; })},owrxStats);
 }
 
 
@@ -1089,6 +1419,8 @@ function openKiwiAudio(url, name, options) {
   if (!socketUrl) { toast(t('kiwi_failed')); return; }
   var tune = kiwiTuneCommand();
   if (!tune) { kiwiSetStatus(t('kiwi_invalid')); return; }
+  if (typeof closeOpenWebRx === 'function') closeOpenWebRx();
+  var fm = $('audio');if (fm && typeof fm.pause === 'function') fm.pause();
   if (!options || !options.retry) kiwiRetryCount = 0;
   closeKiwiAudio();
   var session = kiwiSession;
@@ -1193,6 +1525,7 @@ function openKiwiAudio(url, name, options) {
       kiwiSetStatus(t('kiwi_live'));kiwiSaveSession();
     }
     kiwiFeedAudio(samples,sampleRate);
+    if (typeof directMarkVerified === 'function' && kiwiStats.nonZeroSamples > 0 && kiwiAudioCtx && kiwiAudioCtx.state === 'running' && !audio.paused) directMarkVerified('kiwi',url);
   };
   ws.onerror = function () { fail(gotSamples); };
   ws.onclose = function (event) {
@@ -1209,7 +1542,7 @@ function openKiwiAudio(url, name, options) {
 }
 
 
-var API = { reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : ''}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
+var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : ''}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
 var booted = false;
 export function boot() {
   if (booted) return API;
@@ -1257,6 +1590,48 @@ export function boot() {
   if (eibiSearch) eibiSearch.addEventListener('input', function () { state.eibiQ = this.value; renderEibi(); });
 
 
+  $('grid-direct').addEventListener('change',renderDirectReceivers);
+  $('direct-only-verified').addEventListener('change',renderDirectReceivers);
+  $('direct-more').addEventListener('click',function () { directLimit += 24;renderDirectReceivers(); });
+  document.addEventListener('click',function (event) {
+    var button = event.target.closest && event.target.closest('button.owrx-native');
+    if (button) openOpenWebRx(button.getAttribute('data-url'),button.getAttribute('data-name'));
+  });
+  $('owrx-close').addEventListener('click',closeOpenWebRx);
+  $('owrx-disconnect').addEventListener('click',function () { owrxStopSession();owrxSetStatus('owrx_disconnect'); });
+  $('owrx-reconnect').addEventListener('click',function () { if (owrxReceiver) openOpenWebRx(owrxReceiver.url,owrxReceiver.name); });
+  $('owrx-freq').addEventListener('change',owrxTune);
+  $('owrx-mode').addEventListener('change',owrxTune);
+  $('owrx-step').addEventListener('change',function () { $('owrx-freq').step = this.value; });
+  $('owrx-down').addEventListener('click',function () { owrxStepTune(-1); });
+  $('owrx-up').addEventListener('click',function () { owrxStepTune(1); });
+  $('owrx-profile').addEventListener('change',function () {
+    if (!owrxClient || !owrxClient.selectProfile(this.value)) { owrxSetStatus('owrx_invalid');return; }
+    owrxArmAudioDeadline();owrxFlushAudio();
+    owrxPendingTune = null;owrxConfigKey = '';owrxSetControls(false);$('owrx-spectrum-wrap').hidden = true;owrxSetStatus('owrx_wait_config');
+  });
+  $('owrx-freq').addEventListener('keydown',function (event) {
+    if (event.key === 'Enter') { event.preventDefault();owrxTune(); }
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') { event.preventDefault();owrxStepTune(event.key === 'ArrowUp' ? 1 : -1); }
+  });
+  $('owrx-modal').addEventListener('keydown',function (event) {
+    event.stopPropagation();
+    if (event.key === 'Escape') { event.preventDefault();closeOpenWebRx();return; }
+    if (event.key === 'Tab') {
+      var controls = Array.from(this.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),audio[controls]')).filter(function (el) { return !el.hidden && el.getClientRects().length > 0; });
+      var first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault();last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault();first.focus(); }
+    }
+  });
+  $('kiwi-modal').addEventListener('keydown',function (event) {
+    event.stopPropagation();
+    if (event.key === 'Escape') { event.preventDefault();closeKiwiAudio(); }
+  });
+  $('kiwi-freq').addEventListener('keydown',function (event) {
+    if (event.key === 'Enter') { event.preventDefault();kiwiSendTune(); }
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') { event.preventDefault();kiwiStepTune(event.key === 'ArrowUp' ? 1 : -1); }
+  });
   $('sdr-modal-close').addEventListener('click', closeSDR);
   $('sdr-modal').addEventListener('keydown',function (event) {
     if (event.key === 'Escape') { event.preventDefault();closeSDR();return; }

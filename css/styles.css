@@ -620,3 +620,25 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
  .receiver-info{grid-template-columns:minmax(0,1fr)}
  #sdr-frame{min-height:350px}
 }
+
+/* Direct radio controls display actual receiver/audio data only. */
+.direct-receivers{border:1px solid var(--line);border-radius:18px;padding:18px;margin-block:16px 24px;background:var(--panel)}
+.direct-receivers h2{margin:0;font-size:1.2rem}.direct-verified-filter{margin-block:12px 18px}.direct-card[data-native-status=verified]{border-color:var(--accent)}
+.direct-session-state{font-size:.78rem;color:var(--muted);line-height:1.6}.direct-session-state time{display:block;direction:ltr;text-align:start;font-family:ui-monospace,monospace}
+.sdr-catalog-heading{font-size:1rem;color:var(--muted);margin-top:24px}
+#owrx-modal.native-radio-modal{inset:24px;width:min(960px,calc(100vw - 48px));height:max-content;max-height:calc(100dvh - 48px);margin:auto;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 18px 80px #0009}
+#owrx-modal .native-radio-controls{display:grid;grid-template-columns:minmax(200px,2fr) 1fr 1fr;gap:14px;margin-block:20px}
+#owrx-modal input,#owrx-modal select{max-width:100%;min-width:0;width:100%;min-height:44px}
+#owrx-freq{font:700 1.55rem ui-monospace,monospace;text-align:center;direction:ltr;letter-spacing:.02em}
+.native-radio-readouts{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--muted)}
+.native-radio-readouts output,#owrx-session{font-family:ui-monospace,monospace;direction:ltr;display:inline-block}
+#owrx-spectrum-wrap{margin:12px 0}#owrx-spectrum{display:block;width:100%;height:180px;color:var(--accent);background:var(--bg);border:1px solid var(--line);border-radius:12px}
+#owrx-spectrum-wrap figcaption{font-size:.75rem;color:var(--muted);margin-top:5px}
+#owrx-status{padding:12px;background:var(--bg);border-radius:10px;line-height:1.6;font-size:.85rem}#owrx-audio{width:100%;margin-bottom:12px}
+@media(max-width:720px){
+ .direct-receivers{padding:12px}.direct-receivers .toolbar{align-items:flex-start}
+ #owrx-modal.native-radio-modal{inset:8px;width:calc(100vw - 16px);max-height:calc(100dvh - 16px);padding:15px;border-radius:14px}
+ #owrx-modal .native-radio-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ #owrx-modal .kiwi-tuning{grid-column:1/-1}.native-radio-readouts{display:grid;grid-template-columns:minmax(0,1fr)}
+ #owrx-modal .receiver-buttons .btn{flex:1 1 120px;text-align:center}
+}
