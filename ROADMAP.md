@@ -243,3 +243,8 @@
 - Cloudflare Agent reported live Worker version `3e349979-4861-4f78-aa7d-8dc1fdc42b56` deployed at 10:36:08Z with four code corrections: handshake abort timer cleared after connection, fail-closed ext_api, counter sweep and structured error types (403/429/502/503). These are synchronized into `proxy/kiwi-worker.js` with updated unit tests.
 - Independent Github Actions live Worker tests previously returned 200/403/403/426. The latest Cloudflare Agent reported zero events in its observability view, which contradicts known CI requests; investigate query window/sampling before drawing conclusions.
 - Live WebSocket 101, real SND frames, actual audible receiver playback and comprehensive SSRF protections remain **unverified**. Do not mark end-to-end playback as complete.
+
+### إصلاح نشر Pages بعد SDR-1 — 2026-11-21
+
+- رُصد فشل نشر run44871618138: الملف رُفع لكن خطوة deploy لم تجده فورًا؛ إعادة المحاولة أنشأت ملفين بالاسم نفسه.
+- توحيد اسم upload/deploy الفريد لكل run/attempt وانتظار metadata بحد زمني، مع الحفاظ على الملفات وعدم تغيير الزحف أو إعادة الدمج. التحقق النهائي عبر pipeline ومطابقة بصمات الموقع.

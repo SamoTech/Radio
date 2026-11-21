@@ -314,3 +314,7 @@ On 2026-11-20, `http://cyp.twrmon.net:8073/` played unmuted inside Radio Atlas t
 مساحة موحّدة لاختيار أجهزة KiwiSDR وWebSDR وOpenWebRX وصفحات SatNOGS مع إظهار النظام وأدواته المناسبة. واجهات HTTPS الأصلية يمكن طلب عرضها داخل الاستوديو، وHTTP وصفحات SatNOGS تفتح من الرابط الأصلي. التضمين وتشغيل أدوات الصوت يخضعان لإذن الجهاز والمتصفح؛ وصول الصفحة ليس تأكيدًا للصوت. يظل Kiwi يستخدم مشغّل PCM الداخلي للأجهزة المتاحة والمسموح بها فقط.
 
 طبقة `sdr-adapters.mjs` مستقلة وخفيفة (~3.5KB) ومخزنة ضمن Service Worker v84؛ تدير أهلية الرابط والنظام دون تحميل إطار عمل أو توسيع وسيط Cloudflare. التنقل بين الأجهزة يغلق الجلسة السابقة، وتبقى أدوات النظام الكاملة في واجهته الأصلية. [التصميم وخارطة التوسع والتحقق](docs/SDR_STUDIO_ARCHITECTURE.md). لا يوجد ادعاء بأن كل جهاز في العالم أو كل decoder اختُبر حيًا.
+
+### Reliable Pages artifact publication
+
+Pages uploads and deploys use the same unique name per workflow run/attempt. A bounded metadata check waits for that artifact to appear before deployment, avoiding both an immediately invisible upload and duplicate `github-pages` artifacts after a job rerun. Existing provenance and catalog refresh scheduling remain in place; no artifacts are deleted.
