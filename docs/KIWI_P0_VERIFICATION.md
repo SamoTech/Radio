@@ -2,11 +2,58 @@
 
 Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. P1–P3 have not started.
 
-## P0 follow-up — SQLite global quota source (not live)
+## P0 deployment update — Cloudflare AI authenticated report, 2026-11-21
+
+**Reported status: DEPLOYED WITH OPEN RISKS. P0 remains OPEN.**
+
+The project owner supplied an authenticated Cloudflare AI Agent deployment report. The following are **owner-supplied Cloudflare read-back details, not independently retrieved from the Cloudflare account by the repository agent**:
+
+| Field | Latest reported value |
+| --- | --- |
+| Existing Worker | `radio-atlas-kiwi-bridge` (unchanged) |
+| New Worker version | `6767a1d1-58f7-4b86-ac1f-c81ad8027b52` |
+| New deployment | `82e3ea07-eefc-4d4a-848e-ffe2b247d1b0` |
+| Deployed UTC | `2026-11-21T15:09:27.898Z` |
+| Previous Worker version | `2dbe0921-40bc-47f2-8425-11506c5da4a4` |
+| Previous deployment | `c066198f-3126-4ee3-aa56-7dffd25c851a` |
+| New source SHA-256 | `84b84114b05fdd50adfaba8aa37c1efee755799679437884bcfe0e8bdb31d802` (reported 24,473 bytes) |
+| Main module | `worker.js` |
+| DO binding | `KIWI_QUOTAS` → `KiwiQuota` |
+| SQLite DO namespace | confirmed by owner report; `use_sqlite: true` (namespace ID intentionally omitted from public docs) |
+| Migration | `kiwi-global-quota-v1`, `new_sqlite_classes: ["KiwiQuota"]` |
+| Compatibility | `2025-09-01` |
+| Plan | Free |
+| Rollback | `2dbe0921-40bc-47f2-8425-11506c5da4a4` |
+
+The owner reports `/healthz` returning HTTP 200 through Cloudflare URL Scanner after deployment. Scanner did not expose the body; exact `ok` and any direct Durable Object invocation were **NOT VERIFIED** in that report. Deployed source readback/diff could not be independently verified. Migration and binding were reported as successfully uploaded together, but their runtime invocation is a separate acceptance gate.
+
+**Unverified at deployment-report cutoff:** upgraded WebSocket requests, 403/400/426/429/502/503 from the new Worker, actual IP/receiver/fleet quotas (24/12/2/2/32), `Retry-After`, DNS/SSRF behavior under the new version, live PCM, browser AudioContext graph, human audibility and Free-plan runtime consumption. DNS TOCTOU remains unresolved. Do not conflate the older 2026-11-20 PCM evidence below with a live session on this new version.
+
+### Independent, non-disruptive production acceptance
+
+`scripts/kiwi_production_smoke.cjs` sends **six sequential HTTP requests only** via `.github/workflows/kiwi-production-smoke.yml` (PR-change gated and manual dispatch; no scheduled load). It checks exact `/healthz` body, unknown route, missing upgrade, forbidden Origin, a malformed receiver with valid Origin (which must first call `KiwiQuota.checkIp`), and an unlisted otherwise well-formed receiver. It never upgrades a permitted SDR receiver and cannot consume an operator's slot. **Test results must be copied here from the actual run before declaring any PASS.** Quota thresholds, PCM, and human listening remain separate requirements.
+
+### Independent live results — GitHub Actions, 2026-11-21 15:19 UTC
+
+[Read-only acceptance run 44918568490](https://github.com/SamoTech/Radio/actions/runs/44918568490) completed **SUCCESS** on the branch `5c4037e27df704f30dd267b1e5521b19ed6bce1d`. The test used six sequential requests to the deployed Worker and preserved the returned bodies, with **no approved SDR receiver contacted**:
+
+| Check | Actual HTTP | Latency |
+| --- | --- | ---: |
+| `/healthz` exact body `ok` | **200 PASS** | 106ms |
+| Unknown endpoint | **404 PASS** | 55ms |
+| Missing WebSocket upgrade | **426 PASS** | 71ms |
+| Disallowed Origin in WebSocket handshake | **403 PASS** | 74ms |
+| Approved Origin + malformed receiver | **400 PASS** | 289ms |
+| Approved Origin + catalog-unlisted public host | **403 PASS** | 508ms |
+
+The 400 response is important: **under the uploaded source's documented control flow**, the Worker invokes `KIWI_QUOTAS.checkIp(ip)` before receiver normalization, so this is strong indirect evidence that the quota RPC succeeded rather than returning 503. **However, the exact deployed source has not been independently read back**; a different deployed implementation could also return 400. Treat direct Durable Object RPC execution as **LIKELY, NOT INDEPENDENTLY PROVEN** until authenticated source readback or targeted Worker logs confirm the path. This does **not** establish actual quota thresholds, distributed concurrency, receiver-level `reserve`, long-lived session cleanup, PCM output or physical audibility. Those tests remain **NOT VERIFIED**. The new read-only acceptance automation can be rerun manually via GitHub Actions without load on public receivers.
+
+## Previous P0 global-quota implementation background (historical)
+
 
 The follow-up source adds a SQLite-backed `KiwiQuota` Durable Object in `proxy/kiwi-quota.js`, configures its `KIWI_QUOTAS` binding and migration, and keeps per-isolate quotas as a second boundary. The coordinator enforces 24 attempts/min/IP, 12 attempts/min/receiver, 2 active/IP, 2 active/receiver and 32 fleet admission leases. SQLite-backed Durable Objects are supported on Cloudflare Workers Free, subject to Free quotas.
 
-**Source and CI evidence are not production deployment evidence.** No authenticated Cloudflare deployment or live global-acceptance probe is performed as part of this repository-only change. The earlier deployment provenance and runtime evidence below apply to the old version until a new owner-authorized rollout. Re-run the bounded safety/audio tests, collect a new Worker version ID and update this report after deployment. DNS rebinding TOCTOU and physical speaker listening remain open independently.
+**Historical note:** these source/CI results alone were not deployment evidence; the owner's subsequent authenticated deployment report appears above. The historical runtime evidence below predates the new SQLite rollout and must not be misattributed to the new version. DNS rebinding TOCTOU and physical speaker listening remain open independently.
 
 ## Deployment provenance
 
