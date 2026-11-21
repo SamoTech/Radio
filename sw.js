@@ -1,4 +1,4 @@
-var CACHE = 'radio-atlas-v89';
+var CACHE = 'radio-atlas-v90';
 var SHELL = ['./', './index.html', './offline.html', './about.html', './contact.html', './terms.html', './privacy.html', './dmca.html', './css/styles.css', './js/app.js', './js/analytics.js', './manifest.webmanifest', './icons/icon.svg',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-192.png', './icons/icon-maskable-512.png',
   './js/modules/mobile.mjs', './js/modules/map.mjs', './js/modules/player.mjs', './js/modules/regions.mjs', './js/modules/sdr.mjs', './js/modules/sdr-adapters.mjs', './js/modules/openwebrx-native.mjs', './js/modules/sdr-waterfall.mjs', './js/modules/tools.mjs'];
