@@ -42,6 +42,19 @@ var STR_SDR = {
     owrx_frequency: 'التردد (kHz)',
     owrx_original: 'واجهة أصلية إضافية ↗',
     owrx_no_audio: 'الجهاز لم يرسل صوتًا خلال المهلة. جرّب إعادة الاتصال أو جهازًا تانيًا.',
+    owrx_err_timeout: 'انتهت مهلة الاتصال قبل وصول إعدادات الجهاز',
+    owrx_err_audio_locked: 'المتصفح منع تشغيل الصوت — اضغط زر التشغيل مجددًا',
+    owrx_err_audio_unavailable: 'المتصفح لا يدعم تشغيل الصوت هنا',
+    owrx_err_audio_decode: 'تعذّر فكّ صوت الجهاز',
+    owrx_err_connection_failed: 'تعذّر فتح الاتصال بالجهاز',
+    owrx_err_connection_closed: 'أُغلق الاتصال بالجهاز',
+    owrx_err_connection_error: 'تعذّر إنشاء الاتصال',
+    owrx_err_invalid_receiver: 'الجهاز غير مدرج أو غير آمن للتشغيل المباشر',
+    owrx_err_protocol_error: 'ردّ الجهاز برسالة غير مفهومة',
+    owrx_err_capacity: 'الجهاز ممتلئ حاليًا — جرّب لاحقًا',
+    owrx_err_sdr_error: 'تعذّر تشغيل الاستقبال على الجهاز',
+    owrx_err_unsupported_codec: 'الجهاز يستخدم ضغط صوت غير مدعوم',
+    owrx_err_unsupported_mode: 'لا يوجد وضع تناظري مدعوم على هذا الجهاز',
 
     sdr_workspace: 'مساحة أجهزة الاستقبال',
     sdr_open_workspace: 'افتح مساحة الجهاز',
@@ -213,6 +226,19 @@ var STR_SDR = {
     owrx_frequency: 'Frequency (kHz)',
     owrx_original: 'Additional original interface ↗',
     owrx_no_audio: 'No audio arrived within the time limit. Reconnect or try another receiver.',
+    owrx_err_timeout: 'Connection timed out before the receiver settings arrived',
+    owrx_err_audio_locked: 'The browser blocked audio playback — tap the play button again',
+    owrx_err_audio_unavailable: 'This browser cannot play audio here',
+    owrx_err_audio_decode: 'Could not decode the receiver audio',
+    owrx_err_connection_failed: 'Could not open a connection to the receiver',
+    owrx_err_connection_closed: 'The receiver connection closed',
+    owrx_err_connection_error: 'The connection could not be established',
+    owrx_err_invalid_receiver: 'The receiver is not listed, or not safe for direct playback',
+    owrx_err_protocol_error: 'The receiver replied with an unreadable message',
+    owrx_err_capacity: 'The receiver is full right now — try again later',
+    owrx_err_sdr_error: 'The receiver could not start reception',
+    owrx_err_unsupported_codec: 'The receiver uses unsupported compressed audio',
+    owrx_err_unsupported_mode: 'No supported analog mode on this receiver',
 
     sdr_workspace: 'Receiver workspace',
     sdr_open_workspace: 'Open receiver workspace',
@@ -1060,6 +1086,20 @@ function owrxArmAudioDeadline() {
 function owrxSetStatus(key,detail) {
   $('owrx-status').textContent = t(key) + (detail ? ' · ' + detail : '');
 }
+// Raw OpenWebRX failure codes used to leak into the status line after the
+// localized text ("الاتصال لم يكتمل · audio_locked"). Every code the client
+// or the local deadline can produce maps to a localized STR_SDR string;
+// unknown codes fall back to the generic failure text, never the raw code.
+var OWRX_ERROR_KEYS = {timeout:'owrx_err_timeout',audio_locked:'owrx_err_audio_locked',
+  audio_unavailable:'owrx_err_audio_unavailable',audio_decode:'owrx_err_audio_decode',
+  connection_failed:'owrx_err_connection_failed',connection_closed:'owrx_err_connection_closed',
+  connection_error:'owrx_err_connection_error',invalid_receiver:'owrx_err_invalid_receiver',
+  protocol_error:'owrx_err_protocol_error',capacity:'owrx_err_capacity',sdr_error:'owrx_err_sdr_error',
+  unsupported_codec:'owrx_err_unsupported_codec',unsupported_mode:'owrx_err_unsupported_mode'};
+function owrxErrorKey(code) {
+  if (code === 'audio_timeout' || code === 'no_audio') return 'owrx_no_audio';
+  return OWRX_ERROR_KEYS[code] || 'owrx_failed';
+}
 function owrxSetControls(enabled) {
   ['owrx-freq','owrx-mode','owrx-down','owrx-up'].forEach(function (id) { if ($(id)) $(id).disabled = !enabled; });
 }
@@ -1180,6 +1220,7 @@ function owrxStopSession() {
   owrxAudioCtx = null;owrxGain = null;owrxNextTime = 0;owrxSetControls(false);
 }
 function closeOpenWebRx() {
+  stopFmSleepTimer();
   owrxStopSession();
   if ($('owrx-modal')) $('owrx-modal').hidden = true;
   if (owrxPreviousFocus && owrxPreviousFocus.isConnected && typeof owrxPreviousFocus.focus === 'function') owrxPreviousFocus.focus();
@@ -1215,7 +1256,9 @@ function openOpenWebRx(url,name) {
     if (session !== owrxSession || failed) return;
     failed = true;owrxStopSession();
     directMarkFailed('owrx',row.url);
-    owrxSetStatus(code === 'audio_timeout' ? 'owrx_no_audio' : 'owrx_failed',code || detail || '');
+    var statusKey = code === 'audio_timeout' || code === 'no_audio' ? 'owrx_no_audio' : 'owrx_failed';
+    var detailKey = owrxErrorKey(code);
+    owrxSetStatus(statusKey,detailKey === statusKey ? '' : t(detailKey));
   }
   owrxFailActive = fail;
   var warmed = sdrWarmAudioContext();
@@ -1702,7 +1745,18 @@ function kiwiStepTune(direction) {
   if (input) input.value = Math.max(10,Math.min(30000,freq + direction * step)).toFixed(3);
   kiwiSendTune();
 }
+/* The FM sleep timer (player module) keeps ticking after the SDR player
+   closes, so its sleep_done toast would fire later with no player open.
+   Stop it silently from the SDR close handlers; the radio alarm is a
+   separate timer and intentionally keeps running. The player module
+   exports stopSleepTimer (added with playback win #8), so this calls it
+   through RA_MODULES when present and is a harmless no-op if the player
+   module is absent. */
+function stopFmSleepTimer() {
+  if (typeof RA_MODULES !== 'undefined' && RA_MODULES.player && typeof RA_MODULES.player.stopSleepTimer === 'function') RA_MODULES.player.stopSleepTimer(true);
+}
 function closeKiwiAudio() {
+  stopFmSleepTimer();
   kiwiSession++;
   kiwiReady = false;
   if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
