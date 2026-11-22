@@ -15,6 +15,7 @@ var STR_PLAYER = {
     player_play_aria: 'تشغيل',
     player_pause_aria: 'إيقاف مؤقت',
     player_status_connecting: 'جارٍ الاتصال…',
+    player_status_trying: 'جرّبنا مصدر بديل… ({i}/{n})',
     player_status_live: '● يبث الآن',
     player_status_paused: '⏸ متوقف مؤقتًا',
     player_status_dead: '✖ المحطة غير متاحة',
@@ -51,6 +52,7 @@ var STR_PLAYER = {
     player_play_aria: 'Play',
     player_pause_aria: 'Pause',
     player_status_connecting: 'Connecting…',
+    player_status_trying: 'Trying another source… ({i}/{n})',
     player_status_live: '● On air',
     player_status_paused: '⏸ Paused',
     player_status_dead: '✖ Station unavailable',
@@ -98,6 +100,28 @@ function setMedia(name) {
 }
 
 var hls = null;
+
+/* Win #6: a dead source must never look stuck indefinitely — each attempt
+   gets a 9s watchdog, so 5 sources worst-case resolve in ~45s. */
+var SOURCE_TIMEOUT_MS = 9000;
+var sourceWatchdog = null;
+
+function clearSourceWatchdog() { if (sourceWatchdog) { clearTimeout(sourceWatchdog); sourceWatchdog = null; } }
+function setPlayerStatusTrying() {
+  var msg = t('player_status_trying').replace('{i}', String(state.playbackIndex + 1)).replace('{n}', String(state.playbackSources.length));
+  var el = $('player-status');
+  if (el) el.textContent = msg;
+  var stage = $('player-stage-status');
+  if (stage) stage.textContent = msg;
+}
+function onSourceWatchdog(generation, index, url) {
+  if (generation !== state.playbackGeneration || state.playbackIndex !== index || state.isAudioPlaying) return;
+  failCurrentPlayback(generation, 'source timeout after 9s', url);
+}
+function armSourceWatchdog(generation, index, url) {
+  clearSourceWatchdog();
+  sourceWatchdog = setTimeout(function () { onSourceWatchdog(generation, index, url); }, SOURCE_TIMEOUT_MS);
+}
 
 
 function destroyHls() {
@@ -155,6 +179,7 @@ function failCurrentPlayback(generation, reason, sourceUrl) {
   }
   var official = $('player-official');
   reportPlaybackError(generation, reason)
+  clearSourceWatchdog();
   if (official && state.playbackStation && state.playbackStation.website) official.hidden = false;
   // Every source failed — point the open-direct link back at the station's
   // real URL: when the failure is a CORS or geo block the stream often plays
@@ -251,6 +276,8 @@ function startCurrentPlayback(generation) {
   }
   var station = state.playbackStation;
   var requiresTokenLoader = station && station.tokenEndpoint && station.tokenType === 'easy_b';
+  if (state.playbackIndex > 0) setPlayerStatusTrying();
+  armSourceWatchdog(generation, state.playbackIndex, baseUrl);
   var needsHlsJs = isHlsUrl(baseUrl) && (requiresTokenLoader || !audio.canPlayType('application/vnd.apple.mpegurl'));
   if (needsHlsJs) {
     loadHlsLib(function (loaded) {
@@ -794,6 +821,7 @@ export function boot() {
     if(station&&station.url)play(station.url,state.currentName||station.name);
   });
   $('player-close').addEventListener('click', function () {
+    clearSourceWatchdog();
     state.playbackGeneration += 1;
     state.playbackSources = [];
     state.playbackStation = null;
@@ -837,6 +865,7 @@ export function boot() {
 
   var measuredGeneration = -1;
   $('audio').addEventListener('playing', function () {
+    clearSourceWatchdog();
     if (measuredGeneration !== state.playbackGeneration) {
       measuredGeneration = state.playbackGeneration;
       if (window.radioAtlasTrack) window.radioAtlasTrack('station_play');
@@ -846,6 +875,7 @@ export function boot() {
     if (!visRaf && !controls.hidden && !$('player-vis').hidden) visRaf = requestAnimationFrame(visFrame);
   });
   $('audio').addEventListener('pause', function () {
+    clearSourceWatchdog();
     setPlayerStatus('paused');
     setMediaPlaybackState('paused');
     visStop();
