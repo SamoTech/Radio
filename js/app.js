@@ -394,6 +394,17 @@ function setModuleLoading(on) {
   if (b && b.classList) b.classList.toggle('module-loading', !!on);
 }
 function moduleLoadFailed() { setModuleLoading(false); toast(t('module_load_failed')); }
+function preloadPlayer() {
+  function warm() {
+    loadModule('player').then(function (m) {
+      var last = null;
+      try { last = JSON.parse(localStorage.getItem('ra-last') || 'null'); } catch (e) {}
+      if (last && last.url && isHlsUrl(last.url)) m.loadHlsLib(function () {});
+    }).catch(function () {});
+  }
+  if (window.requestIdleCallback) window.requestIdleCallback(warm);
+  else setTimeout(warm, 1500);
+}
 function raMergeStr(pack) {
   for (var lang in pack) {
     var src = pack[lang];
@@ -1049,6 +1060,7 @@ function renderCatalog(rows) {
   renderEG();
   renderAR();
   renderRel();
+  if (!state.playerPreloaded) { state.playerPreloaded = true; preloadPlayer(); }
 }
 
 async function finishStations(rows) {
