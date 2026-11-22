@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-21T19:06:17+00:00",
+ "updated": "2026-11-22T06:34:09+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 321,
+ "count": 323,
  "stations": [
   {
    "id": 3944,
@@ -21,16 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -155,12 +145,22 @@
   },
   {
    "id": 5130,
-   "name": "Antenna Test Lab Co 436 MHz Patch",
+   "name": "Antenna Test Lab Co 436 MHz RHCP Patch",
    "loc": "FM05qu · UHF",
    "lat": 35.847,
    "lng": -78.601,
    "alt": 100,
    "url": "https://network.satnogs.org/stations/5130/",
+   "https": false
+  },
+  {
+   "id": 1492,
+   "name": "Archenhold",
+   "loc": "JO62rl · VHF",
+   "lat": 52.487,
+   "lng": 13.475,
+   "alt": 23,
+   "url": "https://network.satnogs.org/stations/1492/",
    "https": false
   },
   {
@@ -2204,16 +2204,6 @@
    "https": false
   },
   {
-   "id": 3538,
-   "name": "PU4ELT",
-   "loc": "GH70qd · UHF",
-   "lat": -19.861,
-   "lng": -44.619,
-   "alt": 800,
-   "url": "https://network.satnogs.org/stations/3538/",
-   "https": false
-  },
-  {
    "id": 71,
    "name": "PV8DX",
    "loc": "FJ92pt · UHF",
@@ -2354,16 +2344,6 @@
    "https": false
   },
   {
-   "id": 4882,
-   "name": "Shadi",
-   "loc": "KM18ua · VHF / UHF",
-   "lat": 38.0170436840529,
-   "lng": 23.732455911409634,
-   "alt": 210,
-   "url": "https://network.satnogs.org/stations/4882/",
-   "https": false
-  },
-  {
    "id": 1347,
    "name": "Silky Popcorn",
    "loc": "IO83wd · HF, VHF, UHF, L",
@@ -2411,6 +2391,16 @@
    "lng": 17.89,
    "alt": 32,
    "url": "https://network.satnogs.org/stations/2830/",
+   "https": false
+  },
+  {
+   "id": 858,
+   "name": "SM0TGU - VHF UHF",
+   "loc": "JO89wk · UHF / VHF",
+   "lat": 59.453,
+   "lng": 17.89,
+   "alt": 32,
+   "url": "https://network.satnogs.org/stations/858/",
    "https": false
   },
   {
@@ -3114,6 +3104,26 @@
    "https": false
   },
   {
+   "id": 5297,
+   "name": "X3NX",
+   "loc": "FM05he · UHF",
+   "lat": 35.1737,
+   "lng": -79.3934,
+   "alt": 128,
+   "url": "https://network.satnogs.org/stations/5297/",
+   "https": false
+  },
+  {
+   "id": 4163,
+   "name": "YC0AVJ",
+   "loc": "OI33jj · VHF / UHF",
+   "lat": -6.5936,
+   "lng": 106.772,
+   "alt": 240,
+   "url": "https://network.satnogs.org/stations/4163/",
+   "https": false
+  },
+  {
    "id": 4355,
    "name": "YC8UMD",
    "loc": "PJ21ji · UHF",
@@ -3131,6 +3141,16 @@
    "lng": -111.177,
    "alt": 1359,
    "url": "https://network.satnogs.org/stations/4615/",
+   "https": false
+  },
+  {
+   "id": 5345,
+   "name": "YetiBadger SAT1",
+   "loc": "DM79ni · VHF / UHF / L",
+   "lat": 39.37,
+   "lng": -104.86,
+   "alt": 1900,
+   "url": "https://network.satnogs.org/stations/5345/",
    "https": false
   },
   {
