@@ -1130,8 +1130,9 @@ function owrxStopSession() {
   if (owrxClient) { try { owrxClient.close(); } catch (e) {} owrxClient = null; }
   var audio = $('owrx-audio');
   if (audio) { try { audio.pause();audio.srcObject = null; } catch (e) {} }
-  if (owrxAudioCtx) { try { owrxAudioCtx.close().catch(function () {}); } catch (e) {} owrxAudioCtx = null; }
-  owrxGain = null;owrxNextTime = 0;owrxSetControls(false);
+  if (owrxAudioCtx && owrxAudioCtx !== sdrAudioCtx) { try { owrxAudioCtx.close().catch(function () {}); } catch (e) {} }
+  if (owrxAudioCtx === sdrAudioCtx) sdrSuspendSharedAudio();
+  owrxAudioCtx = null;owrxGain = null;owrxNextTime = 0;owrxSetControls(false);
 }
 function closeOpenWebRx() {
   owrxStopSession();
@@ -1171,10 +1172,10 @@ function openOpenWebRx(url,name) {
     owrxSetStatus(code === 'audio_timeout' ? 'owrx_no_audio' : 'owrx_failed',code || detail || '');
   }
   owrxFailActive = fail;
-  var Ctx = window.AudioContext || window.webkitAudioContext;
-  if (!Ctx) { fail('audio_unavailable');return; }
+  var warmed = sdrWarmAudioContext();
+  if (!warmed) { fail('audio_unavailable');return; }
   try {
-    owrxAudioCtx = new Ctx();owrxGain = owrxAudioCtx.createGain();
+    owrxAudioCtx = warmed;owrxGain = owrxAudioCtx.createGain();
     var destination = owrxAudioCtx.createMediaStreamDestination();owrxGain.connect(destination);
     audio.srcObject = destination.stream;
     owrxAudioCtx.resume().catch(function () { fail('audio_locked'); });
@@ -1229,6 +1230,32 @@ function owrxDiagnostics() {
   return Object.assign({contextState:owrxAudioCtx ? owrxAudioCtx.state : 'closed',receiver:owrxReceiver ? owrxReceiver.url : '',
     frequencyHz:Math.round(Number($('owrx-freq').value) * 1000),mode:$('owrx-mode').value,
     profiles:Array.from($('owrx-profile').options).map(function (o) { return {id:o.value,name:o.textContent}; })},owrxStats);
+}
+
+/* ================= Shared SDR AudioContext (warmed in the gesture) ================= */
+// Kiwi/OWRX used to create their AudioContext after the lazy import resolved,
+// possibly outside transient activation, so resume() could fail and surface
+// as a generic audio_locked error. One context now serves both native
+// players: it is created/resumed synchronously inside the click gesture
+// (capture-phase listener in boot, plus a warm call at the top of each open
+// function), and closing a player suspends it instead of closing it, so the
+// next tap resumes the same context without needing a fresh gesture.
+var sdrAudioCtx = null;
+function sdrWarmAudioContext() {
+  var Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
+  if (!sdrAudioCtx || sdrAudioCtx.state === 'closed') {
+    try { sdrAudioCtx = new Ctx(); } catch (e) { sdrAudioCtx = null; return null; }
+  }
+  if (sdrAudioCtx.state === 'suspended') {
+    try { var resumed = sdrAudioCtx.resume(); if (resumed && typeof resumed.catch === 'function') resumed.catch(function () {}); } catch (e) {}
+  }
+  return sdrAudioCtx;
+}
+function sdrSuspendSharedAudio() {
+  if (sdrAudioCtx && sdrAudioCtx.state === 'running') {
+    try { var suspended = sdrAudioCtx.suspend(); if (suspended && typeof suspended.catch === 'function') suspended.catch(function () {}); } catch (e) {}
+  }
 }
 
 
@@ -1605,7 +1632,9 @@ function closeKiwiAudio() {
   if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
   var audio = $('kiwi-audio');
   if (audio) { try { audio.pause(); audio.srcObject = null; } catch (e) {} }
-  if (kiwiAudioCtx) { try { kiwiAudioCtx.close(); } catch (e) {} kiwiAudioCtx = null; }
+  if (kiwiAudioCtx && kiwiAudioCtx !== sdrAudioCtx) { try { kiwiAudioCtx.close(); } catch (e) {} }
+  if (kiwiAudioCtx === sdrAudioCtx) sdrSuspendSharedAudio();
+  kiwiAudioCtx = null;
   kiwiGain = null;
   kiwiNextTime = 0;
   kiwiTuneAwaitingAudio = false;
@@ -1703,7 +1732,9 @@ function openKiwiAudio(url, name, options) {
     if (kiwiKeepAlive) { clearInterval(kiwiKeepAlive); kiwiKeepAlive = null; }
     if (kiwiWatchdog) { clearInterval(kiwiWatchdog); kiwiWatchdog = null; }
     if (kiwiWs) { try { kiwiWs.close(); } catch (e) {} kiwiWs = null; }
-    if (kiwiAudioCtx) { kiwiAudioCtx.close().catch(function () {}); kiwiAudioCtx = null; }
+    if (kiwiAudioCtx && kiwiAudioCtx !== sdrAudioCtx) { kiwiAudioCtx.close().catch(function () {}); }
+    if (kiwiAudioCtx === sdrAudioCtx) sdrSuspendSharedAudio();
+    kiwiAudioCtx = null;
     try { audio.pause(); audio.srcObject = null; } catch (e) {}
     kiwiGain = null;
     if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
@@ -1723,10 +1754,11 @@ function openKiwiAudio(url, name, options) {
       toast(t(statusKey));
     }
   }
-  var Ctx = window.AudioContext || window.webkitAudioContext;
-  if (!Ctx || !window.WebSocket) { fail(false); return; }
+  if (!window.WebSocket) { fail(false); return; }
+  var warmed = sdrWarmAudioContext();
+  if (!warmed) { fail(false); return; }
   try {
-    kiwiAudioCtx = new Ctx();
+    kiwiAudioCtx = warmed;
     kiwiGain = kiwiAudioCtx.createGain();
     var dest = kiwiAudioCtx.createMediaStreamDestination();
     kiwiGain.connect(dest);
@@ -1863,6 +1895,13 @@ export function boot() {
   $('grid-direct').addEventListener('change',renderDirectReceivers);
   $('direct-only-verified').addEventListener('change',renderDirectReceivers);
   $('direct-more').addEventListener('click',function () { directLimit += 24;renderDirectReceivers(); });
+  // Warm the shared SDR AudioContext synchronously in the click gesture,
+  // before the lazy import resolves and the native player opens. Capture
+  // phase so it runs before the app-level delegated open handlers.
+  document.addEventListener('click',function (event) {
+    var button = event.target && event.target.closest ? event.target.closest('button.kiwi-ws, button.owrx-native') : null;
+    if (button) sdrWarmAudioContext();
+  },true);
   document.addEventListener('click',function (event) {
     var button = event.target.closest && event.target.closest('button.owrx-native');
     if (button) openOpenWebRx(button.getAttribute('data-url'),button.getAttribute('data-name'));
