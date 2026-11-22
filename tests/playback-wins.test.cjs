@@ -116,3 +116,86 @@ test('Win #2: stubs carry .catch and loadModule still resets its promise so the 
     'loadModule must reset its cached promise on failure so the next tap retries');
   assert.ok(src.includes('module-loading'), 'a module-loading style hook must exist for the pressed state');
 });
+
+/* ================= Win #3: idle preload of the player module ================= */
+
+function makePreloadSandbox(lastJson) {
+  const sandbox = makeAppSandbox();
+  let idleCb = null;
+  let timerCb = null;
+  let timerMs = null;
+  sandbox.window = { requestIdleCallback(cb) { idleCb = cb; } };
+  sandbox.localStorage = { getItem() { return lastJson; } };
+  sandbox.setTimeout = (fn, ms) => { timerCb = fn; timerMs = ms; return 0; };
+  sandbox.__idleCb = () => idleCb;
+  sandbox.__timerCb = () => timerCb;
+  sandbox.__timerMs = () => timerMs;
+  return sandbox;
+}
+
+test('Win #3: after catalog render the player module is preloaded on idle, not on tap', async () => {
+  const sandbox = makePreloadSandbox(null);
+  let loaded = null;
+  let hlsWarmed = 0;
+  sandbox.loadModule = (name) => { loaded = name; return Promise.resolve({ loadHlsLib() { hlsWarmed += 1; } }); };
+  sandbox.preloadPlayer();
+  assert.ok(typeof sandbox.__idleCb() === 'function', 'preload must be scheduled via requestIdleCallback');
+  assert.equal(sandbox.__timerMs(), null, 'no setTimeout fallback when requestIdleCallback exists');
+  assert.equal(loaded, null, 'nothing loads before the idle callback fires');
+  sandbox.__idleCb()();
+  await tick();
+  assert.equal(loaded, 'player', 'idle callback imports the player module');
+  assert.equal(hlsWarmed, 0, 'no HLS warm-up without a saved HLS last station');
+});
+
+test('Win #3: a saved HLS last station warms hls.js during the idle preload', async () => {
+  const sandbox = makePreloadSandbox(JSON.stringify({ url: 'https://example.test/stream.m3u8', name: 'HLS FM' }));
+  let hlsWarmed = 0;
+  sandbox.loadModule = () => Promise.resolve({ loadHlsLib() { hlsWarmed += 1; } });
+  sandbox.preloadPlayer();
+  sandbox.__idleCb()();
+  await tick();
+  assert.equal(hlsWarmed, 1, 'loadHlsLib runs once for an HLS ra-last');
+});
+
+test('Win #3: a saved non-HLS last station does not warm hls.js', async () => {
+  const sandbox = makePreloadSandbox(JSON.stringify({ url: 'https://example.test/stream.mp3', name: 'MP3 FM' }));
+  let hlsWarmed = 0;
+  sandbox.loadModule = () => Promise.resolve({ loadHlsLib() { hlsWarmed += 1; } });
+  sandbox.preloadPlayer();
+  sandbox.__idleCb()();
+  await tick();
+  assert.equal(hlsWarmed, 0, 'plain MP3 ra-last needs no HLS warm-up');
+});
+
+test('Win #3: without requestIdleCallback the preload falls back to a 1.5s timer', () => {
+  const sandbox = makePreloadSandbox(null);
+  sandbox.window = {};
+  let loaded = null;
+  sandbox.loadModule = () => { loaded = 'player'; return Promise.resolve({ loadHlsLib() {} }); };
+  sandbox.preloadPlayer();
+  assert.equal(sandbox.__timerMs(), 1500, 'fallback timer is 1500ms');
+  assert.equal(loaded, null, 'nothing loads before the timer fires');
+});
+
+test('Win #3: a failed preload is swallowed — it must never break the page', async () => {
+  const sandbox = makePreloadSandbox(null);
+  sandbox.loadModule = () => Promise.reject(new Error('offline'));
+  sandbox.preloadPlayer();
+  sandbox.__idleCb()();
+  await tick();
+  assert.equal(sandbox.state.moduleLoading, undefined, 'failed preload leaves no loading state behind');
+});
+
+test('Win #3: renderCatalog triggers the preload once, after the first catalog render', () => {
+  const src = fs.readFileSync('js/app.js', 'utf8');
+  const start = src.indexOf('function renderCatalog(');
+  const body = src.slice(start, src.indexOf('\n}\n', start));
+  assert.ok(body.includes('preloadPlayer()'), 'renderCatalog must call preloadPlayer');
+  assert.ok(body.includes('state.playerPreloaded'), 'preload must be guarded so it runs once');
+  const fnStart = src.indexOf('function preloadPlayer(');
+  const fnBody = src.slice(fnStart, src.indexOf('\n}\n', fnStart));
+  assert.ok(fnBody.includes('requestIdleCallback'), 'preloadPlayer must prefer requestIdleCallback');
+  assert.ok(fnBody.includes("loadModule('player')"), 'preloadPlayer must import the player module');
+  assert.ok(fnBody.includes('isHlsUrl'), 'preloadPlayer must check ra-last for HLS before warming hls.js');
+});
