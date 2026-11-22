@@ -199,3 +199,140 @@ test('Win #3: renderCatalog triggers the preload once, after the first catalog r
   assert.ok(fnBody.includes("loadModule('player')"), 'preloadPlayer must import the player module');
   assert.ok(fnBody.includes('isHlsUrl'), 'preloadPlayer must check ra-last for HLS before warming hls.js');
 });
+
+/* ================= Win #6: bounded FM fallback ================= */
+
+const PLAYER_T = {
+  player_status_connecting: 'جارٍ الاتصال…',
+  player_status_trying: 'جرّبنا مصدر بديل… ({i}/{n})',
+  player_status_live: '● يبث الآن',
+  player_status_paused: '⏸ متوقف مؤقتًا',
+  player_status_dead: '✖ المحطة غير متاحة',
+  toast_broken: 'المحطة دي مش شغالة — جرّب محطة تانية.',
+  alt_title: 'محطات شغالة تشبهها:'
+};
+
+function fakePlayerEl() {
+  return {
+    hidden: false, textContent: '', innerHTML: '', href: '', value: '',
+    classList: { toggle() {}, add() {}, remove() {}, contains() { return false; } },
+    setAttribute() {}, getAttribute() { return null; }, removeAttribute() {},
+    addEventListener() {}, focus() {}, querySelectorAll() { return []; },
+    style: {}, dataset: {}
+  };
+}
+
+function makePlayerSandbox() {
+  const statusEl = fakePlayerEl();
+  const stageEl = fakePlayerEl();
+  const toasts = [];
+  const audioEl = {
+    paused: true, currentSrc: 'https://a.test/1',
+    pause() { this.paused = true; }, load() {}, removeAttribute() {},
+    play() { return Promise.resolve(); }, addEventListener() {}
+  };
+  const sandbox = {
+    console, Intl, URL, URLSearchParams,
+    document: { addEventListener() {}, querySelectorAll() { return []; } },
+    window: {},
+    navigator: {},
+    localStorage: { getItem() { return null; }, setItem() {}, removeItem() {} },
+    setTimeout, clearTimeout,
+    fetch: async () => { throw new Error('Network access is not used in unit tests'); },
+    $: (id) => {
+      if (id === 'kiwi-modal' || id === 'owrx-modal' || id === 'sdr-modal') return { hidden: true };
+      if (id === 'audio') return audioEl;
+      if (id === 'player-status') return statusEl;
+      if (id === 'player-stage-status') return stageEl;
+      return fakePlayerEl();
+    },
+    state: {
+      playbackGeneration: 1, playbackIndex: 0, playbackAttemptFailed: false,
+      isAudioPlaying: false, playbackSources: ['https://a.test/1'],
+      playbackStation: { name: 'Test FM', url: 'https://a.test/1' },
+      currentName: 'Test FM', fm: [], streamChecks: {}, favs: {},
+      playerVolume: 100, playerMuted: false
+    },
+    t: (k) => PLAYER_T[k] || k,
+    toast: (msg) => { toasts.push(msg); },
+    esc: (s) => String(s == null ? '' : s),
+    safeHttpsUrl: (u) => /^https:/i.test(String(u || '')) ? String(u) : '',
+    isHlsUrl: () => false,
+    isDataSaver: () => false,
+    STREAM_PROXY: '',
+    proxyStreamUrl: () => '',
+    visitorCounterRequest: () => Promise.resolve(),
+    coarsePlaybackError: () => 'unknown'
+  };
+  vm.createContext(sandbox);
+  const src = fs.readFileSync('js/modules/player.mjs', 'utf8').replace('export function boot', 'function boot');
+  vm.runInContext(src, sandbox, { filename: 'js/modules/player.mjs' });
+  sandbox.__statusEl = statusEl;
+  sandbox.__stageEl = stageEl;
+  sandbox.__toasts = toasts;
+  sandbox.__audioEl = audioEl;
+  return sandbox;
+}
+
+test('Win #6: the per-source watchdog is 9 seconds', () => {
+  const sandbox = makePlayerSandbox();
+  assert.equal(sandbox.SOURCE_TIMEOUT_MS, 9000, 'each source gets at most 9s before failover');
+});
+
+test('Win #6: a dead current source is failed over by the watchdog instead of hanging', () => {
+  const sandbox = makePlayerSandbox();
+  sandbox.onSourceWatchdog(1, 0, 'https://a.test/1');
+  assert.equal(sandbox.state.playbackIndex, 1, 'watchdog advances past the dead source');
+  assert.equal(sandbox.__statusEl.textContent, '✖ المحطة غير متاحة', 'last source failing shows the dead status');
+  assert.deepEqual(sandbox.__toasts, ['المحطة دي مش شغالة — جرّب محطة تانية.']);
+});
+
+test('Win #6: the watchdog ignores a stale generation and a playing source', () => {
+  const stale = makePlayerSandbox();
+  stale.onSourceWatchdog(99, 0, 'https://a.test/1');
+  assert.equal(stale.state.playbackIndex, 0, 'stale generation must not fail over');
+  assert.deepEqual(stale.__toasts, []);
+
+  const playing = makePlayerSandbox();
+  playing.state.isAudioPlaying = true;
+  playing.onSourceWatchdog(1, 0, 'https://a.test/1');
+  assert.equal(playing.state.playbackIndex, 0, 'a playing source must not be failed over');
+  assert.deepEqual(playing.__toasts, []);
+});
+
+test('Win #6: the trying status shows attempt progress like (2/4)', () => {
+  const sandbox = makePlayerSandbox();
+  sandbox.state.playbackIndex = 1;
+  sandbox.state.playbackSources = ['https://a.test/1', 'https://a.test/2', 'https://a.test/3', 'https://a.test/4'];
+  sandbox.setPlayerStatusTrying();
+  assert.equal(sandbox.__statusEl.textContent, 'جرّبنا مصدر بديل… (2/4)');
+  assert.equal(sandbox.__stageEl.textContent, 'جرّبنا مصدر بديل… (2/4)');
+});
+
+test('Win #6: tap-to-dead time is bounded — at most 5 sources at 9s each', () => {
+  const app = makeAppSandbox();
+  const sources = app.buildPlaybackSourceList(
+    'https://a.test/main',
+    ['https://a.test/f1', 'https://a.test/f2', 'https://a.test/f3', 'https://a.test/f4', 'https://a.test/f5', 'https://a.test/f6'],
+    '',
+    'https://relay.test/stream?url=https%3A%2F%2Fa.test%2Fmain'
+  );
+  assert.equal(sources.length, 5, 'max 4 direct sources + relay last');
+  assert.equal(sources[4], 'https://relay.test/stream?url=https%3A%2F%2Fa.test%2Fmain', 'relay stays last');
+  const player = makePlayerSandbox();
+  assert.ok(sources.length * player.SOURCE_TIMEOUT_MS <= 45000,
+    'worst case tap-to-dead is 5 x 9s = 45s, never indefinite');
+});
+
+test('Win #6: the watchdog is armed on every attempt and cleared on play, pause, close and dead', () => {
+  const src = fs.readFileSync('js/modules/player.mjs', 'utf8');
+  const start = src.indexOf('function startCurrentPlayback(');
+  const body = src.slice(start, src.indexOf('\n}\n', start));
+  assert.ok(body.includes('armSourceWatchdog(generation, state.playbackIndex, baseUrl)'),
+    'startCurrentPlayback must arm the watchdog for the source it just started');
+  assert.ok(body.includes('setPlayerStatusTrying()'), 'fallback attempts must show the trying status');
+  const clears = (src.match(/clearSourceWatchdog\(\);/g) || []).length;
+  assert.ok(clears >= 4, 'watchdog must be cleared on playing, pause, close and terminal dead, got ' + clears);
+  assert.ok(src.includes("player_status_trying: 'جرّبنا مصدر بديل… ({i}/{n})'"), 'ar trying status must exist');
+  assert.ok(src.includes("player_status_trying: 'Trying another source… ({i}/{n})'"), 'en trying status must exist');
+});
