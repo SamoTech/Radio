@@ -265,7 +265,8 @@ var STR = {
     stations: '{n} محطة',
     no_match_fm: 'مفيش محطات مطابقة — جرّب تخفف الفلاتر أو تغيّر البحث.',
     no_data: 'مفيش بيانات متاحة دلوقتي — جرّب تاني بعد شوية.',
-    random_none: 'مفيش محطات متاحة للتشغيل العشوائي.'
+    random_none: 'مفيش محطات متاحة للتشغيل العشوائي.',
+    module_load_failed: 'تعذّر تحميل المشغّل — تحقّق من الاتصال وحاول تاني.'
   },
   en: {
     station_filters: 'Station filters',
@@ -367,7 +368,8 @@ var STR = {
     stations: '{n} stations',
     no_match_fm: 'No matching stations — try lighter filters or a different search.',
     no_data: 'No data available right now — please try again later.',
-    random_none: 'No stations available to play randomly.'
+    random_none: 'No stations available to play randomly.',
+    module_load_failed: 'Could not load the player — check your connection and try again.'
   }
 };
 
@@ -386,6 +388,12 @@ function loadModule(name) {
   }
   return RA_MODULE_PROMISES[name];
 }
+function setModuleLoading(on) {
+  state.moduleLoading = !!on;
+  var b = document.body;
+  if (b && b.classList) b.classList.toggle('module-loading', !!on);
+}
+function moduleLoadFailed() { setModuleLoading(false); toast(t('module_load_failed')); }
 function raMergeStr(pack) {
   for (var lang in pack) {
     var src = pack[lang];
@@ -399,7 +407,7 @@ function raModuleCall(name, fn, a, b) {
 }
 
 /* Thin stubs preserve caller APIs for the lazy modules. */
-function play(url, name) { state.playbackRequestedInSession = true; loadModule('player').then(function (m) { m.play(url, name); }); }
+function play(url, name) { state.playbackRequestedInSession = true; setModuleLoading(true); loadModule('player').then(function (m) { setModuleLoading(false); m.play(url, name); }).catch(moduleLoadFailed); }
 function setMedia(name) { loadModule('player').then(function (m) { m.setMedia(name); }); }
 function loadHlsLib(cb) { loadModule('player').then(function (m) { m.loadHlsLib(cb); }); }
 function attachHls(url, generation, station) {
@@ -407,9 +415,9 @@ function attachHls(url, generation, station) {
   return m ? m.attachHls(url, generation, station) : false;
 }
 function closeAlarmModal() { raModuleCall('player', 'closeAlarmModal'); }
-function openSDR(url, name, type) { loadModule('sdr').then(function (m) { m.openSDR(url, name, type); }); }
+function openSDR(url, name, type) { setModuleLoading(true); loadModule('sdr').then(function (m) { setModuleLoading(false); m.openSDR(url, name, type); }).catch(moduleLoadFailed); }
 function closeSDR() { raModuleCall('sdr', 'closeSDR'); }
-function openKiwiAudio(url, name) { loadModule('sdr').then(function (m) { m.openKiwiAudio(url, name); }); }
+function openKiwiAudio(url, name) { setModuleLoading(true); loadModule('sdr').then(function (m) { setModuleLoading(false); m.openKiwiAudio(url, name); }).catch(moduleLoadFailed); }
 function closeKiwiAudio() { raModuleCall('sdr', 'closeKiwiAudio'); }
 function renderSDR() { raModuleCall('sdr', 'renderSDR'); }
 function renderWspr() { raModuleCall('sdr', 'renderWspr'); }
