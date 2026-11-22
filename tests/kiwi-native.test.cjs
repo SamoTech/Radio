@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const source = fs.readFileSync('js/modules/sdr.mjs', 'utf8');
 const adapterSource = fs.readFileSync('js/modules/sdr-adapters.mjs', 'utf8').replace(/export function /g, 'function ');
-const start = source.indexOf('var KIWI_WS_RELAY =');
+const start = source.indexOf('var sdrCurrentReceiver');
 const end = source.indexOf('\n\n\nvar API =', start);
 assert.ok(start > 0 && end > start, 'native player implementation must be available');
 const values = { 'kiwi-freq': { value: '7100' }, 'kiwi-mode': { value: 'am' },
@@ -108,10 +108,11 @@ function nativeSession() {
     close(){this.readyState=3;}
   }
   class Audio {
-    constructor(){this.sampleRate=48000;this.currentTime=0;this.state='running';contexts.push(this);}
+    constructor(){this.sampleRate=48000;this.currentTime=0;this.state='suspended';contexts.push(this);}
     createGain(){return {connect(){}};}
     createMediaStreamDestination(){return {stream:{}};}
-    resume(){return Promise.resolve();}
+    resume(){this.state='running';return Promise.resolve();}
+    suspend(){this.state='suspended';return Promise.resolve();}
     close(){this.state='closed';return Promise.resolve();}
     createBuffer(channels,length,rate){assert.equal(rate,12000);return {getChannelData(){return new Float32Array(length);},duration:length/rate};}
     createBufferSource(){return {connect(){},start(time){scheduled.push(time);}};}
@@ -119,6 +120,7 @@ function nativeSession() {
   const session={URL,Date,Uint8Array,Int16Array,Float32Array,ArrayBuffer,DataView,Number,console,
     window:{AudioContext:Audio,WebSocket:Socket},WebSocket:Socket,$:id=>elements[id],
     t:key=>key,toast(){},safeHttpUrl:url=>url,esc:x=>String(x),
+    clearWaterfall(){},paintWaterfall:()=>true,previousSDRFocus:null,RA_MODULES:{},
     state:{kiwi:[],receivers:['receiver','successful','silent','cyprus','global'].map(name=>({
       type:'kiwi',name:name,url:'http://'+name+'.example/',online:true,extApi:1,users:0,maxUsers:4
     })),sdr:[]},
@@ -217,7 +219,9 @@ test('KiwiSDR reconnect replaces transport and audio context while retaining con
     e['kiwi-audio'].volume=0.37;
     h.session.kiwiReconnect();
     assert.equal(h.sockets.length,2);
-    assert.equal(oldSocket.readyState,3);assert.equal(oldAudio.state,'closed');
+    assert.equal(oldSocket.readyState,3);
+    assert.equal(h.contexts.length,1,'reconnect reuses the one shared AudioContext');
+    assert.equal(oldAudio.state,'running','shared context resumes instead of closing');
     assert.equal(h.timers.size,3,'only replacement handshake, keepalive and watchdog timers remain');
     assert.equal(e['kiwi-audio'].volume,0.37);
     const replacement=h.sockets[1];h.authenticate(replacement);
@@ -230,7 +234,7 @@ test('KiwiSDR reconnect replaces transport and audio context while retaining con
     assert.equal(h.session.kiwiReady,true);
   }finally{h.session.closeKiwiAudio();}
   assert.equal(h.timers.size,0);
-  assert.ok(h.contexts.every(x=>x.state==='closed'));
+  assert.ok(h.contexts.every(x=>x.state==='suspended'),'shared context suspends on close, it is not destroyed');
 });
 
 test('KiwiSDR mode, passband, AGC and squelch commands validate receiver controls', () => {
@@ -273,11 +277,13 @@ test('KiwiSDR receiver navigation prioritizes eligible Cyprus receivers and repl
     h.session.kiwiNavigateReceiver(1);
     assert.equal(h.session.kiwiCurrentReceiver.url,'http://global.example/');
     assert.equal(h.sockets[0].readyState,3);
-    assert.equal(h.contexts[0].state,'closed');
+    assert.equal(h.contexts.length,1,'navigation reuses the shared context');
+    assert.equal(h.contexts[0].state,'running','navigation resumes the same shared context for the new receiver');
     h.session.kiwiNavigateReceiver(-1);
     assert.equal(h.session.kiwiCurrentReceiver.url,'http://cyprus.example/');
     assert.equal(h.sockets[1].readyState,3);
     assert.equal(h.elements['kiwi-audio'].volume,0.37);
+    assert.equal(h.contexts[0].state,'running','returning navigation resumes the shared context');
   }finally{h.session.closeKiwiAudio();}
   assert.equal(h.timers.size,0);
 });
@@ -429,7 +435,7 @@ test('KiwiSDR retries unexpected loss with 8s then 65s backoff, only after PCM',
     h.session.openKiwiAudio('http://receiver.example/','Retry fixture');h.authenticate();
     const first=h.sockets[0];first.onmessage({data:h.frame()});first.onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,1);assert.equal(h.timers.size,1);
-    assert.equal(h.contexts[0].state,'closed');
+    assert.equal(h.contexts[0].state,'suspended');
     const retry1=[...h.timers.values()][0];assert.equal(retry1.delay,8000);retry1.fn();
     h.authenticate();h.sockets[1].onmessage({data:h.frame()});h.sockets[1].onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,2);assert.equal(h.timers.size,1);
@@ -438,7 +444,8 @@ test('KiwiSDR retries unexpected loss with 8s then 65s backoff, only after PCM',
     assert.equal(h.sockets.length,3);assert.equal(h.timers.size,0);
     assert.equal(h.elements['kiwi-status'].textContent,'kiwi_transport');
     assert.equal(h.session.kiwiLastFailureCode,'transport');
-    assert.ok(h.contexts.every(x=>x.state==='closed'));
+    assert.equal(h.contexts.length,1,'retries reuse the same shared context');
+    assert.ok(h.contexts.every(x=>x.state==='suspended'),'shared context suspends instead of closing');
   }finally{h.session.closeKiwiAudio();}
 });
 
