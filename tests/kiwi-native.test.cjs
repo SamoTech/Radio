@@ -205,7 +205,9 @@ test('KiwiSDR applies current controls after authentication, before any audio tu
       const index=socket.sent.indexOf(command);
       assert.ok(index>0&&index<tune,command+' must precede tuning');
     }
-    assert.equal(socket.sent.at(-1),'SET keepalive');
+    assert.equal(socket.sent.at(-2),'SET keepalive');
+    assert.equal(socket.sent.at(-1),'SET wf_lease',
+      'relayed sessions request the waterfall lease once, after keepalive');
   }finally{h.session.closeKiwiAudio();}
 });
 

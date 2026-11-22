@@ -50,7 +50,7 @@
 
 **ذاكرة ترددات Kiwi (v88 / SDR-4):** احفظ حتى 40 ترددًا محليًا باسم تختاره مع الوضع وعرض المرشح، واستدعها أثناء الاستماع أو قبل الاتصال. الترددات تُخزن على جهازك فقط؛ الاستدعاء لا يفتح جهازًا ولا ينشئ اتصالًا تلقائيًا. حذف الذكريات متاح من نفس المشغل.
 
-**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ شلال KiwiSDR له الآن مسار W/F مقيّد بالـlease في مصدر Worker (SDR-3B) وفكّاك مستقل وعينة W/F مسجلة حقيقية من EA8BFK تفسَّر في اختبارات Node، بلا ربط واجهة بعد وبلا نشر Worker جديد — النشر من المالك فقط. Service Worker v100.
+**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ شلال KiwiSDR موصول الآن في واجهة مشغّل Kiwi (SDR-3B): canvas في نافذة Kiwi، طلب `SET wf_lease` عند جاهزية جلسة SND، ورسم الصفوف بحد ~10 إطارات/ثانية، مع تدهور آمن — أي فشل في الشلال يُظهر ملاحظة فقط ولا يمسّ الصوت أبدًا. البث الحي ينتظر نشر المالك لمسار /kiwi/wf على Worker المنشور؛ حتى ذلك الحين لا يدّعي الموقع شلالًا حيًا. مسار W/F مقيّد بالـlease في مصدر Worker وفكّاك مستقل وعينة W/F مسجلة حقيقية من EA8BFK تفسَّر في اختبارات Node. Service Worker v101.
 
 **سياق صوت SDR مشترك داخل إيماءة الضغط (v95):** مشغّلا Kiwi وOpenWebRX الأصليان يشتركان الآن في `AudioContext` واحد يُنشأ ويُستأنف synchronously داخل ضغطة المستخدم (مستمع capture على أزرار التشغيل المباشر، مع تسخين عند بداية كل فتح)، بدل إنشائه بعد تحميل الوحدة الكسولة خارج الإيماءة — فلا يفشل الاستئناف كخطأ `audio_locked` عام. إغلاق المشغل يعلّق السياق بدل إغلاقه، فتستأنف الضغطة التالية السياق نفسه. اختبارات جديدة في `tests/sdr-audio-context.test.cjs` مع تحديثات في `tests/kiwi-native.test.cjs`.
 
@@ -117,7 +117,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بلا إطار واجهة؛ HLS.js اعتماد تشغيل خارجي)
-- **Service Worker** (sw.js v100) لـ caching و offline
+- **Service Worker** (sw.js v101) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -263,7 +263,7 @@ python -m http.server 8000
 
 ## سجل التنفيذ والتحقق المؤرخ
 
-الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v100.
+الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v101.
 ### Production provenance and deployment verification
 
 GitHub Pages deployment stamps a generated `build-info.json` with the exact deployment commit, Service Worker cache version, catalog version and asset SHA-256 digests. The separate post-deploy verification job fetches the live artifact and checks every tracked asset byte-for-byte. See [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). A merged PR or an HTTP 200 response alone does not establish that the new release is live.
@@ -291,7 +291,7 @@ Binary-control handshake and PCM decoding corrections, Worker security guards, a
 
 ### Cyprus KiwiSDR listening controls (v83)
 
-The native listening dialog adds eligible receiver selection, frequency steps, mode-aware passband presets, AGC/manual gain, squelch, live S-meter and explicit reconnect. Tuning and volume survive receiver changes. Last successful tuning can be restored without autoplay. The original receiver link opens its complete interface for waterfall and operator-supported extensions; Radio Atlas bridges audio only.
+The native listening dialog adds eligible receiver selection, frequency steps, mode-aware passband presets, AGC/manual gain, squelch, live S-meter and explicit reconnect. Tuning and volume survive receiver changes. Last successful tuning can be restored without autoplay. The original receiver link opens its complete interface for operator-supported extensions. The Kiwi dialog also draws a live waterfall from actual receiver frames when the bridge serves /kiwi/wf (owner deploy pending); until then it says so plainly and audio keeps working.
 
 On 2026-11-20, `http://cyp.twrmon.net:8073/` played unmuted inside Radio Atlas through the deployed bridge; a separate transport probe decoded 10 PCM frames, 5,120 samples (5,100 nonzero) at 12 kHz. `http://sdr.cyhams.org/` upgraded but produced no PCM within 20 seconds. These observations do not certify human audibility or continuous receiver availability. Chromium verified live Cyprus audio, all native controls, automatic recovery without a new gesture, and 390px Arabic/English layouts without overflow. Browser QA 21/21, PWA Upgrade QA 9/9, JS 102/102, Python 125/125 and Lighthouse Accessibility92 passed. Evidence: [Cyprus verification](docs/evidence/kiwi-cyprus-2026-11-20.json) and PR #150.
 
