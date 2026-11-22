@@ -79,6 +79,7 @@
 - إيقاف المؤقت مفعّل بالكامل في هذا الـ PR: `stopSleepTimer` أُضيفت إلى `API` المصدَّرة في `js/modules/player.mjs` (`stopSleepTimer: stopSleepTimer`)، فاستدعاء `sdr.mjs` عبر `RA_MODULES.player.stopSleepTimer` لم يعد no-op — إغلاق أي مشغّل SDR أصلي يوقف مؤقت نوم FM فعليًا. الحارس في `stopFmSleepTimer` ما زال يجعل الاستدعاء no-op آمنًا عند غياب وحدة المشغل.
 - اختبارات جديدة في `tests/sdr-owrx-errors.test.cjs` (6 اختبارات): خريطة كل رمز، ونصوص `STR_SDR` عربي/إنجليزي، وسطور الحالة الفعلية بلا رمز خام أو تفاصيل إنجليزية، واستدعاء الإيقاف الصامت من معالجَي الإغلاق، وno-op آمن عند غياب وحدة المشغل، وتصدير `stopSleepTimer` من `API` في `player.mjs`. Node 218/218 محليًا (212 بعد فوز #6 + 6 جديدة)؛ Python 129 OK.
 - Service Worker v98 → v99 (تغيير واجهة؛ `player.mjs` في SHELL، فتصدير الدالة يلزم رفع نسخة الكاش حسب AGENTS.md) + مزامنة README/ROADMAP في نفس الـ PR.
+- اختبار المتصفح `scripts/openwebrx_audio_qa.cjs` كان ينتظر ظهور الرمز الخام `unsupported_codec` في سطر الحالة — حُدّث لينتظر النص المترجم (إنجليزي/عربي) مع فحص جديد يؤكد غياب الرمز الخام. هذا هو سبب فشل `browser-qa` في أول تشغيل CI على هذا الـ PR (أُعيد إنتاجه محليًا: كل الفحوصات الأخرى PASS ثم مهلة 30 ثانية عند سطر الانتظار)؛ بعد التحديث: 52 فحصًا كلها PASS محليًا.
 
 ### P0 — KiwiSDR audio/security verification (2026-11-20, قيد التحقق)
 
