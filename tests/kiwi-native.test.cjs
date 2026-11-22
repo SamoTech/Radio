@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const source = fs.readFileSync('js/modules/sdr.mjs', 'utf8');
 const adapterSource = fs.readFileSync('js/modules/sdr-adapters.mjs', 'utf8').replace(/export function /g, 'function ');
-const start = source.indexOf('var KIWI_WS_RELAY =');
+const start = source.indexOf('var sdrCurrentReceiver');
 const end = source.indexOf('\n\n\nvar API =', start);
 assert.ok(start > 0 && end > start, 'native player implementation must be available');
 const values = { 'kiwi-freq': { value: '7100' }, 'kiwi-mode': { value: 'am' },
@@ -119,6 +119,7 @@ function nativeSession() {
   const session={URL,Date,Uint8Array,Int16Array,Float32Array,ArrayBuffer,DataView,Number,console,
     window:{AudioContext:Audio,WebSocket:Socket},WebSocket:Socket,$:id=>elements[id],
     t:key=>key,toast(){},safeHttpUrl:url=>url,esc:x=>String(x),
+    clearWaterfall(){},paintWaterfall:()=>true,previousSDRFocus:null,RA_MODULES:{},
     state:{kiwi:[],receivers:['receiver','successful','silent','cyprus','global'].map(name=>({
       type:'kiwi',name:name,url:'http://'+name+'.example/',online:true,extApi:1,users:0,maxUsers:4
     })),sdr:[]},
