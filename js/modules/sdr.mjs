@@ -1,5 +1,6 @@
 import {OpenWebRxClient} from './openwebrx-native.mjs';
 import {paintWaterfall, clearWaterfall} from './sdr-waterfall.mjs';
+import {KiwiWaterfallSession} from './kiwi-waterfall.mjs';
 import {validateReceiverUrl, nativeKiwiAllowed, nativeOpenWebRxAllowed, receiverProfile, receiverCatalog, resolveCatalogReceiver} from './sdr-adapters.mjs';
 
 /* =====================================================================
@@ -164,6 +165,11 @@ var STR_SDR = {
     kiwi_squelch: 'إسكات الضوضاء (0 = إيقاف)',
     kiwi_signal: 'مستوى الإشارة من الجهاز',
     kiwi_signal_wait: 'في انتظار الإشارة',
+    kiwi_waterfall: 'شلال طيفي حي من إطارات جهاز Kiwi',
+    kiwi_wf_waiting: 'جارٍ فتح الشلال الطيفي…',
+    kiwi_wf_live: 'شلال طيفي حي — إطارات فعلية من الجهاز',
+    kiwi_wf_unavailable: 'الشلال الطيفي غير متاح بعد — الصوت يعمل بشكل طبيعي',
+    kiwi_wf_direct: 'الشلال الطيفي يحتاج اتصالًا عبر الوسيط؛ هذا الجهاز متصل مباشرةً — الصوت يعمل بشكل طبيعي',
     kiwi_advanced: 'تحكم متقدم في الاستقبال',
     kiwi_retrying: 'انقطع الصوت — إعادة محاولة {n}/2 بعد {seconds} ثانية…',
     kiwi_ended: 'انتهت جلسة الجهاز — اضغط إعادة الاتصال إذا أردت الاستماع مجددًا',
@@ -349,6 +355,11 @@ var STR_SDR = {
     kiwi_squelch: 'Noise squelch (0 = off)',
     kiwi_signal: 'Receiver signal level',
     kiwi_signal_wait: 'Waiting for signal',
+    kiwi_waterfall: 'Live waterfall from actual Kiwi receiver frames',
+    kiwi_wf_waiting: 'Opening the waterfall…',
+    kiwi_wf_live: 'Live waterfall — actual frames from the receiver',
+    kiwi_wf_unavailable: 'Waterfall not available yet — audio keeps working',
+    kiwi_wf_direct: 'The waterfall needs a relay connection; this receiver connects directly — audio keeps working',
     kiwi_advanced: 'Advanced receiver controls',
     kiwi_retrying: 'Audio interrupted — safe retry {n}/2 in {seconds} seconds…',
     kiwi_ended: 'Receiver session ended — select Reconnect to listen again',
@@ -1420,10 +1431,80 @@ var KIWI_CYPRUS_PRESETS = [
 var kiwiStats = {frames:0, samples:0, nonZeroSamples:0, sampleRate:0, signalDbm:null};
 var kiwiLastFrame = 0;
 var kiwiLastMeter = 0;
+// Native Kiwi waterfall (SDR-3B): one KiwiWaterfallSession per SND session,
+// fed by the lease token the bridge delivers over SND as MSG wf_lease=<uuid>.
+// The waterfall never touches audio: any WF failure only shows a note.
+var kiwiWfSession = null;
+var kiwiWfLeaseRequested = false;
+var kiwiWfLastPaintAt = 0;
+var kiwiWfRows = 0;
 
 function kiwiSetStatus(text) {
   var el = $('kiwi-status');
   if (el) el.textContent = text;
+}
+function kiwiWfSetStatus(key) {
+  var el = $('kiwi-waterfall-status');
+  if (el) el.textContent = t(key);
+}
+// The waterfall lease only exists for relay-mediated SND sessions
+// (http receivers, 832 of 834 catalog rows). Direct wss://<receiver>/SND
+// sessions never see the bridge, so no lease token can be issued for them.
+function kiwiWfIsRelayed(socketUrl) {
+  if (!KIWI_WS_RELAY) return false;
+  try {
+    var relay = new URL(KIWI_WS_RELAY);
+    return typeof socketUrl === 'string' && socketUrl.indexOf('wss://' + relay.host + '/kiwi/ws?receiver=') === 0;
+  } catch (e) { return false; }
+}
+function kiwiWfReset() {
+  if (kiwiWfSession) { try { kiwiWfSession.close(); } catch (e) {} kiwiWfSession = null; }
+  kiwiWfLeaseRequested = false;
+  kiwiWfLastPaintAt = 0;
+  kiwiWfRows = 0;
+  clearWaterfall($('kiwi-waterfall'));
+  if ($('kiwi-waterfall-wrap')) $('kiwi-waterfall-wrap').hidden = true;
+  var el = $('kiwi-waterfall-status');
+  if (el) el.textContent = '';
+}
+// Start the waterfall from the lease token the bridge delivered over SND.
+// Any WF failure only shows a note; audio is never touched by this path.
+// The deployed bridge has no /kiwi/wf route yet (owner-only deploy), so
+// until then the session fails fast and the note stays honest.
+function kiwiStartWaterfall(token, socketUrl) {
+  if (kiwiWfSession || !token) return;
+  if (!kiwiCurrentReceiver || !kiwiWfIsRelayed(socketUrl)) {
+    kiwiWfSetStatus('kiwi_wf_direct');
+    return;
+  }
+  var bridgeUrl;
+  try { bridgeUrl = new URL(KIWI_WS_RELAY).origin; } catch (e) { kiwiWfSetStatus('kiwi_wf_unavailable'); return; }
+  kiwiWfSetStatus('kiwi_wf_waiting');
+  var session = kiwiSession;
+  kiwiWfSession = new KiwiWaterfallSession({
+    receiver: kiwiCurrentReceiver.url,
+    leaseToken: token,
+    bridgeUrl: bridgeUrl,
+    onRow: function (bins) {
+      if (session !== kiwiSession || !kiwiWfSession) return;
+      var now = Date.now();
+      if (now - kiwiWfLastPaintAt < 95) return;
+      if (!paintWaterfall($('kiwi-waterfall'), bins)) return;
+      kiwiWfLastPaintAt = now;
+      kiwiWfRows++;
+      if ($('kiwi-waterfall-wrap')) $('kiwi-waterfall-wrap').hidden = false;
+      kiwiWfSetStatus('kiwi_wf_live');
+    },
+    onState: function (state) {
+      if (session !== kiwiSession) return;
+      if (state === 'failed') kiwiWfSetStatus('kiwi_wf_unavailable');
+    },
+    onError: function () {
+      if (session !== kiwiSession) return;
+      kiwiWfSetStatus('kiwi_wf_unavailable');
+    }
+  });
+  kiwiWfSession.connect();
 }
 function kiwiControlValue(id, fallback) {
   var el = $(id);
@@ -1757,6 +1838,7 @@ function stopFmSleepTimer() {
 }
 function closeKiwiAudio() {
   stopFmSleepTimer();
+  kiwiWfReset();
   kiwiSession++;
   kiwiReady = false;
   if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
@@ -1860,6 +1942,7 @@ function openKiwiAudio(url, name, options) {
   function fail(retryable, reason) {
     if (session !== kiwiSession || failed) return;
     failed = true;
+    kiwiWfReset();
     kiwiLastFailureCode = reason || 'unknown';
     var retry = retryable === true && gotSamples && kiwiRetryCount < KIWI_RETRY_DELAYS_MS.length;
     kiwiReady = false;
@@ -1914,6 +1997,8 @@ function openKiwiAudio(url, name, options) {
     var msg = kiwiControlMessage(ev.data);
     if (msg) {
       if (/(?:^|\s)(?:badp=[1-9][0-9]*|too_busy(?:=|\s|$)|down=|fault(?:=|\s|$)|no_channels(?:=|\s|$))/i.test(msg)) { fail(false,'denied'); return; }
+      var leaseMatch = /^MSG wf_lease=([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/.exec(msg);
+      if (leaseMatch) kiwiStartWaterfall(leaseMatch[1], socketUrl);
       if (/(?:^|\s)badp=0(?:\s|$)/.test(msg)) authenticated = true;
       var rate = /(?:^|\s)audio_rate=([0-9.]+)/.exec(msg);
       if (rate && Number(rate[1]) > 1000 && Number(rate[1]) < 96000) {
@@ -1932,6 +2017,10 @@ function openKiwiAudio(url, name, options) {
         kiwiUpdateControls();
         ws.send(latestTune);
         ws.send('SET keepalive');
+        if (!kiwiWfLeaseRequested && kiwiWfIsRelayed(socketUrl)) {
+          kiwiWfLeaseRequested = true;
+          ws.send('SET wf_lease');
+        }
       }
       return;
     }
