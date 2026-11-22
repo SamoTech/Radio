@@ -120,3 +120,57 @@ test('malformed IP/receiver/token rejected before insertion', () => {
   assert.equal(h.quota.release('invalid-token'),false);
   h.db.close();
 });
+
+test('waterfall claim is single-use, bound to IP/receiver/lease, and returns the SND session id', () => {
+  const h = harness();
+  const lease = h.quota.reserve(ip(1), receiver(1), 1799999999999);
+  assert.equal(lease.status, 'ok');
+  const firstClaim = h.quota.claimWf(lease.token, ip(1), receiver(1));
+  assert.equal(firstClaim.status, 'ok');
+  assert.equal(firstClaim.snd_ts, 1799999999999);
+  assert.equal(h.quota.claimWf(lease.token, ip(1), receiver(1)).status, 'used');
+  assert.equal(h.quota.claimWf(lease.token, ip(2), receiver(1)).status, 'invalid', 'binding mismatch is rejected even after use');
+  const other = h.quota.reserve(ip(2), receiver(2), 1799999999998);
+  assert.equal(h.quota.claimWf(other.token, ip(2), receiver(1)).status, 'invalid', 'receiver mismatch');
+  assert.equal(h.quota.claimWf(other.token, ip(1), receiver(2)).status, 'invalid', 'IP mismatch');
+  assert.equal(h.quota.claimWf('not-a-uuid', ip(2), receiver(2)).status, 'invalid');
+  assert.equal(h.quota.claimWf('00000000-0000-4000-8000-000000000099', ip(2), receiver(2)).status, 'invalid', 'unknown token');
+  const otherClaim = h.quota.claimWf(other.token, ip(2), receiver(2));
+  assert.equal(otherClaim.status, 'ok');
+  assert.equal(otherClaim.snd_ts, 1799999999998);
+  h.db.close();
+});
+
+test('waterfall claim never double-counts: no new attempt window and no second lease', () => {
+  const h = harness();
+  const lease = h.quota.reserve(ip(1), receiver(1), 1799999999999);
+  assert.equal(h.quota.claimWf(lease.token, ip(1), receiver(1)).status, 'ok');
+  assert.equal(h.sql.exec('SELECT COUNT(*) AS n FROM leases').one().n, 1, 'one lease for SND + WF');
+  assert.equal(h.sql.exec('SELECT COUNT(*) AS n FROM attempts').one().n, 1, 'only the SND reserve attempt');
+  h.db.close();
+});
+
+test('waterfall liveness follows the SND lease: alive until release or expiry', () => {
+  const h = harness();
+  const lease = h.quota.reserve(ip(1), receiver(1), 1799999999999);
+  assert.equal(h.quota.wfAlive(lease.token), true);
+  assert.equal(h.quota.wfAlive('00000000-0000-4000-8000-000000000099'), false);
+  assert.equal(h.quota.wfAlive('not-a-uuid'), false);
+  h.quota.release(lease.token);
+  assert.equal(h.quota.wfAlive(lease.token), false, 'SND close ends WF liveness');
+  const second = h.quota.reserve(ip(1), receiver(1), 1799999999999);
+  assert.equal(h.quota.wfAlive(second.token), true);
+  h.advance(30 * 60_000 + 1);
+  assert.equal(h.quota.wfAlive(second.token), false, 'lease expiry ends WF liveness');
+  h.db.close();
+});
+
+test('reserve without an SND session id stores null and the waterfall route fails closed', () => {
+  const h = harness();
+  const lease = h.quota.reserve(ip(1), receiver(1));
+  assert.equal(lease.status, 'ok');
+  const nullClaim = h.quota.claimWf(lease.token, ip(1), receiver(1));
+  assert.equal(nullClaim.status, 'ok');
+  assert.equal(nullClaim.snd_ts, null);
+  h.db.close();
+});

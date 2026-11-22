@@ -41,13 +41,24 @@ class Socket {
 function harness(options = {}) {
   const calls = [], upstreams = [], pairs = [], timers = new Map(), waitUntil = [];
   let reservations = 0, releases = 0;
+  const leases = new Map();
   const quota = options.quota || {
     async checkIp() { return true; },
-    async reserve() {
+    async reserve(ip, receiver, sndTs) {
       reservations++;
-      return {status:'ok', token:'00000000-0000-4000-8000-' + String(reservations).padStart(12,'0')};
+      const token = '00000000-0000-4000-8000-' + String(reservations).padStart(12,'0');
+      leases.set(token, {ip, receiver, snd_ts: sndTs, claimed: false});
+      return {status:'ok', token};
     },
-    async release() { releases++; return true; }
+    async release(token) { releases++; leases.delete(token); return true; },
+    async claimWf(token, ip, receiver) {
+      const lease = leases.get(token);
+      if (!lease || lease.ip !== ip || lease.receiver !== receiver) return {status:'invalid'};
+      if (lease.claimed) return {status:'used'};
+      lease.claimed = true;
+      return {status:'ok', snd_ts: lease.snd_ts};
+    },
+    async wfAlive(token) { return leases.has(token); }
   };
   let timerId = 0;
   const ctx = {URL, Set, Map, Number, Date, Headers, AbortSignal, AbortController, TextEncoder,
@@ -367,4 +378,149 @@ test('global quota RPC disables Cloudflare automatic retries for non-idempotent 
   assert.equal(seen[0].name, 'global');
   assert.deepEqual(JSON.parse(JSON.stringify(seen[0].options)), {retry:{maxRetries:0}});
   assert.equal(h.calls.length, 0);
+});
+
+function wfRequest(receiver = RECEIVER, lease = '', ip = '198.51.100.4', origin = 'https://samotech.github.io') {
+  return {url: 'https://bridge.example/kiwi/wf?receiver=' + encodeURIComponent(receiver) + '&lease=' + encodeURIComponent(lease),
+    method: 'GET', headers: new Headers({Origin: origin, Upgrade: 'websocket', 'CF-Connecting-IP': ip})};
+}
+
+async function openSndWithLease(h) {
+  assert.equal((await h.ctx.exported.fetch(request())).status, 101);
+  const server = h.pairs[0][1];
+  server.emit('message', {data: 'SET wf_lease'});
+  const reply = server.sent.find(x => typeof x === 'string' && x.startsWith('MSG wf_lease='));
+  assert.ok(reply, 'worker issues waterfall lease token over SND');
+  return reply.slice('MSG wf_lease='.length);
+}
+
+test('waterfall lease token is issued on request over SND and never forwarded upstream', async () => {
+  const h = harness();
+  const token = await openSndWithLease(h);
+  assert.match(token, /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+  assert.ok(!h.upstreams[0].sent.some(x => x === 'SET wf_lease'), 'token request stays inside the bridge');
+  assert.equal(h.sessions(), 1, 'token request opens no extra session');
+});
+
+test('waterfall route requires GET, upgrade and Radio Atlas Origin before any network work', async () => {
+  const h = harness();
+  const post = wfRequest(RECEIVER, '00000000-0000-4000-8000-000000000001'); post.method = 'POST';
+  assert.equal((await h.ctx.exported.fetch(post)).status, 405);
+  const plain = wfRequest(RECEIVER, '00000000-0000-4000-8000-000000000001'); plain.headers.delete('Upgrade');
+  assert.equal((await h.ctx.exported.fetch(plain)).status, 426);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, '00000000-0000-4000-8000-000000000001', '198.51.100.4', 'https://malicious.example'))).status, 403);
+  assert.equal(h.calls.length, 0);
+});
+
+test('waterfall route rejects missing, malformed and already-used lease tokens without upstream contact', async () => {
+  const h = harness();
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, ''))).status, 403);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, 'not-a-uuid'))).status, 403);
+  assert.equal(h.upstreams.length, 0);
+  const token = await openSndWithLease(h);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 101);
+  assert.equal(h.upstreams.length, 2, 'one SND and one WF upstream socket');
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 403, 'single-use per SND session');
+  assert.equal(h.upstreams.length, 2, 'rejected reuse contacts no receiver');
+});
+
+test('waterfall token is bound to the SND session IP', async () => {
+  const h = harness();
+  const token = await openSndWithLease(h);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token, '203.0.113.9'))).status, 403);
+  assert.equal(h.upstreams.length, 1, 'mismatched IP contacts no receiver');
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 101);
+});
+
+test('waterfall connects to the same SND session id path and forwards binary rows', async () => {
+  const h = harness();
+  const token = await openSndWithLease(h);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 101);
+  const sndCall = h.calls.find(x => /\/SND$/.test(x.url));
+  const wfCall = h.calls.find(x => /\/W\/F$/.test(x.url));
+  assert.ok(sndCall && wfCall, 'both upstream paths requested');
+  const sndTs = sndCall.url.match(/\/(\d+)\/SND$/)[1];
+  assert.equal(wfCall.url, 'http://public.receiver.org:8073/' + sndTs + '/W/F', 'WF reuses the SND session id');
+  const wfServer = h.pairs[1][1], wfUpstream = h.upstreams[1];
+  assert.ok(wfServer.accepted && wfUpstream.accepted);
+  const row = new Uint8Array(1040).buffer;
+  wfUpstream.emit('message', {data: row});
+  assert.equal(wfServer.sent[0], row, 'waterfall rows pass byte-for-byte');
+});
+
+test('waterfall message allowlist forwards setup commands and closes on anything else', async () => {
+  for (const message of ['SET mod=am low_cut=-4900 high_cut=4900 freq=7100.000', 'SET compression=0',
+    'SET wf_speed=5', 'SET wf_speed=0', 'SET wf_comp=1', 'SET zoom=15 start=0',
+    'SET zoom=0 start=16777216', 'SET keepalive\nSET zoom=0', 'SET wf_lease', 'GET /']) {
+    const h = harness();
+    const token = await openSndWithLease(h);
+    await h.ctx.exported.fetch(wfRequest(RECEIVER, token));
+    const wfServer = h.pairs[1][1], wfUpstream = h.upstreams[1];
+    assert.equal(h.timers.size, 3, 'SND + WF session + WF lease probe timers');
+    wfServer.emit('message', {data: message});
+    assert.equal(wfServer.readyState, 3, message);
+    assert.equal(wfUpstream.readyState, 3, message);
+    assert.equal(h.timers.size, 1, message + ': only the SND timer survives');
+    assert.equal(h.sessions(), 1, message + ': SND session untouched');
+  }
+  const h = harness();
+  const token = await openSndWithLease(h);
+  await h.ctx.exported.fetch(wfRequest(RECEIVER, token));
+  const wfServer = h.pairs[1][1], wfUpstream = h.upstreams[1];
+  for (const message of ['SET auth t=kiwi p=', 'SET ident_user=Radio%20Atlas', 'SET zoom=0 start=0',
+    'SET maxdb=-10', 'SET mindb=-110', 'SET wf_speed=1', 'SET wf_comp=0', 'SET send_dB=1', 'SET keepalive']) {
+    wfServer.emit('message', {data: message});
+  }
+  assert.deepEqual(wfUpstream.sent, ['SET auth t=kiwi p=', 'SET ident_user=Radio%20Atlas', 'SET zoom=0 start=0',
+    'SET maxdb=-10', 'SET mindb=-110', 'SET wf_speed=1', 'SET wf_comp=0', 'SET send_dB=1', 'SET keepalive']);
+  assert.equal(wfServer.readyState, 1, 'allowed setup stays open');
+  wfServer.emit('message', {data: new Uint8Array(2).buffer});
+  assert.equal(wfServer.readyState, 3, 'binary WF command closes');
+});
+
+test('waterfall allowlist accepts only the designed setup commands', () => {
+  const {ctx} = harness();
+  for (const message of ['SET auth t=kiwi p=', 'SET auth t=kiwi p=secret1', 'SET zoom=0 start=0',
+    'SET zoom=14 cf=7100', 'SET zoom=5', 'SET maxdb=-10', 'SET mindb=-110', 'SET wf_speed=1',
+    'SET wf_speed=4', 'SET wf_comp=0', 'SET send_dB=1', 'SET send_dB=0',
+    'SET ident_user=Radio%20Atlas', 'SET keepalive']) assert.equal(ctx.allowedWfMessage(message), true, message);
+  for (const message of ['', 'SET mod=am low_cut=-4900 high_cut=4900 freq=7100.000', 'SET compression=0',
+    'SET wf_speed=5', 'SET wf_speed=0', 'SET wf_comp=1', 'SET zoom=15 start=0',
+    'SET zoom=0 start=16777216', 'SET zoom=0 cf=30001', 'SET maxdb=500', 'SET mindb=-201',
+    'SET ident_user=Radio Atlas', 'SET keepalive\nSET zoom=0', 'SET auth t=kiwi p= x',
+    'SET wf_lease', 'GET /', 'SET zoom=0 start=0 ', 'SET zoom=0 start=0\r\n']) assert.equal(ctx.allowedWfMessage(message), false, message);
+  assert.equal(ctx.allowedWfMessage(42), false);
+});
+
+test('closing SND closes its waterfall socket; closing WF alone never releases the lease', async () => {
+  const h = harness();
+  const token = await openSndWithLease(h);
+  await h.ctx.exported.fetch(wfRequest(RECEIVER, token));
+  const sndServer = h.pairs[0][1], wfServer = h.pairs[1][1], wfUpstream = h.upstreams[1];
+  wfServer.close(1000, 'client done');
+  assert.equal(h.sessions(), 1, 'SND session survives WF close');
+  assert.deepEqual(h.globalCounts(), {reservations:1,releases:0}, 'WF close releases nothing');
+  assert.equal(h.timers.size, 1, 'only the SND timer survives');
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 403, 'closed WF cannot reclaim its token');
+  const h2 = harness();
+  const token2 = await openSndWithLease(h2);
+  await h2.ctx.exported.fetch(wfRequest(RECEIVER, token2));
+  const snd2 = h2.pairs[0][1], wf2 = h2.pairs[1][1], wfUp2 = h2.upstreams[1];
+  snd2.close(1000, 'audio done');
+  assert.equal(wf2.readyState, 3, 'SND close closes WF on the same isolate');
+  assert.equal(wfUp2.readyState, 3);
+  assert.equal(h2.sessions(), 0);
+  assert.equal(h2.timers.size, 0);
+  await Promise.all(h2.waitUntil);
+  assert.deepEqual(h2.globalCounts(), {reservations:1,releases:1}, 'single lease released once');
+});
+
+test('waterfall upstream refusal keeps the SND lease alive', async () => {
+  const h = harness({upstream: async url => String(url).endsWith('/W/F')
+    ? {status: 503}
+    : {status: 101, webSocket: new Socket()}});
+  const token = await openSndWithLease(h);
+  assert.equal((await h.ctx.exported.fetch(wfRequest(RECEIVER, token))).status, 502);
+  assert.equal(h.sessions(), 1, 'SND session survives WF refusal');
+  assert.deepEqual(h.globalCounts(), {reservations:1,releases:0});
 });

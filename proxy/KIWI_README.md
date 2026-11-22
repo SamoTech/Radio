@@ -38,6 +38,7 @@ The live concurrency probe accepted three sockets from the same test network to 
 ## Contract
 - GET `/healthz` — plain `ok`.
 - WebSocket `/kiwi/ws?receiver=https%3A%2F%2Fexample.org%2F` — origin-validated, allowlisted, binary/text WebSocket passthrough. HTTP receiver URLs are allowed only through this secure browser-facing WSS relay.
+- WebSocket `/kiwi/wf?receiver=<encoded>&lease=<worker-issued-token>` — lease-bound waterfall only (SDR-3B, source-only until the owner deploys): single-use token issued over the SND socket as `MSG wf_lease=<token>`, bound to (IP, receiver, SND lease), same Origin/catalogue/slot/DNS gates, 9 s deadline, 30-min cap; the upstream path reuses the SND session id (`/<same-ts>/W/F`) and the client never chooses it. No new quota reservation — a WF socket never double-counts. Missing/expired/mismatched/used token: 403 with no upstream contact. WF client messages are allowlisted to waterfall setup only; anything else closes 1008.
 - Unknown/unapproved receiver: HTTP 403. Non-WebSocket request: 426. Directory failure: 503.
 
 Worker reachability/security tests do not establish functional playback. An actual permitted KiwiSDR audio session is the completion gate.
