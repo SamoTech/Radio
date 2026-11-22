@@ -220,8 +220,11 @@ async function startFm(page){await page.evaluate(url=>{
    check('FM switching clears old receiver waterfall evidence',
     await page.locator('#owrx-waterfall-wrap').evaluate(el=>el.hidden));
    nextCase='unsupported';await direct.first().click();
-   await page.waitForFunction(()=>document.querySelector('#owrx-status').textContent.includes('unsupported_codec'));
+   // Win #8: the status line shows the localized failure text, never the raw
+   // code, so wait for the localized wording (EN or AR) instead of the code.
+   await page.waitForFunction(()=>{const t=document.querySelector('#owrx-status').textContent;return t.includes('unsupported compressed audio')||t.includes('ضغط صوت غير مدعوم');});
    check('Unsupported compression fails visibly without audio',await page.evaluate(()=>{const d=RA_MODULES.sdr.owrxDiagnostics();return d.contextState==='closed'&&d.nonZeroSamples===0;}));
+   check('Unsupported compression failure shows localized text, not the raw code',await page.locator('#owrx-status').evaluate(el=>!el.textContent.includes('unsupported_codec')));
    check('Failure retains the original receiver link',await page.locator('#owrx-original').getAttribute('href')===receiver.url);
   }
   report.final=await page.evaluate(()=>RA_MODULES.sdr.owrxDiagnostics());
