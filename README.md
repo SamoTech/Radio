@@ -4,7 +4,9 @@
 >
 > ⚖️ **الوثائق هي المصدر الوحيد للحقيقة:** [AGENTS.md — قواعد عمل الوكلاء والعملاء](AGENTS.md) · [ROADMAP.md — خارطة الطريق الحاكمة](ROADMAP.md)
 
-دليل بحث ذكي لأجهزة الاستقبال (SDR) ومحطات البث الإذاعي أونلاين في مكان واحد — بتقنية PWA بدون مكتبات خارجية. أكثر من 50,000 محطة من كل العالم + 830 جهاز KiwiSDR حول العالم + قوائم EIBI + WSPR + WebSDR/OpenWebRX.
+راديو أطلس تطبيق ويب PWA عربي/إنجليزي يجمع محطات الإنترنت وأجهزة استقبال SDR حقيقية في تجربة واحدة. الواجهة Static على GitHub Pages، ومشغّل KiwiSDR يستخدم وسيط Cloudflare مستقلًا لأجهزة HTTP؛ OpenWebRX المدعوم يعمل عبر HTTPS/WSS مباشرة. النواة Vanilla JavaScript، مع HLS.js للبث المتوافق، وPython لتحديث الكتالوج.
+
+**لأي AI أو مطوّر جديد:** ابدأ من [دليل استلام المشروع](docs/AI_HANDOVER.md)، ثم [الحالة الحالية](docs/PROJECT_STATUS.md). قواعد العمل في [AGENTS.md](AGENTS.md) وخطة الأولويات في [ROADMAP.md](ROADMAP.md).
 
 ## 🌍 نظرة عامة
 
@@ -14,7 +16,7 @@
 | 📻 محطات البث | أكثر من 50,000 محطة من كل العالم + قوائم منسقة للمحطات العربية (كتالوج يدوي منسّق: 106 محطة عبر 20 دولة + قوائم IPRD العربية) + المحطات المصرية (62 محطة) |
 | 🌍 أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
 | 🔭 التغطية | الفحص والتحليل لأكثر من 50,000 محطة + 6 مصادر بيانات خارجية |
-| 🎨 التقنية | HTML + CSS + Vanilla JS بدون مكتبات + Python stdlib للـ crawler + GitHub Pages |
+| 🎨 التقنية | HTML + CSS + Vanilla JS ووحدات ES + HLS.js + Python stdlib للـ crawler + GitHub Pages + Kiwi Worker مستقل |
 | 🌐 اللغات | عربي (RTL) + English (LTR) |
 
 ## 📡 الميزات الرئيسية
@@ -43,11 +45,13 @@
 
 **إصلاح استقبال قبرص (v90):** أصلحت حالة ضبط من جلسة المستخدم فيها التردد `818 kHz` والـSquelch على `20`، وهي إعدادات يمكن أن تمنع سماع 819 kHz أو تضعف الإشارة. أزرار AM في قبرص تضبط الآن `AGC ON` و`Squelch=0` و`normal passband` وخطوة `9 kHz`، وترسل التغييرات داخل جلسة Kiwi القائمة دون فتح اتصال جديد. ولا تُكتب تغييرات التوليف في «آخر جهاز ناجح» إلا عند وصول إطار PCM غير صفري بعد أمر الضبط. ظهور «تعذر فتح الاتصال» يرجع إلى مسار WebSocket منفصل ولا يُثبت من واجهة المتصفح وحدها أنه HTTP 429؛ لم يتغير Cloudflare Worker أو حصصه.
 
-**ترددات مصرية من قبرص (v89 / SDR-4):** أزرار ضبط سريعة داخل مستقبل `0-30 MHz SDR | Cyprus` فقط: 864 القرآن الكريم، 819 البرنامج العام، 774 الشرق الأوسط، 711 الشباب والرياضة، 558 للاستكشاف (تسرده الأدلة باسم التعليمية)، و621 صوت العرب كمرجع تاريخي. وحدة التردد `kHz` ووضع `AM` بعرض مرشح ضيق. الأزرار لا تغيّر جهاز الاستقبال أو تنشئ WebSocket، ولا تُعامل الترددات كدليل سماع مباشر. [تفاصيل الدراسة](docs/SDR_STUDIO_ARCHITECTURE.md).
+**ترددات مصرية من قبرص (v89 / SDR-4):** أزرار ضبط سريعة داخل مستقبل `0-30 MHz SDR | Cyprus` فقط: 864 القرآن الكريم، 819 البرنامج العام، 774 الشرق الأوسط، 711 الشباب والرياضة، 558 للاستكشاف (تسرده الأدلة باسم التعليمية)، و621 صوت العرب كمرجع تاريخي. وحدة التردد `kHz` ووضع `AM` بعرض مرشح عادي بعد إصلاح v90. الأزرار لا تغيّر جهاز الاستقبال أو تنشئ WebSocket، ولا تُعامل الترددات كدليل سماع مباشر. [تفاصيل الدراسة](docs/SDR_STUDIO_ARCHITECTURE.md).
 
 **ذاكرة ترددات Kiwi (v88 / SDR-4):** احفظ حتى 40 ترددًا محليًا باسم تختاره مع الوضع وعرض المرشح، واستدعها أثناء الاستماع أو قبل الاتصال. الترددات تُخزن على جهازك فقط؛ الاستدعاء لا يفتح جهازًا ولا ينشئ اتصالًا تلقائيًا. حذف الذكريات متاح من نفس المشغل.
 
-**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ ميزة Kiwi waterfall ما زالت تتطلب مسار W/F مستقلًا في Worker. Service Worker v90.\n\n### 🌍 تبويب عربي
+**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ ميزة Kiwi waterfall ما زالت تتطلب مسار W/F مستقلًا في Worker. Service Worker v90.
+
+### 🌍 تبويب عربي
 - تبويب مستقل «🌍 عربي» يعرض جميع المحطات العربية في 22 دولة عربية
 - ترتيبا حسب الدولة مع الأعلام وعدد المحطات
 - المحطات الرسمية أولا + ترتيب حسب الاسم
@@ -103,7 +107,7 @@
 ## 🛠 التقنيات المستخدمة
 
 ### Frontend
-- **HTML5 + CSS3 + Vanilla JavaScript** (بدون مكتبات خارجية)
+- **HTML5 + CSS3 + Vanilla JavaScript** (بلا إطار واجهة؛ HLS.js اعتماد تشغيل خارجي)
 - **Service Worker** (sw.js v90) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
@@ -124,69 +128,27 @@
 
 ## 📁 هيكل المشروع
 
-```
+```text
 Radio/
-├── index.html           # الصفحة الرئيسية
-├── README.md            # نظرة عامة على المنتج (هذا الملف)
-├── ROADMAP.md           # ⚖️ خارطة الطريق الحاكمة — الفجوات والمخاطر والتوصيات
-├── AGENTS.md            # ⚖️ قواعد عمل الوكلاء والعملاء — التخصصات والحدود
-├── docs/
-│   └── RUNBOOK.md       # 📕 دليل التداول والتشغيل والطوارئ (P3-3)
-├── js/
-│   ├── app.js           # نواة التطبيق: الكتالوج/FM/i18n/التمهيد (~79KB)
-│   └── modules/         # وحدات ES Modules بتحميل كسول عند أول استخدام (P1-2)
-│       ├── sdr.mjs      # KiwiSDR + WSPR + WebSDR + الفضاء + EIBI (~64KB، تحميل كسول)
-│       ├── map.mjs      # الخريطة التفاعلية + طبقة الزوار (~15KB)
-│       ├── player.mjs   # المشغل: HLS + المنبه + EQ + Media Session (~29KB)
-│       ├── regions.mjs  # المفضلة + مصر + عربي + الديني (~7KB)
-│       └── tools.mjs    # لوحة الأوامر + المشاركة + الإبلاغ + عشوائي (~8KB)
-├── css/
-│   └── styles.css       # أنماط CSS
-├── sw.js                # Service Worker (v84)
-├── manifest.webmanifest # PWA Manifest
-├── offline.html         # صفحة offline
-├── robots.txt           # robots.txt
-├── sitemap.xml          # sitemap
-├── countries/           # صفحات الدول (SEO)
-│   ├── index.html
-│   ├── eg.html
-│   ├── sa.html
-│   └── ...
-├── genres/             # صفحات الأنواع الموسيقية (SEO — P2-2)
-│   ├── index.html
-│   ├── news.html
-│   └── ...
-├── languages/          # صفحات اللغات (SEO — P2-2)
-│   ├── index.html
-│   ├── arabic.html
-│   └── ...
-├── data/                # بيانات المحطات (مخرجات الـ crawler)
-│   ├── stations.json    # ~13.4MB (أكثر من 50,000 محطة)
-│   ├── stations_head.json # ~530KB (إقلاع سريع — أول 2500 محطة)
-│   ├── stations.manifest.json # رجل حال الكتالوج (نسخة/عدد/keep) للتحديث التفاضلي
-│   ├── stations_delta/  # دلتا يومية (تُحفظ آخر 3) — الزيارة الثانية بكيلوبايتات
-│   ├── kiwisdr.json     # ~830 جهاز
-│   ├── web_sdrs.json / satnogs.json / land_map.json
-│   ├── space_weather.json
-│   ├── eibi.json        # ~138KB
-│   ├── wspr.json
-│   ├── stream_checks.json  # فحوصات الحياة (شغّال / جرّبها / ميت)
-│   ├── error_report.json   # تقرير أخطاء التشغيل اليومي (عدّادات خشنة)
-│   └── discovered_streams.json
-├── scripts/             # Python stdlib فقط
-│   ├── update_data.py   # crawler رئيسي (طبقات جلب خمس)
-│   ├── official_stations.json
-│   ├── arabic_stations.json
-│   └── generate_icons.py
-├── proxy/               # Cloudflare Worker relay (فك الحجب الجغرافي)
-│   ├── worker.js
-│   ├── wrangler.toml
-│   └── README.md        # دليل النشر بالعربي
-└── tests/
-    ├── test_crawler.py
-    ├── test_country_pages.py
-    ├── test_wspr_sources.py
-    └── search.test.cjs  # اختبارات الواجهة (node --test)
+├── AGENTS.md / ROADMAP.md / README.md
+├── index.html / css/styles.css / sw.js / manifest.webmanifest
+├── js/app.js                 # الكتالوج والتمهيد وحالة التطبيق
+├── js/modules/               # وحدات ES بتحميل كسول
+│   ├── player.mjs / regions.mjs / tools.mjs / mobile.mjs
+│   ├── map.mjs
+│   ├── sdr.mjs               # استوديو SDR ومشغّل Kiwi وضوابطه
+│   ├── sdr-adapters.mjs       # أهلية الأجهزة وطريقة تشغيلها
+│   ├── openwebrx-native.mjs   # بروتوكول OpenWebRX المدعوم
+│   └── sdr-waterfall.mjs      # رسم FFT الحقيقي لـOpenWebRX
+├── data/                     # لقطات الكتالوج والفهارس والدلتا وأدلة الصوت السابقة
+├── scripts/                  # crawler + تدقيق النشر + QA بالمتصفح
+├── tests/                    # Node/Python وfixtures بروتوكول حقيقية
+├── proxy/
+│   ├── kiwi-worker.js / kiwi-quota.js / kiwi-wrangler.toml
+│   └── worker.js / wrangler.toml  # relay محطات FM منفصل وغير مفعّل بالواجهة
+├── .github/workflows/        # Validate وتحديث البيانات والنشر وQA
+├── countries/ / genres/ / languages/  # صفحات SEO مولدة
+└── docs/                     # دليل الاستلام والحالة والتشغيل والأدلة
 ```
 
 ## 🚀 كيفية التثبيت والتشغيل محليا
@@ -216,9 +178,9 @@ python -m http.server 8000
 
 | الميزة | الحالة |
 |---|---|
-| ✅ MVP | دليل KiwiSDR + محطات FM + تشغل خارجي + crawler + Pages |
-| ✅ الميزة 2 | صوت KiwiSDR تجريبي عبر WebSocket (مطلوب ext_api) — بديل OpenWebRX |
-| ✅ WebSDR | دمج WebSDR + OpenWebRX |
+| ✅ الأساس | كتالوج FM ومشغّل داخلي وSDR Studio وcrawler وPages/PWA |
+| ✅ KiwiSDR | PCM داخلي وتحكم وذاكرة، ووسيط WSS مستقل لأجهزة HTTP المسموح بها |
+| ✅ OpenWebRX | PCM داخلي وFFT/waterfall للأجهزة المتوافقة؛ WebSDR بواجهته الأصلية |
 | ✅ WSPR | نشاط الانتشار الراديوي + أفضل المسارات |
 | ✅ EIBI | جدول البث القصير للموجات |
 
@@ -227,7 +189,7 @@ python -m http.server 8000
 > 📌 **الخارطة الكاملة المفصلة — الفجوات (16) + المخاطر (11) + التوصيات بالمراحل والأولويات وتعريف الاكتمال — في [ROADMAP.md](ROADMAP.md): الوثيقة الحاكمة للتخطيط.**
 
 - ✅ **منجز مؤخرًا:** الخريطة التفاعلية + طبقة الزوار + لوحة «أكثر البلاد زيارةً» · شريط 🔥 الأكثر سماعاً · طبقات الجلب الخمس في الـ crawler + تصنيف «جرّبها» · relay جاهز في proxy/ · فلتر اللغات المنقح (~75 لغة) · حوكمة P0 (قفل البروكسي + بوابة مزامنة الوثائق) · مراقبة أخطاء التشغيل الأساسية · كتالوج تفاضلي عبر IndexedDB (الزيارة الثانية بكيلوبايتات) · تقسيم app.js لوحدات ES Modules بتحميل كسول (التحميل الابتدائي أقل من النصف: ~79KB بدل ~149KB) · تنقية شبكة «الرسمية · مصر» في الصفحة الرئيسية (مصر فقط + دمج المكررات + استبعاد الأسماء النُتفة) · جولة وصولية كاملة + بوابة Lighthouse Accessibility ≥ 90 في Validate · صفحات SEO للأنواع واللغات (genres/ + languages/ مولدة آليًا من الكتالوج) · mirror ثالث لـ KiwiSDR: اللقطة المؤرشفة داخل المستودع (raw + Pages) بطوابع زمنية صادقة عند سقوط المصدرين الأصليين · دليل التداول والتشغيل docs/RUNBOOK.md (الفحص اليومي + الطوارئ + سجل الحوادث) · توسيع الكتالوج العربي المنسّق P2-3 (دفعة أولى): 49 محطة يدوية جديدة عبر 20 دولة (57→106) — sw v75
-- ⏳ **الأولوية الجارية (P0-1):** نشر البروكسي الجديد (المقفول) وفق [proxy/README.md](proxy/README.md) → إرسال workers.dev URL → تفعيل STREAM_PROXY (القفل تم في PR #109)
+- ⏳ **القبول الجاري:** استكمال تحقق Kiwi P0 للحصص والتنظيف والثبات وتوسيع دعم SDR وفق ROADMAP. بند P0-1 القديم يخص FM relay غير المفعّل، وليس وسيط Kiwi المنشور.
 - 💡 **أفكار مؤجلة:** دعم البودكاست · نظام تسجيل سحابي للمفضلة · AIS/ADS-B
 
 ## ⚠ قيود معروفة
@@ -235,7 +197,7 @@ python -m http.server 8000
 - **المحطات المصرية (maspero.eg)**: الموقع الرسمي يحجب الوصول الآلي — روابط البث المباشرة غير متاحة حاليا
 - **Sham FM (SY)**: https://radioshamfm.grtvstream.com:8400/; تعطي كود 0 من US CI runners (geo-gate) لكن jina-verified live — محفوظة عمدا، تظهر علامة dead badge لكن من المحتمل أن تعمل من MENA
 - **MBC/Qatar streamlock**: كود 0/502 — محفوظة عمدا (قد تكون geo-gated لمستخدمي MENA; crawler يعمل على US runners)
-- **العداد**: Abacus (ns: radio-atlas, key: views, admin: 67c46ff9-4f23-43e8-b729-546225e283dc)
+- **العداد**: Abacus؛ عدادات تقريبية وليست قياس مستخدمين فريدين أو ضمانًا ضد التلاعب.
 - **البيانات**: raw.githubusercontent يعرض cache لمدة ~5 دقائق — التحقق من التحديثات عبر cache-buster query
 
 ## 📚 مصادر البيانات المفيدة
@@ -267,11 +229,13 @@ python -m http.server 8000
 
 ## 📊 إحصائيات
 
+الأرقام التالية تقريبية؛ لقطة 2026-11-22 المقاسة بالتوقيت والمصدر موجودة في [الحالة الحالية](docs/PROJECT_STATUS.md). عدد الصفوف لا يساوي عدد المحطات أو الأجهزة القابلة للتشغيل الآن.
+
 - **عدد المحطات**: أكثر من 50,000 محطة (Radio-Browser + IPRD + official + arabic + community playlists + Dailymotion)
 - **أجهزة KiwiSDR**: ~830 جهاز
 - **أجهزة WebSDR/OpenWebRX**: ~400 جهاز
 - **EIBI**: ~3000 إدخال
-- **WSPR**: ~200,000 نقطه في 72 ساعة
+- **WSPR**: ملخص نشاط ومسارات ونطاقات؛ راجع اللقطة الحالية بدل اعتبار عدد نقاط تاريخي عدادًا حيًا.
 
 ## 🎨 التصميم
 
@@ -288,6 +252,10 @@ python -m http.server 8000
 
 
 
+## سجل التنفيذ والتحقق المؤرخ
+
+الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v90.
+
 ### Production provenance and deployment verification
 
 GitHub Pages deployment stamps a generated `build-info.json` with the exact deployment commit, Service Worker cache version, catalog version and asset SHA-256 digests. The separate post-deploy verification job fetches the live artifact and checks every tracked asset byte-for-byte. See [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). A merged PR or an HTTP 200 response alone does not establish that the new release is live.
@@ -299,11 +267,11 @@ Merges to `main` now publish the checked-out application without first crawling 
 
 
 ### KiwiSDR native playback and responsive listening cockpit (v81)
-The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` WebSocket and Kiwi text commands with uncompressed big-endian PCM audio. The first real SND packet, rather than merely opening a WebSocket, confirms a playable receiver. Manual frequency/mode tuning, bounded audio buffering, audio-context cleanup, and operator API permissions are preserved. The optional Cloudflare WebSocket bridge remains disabled until separately deployed and verified; HTTP receivers cannot be played natively from a secure GitHub Pages context without that service. The original receiver URL remains accessible as a fallback. The responsive header, directory grid and Kiwi listening dialog have been updated for phone and desktop screens.
+The KiwiSDR embedded player now uses the receiver's native `/<timestamp>/SND` WebSocket and Kiwi text commands with uncompressed big-endian PCM audio. The first real SND packet, rather than merely opening a WebSocket, confirms a playable receiver. Manual frequency/mode tuning, bounded audio buffering, audio-context cleanup, and operator API permissions are preserved. The independent Cloudflare WebSocket bridge is configured in production; HTTP receivers require it because secure GitHub Pages cannot connect directly to WS. See the current status above and the dated P0 evidence. The original receiver URL remains accessible as a fallback. The responsive header, directory grid and Kiwi listening dialog have been updated for phone and desktop screens.
 
 
 ### KiwiSDR Cloudflare relay activation (v81)
-Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` has been enabled and `/healthz` returned HTTP 200. HTTP KiwiSDR devices that advertise `ext_api > 0` now *attempt* the in-app secure WSS bridge; HTTPS devices connect directly. Failed connections stay in Radio Atlas, show a receiver error and retain a clearly labeled optional original-device link. The owner reported no successful real WebSocket or decoded audio test yet. `healthz` alone does **not** demonstrate working stream relaying. See `proxy/KIWI_README.md` for staged browser/audio verification and origin requirements.
+Site owner reports the independent Worker `https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev` has been enabled and `/healthz` returned HTTP 200. HTTP KiwiSDR devices that advertise `ext_api > 0` now *attempt* the in-app secure WSS bridge; HTTPS devices connect directly. Failed connections stay in Radio Atlas, show a receiver error and retain a clearly labeled optional original-device link. That initial health-only report was superseded by the dated PCM/browser evidence below and the 2026-11-22 Cyprus check in docs/PROJECT_STATUS.md. `healthz` alone does **not** demonstrate working stream relaying. See `proxy/KIWI_README.md` for staged browser/audio verification and origin requirements.
 
 
 ### KiwiSDR bridge deployed Worker sync (November 20, 2026)
@@ -311,7 +279,7 @@ Before this P0 hardening, `proxy/kiwi-worker.js` matched the Cloudflare AI Agent
 
 ### KiwiSDR P0 verification (2026-11-20)
 
-Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Chromium verified nonzero PCM and Web Audio graph output through the deployed bridge from EA8BFK and Heppen. The owner reports hardened Worker version `2dbe0921-40bc-47f2-8425-11506c5da4a4` deployed with matching source bytes. Post-deployment probes received PCM from both receivers and confirmed private-host rejection and oversized-command closure. Human audibility and exact live quota ceilings remain unverified; limits are isolate-local. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.
+Binary-control handshake and PCM decoding corrections, Worker security guards, and captured-stream browser smoke coverage are under verification (Service Worker v82). Chromium verified nonzero PCM and Web Audio graph output through the deployed bridge from EA8BFK and Heppen. The owner reports hardened Worker version `2dbe0921-40bc-47f2-8425-11506c5da4a4` deployed with matching source bytes. Post-deployment probes received PCM from both receivers and confirmed private-host rejection and oversized-command closure. At that historical cutoff human audibility and exact live quota ceilings remained unverified, and limits were isolate-local. The owner subsequently reported the SQLite Durable Object deployment; exact live global ceilings remain open. See the latest P0 evidence. See [P0 evidence and reproduction commands](docs/KIWI_P0_VERIFICATION.md); this is not a completed live-playback claim.
 
 ### Cyprus KiwiSDR listening controls (v83)
 

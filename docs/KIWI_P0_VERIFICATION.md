@@ -1,6 +1,10 @@
 # KiwiSDR P0 verification — 2026-11-20
 
-Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. P1–P3 have not started.
+Status: **OPEN for final acceptance**. The hardened Worker is deployed according to the owner's authenticated read-back report, and post-deployment audio playback passed external browser tests. Exact live quota ceilings and human listening remain unverified. This P0 acceptance record does not imply completion of other roadmap tracks; frontend and SDR work has proceeded under explicit owner direction.
+
+## تحديث التحقق — 2026-11-22
+
+من فحص المتصفح التفاعلي على الموقع المنشور: قبرص `cyp.twrmon.net:8073` اتصل وعرض «يستقبل ✔» و«صوت اتأكد في الجلسة دي». تغيّر الضبط 864→819→864 kHz على AM دون فقد حالة الاستقبال؛ خطوة9kHz وAGC تلقائي وSquelch=0 ظاهرة بالواجهة. رصدت قراءات إشارة متغيرة، وأغلقت الجلسة بعد الفحص. هذه ملاحظة UI مباشرة، بلا ملف capture أو عدّ PCM جديد؛ لا تثبت محطة بعينها أو سماعًا بشريًا أو ثباتًا طويلًا أو سقوف الحصص. الاختبارات الموجهة57/57 نجحت محليًا؛ HTTP smoke من بيئة التنفيذ لم يصل إلى Worker بسبب `EAI_AGAIN`، وليس نتيجة فشل للخدمة. راجع [الحالة الحالية](PROJECT_STATUS.md).
 
 ## Latest live receiver and quota evidence — 2026-11-21
 
@@ -178,4 +182,4 @@ The manual `Radio Atlas KiwiSDR Live Audio QA` workflow runs the same test. Ever
 - Exact request/concurrency ceilings, private/mixed DNS-answer rejection, redirect rejection, isolate-wide 32-session ceiling and 30-minute session timeout are not all proven by induced public runtime tests. Source/mocked-test evidence is identified separately.
 - DNS preflight mitigates rebinding but `fetch` resolves again; no IP pinning or complete TOCTOU protection is claimed.
 - No global rate/concurrency enforcement is claimed. Accepting three test sessions is preserved in the evidence.
-- Human listening is unconfirmed. P0 is not marked complete and P1–P3 have not started.
+- Human listening is unconfirmed. P0 is not marked complete and This P0 acceptance record does not imply completion of other roadmap tracks; frontend and SDR work has proceeded under explicit owner direction.
