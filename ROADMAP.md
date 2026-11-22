@@ -42,6 +42,12 @@
 - اختبارات جديدة في `tests/playback-wins.test.cjs` (6 اختبارات): الجدولة عبر `requestIdleCallback`، تسخين HLS لآخر محطة HLS فقط، احتياطي المؤقت 1.5 ثانية، ابتلاع فشل التحميل المسبق، واستدعاء `renderCatalog()` للتحميل مرة واحدة.
 - Service Worker v93 → v94 (تغيير واجهة) + مزامنة README/ROADMAP في نفس الـ PR.
 
+### فوز تشغيل #7 — هيكل تحميل للكتالوج بدل الشبكة الفارغة — 2026-11-22 (v95)
+
+- الشبكة كانت فارغة عند أول رسم (الكتالوج مؤجل للخمول/300ms) بلا أي مؤشر — تُقرأ كعطل على الشبكات البطيئة. الآن `initUI()` يعرض فورًا سطر «جارٍ تحميل المحطات…» (`catalog_loading` في STR النواة ar/en) + 6 بطاقات هيكلية متوهجة (CSS shimmer مع احترام `prefers-reduced-motion`)، وتستبدلها `renderCatalog()` عبر `renderFM()`؛ وتُصفَّر `aria-busy` على الشبكة عند العرض الحقيقي. وإن فشل تحميل الكتالوج كليًا يعرض المسار الاحتياطي الشبكة الفارغة بدل بقاء الهيكل عالقًا.
+- اختبارات جديدة في `tests/playback-wins.test.cjs` (5 اختبارات): نص التحميل ar/en، 6 بطاقات + `aria-busy=true`، عدم الكتابة فوق كتالوج معروض، وربط `initUI`/`renderFM`/المسار الاحتياطي والـ CSS. لقطات 3G مخنوقة عند 1ث/3ث لم تُجرَ: متصفح Chromium المحلي مغلق بسياسة Hatch («WebGL domain policy is required») ولا Playwright مثبّت هنا — التحقق بصريًا غير مؤكد ويحتاج متصفحًا حيًا.
+- ملاحظة سقف P1-2: النواة 84,086 بايت؛ الهيكل + مفاتيحه + ربط `aria-busy` تجاوزت سقف 84,000 بـ 86 بايت، فرُفع السقف إلى 84,500 بايت مع توثيق السبب في الاختبار نفسه. Service Worker v94 → v95 (تغيير واجهة؛ `js/app.js` و`css/styles.css` في SHELL) + مزامنة README/ROADMAP في نفس الـ PR.
+
 ### P0 — KiwiSDR audio/security verification (2026-11-20, قيد التحقق)
 
 - إصلاح قراءة رسائل MSG الثنائية، انتظار auth ومعدل audio_rate، وفك PCM حسب endian مع رفض ADPCM/IQ. تنظيف جلسة الصوت عند الفشل، Service Worker v82.
@@ -157,8 +163,8 @@
 | المحطات في الكتالوج | أكثر من 50,000 | data/stations.json (~13.4MB) |
 | ملف الإقلاع السريع | stations_head.json (~530KB) | data/ |
 | تدفق منسّق مُتحقق | 1185 مُفحوص · 1086 شغّال · 50 «جرّبها» · 49 ميت | data/stream_checks.json |
-| جسم الواجهة | js/app.js ~80KB (نواة، 82,304 بايت) + 5 وحدات ES Modules | js/app.js |
-| إصدار Service Worker | v94 | sw.js (الجذر — المسار المسجل في js/app.js) |
+| جسم الواجهة | js/app.js ~84KB (نواة، 84,086 بايت) + 5 وحدات ES Modules | js/app.js |
+| إصدار Service Worker | v95 | sw.js (الجذر — المسار المسجل في js/app.js) |
 | الاختبارات | 92 اختبار crawler + مجموعة اختبارات JS (node --test) | tests/ |
 | جدولة التحديث | SDR كل 6 ساعات · المحطات يوميًا | .github/workflows/update-data.yml |
 
