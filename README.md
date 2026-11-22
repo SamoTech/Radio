@@ -13,6 +13,7 @@
 | البند | التفاصيل |
 |---|---|
 | 📡 الموقع | [https://samotech.github.io/Radio/](https://samotech.github.io/Radio/) |
+| 💻 الكود المصدري | [https://github.com/SamoTech/Radio](https://github.com/SamoTech/Radio) |
 | 📻 محطات البث | أكثر من 50,000 محطة من كل العالم + قوائم منسقة للمحطات العربية (كتالوج يدوي منسّق: 106 محطة عبر 20 دولة + قوائم IPRD العربية) + المحطات المصرية (62 محطة) |
 | 🌍 أجهزة الاستقبال | ~830 جهاز KiwiSDR حول العالم |
 | 🔭 التغطية | الفحص والتحليل لأكثر من 50,000 محطة + 6 مصادر بيانات خارجية |
@@ -49,7 +50,7 @@
 
 **ذاكرة ترددات Kiwi (v88 / SDR-4):** احفظ حتى 40 ترددًا محليًا باسم تختاره مع الوضع وعرض المرشح، واستدعها أثناء الاستماع أو قبل الاتصال. الترددات تُخزن على جهازك فقط؛ الاستدعاء لا يفتح جهازًا ولا ينشئ اتصالًا تلقائيًا. حذف الذكريات متاح من نفس المشغل.
 
-**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ شلال KiwiSDR له الآن مسار W/F مقيّد بالـlease في مصدر Worker (SDR-3B) وفكّاك مستقل وعينة W/F مسجلة حقيقية من EA8BFK تفسَّر في اختبارات Node، بلا ربط واجهة بعد وبلا نشر Worker جديد — النشر من المالك فقط. Service Worker v99.
+**Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ شلال KiwiSDR له الآن مسار W/F مقيّد بالـlease في مصدر Worker (SDR-3B) وفكّاك مستقل وعينة W/F مسجلة حقيقية من EA8BFK تفسَّر في اختبارات Node، بلا ربط واجهة بعد وبلا نشر Worker جديد — النشر من المالك فقط. Service Worker v100.
 
 **سياق صوت SDR مشترك داخل إيماءة الضغط (v95):** مشغّلا Kiwi وOpenWebRX الأصليان يشتركان الآن في `AudioContext` واحد يُنشأ ويُستأنف synchronously داخل ضغطة المستخدم (مستمع capture على أزرار التشغيل المباشر، مع تسخين عند بداية كل فتح)، بدل إنشائه بعد تحميل الوحدة الكسولة خارج الإيماءة — فلا يفشل الاستئناف كخطأ `audio_locked` عام. إغلاق المشغل يعلّق السياق بدل إغلاقه، فتستأنف الضغطة التالية السياق نفسه. اختبارات جديدة في `tests/sdr-audio-context.test.cjs` مع تحديثات في `tests/kiwi-native.test.cjs`.
 
@@ -116,7 +117,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بلا إطار واجهة؛ HLS.js اعتماد تشغيل خارجي)
-- **Service Worker** (sw.js v99) لـ caching و offline
+- **Service Worker** (sw.js v100) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -262,7 +263,7 @@ python -m http.server 8000
 
 ## سجل التنفيذ والتحقق المؤرخ
 
-الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v99.
+الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v100.
 ### Production provenance and deployment verification
 
 GitHub Pages deployment stamps a generated `build-info.json` with the exact deployment commit, Service Worker cache version, catalog version and asset SHA-256 digests. The separate post-deploy verification job fetches the live artifact and checks every tracked asset byte-for-byte. See [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). A merged PR or an HTTP 200 response alone does not establish that the new release is live.
