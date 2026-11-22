@@ -137,6 +137,7 @@ var STR_SDR = {
     kiwi_next: 'الجهاز التالي',
     kiwi_reconnect: 'إعادة الاتصال',
     kiwi_restore: 'آخر جهاز ناجح',
+    sdr_resume: 'آخر جهاز ناجح',
     kiwi_full_ui: 'واجهة الجهاز الكاملة ↗',
     kiwi_step: 'خطوة الضبط',
     kiwi_down: 'خفض التردد خطوة',
@@ -308,6 +309,7 @@ var STR_SDR = {
     kiwi_next: 'Next receiver',
     kiwi_reconnect: 'Reconnect',
     kiwi_restore: 'Last working receiver',
+    sdr_resume: 'Last working receiver',
     kiwi_full_ui: 'Full receiver interface ↗',
     kiwi_step: 'Tuning step',
     kiwi_down: 'Tune down one step',
@@ -911,6 +913,43 @@ function closeSDR() {
   previousSDRFocus = null;
 }
 
+/* ================= One-tap SDR resume: last working receiver ================= */
+// The SDR tab chip (button#sdr-resume) reopens the most recently verified
+// native receiver — Kiwi or OpenWebRX — with its saved settings, so the
+// second tap after opening the tab starts audio directly. Only a receiver
+// that produced real non-silent PCM in this browser becomes the resume
+// target; a retune must confirm with fresh PCM before it overwrites the
+// saved settings (same rule as Kiwi SDR-4C).
+function sdrResumeTarget() {
+  var kiwi = kiwiLastReceiver && kiwiSocketAddress(kiwiLastReceiver.url) ? kiwiLastReceiver : null;
+  var owrx = owrxLastReceiver && validateReceiverUrl(owrxLastReceiver.url) ? owrxLastReceiver : null;
+  if (!kiwi) return owrx ? {kind:'owrx',record:owrx} : null;
+  if (!owrx) return {kind:'kiwi',record:kiwi};
+  var kiwiAt = Number.isFinite(kiwi.savedAt) ? kiwi.savedAt : 0;
+  var owrxAt = Number.isFinite(owrx.savedAt) ? owrx.savedAt : 0;
+  return owrxAt > kiwiAt ? {kind:'owrx',record:owrx} : {kind:'kiwi',record:kiwi};
+}
+function sdrResumeLabel(target) {
+  var frequencyKhz = target.kind === 'kiwi' ? target.record.frequency : target.record.frequency / 1000;
+  return '▶ ' + t('sdr_resume') + ' — ' + (target.record.name || target.record.url) + ' · ' + frequencyKhz.toFixed(3) + ' kHz';
+}
+function renderSdrResumeChip() {
+  var chip = $('sdr-resume');
+  if (!chip) return;
+  var target = sdrResumeTarget();
+  if (!target) { chip.hidden = true; chip.textContent = ''; return; }
+  chip.hidden = false;
+  chip.textContent = sdrResumeLabel(target);
+}
+function sdrResumeOpen() {
+  var target = sdrResumeTarget();
+  if (!target) return false;
+  if (target.kind === 'kiwi') { kiwiRestoreSession(); return true; }
+  owrxResumeTune = {frequency:target.record.frequency,mode:target.record.mode,profileId:target.record.profileId || null};
+  openOpenWebRx(target.record.url,target.record.name);
+  return true;
+}
+
 
 /* ================= Direct receiver candidates and OpenWebRX audio ================= */
 var directSessionResults = new Map();
@@ -935,6 +974,10 @@ var owrxProfileSelected = false;
 var owrxExpectedProfile = null;
 var owrxPreviousFocus = null;
 var owrxFailActive = null;
+var OWRX_SETTINGS_KEY = 'ra-owrx-session-v1';
+var owrxLastReceiver = null;
+var owrxTuneAwaitingAudio = false;
+var owrxResumeTune = null;
 var owrxStats = {frames:0,samples:0,nonZeroSamples:0,sampleRate:0,signalDbm:null,verifiedAt:null,fftFrames:0,waterfallFrames:0};
 var OWRX_ANALOG_MODES = ['am','nfm','wfm','usb','lsb','cw'];
 function directResultKey(type,url) { return type + '|' + validateReceiverUrl(url); }
@@ -1006,6 +1049,7 @@ function renderDirectReceivers() {
   }).join('') || '<p class="empty">' + esc(t('direct_empty')) + '</p>';
   if ($('direct-count')) $('direct-count').textContent = fmtNum(rows.length);
   if ($('direct-more')) $('direct-more').hidden = mixed.length <= directLimit;
+  renderSdrResumeChip();
 }
 function owrxArmAudioDeadline() {
   if (owrxDeadline) clearTimeout(owrxDeadline);
@@ -1064,6 +1108,7 @@ function owrxTune() {
   if (!range || !Number.isFinite(frequency) || frequency < range.min || frequency > range.max || !owrxClient.tune(frequency,$('owrx-mode').value)) {
     owrxSetStatus('owrx_invalid');return;
   }
+  if (owrxStats.verifiedAt) owrxTuneAwaitingAudio = true;
   owrxFlushAudio();owrxUpdateSession();
 }
 function owrxStepTune(direction) {
@@ -1151,6 +1196,7 @@ function openOpenWebRx(url,name) {
   if ($('owrx-modal').hidden) owrxPreviousFocus = document.activeElement;
   closeSDR();closeKiwiAudio();owrxStopSession();
   owrxPendingTune = previousTune;
+  if (!owrxPendingTune && owrxResumeTune) { owrxPendingTune = owrxResumeTune; owrxResumeTune = null; }
   var historical = directAudioChecks.get(row.key);
   owrxPreferredProfile = !previousTune && historical ? historical.profileId : null;
   owrxProfileSelected = false;owrxExpectedProfile = null;
@@ -1209,7 +1255,12 @@ function openOpenWebRx(url,name) {
         for (var i = 0; i < samples.length; i++) if (samples[i] !== 0) owrxStats.nonZeroSamples++;
         if (owrxStats.nonZeroSamples > 0 && owrxAudioCtx && owrxAudioCtx.state === 'running' && !audio.paused) {
           if (owrxDeadline) { clearTimeout(owrxDeadline);owrxDeadline = null; }
+          var alreadyVerified = !!owrxStats.verifiedAt;
           owrxStats.verifiedAt = directMarkVerified('owrx',row.url);
+          if (!alreadyVerified || owrxTuneAwaitingAudio) {
+            owrxTuneAwaitingAudio = false;
+            if (owrxSaveSession()) renderSdrResumeChip();
+          }
           owrxSetStatus('owrx_live');
         }
         owrxUpdateSession();
@@ -1230,6 +1281,33 @@ function owrxDiagnostics() {
   return Object.assign({contextState:owrxAudioCtx ? owrxAudioCtx.state : 'closed',receiver:owrxReceiver ? owrxReceiver.url : '',
     frequencyHz:Math.round(Number($('owrx-freq').value) * 1000),mode:$('owrx-mode').value,
     profiles:Array.from($('owrx-profile').options).map(function (o) { return {id:o.value,name:o.textContent}; })},owrxStats);
+}
+function owrxSaveSession() {
+  if (!owrxReceiver) return false;
+  var frequency = Math.round(Number($('owrx-freq').value) * 1000);
+  var mode = $('owrx-mode').value;
+  if (!Number.isFinite(frequency) || frequency < 1 || frequency > 1e11 || OWRX_ANALOG_MODES.indexOf(mode) === -1) return false;
+  var profileId = null;
+  if (owrxConfig && owrxConfig.sdr_id !== undefined && owrxConfig.profile_id !== undefined) profileId = owrxConfig.sdr_id + '|' + owrxConfig.profile_id;
+  else if ($('owrx-profile') && $('owrx-profile').value) profileId = $('owrx-profile').value;
+  var saved = {url:owrxReceiver.url,name:owrxReceiver.name,profileId:profileId,frequency:frequency,mode:mode,savedAt:Date.now()};
+  owrxLastReceiver = saved;
+  try { localStorage.setItem(OWRX_SETTINGS_KEY,JSON.stringify(saved)); } catch (e) { return false; }
+  return true;
+}
+function owrxLoadSession() {
+  var saved = null;
+  try {
+    var raw = localStorage.getItem(OWRX_SETTINGS_KEY);
+    if (!raw || raw.length > 4000) return;
+    saved = JSON.parse(raw);
+  } catch (e) { return; }
+  if (!saved || typeof saved.url !== 'string' || !validateReceiverUrl(saved.url) ||
+      !Number.isFinite(saved.frequency) || saved.frequency < 1 || saved.frequency > 1e11 ||
+      OWRX_ANALOG_MODES.indexOf(saved.mode) === -1) return;
+  owrxLastReceiver = {url:saved.url,name:typeof saved.name === 'string' ? saved.name : saved.url,
+    profileId:typeof saved.profileId === 'string' && saved.profileId.indexOf('|') !== -1 ? saved.profileId : null,
+    frequency:saved.frequency,mode:saved.mode,savedAt:Number.isFinite(saved.savedAt) ? saved.savedAt : 0};
 }
 
 /* ================= Shared SDR AudioContext (warmed in the gesture) ================= */
@@ -1527,11 +1605,13 @@ function kiwiSaveSession() {
     frequency:Number(kiwiControlValue('kiwi-freq',7100)),mode:kiwiControlValue('kiwi-mode','am'),
     bandwidth:kiwiControlValue('kiwi-bandwidth','normal'),step:kiwiControlValue('kiwi-step','1'),
     agc:!agc || agc.checked,gain:Number(kiwiControlValue('kiwi-gain',50)),
-    squelch:Number(kiwiControlValue('kiwi-squelch',0)),volume:audio && typeof audio.volume === 'number' ? audio.volume : 1
+    squelch:Number(kiwiControlValue('kiwi-squelch',0)),volume:audio && typeof audio.volume === 'number' ? audio.volume : 1,
+    savedAt:Date.now()
   };
   kiwiLastReceiver = saved;
   try { localStorage.setItem(KIWI_SETTINGS_KEY,JSON.stringify(saved)); } catch (e) {}
   kiwiRenderReceiverChoices();
+  renderSdrResumeChip();
 }
 function kiwiLoadSettings(savedSettings) {
   var saved = savedSettings;
@@ -1852,6 +1932,8 @@ export function boot() {
   raMergeStr(STR_SDR);
   applyI18n();
   kiwiLoadSettings();
+  owrxLoadSession();
+  renderSdrResumeChip();
   // The user may type while the lazy module is downloading.
   state.filters.q = $('q').value;
   loadKiwi();
@@ -1907,6 +1989,7 @@ export function boot() {
     if (button) openOpenWebRx(button.getAttribute('data-url'),button.getAttribute('data-name'));
   });
   $('owrx-close').addEventListener('click',closeOpenWebRx);
+  if ($('sdr-resume')) $('sdr-resume').addEventListener('click',sdrResumeOpen);
   $('owrx-disconnect').addEventListener('click',function () { owrxStopSession();owrxSetStatus('owrx_disconnect'); });
   $('owrx-reconnect').addEventListener('click',function () { if (owrxReceiver) openOpenWebRx(owrxReceiver.url,owrxReceiver.name); });
   $('owrx-freq').addEventListener('change',owrxTune);
