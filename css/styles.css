@@ -75,6 +75,7 @@ label.check{display:flex;gap:6px;align-items:center;color:var(--muted);font-size
 .modal-actions{display:flex;gap:8px;align-items:center}
 #sdr-frame{flex:1;width:100%;border:1px solid var(--line);border-radius:10px;background:#000}
 .empty{color:var(--muted);text-align:center;padding:40px 12px;grid-column:1/-1}
+.module-loading button.play{opacity:.55;pointer-events:none}
 .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--chipbg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 20px;font-size:.9rem;z-index:40;box-shadow:0 6px 22px rgba(0,0,0,.35)}
 footer{color:var(--muted);text-align:center;font-size:.8rem;padding:18px;border-top:1px solid var(--line);margin-top:20px}
 .btn.ghost{background:transparent;color:var(--muted)}

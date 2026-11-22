@@ -366,11 +366,14 @@ test('P1-2: each lazy module exports one idempotent boot and merges its STR pack
 
 test('P1-2: initial core payload stays under half of the pre-split monolith', () => {
   const bytes = Buffer.byteLength(fs.readFileSync('js/app.js', 'utf8'), 'utf8');
-  // Cap raised 81,591 -> 83,000 in the i18n-keys fix (2026-11-22): the five
-  // missing playback keys must live in the core STR because renderFM() can
-  // run before any lazy module loads, and the core had only 33 bytes of
-  // headroom left at 81,558. The lazy-module split itself is unchanged.
-  assert.ok(bytes < 83000, 'core js/app.js should stay under 83,000 bytes, got ' + bytes);
+  // Cap raised 83,000 -> 84,000 in the playback-audit wins (2026-11-22):
+  // Win #2 (failed-import toast + loading state), Win #3 (idle preload),
+  // Win #7 (catalog skeleton) all need core STR keys and thin core glue
+  // because they must run before any lazy module loads. The per-source
+  // watchdog (Win #6) lives in js/modules/player.mjs and costs the core
+  // nothing. Logic stays in modules where possible; the lazy-module split
+  // itself is unchanged.
+  assert.ok(bytes < 84000, 'core js/app.js should stay under 84,000 bytes, got ' + bytes);
 });
 
 

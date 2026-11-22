@@ -229,5 +229,5 @@ async function startFm(page){await page.evaluate(url=>{
  }catch(error){report.status='FAIL';report.error=error.stack||String(error);if(page&&!page.isClosed()){
   report.diagnostics=await page.evaluate(()=>({state:window.RA_MODULES?.sdr?.owrxDiagnostics(),status:document.querySelector('#owrx-status')?.textContent})).catch(()=>null);
   await shot(page,'failure').catch(()=>{});
- }throw error;}finally{for(const t of timers)clearInterval(t);report.sockets=traces;fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify(report,null,2));console.log('OPENWEBRX_QA_REPORT '+JSON.stringify(report));await browser.close();}
-})().catch(error=>{console.error(error);process.exitCode=1;});
+ }throw error;}finally{for(const t of timers)clearInterval(t);report.sockets=traces;fs.writeFileSync(path.join(OUTPUT,'report.json'),JSON.stringify(report,null,2));console.log('OPENWEBRX_QA_REPORT '+JSON.stringify(report));var closeTimer;try{await Promise.race([browser.close().catch(function(){}),new Promise(function(resolve){closeTimer=setTimeout(resolve,10000);})]);}finally{clearTimeout(closeTimer);}}
+})().catch(error=>{console.error(error);process.exitCode=1;setTimeout(function(){process.exit(1);},500).unref();});
