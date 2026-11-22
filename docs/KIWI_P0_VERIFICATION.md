@@ -6,6 +6,20 @@ Status: **OPEN for final acceptance**. The hardened Worker is deployed according
 
 من فحص المتصفح التفاعلي على الموقع المنشور: قبرص `cyp.twrmon.net:8073` اتصل وعرض «يستقبل ✔» و«صوت اتأكد في الجلسة دي». تغيّر الضبط 864→819→864 kHz على AM دون فقد حالة الاستقبال؛ خطوة9kHz وAGC تلقائي وSquelch=0 ظاهرة بالواجهة. رصدت قراءات إشارة متغيرة، وأغلقت الجلسة بعد الفحص. هذه ملاحظة UI مباشرة، بلا ملف capture أو عدّ PCM جديد؛ لا تثبت محطة بعينها أو سماعًا بشريًا أو ثباتًا طويلًا أو سقوف الحصص. الاختبارات الموجهة57/57 نجحت محليًا؛ HTTP smoke من بيئة التنفيذ لم يصل إلى Worker بسبب `EAI_AGAIN`، وليس نتيجة فشل للخدمة. راجع [الحالة الحالية](PROJECT_STATUS.md).
 
+## فحوص مستقلة خام — 2026-11-22 13:23 EET
+
+فحوص curl خام مستقلة من جلسة المنسق على الـ Worker المنشور `radio-atlas-kiwi-bridge.ossam-hashim.workers.dev`؛ لم يُتصل بأي رسيفر معتمد ولم تُستهلك أي خانة، وبلا PCM في هذا الفحص:
+
+| الفحص | النتيجة |
+| --- | --- |
+| GET /healthz — الجسم `ok` بالضبط | 200 PASS |
+| رسيفر غير مدرج + مصافحة WebSocket مع Origin الموقع | 403 PASS |
+| رسيفر مدرج + مصافحة WebSocket مع Origin أجنبي | 403 PASS |
+| رسيفر خاص 192.168.1.1 + مصافحة WebSocket مع Origin الموقع | 400 PASS |
+| طلب بلا ترقية WebSocket (GET عادي، كل variants الرسيفر/Origin) | 426 PASS — فحص الترقية يسبق فحوص القائمة |
+
+ملاحظة أمانة: المحاولة الأولى للرسيفر غير المدرج لم تُرجع أي رد HTTP خلال 10 ثوانٍ (HTTP 000)؛ الإعادة بمهلة 25 ثانية رجعت 403 خلال 0.55 ثانية. سقوف الحصص الدقيقة وتنظيف lease وRetry-After ما زالت NOT VERIFIED. نسخة الـ Worker المنشورة لم تُتحقق منها باستقلال في هذا الفحص.
+
 ## Latest live receiver and quota evidence — 2026-11-21
 
 - **Owner-confirmed live playback after v87:** The owner explicitly confirmed that Radio Atlas is receiving and playing audio. The attached live-page capture marks `EA8BFK — Fuerteventura` as **«صوت اتأكد في الجلسة دي»** at 18:06:34, with 8/40 users and SNR 38 dB. This is human confirmation of actual audible output for this receiver/session; it is not a fleet-wide availability claim or proof of exact quota ceilings.
