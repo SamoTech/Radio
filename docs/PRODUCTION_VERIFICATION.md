@@ -4,7 +4,7 @@
 
 ## How it works
 
-1. After the data refresh completes, the deployment job checks out the current `main` HEAD.
+1. In `update-data.yml`, scheduled/manual refreshes publish after the data step; a push to `main` takes the fast code-deploy path without a full crawl. The deployment job checks out the current `main` HEAD. The legacy manual `deploy.yml` is a separate fallback and does not implement this entire provenance pipeline.
 2. `scripts/deployment_provenance.py stamp --commit "$(git rev-parse HEAD)"` creates a temporary **`build-info.json`** in the artifact. It records the exact checkout commit SHA, Service Worker cache version, catalog version/count and SHA-256 hashes of the application shell, JS modules and sitemap. The file is not committed into the repository.
 3. GitHub Pages deploys that artifact.
 4. A separate read-only `verify` job checks out **that exact SHA** and fetches live `build-info.json` and every recorded asset from GitHub Pages. It retries during CDN propagation and validates SHA-256 hashes, not just HTTP 200.

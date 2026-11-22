@@ -2,7 +2,7 @@
 
 > **الغرض (بند ROADMAP P3-3 / الفجوة G-16):** ملف واحد فيه كل خطوات التشغيل اليومية والتشغيل الطارئ لأي شخص (أو وكيل) ياخد المشروع — عشان الـ bus factor مايبقاش 1.
 > **التراتب:** AGENTS.md ← ROADMAP.md ← README.md ← الكود وdata/. الأرقام تُقاس من الملفات، مش من الذاكرة.
-> آخر تحديث: 2026-11-05 (بعد PR #117 — سلسلة جلب KiwiSDR ثلاثية).
+> آخر تحديث: 2026-11-22. ابدأ أيضًا من [دليل استلام AI](AI_HANDOVER.md) و[الحالة الحالية](PROJECT_STATUS.md).
 
 ---
 
@@ -11,12 +11,13 @@
 | النظام | الوصف | مالكه |
 |---|---|---|
 | **GitHub Pages** | الاستضافة + CDN للموقع كله (نقطة فشل واحدة مقبولة — R-04) | GitHub |
-| **Validate** (`.github/workflows/ci.yml`) | بوابة الجودة على كل PR وكل push لـ main: syntax للوحدات + node --test + 88 اختبار Python + Lighthouse Accessibility ≥ 90 + مزامنة الوثائق (نسخة sw في README/ROADMAP) | المستودع |
-| **update-data** (`.github/workflows/update-data.yml`) | خط البيانات المجدول: KiwiSDR/طقس فضائي/EIBI/WSPR/WebSDR كل 6 ساعات · المحطات وفحوصات الحياة يوميًا · ينتهي بنشر Pages في نفس الـ workflow | المستودع |
+| **Validate** (`.github/workflows/ci.yml`) | بوابة الجودة على كل PR وكل push لـ main: syntax للوحدات + node --test + اختبارات Python الحالية + Lighthouse Accessibility ≥ 90 + مزامنة الوثائق (نسخة sw في README/ROADMAP) | المستودع |
+| **update-data** (`.github/workflows/update-data.yml`) | خط البيانات المجدول: KiwiSDR/طقس فضائي/EIBI/WSPR/WebSDR كل 6 ساعات · المحطات وفحوصات الحياة يوميًا · ينشر Pages؛ وعلى push إلى main ينشر الكود مباشرة دون crawler كامل، ثم يتحقق من بصمات الإنتاج | المستودع |
 | **deploy.yml** | نشر يدوي (manual dispatch) فقط — الاستخدام اليومي عبر update-data | المستودع |
 | **GitGuardian** | فحص الأسرار على كل push | خارجي |
 | **Abacus** | عدادات الزيارات والتشغيل (JSONP) | خارجي (R: عدادات خشنة) |
-| **Cloudflare Worker (proxy/)** | جاهز ومقفول (Origin + rate-limit) — **غير منشور** في انتظار workers.dev URL من العميل (P0-1) | العميل فقط |
+| **Kiwi Worker** | وسيط WSS منشور ومضبوط بالواجهة؛ حصص SQLite مبلّغ بنشرها، وقبول سقوفها الحية مفتوح | حساب Cloudflare للمالك |
+| **FM relay** | `proxy/worker.js` منفصل؛ `STREAM_PROXY` فارغ بالواجهة (P0-1) | حساب Cloudflare للمالك |
 
 **القاعدة الذهبية لخط البيانات:** الفشل مش بيمسح آخر snapshot جيدة أبدًا — كل مصدر له طبقات احتياط، ولو كل الطبقات فشلت الملف القديم بيفضل زي ما هو.
 
@@ -27,7 +28,7 @@
 الموقع سليم لما تتوفر كل دي:
 
 1. **Validate خضراء على آخر commit في main** — صفحة workflow الـ ci لكل workflow باسمه (renders صفحة Actions ممكن تبقى قديمة حتى ساعة — الشكل النهائي: مدة الجري، والحسم: أداة list_commits / فحص الملفات).
-2. **data commit حديث على main** من `radio-atlas-bot` — نمط الرسائل: `chore(data): refresh … snapshot <UTC>` — آخر واحد لازم يكون أقدم من: 6 ساعات للـ sdr، 24 ساعة للـ stations.
+2. **data commit حديث على main** من `radio-atlas-bot` — نمط الرسائل: `chore(data): refresh … snapshot <UTC>` — آخر واحد لازم يكون أحدث من حدود التأخر المتوقعة: نحو 6 ساعات للـ sdr و24 ساعة للـ stations (مع هامش تشغيل الجدولة).
 3. **المانيفست حي**: `https://samotech.github.io/Radio/data/stations.manifest.json` بيرد بـ JSON فيه `version` رقم صحيح.
 4. **الواجهة حية**: الصفحة الرئيسية تفتح وعدادات الكتالوج تظهر.
 
@@ -36,7 +37,7 @@
 ## 3) الفحص اليومي (5 دقايق)
 
 1. افتح `https://github.com/SamoTech/Radio/actions` — مفيش runs حمراء على main من آخر 24 ساعة.
-2. `list_commits` (أو صفحة commits): آخر `chore(data)` أقدم من 6/24 ساعة (حسب النوع).
+2. `list_commits` (أو صفحة commits): آخر `chore(data)` أحدث من حد 6/24 ساعة (حسب النوع).
 3. افتح المانيفست الحي (فوق) — `version` بتقدم مع كل تحديث محطات ناجح.
 4. عينتين سريعة من الموقع: تشغيل محطة من الصفحة الرئيسية + فتح تبويب SDR (بيانات KiwiSDR بتظهر).
 
@@ -96,7 +97,7 @@ R-05 معروف (P2-4 مؤجل): العدادات خشنة وقابلة للتل
 ## 6) استلام المشروع من الصفر (لشخص جديد)
 
 1. اقرأ بالترتيب: AGENTS.md → ROADMAP.md → README.md → الملف ده.
-2. شغّل محليًا: `git clone …` ثم `python scripts/update_data.py sdr` (خفيف) ثم `python -m http.server 8000`. المتطلبات: Python 3 + متصفح — لا dependencies.
+2. شغّل محليًا: `git clone …` ثم `python -m http.server 8000` باستخدام البيانات الموجودة؛ لا تشغّل crawler لتجربة الواجهة فقط. Python stdlib تكفي للـcrawler؛ QA بالمتصفح يحتاج Node وPlaywright/Chromium كما في workflows.
 3. أي تغيير: فرع ← PR ← Validate خضراء ← دمج — ولا استثناءات.
 4. المستودع نفسه بيطلّع الأرقام: `data/` للكتالوج والفهارس، `js/` للأحجام، `tests/` للسلوك المتوقع.
 
@@ -139,3 +140,12 @@ R-05 معروف (P2-4 مؤجل): العدادات خشنة وقابلة للتل
 - يوم 61–90: قارن آخر 28 يوم بالفترة السابقة في نفس التقارير. افصل ظهور ونقرات Google عن الجلسات والتشغيل في GA4. تابع الاستعلامات اللي بتظهر لأكتر من صفحة وحدد وجهة أوضح لكل نية.
 
 ترقية عامل الخدمة v73 بتنتظر إغلاق تبويبات التطبيق اللي لسه خاضعة للعامل السابق. التثبيت بيحمّل وحدات الواجهة وأيقونات التطبيق للكاش، ويفضل ترحيل بيانات الكتالوج وقت التفعيل. البث الحي محتاج اتصال.
+
+## 9) تشخيص Kiwi/OpenWebRX قبل تغيير الكود
+
+1. حدّد النظام والجهاز والتردد والوضع والوقت؛ جهاز مدرج أو healthz ناجح لا يثبت الصوت.
+2. في قبرص جرّب زر AM المرجعي: AGC ON وSquelch=0 وخطوة9kHz ومرشح عادي. جودة المحطة تعتمد على الانتشار والبث الحقيقي.
+3. فرّق بين رفض WebSocket وبين اتصال بلا PCM وبين PCM بلا خرج Web Audio. واجهة WebSocket لا تكشف HTTP429 بذاتها؛ استخدم اختبار CDP الموجود أو warn.code من Cloudflare بلا IP/أسرار.
+4. لا تكرر الاتصال بسرعة ولا ترفع الحصص لتجاوز رفض؛ اختبر جهازًا واحدًا وأغلق الجلسة. اختبارات live اختيارية وتستهلك خانة استقبال.
+5. شغّل HTTP smoke الآمن عند توفر شبكة: `node scripts/kiwi_production_smoke.cjs`. تعذر DNS محلي ليس دليل تعطل الإنتاج.
+6. ارجع إلى KIWI_P0_VERIFICATION وSDR_STUDIO_ARCHITECTURE قبل تعديل البروتوكول. نشر Pages لا ينشر Worker.
