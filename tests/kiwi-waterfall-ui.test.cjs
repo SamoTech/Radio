@@ -19,7 +19,9 @@ const start = source.indexOf('var sdrCurrentReceiver');
 const end = source.indexOf('\n\n\nvar API =', start);
 assert.ok(start > 0 && end > start, 'Kiwi waterfall implementation must be available');
 
-const TOKEN = '2b981c3d-7c5a-468c-943b-25a6ff07a775';
+// Fake fixture token only (never issued, never a real credential): a
+// low-entropy placeholder UUID so secret scanners stay quiet.
+const TOKEN = '11111111-1111-1111-1111-111111111111';
 const RELAY = 'https://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev';
 
 const EXPECTED_TEXT = {
