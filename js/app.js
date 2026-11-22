@@ -260,7 +260,12 @@ var STR = {
     history_aria: 'تشغيل من سجل الاستماع',
     palette_aria: 'بحث سريع (Ctrl+K)',
     sources: 'المصادر:',
-    offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.'
+    offline_footer: 'تُحدَّث الإذاعات يوميًا وبيانات SDR كل ٦ ساعات.',
+    toast_broken: 'المحطة دي مش شغالة — جرّب محطة تانية.',
+    stations: '{n} محطة',
+    no_match_fm: 'مفيش محطات مطابقة — جرّب تخفف الفلاتر أو تغيّر البحث.',
+    no_data: 'مفيش بيانات متاحة دلوقتي — جرّب تاني بعد شوية.',
+    random_none: 'مفيش محطات متاحة للتشغيل العشوائي.'
   },
   en: {
     station_filters: 'Station filters',
@@ -357,7 +362,12 @@ var STR = {
     history_aria: 'Play from history',
     palette_aria: 'Quick search (Ctrl+K)',
     sources: 'Sources:',
-    offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.'
+    offline_footer: 'Stations refresh daily; SDR data refreshes every 6 hours.',
+    toast_broken: 'This station is not working — try another station.',
+    stations: '{n} stations',
+    no_match_fm: 'No matching stations — try lighter filters or a different search.',
+    no_data: 'No data available right now — please try again later.',
+    random_none: 'No stations available to play randomly.'
   }
 };
 
