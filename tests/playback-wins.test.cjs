@@ -1,7 +1,7 @@
 'use strict';
 
 /* Playback-audit wins (2026-11-22): Win #2 lazy-import failure, Win #3 idle
-   preload, Win #6 bounded FM fallback, Win #7 catalog skeleton. Each win
+   preload, Win #7 catalog skeleton. Each win
    keeps its tests in this file so the audit trail stays in one place. */
 
 const test = require('node:test');
@@ -198,4 +198,69 @@ test('Win #3: renderCatalog triggers the preload once, after the first catalog r
   assert.ok(fnBody.includes('requestIdleCallback'), 'preloadPlayer must prefer requestIdleCallback');
   assert.ok(fnBody.includes("loadModule('player')"), 'preloadPlayer must import the player module');
   assert.ok(fnBody.includes('isHlsUrl'), 'preloadPlayer must check ra-last for HLS before warming hls.js');
+});
+/* ================= Win #7: catalog loading skeleton ================= */
+
+function makeSkeletonSandbox() {
+  const sandbox = makeAppSandbox();
+  const gridEl = {
+    innerHTML: '',
+    attrs: {},
+    setAttribute(k, v) { this.attrs[k] = v; },
+    getAttribute(k) { return this.attrs[k]; }
+  };
+  sandbox.document.getElementById = (id) => (id === 'grid-fm' ? gridEl : sandbox.__toastEl);
+  sandbox.__gridEl = gridEl;
+  return sandbox;
+}
+
+test('Win #7: catalog_loading resolves to real localized text, ar + en', () => {
+  const sandbox = makeAppSandbox();
+  sandbox.state.lang = 'ar';
+  assert.equal(sandbox.t('catalog_loading'), 'جارٍ تحميل المحطات…');
+  sandbox.state.lang = 'en';
+  assert.equal(sandbox.t('catalog_loading'), 'Loading stations…');
+});
+
+test('Win #7: the skeleton renders six shimmer cards and a loading line on first paint', () => {
+  const sandbox = makeSkeletonSandbox();
+  sandbox.state.lang = 'ar';
+  sandbox.state.fm = [];
+  sandbox.renderSkeleton();
+  const html = sandbox.__gridEl.innerHTML;
+  assert.ok(html.includes('جارٍ تحميل المحطات…'), 'skeleton shows the loading line');
+  assert.equal((html.match(/skeleton-card/g) || []).length, 6, 'six skeleton cards fill the grid');
+  assert.ok(html.includes('skeleton-line'), 'cards carry shimmer lines');
+  assert.equal(sandbox.__gridEl.attrs['aria-busy'], 'true', 'grid reports busy while loading');
+});
+
+test('Win #7: the skeleton uses the English loading line in en mode', () => {
+  const sandbox = makeSkeletonSandbox();
+  sandbox.state.lang = 'en';
+  sandbox.state.fm = [];
+  sandbox.renderSkeleton();
+  assert.ok(sandbox.__gridEl.innerHTML.includes('Loading stations…'));
+});
+
+test('Win #7: the skeleton never clobbers an already rendered catalog', () => {
+  const sandbox = makeSkeletonSandbox();
+  sandbox.state.fm = [{ name: 'Test FM', url: 'https://example.test/x' }];
+  sandbox.renderSkeleton();
+  assert.equal(sandbox.__gridEl.innerHTML, '', 'no skeleton once stations are loaded');
+});
+
+test('Win #7: initUI shows the skeleton, renderFM clears busy, and a failed load cannot leave the skeleton stuck', () => {
+  const src = fs.readFileSync('js/app.js', 'utf8');
+  const uiStart = src.indexOf('function initUI(');
+  const uiBody = src.slice(uiStart, src.indexOf('\n}\n', uiStart));
+  assert.ok(uiBody.includes('renderSkeleton()'), 'initUI must render the skeleton first');
+  const fmStart = src.indexOf('function renderFM(');
+  const fmBody = src.slice(fmStart, src.indexOf('\n}\n', fmStart));
+  assert.ok(fmBody.includes("grid.setAttribute('aria-busy', 'false')"), 'renderFM must clear aria-busy when real cards replace the skeleton');
+  const legacyStart = src.indexOf('function legacyLoadStations(');
+  const legacyBody = src.slice(legacyStart, src.indexOf('\n}\n', legacyStart));
+  assert.ok(legacyBody.includes('renderFM();'), 'a failed catalog load must render (empty grid) instead of leaving the skeleton stuck');
+  const css = fs.readFileSync('css/styles.css', 'utf8');
+  assert.ok(css.includes('@keyframes skeleton-shimmer'), 'skeleton shimmer animation must exist');
+  assert.ok(css.includes('prefers-reduced-motion'), 'skeleton must respect reduced motion');
 });
