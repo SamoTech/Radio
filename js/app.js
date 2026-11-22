@@ -266,6 +266,7 @@ var STR = {
     no_match_fm: 'مفيش محطات مطابقة — جرّب تخفف الفلاتر أو تغيّر البحث.',
     no_data: 'مفيش بيانات متاحة دلوقتي — جرّب تاني بعد شوية.',
     random_none: 'مفيش محطات متاحة للتشغيل العشوائي.',
+    catalog_loading: 'جارٍ تحميل المحطات…',
     module_load_failed: 'تعذّر تحميل المشغّل — تحقّق من الاتصال وحاول تاني.'
   },
   en: {
@@ -369,6 +370,7 @@ var STR = {
     no_match_fm: 'No matching stations — try lighter filters or a different search.',
     no_data: 'No data available right now — please try again later.',
     random_none: 'No stations available to play randomly.',
+    catalog_loading: 'Loading stations…',
     module_load_failed: 'Could not load the player — check your connection and try again.'
   }
 };
@@ -911,6 +913,7 @@ function renderFM() {
   renderFeatured();
   renderQuickBar();
   var grid = $('grid-fm');
+  grid.setAttribute('aria-busy', 'false');
   var home = isHomeMode();
   var featured = $('featured-wrap'), trending = $('trending-wrap');
   if (!home) { if (featured) featured.hidden = true; if (trending) trending.hidden = true; }
@@ -1051,6 +1054,15 @@ function catalogIdbRows() {
   }).catch(function () { return null; });
 }
 
+function renderSkeleton() {
+  var grid = $('grid-fm');
+  if (!grid || state.fm.length) return;
+  var html = '<div class="catalog-loading">' + esc(t('catalog_loading')) + '</div>';
+  for (var i = 0; i < 6; i++) html += '<article class="station-card skeleton-card"><div class="skeleton-line"></div><div class="skeleton-line short"></div></article>';
+  grid.innerHTML = html;
+  grid.setAttribute('aria-busy', 'true');
+}
+
 function renderCatalog(rows) {
   state.fm = rows;
   state.featuredCache = null;
@@ -1100,6 +1112,7 @@ function legacyLoadStations() {
       }
       return finishStations(data.stations);
     }
+    renderFM();
     initTrending();
     initResume();
     loadStreamChecks();
@@ -1859,6 +1872,7 @@ function renderQuickBar() {
 }
 
 function initUI() {
+  renderSkeleton();
   document.addEventListener('error',function(e){var el=e.target;if(el&&el.classList&&el.classList.contains('station-art-image'))el.remove();},true);
   ['home','explore','fav','sdr'].forEach(function(item){var b=$('mobile-nav-'+item);if(b)b.addEventListener('click',function(){switchPrimaryNav(item);});});
   syncPrimaryNav();
