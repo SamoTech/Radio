@@ -759,7 +759,7 @@ function renderPlayerAlternatives() {
 }
 
 
-var API = { play: play, setMedia: setMedia, loadHlsLib: loadHlsLib, attachHls: attachHls, closeAlarmModal: closeAlarmModal, syncPlayerFavorite: syncPlayerFavorite };
+var API = { play: play, setMedia: setMedia, loadHlsLib: loadHlsLib, attachHls: attachHls, closeAlarmModal: closeAlarmModal, syncPlayerFavorite: syncPlayerFavorite, stopSleepTimer: stopSleepTimer };
 var booted = false;
 export function boot() {
   if (booted) return API;
