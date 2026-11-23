@@ -1,9 +1,12 @@
 /* Radio Atlas native OpenWebRX protocol adapter.
  * Independent implementation from the public jketterl/OpenWebRX wire contract
  * (connection.py and receiver client, upstream 640c5b0b). No receiver page/code
- * is executed. Only operator-configured uncompressed PCM/FFT is supported.
- * AudioContext ownership remains with the Radio Atlas interface.
+ * is executed. Uncompressed PCM/FFT and IMA ADPCM audio/FFT are supported
+ * (see js/modules/owrx-adpcm.mjs for the ADPCM wire facts); unknown
+ * compression values fail closed. AudioContext ownership remains with
+ * the Radio Atlas interface.
  */
+import {ImaAdpcmDecoder, decodeAdpcmFft} from './owrx-adpcm.mjs';
 export const SUPPORTED_MODES = Object.freeze(['am', 'nfm', 'wfm', 'usb', 'lsb', 'cw']);
 const PASSBANDS = {am:[-4000,4000],nfm:[-4000,4000],wfm:[-75000,75000],usb:[300,3000],lsb:[-3000,-300],cw:[700,900]};
 const MAX_FRAME = 262145;
@@ -67,6 +70,10 @@ export class OpenWebRxClient {
     this.pendingProfile = null;
     this.serial = 0;
     this.state = 'closed';
+    // One continuous IMA-ADPCM audio stream per DSP session; reset on
+    // connect and on profile change. SYNC markers inside the stream
+    // resync it without a reset.
+    this.adpcm = new ImaAdpcmDecoder();
   }
 
   emit(name, ...args) {
@@ -112,6 +119,7 @@ export class OpenWebRxClient {
     this.receivedAudio = false;
     this.awaitingProfile = false;
     this.pendingProfile = null;
+    this.adpcm.reset();
     this.active = true;
     const serial = ++this.serial;
     this.setState('connecting');
@@ -182,12 +190,17 @@ export class OpenWebRxClient {
           if (['sdr_id','profile_id','center_freq','samp_rate'].includes(key) && this.config[key] !== next) profileChanged = true;
           this.config[key] = next;
         }
-        if (this.config.audio_compression !== undefined && this.config.audio_compression !== 'none') {
+        // The client cannot ask for 'none': compression is an operator
+        // setting, so ADPCM must be decoded, not refused. Only an
+        // unknown compression value fails the session.
+        if (this.config.audio_compression !== undefined && this.config.audio_compression !== 'none' &&
+            this.config.audio_compression !== 'adpcm') {
           this.fail('unsupported_codec', 'This receiver requires unsupported compressed audio'); return;
         }
         if (profileChanged) {
           this.started = false;
           this.receivedAudio = false;
+          this.adpcm.reset();
           const currentProfile = this.config.sdr_id + '|' + this.config.profile_id;
           this.awaitingProfile = !Number.isFinite(this.config.center_freq) || !(this.config.samp_rate > 0) ||
             (this.pendingProfile !== null && currentProfile !== this.pendingProfile);
@@ -223,16 +236,31 @@ export class OpenWebRxClient {
     if (!this.started || this.awaitingProfile) return;
     const type = view.getUint8(0);
     if (type === 2 || type === 4) {
-      if (this.config.audio_compression !== 'none') return;
-      const samples = decodePcm(data);
-      if (!samples) { this.fail('protocol_error','Invalid receiver PCM frame'); return; }
+      let samples;
+      if (this.config.audio_compression === 'none') {
+        samples = decodePcm(data);
+        if (!samples) { this.fail('protocol_error','Invalid receiver PCM frame'); return; }
+      } else if (this.config.audio_compression === 'adpcm') {
+        // A chunk of only SYNC bytes yields zero samples; the no-audio
+        // watchdog still fires if the stream never yields audio.
+        samples = this.adpcm.decodeChunk(data.slice(1));
+        if (!samples.length) return;
+      } else return;
       if (!this.receivedAudio) { this.receivedAudio = true; this.setState('streaming'); }
       this.armTimeout(20000, 'no_audio');
       this.emit('onPcm', samples, type === 4 ? HD_RATE : NORMAL_RATE);
-    } else if (type === 1 && this.config.fft_compression === 'none') {
-      const fft = decodeFft(data);
-      if (!fft) { this.fail('protocol_error','Invalid receiver FFT frame'); return; }
-      this.emit('onFft', fft, {...this.config});
+    } else if (type === 1) {
+      // Unknown fft_compression keeps the old behaviour: FFT frames are
+      // ignored silently, audio is unaffected.
+      if (this.config.fft_compression === 'none') {
+        const fft = decodeFft(data);
+        if (!fft) { this.fail('protocol_error','Invalid receiver FFT frame'); return; }
+        this.emit('onFft', fft, {...this.config});
+      } else if (this.config.fft_compression === 'adpcm') {
+        const fft = decodeAdpcmFft(data);
+        if (!fft) { this.fail('protocol_error','Invalid receiver FFT frame'); return; }
+        this.emit('onFft', fft, {...this.config});
+      }
     }
     // Secondary FFT/digital payloads are not PCM and are intentionally ignored.
   }
@@ -274,7 +302,7 @@ export class OpenWebRxClient {
 
   maybeStart() {
     const config = this.config;
-    if (!this.active || this.started || this.awaitingProfile || !this.acknowledged || config.audio_compression !== 'none' ||
+    if (!this.active || this.started || this.awaitingProfile || !this.acknowledged || (config.audio_compression !== 'none' && config.audio_compression !== 'adpcm') ||
         !Number.isFinite(config.center_freq) || !(config.samp_rate > 0)) return;
     if (!this.requested || !this.validTune(this.requested.frequency,this.requested.mode)) {
       const available = this.modes();

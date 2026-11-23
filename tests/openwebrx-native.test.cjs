@@ -112,13 +112,67 @@ test('OpenWebRX bounds tuning to its actual profile and advertised analog modes'
 });
 
 test('OpenWebRX unsupported compression, malformed JSON, oversized and malformed frames fail closed',()=>{
- const cases=[{send:h=>h.configure({...CONFIG,audio_compression:'adpcm'}),code:'unsupported_codec'},
+ const cases=[{send:h=>h.configure({...CONFIG,audio_compression:'bogus-codec'}),code:'unsupported_codec'},
   {send:h=>h.message('{bad JSON'),code:'protocol_error'},
   {send:h=>h.message({type:'config',value:[]}),code:'protocol_error'},
   {send:h=>h.message('x'.repeat(131073)),code:'protocol_error'},
   {send:h=>h.message(new ArrayBuffer(262146)),code:'protocol_error'},
   {send:h=>h.message(Uint8Array.from([2,1]).buffer),code:'protocol_error'}];
  for(const c of cases){const h=harness();try{h.ready();c.send(h);assert.equal(h.events.errors.at(-1).code,c.code);assert.equal(h.client.active,false);assert.equal(h.client.timer,null);assert.equal(h.socket().readyState,3);}finally{h.client.close();}}
+});
+
+test('OpenWebRX ADPCM audio decodes to PCM at negotiated rates',()=>{
+ const h=harness();try{
+  h.open();h.message('CLIENT DE SERVER server=openwebrx version=1.2.81');
+  h.configure({...CONFIG,audio_compression:'adpcm'});
+  assert.ok(h.commands().some(x=>x.type==='dspcontrol'&&x.action==='start'),'ADPCM config must start DSP, not fail');
+  assert.equal(h.events.errors.length,0);
+  // Hand-traced IMA vector: bytes 0x77 0x08 decode to [11, 41, 37, 40].
+  const adpcmFrame=(type)=>Uint8Array.from([type,0x77,0x08]).buffer;
+  h.message(adpcmFrame(2));h.message(adpcmFrame(4));
+  assert.deepEqual(h.events.pcm.map(x=>x.rate),[12000,48000]);
+  assert.deepEqual(Array.from(h.events.pcm[0].samples),[11,41,37,40]);
+  // The stream is continuous: the HD frame keeps decoding from the state
+  // the first frame left (predictor 40, index 14). Hand-traced with the
+  // csdr step table: [92, 204, 188, 202].
+  assert.deepEqual(Array.from(h.events.pcm[1].samples),[92,204,188,202]);
+ }finally{h.client.close();}
+});
+
+test('OpenWebRX ADPCM FFT decodes to dB bins; unknown FFT compression stays silent',()=>{
+ const h=harness();try{
+  h.open();h.message('CLIENT DE SERVER server=openwebrx version=1.2.81');
+  h.configure({...CONFIG,fft_compression:'adpcm'});
+  // ADPCM FFT frame: 10 pads of -90 dB then bins -90, -70, -35, -82, -60,
+  // -100 dB, encoded with the standard IMA encoder (see owrx-adpcm.test.cjs).
+  const frame=Uint8Array.from([1,255,255,255,255,12,40,196,177]).buffer;
+  h.message(frame);
+  assert.equal(h.events.fft.length,1);
+  assert.equal(h.events.fft[0].samples.length,6,'16 nibbles minus 10 lead-in pads');
+  const expected=[-90,-70,-35,-82,-60,-100];
+  h.events.fft[0].samples.forEach((value,i)=>assert.ok(Math.abs(value-expected[i])<6,'bin '+i+': '+value+' dB vs '+expected[i]+' dB'));
+  // An unknown FFT compression value ignores FFT frames without failing audio.
+  const g=harness();try{
+   g.open();g.message('CLIENT DE SERVER server=openwebrx version=1.2.81');
+   g.configure({...CONFIG,fft_compression:'bogus-codec'});
+   g.message(frame);
+   assert.equal(g.events.fft.length,0);assert.equal(g.events.errors.length,0);
+  }finally{g.client.close();}
+ }finally{h.client.close();}
+});
+
+test('OpenWebRX profile change resets the ADPCM audio stream',()=>{
+ const h=harness();try{
+  h.open();h.message('CLIENT DE SERVER server=openwebrx version=1.2.81');
+  h.configure({...CONFIG,audio_compression:'adpcm'});
+  const frame=Uint8Array.from([2,0x77,0x08]).buffer;
+  h.message(frame);assert.deepEqual(Array.from(h.events.pcm[0].samples),[11,41,37,40]);
+  h.configure({...CONFIG,audio_compression:'adpcm',profile_id:'other'});
+  h.message(frame);
+  assert.equal(h.events.pcm.length,2,'audio must resume after the profile change');
+  assert.deepEqual(Array.from(h.events.pcm[1].samples),[11,41,37,40],
+    'same frame must decode identically from the reset state, not continue the old stream');
+ }finally{h.client.close();}
 });
 
 test('OpenWebRX capacity and SDR errors are surfaced and release the connection',()=>{
