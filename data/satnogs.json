@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-22T19:28:46+00:00",
+ "updated": "2026-11-23T07:24:14+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 323,
+ "count": 321,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -124,16 +134,6 @@
    "https": false
   },
   {
-   "id": 4655,
-   "name": "Alx2",
-   "loc": "FM18ks · VHF",
-   "lat": 38.78407,
-   "lng": -77.11324,
-   "alt": 71,
-   "url": "https://network.satnogs.org/stations/4655/",
-   "https": false
-  },
-  {
    "id": 5130,
    "name": "Antenna Test Lab Co 436 MHz RHCP Patch",
    "loc": "FM05qu · UHF",
@@ -224,6 +224,16 @@
    "https": false
   },
   {
+   "id": 106,
+   "name": "BEEGND-1",
+   "loc": "JO62fb · UHF",
+   "lat": 52.073657,
+   "lng": 12.462608,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/106/",
+   "https": false
+  },
+  {
    "id": 5137,
    "name": "berlin_ma_sat",
    "loc": "FN42ej · UHF",
@@ -271,16 +281,6 @@
    "lng": 11.670682,
    "alt": 490,
    "url": "https://network.satnogs.org/stations/355/",
-   "https": false
-  },
-  {
-   "id": 3010,
-   "name": "BV2DQ /WJ2I Beam Taiwan",
-   "loc": "PL04pv · VHF / UHF",
-   "lat": 24.894,
-   "lng": 121.274,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/3010/",
    "https": false
   },
   {
@@ -761,16 +761,6 @@
    "lng": 8.622,
    "alt": 180,
    "url": "https://network.satnogs.org/stations/3704/",
-   "https": false
-  },
-  {
-   "id": 4136,
-   "name": "estima5633",
-   "loc": "PM85ma · UHF",
-   "lat": 35.011,
-   "lng": 137.077,
-   "alt": 25,
-   "url": "https://network.satnogs.org/stations/4136/",
    "https": false
   },
   {
@@ -2611,16 +2601,6 @@
    "lng": 32.8362,
    "alt": 851,
    "url": "https://network.satnogs.org/stations/4242/",
-   "https": false
-  },
-  {
-   "id": 3161,
-   "name": "TA2NMU #3 (Turnstile)",
-   "loc": "KN91pa · UHF",
-   "lat": 41.0053,
-   "lng": 39.2978,
-   "alt": 490,
-   "url": "https://network.satnogs.org/stations/3161/",
    "https": false
   },
   {
