@@ -74,7 +74,7 @@ async function startFm(page){await page.evaluate(url=>{
     const trace={url:ws.url(),commands:[],profileSelections:[],firstPcmProfile:null,closed:false,case:nextCase};traces.push(trace);nextCase='normal';
     let timer=null,selectedProfile=false,activeProfile=recording.profiles[0].id;
     const stop=()=>{clearInterval(timer);timers.delete(timer);timer=null;};
-    const config=id=>{activeProfile=id;const [sdr_id,profile_id]=id.split('|');return {...recording.config,sdr_id,profile_id,audio_compression:trace.case==='unsupported'?'adpcm':'none'};};
+    const config=id=>{activeProfile=id;const [sdr_id,profile_id]=id.split('|');return {...recording.config,sdr_id,profile_id,audio_compression:trace.case==='unsupported'?'bogus-codec':'none'};};
     ws.onMessage(raw=>{
      trace.commands.push(String(raw));
      if(String(raw).startsWith('SERVER DE CLIENT')){ws.send(recording.greeting);return;}
