@@ -1,12 +1,12 @@
 :root{
   --bg:#1d130b; --panel:#2a1b0e; --card:#332412; --line:#4d3a22; --chipbg:#3d2b17;
-  --text:#f3e9d2; --muted:#b3a184; --accent:#d9a441; --good:#7fb069; --bad:#d96a4f;
+  --text:#f3e9d2; --muted:#b3a184; --accent:#d9a441; --good:#8cbf7d; --bad:#e88a6d;
   --glow:#d9a4411f; --accent-text:#241503;
   --wood-deep:#170e06; --dial:#f6ead0; --brass-deep:#9a6b1f;
 }
 :root[data-theme="light"]{
   --bg:#ece0c3; --panel:#f6ecd2; --card:#fbf3de; --line:#d8c49a; --chipbg:#e9dab6;
-  --text:#3a2a16; --muted:#857050; --accent:#9a6b1f; --good:#2e7d4f; --bad:#b3402e;
+  --text:#3a2a16; --muted:#6b5d45; --accent:#7a5a14; --good:#2e7d4f; --bad:#b3402e;
   --glow:#d9a44122; --accent-text:#fff8e6;
   --wood-deep:#e2d3ae; --dial:#fff8e6; --brass-deep:#7a5a14;
 }
@@ -134,7 +134,7 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{ou
 
 /* stream health badges + kiwi ws audio + visitor badge fallback */
 .chip.ok{color:var(--good);border-color:var(--good)}
-.chip.maybe{color:#b45309;border-color:#b45309}
+.chip.maybe{color:#d99a3d;border-color:#d99a3d}
 .chip.dead{color:var(--bad);border-color:var(--bad)}
 .open.kiwi-ws{margin-top:8px;background:var(--panel);color:var(--accent);border:1px solid var(--accent);font-weight:600}
 .kiwi-controls{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:2px 6px}
@@ -755,6 +755,9 @@ footer{border-top-color:rgba(217,164,65,.18)}
 .toast{border-color:rgba(217,164,65,.40)}
 .chip.gps{border-color:rgba(217,164,65,.40)}
 .chip.official{border-color:rgba(127,176,105,.50)}
+/* Amber chips stay readable on the pale light-theme chip background */
+:root[data-theme="light"] .chip.maybe{color:#7a5a14;border-color:#7a5a14}
+:root[data-theme="light"] .chip.tag{color:#7a5a14}
 .tab:hover{background:rgba(217,164,65,.10)}
 .qchip:hover{border-color:rgba(217,164,65,.45)}
 .player-tool:hover{border-color:rgba(217,164,65,.45)}
