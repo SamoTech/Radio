@@ -1,12 +1,14 @@
 :root{
-  --bg:#0f0e13; --panel:#17151c; --card:#1d1a23; --line:#2b2733; --chipbg:#262230;
-  --text:#f4f1e8; --muted:#a8a294; --accent:#d4af37; --good:#66c79a; --bad:#e2725b;
-  --glow:#d4af371f; --accent-text:#201604;
+  --bg:#1d130b; --panel:#2a1b0e; --card:#332412; --line:#4d3a22; --chipbg:#3d2b17;
+  --text:#f3e9d2; --muted:#b3a184; --accent:#d9a441; --good:#7fb069; --bad:#d96a4f;
+  --glow:#d9a4411f; --accent-text:#241503;
+  --wood-deep:#170e06; --dial:#f6ead0; --brass-deep:#9a6b1f;
 }
 :root[data-theme="light"]{
-  --bg:#f7f2e9; --panel:#fffdf6; --card:#fffaf0; --line:#e6ddc9; --chipbg:#efe7d6;
-  --text:#2e281e; --muted:#7a7160; --accent:#8a6a1c; --good:#1d7a4f; --bad:#b3402e;
-  --glow:#d4af3722; --accent-text:#fffaf0;
+  --bg:#ece0c3; --panel:#f6ecd2; --card:#fbf3de; --line:#d8c49a; --chipbg:#e9dab6;
+  --text:#3a2a16; --muted:#857050; --accent:#9a6b1f; --good:#2e7d4f; --bad:#b3402e;
+  --glow:#d9a44122; --accent-text:#fff8e6;
+  --wood-deep:#e2d3ae; --dial:#fff8e6; --brass-deep:#7a5a14;
 }
 *{box-sizing:border-box}
 [hidden]{display:none !important}
@@ -687,3 +689,97 @@ html[dir=ltr] #kiwi-modal:not(.kiwi-expanded){transform:translateX(-50%)}
 @media(max-width:400px){
  #owrx-freq{font-size:1.05rem;letter-spacing:0}
 }
+
+/* ================= Vintage wooden radio theme (v102) ================= */
+/* Owner order 2026-11-23: the whole site wears a shiny old-model wooden
+   radio look — polished walnut/mahogany, brass, cream dial faces.
+   Pure visual restyle: palette + surfaces only. No layout, text, JS or
+   behaviour change. Wood grain is static layered gradients (no animation);
+   motion already honours prefers-reduced-motion elsewhere in this file.
+   The map's coloured dots keep their hues: they are functional coding of
+   receiver type, not decoration. */
+body{
+  background:
+    repeating-linear-gradient(94deg, rgba(255,226,170,.02) 0 2px, transparent 2px 9px, rgba(0,0,0,.05) 9px 10px, transparent 10px 19px),
+    radial-gradient(120% 70% at 50% 0%, rgba(255,196,110,.09), transparent 55%),
+    radial-gradient(ellipse 80vw 54vw at 50% -12%, rgba(217,164,65,.10), transparent 72%),
+    var(--bg);
+}
+:root[data-theme="light"] body{
+  background:
+    repeating-linear-gradient(94deg, rgba(120,90,40,.035) 0 2px, transparent 2px 9px, rgba(255,255,255,.30) 9px 10px, transparent 10px 19px),
+    radial-gradient(120% 70% at 50% 0%, rgba(255,220,150,.35), transparent 55%),
+    radial-gradient(ellipse 80vw 54vw at 50% -12%, rgba(217,164,65,.12), transparent 72%),
+    var(--bg);
+}
+.hero{
+  background:
+    linear-gradient(150deg, rgba(217,164,65,.14), transparent 48%),
+    linear-gradient(180deg, rgba(255,205,130,.06), transparent 60%),
+    var(--panel);
+  border-bottom:1px solid rgba(217,164,65,.25);
+}
+::selection{background:rgba(217,164,65,.38)}
+html{scrollbar-color:#6b4e2e transparent}
+:root[data-theme="light"]{scrollbar-color:#c9ae7e transparent}
+::-webkit-scrollbar-thumb{background:#6b4e2e}
+:root[data-theme="light"] ::-webkit-scrollbar-thumb{background:#c9ae7e}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  h1{background:linear-gradient(120deg,#f9e2a8,#d9a441 58%,#9a6b1f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .stat span{background:linear-gradient(120deg,#f6dd9a,#d9a441);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  :root[data-theme="light"] h1{background:linear-gradient(120deg,#7a5a14,#9a6b1f 58%,#5e4410);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  :root[data-theme="light"] .stat span{background:linear-gradient(120deg,#7a5a14,#9a6b1f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+}
+/* Polished-wood sheen on panels and cards */
+.card,.space-panel,.eibi-panel,.fm-toolbar,.box-card,.direct-receivers,.wspr-panel,.kiwi-presets,.kiwi-receiver-nav,.kiwi-advanced,.kiwi-memories,.sdr-disclosure,.receiver-toolbar,.visitor-lead,#kiwi-modal,#sdr-modal.receiver-workspace,#owrx-modal.native-radio-modal{
+  background-image:linear-gradient(165deg, rgba(255,214,150,.07), transparent 45%),repeating-linear-gradient(94deg, rgba(255,226,170,.018) 0 2px, transparent 2px 9px);
+}
+:root[data-theme="light"] .card,:root[data-theme="light"] .space-panel,:root[data-theme="light"] .eibi-panel,:root[data-theme="light"] .fm-toolbar,:root[data-theme="light"] .box-card,:root[data-theme="light"] .direct-receivers,:root[data-theme="light"] .wspr-panel,:root[data-theme="light"] .kiwi-presets,:root[data-theme="light"] .kiwi-receiver-nav,:root[data-theme="light"] .kiwi-advanced,:root[data-theme="light"] .kiwi-memories,:root[data-theme="light"] .sdr-disclosure,:root[data-theme="light"] .receiver-toolbar,:root[data-theme="light"] .visitor-lead,:root[data-theme="light"] #kiwi-modal,:root[data-theme="light"] #sdr-modal.receiver-workspace,:root[data-theme="light"] #owrx-modal.native-radio-modal{
+  background-image:linear-gradient(165deg, rgba(255,255,255,.45), transparent 45%),repeating-linear-gradient(94deg, rgba(120,90,40,.03) 0 2px, transparent 2px 9px);
+}
+.player,.quick-bar,.mobile-primary-nav{
+  background-image:linear-gradient(180deg, rgba(255,205,130,.06), transparent 40%);
+}
+/* Brass-tinted borders (replacing the old champagne-gold rgba values) */
+.stat{background:linear-gradient(165deg,rgba(217,164,65,.06),transparent 55%),var(--panel)}
+.stat,.space-panel,.eibi-panel,.fm-toolbar,.map-wrap{border-color:rgba(217,164,65,.20)}
+.box-card{border-color:rgba(217,164,65,.28)}
+.card{border-color:rgba(217,164,65,.16)}
+.card:hover{border-color:rgba(217,164,65,.38)}
+:root[data-theme="light"] .card{border-color:rgba(154,107,31,.20)}
+:root[data-theme="light"] .card:hover{border-color:rgba(154,107,31,.45)}
+.toolbar{border-bottom-color:rgba(217,164,65,.14)}
+footer{border-top-color:rgba(217,164,65,.18)}
+.eibi-row{border-bottom-color:rgba(217,164,65,.10)}
+.player,.quick-bar{border-top-color:rgba(217,164,65,.28)}
+.toast{border-color:rgba(217,164,65,.40)}
+.chip.gps{border-color:rgba(217,164,65,.40)}
+.chip.official{border-color:rgba(127,176,105,.50)}
+.tab:hover{background:rgba(217,164,65,.10)}
+.qchip:hover{border-color:rgba(217,164,65,.45)}
+.player-tool:hover{border-color:rgba(217,164,65,.45)}
+.player-tool.active{box-shadow:0 0 12px rgba(217,164,65,.28)}
+.history-chip:hover,.alt-chip:hover,.qb-chip:hover,.pal-item:hover{border-color:rgba(217,164,65,.50)}
+.player .btn.ghost:hover,#player-close:hover{border-color:rgba(217,164,65,.45)}
+.mobile-home-preview .station-card{border-color:rgba(217,164,65,.40)}
+/* Brass controls */
+.tab.active,.qchip.active,.open{background:linear-gradient(120deg,#eec27a,#b98a2e)}
+.tab.active{box-shadow:0 6px 20px rgba(217,164,65,.30)}
+:root[data-theme="light"] .tab.active{box-shadow:0 6px 18px rgba(154,107,31,.32)}
+.open{box-shadow:0 4px 16px rgba(217,164,65,.28)}
+.open:hover{box-shadow:0 8px 22px rgba(217,164,65,.42)}
+/* Receiver map in parchment / sepia tones */
+.map-wrap{background:#241407;box-shadow:inset 0 0 60px rgba(20,10,2,.55)}
+.map-sea{fill:#2a1a0c}
+.map-land{fill:#54402a;stroke:#6b4e2e}
+.map-night{fill:rgba(20,10,2,.50)}
+[data-theme="light"] .map-wrap{background:#efe3c8}
+[data-theme="light"] .map-sea{fill:#e3d3ac}
+[data-theme="light"] .map-land{fill:#c9b285;stroke:#a68c5e}
+[data-theme="light"] .map-night{fill:rgba(120,90,40,.18)}
+/* Dark receiver hardware: dial faces and screens */
+#sdr-frame{background:var(--wood-deep)}
+#owrx-waterfall,#kiwi-waterfall{background:var(--wood-deep)}
+.modal{background:rgba(23,14,6,.95)}
+.station-art{background:radial-gradient(circle at 35% 25%,rgba(217,164,65,.38),transparent 70%),var(--chipbg)}
+.vlead-fill{background:linear-gradient(90deg,#d9a441,#f0c268)}
