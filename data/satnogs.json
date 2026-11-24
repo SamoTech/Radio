@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T09:44:24+00:00",
+ "updated": "2026-11-24T22:19:26+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
  "count": 317,
  "stations": [
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -134,6 +144,16 @@
    "https": false
   },
   {
+   "id": 4655,
+   "name": "Alx2",
+   "loc": "FM18ks · VHF",
+   "lat": 38.78407,
+   "lng": -77.11324,
+   "alt": 71,
+   "url": "https://network.satnogs.org/stations/4655/",
+   "https": false
+  },
+  {
    "id": 5130,
    "name": "Antenna Test Lab Co 436 MHz RHCP Patch",
    "loc": "FM05qu · UHF",
@@ -231,16 +251,6 @@
    "lng": -71.2279,
    "alt": 70,
    "url": "https://network.satnogs.org/stations/1168/",
-   "https": false
-  },
-  {
-   "id": 106,
-   "name": "BEEGND-1",
-   "loc": "JO62fb · UHF",
-   "lat": 52.073657,
-   "lng": 12.462608,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/106/",
    "https": false
   },
   {
@@ -674,6 +684,26 @@
    "https": false
   },
   {
+   "id": 4595,
+   "name": "EA4TA",
+   "loc": "IN80ck · UHF",
+   "lat": 40.44,
+   "lng": -3.8,
+   "alt": 700,
+   "url": "https://network.satnogs.org/stations/4595/",
+   "https": false
+  },
+  {
+   "id": 4597,
+   "name": "EA4TA",
+   "loc": "IN80ck · UHF",
+   "lat": 40.44,
+   "lng": -3.8,
+   "alt": 700,
+   "url": "https://network.satnogs.org/stations/4597/",
+   "https": false
+  },
+  {
    "id": 342,
    "name": "EA5WA Pobla Llarga",
    "loc": "IM99sc · UHF",
@@ -761,16 +791,6 @@
    "lng": 27.09,
    "alt": 280,
    "url": "https://network.satnogs.org/stations/2029/",
-   "https": false
-  },
-  {
-   "id": 2202,
-   "name": "EU1AEM",
-   "loc": "KO33mv · VHF",
-   "lat": 53.902,
-   "lng": 27.047,
-   "alt": 280,
-   "url": "https://network.satnogs.org/stations/2202/",
    "https": false
   },
   {
@@ -931,16 +951,6 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
-   "https": false
-  },
-  {
-   "id": 3412,
-   "name": "HB9MFL-S-Band",
-   "loc": "JN37tf · S",
-   "lat": 47.212456,
-   "lng": 7.621808,
-   "alt": 5,
-   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -1481,6 +1491,16 @@
    "lng": -0.216,
    "alt": 81,
    "url": "https://network.satnogs.org/stations/2125/",
+   "https": false
+  },
+  {
+   "id": 4113,
+   "name": "M0JFP Staines Space and weather VHF",
+   "loc": "IO91sk · VHF",
+   "lat": 51.438,
+   "lng": -0.458,
+   "alt": 15,
+   "url": "https://network.satnogs.org/stations/4113/",
    "https": false
   },
   {
@@ -2574,16 +2594,6 @@
    "https": false
   },
   {
-   "id": 2212,
-   "name": "TI2EI",
-   "loc": "EJ89ax · VHF / UHF",
-   "lat": 9.958423,
-   "lng": -83.996847,
-   "alt": 1470,
-   "url": "https://network.satnogs.org/stations/2212/",
-   "https": false
-  },
-  {
    "id": 438,
    "name": "Timisoara - VHF QHA",
    "loc": "KN05or · VHF",
@@ -2804,16 +2814,6 @@
    "https": false
   },
   {
-   "id": 4957,
-   "name": "Veve-UHF",
-   "loc": "JN79sd · UHF",
-   "lat": 49.138054,
-   "lng": 15.560547,
-   "alt": 560,
-   "url": "https://network.satnogs.org/stations/4957/",
-   "https": false
-  },
-  {
    "id": 568,
    "name": "VK2BYF-VHF",
    "loc": "QF55hd · VHF",
@@ -2924,16 +2924,6 @@
    "https": false
   },
   {
-   "id": 4254,
-   "name": "VU3IPU - Varun",
-   "loc": "MK82sx · VHF / UHF",
-   "lat": 12.991308,
-   "lng": 77.576969,
-   "alt": 919,
-   "url": "https://network.satnogs.org/stations/4254/",
-   "https": false
-  },
-  {
    "id": 4821,
    "name": "VU3IPU - Varun (Weather Satellite)",
    "loc": "MK82sx · VHF",
@@ -2991,6 +2981,16 @@
    "lng": -117.87,
    "alt": 244,
    "url": "https://network.satnogs.org/stations/3355/",
+   "https": false
+  },
+  {
+   "id": 1438,
+   "name": "WB7BBU",
+   "loc": "CN85rp · VHF",
+   "lat": 45.65,
+   "lng": -122.542,
+   "alt": 55,
+   "url": "https://network.satnogs.org/stations/1438/",
    "https": false
   },
   {
