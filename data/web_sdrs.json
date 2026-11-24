@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T23:47:17+00:00",
+ "updated": "2026-11-24T09:44:24+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -271,7 +271,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -383,15 +383,7 @@
    "lon": -122.455
   },
   {
-   "name": "Russia, the Lipetsk city, WebSDR 2m, 40m, 80m (144-146 Mhz, 7 Mhz, 3 Mhz)",
-   "url": "http://stream.sdr48.ru/",
-   "loc": "",
-   "https": false,
-   "lat": 52.6061,
-   "lon": 39.5455
-  },
-  {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -455,6 +447,14 @@
    "lon": -81.2045
   },
   {
+   "name": "Websdr by SV0XBS in Athens GREECE with RTL receiver.",
+   "url": "http://sv0xbs.ddns.net:8901/",
+   "loc": "",
+   "https": false,
+   "lat": 37.9811,
+   "lon": 23.7122
+  },
+  {
    "name": "Websdr by SV1TKU  in Nikaia-Athens GREECE with RTL-RSP1 receiver.",
    "url": "http://varadero1000.ddns.net:8901/",
    "loc": "",
@@ -495,7 +495,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
+   "name": "RTLSDR  EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -663,6 +663,14 @@
    "lon": 11.3819
   },
   {
+   "name": "WebSDR, Russia, Tyumen (West Siberia Plain).",
+   "url": "http://websdr.electrosystem.ru:8081/",
+   "loc": "",
+   "https": false,
+   "lat": 57.1477,
+   "lon": 65.4622
+  },
+  {
    "name": "Frankonia 595m high and with a Sirio dipol antenna vertical for 11m",
    "url": "http://websdr-jn59hq.ddnss.org:8100/",
    "loc": "",
@@ -773,6 +781,14 @@
    "https": false,
    "lat": 30.0227,
    "lon": -90.1212
+  },
+  {
+   "name": "Pardinho,Brazil-VOICE Cmd: https://appr.org.br",
+   "url": "http://appr.org.br:8911/",
+   "loc": "",
+   "https": false,
+   "lat": -23.1023,
+   "lon": -48.3712
   },
   {
    "name": "QS1R SDR in RUSSIA, Irkutsk, Loc-OO22GE : Multiband",
@@ -1199,14 +1215,6 @@
    "https": false,
    "lat": 45.474788,
    "lon": 16.763732
-  },
-  {
-   "name": "VE4CA | Listening Post",
-   "url": "http://prairiesky.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 49.6012,
-   "lon": -96.6971
   },
   {
    "name": "ML1PB",
@@ -1929,14 +1937,6 @@
    "lon": 0.9285971295404183
   },
   {
-   "name": "OH6AC - Club Station - Lapua - Finland",
-   "url": "https://rx.oh6ac.net/",
-   "loc": "",
-   "https": true,
-   "lat": 62.957564465233666,
-   "lon": 22.951817253652788
-  },
-  {
    "name": "[OM1AEG] 10m / 6m / 2m / 70cm",
    "url": "http://srnka.ddns.net:8077/",
    "loc": "",
@@ -2095,6 +2095,14 @@
    "https": false,
    "lat": 37.5727,
    "lon": 15.0391
+  },
+  {
+   "name": "WE6K San Francisco",
+   "url": "https://sdr.we6k.com/",
+   "loc": "",
+   "https": true,
+   "lat": 37.75596313629044,
+   "lon": -122.43365147910762
   },
   {
    "name": "SDRplay (Antenna: Long Wire and 1:9 Balun)",
@@ -2305,6 +2313,14 @@
    "lon": 18.8874130144324
   },
   {
+   "name": "Gruppo Radio Liguria - IQ1ZW",
+   "url": "http://iq1zw.ddns.net:42154/",
+   "loc": "",
+   "https": false,
+   "lat": 44.412808329583,
+   "lon": 8.97715299683594
+  },
+  {
    "name": "SP7PBC",
    "url": "https://sdr.sp7pbc.pl/",
    "loc": "",
@@ -2415,14 +2431,6 @@
    "https": false,
    "lat": -33.6805104914631,
    "lon": 151.10016295797675
-  },
-  {
-   "name": "RTL-SDR Experimental (IK4PKL)",
-   "url": "http://ik4pkl.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 44.04765692817522,
-   "lon": 12.553842125686007
   },
   {
    "name": "DO1TOB WebSDR 2m/70cm",
@@ -2905,14 +2913,6 @@
    "lon": -8.74601459503173
   },
   {
-   "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
-   "url": "http://sdrsevilla.hopto.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 37.38336155470133,
-   "lon": -6.05557026752054
-  },
-  {
    "name": "IK2GWH",
    "url": "http://rrc1258-2621952.freeddns.it:8073/",
    "loc": "",
@@ -3055,6 +3055,14 @@
    "https": true,
    "lat": -22.90332931413584,
    "lon": -47.103712381925774
+  },
+  {
+   "name": "M0KVH",
+   "url": "http://m0kvh.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.92374,
+   "lon": -1.195084
   },
   {
    "name": "HB9AK Hoernli JN47LI",
@@ -3297,14 +3305,6 @@
    "lon": 7.9519401465365585
   },
   {
-   "name": "Receiver",
-   "url": "https://sdr.surrealservers.net/",
-   "loc": "",
-   "https": true,
-   "lat": 37.39837482690734,
-   "lon": -79.18129126969339
-  },
-  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3471,14 +3471,6 @@
    "https": false,
    "lat": 52.04043273421456,
    "lon": 4.319923047371614
-  },
-  {
-   "name": "Deltaloyd",
-   "url": "https://sdr.deltaloyd.cc/",
-   "loc": "",
-   "https": true,
-   "lat": 37.514971495672164,
-   "lon": -3.8326270669111606
   },
   {
    "name": "SDR Multibandas CE3MXM",
@@ -3729,14 +3721,6 @@
    "lon": 13.6703080233291
   },
   {
-   "name": "hispalis-sdr VHF-UHF-HF 11m CB 40m",
-   "url": "http://hispalis-sdr.hopto.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 37.38336155470133,
-   "lon": -6.05557026752054
-  },
-  {
    "name": "BHRAMI OpenWebRX NEO",
    "url": "https://bhrami.win/",
    "loc": "",
@@ -3841,6 +3825,14 @@
    "lon": 7.081885499209634
   },
   {
+   "name": "SV1EFA",
+   "url": "https://sdr.sv1efa-radio.com/",
+   "loc": "",
+   "https": true,
+   "lat": 37.92913244322806,
+   "lon": 23.63744676277247
+  },
+  {
    "name": "VK5HW-OWx",
    "url": "http://vk5hw.duckdns.org:8073/",
    "loc": "",
@@ -3879,6 +3871,14 @@
    "https": false,
    "lat": -33.33864750337512,
    "lon": -60.199265956549475
+  },
+  {
+   "name": "Spacepl",
+   "url": "https://sdr.hosted.top/",
+   "loc": "",
+   "https": true,
+   "lat": 43.340361448567165,
+   "lon": 25.00687087719175
   },
   {
    "name": "SV5DDT",
@@ -3991,6 +3991,22 @@
    "https": true,
    "lat": 40.54685729807277,
    "lon": 17.97090309310987
+  },
+  {
+   "name": "Liga de Amadores Brasileiros de Rádio Emissão - LABRE-PE",
+   "url": "https://sdr.labre-pe.org.br/",
+   "loc": "",
+   "https": true,
+   "lat": -8.13672526935597,
+   "lon": -34.9138554837633
+  },
+  {
+   "name": "Imperial, CA SDR",
+   "url": "http://imperialsdr.duckdns.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 32.86889580980265,
+   "lon": -115.56912925800458
   }
  ]
 }

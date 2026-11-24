@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-23T23:47:17+00:00",
+ "updated": "2026-11-24T09:44:24+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 320,
+ "count": 317,
  "stations": [
   {
    "id": 3944,
@@ -21,16 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -274,16 +264,6 @@
    "https": false
   },
   {
-   "id": 5204,
-   "name": "beta BDG",
-   "loc": "JO93ac · UHF",
-   "lat": 53.108139,
-   "lng": 18.018333,
-   "alt": 50,
-   "url": "https://network.satnogs.org/stations/5204/",
-   "https": false
-  },
-  {
    "id": 4856,
    "name": "biGS",
    "loc": "PM95rn · VHF / UHF",
@@ -371,16 +351,6 @@
    "lng": 115.789,
    "alt": 5,
    "url": "https://network.satnogs.org/stations/3969/",
-   "https": false
-  },
-  {
-   "id": 5112,
-   "name": "CIA_S4",
-   "loc": "PL04ox · UHF",
-   "lat": 24.971562604021216,
-   "lng": 121.19205965975814,
-   "alt": 190,
-   "url": "https://network.satnogs.org/stations/5112/",
    "https": false
   },
   {
@@ -704,26 +674,6 @@
    "https": false
   },
   {
-   "id": 4595,
-   "name": "EA4TA",
-   "loc": "IN80ck · UHF",
-   "lat": 40.44,
-   "lng": -3.8,
-   "alt": 700,
-   "url": "https://network.satnogs.org/stations/4595/",
-   "https": false
-  },
-  {
-   "id": 4597,
-   "name": "EA4TA",
-   "loc": "IN80ck · UHF",
-   "lat": 40.44,
-   "lng": -3.8,
-   "alt": 700,
-   "url": "https://network.satnogs.org/stations/4597/",
-   "https": false
-  },
-  {
    "id": 342,
    "name": "EA5WA Pobla Llarga",
    "loc": "IM99sc · UHF",
@@ -981,6 +931,16 @@
    "lng": 6.636,
    "alt": 625,
    "url": "https://network.satnogs.org/stations/1868/",
+   "https": false
+  },
+  {
+   "id": 3412,
+   "name": "HB9MFL-S-Band",
+   "loc": "JN37tf · S",
+   "lat": 47.212456,
+   "lng": 7.621808,
+   "alt": 5,
+   "url": "https://network.satnogs.org/stations/3412/",
    "https": false
   },
   {
@@ -2174,16 +2134,6 @@
    "https": false
   },
   {
-   "id": 5160,
-   "name": "PU6NIX",
-   "loc": "GG52qj · ULF, VLF, LF, MF, HF, VHF / VHF",
-   "lat": -27.591353,
-   "lng": -48.610764,
-   "alt": 23,
-   "url": "https://network.satnogs.org/stations/5160/",
-   "https": false
-  },
-  {
    "id": 71,
    "name": "PV8DX",
    "loc": "FJ92pt · UHF",
@@ -2211,6 +2161,16 @@
    "lng": -71.448,
    "alt": 157,
    "url": "https://network.satnogs.org/stations/5125/",
+   "https": false
+  },
+  {
+   "id": 3741,
+   "name": "rommac uhf qfh 2",
+   "loc": "DM42bg · UHF",
+   "lat": 32.2885,
+   "lng": -111.868,
+   "alt": 331,
+   "url": "https://network.satnogs.org/stations/3741/",
    "https": false
   },
   {
@@ -2574,6 +2534,16 @@
    "https": false
   },
   {
+   "id": 5243,
+   "name": "Swallowview",
+   "loc": "CM98iv · VHF / UHF",
+   "lat": 38.8958,
+   "lng": -121.2917,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/5243/",
+   "https": false
+  },
+  {
    "id": 4242,
    "name": "TA2NJH Ground Station",
    "loc": "KM69kw · UHF / L",
@@ -2581,16 +2551,6 @@
    "lng": 32.8362,
    "alt": 851,
    "url": "https://network.satnogs.org/stations/4242/",
-   "https": false
-  },
-  {
-   "id": 3161,
-   "name": "TA2NMU #3 (Turnstile)",
-   "loc": "KN91pa · UHF",
-   "lat": 41.0053,
-   "lng": 39.2978,
-   "alt": 490,
-   "url": "https://network.satnogs.org/stations/3161/",
    "https": false
   },
   {
@@ -2874,16 +2834,6 @@
    "https": false
   },
   {
-   "id": 5104,
-   "name": "VK4ATW - Discone",
-   "loc": "QG62lh · VHF / UHF",
-   "lat": -27.693659,
-   "lng": 152.91687,
-   "alt": 90,
-   "url": "https://network.satnogs.org/stations/5104/",
-   "https": false
-  },
-  {
    "id": 3244,
    "name": "VK4JBE-TESTING",
    "loc": "QG62mm · UHF",
@@ -2971,6 +2921,16 @@
    "lng": 77.5417,
    "alt": 900,
    "url": "https://network.satnogs.org/stations/2987/",
+   "https": false
+  },
+  {
+   "id": 4254,
+   "name": "VU3IPU - Varun",
+   "loc": "MK82sx · VHF / UHF",
+   "lat": 12.991308,
+   "lng": 77.576969,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4254/",
    "https": false
   },
   {
@@ -3101,6 +3061,16 @@
    "lng": 106.772,
    "alt": 240,
    "url": "https://network.satnogs.org/stations/4163/",
+   "https": false
+  },
+  {
+   "id": 4355,
+   "name": "YC8UMD",
+   "loc": "PJ21ji · UHF",
+   "lat": 1.365176,
+   "lng": 124.827774,
+   "alt": 675,
+   "url": "https://network.satnogs.org/stations/4355/",
    "https": false
   },
   {
