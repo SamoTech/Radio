@@ -153,3 +153,7 @@ R-05 معروف (P2-4 مؤجل): العدادات خشنة وقابلة للتل
 ## Phase 1 — فشل نشر Pages أو نتيجة إنشاء مبهمة
 
 `update-data.yml` و`deploy.yml` يشتركان في `radio-atlas-pipeline` وينشران عبر `scripts/pages_deploy.py` بالمعرّف الصحيح من خطوة upload. قبل النشر يلزم اتفاق REST list وexact-ID ثلاث مرات. أخطاء GET المؤقتة تعاد بحدود، أما POST فيُرسل مرة واحدة. لو فشل بعد الإرسال: راجع deployment ID وjournal وPages وbuild-info قبل إعادة التشغيل؛ الـjournal يحمي نفس runner فقط. لا تعِد workflow آليًا بعد POST مبهم. نجاح data commit وحده لا يثبت نجاح Pages؛ المطلوب حالة `succeed` وprovenance أخضر على SHA الفعلي. التفاصيل والrollback في [PRODUCTION_VERIFICATION](PRODUCTION_VERIFICATION.md).
+
+## Phase 1 — ملفات التشغيل الناقصة أو فشل بصمة الكتالوج
+
+النشر يجب أن يرفع مجلد staging فقط، ولا يعود للجذر عند ظهور ملف ناقص. اقرأ رسالة stage_production.py وحدد مرجع التشغيل؛ أضفه صراحة مع الاختبار عبر PR. verifier يستخدم نفس القائمة ويتحقق منSHA256 والحجم عبرstreaming، بما يشملstations.json وكلالدلتا وSDR وSEO؛ اختلافmanifest/version/count خطأحقيقي. تفاصيل الأوامر والحدود والتراجع في [PRODUCTION_ARTIFACT](PRODUCTION_ARTIFACT.md). لا تغيرالكاش أو تحذفبيانات المستخدم لإخفاء إصدارقديم؛ صححالنشر وأعدالتحقق علىSHAالمتوقع.

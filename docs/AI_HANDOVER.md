@@ -34,7 +34,7 @@
 | `proxy/kiwi-quota.js` | حصص عالمية وleases في Durable Object SQLite | قبول الإنتاج منفصل عن اختبارات المحاكاة |
 | `proxy/kiwi-wrangler.toml` | نشر Kiwi وربط الكلاس والترحيل | لا تستخدم إعداد FM له |
 | `proxy/worker.js`, `proxy/wrangler.toml` | relay محطات إنترنت منفصل | غير مفعّل: `STREAM_PROXY=''` |
-| `sw.js`, `manifest.webmanifest` | PWA والكاش | SW المعتمد في الجذر فقط؛ حاليًا v90 |
+| `sw.js`, `manifest.webmanifest` | PWA والكاش | SW المعتمد في الجذر فقط؛ حاليًا v103 |
 | `countries/`, `genres/`, `languages/` | صفحات SEO مولدة | غيّر المولد بدل تصحيح مخرجات مؤقتة فقط |
 | `tests/`, `scripts/*qa*` | اختبارات السلوك والبروتوكول والمتصفح | fixture لا يثبت صلاحية جهاز حي |
 
@@ -98,3 +98,7 @@ Playwright وChromium مطلوبان لاختبارات المتصفح؛ اقر�
 - [Kiwi bridge](../proxy/KIWI_README.md) و[FM relay](../proxy/README.md): خدمتان مختلفتان.
 - [BROWSER_QA](BROWSER_QA.md)، [SITEMAP_FORENSICS](SITEMAP_FORENSICS.md)، [تدقيق المصادر](RADIO_SOURCES_AUDIT_2026-11-19.md): أدلة مؤرخة؛ لا تحولها إلى ضمان دائم.
 - `docs/CLOUDFLARE_AI_KIWI_P0_FULL_CODE.md`: حزمة تسليم مصدر تاريخية، ليست شهادة نشر ولا بديلًا لمراجعة النسخة الحالية.
+
+## استلام البنية بعد Phase 1
+
+ابدأ من [حزمة الإنتاج](PRODUCTION_ARTIFACT.md) و[التحقق](PRODUCTION_VERIFICATION.md). أي ملف تشغيل جديد يجب إدراجه في قائمة staging واختبار مراجع اعتماده؛ verifier يستورد نفس القائمة. التوقيع ليس توقيت بناء متغيرًا: schema2 يرتبط بالـSHA والبايتات. تغيير البنية فقط لا يرفع SW. مصدر اختبار Kiwi المسجّل يعزل إشغال الأجهزة المتغير دون تعديل مسار live أو تجاوز إذن ext_api.
