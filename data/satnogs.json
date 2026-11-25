@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T08:18:39+00:00",
+ "updated": "2026-11-25T21:36:00+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 316,
+ "count": 322,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,16 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
    "https": false
   },
   {
@@ -551,6 +561,16 @@
    "lng": 6.216,
    "alt": 277,
    "url": "https://network.satnogs.org/stations/37/",
+   "https": false
+  },
+  {
+   "id": 4768,
+   "name": "DL7NDR VHF+UHF",
+   "loc": "JN48ap · VHF / UHF",
+   "lat": 48.65,
+   "lng": 8.04,
+   "alt": 144,
+   "url": "https://network.satnogs.org/stations/4768/",
    "https": false
   },
   {
@@ -1374,6 +1394,16 @@
    "https": false
   },
   {
+   "id": 2520,
+   "name": "LB-HN",
+   "loc": "OL21wb · L",
+   "lat": 21.058337,
+   "lng": 105.90704,
+   "alt": 30,
+   "url": "https://network.satnogs.org/stations/2520/",
+   "https": false
+  },
+  {
    "id": 2032,
    "name": "Lebakaas Ground Station",
    "loc": "JN58ug · VHF",
@@ -1381,6 +1411,16 @@
    "lng": 11.6683,
    "alt": 495,
    "url": "https://network.satnogs.org/stations/2032/",
+   "https": false
+  },
+  {
+   "id": 430,
+   "name": "Leonidio",
+   "loc": "KM17kd · UHF",
+   "lat": 37.1580041,
+   "lng": 22.8930827,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/430/",
    "https": false
   },
   {
@@ -2144,6 +2184,16 @@
    "https": false
   },
   {
+   "id": 4601,
+   "name": "QMR-KWT2-HOUSE",
+   "loc": "LL49ah · VHF / UHF",
+   "lat": 29.31891,
+   "lng": 48.07565,
+   "alt": 20,
+   "url": "https://network.satnogs.org/stations/4601/",
+   "https": false
+  },
+  {
    "id": 2303,
    "name": "Rhodes College",
    "loc": "EM55ac · UHF",
@@ -2584,6 +2634,16 @@
    "https": false
   },
   {
+   "id": 2212,
+   "name": "TI2EI",
+   "loc": "EJ89ax · VHF / UHF",
+   "lat": 9.958423,
+   "lng": -83.996847,
+   "alt": 1470,
+   "url": "https://network.satnogs.org/stations/2212/",
+   "https": false
+  },
+  {
    "id": 438,
    "name": "Timisoara - VHF QHA",
    "loc": "KN05or · VHF",
@@ -2711,16 +2771,6 @@
    "lng": -114.25582,
    "alt": 1228,
    "url": "https://network.satnogs.org/stations/5290/",
-   "https": false
-  },
-  {
-   "id": 1156,
-   "name": "VA2WBT - Montréal, Canada",
-   "loc": "FN35em · UHF",
-   "lat": 45.536682,
-   "lng": -73.619774,
-   "alt": 70,
-   "url": "https://network.satnogs.org/stations/1156/",
    "https": false
   },
   {
@@ -2924,6 +2974,16 @@
    "https": false
   },
   {
+   "id": 4254,
+   "name": "VU3IPU - Varun",
+   "loc": "MK82sx · VHF / UHF",
+   "lat": 12.991308,
+   "lng": 77.576969,
+   "alt": 919,
+   "url": "https://network.satnogs.org/stations/4254/",
+   "https": false
+  },
+  {
    "id": 4821,
    "name": "VU3IPU - Varun (Weather Satellite)",
    "loc": "MK82sx · VHF",
@@ -2941,16 +3001,6 @@
    "lng": -75.21,
    "alt": 10,
    "url": "https://network.satnogs.org/stations/223/",
-   "https": false
-  },
-  {
-   "id": 754,
-   "name": "W6MSU UHF",
-   "loc": "CM98hb · UHF",
-   "lat": 38.054,
-   "lng": -121.361,
-   "alt": 10,
-   "url": "https://network.satnogs.org/stations/754/",
    "https": false
   },
   {
@@ -3081,6 +3131,16 @@
    "lng": -111.177,
    "alt": 1359,
    "url": "https://network.satnogs.org/stations/4615/",
+   "https": false
+  },
+  {
+   "id": 5345,
+   "name": "YetiBadger.com - SAT1",
+   "loc": "DM79ni · VHF / UHF / L",
+   "lat": 39.37,
+   "lng": -104.86,
+   "alt": 1900,
+   "url": "https://network.satnogs.org/stations/5345/",
    "https": false
   },
   {
