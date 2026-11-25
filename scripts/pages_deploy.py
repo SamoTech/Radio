@@ -21,7 +21,8 @@ from urllib.request import Request, urlopen
 TRANSIENT_HTTP = {408, 429, 500, 502, 503, 504}
 PENDING = {"queued", "pending", "in_progress", "building", "deployment_in_progress",
            "deployment_pending", "deployment_queued", "deployment_attempt_error",
-           "unknown_status", "not_found"}
+           "unknown_status", "not_found", "syncing_files", "finished_file_sync",
+           "updating_pages", "purging_cdn"}
 TERMINAL = {"deployment_failed", "deployment_content_failed", "deployment_cancelled",
             "deployment_lost", "failed", "cancelled"}
 
@@ -185,6 +186,19 @@ def deploy(api, prefix, artifact_id, source_sha, token, state_file, *,
     raise DeploymentError(f"Pages deployment {deployment_id} status exhausted {attempts} attempts; inspect this deployment, do not blindly rerun")
 
 
+
+def production_page_url(value):
+    # The official REST response examples also allow a hostname without scheme.
+    if not isinstance(value, str) or not value or re.search(r"\s", value) or "\\" in value:
+        raise DeploymentError("Deployment succeeded but page_url is invalid; inspect Pages")
+    candidate = value if "://" in value else "https://" + value
+    parsed = urlsplit(candidate)
+    if (parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password
+            or parsed.query or parsed.fragment):
+        raise DeploymentError("Deployment succeeded but page_url is invalid; inspect Pages")
+    return candidate
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--artifact-id", required=True, type=int)
@@ -218,9 +232,7 @@ def main(argv=None):
         prefix = "/repos/" + repo
         wait_for_artifact(api, prefix, run_id, args.artifact_name, args.artifact_id)
         result = deploy(api, prefix, args.artifact_id, checkout, oidc_token(env), args.state_file)
-        page_url = result.get("page_url", "")
-        if not isinstance(page_url, str) or "\n" in page_url or "\r" in page_url or urlsplit(page_url).scheme != "https":
-            raise DeploymentError("Deployment succeeded but page_url is invalid; inspect Pages")
+        page_url = production_page_url(result.get("page_url"))
         with open(env["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
             output.write("page_url=" + page_url + "\n")
         print("Pages deployment succeeded; production provenance verification may now run")

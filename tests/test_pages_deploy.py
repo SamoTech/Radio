@@ -90,6 +90,24 @@ class PagesDeploymentTests(unittest.TestCase):
         self.assertNotEqual(payload['pages_build_version'], ART['workflow_run']['head_sha'])
         self.assertNotIn('secret-token', self.state.read_text())
 
+    def test_every_documented_nonterminal_status_is_polled_until_success(self):
+        api = Mock()
+        values = ['deployment_in_progress', 'syncing_files', 'finished_file_sync',
+                  'updating_pages', 'purging_cdn', 'deployment_attempt_error', 'succeed']
+        api.request.side_effect = [{'id': 'abc123'}] + [{'status': v} for v in values]
+        self.deploy(api)
+        self.assertEqual(api.request.call_count, len(values) + 1)
+        self.assertEqual(sum(c.args[0] == 'POST' for c in api.request.call_args_list), 1)
+
+    def test_official_page_url_forms_and_unsafe_urls(self):
+        for value, expected in [('samotech.github.io/Radio/', 'https://samotech.github.io/Radio/'),
+                                ('https://samotech.github.io/Radio/', 'https://samotech.github.io/Radio/')]:
+            self.assertEqual(pages.production_page_url(value), expected)
+        for value in [None, '', 'http://example.com', 'https://u:p@example.com',
+                      'https://example.com/\nkey=bad', 'https://example.com/#bad']:
+            with self.subTest(value=value):
+                with self.assertRaises(pages.DeploymentError): pages.production_page_url(value)
+
     def test_uncertain_post_never_retries_and_journal_prevents_repeat(self):
         api = Mock(); api.request.side_effect = pages.DeploymentError('timeout')
         with self.assertRaisesRegex(pages.DeploymentError, 'timeout'): self.deploy(api)
