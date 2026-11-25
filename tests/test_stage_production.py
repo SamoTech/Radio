@@ -2,6 +2,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import tempfile
@@ -67,7 +68,9 @@ class ProductionStagingTests(unittest.TestCase):
 
     def test_optional_public_advertising_files_are_preserved(self):
         (self.root / 'ads.txt').write_text('example.org, 123, DIRECT')
+        (self.root / '.nojekyll').write_text('')
         self.assertIn('ads.txt', MODULE.production_inventory(self.root))
+        self.assertIn('.nojekyll', MODULE.production_inventory(self.root))
 
     def test_missing_required_asset_fails_before_writing_output(self):
         (self.root / 'icons/icon.svg').unlink()
@@ -174,6 +177,18 @@ class ProductionStagingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'absent or empty'):
             MODULE.stage(self.root, output)
         self.assertEqual((output / 'keep').read_text(), 'important')
+
+    def test_pages_workflows_publish_the_validated_directory_including_optional_dotfiles(self):
+        for name in ('update-data.yml', 'deploy.yml'):
+            with self.subTest(workflow=name):
+                source = (ROOT / '.github/workflows' / name).read_text()
+                self.assertIn('scripts/stage_production.py --output "$RUNNER_TEMP/radio-atlas-public"', source)
+                self.assertIn('--descriptor "$RUNNER_TEMP/radio-atlas-public/build-info.json"', source)
+                upload = re.search(r'uses: actions/upload-pages-artifact@[^\n]+\n        with:\n((?:          [^\n]+\n)+)', source)
+                self.assertIsNotNone(upload)
+                self.assertIn('path: ${{ runner.temp }}/radio-atlas-public', upload[1])
+                self.assertIn('include-hidden-files: true', upload[1])
+                self.assertNotRegex(upload[1], r'path:\s*\.\s*\n')
 
     def test_current_repository_inventory_resolves(self):
         names = MODULE.production_inventory(ROOT)
