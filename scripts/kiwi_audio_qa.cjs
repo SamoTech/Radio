@@ -6,6 +6,7 @@ const {chromium}=require('playwright');
 const fs=require('node:fs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
+const {recordedReceiverChoices}=require('./kiwi_recorded_fixture.cjs');
 const BASE=process.env.RADIO_QA_BASE || 'http://127.0.0.1:8000/';
 const live=process.env.KIWI_QA_LIVE==='1';
 const output=path.resolve('artifacts/kiwi-audio-qa');
@@ -262,9 +263,7 @@ async function checkMobileLayout(page,language) {
     });
     const catalog=JSON.parse(fs.readFileSync('data/kiwisdr.json','utf8')).receivers;
     if(!live){
-      const fixtureReceivers=[catalog.find(x=>new URL(x.url).origin===new URL(recording.receiver).origin),
-        catalog.find(x=>new URL(x.url).hostname==='cyp.twrmon.net')];
-      assert.ok(fixtureReceivers.every(Boolean),'recorded receiver choices must remain catalog-listed');
+      const fixtureReceivers=recordedReceiverChoices(catalog,recording.receiver);
       await page.route('**/data/kiwisdr.json',route=>route.fulfill({status:200,contentType:'application/json',
         body:JSON.stringify({updated:recording.recorded,receivers:fixtureReceivers})}));
     }

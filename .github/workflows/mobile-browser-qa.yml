@@ -6,6 +6,7 @@ on:
       - scripts/browser_qa.cjs
       - scripts/pwa_upgrade_qa.cjs
       - scripts/kiwi_audio_qa.cjs
+      - scripts/kiwi_recorded_fixture.cjs
       - scripts/sdr_studio_qa.cjs
       - scripts/openwebrx_audio_qa.cjs
       - tests/fixtures/openwebrx-*.json
