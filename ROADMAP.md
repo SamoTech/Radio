@@ -417,4 +417,8 @@
 
 - توجيه المالك لتنفيذ المرحلة الأولى: علاج اختلاف ظهور artifact بين REST وTwirp في run45575120718. controller باستخدام Python stdlib وPages REST الرسمي يربط النشر بمعرّف الرفع نفسه، بثلاث ملاحظات هوية متتالية وGET retries محدودة، وPOST واحد دون إعادة عند النتيجة المبهمة، واستطلاع نفس deployment ID.
 - النشر اليدوي والمجدول يشتركان في concurrency؛ SHA المصدر مأخوذ من checkout فعلي ومقارن مع descriptor؛ لا تغيير للكتالوج أو الواجهة أو SWv103 أو rebase `-X theirs`. اختبارات جديدة في `tests/test_pages_deploy.py`؛ التفاصيل وإجراءات الاستعادة في [التحقق الإنتاجي](docs/PRODUCTION_VERIFICATION.md).
-- الحالة: تنفيذ مرشح، ينتظر بوابات الاختبارات وPR وCI والنشر والتحقق الفعلي؛ لا إعلان إغلاق Phase1 قبلها.
+- الحالة: دُمج [PR #185](https://github.com/SamoTech/Radio/pull/185) في `601d38c096bc616727b56d42b3e973ab3340f468` بعد Validate وGitGuardian؛ [run45658149042](https://github.com/SamoTech/Radio/actions/runs/45658149042) نجح update/deploy/verify بالمعرّف `15044471617`. يتبقى باقي Phase1 وقبول الإنتاج الشامل.
+
+### Phase 1 — تحديث Actions والبنية (2026-11-25)
+
+بند المرحلة الأولى المعتمد من المالك: تحديث جميع Actions إلى إصدارات رسمية متحققة على SHAs كاملة، تثبيت Ubuntu24.04، وفصل صلاحيات update والنشر وتقييد checkout والكاش. [جدول الإصدارات والأدلة](docs/ACTIONS_MODERNIZATION.md). الحالة: تنفيذ مصدر واختبارات محلية؛ القبول ينتظر PR/CI وmain والنشر الفعلي. لا يغلق P0 الخاصة بـKiwi أوFM ولا يغيرSW v103.
