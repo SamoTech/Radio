@@ -5,25 +5,47 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: radio-atlas-pipeline
   cancel-in-progress: false
 
 jobs:
   deploy:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
+    env:
+      PAGES_ARTIFACT_NAME: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Stamp actual checked-out source and asset digests
+        id: source
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          python3 scripts/deployment_provenance.py stamp --commit "$(git rev-parse HEAD)"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
-      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+      - id: upload
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
+          name: ${{ env.PAGES_ARTIFACT_NAME }}
           path: .
-      - name: Deploy to GitHub Pages
+      - name: Deploy exact uploaded artifact through Pages API
         id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PAGES_ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
+          PAGES_SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          python3 scripts/pages_deploy.py \
+            --artifact-id "$PAGES_ARTIFACT_ID" \
+            --artifact-name "$PAGES_ARTIFACT_NAME" \
+            --source-sha "$PAGES_SOURCE_SHA" \
+            --state-file "$RUNNER_TEMP/pages-deployment-${{ github.run_id }}.json"
+      - name: Verify actual public Pages commit and asset hashes
+        run: python3 scripts/deployment_provenance.py verify --commit "${{ steps.source.outputs.sha }}" --attempts 20 --delay 6

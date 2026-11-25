@@ -149,3 +149,7 @@ R-05 معروف (P2-4 مؤجل): العدادات خشنة وقابلة للتل
 4. لا تكرر الاتصال بسرعة ولا ترفع الحصص لتجاوز رفض؛ اختبر جهازًا واحدًا وأغلق الجلسة. اختبارات live اختيارية وتستهلك خانة استقبال.
 5. شغّل HTTP smoke الآمن عند توفر شبكة: `node scripts/kiwi_production_smoke.cjs`. تعذر DNS محلي ليس دليل تعطل الإنتاج.
 6. ارجع إلى KIWI_P0_VERIFICATION وSDR_STUDIO_ARCHITECTURE قبل تعديل البروتوكول. نشر Pages لا ينشر Worker.
+
+## Phase 1 — فشل نشر Pages أو نتيجة إنشاء مبهمة
+
+`update-data.yml` و`deploy.yml` يشتركان في `radio-atlas-pipeline` وينشران عبر `scripts/pages_deploy.py` بالمعرّف الصحيح من خطوة upload. قبل النشر يلزم اتفاق REST list وexact-ID ثلاث مرات. أخطاء GET المؤقتة تعاد بحدود، أما POST فيُرسل مرة واحدة. لو فشل بعد الإرسال: راجع deployment ID وjournal وPages وbuild-info قبل إعادة التشغيل؛ الـjournal يحمي نفس runner فقط. لا تعِد workflow آليًا بعد POST مبهم. نجاح data commit وحده لا يثبت نجاح Pages؛ المطلوب حالة `succeed` وprovenance أخضر على SHA الفعلي. التفاصيل والrollback في [PRODUCTION_VERIFICATION](PRODUCTION_VERIFICATION.md).
