@@ -28,7 +28,10 @@ class PagesDeployModeTests(unittest.TestCase):
         self.assertIn('run: node --check js/app.js', self.source)
 
     def test_deployment_and_exact_sha_verification_are_still_required(self):
-        self.assertIn("uses: actions/deploy-pages@", self.source)
+        self.assertIn("python3 scripts/pages_deploy.py", self.source)
+        self.assertIn("PAGES_ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}", self.source)
+        self.assertIn("--source-sha \"$PAGES_SOURCE_SHA\"", self.source)
+        self.assertIn("needs: deploy", self.source)
         self.assertIn("scripts/deployment_provenance.py stamp", self.source)
         self.assertIn("scripts/deployment_provenance.py verify", self.source)
 
