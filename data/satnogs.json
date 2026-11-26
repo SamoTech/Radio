@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-25T21:36:00+00:00",
+ "updated": "2026-11-26T08:04:15+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 322,
+ "count": 319,
  "stations": [
   {
    "id": 3944,
@@ -21,26 +21,6 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
-   "https": false
-  },
-  {
-   "id": 5055,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5055/",
-   "https": false
-  },
-  {
-   "id": 5068,
-   "name": "329CZ144",
-   "loc": "JN99bu · VHF / UHF",
-   "lat": 49.842978,
-   "lng": 18.16456,
-   "alt": 230,
-   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -234,16 +214,6 @@
    "https": false
   },
   {
-   "id": 4919,
-   "name": "B1LL",
-   "loc": "EM90eo · VHF / UHF",
-   "lat": 30.62002,
-   "lng": -81.62008,
-   "alt": 9,
-   "url": "https://network.satnogs.org/stations/4919/",
-   "https": false
-  },
-  {
    "id": 1168,
    "name": "bbn",
    "loc": "FN42jk · UHF",
@@ -311,6 +281,16 @@
    "lng": 4.491734,
    "alt": 7,
    "url": "https://network.satnogs.org/stations/1187/",
+   "https": false
+  },
+  {
+   "id": 3123,
+   "name": "CatSat RadioRanch",
+   "loc": "DM42og · UHF",
+   "lat": 32.265,
+   "lng": -110.808,
+   "alt": 800,
+   "url": "https://network.satnogs.org/stations/3123/",
    "https": false
   },
   {
@@ -1314,16 +1294,6 @@
    "https": false
   },
   {
-   "id": 3857,
-   "name": "KI5YNG CM4 WiMo UHF X-Quad",
-   "loc": "EM53qo · UHF",
-   "lat": 33.6037,
-   "lng": -88.6476,
-   "alt": 68,
-   "url": "https://network.satnogs.org/stations/3857/",
-   "https": false
-  },
-  {
    "id": 984,
    "name": "KJ6DZB Ppi4 Ketchup",
    "loc": "CM87uv · VHF",
@@ -1664,6 +1634,16 @@
    "https": false
   },
   {
+   "id": 4341,
+   "name": "N0NQD-SatScanner VHF",
+   "loc": "EN35dg · VHF",
+   "lat": 45.288962,
+   "lng": -93.74652,
+   "alt": 325,
+   "url": "https://network.satnogs.org/stations/4341/",
+   "https": false
+  },
+  {
    "id": 2461,
    "name": "N1ESK-Loudon",
    "loc": "EM75uq · UHF",
@@ -1951,6 +1931,16 @@
    "lng": 127.33722222,
    "alt": 63,
    "url": "https://network.satnogs.org/stations/5256/",
+   "https": false
+  },
+  {
+   "id": 4934,
+   "name": "Paolo IT9IPQ",
+   "loc": "JM78sd · VHF / UHF",
+   "lat": 38.140301,
+   "lng": 15.500873,
+   "alt": 160,
+   "url": "https://network.satnogs.org/stations/4934/",
    "https": false
   },
   {
@@ -2294,16 +2284,6 @@
    "https": false
   },
   {
-   "id": 3746,
-   "name": "SatNOGS_Pecna_1_UHF",
-   "loc": "JO82je · UHF",
-   "lat": 52.18,
-   "lng": 16.801,
-   "alt": 66,
-   "url": "https://network.satnogs.org/stations/3746/",
-   "https": false
-  },
-  {
    "id": 4102,
    "name": "Section III Observer (Directional South)",
    "loc": "EL98kn · VHF / UHF",
@@ -2494,16 +2474,6 @@
    "https": false
   },
   {
-   "id": 4309,
-   "name": "SQ7RAD",
-   "loc": "KO01nb · UHF / VHF",
-   "lat": 51.043735,
-   "lng": 21.087986,
-   "alt": 268,
-   "url": "https://network.satnogs.org/stations/4309/",
-   "https": false
-  },
-  {
    "id": 2824,
    "name": "ST-HN",
    "loc": "OL21rc · VHF / UHF",
@@ -2631,16 +2601,6 @@
    "lng": -103.708,
    "alt": 450,
    "url": "https://network.satnogs.org/stations/2673/",
-   "https": false
-  },
-  {
-   "id": 2212,
-   "name": "TI2EI",
-   "loc": "EJ89ax · VHF / UHF",
-   "lat": 9.958423,
-   "lng": -83.996847,
-   "alt": 1470,
-   "url": "https://network.satnogs.org/stations/2212/",
    "https": false
   },
   {
@@ -3001,6 +2961,16 @@
    "lng": -75.21,
    "alt": 10,
    "url": "https://network.satnogs.org/stations/223/",
+   "https": false
+  },
+  {
+   "id": 754,
+   "name": "W6MSU UHF",
+   "loc": "CM98hb · UHF",
+   "lat": 38.054,
+   "lng": -121.361,
+   "alt": 10,
+   "url": "https://network.satnogs.org/stations/754/",
    "https": false
   },
   {
