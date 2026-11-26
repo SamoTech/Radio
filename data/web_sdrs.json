@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-26T08:04:15+00:00",
+ "updated": "2026-11-26T21:25:37+00:00",
  "source": "receiverbook.de + morria/multi-sdr fallback",
  "sources": {
   "websdr": "receiverbook.de",
@@ -287,7 +287,7 @@
    "lon": -77.1212
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.me:8901/",
    "loc": "",
    "https": false,
@@ -415,7 +415,7 @@
    "lon": 39.5455
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://108.196.236.231:8901/",
    "loc": "",
    "https": false,
@@ -527,7 +527,7 @@
    "lon": 121.545
   },
   {
-   "name": "RTLSDR  EM12ho W2DB",
+   "name": "RTLSDR Dell Optiplex 960 EM12ho W2DB",
    "url": "http://2360.ddns.net:8901/",
    "loc": "",
    "https": false,
@@ -615,14 +615,6 @@
    "lon": -58.7045
   },
   {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://glockenhof.asuscomm.com:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
-  },
-  {
    "name": "Experimental WEB-SDR Server by SV2YJ in Alexandria GREECE. Pocket RxTx supported.",
    "url": "http://hamradio.sv2yj.live:8901/",
    "loc": "",
@@ -679,14 +671,6 @@
    "lon": 30.2122
   },
   {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://websdr.ddnss.org:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
-  },
-  {
    "name": "Frankonia 595m high and with a Sirio dipol antenna vertical for 11m",
    "url": "http://websdr-dillberg.ddnss.org:8100/",
    "loc": "",
@@ -709,14 +693,6 @@
    "https": false,
    "lat": 49.3243,
    "lon": 11.3819
-  },
-  {
-   "name": "\"Frankonia/Nuernberg/Glockenhof WebSDR,LF/MF/160/120/90/80/75/60/49/40/41 Experimental_test:31/3022/20/17/16/15/13/12/11",
-   "url": "http://websdr-jn59nk.ddnss.org:8080/",
-   "loc": "",
-   "https": false,
-   "lat": 49.4394,
-   "lon": 11.1288
   },
   {
    "name": "LZ2KAC WEBSDR RTL2832U/R820T-Receiver",
@@ -993,14 +969,6 @@
    "lon": 15.178531063564318
   },
   {
-   "name": "CB0BED WebSDR - LK Mittelsachsen / Brand-Erbisdorf",
-   "url": "http://cb0bed.selfhost.co:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 50.85174,
-   "lon": 13.301789
-  },
-  {
    "name": "SDR-Alaró (Mallorca)",
    "url": "https://sdr.alaro.ovh/",
    "loc": "",
@@ -1041,6 +1009,14 @@
    "lon": 5.07129
   },
   {
+   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
+   "url": "http://5.154.110.148:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 41.5448,
+   "lon": 1.653
+  },
+  {
    "name": "HomPit Radio",
    "url": "http://sdr.flaretechnologies.com.au/",
    "loc": "",
@@ -1063,6 +1039,14 @@
    "https": false,
    "lat": 51.666167,
    "lon": 10.343333
+  },
+  {
+   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
+   "url": "http://5.154.110.148:8073/#freq=145550000,mod=nfm,sql=-748073",
+   "loc": "",
+   "https": false,
+   "lat": 41.5448,
+   "lon": 1.653
   },
   {
    "name": "dc5dm (2m/70cm)",
@@ -1415,14 +1399,6 @@
    "https": false,
    "lat": 53.31840990270731,
    "lon": 6.896214858622547
-  },
-  {
-   "name": "WebSDR Volta Redonda - RJ",
-   "url": "http://websdr.dynv6.net:8900/",
-   "loc": "",
-   "https": false,
-   "lat": -22.4757447443785,
-   "lon": -44.031605491414
   },
   {
    "name": "VK2NET",
@@ -2121,6 +2097,14 @@
    "lon": -122.43365147910762
   },
   {
+   "name": "SDRplay (Antenna: Long Wire and 1:9 Balun)",
+   "url": "http://sdrtoyb.ddns.net:8074/",
+   "loc": "",
+   "https": false,
+   "lat": 60.5680861,
+   "lon": 9.1027427
+  },
+  {
    "name": "ni5f-2",
    "url": "http://72.170.239.252:8082/",
    "loc": "",
@@ -2193,14 +2177,6 @@
    "lon": -56.170165816307495
   },
   {
-   "name": "EA4HXE",
-   "url": "http://ea4hxe.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 40.45535,
-   "lon": -3.46973
-  },
-  {
    "name": "Uruguay Link Ciudad de Melo (Sysop CX4AE)",
    "url": "http://179.27.116.122:8073/",
    "loc": "",
@@ -2231,6 +2207,14 @@
    "https": true,
    "lat": 51.5857859140007,
    "lon": -0.3543312811086663
+  },
+  {
+   "name": "-30 Delta India Golf SDR Zaragoza -",
+   "url": "https://sdr.planetadelta.com/",
+   "loc": "",
+   "https": true,
+   "lat": 41.656794293258,
+   "lon": -0.878459675132175
   },
   {
    "name": "Sandro, IU0REG",
@@ -2417,14 +2401,6 @@
    "lon": 127.32278950737621
   },
   {
-   "name": "VK2SKY",
-   "url": "http://vk2sky-openwebrx.duckdns.org:8073/",
-   "loc": "",
-   "https": false,
-   "lat": -33.6805104914631,
-   "lon": 151.10016295797675
-  },
-  {
    "name": "RTL-SDR Experimental (IK4PKL)",
    "url": "http://ik4pkl.ddns.net:8073/",
    "loc": "",
@@ -2439,6 +2415,14 @@
    "https": true,
    "lat": 51.5951893950741,
    "lon": 8.6301670614654
+  },
+  {
+   "name": "Sdr Online España Barcelona, web radio rtl y escuche las bandas de HF UHF VHF QO100 Satélite Banda Maritma",
+   "url": "http://ea3er.sytes.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 41.5448,
+   "lon": 1.653
   },
   {
    "name": "Uruguay Link Op: cx4ae",
@@ -2721,12 +2705,28 @@
    "lon": -98.26422124919387
   },
   {
+   "name": "ONL13454  UBA",
+   "url": "http://81.242.146.94:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.280753504071484,
+   "lon": 5.921694842140206
+  },
+  {
    "name": "XplorePilots",
    "url": "http://xplorepilots.duckdns.org:8073/",
    "loc": "",
    "https": false,
    "lat": 41.585439204302304,
    "lon": -4.722918726927474
+  },
+  {
+   "name": "SA7SVR",
+   "url": "http://sdr.cqnet.org:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 57.779869,
+   "lon": 14.161133
   },
   {
    "name": "sv9cjo",
@@ -2953,14 +2953,6 @@
    "lon": 8.5316
   },
   {
-   "name": "DG2SAX",
-   "url": "http://dg2sax.ddns.net:8075/",
-   "loc": "",
-   "https": false,
-   "lat": 48.27418953728998,
-   "lon": 9.012116093047542
-  },
-  {
    "name": "VK4AID",
    "url": "https://sdr.dyne.family/",
    "loc": "",
@@ -3033,6 +3025,14 @@
    "lon": -47.103712381925774
   },
   {
+   "name": "M0KVH",
+   "url": "http://m0kvh.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": 50.92374,
+   "lon": -1.195084
+  },
+  {
    "name": "HB9AK Hoernli JN47LI",
    "url": "http://sdr.swiss-artg.ch:8088/",
    "loc": "",
@@ -3089,6 +3089,14 @@
    "lon": 5.81356271883628
   },
   {
+   "name": "SDR São José do Rio Preto, SP, Brasil - PU2XZL -HF-CB-10m-VHF-2m",
+   "url": "http://sdrsjriopreto.ddns.net:8073/",
+   "loc": "",
+   "https": false,
+   "lat": -20.7556479129044,
+   "lon": -49.3301090052156
+  },
+  {
    "name": "Experimental WebSDR by Z31ALN",
    "url": "https://openwebrx-server.tortoise-mine.ts.net/",
    "loc": "",
@@ -3135,6 +3143,14 @@
    "https": false,
    "lat": 46.9,
    "lon": 7.24
+  },
+  {
+   "name": "EA1IOS (10-11-15-20-40m-VHF-UHF) OPERATIVO 9:00am-1:00am",
+   "url": "http://ea1ios.serveftp.com/",
+   "loc": "",
+   "https": false,
+   "lat": 43.53716641562759,
+   "lon": -5.648042322826474
   },
   {
    "name": "RCC01 HF/VHF/UHF Danville, CA",
@@ -3265,6 +3281,14 @@
    "lon": 7.9519401465365585
   },
   {
+   "name": "Receiver",
+   "url": "https://sdr.surrealservers.net/",
+   "loc": "",
+   "https": true,
+   "lat": 37.39837482690734,
+   "lon": -79.18129126969339
+  },
+  {
    "name": "S59EKL",
    "url": "https://sdr.s59ekl.si/",
    "loc": "",
@@ -3297,7 +3321,7 @@
    "lon": 13.46749
   },
   {
-   "name": "SDR Pescara 100 Khz - 1700 Mhz Antenna AOR SA-7000",
+   "name": "SDR Pescara 1 Khz - 1700 Mhz Antenna AOR SA-7000",
    "url": "http://rnestoe.myddns.me:8073/",
    "loc": "",
    "https": false,
@@ -3785,12 +3809,28 @@
    "lon": 13.394247410031038
   },
   {
+   "name": "Max's mountains station HF - VHF - UHF - DAB * STEREO*",
+   "url": "https://maxmountainstation.ddns.net/",
+   "loc": "",
+   "https": true,
+   "lat": 45.8211071365738,
+   "lon": 9.49409227335353
+  },
+  {
    "name": "🇩🇪 Jack’s S D R 🇩🇪 NRW Gelsenkirchen/Essen  | ⚡️ 160m-70cm AFU, CB, Freenet, PMR ⚡️",
    "url": "https://jacksdr.ddns.net:8073/",
    "loc": "",
    "https": true,
    "lat": 51.484251496254416,
    "lon": 7.081885499209634
+  },
+  {
+   "name": "SV1EFA",
+   "url": "https://sdr.sv1efa-radio.com/",
+   "loc": "",
+   "https": true,
+   "lat": 37.92913244322806,
+   "lon": 23.63744676277247
   },
   {
    "name": "VK5HW-OWx",
@@ -3831,14 +3871,6 @@
    "https": false,
    "lat": -33.33864750337512,
    "lon": -60.199265956549475
-  },
-  {
-   "name": "Spacepl",
-   "url": "https://sdr.hosted.top/",
-   "loc": "",
-   "https": true,
-   "lat": 43.340361448567165,
-   "lon": 25.00687087719175
   },
   {
    "name": "SV5DDT",
@@ -3921,14 +3953,6 @@
    "lon": -7.45127503708746
   },
   {
-   "name": "<p style=\"color: black;\">DF4IAJ - Pforzheim SDR",
-   "url": "http://lighttux.spdns.eu:6166/",
-   "loc": "",
-   "https": false,
-   "lat": 48.8830498386239,
-   "lon": 8.73786169677969
-  },
-  {
    "name": "Nortex RX",
    "url": "https://openweb.kwolf.us/",
    "loc": "",
@@ -3983,54 +4007,6 @@
    "https": false,
    "lat": 51.8109400393341,
    "lon": 5.79721754322164
-  },
-  {
-   "name": "OK1OCB",
-   "url": "http://185.131.60.106:8074/",
-   "loc": "",
-   "https": false,
-   "lat": 48.7384381,
-   "lon": 14.7242911
-  },
-  {
-   "name": "Zikerfy",
-   "url": "https://sdr.zikerfy.com/",
-   "loc": "",
-   "https": true,
-   "lat": 16.8078354,
-   "lon": -96.7592941
-  },
-  {
-   "name": "HB9GZS",
-   "url": "http://openwebrxplus.ddns.net:8073/",
-   "loc": "",
-   "https": false,
-   "lat": 45.85576095707822,
-   "lon": 8.960330724716199
-  },
-  {
-   "name": "XV4HT/BN",
-   "url": "https://bn-rx.bluecylabs.com/",
-   "loc": "",
-   "https": true,
-   "lat": 21.0008471,
-   "lon": 106.2047978
-  },
-  {
-   "name": "XV4HT",
-   "url": "https://hn-rx.bluecylabs.com/",
-   "loc": "",
-   "https": true,
-   "lat": 20.980158,
-   "lon": 105.7545071
-  },
-  {
-   "name": "XV9HM/TB",
-   "url": "https://rxtb.hmpepca.com/",
-   "loc": "",
-   "https": true,
-   "lat": 20.436529753168806,
-   "lon": 106.4561539512476
   }
  ]
 }
