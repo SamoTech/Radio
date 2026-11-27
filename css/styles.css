@@ -594,6 +594,7 @@ main>section{animation:atlas-appear .22s ease-out}
 .kiwi-scan{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .kiwi-scan summary{cursor:pointer;font-weight:600;min-height:28px}
 .kiwi-scan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding-top:12px}
+.kiwi-scan-grid select,.kiwi-scan-grid input{width:100%;min-width:0;max-width:100%}
 .kiwi-scan-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:10px}
 .kiwi-scan-results{display:grid;gap:6px;padding-top:10px}
 .kiwi-scan-caption{margin:0;color:var(--muted);font-size:.82rem}
