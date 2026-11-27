@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-27T08:12:41+00:00",
+ "updated": "2026-11-27T21:06:18+00:00",
  "source": "SatNOGS network (https://network.satnogs.org/)",
- "count": 315,
+ "count": 314,
  "stations": [
   {
    "id": 3944,
@@ -21,6 +21,26 @@
    "lng": -2.646,
    "alt": 75,
    "url": "https://network.satnogs.org/stations/3056/",
+   "https": false
+  },
+  {
+   "id": 5055,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5055/",
+   "https": false
+  },
+  {
+   "id": 5068,
+   "name": "329CZ144",
+   "loc": "JN99bu · VHF / UHF",
+   "lat": 49.842978,
+   "lng": 18.16456,
+   "alt": 230,
+   "url": "https://network.satnogs.org/stations/5068/",
    "https": false
   },
   {
@@ -144,16 +164,6 @@
    "https": false
   },
   {
-   "id": 1492,
-   "name": "Archenhold",
-   "loc": "JO62rl · VHF",
-   "lat": 52.487,
-   "lng": 13.475,
-   "alt": 23,
-   "url": "https://network.satnogs.org/stations/1492/",
-   "https": false
-  },
-  {
    "id": 4084,
    "name": "Astronomiemuseum Turnstile VHF (Test UHF)",
    "loc": "JO50oj · VHF / UHF",
@@ -204,16 +214,6 @@
    "https": false
   },
   {
-   "id": 4236,
-   "name": "aUkHF",
-   "loc": "JN18cs · UHF",
-   "lat": 48.755,
-   "lng": 2.183,
-   "alt": 141,
-   "url": "https://network.satnogs.org/stations/4236/",
-   "https": false
-  },
-  {
    "id": 1168,
    "name": "bbn",
    "loc": "FN42jk · UHF",
@@ -241,6 +241,16 @@
    "lng": 151.143912,
    "alt": 210,
    "url": "https://network.satnogs.org/stations/4961/",
+   "https": false
+  },
+  {
+   "id": 5204,
+   "name": "beta BDG",
+   "loc": "JO93ac · UHF",
+   "lat": 53.108139,
+   "lng": 18.018333,
+   "alt": 50,
+   "url": "https://network.satnogs.org/stations/5204/",
    "https": false
   },
   {
@@ -674,16 +684,6 @@
    "https": false
   },
   {
-   "id": 4600,
-   "name": "EA4RKU",
-   "loc": "IN80hm · VHF",
-   "lat": 40.513,
-   "lng": -3.35,
-   "alt": 628,
-   "url": "https://network.satnogs.org/stations/4600/",
-   "https": false
-  },
-  {
    "id": 4595,
    "name": "EA4TA",
    "loc": "IN80ck · UHF",
@@ -751,16 +751,6 @@
    "lng": 16.575,
    "alt": 310,
    "url": "https://network.satnogs.org/stations/4470/",
-   "https": false
-  },
-  {
-   "id": 3704,
-   "name": "ESOC Radio Club 2",
-   "loc": "JN49hu · UHF",
-   "lat": 49.872,
-   "lng": 8.622,
-   "alt": 180,
-   "url": "https://network.satnogs.org/stations/3704/",
    "https": false
   },
   {
@@ -1304,6 +1294,16 @@
    "https": false
   },
   {
+   "id": 3857,
+   "name": "KI5YNG CM4 WiMo UHF X-Quad",
+   "loc": "EM53qo · UHF",
+   "lat": 33.6037,
+   "lng": -88.6476,
+   "alt": 68,
+   "url": "https://network.satnogs.org/stations/3857/",
+   "https": false
+  },
+  {
    "id": 984,
    "name": "KJ6DZB Ppi4 Ketchup",
    "loc": "CM87uv · VHF",
@@ -1601,16 +1601,6 @@
    "lng": -147.536,
    "alt": 147,
    "url": "https://network.satnogs.org/stations/2051/",
-   "https": false
-  },
-  {
-   "id": 4791,
-   "name": "MEGANISI_1",
-   "loc": "KM08ip · UHF",
-   "lat": 38.65,
-   "lng": 20.739,
-   "alt": 13,
-   "url": "https://network.satnogs.org/stations/4791/",
    "https": false
   },
   {
@@ -2654,6 +2644,16 @@
    "https": false
   },
   {
+   "id": 3951,
+   "name": "UT4UYF/M",
+   "loc": "KO40wn · HF, VHF, UHF",
+   "lat": 50.559,
+   "lng": 29.915,
+   "alt": 150,
+   "url": "https://network.satnogs.org/stations/3951/",
+   "https": false
+  },
+  {
    "id": 3925,
    "name": "UT4UYF/P",
    "loc": "KO40wn · UHF",
@@ -2791,16 +2791,6 @@
    "lng": 151.264,
    "alt": 90,
    "url": "https://network.satnogs.org/stations/3863/",
-   "https": false
-  },
-  {
-   "id": 5104,
-   "name": "VK4ATW - Discone",
-   "loc": "QG62lh · VHF / UHF",
-   "lat": -27.693659,
-   "lng": 152.91687,
-   "alt": 90,
-   "url": "https://network.satnogs.org/stations/5104/",
    "https": false
   },
   {
