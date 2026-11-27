@@ -1,4 +1,5 @@
 name: CI Debug
+# temporary debugging workflow, removed before merge
 on:
   push:
     branches:
@@ -34,5 +35,5 @@ jobs:
           git config user.name "ci-debug-bot"
           git config user.email "actions@github.com"
           git add ci-debug.log
-          git commit -m "chore(debug): ci-debug.log [skip ci]" || echo "nothing to commit"
+          git commit -m "chore(debug): ci-debug.log [ci-debug-internal]" || echo "nothing to commit"
           git push
