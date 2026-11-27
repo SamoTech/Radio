@@ -137,6 +137,7 @@ var STR_SDR = {
     eibi_band_aria: 'اختر نطاق البث',
     eibi_search_aria: 'ابحث في بث الموجات القصيرة الجاري',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
+    kiwi_eibi_hint: 'بثوث مجدولة قرب هذا التردد — من لقطة EIBI «على الهواء» الحالية (تلميح هوية، وليس تأكيد بث):',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)',
     kiwi_connecting: 'جاري الاتصال بالجهاز…',
     kiwi_live: 'يستقبل ✔',
@@ -355,6 +356,7 @@ var STR_SDR = {
     eibi_search_aria: 'Search the current shortwave broadcast',
     all_bands: 'All bands',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
+    kiwi_eibi_hint: 'Scheduled broadcasts near this dial — from the current on-air EIBI snapshot (an identity hint, not proof):',
     kiwi_audio: '🎧 Direct audio (beta)',
     kiwi_connecting: 'Connecting to the receiver…',
     kiwi_live: 'Receiving ✔',
@@ -870,7 +872,7 @@ function toggleSpaceAlerts() {
 
 function loadEibi() {
   fetchJSON('data/eibi.json').then(function (d) {
-    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); }
+    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); kiwiRenderEibiHint(); }
   }).catch(function () {});
 }
 
@@ -1162,6 +1164,7 @@ function owrxArmAudioDeadline() {
   if (owrxDeadline) clearTimeout(owrxDeadline);
   if (!owrxFailActive) return;
   var session = owrxSession, fail = owrxFailActive;
+
   owrxDeadline = setTimeout(function () { if (session === owrxSession) fail('audio_timeout'); },30000);
 }
 function owrxSetStatus(key,detail) {
@@ -1745,6 +1748,7 @@ function kiwiUpdateControls() {
   if (external && kiwiCurrentReceiver) external.href = kiwiFullReceiverUrl(kiwiCurrentReceiver.url) || '#';
   var input = $('kiwi-freq');
   if (input) input.step = kiwiControlValue('kiwi-step','1');
+  kiwiRenderEibiHint();
 }
 function kiwiIsCyprusReceiver() {
   if (!kiwiCurrentReceiver) return false;
@@ -2301,6 +2305,34 @@ function openKiwiAudio(url, name, options) {
 }
 
 
+/* ================= KiwiSDR dial-side station hints (SDR-7 / Advanced SDR Engine) =================
+   The crawler keeps only broadcasts that were on air at its UTC snapshot, so
+   anything shown here was scheduled on air recently near this dial. A schedule
+   row is an identity hint, never proof the station is audible on this receiver
+   right now. Matching is +/-5 kHz to absorb dial rounding and channel drift. */
+var KIWI_EIBI_WINDOW_KHZ = 5;
+var KIWI_EIBI_MAX_ROWS = 6;
+function kiwiEibiMatches(freqKHz) {
+  var freq = Number(freqKHz);
+  var rows = typeof state !== 'undefined' && Array.isArray(state.eibi) ? state.eibi : [];
+  if (!Number.isFinite(freq) || !rows.length) return [];
+  return rows.filter(function (x) {
+    if (!x || !Number.isFinite(Number(x.f))) return false;
+    if (/^ISR\b/i.test(String(x.n || ''))) return false;
+    return Math.abs(Number(x.f) - freq) <= KIWI_EIBI_WINDOW_KHZ;
+  }).slice(0, KIWI_EIBI_MAX_ROWS);
+}
+function kiwiRenderEibiHint() {
+  var box = $('kiwi-eibi');
+  if (!box) return;
+  var rows = kiwiEibiMatches(kiwiControlValue('kiwi-freq', NaN));
+  if (!rows.length) { box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = '<p class="kiwi-scan-caption">' + esc(t('kiwi_eibi_hint')) + '</p>' + rows.map(function (x) {
+    return '<div class="kiwi-scan-row"><strong dir="ltr">' + (Number(x.f) / 1000).toFixed(3) + ' MHz</strong>' +
+      '<span dir="ltr">' + esc(x.s + '–' + x.e) + ' UTC</span><span>' + esc(x.n || '') + '</span></div>';
+  }).join('');
+}
 /* ================= KiwiSDR band scanner (SDR-5 / Advanced SDR Engine) =================
    Polite client-side scan of a frequency range across the OPEN Kiwi session.
    A detection is RF energy measured by this receiver above a threshold at scan
@@ -2401,6 +2433,7 @@ function kiwiScanApply(freqKHz) {
   // Scan retune only: never sets kiwiTuneAwaitingAudio and never touches the
   // saved session record, so scan frequencies cannot overwrite the last
   // audibly confirmed tuning.
+
   kiwiWs.send(command);
   return true;
 }
@@ -2719,6 +2752,7 @@ export function boot() {
 
   return API;
 }
+
 
 
 
