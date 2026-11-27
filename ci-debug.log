@@ -1,142 +1,101 @@
-=== node version ===
-v22.23.5
-=== docs sync checks ===
-sw version: 104
-README v-ref OK
-ROADMAP v-ref OK
-=== node --check app ===
-app.js OK
-=== node --check modules ===
-js/modules/kiwi-waterfall.mjs OK
-js/modules/map.mjs OK
-js/modules/mobile.mjs OK
-js/modules/openwebrx-native.mjs OK
-js/modules/owrx-adpcm.mjs OK
-js/modules/player.mjs OK
-js/modules/regions.mjs OK
-js/modules/sdr-adapters.mjs OK
-js/modules/sdr-waterfall.mjs OK
-js/modules/sdr.mjs OK
-js/modules/tools.mjs OK
-=== node --test ===
-  duration_ms: 0.506409
-  type: 'test'
-  ...
-# Subtest: full refresh renders stations but caches only a matching manifest
-ok 232 - full refresh renders stations but caches only a matching manifest
-  ---
-  duration_ms: 2.634322
-  type: 'test'
-  ...
-# Subtest: worker activation migrates offline data and leaves unrelated caches alone
-ok 233 - worker activation migrates offline data and leaves unrelated caches alone
-  ---
-  duration_ms: 1.321335
-  type: 'test'
-  ...
-# Subtest: catalog batches preserve per-station languages, categories and ordering
-ok 234 - catalog batches preserve per-station languages, categories and ordering
-  ---
-  duration_ms: 0.327529
-  type: 'test'
-  ...
-# Subtest: SDR keeps quick discovery outside the advanced disclosures
-ok 235 - SDR keeps quick discovery outside the advanced disclosures
-  ---
-  duration_ms: 0.359441
-  type: 'test'
-  ...
-# Subtest: worker precaches offline modules without taking over existing tabs
-ok 236 - worker precaches offline modules without taking over existing tabs
-  ---
-  duration_ms: 0.829787
-  type: 'test'
-  ...
-# Subtest: full catalog yields between batches and publishes one ordered snapshot
-ok 237 - full catalog yields between batches and publishes one ordered snapshot
-  ---
-  duration_ms: 28.83372
-  type: 'test'
-  ...
-# Subtest: home discovery links point to the existing station directories
-ok 238 - home discovery links point to the existing station directories
-  ---
-  duration_ms: 0.433887
-  type: 'test'
-  ...
-# Subtest: mobile Explore is distinct from Home without losing any catalog stations
-ok 239 - mobile Explore is distinct from Home without losing any catalog stations
-  ---
-  duration_ms: 0.120724
-  type: 'test'
-  ...
-# Subtest: station cards use safe optional logos and a permanent fallback
-ok 240 - station cards use safe optional logos and a permanent fallback
-  ---
-  duration_ms: 0.305292
-  type: 'test'
-  ...
-# Subtest: mobile navigation and expanded player targets remain present in HTML
-ok 241 - mobile navigation and expanded player targets remain present in HTML
-  ---
-  duration_ms: 0.384775
-  type: 'test'
-  ...
-# Subtest: late full catalog initialization never resets a station already playing
-ok 242 - late full catalog initialization never resets a station already playing
-  ---
-  duration_ms: 0.220044
-  type: 'test'
-  ...
-# Subtest: mobile Home quick listening shows only unique playable catalog/history entries
-ok 243 - mobile Home quick listening shows only unique playable catalog/history entries
-  ---
-  duration_ms: 0.991077
-  type: 'test'
-  ...
-# Subtest: expanded player external stream button has Arabic and English labels
-ok 244 - expanded player external stream button has Arabic and English labels
-  ---
-  duration_ms: 0.407064
-  type: 'test'
-  ...
-# Subtest: late shared-link handling never restarts a station selected during this session
-ok 245 - late shared-link handling never restarts a station selected during this session
-  ---
-  duration_ms: 1.482954
-  type: 'test'
-  ...
-# Subtest: player fallback list is HTTPS-only, unique and preserves the selected station
-ok 246 - player fallback list is HTTPS-only, unique and preserves the selected station
-  ---
-  duration_ms: 0.150065
-  type: 'test'
-  ...
-# Subtest: player fallback attempts are bounded to four direct sources and relay last
-ok 247 - player fallback attempts are bounded to four direct sources and relay last
-  ---
-  duration_ms: 0.118969
-  type: 'test'
-  ...
-# Subtest: untrusted fallback strings do not turn into individual characters or URL attempts
-ok 248 - untrusted fallback strings do not turn into individual characters or URL attempts
-  ---
-  duration_ms: 0.075833
-  type: 'test'
-  ...
-# Subtest: player resume and direct play share the same safe source builder
-ok 249 - player resume and direct play share the same safe source builder
-  ---
-  duration_ms: 0.440088
-  type: 'test'
-  ...
-1..249
+=== failing tests (names) ===
+342:not ok 8 - tests/kiwi-scan.test.cjs
+975:not ok 159 - service worker version matches the documented current version
+=== failure detail blocks ===
+342:not ok 8 - tests/kiwi-scan.test.cjs
+343-  ---
+344-  duration_ms: 21.286674
+345-  type: 'test'
+346-  location: '/home/runner/work/Radio/Radio/tests/kiwi-scan.test.cjs:1:1'
+347-  failureType: 'testCodeFailure'
+348-  exitCode: 1
+349-  signal: ~
+350-  error: 'test failed'
+351-  code: 'ERR_TEST_FAILURE'
+352-  ...
+353-# Subtest: i18n: every Kiwi waterfall key resolves to real localized text, ar + en
+354-ok 56 - i18n: every Kiwi waterfall key resolves to real localized text, ar + en
+355-  ---
+356-  duration_ms: 3.080775
+357-  type: 'test'
+358-  ...
+359-# Subtest: kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
+360-ok 57 - kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
+361-  ---
+362-  duration_ms: 1.997851
+363-  type: 'test'
+364-  ...
+365-# Subtest: SET wf_lease is requested exactly once when a relayed SND session becomes ready
+366-ok 58 - SET wf_lease is requested exactly once when a relayed SND session becomes ready
+367-  ---
+368-  duration_ms: 2.677663
+369-  type: 'test'
+370-  ...
+371-# Subtest: SET wf_lease is never sent for a direct (https) receiver
+372-ok 59 - SET wf_lease is never sent for a direct (https) receiver
+373-  ---
+374-  duration_ms: 1.583832
+375-  type: 'test'
+376-  ...
+377-# Subtest: MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
+378-ok 60 - MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
+379-  ---
+380-  duration_ms: 1.143075
+381-  type: 'test'
+382-  ...
+383-# Subtest: malformed lease tokens are ignored, no session starts
+384-ok 61 - malformed lease tokens are ignored, no session starts
+385-  ---
+386-  duration_ms: 0.89936
+387-  type: 'test'
+--
+975:not ok 159 - service worker version matches the documented current version
+976-  ---
+977-  duration_ms: 1.942063
+978-  type: 'test'
+979-  location: '/home/runner/work/Radio/Radio/tests/repo-link.test.cjs:33:1'
+980-  failureType: 'testCodeFailure'
+981-  error: 'README must state the current SW version v104'
+982-  code: 'ERR_ASSERTION'
+983-  name: 'AssertionError'
+984-  expected: true
+985-  actual: false
+986-  operator: '=='
+987-  stack: |-
+988-    TestContext.<anonymous> (/home/runner/work/Radio/Radio/tests/repo-link.test.cjs:38:10)
+989-    Test.runInAsyncScope (node:async_hooks:214:14)
+990-    Test.run (node:internal/test_runner/test:1047:25)
+991-    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+992-    Test.postRun (node:internal/test_runner/test:1173:19)
+993-    Test.run (node:internal/test_runner/test:1101:12)
+994-    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+995-  ...
+996-# Subtest: SDR URL validation preserves original paths, queries and fragments
+997-ok 160 - SDR URL validation preserves original paths, queries and fragments
+998-  ---
+999-  duration_ms: 1.015791
+1000-  type: 'test'
+1001-  ...
+1002-# Subtest: SDR URL validation rejects executable schemes, credentials and malformed input
+1003-ok 161 - SDR URL validation rejects executable schemes, credentials and malformed input
+1004-  ---
+1005-  duration_ms: 0.863883
+1006-  type: 'test'
+1007-  ...
+1008-# Subtest: SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
+1009-ok 162 - SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
+1010-  ---
+1011-  duration_ms: 0.531982
+1012-  type: 'test'
+1013-  ...
+1014-# Subtest: SDR catalog resolution binds both receiver type and complete canonical URL
+1015-ok 163 - SDR catalog resolution binds both receiver type and complete canonical URL
+1016-  ---
+1017-  duration_ms: 0.339701
+1018-  type: 'test'
+1019-  ...
+1020-# Subtest: SDR catalog merges protocol groups without conflating paths or receiver types
+=== summary ===
 # tests 249
-# suites 0
 # pass 247
 # fail 2
-# cancelled 0
-# skipped 0
-# todo 0
-# duration_ms 3398.6433
-=== done ===
