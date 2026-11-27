@@ -19,21 +19,14 @@ jobs:
           node-version: "22"
       - name: Capture diagnostics
         run: |
+          node --test tests/*.test.cjs > full-test-output.txt 2>&1 || true
           {
-            echo '=== node version ==='
-            node --version
-            echo '=== docs sync checks ==='
-            V=$(grep -oE 'radio-atlas-v[0-9]+' sw.js | head -n1 | sed 's/.*-v//')
-            echo "sw version: $V"
-            grep -qE "v${V}([^0-9]|$)" README.md && echo 'README v-ref OK' || echo 'README v-ref MISSING'
-            grep -qE "v${V}([^0-9]|$)" ROADMAP.md && echo 'ROADMAP v-ref OK' || echo 'ROADMAP v-ref MISSING'
-            echo '=== node --check app ==='
-            node --check js/app.js && echo 'app.js OK' || echo 'app.js FAILED'
-            echo '=== node --check modules ==='
-            for f in js/modules/*.mjs; do node --check "$f" && echo "$f OK" || echo "$f FAILED"; done
-            echo '=== node --test ==='
-            node --test tests/*.test.cjs 2>&1 | tail -n 120
-            echo '=== done ==='
+            echo '=== failing tests (names) ==='
+            grep -n '^not ok' full-test-output.txt || echo 'none'
+            echo '=== failure detail blocks ==='
+            grep -n -A 45 '^not ok' full-test-output.txt || true
+            echo '=== summary ==='
+            grep -E '^# (tests|pass|fail)' full-test-output.txt || true
           } > ci-debug.log 2>&1
           cat ci-debug.log
       - name: Commit debug log
@@ -41,5 +34,5 @@ jobs:
           git config user.name "ci-debug-bot"
           git config user.email "actions@users.noreply.github.com"
           git add ci-debug.log
-          git commit -m "chore(debug): capture validate diagnostics"
+          git commit -m "chore(debug): capture failing test details"
           git push origin HEAD:feat/sdr5-kiwi-band-scanner
