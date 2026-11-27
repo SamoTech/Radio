@@ -1,101 +1,42 @@
-=== failing tests (names) ===
-342:not ok 8 - tests/kiwi-scan.test.cjs
-975:not ok 159 - service worker version matches the documented current version
-=== failure detail blocks ===
-342:not ok 8 - tests/kiwi-scan.test.cjs
-343-  ---
-344-  duration_ms: 21.286674
-345-  type: 'test'
-346-  location: '/home/runner/work/Radio/Radio/tests/kiwi-scan.test.cjs:1:1'
-347-  failureType: 'testCodeFailure'
-348-  exitCode: 1
-349-  signal: ~
-350-  error: 'test failed'
-351-  code: 'ERR_TEST_FAILURE'
-352-  ...
-353-# Subtest: i18n: every Kiwi waterfall key resolves to real localized text, ar + en
-354-ok 56 - i18n: every Kiwi waterfall key resolves to real localized text, ar + en
-355-  ---
-356-  duration_ms: 3.080775
-357-  type: 'test'
-358-  ...
-359-# Subtest: kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
-360-ok 57 - kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
-361-  ---
-362-  duration_ms: 1.997851
-363-  type: 'test'
-364-  ...
-365-# Subtest: SET wf_lease is requested exactly once when a relayed SND session becomes ready
-366-ok 58 - SET wf_lease is requested exactly once when a relayed SND session becomes ready
-367-  ---
-368-  duration_ms: 2.677663
-369-  type: 'test'
-370-  ...
-371-# Subtest: SET wf_lease is never sent for a direct (https) receiver
-372-ok 59 - SET wf_lease is never sent for a direct (https) receiver
-373-  ---
-374-  duration_ms: 1.583832
-375-  type: 'test'
-376-  ...
-377-# Subtest: MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
-378-ok 60 - MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
-379-  ---
-380-  duration_ms: 1.143075
-381-  type: 'test'
-382-  ...
-383-# Subtest: malformed lease tokens are ignored, no session starts
-384-ok 61 - malformed lease tokens are ignored, no session starts
-385-  ---
-386-  duration_ms: 0.89936
-387-  type: 'test'
---
-975:not ok 159 - service worker version matches the documented current version
-976-  ---
-977-  duration_ms: 1.942063
-978-  type: 'test'
-979-  location: '/home/runner/work/Radio/Radio/tests/repo-link.test.cjs:33:1'
-980-  failureType: 'testCodeFailure'
-981-  error: 'README must state the current SW version v104'
-982-  code: 'ERR_ASSERTION'
-983-  name: 'AssertionError'
-984-  expected: true
-985-  actual: false
-986-  operator: '=='
-987-  stack: |-
-988-    TestContext.<anonymous> (/home/runner/work/Radio/Radio/tests/repo-link.test.cjs:38:10)
-989-    Test.runInAsyncScope (node:async_hooks:214:14)
-990-    Test.run (node:internal/test_runner/test:1047:25)
-991-    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
-992-    Test.postRun (node:internal/test_runner/test:1173:19)
-993-    Test.run (node:internal/test_runner/test:1101:12)
-994-    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
-995-  ...
-996-# Subtest: SDR URL validation preserves original paths, queries and fragments
-997-ok 160 - SDR URL validation preserves original paths, queries and fragments
-998-  ---
-999-  duration_ms: 1.015791
-1000-  type: 'test'
-1001-  ...
-1002-# Subtest: SDR URL validation rejects executable schemes, credentials and malformed input
-1003-ok 161 - SDR URL validation rejects executable schemes, credentials and malformed input
-1004-  ---
-1005-  duration_ms: 0.863883
-1006-  type: 'test'
-1007-  ...
-1008-# Subtest: SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
-1009-ok 162 - SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
-1010-  ---
-1011-  duration_ms: 0.531982
-1012-  type: 'test'
-1013-  ...
-1014-# Subtest: SDR catalog resolution binds both receiver type and complete canonical URL
-1015-ok 163 - SDR catalog resolution binds both receiver type and complete canonical URL
-1016-  ---
-1017-  duration_ms: 0.339701
-1018-  type: 'test'
-1019-  ...
-1020-# Subtest: SDR catalog merges protocol groups without conflating paths or receiver types
-=== summary ===
-# tests 249
-# pass 247
-# fail 2
+=== line endings of sdr.mjs (CRLF count) ===
+CR count: 0
+=== marker positions ===
+1
+2340:var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,memoryCount:kiwiReadMemories().length}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio, scanKiwiStart: kiwiScanStart, scanKiwiPause: kiwiScanPause, scanKiwiResume: kiwiScanResume, scanKiwiStop: kiwiScanStop };
+2538
+=== direct run of kiwi-scan.test.cjs ===
+TAP version 13
+# /home/runner/work/Radio/Radio/tests/kiwi-scan.test.cjs:68
+#     Array.from(source.matchAll(/t\\('(kiwi_scan_[a-z_]+|scan_band_[a-z_]+)'\\)/g), m => m[1])));
+#                                                                                             ^
+# SyntaxError: missing ) after argument list
+#     at wrapSafe (node:internal/modules/cjs/loader:1713:18)
+#     at Module._compile (node:internal/modules/cjs/loader:1755:20)
+#     at Object..js (node:internal/modules/cjs/loader:1913:10)
+#     at Module.load (node:internal/modules/cjs/loader:1505:32)
+#     at Function._load (node:internal/modules/cjs/loader:1309:12)
+#     at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+#     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+#     at node:internal/main/run_main_module:36:49
+# Node.js v22.23.5
+# Subtest: tests/kiwi-scan.test.cjs
+not ok 1 - tests/kiwi-scan.test.cjs
+  ---
+  duration_ms: 26.195196
+  type: 'test'
+  location: '/home/runner/work/Radio/Radio/tests/kiwi-scan.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 128.259878
