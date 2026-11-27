@@ -108,17 +108,20 @@ jobs:
         with:
           persist-credentials: false
           ref: main
+      - name: Stage validated public runtime assets
+        run: python3 scripts/stage_production.py --output "$RUNNER_TEMP/radio-atlas-public"
       - name: Stamp actual checked-out source and asset digests
         id: source
         run: |
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          python3 scripts/deployment_provenance.py stamp --commit "$(git rev-parse HEAD)"
+          python3 scripts/deployment_provenance.py stamp --root "$RUNNER_TEMP/radio-atlas-public" --commit "$(git rev-parse HEAD)"
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - id: upload
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           name: ${{ env.PAGES_ARTIFACT_NAME }}
-          path: .
+          include-hidden-files: true
+          path: ${{ runner.temp }}/radio-atlas-public
       - name: Deploy exact uploaded artifact through Pages API
         id: deployment
         env:
@@ -130,6 +133,7 @@ jobs:
             --artifact-id "$PAGES_ARTIFACT_ID" \
             --artifact-name "$PAGES_ARTIFACT_NAME" \
             --source-sha "$PAGES_SOURCE_SHA" \
+            --descriptor "$RUNNER_TEMP/radio-atlas-public/build-info.json" \
             --state-file "$RUNNER_TEMP/pages-deployment-${{ github.run_id }}.json"
 
   verify:

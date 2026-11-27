@@ -1,35 +1,36 @@
-# Production release verification (GitHub Pages)
+# التحقق من إصدار GitHub Pages
 
-**Goal:** establish the **actual files served by** `https://samotech.github.io/Radio/`, rather than assuming a successful merge or a successful workflow means production is current.
+هدف التحقق هو مقارنة الملفات العامة بالإصدار المتوقع من checkout فعلي. merge أو upload أو HTTP200 وحده لا يثبت النشر.
 
-## How it works
+## المسار المعتمد
 
-1. In `update-data.yml`, scheduled/manual refreshes publish after the data step; a push to `main` takes the fast code-deploy path without a full crawl. The deployment job checks out the current `main` HEAD. The manual `deploy.yml` fallback uses the same exact-artifact controller and verifies the checked-out SHA after deployment.
-2. `scripts/deployment_provenance.py stamp --commit "$(git rev-parse HEAD)"` creates a temporary **`build-info.json`** in the artifact. It records the exact checkout commit SHA, Service Worker cache version, catalog version/count and SHA-256 hashes of the application shell, JS modules and sitemap. The file is not committed into the repository.
-3. GitHub Pages deploys that exact artifact ID through its official REST API; only read requests retry.
-4. A separate read-only `verify` job checks out **that exact SHA** and fetches live `build-info.json` and every recorded asset from GitHub Pages. It retries during CDN propagation and validates SHA-256 hashes, not just HTTP 200.
-5. The job publishes a `radio-atlas-production-provenance` log. Only `DONE` in that report establishes that the checked files are actually deployed.
+1. تحديث main ينشر الكود والكتالوج الحالي دون زحف كامل؛ الجدولة الحالية تحفظ سياساتها. وظيفة النشر تسجل SHA من `git rev-parse HEAD`.
+2. `scripts/stage_production.py` يبني مجلدًا عامًا نظيفًا خارج شجرة المصدر، بقائمة معلنة وفحوص الاعتمادات. يُرفع هذا المجلد فقط.
+3. `deployment_provenance.py stamp --root <public-output> --commit <sha>` يضيف descriptor ثابتًا schema2، من نفس inventory: كل ملفات التشغيل والكتالوج الكامل والدلتا وSDR وSEO والأيقونات. `build-info.json` مستثنى من البصمات الذاتية.
+4. متحكم Pages REST ينشر معرّف الرفع الصحيح، بعد فحص الهوية والاستقرار؛ GET فقط يعاد بحدود وPOST مرة واحدة.
+5. بعد نجاح النشر، verifier على checkout لنفس SHA يعيد بناء metadata المتوقعة محليًا، ويرفض اختلاف المصدر أو SW أو إصدار/عدد المحطات أو المسارات أو البصمات والأحجام. لا يثق ببصمات الموقع وحدها.
+6. أربع قراءات متزامنة كحد أقصى، streaming64KiB وحدود أحجام ومهلة كلية480 ثانية وnonce جديد لكل طلب. لا سقف3MiB القديم. تحفظ وظيفة verify تقرير `radio-atlas-production-provenance`.
 
-The verifier has no credentials to Search Console and cannot establish Google sitemap ingestion. It does not test whether live streaming sources work, and it does not clear users' favorites or IndexedDB.
+المسار اليدوي يستخدم نفس staging/controller/verifier. `DONE` يثبت بايتات الإصدار المحدد فقط؛ لا يثبت Search Console أو مصادر الصوت الحية أو السماع البشري. لا يمس مفضلة المستخدم أوIndexedDB.
 
-## Manual reproduction
+## إعادة التنفيذ
 
-On the exact source commit being deployed:
+من checkout المطلوب، بمجلد إخراج جديد:
 
 ```bash
-python3 scripts/deployment_provenance.py stamp --commit <40-character-commit-sha>
+python3 scripts/stage_production.py --output /tmp/radio-atlas-public
+python3 scripts/deployment_provenance.py stamp --root /tmp/radio-atlas-public --commit <40-character-sha>
 python3 scripts/deployment_provenance.py verify --commit <same-sha> --attempts 20 --delay 6
 ```
 
-**Interpretation**
+| النتيجة | تفسيرها |
+|---|---|
+| DONE | descriptor والبايتات العامة يطابقان checkout المتوقع |
+| NOT VERIFIED | النشر أو التحقق لم يكتمل |
+| BLOCKED | الشبكة أو الصلاحيات منعت فحصًا مستقلًا |
+| FAIL | المحاولات استُنفدت أو البيانات لا تتطابق؛ يبقى workflow فاشلًا |
 
-- `DONE`: the public descriptor commit, local source hash set, published Service Worker version, and all tracked public asset bytes agree.
-- `NOT VERIFIED`: deployment job did not complete or verification was not run.
-- `BLOCKED`: network/permission prevents independent checks.
-- `IN PROGRESS`: new artifact deployed but the CDN has not yet served all expected bytes; retry.
-- `FAIL`: attempts exhausted or actual bytes differ. Do not claim success until identified.
-
-A source commit is not a production commit until the verifier reports that exact SHA.
+سياسة القائمة وصيغة metadata وقياس الحجم والحدود والتراجع في [PRODUCTION_ARTIFACT](PRODUCTION_ARTIFACT.md). لا تُنشر ملفات التطوير أو الأدلة الداخلية؛ تُراجع حالات404 لها بعد النشر. نتائج الإصدارات وأرقام PR وSHA تُسجّل بعد تحققها.
 
 ## موثوقية نشر Phase 1 — 2026-11-25
 
