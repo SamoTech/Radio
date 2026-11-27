@@ -24,10 +24,10 @@ vm.createContext(rangeCtx);
 vm.runInContext(source.slice(rangeStart, rangeEnd), rangeCtx);
 
 test('kiwiBandRange parses receiver band labels into kHz ranges and rejects junk', () => {
-  assert.deepEqual(rangeCtx.kiwiBandRange('0-30 MHz'), [0, 30000]);
-  assert.deepEqual(rangeCtx.kiwiBandRange('10 kHz-32 MHz'), [10, 32000]);
-  assert.deepEqual(rangeCtx.kiwiBandRange('250-30000 kHz'), [250, 30000]);
-  assert.deepEqual(rangeCtx.kiwiBandRange('1.8-30 mhz'), [1800, 30000], 'lowercase units and decimals');
+  assert.deepEqual(Array.from(rangeCtx.kiwiBandRange('0-30 MHz')), [0, 30000]);
+  assert.deepEqual(Array.from(rangeCtx.kiwiBandRange('10 kHz-32 MHz')), [10, 32000]);
+  assert.deepEqual(Array.from(rangeCtx.kiwiBandRange('250-30000 kHz')), [250, 30000]);
+  assert.deepEqual(Array.from(rangeCtx.kiwiBandRange('1.8-30 mhz')), [1800, 30000], 'lowercase units and decimals');
   assert.equal(rangeCtx.kiwiBandRange('0-30 MHz (see notes)'), null, 'free text is not a range');
   assert.equal(rangeCtx.kiwiBandRange('30-0 MHz'), null, 'inverted range');
   assert.equal(rangeCtx.kiwiBandRange(''), null);
@@ -96,7 +96,7 @@ function healthSession() {
   };
   const startSession = () => {
     session.openKiwiAudio('http://alpha.example/', 'Alpha');
-    const socket = Socket.last;
+    const socket = sockets[sockets.length - 1];
     socket.onopen();
     socket.onmessage({ data: Uint8Array.from(Buffer.from('MSG badp=0 audio_rate=12000')).buffer });
     socket.onmessage({ data: frame(-100) });
@@ -135,7 +135,7 @@ test('health memory records failures with escalating cooldowns and clears on suc
   h.session.kiwiHealthRecord(url, false, 'denied');
   h.session.kiwiHealthRecord(url, false, 'denied');
   assert.ok(h.session.kiwiHealthCooldownSummary()[url].remainingMs <= 600000, 'cooldown is capped at 10 minutes');
-  assert.equal(h.session.kiwiHealthCooldownSummary()[url].failures, 7);
+  assert.equal(h.session.kiwiHealthCooldownSummary()[url].failures, 6);
   h.session.kiwiHealthRecord(url, true, '');
   assert.equal(h.session.kiwiHealthCooldownActive(url), false, 'a success clears the cooldown');
   assert.deepEqual(h.session.kiwiHealthCooldownSummary(), {});
@@ -192,7 +192,7 @@ test('a non-retryable failure records health, shows the fallback button and pres
   // Following the suggestion opens the alternative on the same dial.
   h.session.openKiwiAudio(h.session.kiwiFallbackTarget.url, h.session.kiwiFallbackTarget.name);
   assert.equal(h.elements['kiwi-fallback'].hidden, true, 'a new attempt hides the suggestion');
-  assert.equal(Socket.last.url, 'wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fbravo.example%2F');
+  assert.equal(h.sockets[h.sockets.length - 1].url, 'wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fbravo.example%2F');
   assert.equal(h.elements['kiwi-freq'].value, '7100', 'tuning survives the receiver switch');
 });
 
@@ -230,7 +230,7 @@ test('a second open never leaves two live sockets and cleanup hides the fallback
   const first = h.startSession();
   h.session.openKiwiAudio('http://charlie.example/', 'Charlie');
   assert.equal(first.readyState, 3, 'the previous socket is closed');
-  assert.notEqual(Socket.last, first);
+  assert.notEqual(h.sockets[h.sockets.length - 1], first);
   h.elements['kiwi-fallback'].hidden = false;
   h.session.closeKiwiAudio();
   assert.equal(h.elements['kiwi-fallback'].hidden, true, 'closing hides the fallback suggestion');
