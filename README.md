@@ -50,6 +50,8 @@
 
 **ذاكرة ترددات Kiwi (v88 / SDR-4):** احفظ حتى 40 ترددًا محليًا باسم تختاره مع الوضع وعرض المرشح، واستدعها أثناء الاستماع أو قبل الاتصال. الترددات تُخزن على جهازك فقط؛ الاستدعاء لا يفتح جهازًا ولا ينشئ اتصالًا تلقائيًا. حذف الذكريات متاح من نفس المشغل.
 
+**ماسح النطاقات (v104 / SDR-5):** ماسح نطاقات داخل مشغّل Kiwi: نطاقات جاهزة (الموجة المتوسطة والطويلة وباندات البث القصير والهواة) أو نطاق مخصص بخطوة قابلة للضبط، بقياس إشارة فعلي من الجهاز وحد رصد dBm، مع إيقاف مؤقت واستئناف وإلغاء، وترتيب النتائج بقوة الإشارة وضغطة استماع لكل رصد. الرصد طاقة RF فقط — مش دليل هوية محطة؛ المسح يعمل على جلسة الجهاز المفتوحة فقط، بلا اتصالات إضافية، ويرجّع التردد السابق بعد الانتهاء.
+
 **Waterfall مباشر:** مشغل OpenWebRX يرسم طيف FFT وشلالًا متحركًا من إطارات الجهاز الحقيقية، ويخفيهما وينظفهما عند إغلاق الجلسة أو تبديل النطاق. لا يظهر رسم وهمي عند غياب FFT؛ شلال KiwiSDR موصول الآن في واجهة مشغّل Kiwi (SDR-3B): canvas في نافذة Kiwi، طلب `SET wf_lease` عند جاهزية جلسة SND، ورسم الصفوف بحد ~10 إطارات/ثانية، مع تدهور آمن — أي فشل في الشلال يُظهر ملاحظة فقط ولا يمسّ الصوت أبدًا. البث الحي ينتظر نشر المالك لمسار /kiwi/wf على Worker المنشور؛ حتى ذلك الحين لا يدّعي الموقع شلالًا حيًا. مسار W/F مقيّد بالـlease في مصدر Worker وفكّاك مستقل وعينة W/F مسجلة حقيقية من EA8BFK تفسَّر في اختبارات Node. Service Worker v103.
 
 **سياق صوت SDR مشترك داخل إيماءة الضغط (v95):** مشغّلا Kiwi وOpenWebRX الأصليان يشتركان الآن في `AudioContext` واحد يُنشأ ويُستأنف synchronously داخل ضغطة المستخدم (مستمع capture على أزرار التشغيل المباشر، مع تسخين عند بداية كل فتح)، بدل إنشائه بعد تحميل الوحدة الكسولة خارج الإيماءة — فلا يفشل الاستئناف كخطأ `audio_locked` عام. إغلاق المشغل يعلّق السياق بدل إغلاقه، فتستأنف الضغطة التالية السياق نفسه. اختبارات جديدة في `tests/sdr-audio-context.test.cjs` مع تحديثات في `tests/kiwi-native.test.cjs`.
@@ -117,7 +119,7 @@
 
 ### Frontend
 - **HTML5 + CSS3 + Vanilla JavaScript** (بلا إطار واجهة؛ HLS.js اعتماد تشغيل خارجي)
-- **Service Worker** (sw.js v103) لـ caching و offline
+- **Service Worker** (sw.js v104) لـ caching و offline
 - **HLS.js** (1.6.10) لدعم HLS
 - **hls.js CDN**: jsdelivr → unpkg fallback
 
@@ -263,7 +265,7 @@ python -m http.server 8000
 
 ## سجل التنفيذ والتحقق المؤرخ
 
-الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v103.
+الأقسام التالية تصف مراحل سابقة؛ الحالة الأحدث وحدودها في [PROJECT_STATUS](docs/PROJECT_STATUS.md). أرقام إصدارات SW هنا تاريخية، والإصدار الحالي v104.
 ### Production provenance and deployment verification
 
 GitHub Pages deployment stamps a generated `build-info.json` with the exact deployment commit, Service Worker cache version, catalog version and asset SHA-256 digests. The separate post-deploy verification job fetches the live artifact and checks every tracked asset byte-for-byte. See [docs/PRODUCTION_VERIFICATION.md](docs/PRODUCTION_VERIFICATION.md). A merged PR or an HTTP 200 response alone does not establish that the new release is live.
@@ -325,3 +327,5 @@ Pages uploads and deploys use the same unique name per workflow run/attempt. A b
 ### تحديث Actions — Phase 1
 
 مراجع Actions الرسمية مثبتة بـSHA كامل مع إصدار دقيق، على Ubuntu24.04 وNode24 لتشغيل Actions؛ اختبارات التطبيق تحتفظ بـNode22/Python3.12. صلاحيات الكتابة وOIDC محصورة في الوظائف المحتاجة. [الإصدارات والتحقق والحدود](docs/ACTIONS_MODERNIZATION.md). قبول الإنتاج يبقى مشروطًا بفحوص النشر الفعلية.
+
+

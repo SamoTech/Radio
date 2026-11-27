@@ -452,6 +452,24 @@
       <label class="kiwi-field"><span data-i18n="kiwi_squelch">إسكات الضوضاء (0 = إيقاف)</span><input id="kiwi-squelch" type="range" min="0" max="40" step="1" value="0"><output id="kiwi-squelch-value" for="kiwi-squelch">0</output></label>
     </div>
   </details>
+  <details id="kiwi-scan" class="kiwi-scan">
+    <summary data-i18n="kiwi_scan_title">ماسح النطاقات</summary>
+    <div class="kiwi-scan-grid">
+      <label class="kiwi-field"><span data-i18n="kiwi_scan_preset">النطاق الجاهز</span><select id="kiwi-scan-preset"></select></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_scan_threshold">حد الرصد (dBm)</span><input id="kiwi-scan-threshold" type="number" value="-100" min="-140" max="0" step="1" inputmode="numeric"></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_scan_from">من (kHz)</span><input id="kiwi-scan-from" type="number" value="531" min="10" max="30000" step="1" inputmode="numeric"></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_scan_to">إلى (kHz)</span><input id="kiwi-scan-to" type="number" value="1701" min="10" max="30000" step="1" inputmode="numeric"></label>
+      <label class="kiwi-field"><span data-i18n="kiwi_scan_step">الخطوة (kHz)</span><input id="kiwi-scan-step" type="number" value="9" min="1" max="1000" step="1" inputmode="numeric"></label>
+    </div>
+    <div class="kiwi-scan-actions">
+      <button id="kiwi-scan-start" class="btn" type="button" data-i18n="kiwi_scan_start">ابدأ المسح</button>
+      <button id="kiwi-scan-pause" class="btn ghost" type="button" data-i18n="kiwi_scan_pause">إيقاف مؤقت</button>
+      <button id="kiwi-scan-stop" class="btn ghost" type="button" data-i18n="kiwi_scan_stop">إلغاء</button>
+    </div>
+    <p class="hint" data-i18n="kiwi_scan_hint">يمسح نطاقًا على جلسة الجهاز المفتوحة بخطوة ثابتة ويسجّل أي طاقة إشارة فوق الحد. الرصد طاقة RF فقط — مش دليل هوية محطة أو بث حي.</p>
+    <p id="kiwi-scan-status" role="status" aria-live="polite"></p>
+    <div id="kiwi-scan-results" class="kiwi-scan-results"></div>
+  </details>
   <div class="kiwi-connection-row">
     <span id="kiwi-status" class="kiwi-status" role="status" aria-live="polite"></span>
     <div class="kiwi-signal-wrap"><label for="kiwi-signal-meter" data-i18n="kiwi_signal">مستوى الإشارة من الجهاز</label><meter id="kiwi-signal-meter" min="-160" max="10" value="-160"></meter><output id="kiwi-signal">—</output></div>
@@ -516,6 +534,8 @@
 <script src="js/app.js"></script>
 </body>
 </html>
+
+
 
 
 

@@ -590,6 +590,15 @@ main>section{animation:atlas-appear .22s ease-out}
 .kiwi-advanced summary{cursor:pointer;font-weight:600;min-height:28px}
 .kiwi-advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:15px}
 .kiwi-advanced-grid .check{grid-column:1/-1}
+/* Band scanner (SDR-5) */
+.kiwi-scan{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kiwi-scan summary{cursor:pointer;font-weight:600;min-height:28px}
+.kiwi-scan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding-top:12px}
+.kiwi-scan-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:10px}
+.kiwi-scan-results{display:grid;gap:6px;padding-top:10px}
+.kiwi-scan-caption{margin:0;color:var(--muted);font-size:.82rem}
+.kiwi-scan-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+@media(max-width:720px){.kiwi-scan-row{flex-wrap:wrap}.kiwi-scan-row .btn{min-height:38px}}
 /* Reference MW frequencies for the catalogued Cyprus receiver only. */
 #kiwi-cyprus-presets[hidden]{display:none}
 .kiwi-presets{border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px;background:var(--bg)}
@@ -786,3 +795,5 @@ footer{border-top-color:rgba(217,164,65,.18)}
 .modal{background:rgba(23,14,6,.95)}
 .station-art{background:radial-gradient(circle at 35% 25%,rgba(217,164,65,.38),transparent 70%),var(--chipbg)}
 .vlead-fill{background:linear-gradient(90deg,#d9a441,#f0c268)}
+
+

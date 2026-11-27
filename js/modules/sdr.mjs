@@ -199,7 +199,33 @@ var STR_SDR = {
     kiwi_cyprus_selected: 'تم ضبط AM بخطوة 9 kHz وAGC تلقائي وإلغاء كتم الإشارة (Squelch=0). جودة السماع تعتمد على البث الفعلي.',
     kiwi_cyprus_staged: 'ضبطنا AM وSquelch=0 والتردد المختار. الجهاز غير متصل حاليًا؛ انتظر قليلًا قبل إعادة الاتصال، أو جرّب واجهته الأصلية.',
     kiwi_fullscreen: 'ملء الشاشة',
-    kiwi_leave_fullscreen: 'إنهاء ملء الشاشة'
+    kiwi_leave_fullscreen: 'إنهاء ملء الشاشة',
+    kiwi_scan_title: 'ماسح النطاقات',
+    kiwi_scan_hint: 'يمسح نطاقًا على جلسة الجهاز المفتوحة بخطوة ثابتة ويسجّل أي طاقة إشارة فوق الحد. الرصد طاقة RF فقط — مش دليل هوية محطة أو بث حي. المسح بيغيّر تردد الجلسة الحالية وبيرجّعه بعد الانتهاء، وبيتوقف لوّحدك مع إغلاق الاتصال.',
+    kiwi_scan_preset: 'النطاق الجاهز',
+    kiwi_scan_threshold: 'حد الرصد (dBm)',
+    kiwi_scan_from: 'من (kHz)',
+    kiwi_scan_to: 'إلى (kHz)',
+    kiwi_scan_step: 'الخطوة (kHz)',
+    kiwi_scan_start: 'ابدأ المسح',
+    kiwi_scan_pause: 'إيقاف مؤقت',
+    kiwi_scan_resume: 'استئناف',
+    kiwi_scan_stop: 'إلغاء',
+    kiwi_scan_progress: '{freq} kHz · {done}/{total}',
+    kiwi_scan_done: 'خلص المسح — {n} رصد فوق الحد',
+    kiwi_scan_stopped: 'تم إلغاء المسح ورجّعنا التردد السابق',
+    kiwi_scan_paused: 'المسح متوقف مؤقتًا عند {freq} kHz',
+    kiwi_scan_no_session: 'افتح جلسة استقبال شغّالة قبل المسح',
+    kiwi_scan_invalid: 'نطاق المسح غير صالح — راجع الحدود والخطوة (الحد الأقصى {n} خطوة)',
+    kiwi_scan_results: 'الإشارات المرصودة ({n})',
+    kiwi_scan_none: 'مفيش رصد فوق الحد لسه',
+    kiwi_scan_energy: 'طاقة إشارة مرصودة لحظة المسح على الجهاز ده — مش دليل هوية محطة',
+    kiwi_scan_listen: 'استمع',
+    kiwi_scan_tuned: 'تم الضبط على {freq} kHz من نتائج المسح',
+    scan_band_mw: 'موجة متوسطة MW',
+    scan_band_lw: 'موجة طويلة LW',
+    scan_band_bc: 'بث الموجات القصيرة {m} متر',
+    scan_band_ham: 'باند هواة {m} متر'
   },
   en: {
     direct_title: 'Direct receiver radio',
@@ -389,7 +415,33 @@ var STR_SDR = {
     kiwi_cyprus_selected: 'Tuned AM with 9 kHz steps, automatic AGC and squelch off (0). Reception still depends on the real signal.',
     kiwi_cyprus_staged: 'AM, squelch off and the frequency are set. The receiver is currently disconnected; wait before reconnecting or try its original interface.',
     kiwi_fullscreen: 'Full screen',
-    kiwi_leave_fullscreen: 'Exit full screen'
+    kiwi_leave_fullscreen: 'Exit full screen',
+    kiwi_scan_title: 'Band scanner',
+    kiwi_scan_hint: 'Scans a range on the open receiver session at a fixed step and records any signal energy above the threshold. A detection is RF energy only — not a verified station identity or a live broadcast. Scanning retunes the current session and restores your previous frequency when it ends, and it always stops with the connection.',
+    kiwi_scan_preset: 'Preset band',
+    kiwi_scan_threshold: 'Detection threshold (dBm)',
+    kiwi_scan_from: 'From (kHz)',
+    kiwi_scan_to: 'To (kHz)',
+    kiwi_scan_step: 'Step (kHz)',
+    kiwi_scan_start: 'Start scan',
+    kiwi_scan_pause: 'Pause',
+    kiwi_scan_resume: 'Resume',
+    kiwi_scan_stop: 'Cancel',
+    kiwi_scan_progress: '{freq} kHz · {done}/{total}',
+    kiwi_scan_done: 'Scan finished — {n} detections above the threshold',
+    kiwi_scan_stopped: 'Scan cancelled and the previous frequency restored',
+    kiwi_scan_paused: 'Scan paused at {freq} kHz',
+    kiwi_scan_no_session: 'Open a working receiver session before scanning',
+    kiwi_scan_invalid: 'Invalid scan range — check the limits and step (maximum {n} steps)',
+    kiwi_scan_results: 'Detected signals ({n})',
+    kiwi_scan_none: 'No detection above the threshold yet',
+    kiwi_scan_energy: 'Signal energy measured on this receiver at scan time — not a verified station identity',
+    kiwi_scan_listen: 'Listen',
+    kiwi_scan_tuned: 'Tuned to {freq} kHz from scan results',
+    scan_band_mw: 'Medium wave MW',
+    scan_band_lw: 'Long wave LW',
+    scan_band_bc: 'Shortwave broadcast {m} m',
+    scan_band_ham: 'Amateur band {m} m'
   }
 };
 
@@ -1839,6 +1891,7 @@ function stopFmSleepTimer() {
 function closeKiwiAudio() {
   stopFmSleepTimer();
   kiwiWfReset();
+  kiwiScanReset();
   kiwiSession++;
   kiwiReady = false;
   if (kiwiFailTimer) { clearTimeout(kiwiFailTimer); kiwiFailTimer = null; }
@@ -1943,6 +1996,7 @@ function openKiwiAudio(url, name, options) {
     if (session !== kiwiSession || failed) return;
     failed = true;
     kiwiWfReset();
+    kiwiScanReset();
     kiwiLastFailureCode = reason || 'unknown';
     var retry = retryable === true && gotSamples && kiwiRetryCount < KIWI_RETRY_DELAYS_MS.length;
     kiwiReady = false;
@@ -2066,7 +2120,224 @@ function openKiwiAudio(url, name, options) {
 }
 
 
-var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,memoryCount:kiwiReadMemories().length}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio };
+/* ================= KiwiSDR band scanner (SDR-5 / Advanced SDR Engine) =================
+   Polite client-side scan of a frequency range across the OPEN Kiwi session.
+   A detection is RF energy measured by this receiver above a threshold at scan
+   time — never a verified station identity. The scan retunes only the user's
+   own session, restores the previous frequency when it ends, and always stops
+   with the session (no background scanning, no extra sockets, no auto-retry). */
+
+var KIWI_SCAN_DWELL_MS = 1500;
+var KIWI_SCAN_MAX_STEPS = 240;
+var KIWI_SCAN_MIN_KHZ = 10;
+var KIWI_SCAN_MAX_KHZ = 30000;
+var KIWI_SCAN_PRESETS = [
+  {id:'mw',start:531,end:1701,step:9,key:'scan_band_mw'},
+  {id:'lw',start:148,end:283,step:9,key:'scan_band_lw'},
+  {id:'b120',start:2300,end:2495,step:5,meters:120},
+  {id:'b90',start:3200,end:3400,step:5,meters:90},
+  {id:'b75',start:3900,end:4000,step:5,meters:75},
+  {id:'b60',start:4750,end:5060,step:5,meters:60},
+  {id:'b49',start:5900,end:6200,step:5,meters:49},
+  {id:'b41',start:7200,end:7450,step:5,meters:41},
+  {id:'b31',start:9400,end:9900,step:5,meters:31},
+  {id:'b25',start:11600,end:12100,step:5,meters:25},
+  {id:'b22',start:13570,end:13870,step:5,meters:22},
+  {id:'b19',start:15100,end:15830,step:5,meters:19},
+  {id:'b16',start:17480,end:17900,step:5,meters:16},
+  {id:'b13',start:21450,end:21850,step:5,meters:13},
+  {id:'b11',start:25670,end:26100,step:5,meters:11},
+  {id:'ham80',start:3500,end:3900,step:5,meters:80,ham:true},
+  {id:'ham40',start:7000,end:7200,step:5,meters:40,ham:true},
+  {id:'ham20',start:14000,end:14350,step:5,meters:20,ham:true}
+];
+var kiwiScan = {state:'idle',plan:[],index:0,detections:[],timer:null,threshold:-100,restoreKHz:null};
+
+function kiwiScanPlan(startKHz,endKHz,stepKHz) {
+  var start = Math.round(Number(startKHz)), end = Math.round(Number(endKHz)), step = Math.round(Number(stepKHz));
+  if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(step)) return null;
+  if (start < KIWI_SCAN_MIN_KHZ || end > KIWI_SCAN_MAX_KHZ || end < start || step < 1) return null;
+  var total = Math.floor((end - start) / step) + 1;
+  if (total > KIWI_SCAN_MAX_STEPS) return null;
+  var plan = [];
+  for (var f = start; f <= end; f += step) plan.push(f);
+  return plan;
+}
+function kiwiScanPresetLabel(preset) {
+  var range = ' (' + preset.start + '–' + preset.end + ' kHz)';
+  if (preset.key) return t(preset.key) + range;
+  return t(preset.ham ? 'scan_band_ham' : 'scan_band_bc').replace('{m}',String(preset.meters)) + range;
+}
+function kiwiScanRenderPresets() {
+  var sel = $('kiwi-scan-preset');
+  if (!sel) return;
+  sel.innerHTML = KIWI_SCAN_PRESETS.map(function (preset,index) {
+    return '<option value="' + index + '">' + esc(kiwiScanPresetLabel(preset)) + '</option>';
+  }).join('');
+}
+function kiwiScanFillInputs(preset) {
+  var from = $('kiwi-scan-from'), to = $('kiwi-scan-to'), step = $('kiwi-scan-step');
+  if (!from || !to || !step || !preset) return;
+  from.value = String(preset.start);
+  to.value = String(preset.end);
+  step.value = String(preset.step);
+}
+function kiwiScanSetStatus(text) {
+  var el = $('kiwi-scan-status');
+  if (el) el.textContent = text;
+}
+function kiwiScanPauseLabel(key) {
+  var btn = $('kiwi-scan-pause');
+  if (btn) btn.textContent = t(key);
+}
+function kiwiScanRenderResults() {
+  var list = $('kiwi-scan-results');
+  if (!list) return;
+  if (!kiwiScan.detections.length) {
+    list.innerHTML = '<p class="kiwi-scan-caption">' + esc(t('kiwi_scan_none')) + '</p>';
+    return;
+  }
+  var rows = kiwiScan.detections.slice().sort(function (a,b) { return b.dbm - a.dbm; }).slice(0,60);
+  list.innerHTML = '<p class="kiwi-scan-caption">' + esc(t('kiwi_scan_results').replace('{n}',String(kiwiScan.detections.length))) + '</p>' +
+    rows.map(function (row) {
+      return '<div class="kiwi-scan-row"><strong dir="ltr">' + row.frequency.toFixed(0) + ' kHz</strong>' +
+        '<span dir="ltr">' + row.dbm.toFixed(1) + ' dBm</span>' +
+        '<button class="btn ghost" type="button" data-kiwi-scan-use="' + row.frequency.toFixed(3) + '">' + esc(t('kiwi_scan_listen')) + '</button></div>';
+    }).join('') +
+    '<p class="kiwi-scan-caption">' + esc(t('kiwi_scan_energy')) + '</p>';
+}
+function kiwiScanTuneCommand(freqKHz) {
+  var freq = Number(freqKHz);
+  if (!Number.isFinite(freq) || freq < KIWI_SCAN_MIN_KHZ || freq > KIWI_SCAN_MAX_KHZ) return '';
+  var mode = String(kiwiControlValue('kiwi-mode','am')).toLowerCase();
+  var cuts = kiwiModeCuts(mode,kiwiControlValue('kiwi-bandwidth','normal'));
+  if (!cuts) return '';
+  return 'SET mod=' + mode + ' low_cut=' + cuts[0] + ' high_cut=' + cuts[1] + ' freq=' + freq.toFixed(3);
+}
+function kiwiScanApply(freqKHz) {
+  var command = kiwiScanTuneCommand(freqKHz);
+  if (!command || !kiwiReady || !kiwiWs || kiwiWs.readyState !== WebSocket.OPEN) return false;
+  // Scan retune only: never sets kiwiTuneAwaitingAudio and never touches the
+  // saved session record, so scan frequencies cannot overwrite the last
+  // audibly confirmed tuning.
+  kiwiWs.send(command);
+  return true;
+}
+function kiwiScanClearTimer() {
+  if (kiwiScan.timer) { clearTimeout(kiwiScan.timer);kiwiScan.timer = null; }
+}
+function kiwiScanSchedule() {
+  kiwiScanClearTimer();
+  kiwiScan.timer = setTimeout(kiwiScanStep,KIWI_SCAN_DWELL_MS);
+}
+function kiwiScanProgressText(freqKHz) {
+  return t('kiwi_scan_progress').replace('{freq}',String(freqKHz))
+    .replace('{done}',String(Math.min(kiwiScan.index + 1,kiwiScan.plan.length)))
+    .replace('{total}',String(kiwiScan.plan.length));
+}
+function kiwiScanStep() {
+  kiwiScan.timer = null;
+  if (kiwiScan.state !== 'scanning') return;
+  var freq = kiwiScan.plan[kiwiScan.index];
+  if (freq === undefined) { kiwiScanStop(false);return; }
+  var dbm = kiwiStats.signalDbm;
+  if (dbm !== null && dbm >= kiwiScan.threshold) {
+    var existing = kiwiScan.detections.find(function (row) { return row.frequency === freq; });
+    if (existing) { if (dbm > existing.dbm) existing.dbm = dbm; }
+    else kiwiScan.detections.push({frequency:freq,dbm:dbm});
+    kiwiScanRenderResults();
+  }
+  kiwiScan.index++;
+  if (kiwiScan.index >= kiwiScan.plan.length) { kiwiScanFinish();return; }
+  if (!kiwiScanApply(kiwiScan.plan[kiwiScan.index])) { kiwiScanStop(false);return; }
+  kiwiScanSetStatus(kiwiScanProgressText(kiwiScan.plan[kiwiScan.index]));
+  kiwiScanSchedule();
+}
+function kiwiScanRestoreFrequency() {
+  if (kiwiScan.restoreKHz === null) return;
+  var restore = Number(kiwiScan.restoreKHz);
+  kiwiScan.restoreKHz = null;
+  var input = $('kiwi-freq');
+  if (input && Number.isFinite(restore) && restore >= KIWI_SCAN_MIN_KHZ && restore <= KIWI_SCAN_MAX_KHZ) {
+    input.value = restore.toFixed(3);
+    kiwiSendTune();
+  }
+}
+function kiwiScanFinish() {
+  kiwiScan.state = 'idle';
+  kiwiScanPauseLabel('kiwi_scan_pause');
+  kiwiScanSetStatus(t('kiwi_scan_done').replace('{n}',String(kiwiScan.detections.length)));
+  kiwiScanRestoreFrequency();
+}
+function kiwiScanStart() {
+  if (kiwiScan.state === 'scanning') return; // one scan per session — no duplicate timers
+  if (!kiwiReady || !kiwiWs || kiwiWs.readyState !== WebSocket.OPEN) { kiwiScanSetStatus(t('kiwi_scan_no_session'));return; }
+  var from = $('kiwi-scan-from'), to = $('kiwi-scan-to'), step = $('kiwi-scan-step'), threshold = $('kiwi-scan-threshold');
+  var plan = kiwiScanPlan(from ? from.value : '',to ? to.value : '',step ? step.value : '');
+  if (!plan || !kiwiScanTuneCommand(plan[0])) {
+    kiwiScanSetStatus(t('kiwi_scan_invalid').replace('{n}',String(KIWI_SCAN_MAX_STEPS)));
+    return;
+  }
+  var freqInput = $('kiwi-freq');
+  var current = freqInput ? Number(freqInput.value) : NaN;
+  kiwiScan.restoreKHz = Number.isFinite(current) ? current : null;
+  var threshold = threshold ? Math.round(Number(threshold.value)) : NaN;
+  kiwiScan.threshold = Number.isFinite(threshold) ? Math.max(-140,Math.min(0,threshold)) : -100;
+  kiwiScan.plan = plan;
+  kiwiScan.index = 0;
+  kiwiScan.detections = [];
+  kiwiScan.state = 'scanning';
+  kiwiScanPauseLabel('kiwi_scan_pause');
+  kiwiScanRenderResults();
+  kiwiScanApply(plan[0]);
+  kiwiScanSetStatus(kiwiScanProgressText(plan[0]));
+  kiwiScanSchedule();
+}
+function kiwiScanPause() {
+  if (kiwiScan.state !== 'scanning') return;
+  kiwiScanClearTimer();
+  kiwiScan.state = 'paused';
+  kiwiScanPauseLabel('kiwi_scan_resume');
+  kiwiScanSetStatus(t('kiwi_scan_paused').replace('{freq}',String(kiwiScan.plan[kiwiScan.index] || '')));
+}
+function kiwiScanResume() {
+  if (kiwiScan.state !== 'paused') return;
+  if (!kiwiReady || !kiwiWs || kiwiWs.readyState !== WebSocket.OPEN) { kiwiScanSetStatus(t('kiwi_scan_no_session'));return; }
+  kiwiScan.state = 'scanning';
+  kiwiScanPauseLabel('kiwi_scan_pause');
+  kiwiScanSetStatus(kiwiScanProgressText(kiwiScan.plan[kiwiScan.index] || ''));
+  kiwiScanSchedule();
+}
+function kiwiScanStop(cancelled) {
+  kiwiScanClearTimer();
+  kiwiScan.state = 'idle';
+  kiwiScanPauseLabel('kiwi_scan_pause');
+  if (cancelled) kiwiScanSetStatus(t('kiwi_scan_stopped'));
+  kiwiScanRestoreFrequency();
+}
+function kiwiScanReset() { // session gone: drop the scan without touching any receiver
+  kiwiScanClearTimer();
+  kiwiScan.state = 'idle';
+  kiwiScan.plan = [];
+  kiwiScan.index = 0;
+  kiwiScan.detections = [];
+  kiwiScan.restoreKHz = null;
+  kiwiScanRenderResults();
+}
+function kiwiScanUse(freqText) {
+  var freq = Number(freqText);
+  if (!Number.isFinite(freq) || freq < KIWI_SCAN_MIN_KHZ || freq > KIWI_SCAN_MAX_KHZ) return;
+  kiwiScanClearTimer();
+  kiwiScan.state = 'idle';
+  kiwiScanPauseLabel('kiwi_scan_pause');
+  var input = $('kiwi-freq');
+  if (input) input.value = freq.toFixed(3);
+  kiwiSendTune();
+  kiwiScanSetStatus(t('kiwi_scan_tuned').replace('{freq}',freq.toFixed(0)));
+}
+
+
+var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,memoryCount:kiwiReadMemories().length}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio, scanKiwiStart: kiwiScanStart, scanKiwiPause: kiwiScanPause, scanKiwiResume: kiwiScanResume, scanKiwiStop: kiwiScanStop };
 var booted = false;
 export function boot() {
   if (booted) return API;
@@ -2228,6 +2499,22 @@ export function boot() {
     if (!button) return;
     kiwiApplyCyprusPreset(Number(button.getAttribute('data-kiwi-cyprus-preset')));
   });
+  kiwiScanRenderPresets();
+  if (KIWI_SCAN_PRESETS.length) kiwiScanFillInputs(KIWI_SCAN_PRESETS[0]);
+  if ($('kiwi-scan-preset')) $('kiwi-scan-preset').addEventListener('change',function () {
+    var preset = KIWI_SCAN_PRESETS[Number(this.value)];
+    if (preset) kiwiScanFillInputs(preset);
+  });
+  if ($('kiwi-scan-start')) $('kiwi-scan-start').addEventListener('click',kiwiScanStart);
+  if ($('kiwi-scan-pause')) $('kiwi-scan-pause').addEventListener('click',function () {
+    if (kiwiScan.state === 'scanning') kiwiScanPause();
+    else if (kiwiScan.state === 'paused') kiwiScanResume();
+  });
+  if ($('kiwi-scan-stop')) $('kiwi-scan-stop').addEventListener('click',function () { kiwiScanStop(true); });
+  if ($('kiwi-scan-results')) $('kiwi-scan-results').addEventListener('click',function (event) {
+    var button = event.target && event.target.closest ? event.target.closest('[data-kiwi-scan-use]') : null;
+    if (button) kiwiScanUse(button.getAttribute('data-kiwi-scan-use'));
+  });
   if ($('kiwi-prev')) $('kiwi-prev').addEventListener('click',function () { kiwiNavigateReceiver(-1); });
   if ($('kiwi-next')) $('kiwi-next').addEventListener('click',function () { kiwiNavigateReceiver(1); });
   if ($('kiwi-receiver')) $('kiwi-receiver').addEventListener('change',function () {
@@ -2247,3 +2534,5 @@ export function boot() {
 
   return API;
 }
+
+
