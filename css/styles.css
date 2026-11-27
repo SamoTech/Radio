@@ -603,6 +603,10 @@ main>section{animation:atlas-appear .22s ease-out}
 /* Station hints near the Kiwi dial (SDR-7): on-air schedule rows from the crawler snapshot. */
 .kiwi-eibi{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:12px}
 .kiwi-eibi .kiwi-scan-results{padding-top:6px}
+.kiwi-eibi-now{color:var(--accent);font-weight:700;white-space:nowrap}
+/* Day/night propagation estimate beside the dial (SDR-8). */
+.kiwi-prop{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:12px}
+.kiwi-prop .kiwi-scan-row{gap:6px}
 /* Reference MW frequencies for the catalogued Cyprus receiver only. */
 #kiwi-cyprus-presets[hidden]{display:none}
 .kiwi-presets{border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px;background:var(--bg)}
