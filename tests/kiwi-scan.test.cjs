@@ -64,8 +64,8 @@ test('scanner UI exists in the Kiwi modal with styles and both languages', () =>
   assert.ok(css.includes('@media(max-width:720px){.kiwi-scan-row'));
   // Every scanner string used by the code or referenced from the HTML markup
   // must be defined in BOTH the ar and en STR packs.
-  const usedKeys = new Set(Array.from(new Set(
-    Array.from(source.matchAll(/t\('(kiwi_scan_[a-z_]+|scan_band_[a-z_]+)'\)/g), m => m[1])));
+  const usedKeys = new Set(Array.from(
+    source.matchAll(/t\('(kiwi_scan_[a-z_]+|scan_band_[a-z_]+)'\)/g), m => m[1]));
   for (const preset of ctx.KIWI_SCAN_PRESETS) {
     if (preset.key) usedKeys.add(preset.key);
     else usedKeys.add(preset.ham ? 'scan_band_ham' : 'scan_band_bc');
