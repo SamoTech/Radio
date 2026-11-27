@@ -55,8 +55,8 @@ test('dial hints match the schedule within +/-5 kHz and cap at six rows', () => 
   assert.ok(!rows.some(x => x.f === 7000), 'far frequencies are not suggested');
   assert.ok(!rows.some(x => x.n.indexOf('ISR') === 0), 'ISR-marked rows are always excluded');
   assert.ok(!rows.some(x => x.f === 'junk'), 'broken rows are skipped silently');
-  assert.deepEqual(h.session.kiwiEibiMatches('not-a-number'), [], 'a bad dial value yields no suggestions');
-  assert.deepEqual(h.session.kiwiEibiMatches(9520), [], 'outside the window is not a match');
+  assert.equal(h.session.kiwiEibiMatches('not-a-number').length, 0, 'a bad dial value yields no suggestions');
+  assert.equal(h.session.kiwiEibiMatches(9520).length, 0, 'outside the window is not a match');
 });
 
 test('an empty or missing schedule never renders hints', () => {
@@ -68,7 +68,7 @@ test('an empty or missing schedule never renders hints', () => {
   h.session.state.eibi = undefined;
   h.session.kiwiRenderEibiHint();
   assert.equal(h.elements['kiwi-eibi'].hidden, true, 'missing schedule is handled like an empty one');
-  assert.deepEqual(h.session.kiwiEibiMatches(9505), []);
+  assert.equal(h.session.kiwiEibiMatches(9505).length, 0);
 });
 
 test('the hint box renders MHz, UTC window and station names, and follows the dial', () => {
