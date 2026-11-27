@@ -23,18 +23,19 @@ jobs:
           {
             V=$(grep -oE 'radio-atlas-v[0-9]+' sw.js | head -n1 | sed 's/.*-v//')
             echo "sw version: [$V]"
-            grep -nE "v${V}([^`0-9]|$)" README.md >/dev/null && echo "README v${V} OK" || echo "README v${V} MISSING"
-            grep -nE "v${V}([^`0-9]|$)" ROADMAP.md >/dev/null && echo "ROADMAP v${V} OK" || echo "ROADMAP v${V} MISSING"
+            grep -nE "v${V}([^0-9]|$)" README.md >/dev/null && echo "README v${V} OK" || echo "README v${V} MISSING"
+            grep -nE "v${V}([^0-9]|$)" ROADMAP.md >/dev/null && echo "ROADMAP v${V} OK" || echo "ROADMAP v${V} MISSING"
             echo '--- node --check js/app.js'
             node --check js/app.js && echo OK
             echo '--- node --check modules'
             for f in js/modules/*.mjs; do node --check "$f" && echo "$f OK" || echo "$f FAIL"; done
-            echo '--- node --test (summary of failures)'
+            echo '--- node --test (summary)'
             node --test tests/*.test.cjs > test-full.log 2>&1
             echo "test exit: $?"
-            grep -E "^not ok|^# fail|✖|failing" test-full.log | head -40
+            grep -E "^not ok" test-full.log | head -40
+            grep -cE "^ok" test-full.log
             echo '--- failing test details'
-            awk '/^not ok/{p=1} p{print} /^ *\.\.|^$/{if(p&&/^$/){p=0}}' test-full.log | head -120
+            grep -A 25 "^not ok" test-full.log | head -160
           } > ci-debug.log 2>&1
           if git diff --quiet && git diff --cached --quiet; then echo 'no changes'; exit 0; fi
           git config user.name "ci-debug-bot"
