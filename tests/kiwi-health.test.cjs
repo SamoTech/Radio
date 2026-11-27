@@ -119,7 +119,7 @@ test('retry delays are jittered inside a bounded band to prevent reconnect storm
 
 test('health memory records failures with escalating cooldowns and clears on success', () => {
   const h = healthSession();
-  const url = 'http://bravo.example/';
+  const url = 'http://bravo.example'; // map/summary keys are URL origins (no trailing slash)
   h.session.kiwiHealthRecord(url, false, 'unknown_reason');
   assert.equal(h.session.kiwiHealthCooldownActive(url), false, 'reasons without a cooldown policy are not recorded');
   h.session.kiwiHealthRecord(url, false, 'denied');
@@ -188,7 +188,7 @@ test('a non-retryable failure records health, shows the fallback button and pres
   assert.equal(h.elements['kiwi-fallback'].hidden, false, 'the fallback button appears');
   assert.equal(h.elements['kiwi-fallback'].textContent, 'TRY-Bravo');
   assert.equal(h.elements['kiwi-freq'].value, '7100', 'the dial is untouched');
-  assert.ok(h.session.kiwiHealthCooldownSummary()['http://alpha.example/'], 'cooldown summary exposes the failure');
+  assert.ok(h.session.kiwiHealthCooldownSummary()['http://alpha.example'], 'cooldown summary exposes the failure');
   // Following the suggestion opens the alternative on the same dial.
   h.session.openKiwiAudio(h.session.kiwiFallbackTarget.url, h.session.kiwiFallbackTarget.name);
   assert.equal(h.elements['kiwi-fallback'].hidden, true, 'a new attempt hides the suggestion');
