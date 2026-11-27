@@ -1,0 +1,63 @@
+name: Radio Atlas KiwiSDR Live Audio QA (push trigger)
+# Temporary push-triggered twin of kiwi-live-audio-qa.yml: the automation
+# session has no workflow_dispatch tool, so a dedicated branch runs the SAME
+# QA script and commits report.json back for evidence reading. Delete after use.
+on:
+  push:
+    branches: [ci/live-qa]
+permissions:
+  contents: write
+concurrency:
+  group: kiwi-live-audio-qa
+  cancel-in-progress: false
+jobs:
+  live-audio:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          package-manager-cache: false
+          node-version: "22"
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Install ephemeral Chromium QA dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Verify live audio through the deployed Kiwi bridge
+        env:
+          RADIO_QA_BASE: http://127.0.0.1:8000/
+          KIWI_QA_LIVE: "1"
+        run: |
+          python -m http.server 8000 --bind 127.0.0.1 > /tmp/radio-atlas-kiwi-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          STARTED=0
+          for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:8000/ > /dev/null 2>&1; then STARTED=1; break; fi
+            sleep 1
+          done
+          if [ "$STARTED" != "1" ]; then
+            cat /tmp/radio-atlas-kiwi-server.log
+            exit 1
+          fi
+          node scripts/kiwi_audio_qa.cjs || true
+      - name: Commit live evidence to the branch
+        if: always()
+        run: |
+          git config user.name "radio-atlas-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f artifacts/kiwi-audio-qa/report.json || true
+          if git diff --cached --quiet; then echo "no evidence produced"; else git commit -m "chore(qa): record live audio evidence"; git push; fi
+      - name: Upload live audio measurements and screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: radio-atlas-kiwi-live-audio-evidence-push
+          path: artifacts/kiwi-audio-qa/
+          if-no-files-found: warn
