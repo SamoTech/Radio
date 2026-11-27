@@ -1,0 +1,45 @@
+name: CI Debug (temporary)
+
+on:
+  push:
+    branches: ['feat/sdr5-kiwi-band-scanner']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  debug:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          package-manager-cache: false
+          node-version: "22"
+      - name: Capture diagnostics
+        run: |
+          {
+            echo '=== node version ==='
+            node --version
+            echo '=== docs sync checks ==='
+            V=$(grep -oE 'radio-atlas-v[0-9]+' sw.js | head -n1 | sed 's/.*-v//')
+            echo "sw version: $V"
+            grep -qE "v${V}([^0-9]|$)" README.md && echo 'README v-ref OK' || echo 'README v-ref MISSING'
+            grep -qE "v${V}([^0-9]|$)" ROADMAP.md && echo 'ROADMAP v-ref OK' || echo 'ROADMAP v-ref MISSING'
+            echo '=== node --check app ==='
+            node --check js/app.js && echo 'app.js OK' || echo 'app.js FAILED'
+            echo '=== node --check modules ==='
+            for f in js/modules/*.mjs; do node --check "$f" && echo "$f OK" || echo "$f FAILED"; done
+            echo '=== node --test ==='
+            node --test tests/*.test.cjs 2>&1 | tail -n 120
+            echo '=== done ==='
+          } > ci-debug.log 2>&1
+          cat ci-debug.log
+      - name: Commit debug log
+        run: |
+          git config user.name "ci-debug-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add ci-debug.log
+          git commit -m "chore(debug): capture validate diagnostics"
+          git push origin HEAD:feat/sdr5-kiwi-band-scanner
