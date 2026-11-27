@@ -19,14 +19,16 @@ jobs:
           node-version: "22"
       - name: Capture diagnostics
         run: |
-          node --test tests/*.test.cjs > full-test-output.txt 2>&1 || true
           {
-            echo '=== failing tests (names) ==='
-            grep -n '^not ok' full-test-output.txt || echo 'none'
-            echo '=== failure detail blocks ==='
-            grep -n -A 45 '^not ok' full-test-output.txt || true
-            echo '=== summary ==='
-            grep -E '^# (tests|pass|fail)' full-test-output.txt || true
+            echo '=== line endings of sdr.mjs (CRLF count) ==='
+            printf 'CR count: '
+            tr -dc '\r' < js/modules/sdr.mjs | wc -c
+            echo '=== marker positions ==='
+            grep -c 'var sdrCurrentReceiver' js/modules/sdr.mjs
+            grep -n 'var API =' js/modules/sdr.mjs | head -2
+            grep -c $'\n\n\nvar API =' js/modules/sdr.mjs || true
+            echo '=== direct run of kiwi-scan.test.cjs ==='
+            node --test tests/kiwi-scan.test.cjs 2>&1 | head -n 100
           } > ci-debug.log 2>&1
           cat ci-debug.log
       - name: Commit debug log
@@ -34,5 +36,5 @@ jobs:
           git config user.name "ci-debug-bot"
           git config user.email "actions@users.noreply.github.com"
           git add ci-debug.log
-          git commit -m "chore(debug): capture failing test details"
+          git commit -m "chore(debug): isolate kiwi-scan test failure (temporary, to be removed before merge)"
           git push origin HEAD:feat/sdr5-kiwi-band-scanner
