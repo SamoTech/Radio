@@ -2369,8 +2369,13 @@ function kiwiHhmmToMin(v) {
   if (h > 24 || min > 59) return null;
   return h * 60 + min;
 }
+/* Duck-typed date guard: cross-realm Date objects (tests, iframes) must still
+   be recognized — instanceof alone rejects foreign-realm instances. */
+function kiwiAsDate(v) {
+  return v && typeof v.getUTCFullYear === 'function' && typeof v.getUTCHours === 'function' ? v : new Date();
+}
 function kiwiUtcNowMin(date) {
-  var d = date instanceof Date ? date : new Date();
+  var d = kiwiAsDate(date);
   return d.getUTCHours() * 60 + d.getUTCMinutes();
 }
 function kiwiEibiOnAirNow(x, nowMin) {
@@ -2385,13 +2390,13 @@ function kiwiEibiOnAirNow(x, nowMin) {
   return now >= s || now <= e;
 }
 function kiwiSunDeclinationDeg(date) {
-  var d = date instanceof Date ? date : new Date();
+  var d = kiwiAsDate(date);
   var doy = (Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) -
     Date.UTC(d.getUTCFullYear(), 0, 0)) / 86400000;
   return 23.44 * Math.sin((2 * Math.PI / 365.24) * (doy + 284));
 }
 function kiwiSubsolarLonDeg(date) {
-  var d = date instanceof Date ? date : new Date();
+  var d = kiwiAsDate(date);
   var hours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
   var lon = 180 - hours * 15;
   if (lon > 180) lon -= 360;
