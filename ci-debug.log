@@ -1,0 +1,128 @@
+=== docs sync ===
+sw version: 107
+README_OK
+ROADMAP_OK
+=== node --check ===
+APP_OK
+MOD_CHECKS_DONE
+=== node --test ===
+  duration_ms: 0.574453
+  type: 'test'
+  ...
+# Subtest: full refresh renders stations but caches only a matching manifest
+ok 259 - full refresh renders stations but caches only a matching manifest
+  ---
+  duration_ms: 3.580468
+  type: 'test'
+  ...
+# Subtest: worker activation migrates offline data and leaves unrelated caches alone
+ok 260 - worker activation migrates offline data and leaves unrelated caches alone
+  ---
+  duration_ms: 1.689005
+  type: 'test'
+  ...
+# Subtest: catalog batches preserve per-station languages, categories and ordering
+ok 261 - catalog batches preserve per-station languages, categories and ordering
+  ---
+  duration_ms: 0.527175
+  type: 'test'
+  ...
+# Subtest: SDR keeps quick discovery outside the advanced disclosures
+ok 262 - SDR keeps quick discovery outside the advanced disclosures
+  ---
+  duration_ms: 0.443408
+  type: 'test'
+  ...
+# Subtest: worker precaches offline modules without taking over existing tabs
+ok 263 - worker precaches offline modules without taking over existing tabs
+  ---
+  duration_ms: 1.128748
+  type: 'test'
+  ...
+# Subtest: full catalog yields between batches and publishes one ordered snapshot
+ok 264 - full catalog yields between batches and publishes one ordered snapshot
+  ---
+  duration_ms: 41.901931
+  type: 'test'
+  ...
+# Subtest: home discovery links point to the existing station directories
+ok 265 - home discovery links point to the existing station directories
+  ---
+  duration_ms: 0.478564
+  type: 'test'
+  ...
+# Subtest: mobile Explore is distinct from Home without losing any catalog stations
+ok 266 - mobile Explore is distinct from Home without losing any catalog stations
+  ---
+  duration_ms: 0.180898
+  type: 'test'
+  ...
+# Subtest: station cards use safe optional logos and a permanent fallback
+ok 267 - station cards use safe optional logos and a permanent fallback
+  ---
+  duration_ms: 0.451182
+  type: 'test'
+  ...
+# Subtest: mobile navigation and expanded player targets remain present in HTML
+ok 268 - mobile navigation and expanded player targets remain present in HTML
+  ---
+  duration_ms: 0.501887
+  type: 'test'
+  ...
+# Subtest: late full catalog initialization never resets a station already playing
+ok 269 - late full catalog initialization never resets a station already playing
+  ---
+  duration_ms: 0.347809
+  type: 'test'
+  ...
+# Subtest: mobile Home quick listening shows only unique playable catalog/history entries
+ok 270 - mobile Home quick listening shows only unique playable catalog/history entries
+  ---
+  duration_ms: 1.341916
+  type: 'test'
+  ...
+# Subtest: expanded player external stream button has Arabic and English labels
+ok 271 - expanded player external stream button has Arabic and English labels
+  ---
+  duration_ms: 0.539498
+  type: 'test'
+  ...
+# Subtest: late shared-link handling never restarts a station selected during this session
+ok 272 - late shared-link handling never restarts a station selected during this session
+  ---
+  duration_ms: 2.033158
+  type: 'test'
+  ...
+# Subtest: player fallback list is HTTPS-only, unique and preserves the selected station
+ok 273 - player fallback list is HTTPS-only, unique and preserves the selected station
+  ---
+  duration_ms: 0.218909
+  type: 'test'
+  ...
+# Subtest: player fallback attempts are bounded to four direct sources and relay last
+ok 274 - player fallback attempts are bounded to four direct sources and relay last
+  ---
+  duration_ms: 0.262831
+  type: 'test'
+  ...
+# Subtest: untrusted fallback strings do not turn into individual characters or URL attempts
+ok 275 - untrusted fallback strings do not turn into individual characters or URL attempts
+  ---
+  duration_ms: 0.161512
+  type: 'test'
+  ...
+# Subtest: player resume and direct play share the same safe source builder
+ok 276 - player resume and direct play share the same safe source builder
+  ---
+  duration_ms: 0.61065
+  type: 'test'
+  ...
+1..276
+# tests 276
+# suites 0
+# pass 275
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3513.166624
