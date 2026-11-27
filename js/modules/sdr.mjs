@@ -138,6 +138,14 @@ var STR_SDR = {
     eibi_search_aria: 'ابحث في بث الموجات القصيرة الجاري',
     more_eibi: 'تُعرض أول 60 نتيجة — دقّق البحث لعرض المزيد.',
     kiwi_eibi_hint: 'بثوث مجدولة قرب هذا التردد — من لقطة EIBI «على الهواء» الحالية (تلميح هوية، وليس تأكيد بث):',
+    kiwi_eibi_now: 'على الهواء الآن حسب الجدول',
+    kiwi_prop_title: 'حالة الانتشار الآن (تقدير)',
+    kiwi_prop_day: 'نهار محليًا — النطاقات العالية أفضل (16م–11م)',
+    kiwi_prop_night: 'ليل محليًا — النطاقات المنخفضة أفضل (120م–49م)',
+    kiwi_prop_low: 'تردد منخفض: يُفضَّل ليلًا',
+    kiwi_prop_high: 'تردد عالٍ: يُفضَّل نهارًا',
+    kiwi_prop_mid: 'نطاق انتقالي: قد يعمل نهارًا وليلًا',
+    kiwi_prop_est: 'تقدير مبني على ساعتك المحلية وموضع الشمس — ليس بديلًا عن قياس الإشارة الفعلي.',
     kiwi_audio: '🎧 صوت مباشر (تجريبي)',
     kiwi_connecting: 'جاري الاتصال بالجهاز…',
     kiwi_live: 'يستقبل ✔',
@@ -357,6 +365,14 @@ var STR_SDR = {
     all_bands: 'All bands',
     more_eibi: 'Showing the first 60 — refine your search to see more.',
     kiwi_eibi_hint: 'Scheduled broadcasts near this dial — from the current on-air EIBI snapshot (an identity hint, not proof):',
+    kiwi_eibi_now: 'Scheduled on air now',
+    kiwi_prop_title: 'Propagation now (estimate)',
+    kiwi_prop_day: 'Local day — higher bands favored (16m–11m)',
+    kiwi_prop_night: 'Local night — lower bands favored (120m–49m)',
+    kiwi_prop_low: 'Low frequency: favors night',
+    kiwi_prop_high: 'High frequency: favors day',
+    kiwi_prop_mid: 'Transitional band: may work day and night',
+    kiwi_prop_est: 'An estimate from your local clock and the sun position — no substitute for a real signal measurement.',
     kiwi_audio: '🎧 Direct audio (beta)',
     kiwi_connecting: 'Connecting to the receiver…',
     kiwi_live: 'Receiving ✔',
@@ -872,7 +888,7 @@ function toggleSpaceAlerts() {
 
 function loadEibi() {
   fetchJSON('data/eibi.json').then(function (d) {
-    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); kiwiRenderEibiHint(); }
+    if (d && Array.isArray(d.rows) && d.rows.length) { state.eibi = d.rows; renderEibi(); kiwiRenderEibiHint(); kiwiRenderProp(); }
   }).catch(function () {});
 }
 
@@ -1164,7 +1180,6 @@ function owrxArmAudioDeadline() {
   if (owrxDeadline) clearTimeout(owrxDeadline);
   if (!owrxFailActive) return;
   var session = owrxSession, fail = owrxFailActive;
-
   owrxDeadline = setTimeout(function () { if (session === owrxSession) fail('audio_timeout'); },30000);
 }
 function owrxSetStatus(key,detail) {
@@ -1749,6 +1764,7 @@ function kiwiUpdateControls() {
   var input = $('kiwi-freq');
   if (input) input.step = kiwiControlValue('kiwi-step','1');
   kiwiRenderEibiHint();
+  kiwiRenderProp();
 }
 function kiwiIsCyprusReceiver() {
   if (!kiwiCurrentReceiver) return false;
@@ -2328,10 +2344,96 @@ function kiwiRenderEibiHint() {
   var rows = kiwiEibiMatches(kiwiControlValue('kiwi-freq', NaN));
   if (!rows.length) { box.hidden = true; box.innerHTML = ''; return; }
   box.hidden = false;
+  var nowMin = kiwiUtcNowMin();
   box.innerHTML = '<p class="kiwi-scan-caption">' + esc(t('kiwi_eibi_hint')) + '</p>' + rows.map(function (x) {
+    var onAir = kiwiEibiOnAirNow(x, nowMin) === true;
     return '<div class="kiwi-scan-row"><strong dir="ltr">' + (Number(x.f) / 1000).toFixed(3) + ' MHz</strong>' +
-      '<span dir="ltr">' + esc(x.s + '–' + x.e) + ' UTC</span><span>' + esc(x.n || '') + '</span></div>';
+      '<span dir="ltr">' + esc(x.s + '–' + x.e) + ' UTC</span><span>' + esc(x.n || '') +
+      (onAir ? ' <span class="kiwi-eibi-now">' + esc(t('kiwi_eibi_now')) + '</span>' : '') + '</span></div>';
   }).join('');
+}
+/* ================= Day/night propagation intelligence (SDR-8 / Advanced SDR Engine) =================
+   Classic shortwave physics as an honest client-side estimate: the D layer
+   (daytime absorption) collapses at night, so lower bands favor darkness and
+   higher bands favor daylight. Solar geometry here is a low-precision
+   approximation (declination by day-of-year, subsolar longitude from UTC with
+   the equation of time neglected) and day/night is evaluated at the visitor's
+   own longitude taken from the local time zone. It is a planning hint only —
+   never a substitute for the receiver's own S-meter. */
+var KIWI_PROP_LOW_KHZ = 10000;
+var KIWI_PROP_HIGH_KHZ = 13000;
+function kiwiHhmmToMin(v) {
+  var m = /^(\d{1,2})(\d{2})$/.exec(String(v == null ? '' : v));
+  if (!m) return null;
+  var h = Number(m[1]), min = Number(m[2]);
+  if (h > 24 || min > 59) return null;
+  return h * 60 + min;
+}
+function kiwiUtcNowMin(date) {
+  var d = date instanceof Date ? date : new Date();
+  return d.getUTCHours() * 60 + d.getUTCMinutes();
+}
+function kiwiEibiOnAirNow(x, nowMin) {
+  var s = kiwiHhmmToMin(x && x.s);
+  var e = kiwiHhmmToMin(x && x.e);
+  var now = Number(nowMin);
+  if (s === null || e === null || !Number.isFinite(now)) return null;
+  now = ((now % 1440) + 1440) % 1440;
+  if (e === s) return false;
+  /* EIBI end times are inclusive: a row ending 0459 is still on air at 04:59. */
+  if (e > s) return now >= s && now <= e;
+  return now >= s || now <= e;
+}
+function kiwiSunDeclinationDeg(date) {
+  var d = date instanceof Date ? date : new Date();
+  var doy = (Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) -
+    Date.UTC(d.getUTCFullYear(), 0, 0)) / 86400000;
+  return 23.44 * Math.sin((2 * Math.PI / 365.24) * (doy + 284));
+}
+function kiwiSubsolarLonDeg(date) {
+  var d = date instanceof Date ? date : new Date();
+  var hours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
+  var lon = 180 - hours * 15;
+  if (lon > 180) lon -= 360;
+  if (lon < -180) lon += 360;
+  return lon;
+}
+function kiwiUserLonDeg() {
+  try {
+    var offset = new Date().getTimezoneOffset();
+    if (!Number.isFinite(offset)) return 0;
+    return Math.max(-180, Math.min(180, -offset / 4));
+  } catch (e) { return 0; }
+}
+function kiwiDaylightAtLonDeg(date, lonDeg) {
+  var lon = Number(lonDeg);
+  if (!Number.isFinite(lon)) return null;
+  var ha = lon - kiwiSubsolarLonDeg(date);
+  if (ha > 180) ha -= 360;
+  if (ha < -180) ha += 360;
+  return Math.abs(ha) < 90;
+}
+function kiwiPropagationClass(freqKHz) {
+  var f = Number(freqKHz);
+  if (!Number.isFinite(f) || f <= 0) return null;
+  if (f <= KIWI_PROP_LOW_KHZ) return 'low';
+  if (f >= KIWI_PROP_HIGH_KHZ) return 'high';
+  return 'mid';
+}
+function kiwiRenderProp() {
+  var box = $('kiwi-prop');
+  if (!box) return;
+  var day = kiwiDaylightAtLonDeg(new Date(), kiwiUserLonDeg());
+  var mode = day === false ? t('kiwi_prop_night') : t('kiwi_prop_day');
+  var freq = Number(kiwiControlValue('kiwi-freq', NaN));
+  var cls = kiwiPropagationClass(freq);
+  var dial = cls === 'low' ? t('kiwi_prop_low') : cls === 'high' ? t('kiwi_prop_high') : t('kiwi_prop_mid');
+  var dialText = Number.isFinite(freq) && freq > 0 ? (freq / 1000).toFixed(3) + ' MHz' : '—';
+  box.hidden = false;
+  box.innerHTML = '<p class="kiwi-scan-caption">' + esc(t('kiwi_prop_title')) + '</p>' +
+    '<div class="kiwi-scan-row"><span>' + (day === false ? '🌙' : '☀️') + '</span><span>' + esc(mode) + '</span></div>' +
+    '<div class="kiwi-scan-row"><span dir="ltr">' + esc(dialText) + '</span><span>' + esc(dial) + '</span></div>' +
+    '<p class="kiwi-scan-caption">' + esc(t('kiwi_prop_est')) + '</p>';
 }
 /* ================= KiwiSDR band scanner (SDR-5 / Advanced SDR Engine) =================
    Polite client-side scan of a frequency range across the OPEN Kiwi session.
@@ -2433,7 +2535,6 @@ function kiwiScanApply(freqKHz) {
   // Scan retune only: never sets kiwiTuneAwaitingAudio and never touches the
   // saved session record, so scan frequencies cannot overwrite the last
   // audibly confirmed tuning.
-
   kiwiWs.send(command);
   return true;
 }
