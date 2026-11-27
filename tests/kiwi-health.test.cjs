@@ -138,7 +138,7 @@ test('health memory records failures with escalating cooldowns and clears on suc
   assert.equal(h.session.kiwiHealthCooldownSummary()[url].failures, 6);
   h.session.kiwiHealthRecord(url, true, '');
   assert.equal(h.session.kiwiHealthCooldownActive(url), false, 'a success clears the cooldown');
-  assert.deepEqual(h.session.kiwiHealthCooldownSummary(), {});
+  assert.equal(Object.keys(h.session.kiwiHealthCooldownSummary()).length, 0, 'a success clears the cooldown');
   // Expiry: an expired cooldown is inactive and prunes on the next pass.
   h.session.kiwiHealthRecord(url, false, 'timeout');
   const map = h.session.kiwiHealthMap;
