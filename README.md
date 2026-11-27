@@ -327,5 +327,3 @@ Pages uploads and deploys use the same unique name per workflow run/attempt. A b
 ### تحديث Actions — Phase 1
 
 مراجع Actions الرسمية مثبتة بـSHA كامل مع إصدار دقيق، على Ubuntu24.04 وNode24 لتشغيل Actions؛ اختبارات التطبيق تحتفظ بـNode22/Python3.12. صلاحيات الكتابة وOIDC محصورة في الوظائف المحتاجة. [الإصدارات والتحقق والحدود](docs/ACTIONS_MODERNIZATION.md). قبول الإنتاج يبقى مشروطًا بفحوص النشر الفعلية.
-
-
