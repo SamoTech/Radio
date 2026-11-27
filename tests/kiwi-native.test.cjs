@@ -431,17 +431,17 @@ test('Kiwi frequency memories deduplicate the same tuning and cap storage at 40'
   } finally {session.closeKiwiAudio();}
 });
 
-test('KiwiSDR retries unexpected loss with 8s then 65s backoff, only after PCM', () => {
+test('KiwiSDR retries unexpected loss with jittered 8s/65s backoff, only after PCM', () => {
   const h=nativeSession();
   try {
     h.session.openKiwiAudio('http://receiver.example/','Retry fixture');h.authenticate();
     const first=h.sockets[0];first.onmessage({data:h.frame()});first.onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,1);assert.equal(h.timers.size,1);
     assert.equal(h.contexts[0].state,'suspended');
-    const retry1=[...h.timers.values()][0];assert.equal(retry1.delay,8000);retry1.fn();
+    const retry1=[...h.timers.values()][0];assert.ok(retry1.delay>=6000&&retry1.delay<=10000,'jittered 8s backoff, got '+retry1.delay);retry1.fn();
     h.authenticate();h.sockets[1].onmessage({data:h.frame()});h.sockets[1].onclose({code:1006});
     assert.equal(h.session.kiwiRetryCount,2);assert.equal(h.timers.size,1);
-    const retry2=[...h.timers.values()][0];assert.equal(retry2.delay,65000);retry2.fn();
+    const retry2=[...h.timers.values()][0];assert.ok(retry2.delay>=48750&&retry2.delay<=81250,'jittered 65s backoff, got '+retry2.delay);retry2.fn();
     h.authenticate();h.sockets[2].onmessage({data:h.frame()});h.sockets[2].onclose({code:1006});
     assert.equal(h.sockets.length,3);assert.equal(h.timers.size,0);
     assert.equal(h.elements['kiwi-status'].textContent,'kiwi_transport');
@@ -567,3 +567,4 @@ test('native Kiwi catalog binding rejects unlisted or modified URLs without disr
   h.session.openKiwiAudio('http://receiver.example/','Empty catalog');
   assert.equal(h.sockets.length,1,'an empty catalog must fail closed');
 });
+
