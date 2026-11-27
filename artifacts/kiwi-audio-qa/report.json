@@ -1,0 +1,94 @@
+{
+  "run": "2026-11-27T23:49:30.037Z",
+  "mode": "live",
+  "sessions": [
+    {
+      "receiver": "http://ea8bfk.ddns.net:8073",
+      "status": "PASS",
+      "diagnostics": {
+        "contextState": "running",
+        "retries": 0,
+        "receiver": "http://ea8bfk.ddns.net:8073",
+        "failureCode": "",
+        "closeCode": null,
+        "bufferTargetMs": 60,
+        "cooldowns": {},
+        "memoryCount": 0,
+        "frames": 7,
+        "samples": 1680,
+        "nonZeroSamples": 1673,
+        "sampleRate": 12000,
+        "signalDbm": -89.3,
+        "underruns": 0
+      },
+      "uiStatus": "يستقبل ✔",
+      "sockets": [
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F"
+      ],
+      "handshake": {
+        "status": 101,
+        "retryAfter": null
+      }
+    },
+    {
+      "receiver": "http://sdr.autreradioautreculture.com:8074",
+      "status": "PASS",
+      "diagnostics": {
+        "contextState": "running",
+        "retries": 0,
+        "receiver": "http://sdr.autreradioautreculture.com:8074",
+        "failureCode": "",
+        "closeCode": null,
+        "bufferTargetMs": 76,
+        "cooldowns": {},
+        "memoryCount": 0,
+        "frames": 5,
+        "samples": 2560,
+        "nonZeroSamples": 2559,
+        "sampleRate": 12000,
+        "signalDbm": -96.1,
+        "underruns": 0
+      },
+      "uiStatus": "يستقبل ✔",
+      "sockets": [
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fsdr.autreradioautreculture.com%3A8074%2F"
+      ],
+      "handshake": {
+        "status": 101,
+        "retryAfter": null
+      }
+    },
+    {
+      "receiver": "http://sdr.autreradioautreculture.com:8073",
+      "status": "FAIL",
+      "error": "page.waitForFunction: Timeout 20000ms exceeded.",
+      "diagnostics": {
+        "contextState": "running",
+        "retries": 0,
+        "receiver": "http://sdr.autreradioautreculture.com:8073",
+        "failureCode": "",
+        "closeCode": null,
+        "bufferTargetMs": 60,
+        "cooldowns": {},
+        "memoryCount": 0,
+        "frames": 0,
+        "samples": 0,
+        "nonZeroSamples": 0,
+        "sampleRate": 0,
+        "signalDbm": null,
+        "underruns": 0
+      },
+      "uiStatus": "تم فتح الاتصال — جارٍ التحقق من الجهاز…",
+      "sockets": [
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fsdr.autreradioautreculture.com%3A8073%2F"
+      ],
+      "handshake": {
+        "status": 101,
+        "retryAfter": null
+      },
+      "failureCategory": "upgraded_but_no_audio"
+    }
+  ],
+  "errors": [],
+  "note": "Nonzero Web Audio graph output is machine evidence; it does not certify human audibility or physical speakers."
+}
