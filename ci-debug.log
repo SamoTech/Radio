@@ -1,0 +1,69 @@
+== docs-sync ==
+sw version: 107
+README ok
+ROADMAP ok
+== node checks ==
+app.js ok
+worker ok
+quota ok
+== node --test ==
+  duration_ms: 0.489325
+  type: 'test'
+  ...
+# Subtest: late full catalog initialization never resets a station already playing
+ok 274 - late full catalog initialization never resets a station already playing
+  ---
+  duration_ms: 0.33187
+  type: 'test'
+  ...
+# Subtest: mobile Home quick listening shows only unique playable catalog/history entries
+ok 275 - mobile Home quick listening shows only unique playable catalog/history entries
+  ---
+  duration_ms: 1.351116
+  type: 'test'
+  ...
+# Subtest: expanded player external stream button has Arabic and English labels
+ok 276 - expanded player external stream button has Arabic and English labels
+  ---
+  duration_ms: 0.526545
+  type: 'test'
+  ...
+# Subtest: late shared-link handling never restarts a station selected during this session
+ok 277 - late shared-link handling never restarts a station selected during this session
+  ---
+  duration_ms: 1.976105
+  type: 'test'
+  ...
+# Subtest: player fallback list is HTTPS-only, unique and preserves the selected station
+ok 278 - player fallback list is HTTPS-only, unique and preserves the selected station
+  ---
+  duration_ms: 0.244448
+  type: 'test'
+  ...
+# Subtest: player fallback attempts are bounded to four direct sources and relay last
+ok 279 - player fallback attempts are bounded to four direct sources and relay last
+  ---
+  duration_ms: 0.220112
+  type: 'test'
+  ...
+# Subtest: untrusted fallback strings do not turn into individual characters or URL attempts
+ok 280 - untrusted fallback strings do not turn into individual characters or URL attempts
+  ---
+  duration_ms: 0.157635
+  type: 'test'
+  ...
+# Subtest: player resume and direct play share the same safe source builder
+ok 281 - player resume and direct play share the same safe source builder
+  ---
+  duration_ms: 0.612945
+  type: 'test'
+  ...
+1..281
+# tests 281
+# suites 0
+# pass 280
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3701.143831
