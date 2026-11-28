@@ -1,0 +1,45 @@
+name: CI Debug
+on:
+  push:
+    branches: [feat/sdr9-snd-allowlist]
+permissions:
+  contents: write
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install lighthouse deps
+        run: |
+          npm install --no-save lighthouse@12.8.2 robots-parser@3.0.1 || true
+      - name: Docs sync check
+        run: |
+          node tests/repo-link.test.cjs 2>&1 | tee -a ci-debug.log || true
+      - name: Syntax checks
+        run: |
+          node --check js/app.js 2>&1 | tee -a ci-debug.log || true
+          for f in js/modules/*.mjs; do node --check "$f" 2>&1 | tee -a ci-debug.log || true; done
+          node --check proxy/kiwi-worker.js 2>&1 | tee -a ci-debug.log || true
+          node --check proxy/kiwi-quota.js 2>&1 | tee -a ci-debug.log || true
+      - name: JS tests
+        run: |
+          node --test tests/*.test.cjs 2>&1 | tee -a ci-debug.log || true
+      - name: Python tests
+        run: |
+          python3 -m py_compile scripts/*.py 2>&1 | tee -a ci-debug.log || true
+          python3 -m unittest discover -s tests -p '*.py' 2>&1 | tee -a ci-debug.log || true
+      - name: Commit log
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add ci-debug.log || true
+          git commit -m "chore(debug): تحديث سجل التشخيص" || true
+          git push || true
