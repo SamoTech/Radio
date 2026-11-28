@@ -612,6 +612,7 @@ main>section{animation:atlas-appear .22s ease-out}
 .kiwi-recent-caption{margin:0 0 8px;color:var(--muted);font-size:.82rem}
 .kiwi-recent-chips{display:flex;flex-wrap:wrap;gap:8px}
 .kiwi-recent-chip{min-height:38px;font-variant-numeric:tabular-nums}
+.kiwi-advanced-grid label.check{white-space:normal;min-width:0}
 /* Reference MW frequencies for the catalogued Cyprus receiver only. */
 #kiwi-cyprus-presets[hidden]{display:none}
 .kiwi-presets{border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px;background:var(--bg)}

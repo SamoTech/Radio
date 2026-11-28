@@ -414,7 +414,7 @@ var STR_SDR = {
     kiwi_auth: 'Connected — verifying the receiver…',
     kiwi_fallback: 'Try another receiver: {name}',
     kiwi_auto_fallback: 'Connection failed for good — switching automatically to {name}',
-    kiwi_auto: 'Switch automatically to an alternate receiver on final failure',
+    kiwi_auto: 'Auto-switch to an alternate receiver on final failure',
     kiwi_recent_title: 'Recently tuned',
     kiwi_ended: 'Receiver session ended — select Reconnect to listen again',
     kiwi_denied: 'Receiver refused the connection or the session expired — try another receiver',
