@@ -37,6 +37,7 @@ jobs:
           ls -la artifacts/kiwi-audio-qa/ 2>&1 | tee -a qa-deep-live.log || true
           cat /tmp/server.log 2>&1 | tail -5 | tee -a qa-deep-live.log || true
       - name: Publish evidence via Node + Contents API
+        if: always()
         run: |
           const { execSync } = require("child_process");
           const fs = require("fs");
