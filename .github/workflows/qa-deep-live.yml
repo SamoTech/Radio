@@ -1,4 +1,4 @@
-name: Deep Live QA (temp) — retry after transport outage
+name: Deep Live QA (temp) — final soak capture
 on:
   push:
     branches: [feat/sdr11-qa-soak]
@@ -26,6 +26,7 @@ jobs:
           KIWI_QA_SCANNER: '1'
           KIWI_QA_OFFLINE: '1'
         run: |
+          set -o pipefail
           python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
