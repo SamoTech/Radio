@@ -1,0 +1,50 @@
+name: CI Debug
+on:
+  push:
+    branches: [feat/sdr10-auto-recent]
+permissions:
+  contents: write
+jobs:
+  debug:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Chromium QA deps
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: QA
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 > /tmp/radio-atlas-local-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          STARTED=0
+          for i in $(seq 1 15); do
+            if curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1; then STARTED=1; break; fi
+            sleep 1
+          done
+          if [ "$STARTED" != "1" ]; then echo "server failed"; exit 1; fi
+          echo '=== browser_qa ===' | tee -a ci-debug.log
+          node scripts/browser_qa.cjs 2>&1 | tee -a ci-debug.log || true
+          echo '=== pwa_upgrade_qa ===' | tee -a ci-debug.log
+          node scripts/pwa_upgrade_qa.cjs 2>&1 | tee -a ci-debug.log || true
+          echo '=== kiwi_audio_qa ===' | tee -a ci-debug.log
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs 2>&1 | tee -a ci-debug.log || true
+          echo '=== sdr_studio_qa ===' | tee -a ci-debug.log
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/sdr_studio_qa.cjs 2>&1 | tee -a ci-debug.log || true
+          echo '=== openwebrx_audio_qa ===' | tee -a ci-debug.log
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/openwebrx_audio_qa.cjs 2>&1 | tee -a ci-debug.log || true
+      - name: Commit log
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add -A artifacts ci-debug.log || true
+          git commit -m "chore(debug): تحديث سجل التشخيص" || true
+          git push || true
