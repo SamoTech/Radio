@@ -328,6 +328,173 @@ async function checkMobileLayout(page,language) {
       // After a live 429, further public receiver admission probes add no value.
       if(live && result.handshake.status===429) break;
     }
+    // ── SDR-11 optional live deep-QA: survey / soak / scanner / offline recovery.
+    // Everything below is opt-in via environment variables; with none set the
+    // behavior above is byte-for-byte unchanged. Live-only: runs against real
+    // catalog receivers through the production bridge, short sessions first,
+    // and closes every session when done so public channels are never held.
+    const surveyCount=Math.max(0,Math.min(10,Number(process.env.KIWI_QA_SURVEY_COUNT)||0));
+    const soakMs=Math.max(0,Math.min(600000,Number(process.env.KIWI_QA_SOAK_MS)||0));
+    const soakReceivers=process.env.KIWI_QA_SOAK_RECEIVERS?JSON.parse(process.env.KIWI_QA_SOAK_RECEIVERS).slice(0,2):[];
+    const scannerOn=process.env.KIWI_QA_SCANNER==='1';
+    const offlineOn=process.env.KIWI_QA_OFFLINE==='1';
+    if(live&&(surveyCount>0||soakReceivers.length>0||scannerOn||offlineOn)){
+      const pickCatalog=url=>{
+        const r=catalog.find(x=>{try{return new URL(x.url).origin===new URL(url).origin&&Number(x.ext_api)>0;}catch(e){return false;}});
+        assert.ok(r,'deep-QA receiver must be catalog-listed: '+url);return r;
+      };
+      const openSession=async r=>{
+        await page.evaluate(r2=>{
+          const button=document.createElement('button');button.id='kiwi-qa-start';button.textContent='Start audio QA';
+          button.style.cssText='position:fixed;top:100px;left:20px;z-index:2147483647';
+          button.onclick=()=>{button.hidden=true;RA_MODULES.sdr.openKiwiAudio(r2.url,r2.name);};document.body.append(button);
+        },r);
+        await page.locator('#kiwi-qa-start').click();
+        const t0=Date.now();
+        await waitForAudio(page);
+        return Date.now()-t0;
+      };
+      const closeSession=async()=>{
+        const close=page.locator('#kiwi-modal-close');
+        if(await close.isVisible().catch(()=>false)) await close.click().catch(()=>{});
+        const stray=page.locator('#kiwi-qa-start');
+        if(await stray.count()) await stray.evaluate(b=>b.remove()).catch(()=>{});
+      };
+      const diagSample=()=>page.evaluate(()=>RA_MODULES.sdr.kiwiDiagnostics());
+      // 1) Survey: short 3 s sessions across an index-spread receiver sample.
+      if(surveyCount>0){
+        const pool=catalog.filter(x=>Number(x.ext_api)>0&&x.online!==false&&Number(x.users)<Number(x.max_users)&&x.url.startsWith('http:'));
+        const seen=new Set();const picked=[];
+        for(let i=0;i<surveyCount&&pool.length;i++){
+          const r=pool[Math.min(Math.floor(i*pool.length/surveyCount),pool.length-1)];
+          if(!seen.has(r.url)){seen.add(r.url);picked.push(r);}
+        }
+        report.survey=[];
+        for(const r of picked){
+          const entry={receiver:r.url};
+          const sockets=[];const obs=s=>sockets.push(s.url());
+          page.on('websocket',obs);
+          try{
+            entry.ttfAudioMs=await openSession(r);
+            await page.waitForTimeout(3000);
+            entry.diagnostics=await diagSample();
+            entry.status='PASS';
+          }catch(error){
+            entry.status='FAIL';entry.error=String(error.message).slice(0,200);
+            entry.diagnostics=await diagSample().catch(()=>null);
+          }
+          entry.sockets=sockets.splice(0);
+          page.off('websocket',obs);
+          report.survey.push(entry);
+          console.log('SURVEY '+JSON.stringify(entry));
+          await closeSession();
+          await page.waitForTimeout(1500);
+        }
+        if(!report.survey.some(x=>x.status==='PASS')) report.errors.push('survey: no receiver connected');
+      }
+      // 2) Soak: sustained playback with ~10 s sampling of frames/underruns/buffer/heap.
+      if(soakReceivers.length>0&&soakMs>0){
+        report.soak={};
+        for(const url of soakReceivers){
+         try{
+          const r=pickCatalog(url);
+          await closeSession();
+          const ttf=await openSession(r);
+          const samples=[];
+          const sample=async()=>{
+            const m=await page.metrics();
+            const d=await diagSample();
+            return {at:Date.now(),heapUsedMB:Number((m.JSHeapUsedSize/1048576).toFixed(2)),
+              frames:d.frames,underruns:d.underruns,bufferTargetMs:d.bufferTargetMs,
+              signalDbm:d.signalDbm,baseLatency:d.baseLatency,outputLatency:d.outputLatency,
+              contextState:d.contextState};
+          };
+          const started=Date.now();
+          samples.push(await sample());
+          while(Date.now()-started<soakMs){
+            await page.waitForTimeout(Math.min(10000,soakMs-(Date.now()-started)));
+            samples.push(await sample());
+          }
+          const first=samples[0],last=samples[samples.length-1];
+          const durationS=Math.max(1,(last.at-first.at)/1000);
+          const frames=last.frames-first.frames;
+          const underruns=last.underruns-first.underruns;
+          report.soak[url]={ttfAudioMs:ttf,durationS:Number(durationS.toFixed(1)),
+            durationMinutes:Number((durationS/60).toFixed(2)),frames,
+            framesPerSecond:Number((frames/durationS).toFixed(2)),underruns,
+            bufferTargetMs:last.bufferTargetMs,signalDbm:last.signalDbm,
+            baseLatency:last.baseLatency,outputLatency:last.outputLatency,
+            heapUsedMB:last.heapUsedMB,contextState:last.contextState,sampleCount:samples.length};
+          assert.ok(frames>=durationS*8,'sustained PCM must keep flowing through the soak: '+JSON.stringify(report.soak[url]));
+          assert.equal(last.contextState,'running','audio context stays alive through the soak');
+          await closeSession();
+          await page.waitForTimeout(1500);
+         }catch(soakError){report.soak[url]={error:String(soakError.message).slice(0,300)};console.log('SOAK-FAIL '+url+' '+String(soakError.message).slice(0,200));}
+        }
+      }
+      // 3) Scanner acceptance: real S-meter detections on the live dial (SDR-5).
+      if(scannerOn){
+       try{
+        const r=pickCatalog(soakReceivers[0]||'http://ea8bfk.ddns.net:8073/');
+        await closeSession();
+        await openSession(r);
+        const prevFreq=await page.locator('#kiwi-freq').inputValue();
+        const from=Number(process.env.KIWI_QA_SCANNER_FROM)||5900;
+        const to=Number(process.env.KIWI_QA_SCANNER_TO)||6200;
+        const step=Number(process.env.KIWI_QA_SCANNER_STEP)||5;
+        await page.locator('#kiwi-scan-from').fill(String(from));
+        await page.locator('#kiwi-scan-to').fill(String(to));
+        await page.locator('#kiwi-scan-step').fill(String(step));
+        await page.locator('#kiwi-scan-threshold').fill('-100');
+        await page.locator('#kiwi-scan-start').click();
+        await page.waitForTimeout(9000); // a few dwell steps on live S-meter data
+        await page.locator('#kiwi-scan-pause').click();
+        const pausedLabel=await page.locator('#kiwi-scan-pause').textContent();
+        const pausedFreq=await page.locator('#kiwi-freq').inputValue();
+        await page.waitForTimeout(2000);
+        await page.locator('#kiwi-scan-pause').click(); // resume
+        const steps=Math.max(1,Math.round((to-from)/step));
+        await page.waitForTimeout(Math.min(120000,steps*1500)); // let the plan finish
+        await page.locator('#kiwi-scan-stop').click().catch(()=>{});
+        await page.waitForTimeout(2000);
+        const restored=await page.locator('#kiwi-freq').inputValue();
+        const rows=await page.locator('#kiwi-scan-results [data-kiwi-scan-use]').allTextContents();
+        report.scanner={from,to,step,steps,pausedLabel,pausedFreq,restored,
+          restoredMatchesPrevious:restored===prevFreq,
+          detectionCount:rows.length,detections:rows.slice(0,12)};
+        assert.equal(restored,prevFreq,'scanner stop must restore the previous dial');
+        await closeSession();
+       }catch(scannerError){report.scanner={error:String(scannerError.message).slice(0,300)};console.log('SCANNER-FAIL '+String(scannerError.message).slice(0,200));}
+      }
+      // 4) Offline recovery: real network interruption, recovery without refresh.
+      if(offlineOn){
+       try{
+        const r=pickCatalog(process.env.KIWI_QA_OFFLINE_RECEIVER||soakReceivers[0]||'http://ea8bfk.ddns.net:8073/');
+        await closeSession();
+        const sockets=[];const obs=s=>sockets.push(s.url());
+        page.on('websocket',obs);
+        const ttf=await openSession(r);
+        const freqBefore=await page.locator('#kiwi-freq').inputValue();
+        const before=await diagSample();
+        await context.setOffline(true);
+        await page.waitForTimeout(5000);
+        const interrupted=await diagSample();
+        await context.setOffline(false);
+        await waitForAudio(page);
+        const after=await diagSample();
+        const freqAfter=await page.locator('#kiwi-freq').inputValue();
+        page.off('websocket',obs);
+        report.offlineRecovery={receiver:r.url,ttfAudioMs:ttf,
+          freqBefore,freqAfter,freqPreserved:freqAfter===freqBefore,
+          interrupted:{contextState:interrupted.contextState,retries:interrupted.retries,failureCode:interrupted.failureCode},
+          recovered:{contextState:after.contextState,frames:after.frames,retries:after.retries},
+          socketsOpened:sockets.length};
+        assert.equal(freqAfter,freqBefore,'tuning is preserved across offline recovery');
+        assert.ok(after.frames>before.frames,'PCM resumes after the network returns, without a refresh');
+        await closeSession();
+       }catch(offlineError){report.offlineRecovery={error:String(offlineError.message).slice(0,300)};console.log('OFFLINE-FAIL '+String(offlineError.message).slice(0,200));}
+      }
+    }
     assert.equal(report.errors.length,0,JSON.stringify(report.errors));
     assert.ok(report.sessions.length>0);
     assert.ok(report.sessions.every(x=>x.status==='PASS'),JSON.stringify(report.sessions));
@@ -337,3 +504,4 @@ async function checkMobileLayout(page,language) {
     await browser.close();
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});
+
