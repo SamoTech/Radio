@@ -1,4 +1,4 @@
-name: Deep Live QA (temp)
+name: Deep Live QA (temp) — retry after transport outage
 on:
   push:
     branches: [feat/sdr11-qa-soak]
