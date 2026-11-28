@@ -1,0 +1,146 @@
+{
+  "run": "2026-11-28T08:26:02.058Z",
+  "checks": [
+    {
+      "name": "Old worker controls first tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Old worker also controls second tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "New worker waits while two old clients are open",
+      "status": "PASS",
+      "detail": "{\"active\":\"http://127.0.0.1:8765/sw.js\",\"waiting\":\"http://127.0.0.1:8765/sw-upgrade-qa.js\",\"installing\":null,\"controller\":\"http://127.0.0.1:8765/sw.js\"}"
+    },
+    {
+      "name": "Closing one old tab does not force activation",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "New worker activates after old tabs close",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Favorites survive worker update",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Failed update retains the working Service Worker",
+      "status": "PASS",
+      "detail": "{\"active\":\"http://127.0.0.1:8765/sw-upgrade-qa.js\",\"waiting\":false}"
+    },
+    {
+      "name": "Offline shell still loads after update",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Offline favorites persist through update",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "01-upgraded-online.png",
+    "02-upgraded-offline.png"
+  ],
+  "note": "This tests Chromium Service Worker lifecycle on localhost, not a physical-device OS.",
+  "workerTimeline": [
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": null,
+      "installing": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    },
+    {
+      "active": "http://127.0.0.1:8765/sw.js",
+      "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+      "installing": null,
+      "controller": "http://127.0.0.1:8765/sw.js"
+    }
+  ],
+  "waiting": {
+    "active": "http://127.0.0.1:8765/sw.js",
+    "waiting": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+    "installing": null,
+    "controller": "http://127.0.0.1:8765/sw.js"
+  },
+  "activated": {
+    "controller": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+    "waiting": false,
+    "active": "http://127.0.0.1:8765/sw-upgrade-qa.js"
+  },
+  "failedUpdate": {
+    "active": "http://127.0.0.1:8765/sw-upgrade-qa.js",
+    "waiting": false
+  },
+  "passed": true
+}

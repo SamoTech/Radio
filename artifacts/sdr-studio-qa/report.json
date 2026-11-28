@@ -1,0 +1,395 @@
+{
+  "run": "2026-11-28T08:26:18.220Z",
+  "base": "http://127.0.0.1:8765/",
+  "mode": "recorded-and-local-iframe-fixtures",
+  "note": "Iframe load is receiver-UI evidence only. Kiwi output uses recorded SND frames; no live remote receiver or physical audibility is claimed.",
+  "checks": [
+    {
+      "name": "Unlisted receivers cannot open the workspace",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Unlisted receiver never receives a request",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Existing FM notice remains visible in the shared iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "FM notice hides stale receiver controls and provider identity",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "FM notice offers only the original external video link",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "FM notice never requests the remote video",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "Closing the FM notice clears srcdoc and stops its iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "HTTPS WebSDR loads the original receiver interface in a real iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Prior FM notice srcdoc cannot mask the receiver page",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "WebSDR protocol remains identified",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Receiver capabilities are visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Receiver UI reports only page or external-interface state",
+      "status": "PASS",
+      "detail": "ابدأ الصوت من أدوات الجهاز. لو الواجهة ما ظهرتش، افتح صفحته الأصلية."
+    },
+    {
+      "name": "Receiver UI never advertises native-audio success",
+      "status": "PASS",
+      "detail": "ابدأ الصوت من أدوات الجهاز. لو الواجهة ما ظهرتش، افتح صفحته الأصلية."
+    },
+    {
+      "name": "ar studio direction",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "ar studio has no horizontal overflow",
+      "status": "PASS",
+      "detail": "{\"direction\":\"rtl\",\"viewport\":390,\"pageWidth\":390,\"modalWidth\":372,\"scrollWidth\":372,\"escaped\":[],\"language\":\"ar\"}"
+    },
+    {
+      "name": "Unified chooser contains all six catalog receiver fixtures",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Chooser switches protocol while preserving exact receiver URLs",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Keyboard next changes receiver",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Studio fullscreen toggle is keyboard-readable",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Escape closes the receiver workspace",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Escape unloads the iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Closing returns focus to receiver opener",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "External-only receiver retains its original URL",
+      "status": "PASS",
+      "detail": "http://http.studio.invalid:8901/radio/view?band=40m#waterfall"
+    },
+    {
+      "name": "External-only receiver has no active iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "External-only receiver clears previous embedded content",
+      "status": "PASS",
+      "detail": "about:blank"
+    },
+    {
+      "name": "Receiver UI reports only page or external-interface state",
+      "status": "PASS",
+      "detail": "واجهة خارجية فقط — اضغط «واجهة الجهاز الأصلية» للمتابعة."
+    },
+    {
+      "name": "Receiver UI never advertises native-audio success",
+      "status": "PASS",
+      "detail": "واجهة خارجية فقط — اضغط «واجهة الجهاز الأصلية» للمتابعة."
+    },
+    {
+      "name": "HTTP receiver is never requested inside the HTTPS-style app shell",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "External-only receiver retains its original URL",
+      "status": "PASS",
+      "detail": "https://satnogs.studio.invalid/stations/42/?view=observations"
+    },
+    {
+      "name": "External-only receiver has no active iframe",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "External-only receiver clears previous embedded content",
+      "status": "PASS",
+      "detail": "about:blank"
+    },
+    {
+      "name": "Receiver UI reports only page or external-interface state",
+      "status": "PASS",
+      "detail": "واجهة خارجية فقط — اضغط «واجهة الجهاز الأصلية» للمتابعة."
+    },
+    {
+      "name": "Receiver UI never advertises native-audio success",
+      "status": "PASS",
+      "detail": "واجهة خارجية فقط — اضغط «واجهة الجهاز الأصلية» للمتابعة."
+    },
+    {
+      "name": "SatNOGS station remains a station page",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Chromium enforces the receiver frame policy",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Blocked iframe keeps a visible original-page fallback",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Blocked iframe fallback preserves original URL",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Receiver UI reports only page or external-interface state",
+      "status": "PASS",
+      "detail": "ابدأ الصوت من أدوات الجهاز. لو الواجهة ما ظهرتش، افتح صفحته الأصلية."
+    },
+    {
+      "name": "Receiver UI never advertises native-audio success",
+      "status": "PASS",
+      "detail": "ابدأ الصوت من أدوات الجهاز. لو الواجهة ما ظهرتش، افتح صفحته الأصلية."
+    },
+    {
+      "name": "OpenWebRX original path, query and fragment remain intact",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Reload requests the original receiver URL again without cache-busting or losing its fragment",
+      "status": "PASS",
+      "detail": "{\"beforeReload\":2,\"afterReload\":3,\"url\":\"https://owrx.studio.invalid/receiver/index?profile=hf&band=20m#waterfall\"}"
+    },
+    {
+      "name": "Native Kiwi replaces embedded receiver workspace",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Opening receiver UI closes native audio and releases its MediaStream",
+      "status": "PASS",
+      "detail": "{\"diagnostics\":{\"contextState\":\"closed\",\"retries\":0,\"receiver\":\"https://kiwi.studio.invalid:8073/receiver?view=full#waterfall\",\"failureCode\":\"\",\"closeCode\":null,\"bufferTargetMs\":60,\"cooldowns\":{},\"memoryCount\":0,\"baseLatency\":null,\"outputLatency\":null,\"frames\":5,\"samples\":1200,\"nonZeroSamples\":1190,\"sampleRate\":12000,\"signalDbm\":-89.6,\"underruns\":0},\"paused\":true,\"stream\":true}"
+    },
+    {
+      "name": "Receiver UI reports only page or external-interface state",
+      "status": "PASS",
+      "detail": "Start audio using the receiver controls. If the interface does not appear, open its original page."
+    },
+    {
+      "name": "Receiver UI never advertises native-audio success",
+      "status": "PASS",
+      "detail": "Start audio using the receiver controls. If the interface does not appear, open its original page."
+    },
+    {
+      "name": "en studio direction",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "en studio has no horizontal overflow",
+      "status": "PASS",
+      "detail": "{\"direction\":\"ltr\",\"viewport\":390,\"pageWidth\":390,\"modalWidth\":372,\"scrollWidth\":372,\"escaped\":[],\"language\":\"en\"}"
+    },
+    {
+      "name": "FM notice never started remote video during the full test",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "No application page errors",
+      "status": "PASS",
+      "detail": "[]"
+    }
+  ],
+  "layouts": [
+    {
+      "direction": "rtl",
+      "viewport": 390,
+      "pageWidth": 390,
+      "modalWidth": 372,
+      "scrollWidth": 372,
+      "escaped": [],
+      "language": "ar"
+    },
+    {
+      "direction": "ltr",
+      "viewport": 390,
+      "pageWidth": 390,
+      "modalWidth": 372,
+      "scrollWidth": 372,
+      "escaped": [],
+      "language": "en"
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "frame": true
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "frame": true
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "frame": true
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "frame": true
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "frame": true
+    },
+    {
+      "url": "https://blocked.studio.invalid/receiver/?mode=am",
+      "frame": true
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "frame": true
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "frame": true
+    },
+    {
+      "url": "https://kiwi.studio.invalid:8073/receiver?view=full",
+      "frame": true
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "frame": true
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "frame": true
+    }
+  ],
+  "requestFailures": [
+    {
+      "url": "https://blocked.studio.invalid/receiver/?mode=am",
+      "error": "net::ERR_BLOCKED_BY_RESPONSE"
+    }
+  ],
+  "fixtureResponses": [
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "label": "Local WebSDR interface"
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "label": "Local WebSDR interface"
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "label": "Local OpenWebRX interface"
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "label": "Local WebSDR interface"
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "label": "Local WebSDR interface"
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "label": "Local OpenWebRX interface"
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "label": "Local OpenWebRX interface"
+    },
+    {
+      "url": "https://kiwi.studio.invalid:8073/receiver?view=full",
+      "label": "Local KiwiSDR interface"
+    },
+    {
+      "url": "https://websdr.studio.invalid/radio/view?band=40m&mode=usb",
+      "label": "Local WebSDR interface"
+    },
+    {
+      "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m",
+      "label": "Local OpenWebRX interface"
+    }
+  ],
+  "noticeRequests": [],
+  "policyDenials": [
+    "Framing 'https://blocked.studio.invalid/' violates the following Content Security Policy directive: \"frame-ancestors 'none'\". The request has been blocked.\n"
+  ],
+  "errors": [],
+  "expectedInterface": {
+    "url": "https://owrx.studio.invalid/receiver/index?profile=hf&band=20m#waterfall",
+    "title": "Local OpenWebRX interface"
+  },
+  "recordedNative": {
+    "contextState": "running",
+    "retries": 0,
+    "receiver": "https://kiwi.studio.invalid:8073/receiver?view=full#waterfall",
+    "failureCode": "",
+    "closeCode": null,
+    "bufferTargetMs": 60,
+    "cooldowns": {},
+    "memoryCount": 0,
+    "baseLatency": 0.01,
+    "outputLatency": 0.032,
+    "frames": 5,
+    "samples": 1200,
+    "nonZeroSamples": 1190,
+    "sampleRate": 12000,
+    "signalDbm": -89.6,
+    "underruns": 0
+  },
+  "status": "PASS"
+}
