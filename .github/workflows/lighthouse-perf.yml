@@ -13,33 +13,42 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install Lighthouse (pinned, like the Validate a11y gate)
+      - name: Install Lighthouse (pinned)
         run: |
-          set -x
-          LIGHTHOUSE_QA_DIR="$RUNNER_TEMP/radio-atlas-lighthouse"
+          set -x -o pipefail
+          export LIGHTHOUSE_QA_DIR="$RUNNER_TEMP/radio-atlas-lighthouse"
+          echo "LIGHTHOUSE_QA_DIR=$LIGHTHOUSE_QA_DIR" >> "$GITHUB_ENV"
           mkdir -p "$LIGHTHOUSE_QA_DIR"
           printf '%s\n' '{"private":true,"dependencies":{"lighthouse":"12.8.2"},"overrides":{"robots-parser":"3.0.1"}}' > "$LIGHTHOUSE_QA_DIR/package.json"
-          cat "$LIGHTHOUSE_QA_DIR/package.json" | tee -a lh-debug.log
           npm install --prefix "$LIGHTHOUSE_QA_DIR" --ignore-scripts --no-audit --no-fund 2>&1 | tee -a lh-debug.log
           "$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse" --version 2>&1 | tee -a lh-debug.log
       - name: Serve and audit (mobile + desktop)
         run: |
-          python3 -m http.server 8765 >/dev/null 2>&1 &
-          SERVER_PID=$!
-          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
-          sleep 2
+          set -x
           LH="$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse"
+          if [ ! -x "$LH" ]; then echo "FATAL: lighthouse binary not found at $LH" | tee -a lh-debug.log; ls "$LIGHTHOUSE_QA_DIR/node_modules/.bin" 2>&1 | tee -a lh-debug.log; exit 1; fi
+          CHROME_PATH="$(command -v google-chrome-stable || command -v google-chrome || true)"
+          echo "CHROME_PATH=$CHROME_PATH" | tee -a lh-debug.log
+          if [ -n "$CHROME_PATH" ]; then export CHROME_PATH; fi
+          (python3 -m http.server 8765 >/dev/null 2>&1 &)
+          sleep 2
+          curl -s -o /dev/null -w "HTTP %{http_code}\n" http://localhost:8765/ | tee -a lh-debug.log
           FLAGS='--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage'
+          "$LH" --version 2>&1 | tee -a lh-debug.log
           "$LH" http://localhost:8765/ --quiet --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-mobile.json 2>&1 | tee -a lh-debug.log || true
           "$LH" http://localhost:8765/ --quiet --preset=desktop --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-desktop.json 2>&1 | tee -a lh-debug.log || true
-          jq '{mobile:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-mobile.json > /tmp/m.json
-          jq '{desktop:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-desktop.json > /tmp/d.json
-          jq -s '.[0] + .[1]' /tmp/m.json /tmp/d.json | tee lighthouse-scores.json
+          if [ ! -s lh-mobile.json ]; then echo "FATAL: lh-mobile.json missing/empty" | tee -a lh-debug.log; exit 1; fi
+          if [ ! -s lh-desktop.json ]; then echo "FATAL: lh-desktop.json missing/empty" | tee -a lh-debug.log; exit 1; fi
+          jq '{mobile:{performance:((.categories.performance.score // 0)*100|round),accessibility:((.categories.accessibility.score // 0)*100|round),bestPractices:((.categories["best-practices"].score // 0)*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-mobile.json > m.json
+          jq '{desktop:{performance:((.categories.performance.score // 0)*100|round),accessibility:((.categories.accessibility.score // 0)*100|round),bestPractices:((.categories["best-practices"].score // 0)*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-desktop.json > d.json
+          jq -s '.[0] + .[1]' m.json d.json | tee lighthouse-scores.json
       - name: Commit baseline
         if: always()
         run: |
           git config user.name "OSSAMA2573-debug"
           git config user.email "samo.hossam@gmail.com"
-          git add -A lighthouse-scores.json lh-debug.log || true
-          git commit -m "chore(qa): خط أساس Lighthouse (محاولة 2 مع سجل التشخيص)" || true
-          git push || true
+          touch lh-debug.log
+          git add -A lh-debug.log lighthouse-scores.json || true
+          git commit -m "chore(qa): baseline Lighthouse v3 with debug log" || true
+          git push 2>&1 | tee -a push-result.log || true
+          git status --short | tee -a push-result.log || true
