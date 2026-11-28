@@ -31,12 +31,26 @@ jobs:
           trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
           for i in $(seq 1 15); do curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1 && break; sleep 1; done
           RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs 2>&1 | tee qa-deep-live.log || true
-      - name: Commit evidence
+          ls -la artifacts/kiwi-audio-qa/ 2>&1 | tee -a qa-deep-live.log || true
+      - name: Publish evidence via Contents API (race-free)
         run: |
-          git config user.name "OSSAMA2573-debug"
-          git config user.email "samo.hossam@gmail.com"
-          git pull --rebase origin "$GITHUB_REF_NAME" 2>&1 || true
-          git add -A artifacts qa-deep-live.log || true
-          git commit -m "chore(qa): أدلة القياس العميق الحي — محاولة 2 مع إعادة ربط قبل الدفع" || true
-          git push --force-with-lease 2>&1 || git push 2>&1 || true
-          git log --oneline -3 2>&1 || true
+          set -x
+          BRANCH="feat/sdr11-qa-soak"
+          API="https://api.github.com/repos/SamoTech/Radio/contents"
+          AUTH="Authorization: Bearer $GITHUB_TOKEN"
+          put_file() {
+            FILE="$1"; MSG="$2"
+            if [ ! -s "$FILE" ]; then echo "MISSING $FILE" | tee -a api-debug.txt; return 0; fi
+            SHA="$(curl -sS -H "$AUTH" "$API/$FILE?ref=$BRANCH" | jq -r ".sha // empty" 2>/dev/null || true)"
+            if [ -n "$SHA" ]; then
+              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" --arg sha "$SHA" '{message:$msg,content:$c,sha:$sha,branch:$ENV.BRANCH}')"
+            else
+              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" '{message:$msg,content:$c,branch:$ENV.BRANCH}')"
+            fi
+            CODE="$(printf '%s' "$BODY" | curl -sS -o /tmp/api-resp.json -w '%{http_code}' -X PUT -H "$AUTH" -H "Accept: application/vnd.github+json" "$API/$FILE" -d @- || true)"
+            echo "$FILE -> HTTP $CODE $(head -c 120 /tmp/api-resp.json 2>/dev/null)" | tee -a api-debug.txt
+          }
+          rm -f api-debug.txt
+          put_file "qa-deep-live.log" "chore(qa): deep live log via API"
+          put_file "artifacts/kiwi-audio-qa/report.json" "chore(qa): deep live report via API"
+          put_file "api-debug.txt" "chore(qa): api debug"
