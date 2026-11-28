@@ -35,6 +35,8 @@ jobs:
         run: |
           git config user.name "OSSAMA2573-debug"
           git config user.email "samo.hossam@gmail.com"
+          git pull --rebase origin "$GITHUB_REF_NAME" 2>&1 || true
           git add -A artifacts qa-deep-live.log || true
-          git commit -m "chore(qa): أدلة القياس العميق الحي (مسح + نقع + ماسح + انقطاع)" || true
-          git push || true
+          git commit -m "chore(qa): أدلة القياس العميق الحي — محاولة 2 مع إعادة ربط قبل الدفع" || true
+          git push --force-with-lease 2>&1 || git push 2>&1 || true
+          git log --oneline -3 2>&1 || true
