@@ -3374,3 +3374,1828 @@ verified streams: 1 stations
   "status": "DONE"
 }
 GLOBAL RADIO BASELINE: {"total": 61295, "countries": 224, "languages": 608, "missing_country": 6302, "missing_language": 26051, "missing_logo_field": 61295, "missing_name": 2, "http_only": 18589, "invalid_url": 0, "duplicate_stream_urls": 0, "potential_same_country_name_groups_not_merged": 3242, "top_countries": {"US": 8311, "(missing)": 6302, "DE": 5939, "FR": 2895, "CN": 2457, "RU": 2446, "GB": 1937, "GR": 1891, "AU": 1608, "MX": 1592, "IT": 1591, "BR": 1568, "CO": 1414, "CA": 1383, "ES": 1213, "NL": 1186, "AR": 990, "PL": 933, "RO": 828, "IN": 739}, "top_languages": {"english": 11437, "spanish": 3970, "german": 3965, "french": 2513, "chinese": 2003, "russian": 1404, "italian": 1220, "greek": 972, "portuguese": 903, "dutch": 730, "polish": 671, "arabic": 654, "american english": 426, "brazilian portuguese": 368, "hindi": 304, "romanian": 284, "serbian": 281, "turkish": 269, "hungarian": 238, "tamil": 203}}
+TAP version 13
+# Subtest: footer links visibly to the public source repository
+ok 1 - footer links visibly to the public source repository
+  ---
+  duration_ms: 0.846039
+  type: 'test'
+  ...
+# Subtest: repo link follows the footer external-link convention
+ok 2 - repo link follows the footer external-link convention
+  ---
+  duration_ms: 0.406387
+  type: 'test'
+  ...
+# Subtest: service worker version matches the documented current version
+ok 3 - service worker version matches the documented current version
+  ---
+  duration_ms: 0.971136
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7.873799
+TAP version 13
+# Subtest: analytics sends no commands or requests before consent or on initial rejection
+ok 1 - analytics sends no commands or requests before consent or on initial rejection
+  ---
+  duration_ms: 2.025716
+  type: 'test'
+  ...
+# Subtest: analytics loads once, keeps ads denied, and stops custom events after withdrawal
+ok 2 - analytics loads once, keeps ads denied, and stops custom events after withdrawal
+  ---
+  duration_ms: 1.391139
+  type: 'test'
+  ...
+# Subtest: analytics restores a saved opt-in on the next page
+ok 3 - analytics restores a saved opt-in on the next page
+  ---
+  duration_ms: 0.74711
+  type: 'test'
+  ...
+# Subtest: i18n: previously missing playback keys resolve to real localized text, ar + en
+ok 4 - i18n: previously missing playback keys resolve to real localized text, ar + en
+  ---
+  duration_ms: 0.629822
+  type: 'test'
+  ...
+# Subtest: i18n: station-count label keeps its {n} placeholder in both languages
+ok 5 - i18n: station-count label keeps its {n} placeholder in both languages
+  ---
+  duration_ms: 298.755734
+  type: 'test'
+  ...
+# Subtest: i18n: dead-station toast and empty-grid messages render real text, ar + en
+ok 6 - i18n: dead-station toast and empty-grid messages render real text, ar + en
+  ---
+  duration_ms: 0.358662
+  type: 'test'
+  ...
+# Subtest: i18n: every t() key and data-i18n key in the repo resolves (ar or en pack)
+ok 7 - i18n: every t() key and data-i18n key in the repo resolves (ar or en pack)
+  ---
+  duration_ms: 8.811923
+  type: 'test'
+  ...
+# Subtest: Cloudflare AI receives the exact one-file Worker from repository sources
+ok 8 - Cloudflare AI receives the exact one-file Worker from repository sources
+  ---
+  duration_ms: 23.040245
+  type: 'test'
+  ...
+# Subtest: Cloudflare AI config targets the original Worker with SQLite quota binding
+ok 9 - Cloudflare AI config targets the original Worker with SQLite quota binding
+  ---
+  duration_ms: 0.450948
+  type: 'test'
+  ...
+# Subtest: Cloudflare prompt includes no-force deploy safeguard and rollback
+ok 10 - Cloudflare prompt includes no-force deploy safeguard and rollback
+  ---
+  duration_ms: 0.166619
+  type: 'test'
+  ...
+# Subtest: live Kiwi bridge healthz returns exactly ok
+ok 11 - live Kiwi bridge healthz returns exactly ok
+  ---
+  duration_ms: 75.452225
+  type: 'test'
+  ...
+# Subtest: live Kiwi bridge rejects foreign Origin before reading receiver
+ok 12 - live Kiwi bridge rejects foreign Origin before reading receiver
+  ---
+  duration_ms: 12.313465
+  type: 'test'
+  ...
+# Subtest: live Kiwi bridge rejects unlisted receiver with valid site Origin
+ok 13 - live Kiwi bridge rejects unlisted receiver with valid site Origin
+  ---
+  duration_ms: 276.044271
+  type: 'test'
+  ...
+# Subtest: live Kiwi bridge requires WebSocket upgrade
+ok 14 - live Kiwi bridge requires WebSocket upgrade
+  ---
+  duration_ms: 21.507104
+  type: 'test'
+  ...
+# Subtest: dial hints match the schedule within +/-5 kHz and cap at six rows
+ok 15 - dial hints match the schedule within +/-5 kHz and cap at six rows
+  ---
+  duration_ms: 2.593323
+  type: 'test'
+  ...
+# Subtest: an empty or missing schedule never renders hints
+ok 16 - an empty or missing schedule never renders hints
+  ---
+  duration_ms: 0.767387
+  type: 'test'
+  ...
+# Subtest: the hint box renders MHz, UTC window and station names, and follows the dial
+ok 17 - the hint box renders MHz, UTC window and station names, and follows the dial
+  ---
+  duration_ms: 1.651183
+  type: 'test'
+  ...
+# Subtest: hint strings, DOM and CSS wiring exist for the station hints
+ok 18 - hint strings, DOM and CSS wiring exist for the station hints
+  ---
+  duration_ms: 0.525318
+  type: 'test'
+  ...
+# Subtest: kiwiBandRange parses receiver band labels into kHz ranges and rejects junk
+ok 19 - kiwiBandRange parses receiver band labels into kHz ranges and rejects junk
+  ---
+  duration_ms: 1.214733
+  type: 'test'
+  ...
+# Subtest: retry delays are jittered inside a bounded band to prevent reconnect storms
+ok 20 - retry delays are jittered inside a bounded band to prevent reconnect storms
+  ---
+  duration_ms: 2.92789
+  type: 'test'
+  ...
+# Subtest: health memory records failures with escalating cooldowns and clears on success
+ok 21 - health memory records failures with escalating cooldowns and clears on success
+  ---
+  duration_ms: 1.261217
+  type: 'test'
+  ...
+# Subtest: automatic navigation skips cooldown-active receivers but keeps the current one
+ok 22 - automatic navigation skips cooldown-active receivers but keeps the current one
+  ---
+  duration_ms: 3.561793
+  type: 'test'
+  ...
+# Subtest: fallback prefers frequency coverage, then headroom, and never a failed receiver
+ok 23 - fallback prefers frequency coverage, then headroom, and never a failed receiver
+  ---
+  duration_ms: 2.344361
+  type: 'test'
+  ...
+# Subtest: a non-retryable failure records health, shows the fallback button and preserves tuning
+ok 24 - a non-retryable failure records health, shows the fallback button and preserves tuning
+  ---
+  duration_ms: 1.829776
+  type: 'test'
+  ...
+# Subtest: the adaptive prebuffer deepens on underrun and tracks SND arrival gaps within 60-200 ms
+ok 25 - the adaptive prebuffer deepens on underrun and tracks SND arrival gaps within 60-200 ms
+  ---
+  duration_ms: 1.936872
+  type: 'test'
+  ...
+# Subtest: a second open never leaves two live sockets and cleanup hides the fallback
+ok 26 - a second open never leaves two live sockets and cleanup hides the fallback
+  ---
+  duration_ms: 2.118885
+  type: 'test'
+  ...
+# Subtest: connection states, fallback and diagnostics strings exist in BOTH language packs
+ok 27 - connection states, fallback and diagnostics strings exist in BOTH language packs
+  ---
+  duration_ms: 0.801249
+  type: 'test'
+  ...
+# Subtest: KiwiSDR connects to timestamped SND endpoint, not obsolete /0
+ok 28 - KiwiSDR connects to timestamped SND endpoint, not obsolete /0
+  ---
+  duration_ms: 1.00874
+  type: 'test'
+  ...
+# Subtest: KiwiSDR audio decodes big-endian uncompressed SND frame
+ok 29 - KiwiSDR audio decodes big-endian uncompressed SND frame
+  ---
+  duration_ms: 0.526701
+  type: 'test'
+  ...
+# Subtest: KiwiSDR tuning uses validated frequency and passband limits
+ok 30 - KiwiSDR tuning uses validated frequency and passband limits
+  ---
+  duration_ms: 0.17779
+  type: 'test'
+  ...
+# Subtest: KiwiSDR browser UI and mobile navigation retain essential controls
+ok 31 - KiwiSDR browser UI and mobile navigation retain essential controls
+  ---
+  duration_ms: 0.67276
+  type: 'test'
+  ...
+# Subtest: KiwiSDR binary MSG controls are read separately from SND audio
+ok 32 - KiwiSDR binary MSG controls are read separately from SND audio
+  ---
+  duration_ms: 0.222664
+  type: 'test'
+  ...
+# Subtest: KiwiSDR PCM honors little-endian flag and rejects ADPCM/IQ
+ok 33 - KiwiSDR PCM honors little-endian flag and rejects ADPCM/IQ
+  ---
+  duration_ms: 0.11083
+  type: 'test'
+  ...
+# Subtest: recorded live KiwiSDR frames decode into nonzero PCM samples
+ok 34 - recorded live KiwiSDR frames decode into nonzero PCM samples
+  ---
+  duration_ms: 2.190564
+  type: 'test'
+  ...
+# Subtest: native session authenticates binary controls before tuning and uses real output rate
+ok 35 - native session authenticates binary controls before tuning and uses real output rate
+  ---
+  duration_ms: 9.735762
+  type: 'test'
+  ...
+# Subtest: KiwiSDR signal meter decodes network S-meter values without parsing PCM
+ok 36 - KiwiSDR signal meter decodes network S-meter values without parsing PCM
+  ---
+  duration_ms: 0.936698
+  type: 'test'
+  ...
+# Subtest: KiwiSDR steps preserve decimals and clamp to the supported frequency range
+ok 37 - KiwiSDR steps preserve decimals and clamp to the supported frequency range
+  ---
+  duration_ms: 1.066193
+  type: 'test'
+  ...
+# Subtest: KiwiSDR applies current controls after authentication, before any audio tuning
+ok 38 - KiwiSDR applies current controls after authentication, before any audio tuning
+  ---
+  duration_ms: 1.231476
+  type: 'test'
+  ...
+# Subtest: KiwiSDR reconnect replaces transport and audio context while retaining controls and volume
+ok 39 - KiwiSDR reconnect replaces transport and audio context while retaining controls and volume
+  ---
+  duration_ms: 1.466259
+  type: 'test'
+  ...
+# Subtest: KiwiSDR mode, passband, AGC and squelch commands validate receiver controls
+ok 40 - KiwiSDR mode, passband, AGC and squelch commands validate receiver controls
+  ---
+  duration_ms: 0.843322
+  type: 'test'
+  ...
+# Subtest: KiwiSDR receiver navigation prioritizes eligible Cyprus receivers and replaces the connection
+ok 41 - KiwiSDR receiver navigation prioritizes eligible Cyprus receivers and replaces the connection
+  ---
+  duration_ms: 1.537327
+  type: 'test'
+  ...
+# Subtest: KiwiSDR full receiver link carries validated tuning without stale URL parameters
+ok 42 - KiwiSDR full receiver link carries validated tuning without stale URL parameters
+  ---
+  duration_ms: 0.750458
+  type: 'test'
+  ...
+# Subtest: Cyprus mediumwave presets tune verified reference frequencies without opening extra sockets
+ok 43 - Cyprus mediumwave presets tune verified reference frequencies without opening extra sockets
+  ---
+  duration_ms: 1.905675
+  type: 'test'
+  ...
+# Subtest: Cyprus selection during a failed handshake updates settings but never claims a connection
+ok 44 - Cyprus selection during a failed handshake updates settings but never claims a connection
+  ---
+  duration_ms: 1.16086
+  type: 'test'
+  ...
+# Subtest: Kiwi frequency memories save validated presets and recall without auto-connecting
+ok 45 - Kiwi frequency memories save validated presets and recall without auto-connecting
+  ---
+  duration_ms: 1.616786
+  type: 'test'
+  ...
+# Subtest: Kiwi frequency memories deduplicate the same tuning and cap storage at 40
+ok 46 - Kiwi frequency memories deduplicate the same tuning and cap storage at 40
+  ---
+  duration_ms: 5.727668
+  type: 'test'
+  ...
+# Subtest: KiwiSDR retries unexpected loss with jittered 8s/65s backoff, only after PCM
+ok 47 - KiwiSDR retries unexpected loss with jittered 8s/65s backoff, only after PCM
+  ---
+  duration_ms: 2.552783
+  type: 'test'
+  ...
+# Subtest: KiwiSDR authentication refusal and deliberate session close never auto-retry
+ok 48 - KiwiSDR authentication refusal and deliberate session close never auto-retry
+  ---
+  duration_ms: 3.395046
+  type: 'test'
+  ...
+# Subtest: KiwiSDR never retries failed pre-audio handshake and preserves diagnostic reason
+ok 49 - KiwiSDR never retries failed pre-audio handshake and preserves diagnostic reason
+  ---
+  duration_ms: 1.162879
+  type: 'test'
+  ...
+# Subtest: KiwiSDR closing while a retry is pending cancels timers and stale callbacks
+ok 50 - KiwiSDR closing while a retry is pending cancels timers and stale callbacks
+  ---
+  duration_ms: 1.206466
+  type: 'test'
+  ...
+# Subtest: KiwiSDR restores successful controls and refuses receivers no longer eligible
+ok 51 - KiwiSDR restores successful controls and refuses receivers no longer eligible
+  ---
+  duration_ms: 1.632811
+  type: 'test'
+  ...
+# Subtest: Kiwi retune without fresh nonzero PCM retains last confirmed station settings
+ok 52 - Kiwi retune without fresh nonzero PCM retains last confirmed station settings
+  ---
+  duration_ms: 1.972385
+  type: 'test'
+  ...
+# Subtest: KiwiSDR a handshake without decoded audio cannot overwrite the last successful receiver
+ok 53 - KiwiSDR a handshake without decoded audio cannot overwrite the last successful receiver
+  ---
+  duration_ms: 1.562435
+  type: 'test'
+  ...
+# Subtest: native Kiwi catalog binding rejects unlisted or modified URLs without disrupting an active session
+ok 54 - native Kiwi catalog binding rejects unlisted or modified URLs without disrupting an active session
+  ---
+  duration_ms: 1.17452
+  type: 'test'
+  ...
+# Subtest: HHMM schedule parsing handles 2400 and rejects broken values
+ok 55 - HHMM schedule parsing handles 2400 and rejects broken values
+  ---
+  duration_ms: 2.506042
+  type: 'test'
+  ...
+# Subtest: on-air-now windows: normal, wrapping midnight, zero-length and full-day
+ok 56 - on-air-now windows: normal, wrapping midnight, zero-length and full-day
+  ---
+  duration_ms: 0.801454
+  type: 'test'
+  ...
+# Subtest: solar estimate: seasonal declination and day/night at reference longitudes
+ok 57 - solar estimate: seasonal declination and day/night at reference longitudes
+  ---
+  duration_ms: 0.991254
+  type: 'test'
+  ...
+# Subtest: propagation class bands: low favors night, high favors day, edges are inclusive
+ok 58 - propagation class bands: low favors night, high favors day, edges are inclusive
+  ---
+  duration_ms: 0.694645
+  type: 'test'
+  ...
+# Subtest: the propagation box renders the day/night mode, the dial and honest limits
+ok 59 - the propagation box renders the day/night mode, the dial and honest limits
+  ---
+  duration_ms: 1.015719
+  type: 'test'
+  ...
+# Subtest: EIBI rows scheduled on air now are marked, and DOM/CSS/i18n wiring exists
+ok 60 - EIBI rows scheduled on air now are marked, and DOM/CSS/i18n wiring exists
+  ---
+  duration_ms: 1.814937
+  type: 'test'
+  ...
+# (node:2632) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: fleet-wide per-IP window allows 24 attempts, then denies until expiry
+ok 61 - fleet-wide per-IP window allows 24 attempts, then denies until expiry
+  ---
+  duration_ms: 48.29652
+  type: 'test'
+  ...
+# Subtest: global receiver attempt budget is 12 per minute across multiple clients
+ok 62 - global receiver attempt budget is 12 per minute across multiple clients
+  ---
+  duration_ms: 2.896667
+  type: 'test'
+  ...
+# Subtest: global active limits hold for IP, receiver, fleet, and idempotent release
+ok 63 - global active limits hold for IP, receiver, fleet, and idempotent release
+  ---
+  duration_ms: 1.718583
+  type: 'test'
+  ...
+# Subtest: fleet-wide 32-session cap remains even with distinct IPs and receivers
+ok 64 - fleet-wide 32-session cap remains even with distinct IPs and receivers
+  ---
+  duration_ms: 3.87638
+  type: 'test'
+  ...
+# Subtest: dead-isolate leases expire without requiring a release callback
+ok 65 - dead-isolate leases expire without requiring a release callback
+  ---
+  duration_ms: 1.424076
+  type: 'test'
+  ...
+# Subtest: malformed IP/receiver/token rejected before insertion
+ok 66 - malformed IP/receiver/token rejected before insertion
+  ---
+  duration_ms: 1.177893
+  type: 'test'
+  ...
+# Subtest: waterfall claim is single-use, bound to IP/receiver/lease, and returns the SND session id
+ok 67 - waterfall claim is single-use, bound to IP/receiver/lease, and returns the SND session id
+  ---
+  duration_ms: 1.814855
+  type: 'test'
+  ...
+# Subtest: waterfall claim never double-counts: no new attempt window and no second lease
+ok 68 - waterfall claim never double-counts: no new attempt window and no second lease
+  ---
+  duration_ms: 1.296289
+  type: 'test'
+  ...
+# Subtest: waterfall liveness follows the SND lease: alive until release or expiry
+ok 69 - waterfall liveness follows the SND lease: alive until release or expiry
+  ---
+  duration_ms: 1.863824
+  type: 'test'
+  ...
+# Subtest: reserve without an SND session id stores null and the waterfall route fails closed
+ok 70 - reserve without an SND session id stores null and the waterfall route fails closed
+  ---
+  duration_ms: 1.506041
+  type: 'test'
+  ...
+# Subtest: recorded navigation has two available receivers despite full or offline source snapshots
+ok 71 - recorded navigation has two available receivers despite full or offline source snapshots
+  ---
+  duration_ms: 1.351392
+  type: 'test'
+  ...
+# Subtest: recorded fixture refuses missing identities instead of inventing a catalog receiver
+ok 72 - recorded fixture refuses missing identities instead of inventing a catalog receiver
+  ---
+  duration_ms: 0.86965
+  type: 'test'
+  ...
+# Subtest: recorded fixture never overrides absent, zero or invalid ext_api permission
+ok 73 - recorded fixture never overrides absent, zero or invalid ext_api permission
+  ---
+  duration_ms: 1.514117
+  type: 'test'
+  ...
+# Subtest: scan plan validates bounds, step and the maximum number of steps
+ok 74 - scan plan validates bounds, step and the maximum number of steps
+  ---
+  duration_ms: 1.062679
+  type: 'test'
+  ...
+# Subtest: every preset band produces a valid capped plan inside the Kiwi tuning range
+ok 75 - every preset band produces a valid capped plan inside the Kiwi tuning range
+  ---
+  duration_ms: 0.904785
+  type: 'test'
+  ...
+# Subtest: scanner UI exists in the Kiwi modal with styles and both languages
+ok 76 - scanner UI exists in the Kiwi modal with styles and both languages
+  ---
+  duration_ms: 2.301649
+  type: 'test'
+  ...
+# Subtest: scan runs the full lifecycle: detection above threshold, skip below it, restore frequency
+ok 77 - scan runs the full lifecycle: detection above threshold, skip below it, restore frequency
+  ---
+  duration_ms: 5.048261
+  type: 'test'
+  ...
+# Subtest: scan is refused without a live session and never starts twice
+ok 78 - scan is refused without a live session and never starts twice
+  ---
+  duration_ms: 1.434394
+  type: 'test'
+  ...
+# Subtest: invalid scan input is refused before any retune
+ok 79 - invalid scan input is refused before any retune
+  ---
+  duration_ms: 1.011293
+  type: 'test'
+  ...
+# Subtest: pause stops stepping, resume continues, cancel restores the previous frequency
+ok 80 - pause stops stepping, resume continues, cancel restores the previous frequency
+  ---
+  duration_ms: 1.365484
+  type: 'test'
+  ...
+# Subtest: click-to-listen tunes the session to the detected frequency
+ok 81 - click-to-listen tunes the session to the detected frequency
+  ---
+  duration_ms: 1.206333
+  type: 'test'
+  ...
+# Subtest: closing the session drops the scan and its timer
+ok 82 - closing the session drops the scan and its timer
+  ---
+  duration_ms: 1.328061
+  type: 'test'
+  ...
+# Subtest: i18n: every Kiwi waterfall key resolves to real localized text, ar + en
+ok 83 - i18n: every Kiwi waterfall key resolves to real localized text, ar + en
+  ---
+  duration_ms: 3.380533
+  type: 'test'
+  ...
+# Subtest: kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
+ok 84 - kiwiWfIsRelayed: only relay-mediated SND URLs count as relayed
+  ---
+  duration_ms: 2.161467
+  type: 'test'
+  ...
+# Subtest: SET wf_lease is requested exactly once when a relayed SND session becomes ready
+ok 85 - SET wf_lease is requested exactly once when a relayed SND session becomes ready
+  ---
+  duration_ms: 3.325357
+  type: 'test'
+  ...
+# Subtest: SET wf_lease is never sent for a direct (https) receiver
+ok 86 - SET wf_lease is never sent for a direct (https) receiver
+  ---
+  duration_ms: 0.992111
+  type: 'test'
+  ...
+# Subtest: MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
+ok 87 - MSG wf_lease=<uuid> starts one waterfall session on the relay bridge
+  ---
+  duration_ms: 1.125459
+  type: 'test'
+  ...
+# Subtest: malformed lease tokens are ignored, no session starts
+ok 88 - malformed lease tokens are ignored, no session starts
+  ---
+  duration_ms: 0.919198
+  type: 'test'
+  ...
+# Subtest: first WF row paints, unhides the canvas and reports live; rows inside 95 ms are skipped
+ok 89 - first WF row paints, unhides the canvas and reports live; rows inside 95 ms are skipped
+  ---
+  duration_ms: 122.086485
+  type: 'test'
+  ...
+# Subtest: WF failure shows the unavailable note and leaves audio running
+ok 90 - WF failure shows the unavailable note and leaves audio running
+  ---
+  duration_ms: 1.778336
+  type: 'test'
+  ...
+# Subtest: direct receiver: lease token shows the direct note, no session starts
+ok 91 - direct receiver: lease token shows the direct note, no session starts
+  ---
+  duration_ms: 1.965709
+  type: 'test'
+  ...
+# Subtest: closing Kiwi audio closes the waterfall, clears the canvas and hides it
+ok 92 - closing Kiwi audio closes the waterfall, clears the canvas and hides it
+  ---
+  duration_ms: 1.896786
+  type: 'test'
+  ...
+# Subtest: recorded EA8BFK fixture decodes: 147 direct rows, seq 0..146, dBm in range
+ok 93 - recorded EA8BFK fixture decodes: 147 direct rows, seq 0..146, dBm in range
+  ---
+  duration_ms: 12.113815
+  type: 'test'
+  ...
+# Subtest: decoder rejects malformed rows, wrong tags, non-zero reserved bytes, and non-zoom-0 setups
+ok 94 - decoder rejects malformed rows, wrong tags, non-zero reserved bytes, and non-zoom-0 setups
+  ---
+  duration_ms: 0.228958
+  type: 'test'
+  ...
+# Subtest: fixture settles send_dB as optional and wf_speed=1 at ~10 rows/s, not ~1 fps
+ok 95 - fixture settles send_dB as optional and wf_speed=1 at ~10 rows/s, not ~1 fps
+  ---
+  duration_ms: 0.201489
+  type: 'test'
+  ...
+# Subtest: setup burst is complete, in order, and omits send_dB by default
+ok 96 - setup burst is complete, in order, and omits send_dB by default
+  ---
+  duration_ms: 1.216198
+  type: 'test'
+  ...
+# Subtest: session delivers decoded rows only after wf_cal, and drops other lengths silently
+ok 97 - session delivers decoded rows only after wf_cal, and drops other lengths silently
+  ---
+  duration_ms: 0.89141
+  type: 'test'
+  ...
+# Subtest: session counts sequence gaps without dropping rows, and fails on denial or setup mismatch
+ok 98 - session counts sequence gaps without dropping rows, and fails on denial or setup mismatch
+  ---
+  duration_ms: 1.149193
+  type: 'test'
+  ...
+# Subtest: session refuses invalid lease tokens, receivers, speeds, and dB ranges before connecting
+ok 99 - session refuses invalid lease tokens, receivers, speeds, and dB ranges before connecting
+  ---
+  duration_ms: 0.54546
+  type: 'test'
+  ...
+# Subtest: session sends keepalive on schedule and fails when the first row never arrives
+ok 100 - session sends keepalive on schedule and fails when the first row never arrives
+  ---
+  duration_ms: 54.90597
+  type: 'test'
+  ...
+# Subtest: session fails on a 20 s row gap without retrying
+ok 101 - session fails on a 20 s row gap without retrying
+  ---
+  duration_ms: 80.601051
+  type: 'test'
+  ...
+# Subtest: MSG parsing covers wf_cal, zoom/start echo, dB limits, setup, and denial
+ok 102 - MSG parsing covers wf_cal, zoom/start echo, dB limits, setup, and denial
+  ---
+  duration_ms: 0.676246
+  type: 'test'
+  ...
+# Subtest: normalizeReceiver blocks SSRF host vectors
+ok 103 - normalizeReceiver blocks SSRF host vectors
+  ---
+  duration_ms: 1.770656
+  type: 'test'
+  ...
+# Subtest: publicAddress blocks non-global and transition IPv6, allows global unicast
+ok 104 - publicAddress blocks non-global and transition IPv6, allows global unicast
+  ---
+  duration_ms: 0.71158
+  type: 'test'
+  ...
+# Subtest: waterfall message allowlist keeps strict bounds
+ok 105 - waterfall message allowlist keeps strict bounds
+  ---
+  duration_ms: 1.498152
+  type: 'test'
+  ...
+# Subtest: SND command allowlist accepts exactly the client command vocabulary
+ok 106 - SND command allowlist accepts exactly the client command vocabulary
+  ---
+  duration_ms: 1.126122
+  type: 'test'
+  ...
+# Subtest: the SND route actually gates relaying behind the allowlist
+ok 107 - the SND route actually gates relaying behind the allowlist
+  ---
+  duration_ms: 0.113267
+  type: 'test'
+  ...
+# Subtest: rejects private, local, metadata and malformed hostnames
+ok 108 - rejects private, local, metadata and malformed hostnames
+  ---
+  duration_ms: 19.469621
+  type: 'test'
+  ...
+# Subtest: normalizes only valid receiver origins and blocks alternate IP spellings
+ok 109 - normalizes only valid receiver origins and blocks alternate IP spellings
+  ---
+  duration_ms: 0.707615
+  type: 'test'
+  ...
+# Subtest: directory only permits online, non-full operators with explicit external API opt-in
+ok 110 - directory only permits online, non-full operators with explicit external API opt-in
+  ---
+  duration_ms: 1.399911
+  type: 'test'
+  ...
+# Subtest: directory redirects and malformed schema fail closed
+ok 111 - directory redirects and malformed schema fail closed
+  ---
+  duration_ms: 2.218234
+  type: 'test'
+  ...
+# Subtest: requires Radio Atlas Origin and rejects foreign origins before network calls
+ok 112 - requires Radio Atlas Origin and rejects foreign origins before network calls
+  ---
+  duration_ms: 0.721212
+  type: 'test'
+  ...
+# Subtest: rate limit distinguishes valid requests from throttled traffic
+ok 113 - rate limit distinguishes valid requests from throttled traffic
+  ---
+  duration_ms: 1.056996
+  type: 'test'
+  ...
+# Subtest: rate counter map stays bounded under unique IP churn
+ok 114 - rate counter map stays bounded under unique IP churn
+  ---
+  duration_ms: 24.218914
+  type: 'test'
+  ...
+# Subtest: requires GET and WebSocket upgrade
+ok 115 - requires GET and WebSocket upgrade
+  ---
+  duration_ms: 1.112714
+  type: 'test'
+  ...
+# Subtest: exact allowlist prevents port and host substitutions before DNS
+ok 116 - exact allowlist prevents port and host substitutions before DNS
+  ---
+  duration_ms: 1.099757
+  type: 'test'
+  ...
+# Subtest: DNS rejects private, mixed public/private, link-local and mapped IPv6 answers
+ok 117 - DNS rejects private, mixed public/private, link-local and mapped IPv6 answers
+  ---
+  duration_ms: 7.693601
+  type: 'test'
+  ...
+# Subtest: DNS lookup errors, empty responses, malformed JSON and redirects fail closed
+ok 118 - DNS lookup errors, empty responses, malformed JSON and redirects fail closed
+  ---
+  duration_ms: 3.879567
+  type: 'test'
+  ...
+# Subtest: fresh A and AAAA validation allows global addresses and bypasses DNS for literal public IP
+ok 119 - fresh A and AAAA validation allows global addresses and bypasses DNS for literal public IP
+  ---
+  duration_ms: 0.726229
+  type: 'test'
+  ...
+# Subtest: upstream redirects, non-upgrades and connection errors release reservations
+ok 120 - upstream redirects, non-upgrades and connection errors release reservations
+  ---
+  duration_ms: 2.707907
+  type: 'test'
+  ...
+# Subtest: IP, receiver and isolate concurrent reservations are bounded and released idempotently
+ok 121 - IP, receiver and isolate concurrent reservations are bounded and released idempotently
+  ---
+  duration_ms: 0.627039
+  type: 'test'
+  ...
+# Subtest: in-flight DNS attempts reserve slots before completion
+ok 122 - in-flight DNS attempts reserve slots before completion
+  ---
+  duration_ms: 14.932475
+  type: 'test'
+  ...
+# Subtest: successful bridge forwards text commands and binary frames and cleans up either peer
+ok 123 - successful bridge forwards text commands and binary frames and cleans up either peer
+  ---
+  duration_ms: 8.275465
+  type: 'test'
+  ...
+# Subtest: invalid/oversized commands, receiver frames and command floods close both peers
+ok 124 - invalid/oversized commands, receiver frames and command floods close both peers
+  ---
+  duration_ms: 5.818281
+  type: 'test'
+  ...
+# Subtest: socket errors and maximum session duration release allocations
+ok 125 - socket errors and maximum session duration release allocations
+  ---
+  duration_ms: 5.290649
+  type: 'test'
+  ...
+# Subtest: receiver attempt rate is independent of client IP and returns Retry-After
+ok 126 - receiver attempt rate is independent of client IP and returns Retry-After
+  ---
+  duration_ms: 9.064131
+  type: 'test'
+  ...
+# Subtest: concurrent catalog reads share one network request and failures may retry
+ok 127 - concurrent catalog reads share one network request and failures may retry
+  ---
+  duration_ms: 1.79053
+  type: 'test'
+  ...
+# Subtest: global limiter absence or failure prevents all SDR network work
+ok 128 - global limiter absence or failure prevents all SDR network work
+  ---
+  duration_ms: 1.380535
+  type: 'test'
+  ...
+# Subtest: fleet-wide receiver quota refusal releases isolate-local reservations
+ok 129 - fleet-wide receiver quota refusal releases isolate-local reservations
+  ---
+  duration_ms: 0.903184
+  type: 'test'
+  ...
+# Subtest: quota lease released for both peer close and failed upstream; waitUntil invoked
+ok 130 - quota lease released for both peer close and failed upstream; waitUntil invoked
+  ---
+  duration_ms: 1.950208
+  type: 'test'
+  ...
+# Subtest: global quota RPC disables Cloudflare automatic retries for non-idempotent counters
+ok 131 - global quota RPC disables Cloudflare automatic retries for non-idempotent counters
+  ---
+  duration_ms: 0.860514
+  type: 'test'
+  ...
+# Subtest: waterfall lease token is issued on request over SND and never forwarded upstream
+ok 132 - waterfall lease token is issued on request over SND and never forwarded upstream
+  ---
+  duration_ms: 1.140049
+  type: 'test'
+  ...
+# Subtest: waterfall route requires GET, upgrade and Radio Atlas Origin before any network work
+ok 133 - waterfall route requires GET, upgrade and Radio Atlas Origin before any network work
+  ---
+  duration_ms: 2.922244
+  type: 'test'
+  ...
+# Subtest: waterfall route rejects missing, malformed and already-used lease tokens without upstream contact
+ok 134 - waterfall route rejects missing, malformed and already-used lease tokens without upstream contact
+  ---
+  duration_ms: 1.598222
+  type: 'test'
+  ...
+# Subtest: waterfall token is bound to the SND session IP
+ok 135 - waterfall token is bound to the SND session IP
+  ---
+  duration_ms: 1.60951
+  type: 'test'
+  ...
+# Subtest: waterfall connects to the same SND session id path and forwards binary rows
+ok 136 - waterfall connects to the same SND session id path and forwards binary rows
+  ---
+  duration_ms: 2.783802
+  type: 'test'
+  ...
+# Subtest: waterfall message allowlist forwards setup commands and closes on anything else
+ok 137 - waterfall message allowlist forwards setup commands and closes on anything else
+  ---
+  duration_ms: 18.687051
+  type: 'test'
+  ...
+# Subtest: waterfall allowlist accepts only the designed setup commands
+ok 138 - waterfall allowlist accepts only the designed setup commands
+  ---
+  duration_ms: 3.382956
+  type: 'test'
+  ...
+# Subtest: closing SND closes its waterfall socket; closing WF alone never releases the lease
+ok 139 - closing SND closes its waterfall socket; closing WF alone never releases the lease
+  ---
+  duration_ms: 2.632846
+  type: 'test'
+  ...
+# Subtest: waterfall upstream refusal keeps the SND lease alive
+ok 140 - waterfall upstream refusal keeps the SND lease alive
+  ---
+  duration_ms: 1.325215
+  type: 'test'
+  ...
+# (node:2682) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: OpenWebRX PCM decoder honors binary type and signed little-endian sample boundaries
+ok 141 - OpenWebRX PCM decoder honors binary type and signed little-endian sample boundaries
+  ---
+  duration_ms: 2.815043
+  type: 'test'
+  ...
+# Subtest: OpenWebRX FFT decoder reads unaligned little-endian floats and rejects malformed bins
+ok 142 - OpenWebRX FFT decoder reads unaligned little-endian floats and rejects malformed bins
+  ---
+  duration_ms: 0.28325
+  type: 'test'
+  ...
+# Subtest: OpenWebRX handshake negotiates rates and config before the latest tuning starts
+ok 143 - OpenWebRX handshake negotiates rates and config before the latest tuning starts
+  ---
+  duration_ms: 1.476255
+  type: 'test'
+  ...
+# Subtest: OpenWebRX normal and HD PCM reach callbacks at their negotiated rates; secondary data is not audio
+ok 144 - OpenWebRX normal and HD PCM reach callbacks at their negotiated rates; secondary data is not audio
+  ---
+  duration_ms: 3.939195
+  type: 'test'
+  ...
+# Subtest: OpenWebRX genuine recorded 20m PCM and FFT decode with nonzero samples
+ok 145 - OpenWebRX genuine recorded 20m PCM and FFT decode with nonzero samples
+  ---
+  duration_ms: 6.216401
+  type: 'test'
+  ...
+# Subtest: OpenWebRX rejects unlisted, wrong-provider, credential and unsafe destinations before opening a socket
+ok 146 - OpenWebRX rejects unlisted, wrong-provider, credential and unsafe destinations before opening a socket
+  ---
+  duration_ms: 0.574464
+  type: 'test'
+  ...
+# Subtest: OpenWebRX bounds tuning to its actual profile and advertised analog modes
+ok 147 - OpenWebRX bounds tuning to its actual profile and advertised analog modes
+  ---
+  duration_ms: 0.784886
+  type: 'test'
+  ...
+# Subtest: OpenWebRX unsupported compression, malformed JSON, oversized and malformed frames fail closed
+ok 148 - OpenWebRX unsupported compression, malformed JSON, oversized and malformed frames fail closed
+  ---
+  duration_ms: 1.844918
+  type: 'test'
+  ...
+# Subtest: OpenWebRX ADPCM audio decodes to PCM at negotiated rates
+ok 149 - OpenWebRX ADPCM audio decodes to PCM at negotiated rates
+  ---
+  duration_ms: 0.85229
+  type: 'test'
+  ...
+# Subtest: OpenWebRX ADPCM FFT decodes to dB bins; unknown FFT compression stays silent
+ok 150 - OpenWebRX ADPCM FFT decodes to dB bins; unknown FFT compression stays silent
+  ---
+  duration_ms: 0.805941
+  type: 'test'
+  ...
+# Subtest: OpenWebRX profile change resets the ADPCM audio stream
+ok 151 - OpenWebRX profile change resets the ADPCM audio stream
+  ---
+  duration_ms: 0.463194
+  type: 'test'
+  ...
+# Subtest: OpenWebRX capacity and SDR errors are surfaced and release the connection
+ok 152 - OpenWebRX capacity and SDR errors are surfaced and release the connection
+  ---
+  duration_ms: 0.337309
+  type: 'test'
+  ...
+# Subtest: OpenWebRX profile handoff ignores stale binary/config and applies the latest valid tuning
+ok 153 - OpenWebRX profile handoff ignores stale binary/config and applies the latest valid tuning
+  ---
+  duration_ms: 2.295671
+  type: 'test'
+  ...
+# Subtest: OpenWebRX deadlines and explicit close clean up timers and ignore stale events
+ok 154 - OpenWebRX deadlines and explicit close clean up timers and ignore stale events
+  ---
+  duration_ms: 0.867798
+  type: 'test'
+  ...
+# Subtest: IMA step table is exactly the csdr encoder table (89 entries)
+ok 155 - IMA step table is exactly the csdr encoder table (89 entries)
+  ---
+  duration_ms: 2.747528
+  type: 'test'
+  ...
+# Subtest: decodeAdpcmCode matches the hand-traced vector exactly
+ok 156 - decodeAdpcmCode matches the hand-traced vector exactly
+  ---
+  duration_ms: 0.344983
+  type: 'test'
+  ...
+# Subtest: streaming decoder reproduces the hand-traced vector and keeps state across chunks
+ok 157 - streaming decoder reproduces the hand-traced vector and keeps state across chunks
+  ---
+  duration_ms: 0.335575
+  type: 'test'
+  ...
+# Subtest: SYNC marker resyncs index and predictor mid-stream
+ok 158 - SYNC marker resyncs index and predictor mid-stream
+  ---
+  duration_ms: 0.316292
+  type: 'test'
+  ...
+# Subtest: SYNC marker split across two chunks still resyncs
+ok 159 - SYNC marker split across two chunks still resyncs
+  ---
+  duration_ms: 0.299832
+  type: 'test'
+  ...
+# Subtest: trailing SYNC prefix is held, not decoded as nibbles
+ok 160 - trailing SYNC prefix is held, not decoded as nibbles
+  ---
+  duration_ms: 0.215138
+  type: 'test'
+  ...
+# Subtest: SYNC index is clamped to the table range
+ok 161 - SYNC index is clamped to the table range
+  ---
+  duration_ms: 0.122076
+  type: 'test'
+  ...
+# Subtest: decoder handles empty and non-buffer input without throwing
+ok 162 - decoder handles empty and non-buffer input without throwing
+  ---
+  duration_ms: 0.19574
+  type: 'test'
+  ...
+# Subtest: encode/decode round-trip stays close on a smooth signal
+ok 163 - encode/decode round-trip stays close on a smooth signal
+  ---
+  duration_ms: 0.957688
+  type: 'test'
+  ...
+# Subtest: FFT ADPCM decodes reset-per-frame, drops 10 pads, value/100 is dB
+ok 164 - FFT ADPCM decodes reset-per-frame, drops 10 pads, value/100 is dB
+  ---
+  duration_ms: 0.406477
+  type: 'test'
+  ...
+# Subtest: FFT ADPCM rejects malformed frames
+ok 165 - FFT ADPCM rejects malformed frames
+  ---
+  duration_ms: 0.135559
+  type: 'test'
+  ...
+# Subtest: Win \#2: module_load_failed resolves to real localized text, ar + en
+ok 166 - Win \#2: module_load_failed resolves to real localized text, ar + en
+  ---
+  duration_ms: 6.269855
+  type: 'test'
+  ...
+# Subtest: Win \#2: tapping play with a failing player import toasts instead of doing nothing
+ok 167 - Win \#2: tapping play with a failing player import toasts instead of doing nothing
+  ---
+  duration_ms: 12.245511
+  type: 'test'
+  ...
+# Subtest: Win \#2: a second tap after a failed import retries and toasts again
+ok 168 - Win \#2: a second tap after a failed import retries and toasts again
+  ---
+  duration_ms: 23.284846
+  type: 'test'
+  ...
+# Subtest: Win \#2: openSDR / openKiwiAudio share the same failure toast
+ok 169 - Win \#2: openSDR / openKiwiAudio share the same failure toast
+  ---
+  duration_ms: 22.923039
+  type: 'test'
+  ...
+# Subtest: Win \#2: a successful import clears loading state and calls the module
+ok 170 - Win \#2: a successful import clears loading state and calls the module
+  ---
+  duration_ms: 12.180635
+  type: 'test'
+  ...
+# Subtest: Win \#2: stubs carry .catch and loadModule still resets its promise so the next tap retries
+ok 171 - Win \#2: stubs carry .catch and loadModule still resets its promise so the next tap retries
+  ---
+  duration_ms: 0.658039
+  type: 'test'
+  ...
+# Subtest: Win \#3: after catalog render the player module is preloaded on idle, not on tap
+ok 172 - Win \#3: after catalog render the player module is preloaded on idle, not on tap
+  ---
+  duration_ms: 12.475185
+  type: 'test'
+  ...
+# Subtest: Win \#3: a saved HLS last station warms hls.js during the idle preload
+ok 173 - Win \#3: a saved HLS last station warms hls.js during the idle preload
+  ---
+  duration_ms: 11.389316
+  type: 'test'
+  ...
+# Subtest: Win \#3: a saved non-HLS last station does not warm hls.js
+ok 174 - Win \#3: a saved non-HLS last station does not warm hls.js
+  ---
+  duration_ms: 11.992122
+  type: 'test'
+  ...
+# Subtest: Win \#3: without requestIdleCallback the preload falls back to a 1.5s timer
+ok 175 - Win \#3: without requestIdleCallback the preload falls back to a 1.5s timer
+  ---
+  duration_ms: 2.168749
+  type: 'test'
+  ...
+# Radio playback failed: source timeout after 9s
+# Subtest: Win \#3: a failed preload is swallowed — it must never break the page
+ok 176 - Win \#3: a failed preload is swallowed — it must never break the page
+  ---
+  duration_ms: 13.312945
+  type: 'test'
+  ...
+# Subtest: Win \#3: renderCatalog triggers the preload once, after the first catalog render
+ok 177 - Win \#3: renderCatalog triggers the preload once, after the first catalog render
+  ---
+  duration_ms: 0.57034
+  type: 'test'
+  ...
+# Subtest: Win \#6: the per-source watchdog is 9 seconds
+ok 178 - Win \#6: the per-source watchdog is 9 seconds
+  ---
+  duration_ms: 1.925208
+  type: 'test'
+  ...
+# Subtest: Win \#6: a dead current source is failed over by the watchdog instead of hanging
+ok 179 - Win \#6: a dead current source is failed over by the watchdog instead of hanging
+  ---
+  duration_ms: 2.800649
+  type: 'test'
+  ...
+# Subtest: Win \#6: the watchdog ignores a stale generation and a playing source
+ok 180 - Win \#6: the watchdog ignores a stale generation and a playing source
+  ---
+  duration_ms: 1.890676
+  type: 'test'
+  ...
+# Subtest: Win \#6: the trying status shows attempt progress like (2/4)
+ok 181 - Win \#6: the trying status shows attempt progress like (2/4)
+  ---
+  duration_ms: 0.73774
+  type: 'test'
+  ...
+# Subtest: Win \#6: tap-to-dead time is bounded — at most 5 sources at 9s each
+ok 182 - Win \#6: tap-to-dead time is bounded — at most 5 sources at 9s each
+  ---
+  duration_ms: 2.526929
+  type: 'test'
+  ...
+# Subtest: Win \#6: the watchdog is armed on every attempt and cleared on play, pause, close and dead
+ok 183 - Win \#6: the watchdog is armed on every attempt and cleared on play, pause, close and dead
+  ---
+  duration_ms: 1.013523
+  type: 'test'
+  ...
+# Subtest: Win \#7: catalog_loading resolves to real localized text, ar + en
+ok 184 - Win \#7: catalog_loading resolves to real localized text, ar + en
+  ---
+  duration_ms: 1.358145
+  type: 'test'
+  ...
+# Subtest: Win \#7: the skeleton renders six shimmer cards and a loading line on first paint
+ok 185 - Win \#7: the skeleton renders six shimmer cards and a loading line on first paint
+  ---
+  duration_ms: 1.320628
+  type: 'test'
+  ...
+# Subtest: Win \#7: the skeleton uses the English loading line in en mode
+ok 186 - Win \#7: the skeleton uses the English loading line in en mode
+  ---
+  duration_ms: 1.176441
+  type: 'test'
+  ...
+# Subtest: Win \#7: the skeleton never clobbers an already rendered catalog
+ok 187 - Win \#7: the skeleton never clobbers an already rendered catalog
+  ---
+  duration_ms: 1.253211
+  type: 'test'
+  ...
+# Subtest: Win \#7: initUI shows the skeleton, renderFM clears busy, and a failed load cannot leave the skeleton stuck
+ok 188 - Win \#7: initUI shows the skeleton, renderFM clears busy, and a failed load cannot leave the skeleton stuck
+  ---
+  duration_ms: 0.43129
+  type: 'test'
+  ...
+# Subtest: footer links visibly to the public source repository
+ok 189 - footer links visibly to the public source repository
+  ---
+  duration_ms: 1.115522
+  type: 'test'
+  ...
+# Subtest: repo link follows the footer external-link convention
+ok 190 - repo link follows the footer external-link convention
+  ---
+  duration_ms: 0.463061
+  type: 'test'
+  ...
+# Subtest: service worker version matches the documented current version
+ok 191 - service worker version matches the documented current version
+  ---
+  duration_ms: 1.182221
+  type: 'test'
+  ...
+# Subtest: SDR URL validation preserves original paths, queries and fragments
+ok 192 - SDR URL validation preserves original paths, queries and fragments
+  ---
+  duration_ms: 1.382833
+  type: 'test'
+  ...
+# Subtest: SDR URL validation rejects executable schemes, credentials and malformed input
+ok 193 - SDR URL validation rejects executable schemes, credentials and malformed input
+  ---
+  duration_ms: 1.304222
+  type: 'test'
+  ...
+# Subtest: SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
+ok 194 - SDR protocol profiles distinguish receiver UI embedding from native audio and station pages
+  ---
+  duration_ms: 0.507699
+  type: 'test'
+  ...
+# Subtest: SDR catalog resolution binds both receiver type and complete canonical URL
+ok 195 - SDR catalog resolution binds both receiver type and complete canonical URL
+  ---
+  duration_ms: 0.353928
+  type: 'test'
+  ...
+# Subtest: SDR catalog merges protocol groups without conflating paths or receiver types
+ok 196 - SDR catalog merges protocol groups without conflating paths or receiver types
+  ---
+  duration_ms: 0.415794
+  type: 'test'
+  ...
+# Subtest: SDR native Kiwi permission requires valid catalog opt-in, online state and a free slot
+ok 197 - SDR native Kiwi permission requires valid catalog opt-in, online state and a free slot
+  ---
+  duration_ms: 0.307376
+  type: 'test'
+  ...
+# Subtest: SDR legacy lookup rejects ambiguous provider bindings
+ok 198 - SDR legacy lookup rejects ambiguous provider bindings
+  ---
+  duration_ms: 0.311795
+  type: 'test'
+  ...
+# Subtest: SDR URL validation rejects normalized loopback, private and link-local destinations
+ok 199 - SDR URL validation rejects normalized loopback, private and link-local destinations
+  ---
+  duration_ms: 0.377098
+  type: 'test'
+  ...
+# Subtest: Direct OpenWebRX eligibility requires its own safe HTTPS provider URL
+ok 200 - Direct OpenWebRX eligibility requires its own safe HTTPS provider URL
+  ---
+  duration_ms: 0.546394
+  type: 'test'
+  ...
+# Subtest: warming creates one context and resumes it synchronously in the gesture
+ok 201 - warming creates one context and resumes it synchronously in the gesture
+  ---
+  duration_ms: 4.065074
+  type: 'test'
+  ...
+# Subtest: warming replaces a closed context and suspends a running one on close
+ok 202 - warming replaces a closed context and suspends a running one on close
+  ---
+  duration_ms: 2.256929
+  type: 'test'
+  ...
+# Subtest: warming returns null without AudioContext support
+ok 203 - warming returns null without AudioContext support
+  ---
+  duration_ms: 1.065529
+  type: 'test'
+  ...
+# Subtest: openKiwiAudio reuses the warmed context; close suspends it instead of closing
+ok 204 - openKiwiAudio reuses the warmed context; close suspends it instead of closing
+  ---
+  duration_ms: 22.71616
+  type: 'test'
+  ...
+# Subtest: openOpenWebRx reuses the warmed context; close suspends it instead of closing
+ok 205 - openOpenWebRx reuses the warmed context; close suspends it instead of closing
+  ---
+  duration_ms: 3.299543
+  type: 'test'
+  ...
+# Subtest: native open functions warm the shared context and never construct their own
+ok 206 - native open functions warm the shared context and never construct their own
+  ---
+  duration_ms: 1.060558
+  type: 'test'
+  ...
+# Subtest: boot registers a capture-phase warm listener on native start buttons
+ok 207 - boot registers a capture-phase warm listener on native start buttons
+  ---
+  duration_ms: 0.305121
+  type: 'test'
+  ...
+# Subtest: openKiwiAudio fails closed without a socket when no AudioContext exists
+ok 208 - openKiwiAudio fails closed without a socket when no AudioContext exists
+  ---
+  duration_ms: 1.610863
+  type: 'test'
+  ...
+# Subtest: owrxErrorKey maps every failure code to a localized key, never the raw code
+ok 209 - owrxErrorKey maps every failure code to a localized key, never the raw code
+  ---
+  duration_ms: 3.105119
+  type: 'test'
+  ...
+# Subtest: i18n: every OWRX error key resolves to real localized text, ar + en
+ok 210 - i18n: every OWRX error key resolves to real localized text, ar + en
+  ---
+  duration_ms: 3.322789
+  type: 'test'
+  ...
+# Subtest: OWRX status lines show localized text with no raw code or raw English detail
+ok 211 - OWRX status lines show localized text with no raw code or raw English detail
+  ---
+  duration_ms: 19.850419
+  type: 'test'
+  ...
+# Subtest: closing either native player stops the FM sleep timer silently
+ok 212 - closing either native player stops the FM sleep timer silently
+  ---
+  duration_ms: 1.183316
+  type: 'test'
+  ...
+# Subtest: sleep-timer stop is a harmless no-op when the player module is absent
+ok 213 - sleep-timer stop is a harmless no-op when the player module is absent
+  ---
+  duration_ms: 0.943383
+  type: 'test'
+  ...
+# Subtest: player module exports stopSleepTimer so the close handlers stop it for real
+ok 214 - player module exports stopSleepTimer so the close handlers stop it for real
+  ---
+  duration_ms: 0.230302
+  type: 'test'
+  ...
+# Subtest: OWRX last working receiver persists profile, frequency and mode, and rejects bad records
+ok 215 - OWRX last working receiver persists profile, frequency and mode, and rejects bad records
+  ---
+  duration_ms: 4.176144
+  type: 'test'
+  ...
+# Subtest: resume target picks the newest last-working receiver across Kiwi and OpenWebRX
+ok 216 - resume target picks the newest last-working receiver across Kiwi and OpenWebRX
+  ---
+  duration_ms: 2.515035
+  type: 'test'
+  ...
+# Subtest: resume chip renders the last working receiver label and hides when nothing is saved
+ok 217 - resume chip renders the last working receiver label and hides when nothing is saved
+  ---
+  duration_ms: 1.321494
+  type: 'test'
+  ...
+# Subtest: resume chip opens native audio directly with saved settings (2 taps incl. tab)
+ok 218 - resume chip opens native audio directly with saved settings (2 taps incl. tab)
+  ---
+  duration_ms: 2.051586
+  type: 'test'
+  ...
+# Subtest: Kiwi save stamps savedAt and refreshes the resume chip
+ok 219 - Kiwi save stamps savedAt and refreshes the resume chip
+  ---
+  duration_ms: 1.521665
+  type: 'test'
+  ...
+# Subtest: direct-receiver render refreshes the resume chip
+ok 220 - direct-receiver render refreshes the resume chip
+  ---
+  duration_ms: 1.410446
+  type: 'test'
+  ...
+# Subtest: i18n: resume chip key resolves to real localized text, ar + en
+ok 221 - i18n: resume chip key resolves to real localized text, ar + en
+  ---
+  duration_ms: 3.14238
+  type: 'test'
+  ...
+# Subtest: resume chip exists in the SDR tab markup, above the direct grid
+ok 222 - resume chip exists in the SDR tab markup, above the direct grid
+  ---
+  duration_ms: 0.359255
+  type: 'test'
+  ...
+# Subtest: waterfall rows contain no colors without a decoded FFT frame
+ok 223 - waterfall rows contain no colors without a decoded FFT frame
+  ---
+  duration_ms: 1.773236
+  type: 'test'
+  ...
+# Subtest: actual recorded S52MP OpenWebRX FFT paints a real, opaque bounded waterfall row
+ok 224 - actual recorded S52MP OpenWebRX FFT paints a real, opaque bounded waterfall row
+  ---
+  duration_ms: 1.774788
+  type: 'test'
+  ...
+# Subtest: stronger recorded spectral bin yields a higher intensity without synthetic RF data
+ok 225 - stronger recorded spectral bin yields a higher intensity without synthetic RF data
+  ---
+  duration_ms: 0.5934
+  type: 'test'
+  ...
+# Subtest: renderer scrolls one row per genuine FFT and cleans stale pixels on session close
+ok 226 - renderer scrolls one row per genuine FFT and cleans stale pixels on session close
+  ---
+  duration_ms: 0.328184
+  type: 'test'
+  ...
+# Subtest: Arabic search normalization handles alef variants and diacritics
+ok 227 - Arabic search normalization handles alef variants and diacritics
+  ---
+  duration_ms: 0.978441
+  type: 'test'
+  ...
+# Subtest: station search matches localized country names and country codes
+ok 228 - station search matches localized country names and country codes
+  ---
+  duration_ms: 46.04712
+  type: 'test'
+  ...
+# Subtest: country, language and category filters combine correctly
+ok 229 - country, language and category filters combine correctly
+  ---
+  duration_ms: 0.16883
+  type: 'test'
+  ...
+# Subtest: canonicalLanguage folds accent and native spellings into one key
+ok 230 - canonicalLanguage folds accent and native spellings into one key
+  ---
+  duration_ms: 0.215713
+  type: 'test'
+  ...
+# Subtest: language filter merges duplicates and ranks by station count
+ok 231 - language filter merges duplicates and ranks by station count
+  ---
+  duration_ms: 1.716385
+  type: 'test'
+  ...
+# Subtest: official stations are prioritized without discarding other results
+ok 232 - official stations are prioritized without discarding other results
+  ---
+  duration_ms: 0.463808
+  type: 'test'
+  ...
+# Subtest: zero-result queries return an empty list without throwing
+ok 233 - zero-result queries return an empty list without throwing
+  ---
+  duration_ms: 0.198641
+  type: 'test'
+  ...
+# Radio Atlas cache migration: TypeError: previous.keys is not a function
+#     at evalmachine.<anonymous>:17:44
+#     at async TestContext.<anonymous> (/home/runner/work/Radio/Radio/tests/search.test.cjs:510:3)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+# Subtest: Live Search cancels a pending local debounce render
+ok 234 - Live Search cancels a pending local debounce render
+  ---
+  duration_ms: 190.817552
+  type: 'test'
+  ...
+# Subtest: official station cards expose the broadcaster website link
+ok 235 - official station cards expose the broadcaster website link
+  ---
+  duration_ms: 0.925979
+  type: 'test'
+  ...
+# Subtest: EasyBroadcast token response signs the playlist and child path
+ok 236 - EasyBroadcast token response signs the playlist and child path
+  ---
+  duration_ms: 0.467316
+  type: 'test'
+  ...
+# Subtest: EasyBroadcast token is reused for nested playlists until expiry
+ok 237 - EasyBroadcast token is reused for nested playlists until expiry
+  ---
+  duration_ms: 0.634507
+  type: 'test'
+  ...
+# Subtest: URL validation rejects script and credential-bearing URLs
+ok 238 - URL validation rejects script and credential-bearing URLs
+  ---
+  duration_ms: 0.107178
+  type: 'test'
+  ...
+# Subtest: HTTP streams are not offered to the in-page audio player
+ok 239 - HTTP streams are not offered to the in-page audio player
+  ---
+  duration_ms: 0.246081
+  type: 'test'
+  ...
+# Subtest: Favorites and Arabic quick filters are present in the main UI
+ok 240 - Favorites and Arabic quick filters are present in the main UI
+  ---
+  duration_ms: 0.230458
+  type: 'test'
+  ...
+# Subtest: live search results include matching curated catalog stations
+ok 241 - live search results include matching curated catalog stations
+  ---
+  duration_ms: 0.263866
+  type: 'test'
+  ...
+# Subtest: alive-only filter keeps alive and maybe-alive stations, drops dead
+ok 242 - alive-only filter keeps alive and maybe-alive stations, drops dead
+  ---
+  duration_ms: 0.156742
+  type: 'test'
+  ...
+# Subtest: alive-only filter is a no-op without the aliveOnly flag or stream checks
+ok 243 - alive-only filter is a no-op without the aliveOnly flag or stream checks
+  ---
+  duration_ms: 0.087133
+  type: 'test'
+  ...
+# Subtest: alive sort ranks alive first, then maybe-alive, unknown, dead last
+ok 244 - alive sort ranks alive first, then maybe-alive, unknown, dead last
+  ---
+  duration_ms: 0.110334
+  type: 'test'
+  ...
+# Subtest: alive sort is a no-op when no station in the list has a stream check
+ok 245 - alive sort is a no-op when no station in the list has a stream check
+  ---
+  duration_ms: 0.059643
+  type: 'test'
+  ...
+# Subtest: maybe-alive stations get the amber try-it chip on their card
+ok 246 - maybe-alive stations get the amber try-it chip on their card
+  ---
+  duration_ms: 0.210216
+  type: 'test'
+  ...
+# Subtest: proxyStreamUrl routes through the relay worker and stays empty while unset
+ok 247 - proxyStreamUrl routes through the relay worker and stays empty while unset
+  ---
+  duration_ms: 0.131767
+  type: 'test'
+  ...
+# Subtest: visitor heat dot radius scales with the count and hides empty countries
+ok 248 - visitor heat dot radius scales with the count and hides empty countries
+  ---
+  duration_ms: 0.083448
+  type: 'test'
+  ...
+# Subtest: visitor leaderboard rows sort by count, mask zeros and cap the list
+ok 249 - visitor leaderboard rows sort by count, mask zeros and cap the list
+  ---
+  duration_ms: 0.180076
+  type: 'test'
+  ...
+# Subtest: play counter key normalizes the URL to host and path only
+ok 250 - play counter key normalizes the URL to host and path only
+  ---
+  duration_ms: 0.143833
+  type: 'test'
+  ...
+# Subtest: trending list ranks candidates by play count and hides zero counts
+ok 251 - trending list ranks candidates by play count and hides zero counts
+  ---
+  duration_ms: 0.194205
+  type: 'test'
+  ...
+# Subtest: coarse playback error classification covers the known failure reasons
+ok 252 - coarse playback error classification covers the known failure reasons
+  ---
+  duration_ms: 0.093534
+  type: 'test'
+  ...
+# Subtest: stationKey mirrors the crawler URL canonicalization
+ok 253 - stationKey mirrors the crawler URL canonicalization
+  ---
+  duration_ms: 0.172275
+  type: 'test'
+  ...
+# Subtest: applyCatalogDelta adds, updates and removes rows in place
+ok 254 - applyCatalogDelta adds, updates and removes rows in place
+  ---
+  duration_ms: 0.25812
+  type: 'test'
+  ...
+# Subtest: P1-2: app.js core exposes the lazy module registry and thin stubs
+ok 255 - P1-2: app.js core exposes the lazy module registry and thin stubs
+  ---
+  duration_ms: 0.431485
+  type: 'test'
+  ...
+# Subtest: P1-2: each lazy module exports one idempotent boot and merges its STR pack
+ok 256 - P1-2: each lazy module exports one idempotent boot and merges its STR pack
+  ---
+  duration_ms: 0.943006
+  type: 'test'
+  ...
+# Subtest: P1-2: initial core payload stays under half of the pre-split monolith
+ok 257 - P1-2: initial core payload stays under half of the pre-split monolith
+  ---
+  duration_ms: 0.373378
+  type: 'test'
+  ...
+# Subtest: home grid shows Egypt only — no foreign officials, junk names filtered
+ok 258 - home grid shows Egypt only — no foreign officials, junk names filtered
+  ---
+  duration_ms: 0.372389
+  type: 'test'
+  ...
+# Subtest: home grid collapses duplicate Egypt stations by normalized name
+ok 259 - home grid collapses duplicate Egypt stations by normalized name
+  ---
+  duration_ms: 0.256274
+  type: 'test'
+  ...
+# Subtest: home grid ranks playable stations before Dailymotion video cards
+ok 260 - home grid ranks playable stations before Dailymotion video cards
+  ---
+  duration_ms: 0.143805
+  type: 'test'
+  ...
+# Subtest: station cards expose accessible names for icon-only buttons (P1-3)
+ok 261 - station cards expose accessible names for icon-only buttons (P1-3)
+  ---
+  duration_ms: 0.276673
+  type: 'test'
+  ...
+# Subtest: catalog falls back to the full snapshot when any delta is missing or mismatched
+ok 262 - catalog falls back to the full snapshot when any delta is missing or mismatched
+  ---
+  duration_ms: 5.419636
+  type: 'test'
+  ...
+# Subtest: compact player and filters expose native controls with unique IDs
+ok 263 - compact player and filters expose native controls with unique IDs
+  ---
+  duration_ms: 0.53715
+  type: 'test'
+  ...
+# Subtest: full refresh renders stations but caches only a matching manifest
+ok 264 - full refresh renders stations but caches only a matching manifest
+  ---
+  duration_ms: 2.545384
+  type: 'test'
+  ...
+# Subtest: worker activation migrates offline data and leaves unrelated caches alone
+ok 265 - worker activation migrates offline data and leaves unrelated caches alone
+  ---
+  duration_ms: 1.320281
+  type: 'test'
+  ...
+# Subtest: catalog batches preserve per-station languages, categories and ordering
+ok 266 - catalog batches preserve per-station languages, categories and ordering
+  ---
+  duration_ms: 0.333413
+  type: 'test'
+  ...
+# Subtest: SDR keeps quick discovery outside the advanced disclosures
+ok 267 - SDR keeps quick discovery outside the advanced disclosures
+  ---
+  duration_ms: 0.341758
+  type: 'test'
+  ...
+# Subtest: worker precaches offline modules without taking over existing tabs
+ok 268 - worker precaches offline modules without taking over existing tabs
+  ---
+  duration_ms: 0.803658
+  type: 'test'
+  ...
+# Subtest: full catalog yields between batches and publishes one ordered snapshot
+ok 269 - full catalog yields between batches and publishes one ordered snapshot
+  ---
+  duration_ms: 27.509018
+  type: 'test'
+  ...
+# Subtest: home discovery links point to the existing station directories
+ok 270 - home discovery links point to the existing station directories
+  ---
+  duration_ms: 0.327184
+  type: 'test'
+  ...
+# Subtest: mobile Explore is distinct from Home without losing any catalog stations
+ok 271 - mobile Explore is distinct from Home without losing any catalog stations
+  ---
+  duration_ms: 0.119897
+  type: 'test'
+  ...
+# Subtest: station cards use safe optional logos and a permanent fallback
+ok 272 - station cards use safe optional logos and a permanent fallback
+  ---
+  duration_ms: 0.258889
+  type: 'test'
+  ...
+# Subtest: mobile navigation and expanded player targets remain present in HTML
+ok 273 - mobile navigation and expanded player targets remain present in HTML
+  ---
+  duration_ms: 0.361889
+  type: 'test'
+  ...
+# Subtest: late full catalog initialization never resets a station already playing
+ok 274 - late full catalog initialization never resets a station already playing
+  ---
+  duration_ms: 0.207454
+  type: 'test'
+  ...
+# Subtest: mobile Home quick listening shows only unique playable catalog/history entries
+ok 275 - mobile Home quick listening shows only unique playable catalog/history entries
+  ---
+  duration_ms: 0.975638
+  type: 'test'
+  ...
+# Subtest: expanded player external stream button has Arabic and English labels
+ok 276 - expanded player external stream button has Arabic and English labels
+  ---
+  duration_ms: 0.542309
+  type: 'test'
+  ...
+# Subtest: late shared-link handling never restarts a station selected during this session
+ok 277 - late shared-link handling never restarts a station selected during this session
+  ---
+  duration_ms: 1.670516
+  type: 'test'
+  ...
+# Subtest: player fallback list is HTTPS-only, unique and preserves the selected station
+ok 278 - player fallback list is HTTPS-only, unique and preserves the selected station
+  ---
+  duration_ms: 0.16714
+  type: 'test'
+  ...
+# Subtest: player fallback attempts are bounded to four direct sources and relay last
+ok 279 - player fallback attempts are bounded to four direct sources and relay last
+  ---
+  duration_ms: 0.122512
+  type: 'test'
+  ...
+# Subtest: untrusted fallback strings do not turn into individual characters or URL attempts
+ok 280 - untrusted fallback strings do not turn into individual characters or URL attempts
+  ---
+  duration_ms: 0.075805
+  type: 'test'
+  ...
+# Subtest: player resume and direct play share the same safe source builder
+ok 281 - player resume and direct play share the same safe source builder
+  ---
+  duration_ms: 0.406197
+  type: 'test'
+  ...
+1..281
+# tests 281
+# suites 0
+# pass 281
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3380.226122
+.country pages: snapshot too small — skipping
+..genre/language pages: snapshot too small — skipping
+..................dailymotion إذاعة الأغاني: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة القرآن الكريم: unverified (metadata unreachable) — entry kept
+dailymotion البرنامج العام: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة البرنامج الثقافي: unverified (metadata unreachable) — entry kept
+dailymotion راديو مصر: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة الشرق الأوسط: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة الشباب والرياضة: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة القاهرة الكبرى: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة صوت العرب: unverified (metadata unreachable) — entry kept
+dailymotion إذاعة الوادي الجديد: unverified (metadata unreachable) — entry kept
+dailymotion الإذاعة التعليمية: unverified (metadata unreachable) — entry kept
+dailymotion البرنامج الأوروبي: unverified (metadata unreachable) — entry kept
+dailymotion الإذاعات الموجهة 1: unverified (metadata unreachable) — entry kept
+dailymotion الإذاعات الموجهة 2: unverified (metadata unreachable) — entry kept
+dailymotion الإذاعات الموجهة 8: unverified (metadata unreachable) — entry kept
+.dailymotion إذاعة الأغاني: video unavailable — skipping
+dailymotion إذاعة القرآن الكريم: video unavailable — skipping
+dailymotion البرنامج العام: video unavailable — skipping
+dailymotion إذاعة البرنامج الثقافي: video unavailable — skipping
+dailymotion راديو مصر: video unavailable — skipping
+dailymotion إذاعة الشرق الأوسط: video unavailable — skipping
+dailymotion إذاعة الشباب والرياضة: video unavailable — skipping
+dailymotion إذاعة القاهرة الكبرى: video unavailable — skipping
+dailymotion إذاعة صوت العرب: video unavailable — skipping
+dailymotion إذاعة الوادي الجديد: video unavailable — skipping
+dailymotion الإذاعة التعليمية: video unavailable — skipping
+dailymotion البرنامج الأوروبي: video unavailable — skipping
+dailymotion الإذاعات الموجهة 1: video unavailable — skipping
+dailymotion الإذاعات الموجهة 2: video unavailable — skipping
+dailymotion الإذاعات الموجهة 8: video unavailable — skipping
+.....kiwi mirror https://cdn.aethersdr.com/kiwi.json failed: <urlopen error upstream down>
+kiwi legacy http://rx.kiwisdr.com/json/ failed: <urlopen error upstream down>
+kiwi legacy https://rx.kiwisdr.com/json/ failed: <urlopen error upstream down>
+kiwi upstream mirrors down — re-serving repo archive https://raw.githubusercontent.com/SamoTech/Radio/main/data/kiwisdr.json
+.kiwi mirror https://cdn.aethersdr.com/kiwi.json failed: <urlopen error upstream down>
+kiwi legacy http://rx.kiwisdr.com/json/ failed: <urlopen error upstream down>
+kiwi legacy https://rx.kiwisdr.com/json/ failed: <urlopen error upstream down>
+kiwi archive https://raw.githubusercontent.com/SamoTech/Radio/main/data/kiwisdr.json failed: unexpected archive payload shape
+kiwi archive https://samotech.github.io/Radio/data/kiwisdr.json failed: unexpected archive payload shape
+..................................................Release provenance error: invalid precache
+Release provenance error: 'stations'
+..Published release not yet verified (attempt 1/3): <urlopen error network>
+Published release not yet verified (attempt 2/3): <urlopen error network>
+Published release not yet verified (attempt 3/3): <urlopen error network>
+Published release not yet verified (attempt 1/3): IncompleteRead(7 bytes read)
+Published release not yet verified (attempt 2/3): IncompleteRead(7 bytes read)
+Published release not yet verified (attempt 3/3): IncompleteRead(7 bytes read)
+Published release not yet verified (attempt 1/3): published source commit differs
+Published release not yet verified (attempt 2/3): published source commit differs
+Published release not yet verified (attempt 3/3): published source commit differs
+Published release not yet verified (attempt 1/3): HTTP Error 404: missing
+Published release not yet verified (attempt 2/3): HTTP Error 404: missing
+Published release not yet verified (attempt 3/3): HTTP Error 404: missing
+.....Published release not yet verified (attempt 1/20): HTTP Error 403: denied
+...Release provenance error: require attempts 1..20, delay 0..60, deadline >0..540
+Release provenance error: require attempts 1..20, delay 0..60, deadline >0..540
+Release provenance error: require attempts 1..20, delay 0..60, deadline >0..540
+Release provenance error: require attempts 1..20, delay 0..60, deadline >0..540
+.Published release not yet verified (attempt 1/2): <urlopen error network>
+.............................................................................................
+----------------------------------------------------------------------
+Ran 182 tests in 7.838s
+
+OK
+country pages: 1 country pages + sitemap + robots
+genre/language pages: 2 genre pages + 2 language pages + sitemap updated
+dailymotion إذاعة الأغاني: live entry ready (x8n6dyz)
+dailymotion إذاعة القرآن الكريم: live entry ready (x84wyku)
+dailymotion البرنامج العام: live entry ready (x8n6dt3)
+dailymotion إذاعة البرنامج الثقافي: live entry ready (x8n6eci)
+dailymotion راديو مصر: live entry ready (x8n6dpk)
+dailymotion إذاعة الشرق الأوسط: live entry ready (x8n6drt)
+dailymotion إذاعة الشباب والرياضة: live entry ready (x8n6dzo)
+dailymotion إذاعة القاهرة الكبرى: live entry ready (x8n6ebs)
+dailymotion إذاعة صوت العرب: live entry ready (x8n6dqq)
+dailymotion إذاعة الوادي الجديد: live entry ready (x9p4ebk)
+dailymotion الإذاعة التعليمية: live entry ready (xakfzv2)
+dailymotion البرنامج الأوروبي: live entry ready (x8n6e6w)
+dailymotion الإذاعات الموجهة 1: live entry ready (x8n6ea6)
+dailymotion الإذاعات الموجهة 2: live entry ready (x8of06x)
+dailymotion الإذاعات الموجهة 8: live entry ready (x8n6e96)
+icecast yp: 1 https streams
+iprd world: 2 streams from 4 listed countries
+iprd world: 1 streams from 1 listed countries
+verified streams: 1 stations
+{
+  "status": "DONE"
+}
+GLOBAL RADIO BASELINE: {"total": 61295, "countries": 224, "languages": 608, "missing_country": 6302, "missing_language": 26051, "missing_logo_field": 61295, "missing_name": 2, "http_only": 18589, "invalid_url": 0, "duplicate_stream_urls": 0, "potential_same_country_name_groups_not_merged": 3242, "top_countries": {"US": 8311, "(missing)": 6302, "DE": 5939, "FR": 2895, "CN": 2457, "RU": 2446, "GB": 1937, "GR": 1891, "AU": 1608, "MX": 1592, "IT": 1591, "BR": 1568, "CO": 1414, "CA": 1383, "ES": 1213, "NL": 1186, "AR": 990, "PL": 933, "RO": 828, "IN": 739}, "top_languages": {"english": 11437, "spanish": 3970, "german": 3965, "french": 2513, "chinese": 2003, "russian": 1404, "italian": 1220, "greek": 972, "portuguese": 903, "dutch": 730, "polish": 671, "arabic": 654, "american english": 426, "brazilian portuguese": 368, "hindi": 304, "romanian": 284, "serbian": 281, "turkish": 269, "hungarian": 238, "tamil": 203}}
