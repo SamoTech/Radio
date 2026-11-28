@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-28T08:26:07.157Z",
+  "run": "2026-11-28T08:28:01.213Z",
   "mode": "recorded",
   "sessions": [
     {
@@ -49,8 +49,15 @@
         "contentWidth": 368,
         "overflow": []
       },
-      "status": "FAIL",
-      "error": "{\"dir\":\"ltr\",\"width\":390,\"documentWidth\":390,\"modalWidth\":368,\"contentWidth\":409,\"overflow\":[]}",
+      "mobileEn": {
+        "dir": "ltr",
+        "width": 390,
+        "documentWidth": 390,
+        "modalWidth": 368,
+        "contentWidth": 368,
+        "overflow": []
+      },
+      "status": "PASS",
       "diagnostics": {
         "contextState": "running",
         "retries": 0,
@@ -62,11 +69,11 @@
         "memoryCount": 0,
         "baseLatency": 0.01,
         "outputLatency": 0.032,
-        "frames": 5,
-        "samples": 1200,
-        "nonZeroSamples": 1190,
+        "frames": 8,
+        "samples": 1920,
+        "nonZeroSamples": 1910,
         "sampleRate": 12000,
-        "signalDbm": -89.6,
+        "signalDbm": -92.6,
         "underruns": 0
       },
       "uiStatus": "Receiving ✔",

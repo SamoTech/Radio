@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-28T08:26:18.220Z",
+  "run": "2026-11-28T08:28:12.848Z",
   "base": "http://127.0.0.1:8765/",
   "mode": "recorded-and-local-iframe-fixtures",
   "note": "Iframe load is receiver-UI evidence only. Kiwi output uses recorded SND frames; no live remote receiver or physical audibility is claimed.",
@@ -217,7 +217,7 @@
     {
       "name": "Opening receiver UI closes native audio and releases its MediaStream",
       "status": "PASS",
-      "detail": "{\"diagnostics\":{\"contextState\":\"closed\",\"retries\":0,\"receiver\":\"https://kiwi.studio.invalid:8073/receiver?view=full#waterfall\",\"failureCode\":\"\",\"closeCode\":null,\"bufferTargetMs\":60,\"cooldowns\":{},\"memoryCount\":0,\"baseLatency\":null,\"outputLatency\":null,\"frames\":5,\"samples\":1200,\"nonZeroSamples\":1190,\"sampleRate\":12000,\"signalDbm\":-89.6,\"underruns\":0},\"paused\":true,\"stream\":true}"
+      "detail": "{\"diagnostics\":{\"contextState\":\"closed\",\"retries\":0,\"receiver\":\"https://kiwi.studio.invalid:8073/receiver?view=full#waterfall\",\"failureCode\":\"\",\"closeCode\":null,\"bufferTargetMs\":60,\"cooldowns\":{},\"memoryCount\":0,\"baseLatency\":null,\"outputLatency\":null,\"frames\":6,\"samples\":1440,\"nonZeroSamples\":1430,\"sampleRate\":12000,\"signalDbm\":-89.6,\"underruns\":0},\"paused\":true,\"stream\":true}"
     },
     {
       "name": "Receiver UI reports only page or external-interface state",

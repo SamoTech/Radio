@@ -1,6 +1,6 @@
 {
   "base": "http://127.0.0.1:8765/",
-  "run": "2026-11-28T08:25:47.136Z",
+  "run": "2026-11-28T08:27:41.943Z",
   "checks": [
     {
       "name": "Local app shell HTTP 200",
@@ -45,17 +45,17 @@
     {
       "name": "Audio generation survives screen navigation",
       "status": "PASS",
-      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.022895,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.896403,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
     },
     {
       "name": "Audio stream source survives screen navigation",
       "status": "PASS",
-      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.022895,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.896403,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
     },
     {
       "name": "Audio continues during navigation",
       "status": "PASS",
-      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.022895,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.896403,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
     },
     {
       "name": "Expanded mobile player has visible controls and station identity",
@@ -140,14 +140,14 @@
     "before": {
       "currentName": "Radio Atlas QA Audio",
       "stationName": "Radio Atlas QA Audio",
-      "currentTime": 0.022895,
+      "currentTime": 0.027109,
       "src": "https://qa.radio.invalid/test-live.wav",
       "generation": 1
     },
     "after": {
       "currentName": "Radio Atlas QA Audio",
       "stationName": "Radio Atlas QA Audio",
-      "currentTime": 0.896403,
+      "currentTime": 0.888106,
       "src": "https://qa.radio.invalid/test-live.wav",
       "generation": 1,
       "paused": false,
