@@ -39,8 +39,11 @@ jobs:
         run: |
           git config user.name "OSSAMA2573-debug"
           git config user.email "samo.hossam@gmail.com"
-          git add -A qa-deep-live.log api-debug.txt artifacts || true
-          git commit -m "chore(qa): أدلة القياس العميق الحي — دفعة نظيفة" || true
+          git add qa-deep-live.log 2>&1 || true
+          git add artifacts 2>&1 || true
+          git status --short | head -20 || true
+          git diff --cached --stat | head -20 || true
+          git commit -m "chore(qa): أدلة القياس العميق الحي — إضافة ملفات منفصلة" || true
           git fetch origin feat/sdr11-qa-soak --depth=100 || true
           git rebase origin/feat/sdr11-qa-soak || (git rebase --abort || true; true)
           git push 2>&1 || (git pull --rebase origin feat/sdr11-qa-soak 2>&1 || true; git push 2>&1) || true
