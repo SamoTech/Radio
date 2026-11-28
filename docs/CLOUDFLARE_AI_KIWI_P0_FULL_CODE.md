@@ -213,6 +213,7 @@ export class KiwiQuota extends DurableObject {
 }
 
 
+
 /**
  * Radio Atlas KiwiSDR WebSocket bridge (Cloudflare Worker).
  *
@@ -273,6 +274,32 @@ function allowedWfMessage(text) {
   if (/^SET ident_user=[A-Za-z0-9%._~\-]{1,64}$/.test(text)) return true;
   return false;
 }
+// SND client messages are allowlisted to the exact command vocabulary the
+// Radio Atlas client emits (see js/modules/sdr.mjs). Everything else — admin
+// commands, receiver restarts, unknown extensions — closes 1008 instead of
+// being relayed. `SET wf_lease` is handled earlier and never reaches here.
+function sndAllowedMessage(text) {
+  if (typeof text !== 'string' || !text || text.length > MAX_CLIENT_BYTES ||
+      /[\r\n]/.test(text)) return false;
+  if (text === 'SET keepalive' || text === 'SET compression=0') return true;
+  if (/^SET auth t=kiwi p=([^ ]{0,64})$/.test(text)) return true;
+  if (/^SET ident_user=[A-Za-z0-9%._~\-]{1,64}$/.test(text)) return true;
+  let match = /^SET AR OK in=([0-9]{1,6}) out=([0-9]{1,6})$/.exec(text);
+  if (match) return Number(match[1]) <= 768000 && Number(match[2]) <= 768000;
+  match = /^SET mod=(am|amn|sam|usb|lsb|cw|nbfm) low_cut=(-?[0-9]{1,4}) high_cut=(-?[0-9]{1,4}) freq=([0-9]+(?:\.[0-9]{1,3})?)$/.exec(text);
+  if (match) {
+    const low = Number(match[2]), high = Number(match[3]), freq = Number(match[4]);
+    if (low < -6000 || low > 6000 || high < -6000 || high > 6000) return false;
+    if (low >= high) return false;
+    return freq >= 1 && freq <= 30000;
+  }
+  match = /^SET agc=[01] hang=0 thresh=-100 slope=6 decay=1000 manGain=([0-9]{1,3})$/.exec(text);
+  if (match) return Number(match[1]) <= 120;
+  match = /^SET squelch=([0-9]{1,2}) param=([0-9]{1,2}(?:\.[0-9]{1,2})?)$/.exec(text);
+  if (match) return Number(match[1]) <= 99;
+  return false;
+}
+
 const DNS_ENDPOINT = 'https://cloudflare-dns.com/dns-query';
 const ipSessions = new Map();
 const receiverSessions = new Map();
@@ -750,6 +777,9 @@ export default {
           try { server.send('MSG wf_lease=' + lease.token); } catch { finish(1011,'Upstream error'); }
         }
         return;
+      }
+      if (!sndAllowedMessage(event.data)) {
+        finish(1008,'Client message not allowed'); return;
       }
       if (upstream.readyState === 1) {
         try { upstream.send(event.data); } catch { finish(1011,'Upstream error'); }
