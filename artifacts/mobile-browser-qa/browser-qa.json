@@ -1,0 +1,183 @@
+{
+  "base": "http://127.0.0.1:8765/",
+  "run": "2026-11-28T08:27:41.943Z",
+  "checks": [
+    {
+      "name": "Local app shell HTTP 200",
+      "status": "PASS",
+      "detail": "200"
+    },
+    {
+      "name": "Arabic RTL",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Mobile title does not overlap header controls",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Home surfaces playable catalog cards before search",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Explore hides the mobile home quick-listen section",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Explore shows catalog beyond home subset",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Favorites persisted",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Real HTMLAudioElement plays fixture",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Audio generation survives screen navigation",
+      "status": "PASS",
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+    },
+    {
+      "name": "Audio stream source survives screen navigation",
+      "status": "PASS",
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+    },
+    {
+      "name": "Audio continues during navigation",
+      "status": "PASS",
+      "detail": "{\"before\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.027109,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1},\"after\":{\"currentName\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentTime\":0.888106,\"src\":\"https://qa.radio.invalid/test-live.wav\",\"generation\":1,\"paused\":false,\"error\":null}}"
+    },
+    {
+      "name": "Expanded mobile player has visible controls and station identity",
+      "status": "PASS",
+      "detail": "{\"className\":\"player player-expanded\",\"playerHidden\":false,\"controlsHidden\":false,\"controlsDisplay\":\"flex\",\"stageDisplay\":\"flex\",\"titleDisplay\":\"block\",\"titleText\":\"Radio Atlas QA Audio\",\"stationName\":\"Radio Atlas QA Audio\",\"currentName\":\"Radio Atlas QA Audio\",\"viewport\":390,\"expanded\":\"true\"}"
+    },
+    {
+      "name": "Expanded player reuses one audio",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Expanded favorite updates storage",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Failed primary switches to its own HTTPS backup",
+      "status": "PASS",
+      "detail": "{\"station\":\"https://qa.radio.invalid/fail-live.wav\",\"stationName\":\"Radio Atlas QA Fallback\",\"currentSrc\":\"https://qa.radio.invalid/backup-live.wav\",\"index\":1,\"sources\":[\"https://qa.radio.invalid/fail-live.wav\",\"https://qa.radio.invalid/backup-live.wav\"],\"audioCount\":1}"
+    },
+    {
+      "name": "English LTR",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No horizontal overflow at 320–1280 widths",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "Offline application shell reopens",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Favorites survive offline reload",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Offline catalog retains available station data",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Listening history survives offline reopening",
+      "status": "PASS",
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    "01-mobile-home-ar.png",
+    "02-explore.png",
+    "03-station-list-eg.png",
+    "04-favorites.png",
+    "05-sdr.png",
+    "06-mini-player-playing.png",
+    "07-expanded-player-ar.png",
+    "08-english-ltr.png",
+    "09-mobile-landscape.png",
+    "10-offline-pwa.png"
+  ],
+  "errors": [],
+  "note": "Playback uses a deterministic WAV fixture intercepted by Playwright, not a live radio endpoint.",
+  "catalogReady": {
+    "stations": 61295,
+    "streamChecks": 1185
+  },
+  "playTrigger": {
+    "cardName": "Radio Atlas QA Audio",
+    "buttonName": "Radio Atlas QA Audio",
+    "buttonUrl": "https://qa.radio.invalid/test-live.wav"
+  },
+  "playInitialState": {
+    "currentName": "Radio Atlas QA Audio",
+    "stationName": "Radio Atlas QA Audio",
+    "stationUrl": "https://qa.radio.invalid/test-live.wav"
+  },
+  "audioNavigation": {
+    "before": {
+      "currentName": "Radio Atlas QA Audio",
+      "stationName": "Radio Atlas QA Audio",
+      "currentTime": 0.027109,
+      "src": "https://qa.radio.invalid/test-live.wav",
+      "generation": 1
+    },
+    "after": {
+      "currentName": "Radio Atlas QA Audio",
+      "stationName": "Radio Atlas QA Audio",
+      "currentTime": 0.888106,
+      "src": "https://qa.radio.invalid/test-live.wav",
+      "generation": 1,
+      "paused": false,
+      "error": null
+    }
+  },
+  "expandedDebug": {
+    "className": "player player-expanded",
+    "playerHidden": false,
+    "controlsHidden": false,
+    "controlsDisplay": "flex",
+    "stageDisplay": "flex",
+    "titleDisplay": "block",
+    "titleText": "Radio Atlas QA Audio",
+    "stationName": "Radio Atlas QA Audio",
+    "currentName": "Radio Atlas QA Audio",
+    "viewport": 390,
+    "expanded": "true"
+  },
+  "fallbackPlayback": {
+    "station": "https://qa.radio.invalid/fail-live.wav",
+    "stationName": "Radio Atlas QA Fallback",
+    "currentSrc": "https://qa.radio.invalid/backup-live.wav",
+    "index": 1,
+    "sources": [
+      "https://qa.radio.invalid/fail-live.wav",
+      "https://qa.radio.invalid/backup-live.wav"
+    ],
+    "audioCount": 1
+  },
+  "overflows": [],
+  "passed": true
+}

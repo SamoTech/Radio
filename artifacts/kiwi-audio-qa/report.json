@@ -1,0 +1,95 @@
+{
+  "run": "2026-11-28T08:28:01.213Z",
+  "mode": "recorded",
+  "sessions": [
+    {
+      "receiver": "http://ea8bfk.ddns.net:8073/",
+      "controls": {
+        "observations": [
+          "frequency step up/down tuned the active receiver",
+          "mode and passband changes reached the receiver",
+          "frequency memory saves locally, recalls the active tuning and does not open a new receiver",
+          "frequency memory can be removed from the player",
+          "AGC, manual gain and squelch reached the receiver with numeric feedback",
+          "Cyprus MW preset restores AGC, 9 kHz step and Squelch=0 on the active receiver without extra sessions",
+          "previous/next replace the socket and preserve tuning and volume",
+          "receiver selector switches between approved receivers without losing volume",
+          "reconnect reapplies selected mode, frequency, gain and squelch",
+          "last successful receiver restores saved tuning and volume",
+          "automatic retry recovers nonzero Web Audio after code 1011 without a new click",
+          "S-meter and full receiver link reflect active tuning"
+        ],
+        "signal": "-127.0 dBm",
+        "external": "http://ea8bfk.ddns.net:8073/?f=7100.000usbz5",
+        "connections": 8,
+        "automaticRetry": {
+          "contextState": "running",
+          "retries": 1,
+          "receiver": "http://ea8bfk.ddns.net:8073/",
+          "failureCode": "",
+          "closeCode": null,
+          "bufferTargetMs": 60,
+          "cooldowns": {},
+          "memoryCount": 0,
+          "baseLatency": 0.01,
+          "outputLatency": 0.032,
+          "frames": 6,
+          "samples": 1440,
+          "nonZeroSamples": 1430,
+          "sampleRate": 12000,
+          "signalDbm": -89.6,
+          "underruns": 0
+        }
+      },
+      "mobileAr": {
+        "dir": "rtl",
+        "width": 390,
+        "documentWidth": 390,
+        "modalWidth": 368,
+        "contentWidth": 368,
+        "overflow": []
+      },
+      "mobileEn": {
+        "dir": "ltr",
+        "width": 390,
+        "documentWidth": 390,
+        "modalWidth": 368,
+        "contentWidth": 368,
+        "overflow": []
+      },
+      "status": "PASS",
+      "diagnostics": {
+        "contextState": "running",
+        "retries": 0,
+        "receiver": "http://ea8bfk.ddns.net:8073/",
+        "failureCode": "",
+        "closeCode": null,
+        "bufferTargetMs": 60,
+        "cooldowns": {},
+        "memoryCount": 0,
+        "baseLatency": 0.01,
+        "outputLatency": 0.032,
+        "frames": 8,
+        "samples": 1920,
+        "nonZeroSamples": 1910,
+        "sampleRate": 12000,
+        "signalDbm": -92.6,
+        "underruns": 0
+      },
+      "uiStatus": "Receiving ✔",
+      "sockets": [
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fcyp.twrmon.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F"
+      ]
+    }
+  ],
+  "errors": [],
+  "note": "Nonzero Web Audio graph output is machine evidence; it does not certify human audibility or physical speakers."
+}
