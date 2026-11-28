@@ -1,21 +1,21 @@
 {
   "mobile": {
-    "performance": 42,
+    "performance": 41,
     "accessibility": 96,
     "bestPractices": 100,
-    "fcp": "2.8 s",
-    "lcp": "2.9 s",
-    "tbt": "1,340 ms",
+    "fcp": "2.9 s",
+    "lcp": "3.0 s",
+    "tbt": "1,410 ms",
     "cls": "0.635",
-    "si": "2.8 s"
+    "si": "2.9 s"
   },
   "desktop": {
-    "performance": 79,
+    "performance": 78,
     "accessibility": 96,
     "bestPractices": 100,
     "fcp": "0.7 s",
-    "lcp": "0.8 s",
-    "tbt": "230 ms",
+    "lcp": "0.7 s",
+    "tbt": "250 ms",
     "cls": "0.242",
     "si": "0.7 s"
   }
