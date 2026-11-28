@@ -1,4 +1,4 @@
-name: Deep Live QA (temp) — final soak capture
+name: Deep Live QA (temp) — soak only, minimal load
 on:
   push:
     branches: [feat/sdr11-qa-soak]
@@ -20,7 +20,7 @@ jobs:
       - name: Run deep live QA (survey + soak + scanner + offline)
         env:
           KIWI_QA_LIVE: '1'
-          KIWI_QA_SURVEY_COUNT: '4'
+          KIWI_QA_SURVEY_COUNT: '0'
           KIWI_QA_SOAK_MS: '300000'
           KIWI_QA_SOAK_RECEIVERS: '["http://ea8bfk.ddns.net:8073/"]'
           KIWI_QA_SCANNER: '1'
