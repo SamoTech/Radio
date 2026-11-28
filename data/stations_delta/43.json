@@ -1,0 +1,2445 @@
+{
+ "version": 43,
+ "added": [
+  {
+   "name": "kbs해피fm",
+   "url": "https://2radio-bora.gscdn.kbs.co.kr/2radio-bora-01/2radio-bora-01_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8ycmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMnJhZGlvLWJvcmEtMDEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5NjAxMjUxNH19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=UtYQz8DnKZ3T2gQSZumb1lpgc~pY6htD2quYL7cnNR1kUM-ILjdnU36nnjDxhQTkBoswff3tJ1hWtG5cqF5e~G-fI3Wmi18LYe5yb~-Sjybq1gUsg9rqc4YS0LRDq2~kdt0fby94dbx3nm1TKrJwsp-8qdxzB0tCgiz3dV-OlUhat78KsjAtoGMcORMOsXgSjUPdCrLnbJOKqUjAD8Wtfm-wSVqBW73MCzos4zEmQ0pVUVQzTT5Pz9iBDm4A9fZ7lQ2uuNByRbKp24CzWnhNA74Xg8HJf75HciQShqdIZmAZUO8AVu2guRBON2KHdSY0b0Fvtew7dEbvEYEPg039mA__",
+   "cc": "KR",
+   "language": "",
+   "tags": "country",
+   "codec": "UNKNOWN",
+   "bitrate": 0
+  },
+  {
+   "name": "FM Dos",
+   "url": "http://27413.live.streamtheworld.com:3690/FMDOSAAC_SC",
+   "cc": "CL",
+   "language": "spanish",
+   "tags": "pop,romantica",
+   "codec": "AAC+",
+   "bitrate": 56
+  },
+  {
+   "name": "AI Metal Radio",
+   "url": "https://radio.aimetalradio.com/stream.mp3?src=radiobrowser",
+   "cc": "CA",
+   "language": "english",
+   "tags": "metal",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "TrustFm Radio 2 - Creative Commons Broadcast - Genre: Electronic",
+   "url": "https://radio2.trustfm.net/",
+   "cc": "GR",
+   "language": "english",
+   "tags": "electronic",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "FriendChatZone Radio",
+   "url": "https://radio.friendchatzone.com/listen/friendchatzone/radio.mp3",
+   "cc": "PK",
+   "language": "english,urdu",
+   "tags": "community,desi,pakistani,talk",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "TrustFm Radio 1 - Creative Commons Broadcast - Genre: Ambient",
+   "url": "https://radio1.trustfm.net/",
+   "cc": "GR",
+   "language": "english,greek",
+   "tags": "ambient",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Marmaris Yacht Marin FM",
+   "url": "https://radio.guventechnology.com:7003//stream/radyomarin",
+   "cc": "TR",
+   "language": "english",
+   "tags": "99.0 fm,jazz,maritime,marmaris,oldies,pop,r&b,rock",
+   "codec": "AAC+",
+   "bitrate": 128
+  },
+  {
+   "name": "RADIO PSR 80er",
+   "url": "https://regiocast.streamabc.net/regc-psr80er2173775-mp3-192-2606798?sABC=6o09971n%230%23nq59s62359o2nr38nsp8150610pq18p9%23fgernzf.enqvbcfe.qr&aw_0_1st.playerid=streams.radiopsr.de&amsparams=playerid:streams.radiopsr.de;skey:1795790618",
+   "cc": "DE",
+   "language": "german",
+   "tags": "80er,80s,depeche mode,deutsche welle,hits,michael jackson,new wave,party,radio psr,synthie",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Flux AlternativeRadio",
+   "url": "https://channels.fluxfm.de/alternative/externalembedflxhp/stream.mp3",
+   "cc": "DE",
+   "language": "",
+   "tags": "alternative",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "80er 90er OLDIE ANTENNE Weihnachtssongs nonstop",
+   "url": "http://stream.hamburg-zwei.de/christmas/mp3-192/tunein/play.m3u",
+   "cc": "DE",
+   "language": "german",
+   "tags": "weihnacht",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Hip Hop Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/hip_hop_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,hip-hop,rap",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Metal Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/metal_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,heavy-metal,metal",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Classical Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/classical_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,classical,instrumental",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "RadioBob",
+   "url": "https://regiocast.streamabc.net/regc-bobstonerrock-mp3-192-1306307",
+   "cc": "DE",
+   "language": "",
+   "tags": "stoner rock",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Lake District Radio",
+   "url": "https://a5.asurahosting.com:8370/radio.mp3",
+   "cc": "GB",
+   "language": "english",
+   "tags": "adult contemporary,local radio,pop",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "93.5 KDAY - Hip-Hop Back in the Day",
+   "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/KDAYFMAAC_SC",
+   "cc": "US",
+   "language": "american english",
+   "tags": "classic,hip-hop,west coast",
+   "codec": "AAC+",
+   "bitrate": 48
+  },
+  {
+   "name": "Radio Hamburg Weinachtshits",
+   "url": "https://stream.radiohamburg.de/christmas/mp3-192/linkradiohamburg/",
+   "cc": "DE",
+   "language": "german",
+   "tags": "weihnacht,x-mas",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Nordic Chillout Indie",
+   "url": "https://play.radioking.io/nordic-chillout-indie/835766",
+   "cc": "LV",
+   "language": "english",
+   "tags": "chill-out,inddie,relax",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "33 Στροφές",
+   "url": "https://rdst.win:59393/stream",
+   "cc": "GR",
+   "language": "",
+   "tags": "greek folk",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Studio 2000",
+   "url": "https://s4.shoutitaly.com/listen/radiostudio2000/radio.mp3",
+   "cc": "IT",
+   "language": "italian",
+   "tags": "variety",
+   "codec": "AAC+",
+   "bitrate": 128
+  },
+  {
+   "name": "DOUBLE D RADIO",
+   "url": "https://s4.shoutitaly.com/listen/doubledradio/radio.mp3",
+   "cc": "IT",
+   "language": "italian",
+   "tags": "dance",
+   "codec": "AAC+",
+   "bitrate": 128
+  },
+  {
+   "name": "Rock Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/rock_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,alternative-rock,rock",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Pop Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/pop_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,dance-pop,pop",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Alternative Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/alternative_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,alternative,alternative-rock",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "R and B Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/r_and_b_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,r-and-b,soul",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Blues Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/blues_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,blues,soul",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "WWSW \"3WS\" 94.5 Pittsburgh, Pennsylvania",
+   "url": "https://n07a-e2.revma.ihrhls.com/zc2029",
+   "cc": "US",
+   "language": "english",
+   "tags": "classic hits",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "LaidbackVib.es Radio - AFRO Lounge",
+   "url": "https://stream.laidbackvib.es/lbv-afro.mp3",
+   "cc": "ES",
+   "language": "",
+   "tags": "afro house,deep house,latin house",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Oldie Antenne Weihnachten",
+   "url": "https://stream.oldie-antenne.de/oldie-antenne-event/stream/mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "weihnacht,x-mas",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Country Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/country_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,country,folk",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Electronic Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/electronic_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,edm,electronic",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Acoustic Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/acoustic_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "acoustic,ai-generated,folk",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Jazz Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/jazz_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,jazz,smooth-jazz",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "World Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/world_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,global,world",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Latin Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/latin_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "spanish",
+   "tags": "ai-generated,latin,spanish",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "RadioB",
+   "url": "https://stream.radiojar.com/9nayamd31tzuv",
+   "cc": "CZ",
+   "language": "czech",
+   "tags": "ambient,breakbeat,chillout,dnb,drum and bass,electronic,funk,hard rock,hip-hop,house,indie,punk,reggae,rock,techno",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "MLO RADIO",
+   "url": "https://hosting.radioenlinea.org/listen/mlo_radio/radio.mp3",
+   "cc": "MX",
+   "language": "spanish",
+   "tags": "baladas,corridos,latin,musica mexicana,rancheras,regional mexicano,tejano",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Stunt Radio",
+   "url": "https://listen.radioking.com/radio/859686/stream/929491",
+   "cc": "FR",
+   "language": "french",
+   "tags": "pop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Nostalgie Camping",
+   "url": "https://n08-eu3.rcs.revma.com/8cshgmq4ehuvv?rj-ttl=5&rj-tok=AAABoiFaN-YArINC3ccMoTDQNQ",
+   "cc": "BE",
+   "language": "french",
+   "tags": "80's,80s,camping,vacances,été",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Atletico Stream",
+   "url": "https://caster.hosting078.nl:1650/stream",
+   "cc": "BQ",
+   "language": "",
+   "tags": "nederpop",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "KCNP 89.5 - Chickasaw Nation Radio - Ada, Oklahoma",
+   "url": "http://kcnp.streamon.fm:8000/KCNP-24k.aac?starttime=1795835286",
+   "cc": "US",
+   "language": "chickasaw,english",
+   "tags": "classic hits,classic rock,native american",
+   "codec": "AAC",
+   "bitrate": 96
+  },
+  {
+   "name": "Hotswinki",
+   "url": "https://hotswinki.stream.laut.fm/hotswinki?uuid=1c957463-bbd5-4ad8-636b-c3c7e4aaaa43&t302=2026-11-27_17-15-25",
+   "cc": "UA",
+   "language": "english,german",
+   "tags": "dance,dance pop,edm,electronic,house,pop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Stilok Radio",
+   "url": "https://xon.luisteren.link/stilok",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "choir,christian worship,religious,worship",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "96 FM Bauru",
+   "url": "https://str.iaradio.com.br/listen/96fmbauru/mp3",
+   "cc": "BR",
+   "language": "portuguese",
+   "tags": "bauru",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Rádio Som do Céu",
+   "url": "https://radiosnet.site/stream/radiosomdoceu",
+   "cc": "BR",
+   "language": "portuguese",
+   "tags": "christian,gospel,religious",
+   "codec": "AAC",
+   "bitrate": 128
+  },
+  {
+   "name": "RadioBob",
+   "url": "https://regiocast.streamabc.net/regc-radiobobsymphmetal4646931-mp3-192-2318934?mode=preroll",
+   "cc": "DE",
+   "language": "",
+   "tags": "symphonic metal",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "rire et chansons nouveautés",
+   "url": "https://streaming.nrjaudio.fm/ou3isouizv6i?origine=tuneinradio",
+   "cc": "FR",
+   "language": "francaise",
+   "tags": "humour",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Costa Azul FM",
+   "url": "https://cast2.hoost.com.br:8490/stream",
+   "cc": "BR",
+   "language": "portuguese",
+   "tags": "ubatuba",
+   "codec": "AAC",
+   "bitrate": 160
+  },
+  {
+   "name": "GGRN - Global German Radio Network",
+   "url": "https://media.zapf2000.de:8443/ggrn.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "classic rock,deutschrock,hard rock,metal,progressive rock,rock",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Radio Rocker",
+   "url": "https://radiorocker.ru/live.mp3",
+   "cc": "RU",
+   "language": "english,russian",
+   "tags": "rock",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Stereo Beam",
+   "url": "https://a13.asurahosting.com/listen/stereo_beam/radio.mp3",
+   "cc": "MX",
+   "language": "espanol e ingles,español mexico",
+   "tags": "80s,90s",
+   "codec": "AAC+",
+   "bitrate": 128
+  },
+  {
+   "name": "DSDR Radio - Die Stimme der Revolution",
+   "url": "https://stream.dsdr.stream/radio.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "deutschrock,eichenherz,german rock,rock",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Beats Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/beats_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "ai-generated,beats,electronic",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Italian Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/italian_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "italian",
+   "tags": "ai-generated,beats,electronic,italian,pop",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Sweet FM 90.1 Governor Generoso, Davao Oriental",
+   "url": "https://sweetfm901.tail6f5939.ts.net/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Arraio Irratia",
+   "url": "https://irratia.arraio.eus/irratia.ogg?_=6",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "OGG",
+   "bitrate": 48
+  },
+  {
+   "name": "Irola Irratia",
+   "url": "https://giss.tv:666/irola.mp3",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Aristona",
+   "url": "http://radioaristona.homedns.org/listen/radio_aristona/radio.mp3",
+   "cc": "DE",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "REG.MEX RADIO",
+   "url": "https://streaming.live365.com/a27004",
+   "cc": "US",
+   "language": "spanish",
+   "tags": "corridos,nortena,ranchera,regional mexican",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Darkpines Radio",
+   "url": "https://radio.darkpinesmusic.com/listen/darkpines_radio/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "americana,electronic,indie folk,pennsylvania",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Bunibear 一",
+   "url": "https://www.dropbox.com/scl/fi/ahal4h56yg96o9xj2vs60/Bunibear-11songs.mp3?rlkey=7iic8giau54krzcn3qh02vafs&st=r1oij2k1&raw=1",
+   "cc": "CN",
+   "language": "chinese,english",
+   "tags": "bunibear",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Hospitals Blackburn",
+   "url": "http://5.9.13.39:8238/stream",
+   "cc": "GB",
+   "language": "british english",
+   "tags": "alternative",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio 143",
+   "url": "https://3-144-96-209.sslip.io/radio143.mp3",
+   "cc": "CA",
+   "language": "english,tagalog",
+   "tags": "filipino,ofw,philippines,variety,world music",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "RADIO MANELE HIT",
+   "url": "https://pstnet3.shoutcastnet.com:10284/stream",
+   "cc": "RO",
+   "language": "romanian",
+   "tags": "manele și romanian music.",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "BUDOTS BOX",
+   "url": "https://az11.yesstreaming.net/listen/budots_box/stream.mp3",
+   "cc": "PH",
+   "language": "english,tagalog",
+   "tags": "budots,electro,eurodacance",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "BUDOTS BOX (data saver)",
+   "url": "https://az11.yesstreaming.net/listen/budots_box/stream.aac",
+   "cc": "PH",
+   "language": "english,tagalog",
+   "tags": "budots,electro,eurodance",
+   "codec": "AAC",
+   "bitrate": 0
+  },
+  {
+   "name": "Yorgos Music",
+   "url": "https://smartstream.myautodj.com:8100/stream",
+   "cc": "GR",
+   "language": "",
+   "tags": "bossanova,cumbia,fado,flamenco,gothicrock,hardrock,piseiro,pop,rock,symphonicmetal",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Akra FM",
+   "url": "https://cdn.akra.media/akracanli2/_definst_/livestream_aac/playlist.m3u8",
+   "cc": "TR",
+   "language": "",
+   "tags": "islamic,religious,talk,turkish",
+   "codec": "AAC",
+   "bitrate": 48
+  },
+  {
+   "name": "Soulfood",
+   "url": "https://laut.fm/soulfood",
+   "cc": "SE",
+   "language": "english",
+   "tags": "funk,soul",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Maria FM",
+   "url": "https://stm1.voxhd.com.br:10494/stream",
+   "cc": "BR",
+   "language": "portuguese",
+   "tags": "lençóis paulista",
+   "codec": "AAC+",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio FG – FG Defected",
+   "url": "https://stream.rcs.revma.com/423ppf862quvv.mp3",
+   "cc": "FR",
+   "language": "english",
+   "tags": "house",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio Caprice",
+   "url": "http://79.111.119.111:8002/stonerrock",
+   "cc": "RU",
+   "language": "",
+   "tags": "stoner rock",
+   "codec": "AAC+",
+   "bitrate": 48
+  },
+  {
+   "name": "Beira Mar",
+   "url": "http://sbr1.uppcast.info:9822/stream",
+   "cc": "BR",
+   "language": "portuguese",
+   "tags": "ubatuba",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Αλήθειας Φάρος",
+   "url": "https://c9.radioboss.fm:8214/stream",
+   "cc": "GR",
+   "language": "greek",
+   "tags": "evangelical,religion",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Spanish Radio @ Zeta Tech Studios",
+   "url": "https://radio.zetatechstudios.com/listen/spanish_radio__zeta_tech_studios/radio.mp3",
+   "cc": "US",
+   "language": "spanish",
+   "tags": "ai-generated,latin,pop,spanish",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "CJRV 94.5 \"Radio Gaspésie\" - Gaspé, Quebec",
+   "url": "https://arcq.streamb.live/SB00214",
+   "cc": "CA",
+   "language": "french",
+   "tags": "community radio,music variety",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "CFOI 104.1 \"Foi FM\" Québec City, Québec",
+   "url": "https://cfoi.sermon.net/20591220/controller/link/action/playhls/type/live/id/100500/.m3u8",
+   "cc": "CA",
+   "language": "french",
+   "tags": "baptist,christian music,christian teaching",
+   "codec": "UNKNOWN",
+   "bitrate": 134
+  },
+  {
+   "name": "Laidback Vibes Afro",
+   "url": "http://stream.laidbackvib.es/lbv-deep.mp3",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Zintzilik Irratia",
+   "url": "http://radio.sindominio.net/zintzilik",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Radio QK",
+   "url": "http://138.68.82.118:8000/radioqk_master.mp3",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Ulia.Radio",
+   "url": "https://audio.opensky.radio:8082/flac",
+   "cc": "FR",
+   "language": "",
+   "tags": "",
+   "codec": "OGG",
+   "bitrate": 0
+  },
+  {
+   "name": "Ορθόδοξος λόγος",
+   "url": "https://rasp35.ddnsfree.com:3535/ola",
+   "cc": "GR",
+   "language": "greek",
+   "tags": "ομιλίες,ορθοδοξία,χριστιανισμός",
+   "codec": "MP3",
+   "bitrate": 32
+  },
+  {
+   "name": "VoltFM",
+   "url": "https://jannikjbi.stream.laut.fm/jannikjbi?uuid=7c40b5a3-d17f-2443-a650-8fcd4f8be807&t302=2026-11-27_22-46-21",
+   "cc": "DE",
+   "language": "german",
+   "tags": "charts,deutschrap,hip-hop,pop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "TrustFm Radio 3 - Creative Commons Broadcast - Genre: Happy",
+   "url": "https://radio3.trustfm.net/",
+   "cc": "GR",
+   "language": "english,greek",
+   "tags": "happy",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "TrustFm Radio 4 - Creative Commons Broadcast - Genre: Dance",
+   "url": "https://radio4.trustfm.net/",
+   "cc": "GR",
+   "language": "english,greek",
+   "tags": "dance",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Infinity",
+   "url": "https://cp.streampanel.nl/stream/infinity",
+   "cc": "NL",
+   "language": "dutch,english",
+   "tags": "disco,funk,happy hardcore,hits,house,pop,r&b,rnb,rock,soul",
+   "codec": "AAC",
+   "bitrate": 128
+  },
+  {
+   "name": "Münster fm",
+   "url": "https://muenster-fm.stream.laut.fm/muenster-fm?uuid=47e07646-df80-c305-3526-1ec21e337913&t302=2026-11-27_20-31-40",
+   "cc": "DE",
+   "language": "german",
+   "tags": "pop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Jeremías Sebastián Roco",
+   "url": "https://strw3.openstream.co/534?aw_0_1st.collectionid%3D7499%26stationId%3D7499%26publisherId%3D558%26k%3D1795839999",
+   "cc": "ES",
+   "language": "castellano. español",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "TripHop Beats - Downtempo.Radio",
+   "url": "https://str3.openstream.co/2342?aw_0_1st.collectionid%3D6266%26stationId%3D6266%26publisherId%3D2366%26k%3D1795827678",
+   "cc": "CA",
+   "language": "deutch,english,french,german,multiculti,spanish",
+   "tags": "chillout,downtempo,easy listening,electronic,lounge,trip-hop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "WAKN 94.7 \"Radio Compasion\" Monroe, Louisiana",
+   "url": "https://stream-282.surfernetwork.com/v6oldlxnd4vuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2Nm9sZGx4bmQ0dnV2IiwiaG9zdCI6InN0cmVhbS0yODIuc3VyZmVybmV0d29yay5jb20iLCJ0bSI6ZmFsc2UsInJ0dGwiOjUsImp0aSI6IlBNWFNZaDJOUmVDUVg0dzBIR2xEbkEiLCJpYXQiOjE3OTU4MzUyNjEsImV4cCI6MTc5NTgzNTMyMX0.gEHfahElh3IFpbIAlYwkSe9rNUzk_Y8BHGsqHmfYlmc",
+   "cc": "US",
+   "language": "spanish",
+   "tags": "christian preaching,gospel music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/32.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/64.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "radio Free Fm Uk",
+   "url": "https://r23.freefm.uk/listen/live/radio.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/128.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MarksBeats - Ballads",
+   "url": "https://radio.blankcdr.co.uk/listen/marksbeats-ballads/marksbeats-ballads.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Galau Jikan FM - Indonesia",
+   "url": "https://streaming.classynetradio.com/listen/gjfm/siaran",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "BUDOTS BOX",
+   "url": "https://az11.yesstreaming.net:8800/stream.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Sparx Radio",
+   "url": "https://sparxradio.dpdns.org:18443/listen/sparxradio/aac",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/256.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "PsyStream",
+   "url": "https://radio.psymusic.co.uk/listen/psystream/hifi.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Radio RetroVibe",
+   "url": "https://radioretrovibe.com:443/stream",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/320.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/32.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/64.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/64.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/48.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/64.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/48.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/96.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "OSDM Radio",
+   "url": "https://www.tuneintoradio1.com:8060/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/96.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/192.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/huso.flac",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/32.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/huso.flac",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/32.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Cirencester Hospital Radio",
+   "url": "https://mira.streamerr.co/listen/cirencester_hospital_radio/radio.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/256.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/256.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/48.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/96.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/48.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/64.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/320.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/96.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/320.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/96.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/320.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/64.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/192.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/128.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/96.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/48.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/48.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/256.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Endfield",
+   "url": "https://radio.magentaweb.de/listen/mren/opus/320.ogg",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "Space Beat",
+   "url": "https://spacebeat.ignorelist.com/listen/space_beat/mobile.aac",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/320.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/32.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "MagentaRadio™ Satisfactory",
+   "url": "https://radio.magentaweb.de/listen/mrsf/32.m4a",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  },
+  {
+   "name": "PsyStream",
+   "url": "https://radio.psymusic.co.uk/listen/psystream/radio1_192k.mp3",
+   "cc": "",
+   "language": "",
+   "tags": "icecast,yp",
+   "codec": "",
+   "bitrate": 0
+  }
+ ],
+ "updated": [
+  {
+   "name": "RDS - Radio Dimensione Suono",
+   "url": "https://stream.rds.radio/audio/rds.stream_aac/playlist.m3u8",
+   "cc": "IT",
+   "language": "italian",
+   "tags": "hits,italian pop,news,pop,top 40",
+   "codec": "AAC",
+   "bitrate": 129
+  },
+  {
+   "name": "radio yan plus",
+   "url": "https://stream.zeno.fm/7nqu31p6xg0uv",
+   "cc": "MA",
+   "language": "amazigh,arabic,berbere",
+   "tags": "al amazighia en direct,music arabe,radio amazigh,radio atbir,radio berbere,radio maroc,radio plus agadir,radio tamazgha,الإذاعة الامازيغية,الإذاعة الامازيغية | snrt,الإذاعة الوطنية المغربية",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Shenzhen Music Radio 深圳飞扬971",
+   "url": "https://satellitepull.cnr.cn/live/wxszfy971/playlist.m3u8",
+   "cc": "CN",
+   "language": "chinese,guangdong",
+   "tags": "chinese music,guangzhou info",
+   "codec": "UNKNOWN",
+   "bitrate": 224
+  },
+  {
+   "name": "Radio DEEA",
+   "url": "http://radiocdn.nxthost.com/radio-deea",
+   "cc": "RO",
+   "language": "english,romanian",
+   "tags": "club,dance",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Radio Swiss Jazz",
+   "url": "https://stream.srg-ssr.ch/m/rsj/mp3_128",
+   "cc": "",
+   "language": "",
+   "tags": "jazz",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio La Metro Stereo 88.5 FM Quito / 95.7 FM Guayaquil",
+   "url": "https://ddycmnicl95kp.cloudfront.net/live/5atd83cxm3is/master.m3u8",
+   "cc": "EC",
+   "language": "español - latinoamerica,español ecuador,spanish",
+   "tags": "classic rock,ecuador,guayaquil,metal,punk,quito,rock",
+   "codec": "AAC",
+   "bitrate": 324
+  },
+  {
+   "name": "Rádio Metrópole FM 101.3 Salvador",
+   "url": "https://listen.radioking.com/radio/268642/stream/313975",
+   "cc": "BR",
+   "language": "brazilian portuguese",
+   "tags": "news,sports,talk",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Barangay LS 99.5",
+   "url": "http://uk14freenew.listen2myradio.com:7811/",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 64
+  },
+  {
+   "name": "Magic Radio flac",
+   "url": "http://mp3.magic-radio.net/flac",
+   "cc": "FR",
+   "language": "",
+   "tags": "misc",
+   "codec": "OGG",
+   "bitrate": 1500
+  },
+  {
+   "name": "Radio Swiss Classic French",
+   "url": "http://stream.srg-ssr.ch/srgssr/rsc_fr/aac/96",
+   "cc": "CH",
+   "language": "french",
+   "tags": "classical,french,srg ssr",
+   "codec": "AAC",
+   "bitrate": 128
+  },
+  {
+   "name": "Jazzradio Berlin 106,8",
+   "url": "http://streaming.radio.co/s774887f7b/listen",
+   "cc": "",
+   "language": "german",
+   "tags": "jazz",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "FREERAVE.CZ",
+   "url": "http://164.68.122.137:8061/",
+   "cc": "CZ",
+   "language": "",
+   "tags": "hardtechno,techno",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "BOOM Rock-Less Talk & More Rock!",
+   "url": "https://stream.radioboom.ro/listen/boom_rock/radio.mp3",
+   "cc": "RO",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "KV 94.7 FM",
+   "url": "https://stream.zeno.fm/po2kawctwputv",
+   "cc": "DO",
+   "language": "spanish",
+   "tags": "bachata,latin,merengue,tropical",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "R. Dalmacija",
+   "url": "http://shoutcast.pondi.hr:8000/;",
+   "cc": "HR",
+   "language": "croatian",
+   "tags": "pop,rock",
+   "codec": "AAC+",
+   "bitrate": 72
+  },
+  {
+   "name": "Radio Monumental 93.5 FM",
+   "url": "https://ddycmnicl95kp.cloudfront.net/live/zbzsy31mnb4q/master.m3u8",
+   "cc": "CR",
+   "language": "spanish",
+   "tags": "deportes,news,noticias,sports,talk",
+   "codec": "AAC",
+   "bitrate": 326
+  },
+  {
+   "name": "Radio Swiss Classic 106.9 FM",
+   "url": "https://stream.srg-ssr.ch/m/rsc_de/mp3_128",
+   "cc": "",
+   "language": "",
+   "tags": "classical",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "SR P1",
+   "url": "https://live1.sr.se/p1-mp3-96",
+   "cc": "",
+   "language": "swedish",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 94
+  },
+  {
+   "name": "WBUR",
+   "url": "https://fm909.wbur.org/wbur_www",
+   "cc": "US",
+   "language": "english",
+   "tags": "news,talk",
+   "codec": "MP3",
+   "bitrate": 48
+  },
+  {
+   "name": "Classic Radio",
+   "url": "https://online.classicradio.ua/ClassicRadio",
+   "cc": "UA",
+   "language": "ukrainian",
+   "tags": "classical",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "95alive Story Time",
+   "url": "http://95alive.net:8030/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "story",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Klick FM 106.3 Bacolod",
+   "url": "http://209.126.124.126:8721/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 48
+  },
+  {
+   "name": "Rádio Guaíba 101.3 FM",
+   "url": "https://radio.saopaulo01.com.br:10827/stream",
+   "cc": "BR",
+   "language": "brazilian portuguese,português  brasil",
+   "tags": "futebol,musica,noticias",
+   "codec": "AAC",
+   "bitrate": 64
+  },
+  {
+   "name": "MDR",
+   "url": "http://mdr-284280-0.sslcast.mdr.de/mdr/284280/0/mp3/high/stream.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Eurodance Classic - Pure and Addictive",
+   "url": "http://quincy.torontocast.com:2380/stream",
+   "cc": "CA",
+   "language": "",
+   "tags": "90's,90s,eurodance",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "LuxuriaMusic",
+   "url": "http://ice10.securenetsystems.net/LUXOMP3",
+   "cc": "US",
+   "language": "english",
+   "tags": "easy listening,eclectic,instrumental,lounge,neo-exotica",
+   "codec": "MP3",
+   "bitrate": 64
+  },
+  {
+   "name": "Discomania",
+   "url": "https://server5.mediasector.es:8060/discomania",
+   "cc": "ES",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Smooth Jazz WNUA 95.5 Chicago, IL",
+   "url": "https://vip2.fastcast4u.com/proxy/wnua?mp=/1",
+   "cc": "US",
+   "language": "english",
+   "tags": "oldies,smooth jazz",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "egoFM Sachsen [HQ]",
+   "url": "https://cast.egofm.de/egofm.mp3?ar-distributor=ffa0&aw_0_req.gdpr=true",
+   "cc": "DE",
+   "language": "german",
+   "tags": "egofm",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Rádio HT",
+   "url": "https://servidor39.brlogic.com:8624/live",
+   "cc": "BR",
+   "language": "brazilian portuguese",
+   "tags": "classic rock,futebol,local news,rock",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Radiomonster.FM - Evergreens",
+   "url": "http://evergreens.radiomonster.fm/ultra",
+   "cc": "DE",
+   "language": "german",
+   "tags": "evergreens,radiomonster",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Laut.FM Synthesizer Greatest",
+   "url": "http://synthesizergreatest.stream.laut.fm/synthesizergreatest",
+   "cc": "DE",
+   "language": "german",
+   "tags": "ambient,electronic",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "FM Millenium 106.7",
+   "url": "https://sonicpanel.hostradios.com/8002/stream",
+   "cc": "AR",
+   "language": "spanish",
+   "tags": "magazine,music,news",
+   "codec": "AAC",
+   "bitrate": 32
+  },
+  {
+   "name": "BluesWave Radio",
+   "url": "https://blueswave.radio/flacmd",
+   "cc": "GR",
+   "language": "",
+   "tags": "",
+   "codec": "OGG",
+   "bitrate": 0
+  },
+  {
+   "name": "Chanove",
+   "url": "http://radio.chanove.com:8000/stream",
+   "cc": "BG",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio 854",
+   "url": "https://jenny.torontocast.com:8034/stream",
+   "cc": "US",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "JPR Rhythm & News",
+   "url": "https://stream.zeno.fm/zuackvt58ptuv",
+   "cc": "US",
+   "language": "english",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Mix 106",
+   "url": "https://mix106.stream.laut.fm/mix106",
+   "cc": "DE",
+   "language": "",
+   "tags": "classic hits,oldies",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "ILoveRadio",
+   "url": "https://play.ilovemusic.de/ilm_iloveradio/",
+   "cc": "DE",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Радио Свет",
+   "url": "http://pdxrr.com:8090/",
+   "cc": "US",
+   "language": "russian,ukrainian",
+   "tags": "christian,evangelical",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Bach          hearme",
+   "url": "https://radio.hearme.fm:9040/stream",
+   "cc": "GB",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Heartbeat FM",
+   "url": "http://cast5.magicstreams.gr:8010/stream",
+   "cc": "IE",
+   "language": "english",
+   "tags": "easy listening",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Philip IPTV radio",
+   "url": "http://philipiptv.freeddns.org:8082/stream",
+   "cc": "US",
+   "language": "english",
+   "tags": "christian,misc,variety",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "181.FM - Party 181",
+   "url": "https://listen.181fm.com/181-party_128k.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "party,pop,top 40,waynesboro",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "91.1 Yes FM - DYYR",
+   "url": "http://95.217.34.48:8253/stream",
+   "cc": "PH",
+   "language": "aklanon,filipino",
+   "tags": "entertainment,hits,information,news,variety",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "EWTN Classics",
+   "url": "https://ewtn-ice.streamguys1.com/classics-aac",
+   "cc": "US",
+   "language": "english",
+   "tags": "catholic,christian,christianity,religious",
+   "codec": "AAC+",
+   "bitrate": 0
+  },
+  {
+   "name": "EWTN Great Britain & Ireland",
+   "url": "https://ewtn-ice.streamguys1.com/sky-aac",
+   "cc": "GB",
+   "language": "english",
+   "tags": "catholic,christian,christianity,religious",
+   "codec": "AAC+",
+   "bitrate": 0
+  },
+  {
+   "name": "Rhythm98 WTHM-DB",
+   "url": "https://cast6.my-control-panel.com/proxy/rhythm98/stream",
+   "cc": "US",
+   "language": "american english",
+   "tags": "80's,bass,freestyle,hiphop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radiomonster.FM - Rock",
+   "url": "http://rock.radiomonster.fm/ultra",
+   "cc": "DE",
+   "language": "german",
+   "tags": "rock",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "CHTM 102.9 FM & 610 AM \"Arctic Radio\" Thompson, MB",
+   "url": "https://us2.maindigitalstream.com/ssl/CHTM",
+   "cc": "CA",
+   "language": "english",
+   "tags": "adult contemporary",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "Capital FM UK ",
+   "url": "http://media-ice.musicradio.com/CapitalLiverpoolMP3",
+   "cc": "UG",
+   "language": "english",
+   "tags": "rock",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Keygen-FM",
+   "url": "http://stream.keygen-fm.ru:8042/live.ogg",
+   "cc": "RU",
+   "language": "english",
+   "tags": "",
+   "codec": "OGG",
+   "bitrate": 0
+  },
+  {
+   "name": "Only 80s radio",
+   "url": "https://server-28.stream-server.nl:8850/stream",
+   "cc": "NL",
+   "language": "dutch,english",
+   "tags": "80s",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "MORe - Mindanao",
+   "url": "http://148.72.153.65:9226/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 64
+  },
+  {
+   "name": "MDR Sachen Anhalt",
+   "url": "http://mdr-284290-0.sslcast.mdr.de/mdr/284290/0/mp3/high/stream.mp3",
+   "cc": "DE",
+   "language": "",
+   "tags": "news",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Spider",
+   "url": "https://stream.zeno.fm/ullfy4hf9lhtv",
+   "cc": "MX",
+   "language": "",
+   "tags": "anime,anime openings,kamen rider",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "The Juke Box - 1480 AM 92.7 FM",
+   "url": "https://us9.maindigitalstream.com/ssl/KEJB",
+   "cc": "US",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "The Jazz Groove (East)",
+   "url": "http://east-aac-64.streamthejazzgroove.com/stream",
+   "cc": "US",
+   "language": "english",
+   "tags": "jazz,laid-back jazz",
+   "codec": "AAC",
+   "bitrate": 64
+  },
+  {
+   "name": "DWIZ 882",
+   "url": "http://dwizmanila.radioca.st:9079/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 56
+  },
+  {
+   "name": "清苑区105.8飞扬调频",
+   "url": "http://lhttp.qingting.fm/live/5021803/64k.mp3?",
+   "cc": "CN",
+   "language": "chinese",
+   "tags": "entertainment,music,oldies,talkshow",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Love Radio Tarlac",
+   "url": "http://148.251.43.231:8162/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "95alive Audio Book Library",
+   "url": "http://95alive.net:8020/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "audiobooks,books",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Australian Digital Radio Network - ABBA",
+   "url": "http://abm21.com.au:8000/CONTAINER150",
+   "cc": "AU",
+   "language": "english",
+   "tags": "abba",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Študent",
+   "url": "http://kruljo.radiostudent.si:8000/hiq",
+   "cc": "SI",
+   "language": "slovenian",
+   "tags": "cultural,public,student",
+   "codec": "MP3",
+   "bitrate": 256
+  },
+  {
+   "name": "SR P4 Radio Malmöhus",
+   "url": "https://live1.sr.se/p4malm-mp3-96",
+   "cc": "SE",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 130
+  },
+  {
+   "name": "Radio Nebunya",
+   "url": "http://asculta.radionebunya.ro:7575/",
+   "cc": "RO",
+   "language": "romanian",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "海南交通广播",
+   "url": "http://lhttp.qingting.fm/live/5022079/64k.mp3",
+   "cc": "CN",
+   "language": "chinese",
+   "tags": "traffic",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Double Z Radio",
+   "url": "http://stream1.dzradio.nl/",
+   "cc": "NL",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "95alive TV",
+   "url": "http://95alive.net:8010/radio.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "audio,tv audio",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Rádio Litera",
+   "url": "http://live.slovakradio.sk:8000/Litera_256.mp3",
+   "cc": "",
+   "language": "slovak",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 256
+  },
+  {
+   "name": "SIGAW 96.7 FM",
+   "url": "https://stream.zeno.fm/zz4urrfhjzovv",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Naxi Active Radio",
+   "url": "https://active96-naxinacional.streaming.rs:8557/",
+   "cc": "RS",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "904",
+   "url": "http://icecast.902.gr:8000/904",
+   "cc": "GR",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "88.7 Wild FM La Union",
+   "url": "http://62.138.18.102:8133/stream",
+   "cc": "PH",
+   "language": "filipino,ilocano",
+   "tags": "hot ac,opm,top 40",
+   "codec": "AAC+",
+   "bitrate": 24
+  },
+  {
+   "name": "Rádio Vilabela 94.3 FM",
+   "url": "https://audio01.stmserver.com/radio/8010/radio",
+   "cc": "BR",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "RGR Classic Hits",
+   "url": "https://stream1.rgrfm.be/",
+   "cc": "BE",
+   "language": "dutch",
+   "tags": "golden oldies",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Radio UTN Mendoza - FM 94.5",
+   "url": "http://streaming.fmutn.com.ar:8000/FMUTN",
+   "cc": "AR",
+   "language": "español argentina",
+   "tags": "alternative rock,classic rock,indie rock,punk,reggae,rock latino",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Radio074",
+   "url": "https://server-67.stream-server.nl:8746/stream",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "local music,music",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "AR Radio",
+   "url": "https://addniel.com/radio/en-vivo",
+   "cc": "US",
+   "language": "",
+   "tags": "latin,latin pop,miami,original music,pop,spanish",
+   "codec": "AAC",
+   "bitrate": 192
+  },
+  {
+   "name": "K-Love 80's",
+   "url": "https://maestro.emfcdn.com/stream_for/k-love-80s/airable/aac",
+   "cc": "US",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 64
+  },
+  {
+   "name": "Radio Incontro Donna",
+   "url": "http://nr7.newradio.it:9375/stream",
+   "cc": "IT",
+   "language": "italian",
+   "tags": "pop",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Rádio Arapuan 98.9 FM",
+   "url": "https://streaming.engelhosting.com.br:10036/stream",
+   "cc": "BR",
+   "language": "português (brasil)",
+   "tags": "eclética,hits",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "102.9 CFAR Your Radio - Flin Flon",
+   "url": "https://us2.maindigitalstream.com/ssl/CFAR",
+   "cc": "CA",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 96
+  },
+  {
+   "name": "DWIZ News FM Western Visayas (Iloilo)",
+   "url": "http://142.44.212.114:9345/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 48
+  },
+  {
+   "name": "崇州人民广播电台",
+   "url": "http://lhttp.qingting.fm/live/20500066/64k.mp3",
+   "cc": "CN",
+   "language": "chinese",
+   "tags": "music",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Antenne NRW 70er Hits",
+   "url": "https://stream.antenne.nrw/antenne-nrw-70er-hits/stream/aacp",
+   "cc": "DE",
+   "language": "german",
+   "tags": "oldies",
+   "codec": "AAC+",
+   "bitrate": 47
+  },
+  {
+   "name": "Fréquence Hit",
+   "url": "https://stream.frequencehit.com/frequencehit.mp3",
+   "cc": "FR",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Wonderjaren - Streaming radio",
+   "url": "https://server-67.stream-server.nl:8748/stream",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "00's,24/7,70's,80's,90's,hits,internet radio",
+   "codec": "AAC",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio Sydväst Närradio Stockholm FM 88.9",
+   "url": "http://radiosydvast.duckdns.org:12932/stream",
+   "cc": "SE",
+   "language": "",
+   "tags": "news talk music",
+   "codec": "MP3",
+   "bitrate": 116
+  },
+  {
+   "name": "La Classica",
+   "url": "https://stream.laclassica.be:18023/stream2",
+   "cc": "US",
+   "language": "american english",
+   "tags": "classical",
+   "codec": "AAC+",
+   "bitrate": 64
+  },
+  {
+   "name": "Electrolounge Milano",
+   "url": "https://electrolounge.stream.laut.fm/electrolounge",
+   "cc": "IT",
+   "language": "english",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Easy Rock La Union 106.7 FM",
+   "url": "http://proxima.shoutca.st:8227/stream",
+   "cc": "PH",
+   "language": "english",
+   "tags": "hot ac,opm,rock",
+   "codec": "MP3",
+   "bitrate": 64
+  },
+  {
+   "name": "Radio SWH+",
+   "url": "http://80.232.162.149:8000/plus96mp3",
+   "cc": "LV",
+   "language": "russian",
+   "tags": "classic rock,news,talk",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "egoFLASH",
+   "url": "http://cast.egofm.de/egoflash.mp3?ar-distributor=ffa0&aw_0_req.gdpr=true",
+   "cc": "DE",
+   "language": "english,german",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Australian Digital Radio Network - Radio Adelaide",
+   "url": "http://abm22.com.au:8000/CONTAINER138",
+   "cc": "AU",
+   "language": "english",
+   "tags": "non-stop music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Radio EduNeu 3: The DJ Johnson Somerset Remixes",
+   "url": "https://radio.eduneu.eu:8020/radio.mp3",
+   "cc": "ES",
+   "language": "english",
+   "tags": "remixes",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Yes FM Iligan",
+   "url": "http://proxima.shoutca.st:8181/stream",
+   "cc": "PH",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "MaisFm Nova Serrana",
+   "url": "https://radio02.kingcast.com.br:7226/stream",
+   "cc": "BR",
+   "language": "brazilian portuguese",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Oroville Community Radio",
+   "url": "https://krov.stream.creek.fm/stream",
+   "cc": "US",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Raadio 2 (HQ)",
+   "url": "http://icecast.err.ee/raadio2korge.mp3",
+   "cc": "EE",
+   "language": "",
+   "tags": "misc",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "OnFlow Hot",
+   "url": "https://stream.zeno.fm/pxqdhcb7gqutv",
+   "cc": "CH",
+   "language": "english,german,swiss german",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Волхов ФМ 99.3 FM",
+   "url": "http://player.vfmradio.ru/stream.ogg",
+   "cc": "RU",
+   "language": "russian",
+   "tags": "music,pop",
+   "codec": "MP3",
+   "bitrate": 256
+  },
+  {
+   "name": "Radio Parkies - Meise, be",
+   "url": "https://stream.radioparkies.com/listen/parkies/stream.mp3",
+   "cc": "BE",
+   "language": "dutch",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "All FM",
+   "url": "http://uksoutha.streaming.broadcast.radio:15870/allfm",
+   "cc": "GB",
+   "language": "british english",
+   "tags": "community,music",
+   "codec": "AAC+",
+   "bitrate": 0
+  },
+  {
+   "name": "Veda-radio",
+   "url": "http://listen.vedaradio.fm:8000/veryhigh",
+   "cc": "RU",
+   "language": "",
+   "tags": "talk & speech",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "Global Sport Suisse",
+   "url": "http://live7.avf.ch:8000/globalfm",
+   "cc": "CH",
+   "language": "français - lëtzebuergesch,french",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 96
+  },
+  {
+   "name": "WDZD 99.1 \"The Fun One\" Monroe, North Carolina",
+   "url": "https://ice64.securenetsystems.net:80/WDZDFM",
+   "cc": "US",
+   "language": "english",
+   "tags": "beach music,classic hits,community radio",
+   "codec": "AAC",
+   "bitrate": 48
+  },
+  {
+   "name": "Canal B",
+   "url": "http://stream.levillage.org/canalb",
+   "cc": "FR",
+   "language": "french",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "Australian Digital Radio Network - Radio Perth (MP3)",
+   "url": "http://abm22.com.au:8000/CONTAINER139",
+   "cc": "AU",
+   "language": "english",
+   "tags": "non-stop music",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Super 70's Radio",
+   "url": "http://67.249.184.45:8002/",
+   "cc": "US",
+   "language": "",
+   "tags": "70's",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Found Treasures",
+   "url": "https://radio.foundtreasures.online/listen/found_treasures/radio.mp3",
+   "cc": "NL",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "Radio Chrześcijanin",
+   "url": "http://s1.slotex.pl:7002/mountpoint",
+   "cc": "PL",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 64
+  },
+  {
+   "name": "RDM Radio Dimensione Musica",
+   "url": "http://shoutcast.streamingmedia.it:7167/stream",
+   "cc": "IT",
+   "language": "italian",
+   "tags": "musica,news talk",
+   "codec": "AAC+",
+   "bitrate": 64
+  },
+  {
+   "name": "ZILTradio",
+   "url": "https://audio.cloudrad.io/a77e5da3/mp3",
+   "cc": "NL",
+   "language": "",
+   "tags": "adult contemporary & classic hits from the 60s till now.",
+   "codec": "MP3",
+   "bitrate": 0
+  },
+  {
+   "name": "EL-Stacja",
+   "url": "http://radio.el-stacja.pl:8000/elstacja320.ogg",
+   "cc": "PL",
+   "language": "",
+   "tags": "",
+   "codec": "OGG",
+   "bitrate": 0
+  },
+  {
+   "name": "MDR Sputnik Insomnia",
+   "url": "http://mdr-284331-3.sslcast.mdr.de/mdr/284331/3/mp3/high/stream.mp3",
+   "cc": "DE",
+   "language": "german",
+   "tags": "melancholic,psychedelic,slow",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "Nisville Online Radio",
+   "url": "https://radio.nisville.com/listen/live/live",
+   "cc": "RS",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "SolidCast Test Stream",
+   "url": "https://stream.solid-software.net/stream",
+   "cc": "DE",
+   "language": "",
+   "tags": "various",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "LX Classics",
+   "url": "https://mcp-1.streampanel.nl:8020/lxclassics_mp3",
+   "cc": "NL",
+   "language": "dutch",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 192
+  },
+  {
+   "name": "B92",
+   "url": "http://stream.b92.net:7999/radio-b92.mp3",
+   "cc": "RS",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "The Dove",
+   "url": "https://ais-sa1.cdnstream1.com/7931_96k.mp3",
+   "cc": "US",
+   "language": "english",
+   "tags": "light rock,lite rock,rock",
+   "codec": "MP3",
+   "bitrate": 102
+  },
+  {
+   "name": "Delicious Agony",
+   "url": "http://deliciousagony.streamguys1.com/",
+   "cc": "US",
+   "language": "",
+   "tags": "",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "joe gold",
+   "url": "https://streams.radio.dpgmedia.cloud/redirect/joe_gold/aac",
+   "cc": "BE",
+   "language": "",
+   "tags": "",
+   "codec": "AAC+",
+   "bitrate": 96
+  },
+  {
+   "name": "Argeș Mioveni NR1",
+   "url": "http://89.39.189.53:8000/stream",
+   "cc": "RO",
+   "language": "românä",
+   "tags": "dance,manele,petrecere,populară",
+   "codec": "MP3",
+   "bitrate": 128
+  },
+  {
+   "name": "SFM",
+   "url": "http://eagle.streemlion.com:4313/1",
+   "cc": "CA",
+   "language": "",
+   "tags": "70s,80s,90s,non-stop,pop",
+   "codec": "MP3",
+   "bitrate": 320
+  },
+  {
+   "name": "新闻联播",
+   "url": "https://rfienchinois64k.ice.infomaniak.ch//rfienchinois-64.mp3",
+   "cc": "CN",
+   "language": "chinese",
+   "tags": "verified,",
+   "codec": "MP3",
+   "bitrate": 64
+  }
+ ],
+ "removed": [
+  "https://2radio-bora.gscdn.kbs.co.kr/2radio-bora-01/2radio-bora-01_hd.m3u8?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly8ycmFkaW8tYm9yYS5nc2Nkbi5rYnMuY28ua3IvMnJhZGlvLWJvcmEtMDEvKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5NTU4MDU0OH19fV19&Key-Pair-Id=APKAICDSGT3Y7IXGJ3TA&Signature=WyohXihy~TQWu6vUIr-mA6MoseC2rp~AIymuqEjnTQ4O15En9suzv83Jzrc8QY9Qd0QpVccITuRUwqc7il2s8gYswO-qjxEYqa05Le8K~VstKOWc2-npNzE4oJ2HC9UXaxVCABYfKklzhAiztmz8IdbS0TJZ9VCiCluOzyTwiawPQ~dBe-CtnzpLy0f0Be8LGRlbwEEzsRmBfEVBzQC6AP1pbJe1ZKrqU~neI9YRf8LhTgiJTq0CXy29a3KPVav4Dx0I76NMH~5dcFPk0WFR1Nz~lV0Sx-8d3AXkZjfgPFlL3DdLDpzjptmAAYNS1x6IzDAHWoJTep4rdO~mJ7QSrw__",
+  "https://stream.vibe-stream.com/kabana-rooftop-marrakech.mp3",
+  "http://27423.live.streamtheworld.com:3690/FMDOSAAC_SC",
+  "https://stream-161.zeno.fm/4d61wprrp7zuv",
+  "http://kcnp.streamon.fm:8000/KCNP-24k.aac?starttime=1795403259",
+  "https://prod-44-195-61-138.amperwave.net/uofhawaii-kuhhlpaac-hlsc1.m3u8/",
+  "https://mdstrm.com/audio/6715e0158ec04cb1e32dabdc/live.m3u8",
+  "https://mdstrm.com/audio/66be5c00b6bf50d01ecf55c2/live.m3u8",
+  "https://streaming.coolmusicradio.com/listen/cool_music/radio.mp3",
+  "https://n13a-e2.revma.ihrhls.com/zc2029",
+  "https://hotswinki.stream.laut.fm/hotswinki?t302=2026-11-22_17-14-39&uuid=cbb96c9d-4bbb-8380-e397-6698c22370f5",
+  "https://regiocast.streamabc.net/regc-psr80er2173775-mp3-192-2606798?sABC=6o02ss7q%230%23nq59s62359o2nr38nsp8150610pq18p9%23fgernzf.enqvbcfe.qr&aw_0_1st.playerid=streams.radiopsr.de&amsparams=playerid:streams.radiopsr.de;skey:1795358589",
+  "https://muenster-fm.stream.laut.fm/muenster-fm?t302=2026-11-22_20-31-26&uuid=22209846-7f7b-9d87-9ad6-df57a79541b9",
+  "https://jannikjbi.stream.laut.fm/jannikjbi?t302=2026-11-22_22-46-03&uuid=d31e7163-9a6e-9094-9903-a03a428d0f9a",
+  "https://stream-282.surfernetwork.com/v6oldlxnd4vuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ2Nm9sZGx4bmQ0dnV2IiwiaG9zdCI6InN0cmVhbS0yODIuc3VyZmVybmV0d29yay5jb20iLCJ0bSI6ZmFsc2UsInJ0dGwiOjUsImp0aSI6ImR3QzBlczlfVE51dmpPaFFwdm9CUmciLCJpYXQiOjE3OTU0MDMyMzcsImV4cCI6MTc5NTQwMzI5N30.BO5O1FRX5xvMA7J9EfnoVW0C-63EfyXuFYh5QFh-gSg",
+  "https://radio.rasp35.ddnsfree.com:3535/ola",
+  "https://semi-pillow-covers-rose.trycloudflare.com/listen/nocturne-radio/radio.mp3",
+  "https://pursue-daisy-nova-alexandria.trycloudflare.com/listen/nocturne-radio/radio.mp3",
+  "https://strw3.openstream.co/534?aw_0_1st.collectionid%3D7499%26stationId%3D7499%26publisherId%3D558%26k%3D1795407969",
+  "https://servidor31-5.brlogic.com:7036/live",
+  "https://ccp.centaurychile.com:29000//auralradio/icecast.audio",
+  "https://cp-1.owh.radio.br/listen/owh_radio/radio-mp3",
+  "https://harder-fm.nl/listen/tek/;",
+  "https://stream.solid-software.net/stream?yp=86d845",
+  "https://stream-sg1.galuhmedia.co.id/listen/insaniapalu/1034palu",
+  "https://radio.shadowfr69.eu/aac",
+  "https://web2.centaury.cl:9010//stream",
+  "https://stream.kf7k.com/listen/stage/radio.mp3",
+  "https://stream.kf7k.com/listen/movies/radio.mp3",
+  "https://stream.kf7k.com/listen/suspense/radio.mp3",
+  "https://mira.streamerr.co/listen/altisonant/stream",
+  "https://denpa.r-e.li/live.opus",
+  "https://denpa.r-e.li/live.mp3"
+ ]
+}
