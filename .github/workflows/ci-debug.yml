@@ -15,24 +15,18 @@ jobs:
       - name: Replicate validate steps with full log
         run: |
           {
-            echo '== docs-sync =='
-            V=$(grep -oE 'radio-atlas-v[0-9]+' sw.js | head -n1 | sed 's/.*-v//')
-            echo "sw version: $V"
-            grep -qE "v${V}([^0-9]|$)" README.md && echo 'README ok' || echo 'README MISSING'
-            grep -qE "v${V}([^0-9]|$)" ROADMAP.md && echo 'ROADMAP ok' || echo 'ROADMAP MISSING'
-            echo '== node checks =='
-            node --check js/app.js && echo 'app.js ok' || echo 'app.js FAIL'
-            for f in js/modules/*.mjs; do node --check "$f" || echo "FAIL $f"; done
-            node --check proxy/kiwi-worker.js && echo 'worker ok' || echo 'worker FAIL'
-            node --check proxy/kiwi-quota.js && echo 'quota ok' || echo 'quota FAIL'
-            echo '== node --test =='
-            node --test tests/*.test.cjs 2>&1 | tail -60
+            node --test tests/*.test.cjs 2>&1 | grep -E "^not ok|# fail|Error|expected|actual|operator|stack:" | head -120
+            echo '== per-file pass/fail =='
+            for f in tests/*.test.cjs; do
+              R=$(node --test "$f" 2>&1 | grep -E "^# (pass|fail)" | tr '\n' ' ')
+              echo "$f -> $R"
+            done
           } > ci-debug.log 2>&1 || true
-          tail -70 ci-debug.log
+          cat ci-debug.log
       - name: Commit debug log
         run: |
           git config user.name "radio-atlas-bot"
           git config user.email "bot@users.noreply.github.com"
           git add ci-debug.log
-          git commit -m "ci: debug log for sdr9 branch"
+          git commit -m "ci: debug log v2 for sdr9 branch"
           git push
