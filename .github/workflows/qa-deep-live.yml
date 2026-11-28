@@ -32,56 +32,16 @@ jobs:
           for i in $(seq 1 15); do curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1 && break; sleep 1; done
           env | grep -E "^KIWI_QA" | tee -a qa-deep-live.log || true
           RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs 2>&1 | tee -a qa-deep-live.log || true
-          echo "=== EXIT MARKER ===" | tee -a qa-deep-live.log
-          wc -c qa-deep-live.log | tee -a qa-deep-live.log || true
+          echo "=== QA SCRIPT EXITED ===" | tee -a qa-deep-live.log
           ls -la artifacts/kiwi-audio-qa/ 2>&1 | tee -a qa-deep-live.log || true
-          cat /tmp/server.log 2>&1 | tail -5 | tee -a qa-deep-live.log || true
       - name: Commit evidence (git channel, rebase after commit)
         if: always()
         run: |
           git config user.name "OSSAMA2573-debug"
           git config user.email "samo.hossam@gmail.com"
           git add -A qa-deep-live.log api-debug.txt artifacts || true
-          git commit -m "chore(qa): أدلة القياس العميق الحي — دفعة جديدة" || true
+          git commit -m "chore(qa): أدلة القياس العميق الحي — دفعة نظيفة" || true
           git fetch origin feat/sdr11-qa-soak --depth=100 || true
           git rebase origin/feat/sdr11-qa-soak || (git rebase --abort || true; true)
           git push 2>&1 || (git pull --rebase origin feat/sdr11-qa-soak 2>&1 || true; git push 2>&1) || true
           git log --oneline -2 || true
-      - name: Publish evidence via Node + Contents API (fallback)
-        if: always()
-        run: |
-        if: always()
-        run: |
-          const { execSync } = require("child_process");
-          const fs = require("fs");
-          const REPO = "SamoTech/Radio";
-          const BRANCH = "feat/sdr11-qa-soak";
-          const API = "https://api.github.com/repos/" + REPO + "/contents/";
-          const AUTH = "Authorization: Bearer " + process.env.GITHUB_TOKEN;
-          let dbg = "";
-          function putFile(file, msg) {
-            try {
-              if (!fs.existsSync(file) || fs.statSync(file).size === 0) { dbg += "MISSING " + file + "\n"; return; }
-              const b64 = fs.readFileSync(file).toString("base64");
-              let sha = "";
-              try {
-                const got = JSON.parse(execSync("curl -sS -H \"" + AUTH + "\" \"" + API + file + "?ref=" + BRANCH + "\"").toString());
-                sha = got.sha || "";
-              } catch (e) { sha = ""; }
-              const body = { message: msg, content: b64, branch: BRANCH };
-              if (sha) body.sha = sha;
-              let out = "";
-              try {
-                out = execSync("curl -sS -X PUT -H \"" + AUTH + "\" -H \"Accept: application/vnd.github+json\" \"" + API + file + "\" -d @-", { input: JSON.stringify(body) }).toString();
-                dbg += file + " -> OK " + out.slice(0, 120) + "\n";
-              } catch (e) {
-                dbg += file + " -> ERR " + String(e).slice(0, 300) + "\n";
-              }
-            } catch (e) { dbg += file + " -> FATAL " + String(e).slice(0, 300) + "\n"; }
-          }
-          try { dbg += "cwd=" + process.cwd() + "\n"; dbg += "files=" + JSON.stringify(fs.readdirSync(".").slice(0, 40)) + "\n"; } catch (e) {}
-          putFile("qa-deep-live.log", "chore(qa): deep live log via API (node)");
-          putFile("artifacts/kiwi-audio-qa/report.json", "chore(qa): deep live report via API (node)");
-          fs.writeFileSync("api-debug.txt", dbg);
-          putFile("api-debug.txt", "chore(qa): api debug via API (node)");
-          console.log(dbg);
