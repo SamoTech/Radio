@@ -183,6 +183,9 @@ var STR_SDR = {
     kiwi_retrying: 'انقطع الصوت — إعادة محاولة {n}/2 بعد {seconds} ثانية…',
     kiwi_auth: 'تم فتح الاتصال — جارٍ التحقق من الجهاز…',
     kiwi_fallback: 'جرّب جهازًا بديلًا: {name}',
+    kiwi_auto_fallback: 'فشل الاتصال نهائيًا — تبديل تلقائي إلى {name}',
+    kiwi_auto: 'تبديل تلقائي إلى جهاز بديل عند فشل الاتصال نهائيًا',
+    kiwi_recent_title: 'ترددات ضُبطت حديثًا',
     kiwi_ended: 'انتهت جلسة الجهاز — اضغط إعادة الاتصال إذا أردت الاستماع مجددًا',
     kiwi_denied: 'رُفض الاتصال أو انتهت صلاحية الجلسة — جرّب جهاز استقبال آخر',
     kiwi_timeout: 'لم يصل صوت من الجهاز خلال المهلة — جرّب جهازًا آخر',
@@ -410,6 +413,9 @@ var STR_SDR = {
     kiwi_retrying: 'Audio interrupted — safe retry {n}/2 in {seconds} seconds…',
     kiwi_auth: 'Connected — verifying the receiver…',
     kiwi_fallback: 'Try another receiver: {name}',
+    kiwi_auto_fallback: 'Connection failed for good — switching automatically to {name}',
+    kiwi_auto: 'Switch automatically to an alternate receiver on final failure',
+    kiwi_recent_title: 'Recently tuned',
     kiwi_ended: 'Receiver session ended — select Reconnect to listen again',
     kiwi_denied: 'Receiver refused the connection or the session expired — try another receiver',
     kiwi_timeout: 'No audio received before the timeout — try another receiver',
@@ -1898,6 +1904,52 @@ function kiwiRemoveMemory(index) {
   kiwiSetMemoryStatus('kiwi_memory_removed');
   return true;
 }
+/* Recently tuned frequencies (SDR-10): a short click-to-tune history of the
+   Kiwi dial stored per browser (ra-kiwi-recent-v1, max six chips). Recording
+   happens only where a retune is actually confirmed by fresh SND audio
+   (kiwiSaveSession is reached exactly at that point), so the chips never
+   list frequencies the receiver refused. */
+var KIWI_RECENT_KEY = 'ra-kiwi-recent-v1';
+var KIWI_RECENT_MAX = 6;
+function kiwiReadRecent() {
+  try {
+    var raw = localStorage.getItem(KIWI_RECENT_KEY);
+    if (!raw || raw.length > 2000) return [];
+    var parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(function (f) { return typeof f === 'number' && Number.isFinite(f) && f >= 10 && f <= 30000; }).slice(0,KIWI_RECENT_MAX);
+  } catch (e) { return []; }
+}
+function kiwiRecordRecent() {
+  var f = Number(kiwiControlValue('kiwi-freq',NaN));
+  if (!Number.isFinite(f) || f < 10 || f > 30000) return false;
+  var rows = kiwiReadRecent().filter(function (x) { return x !== f; });
+  rows.unshift(f);
+  rows = rows.slice(0,KIWI_RECENT_MAX);
+  try { localStorage.setItem(KIWI_RECENT_KEY,JSON.stringify(rows)); } catch (e) { return false; }
+  kiwiRenderRecent();
+  return true;
+}
+function kiwiRenderRecent() {
+  var wrap = $('kiwi-recent');
+  if (!wrap) return;
+  var rows = kiwiReadRecent();
+  if (!rows.length) { wrap.hidden = true;wrap.innerHTML = '';return; }
+  var chips = rows.map(function (f) {
+    return '<button type="button" class="btn ghost kiwi-recent-chip" data-kiwi-recent="' + f + '" dir="ltr">' + f.toFixed(3) + ' kHz</button>';
+  }).join('');
+  wrap.hidden = false;
+  wrap.innerHTML = '<p class="kiwi-recent-caption">' + esc(t('kiwi_recent_title')) + '</p><div class="kiwi-recent-chips">' + chips + '</div>';
+}
+function kiwiApplyRecent(value) {
+  var f = Number(value);
+  if (!Number.isFinite(f) || f < 10 || f > 30000) return false;
+  var input = $('kiwi-freq');
+  if (input) input.value = f.toFixed(3);
+  kiwiUpdateControls();
+  if (kiwiReady) kiwiSendTune();
+  return true;
+}
 function kiwiSaveSession() {
   if (!kiwiCurrentReceiver || !kiwiReady || kiwiStats.frames < 1 || kiwiTuneAwaitingAudio || !kiwiTuneCommand()) return;
   var audio = $('kiwi-audio'), agc = $('kiwi-agc');
@@ -1909,6 +1961,7 @@ function kiwiSaveSession() {
     squelch:Number(kiwiControlValue('kiwi-squelch',0)),volume:audio && typeof audio.volume === 'number' ? audio.volume : 1,
     savedAt:Date.now()
   };
+  kiwiRecordRecent();
   kiwiLastReceiver = saved;
   try { localStorage.setItem(KIWI_SETTINGS_KEY,JSON.stringify(saved)); } catch (e) {}
   kiwiRenderReceiverChoices();
@@ -2018,6 +2071,35 @@ function kiwiHideFallback() {
   kiwiFallbackTarget = null;
   var button = $('kiwi-fallback');
   if (button) button.hidden = true;
+}
+/* Auto-fallback (SDR-10): after a final failure the fallback button already
+   offers the healthiest covering receiver; with the option enabled (default
+   on, persisted as ra-kiwi-auto) Radio Atlas opens that receiver by itself
+   once per failure episode after a short grace window. Any manual receiver
+   choice, reconnect or modal close during the window starts a new session
+   and always wins; a successful connection disarms the pending hop, so a
+   failing chain can never turn into a reconnect storm. */
+var KIWI_AUTO_KEY = 'ra-kiwi-auto';
+var KIWI_AUTO_FALLBACK_DELAY_MS = 2500;
+var kiwiAutoFallbackArmed = false;
+function kiwiAutoEnabled() {
+  try { return localStorage.getItem(KIWI_AUTO_KEY) !== '0'; } catch (e) { return true; }
+}
+function kiwiAutoSetEnabled(on) {
+  try { localStorage.setItem(KIWI_AUTO_KEY,on ? '1' : '0'); } catch (e) {}
+}
+function kiwiMaybeAutoFallback(failedUrl) {
+  if (!kiwiAutoFallbackArmed || !kiwiAutoEnabled()) return false;
+  var target = kiwiFallbackTarget || kiwiFallbackReceiver(failedUrl);
+  if (!target) return false;
+  kiwiAutoFallbackArmed = false;
+  var session = kiwiSession;
+  setTimeout(function () {
+    if (session !== kiwiSession || kiwiReady) return;
+    kiwiSetStatus(t('kiwi_auto_fallback').replace('{name}',target.name || target.url));
+    openKiwiAudio(target.url,target.name);
+  },KIWI_AUTO_FALLBACK_DELAY_MS);
+  return true;
 }
 function kiwiReconnect() {
   if (kiwiCurrentReceiver) openKiwiAudio(kiwiCurrentReceiver.url,kiwiCurrentReceiver.name);
@@ -2166,11 +2248,13 @@ function openKiwiAudio(url, name, options) {
   kiwiArrivalEmaMs = 0;
   kiwiLastArrivalMs = 0;
   kiwiHideFallback();
+  kiwiAutoFallbackArmed = true;
   $('kiwi-modal-name').textContent = '🎧 ' + (name || '');
   $('kiwi-modal').hidden = false;
   kiwiUpdateControls();
   kiwiRenderReceiverChoices();
   kiwiRenderCyprusPresets();
+  kiwiRenderRecent();
   if ($('kiwi-signal')) $('kiwi-signal').textContent = t('kiwi_signal_wait');
   if ($('kiwi-signal-meter')) $('kiwi-signal-meter').value = -160;
   kiwiSetStatus(t('kiwi_connecting'));
@@ -2208,6 +2292,7 @@ function openKiwiAudio(url, name, options) {
       kiwiSetStatus(t(statusKey));
       toast(t(statusKey));
       kiwiShowFallback(url);
+      kiwiMaybeAutoFallback(url);
     }
   }
   if (!window.WebSocket) { fail(false); return; }
@@ -2657,7 +2742,7 @@ function kiwiScanUse(freqText) {
 }
 
 
-var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,bufferTargetMs:kiwiBufferTargetMs,cooldowns:kiwiHealthCooldownSummary(),memoryCount:kiwiReadMemories().length}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio, scanKiwiStart: kiwiScanStart, scanKiwiPause: kiwiScanPause, scanKiwiResume: kiwiScanResume, scanKiwiStop: kiwiScanStop };
+var API = { stopReceivers:stopReceivers, openOpenWebRx:openOpenWebRx,closeOpenWebRx:closeOpenWebRx,owrxDiagnostics:owrxDiagnostics, reconnectKiwi: kiwiReconnect, navigateKiwi: kiwiNavigateReceiver, restoreKiwi: kiwiRestoreSession, kiwiDiagnostics: function () { return Object.assign({contextState:kiwiAudioCtx ? kiwiAudioCtx.state : 'closed',retries:kiwiRetryCount,receiver:kiwiCurrentReceiver ? kiwiCurrentReceiver.url : '',failureCode:kiwiLastFailureCode,closeCode:kiwiLastCloseCode,bufferTargetMs:kiwiBufferTargetMs,cooldowns:kiwiHealthCooldownSummary(),memoryCount:kiwiReadMemories().length,baseLatency:(kiwiAudioCtx && Number.isFinite(kiwiAudioCtx.baseLatency)) ? kiwiAudioCtx.baseLatency : null,outputLatency:(kiwiAudioCtx && Number.isFinite(kiwiAudioCtx.outputLatency)) ? kiwiAudioCtx.outputLatency : null}, kiwiStats); }, renderSDR: renderSDR, renderWspr: renderWspr, renderWebSdrs: renderWebSdrs, renderSatnogs: renderSatnogs, renderSpace: renderSpace, renderEibi: renderEibi, buildBandFilter: buildBandFilter, openSDR: openSDR, closeSDR: closeSDR, openKiwiAudio: openKiwiAudio, closeKiwiAudio: closeKiwiAudio, scanKiwiStart: kiwiScanStart, scanKiwiPause: kiwiScanPause, scanKiwiResume: kiwiScanResume, scanKiwiStop: kiwiScanStop };
 var booted = false;
 export function boot() {
   if (booted) return API;
@@ -2818,6 +2903,16 @@ export function boot() {
     else if (removeIndex !== null) kiwiRemoveMemory(Number(removeIndex));
   });
   kiwiRenderMemories();
+  if ($('kiwi-recent')) $('kiwi-recent').addEventListener('click',function (event) {
+    var button = event.target && event.target.closest ? event.target.closest('[data-kiwi-recent]') : null;
+    if (!button) return;
+    kiwiApplyRecent(button.getAttribute('data-kiwi-recent'));
+  });
+  kiwiRenderRecent();
+  if ($('kiwi-auto')) {
+    $('kiwi-auto').checked = kiwiAutoEnabled();
+    $('kiwi-auto').addEventListener('change',function () { kiwiAutoSetEnabled(this.checked); });
+  }
   if ($('kiwi-cyprus-presets-list')) $('kiwi-cyprus-presets-list').addEventListener('click',function (event) {
     var button = event.target && event.target.closest ? event.target.closest('[data-kiwi-cyprus-preset]') : null;
     if (!button) return;

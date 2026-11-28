@@ -607,6 +607,11 @@ main>section{animation:atlas-appear .22s ease-out}
 /* Day/night propagation estimate beside the dial (SDR-8). */
 .kiwi-prop{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:12px}
 .kiwi-prop .kiwi-scan-row{gap:6px}
+/* Auto-fallback option + recently tuned chips (SDR-10). */
+.kiwi-recent{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:12px}
+.kiwi-recent-caption{margin:0 0 8px;color:var(--muted);font-size:.82rem}
+.kiwi-recent-chips{display:flex;flex-wrap:wrap;gap:8px}
+.kiwi-recent-chip{min-height:38px;font-variant-numeric:tabular-nums}
 /* Reference MW frequencies for the catalogued Cyprus receiver only. */
 #kiwi-cyprus-presets[hidden]{display:none}
 .kiwi-presets{border:1px solid var(--line);border-radius:14px;padding:14px;margin-block:12px;background:var(--bg)}
@@ -803,5 +808,6 @@ footer{border-top-color:rgba(217,164,65,.18)}
 .modal{background:rgba(23,14,6,.95)}
 .station-art{background:radial-gradient(circle at 35% 25%,rgba(217,164,65,.38),transparent 70%),var(--chipbg)}
 .vlead-fill{background:linear-gradient(90deg,#d9a441,#f0c268)}
+
 
 
