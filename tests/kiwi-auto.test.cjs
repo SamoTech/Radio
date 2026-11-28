@@ -90,6 +90,9 @@ test('a final failure schedules exactly one auto fallback hop to the covering re
   assert.equal(h.elements['kiwi-fallback'].hidden, false, 'the manual fallback suggestion still appears');
   const autos = Array.from(h.timers.values()).filter(x => x.delay === 2500);
   assert.equal(autos.length, 1, 'exactly one grace timer is armed');
+  const pending = Array.from(h.timers.values());
+  assert.equal(pending.length, 1, 'cleanup releases every timer except the auto-fallback grace timer');
+  assert.equal(pending[0].delay, 2500);
   autos[0].fn();
   autos[0].fn();
   const hops = h.sockets.filter(s => s.url === 'wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fbravo.example%2F');
@@ -130,9 +133,9 @@ test('the hop opens a new episode, and the chain stops when no healthy receiver 
   const bravo = h.sockets[h.sockets.length - 1];
   assert.equal(bravo.url, 'wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fbravo.example%2F');
   h.session.kiwiHealthRecord('http://charlie.example/', false, 'timeout');
-  const before = h.timers.size;
+  const before = Array.from(h.timers.values()).filter(x => x.delay === 2500).length;
   bravo.onclose({ code: 1008 });
-  assert.equal(h.timers.size, before, 'no further hop: with every alternative cooling down there is nothing healthy to open');
+  assert.equal(Array.from(h.timers.values()).filter(x => x.delay === 2500).length, before, 'no further hop: with every alternative cooling down there is nothing healthy to open');
   h.session.kiwiAutoSetEnabled(false);
   assert.equal(h.storage.get('ra-kiwi-auto'), '0', 'the opt-out is persisted');
   h.session.kiwiAutoSetEnabled(true);
@@ -142,14 +145,18 @@ test('the hop opens a new episode, and the chain stops when no healthy receiver 
 test('recent chips store confirmed dials only, deduplicate and cap at six', () => {
   const h = autoSession();
   h.startSession();
-  assert.equal(h.elements['kiwi-recent'].hidden, true, 'no history yet: the strip stays hidden');
+  const stored = () => JSON.parse(h.storage.get('ra-kiwi-recent-v1') || '[]');
+  assert.deepEqual(Array.from(stored()), [7100], 'the confirmed opening dial is recorded automatically');
+  assert.equal(h.elements['kiwi-recent'].hidden, false, 'the strip becomes visible with history');
+  assert.ok(h.elements['kiwi-recent'].innerHTML.includes('data-kiwi-recent="7100"'), 'chips render as click-to-tune buttons');
   assert.equal(h.session.kiwiApplyRecent('99999'), false, 'out-of-range values are rejected');
+  assert.equal(h.session.kiwiApplyRecent('7100'), true, 're-clicking the current chip re-tunes harmlessly');
+  assert.deepEqual(Array.from(stored()), [7100], 'kiwiApplyRecent tunes; only confirmed tunes record');
   h.elements['kiwi-freq'].value = '7150';
   assert.equal(h.session.kiwiRecordRecent(), true);
   h.elements['kiwi-freq'].value = '7150';
-  assert.equal(h.session.kiwiRecordRecent(), true, 'a repeat tune is a no-op, not a duplicate');
-  const stored = () => JSON.parse(h.storage.get('ra-kiwi-recent-v1'));
-  assert.deepEqual(Array.from(stored()), [7150]);
+  assert.equal(h.session.kiwiRecordRecent(), true, 'a repeat record deduplicates instead of duplicating');
+  assert.deepEqual(Array.from(stored()), [7150, 7100]);
   for (const f of [9550, 11900, 15250, 17750, 21600]) {
     h.elements['kiwi-freq'].value = String(f);
     h.session.kiwiRecordRecent();
@@ -159,7 +166,7 @@ test('recent chips store confirmed dials only, deduplicate and cap at six', () =
   h.session.kiwiRecordRecent();
   assert.equal(stored().length, 6, 'the cap holds');
   assert.equal(stored()[0], 3975, 'newest first');
-  assert.equal(stored().indexOf(7150), -1, 'the oldest entry was evicted');
+  assert.equal(stored().indexOf(7100), -1, 'the oldest entry was evicted');
   assert.ok(h.elements['kiwi-recent'].innerHTML.includes('data-kiwi-recent="3975"'), 'chips render as click-to-tune buttons');
   assert.equal(h.elements['kiwi-recent'].hidden, false);
   assert.equal(h.session.kiwiApplyRecent('11900'), true);

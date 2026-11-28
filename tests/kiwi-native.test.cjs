@@ -89,6 +89,9 @@ test('recorded live KiwiSDR frames decode into nonzero PCM samples', () => {
 
 function nativeSession() {
   const scheduled=[], sockets=[], contexts=[], timers=new Map(), storage=new Map();
+  // SDR-10: the strict timer-release guarantees below are asserted with the
+  // auto fallback disabled; kiwi-auto.test.cjs covers the enabled grace timer.
+  storage.set('ra-kiwi-auto','0');
   let timerId=0;
   const elements={
     'kiwi-freq':{value:'10000'},'kiwi-mode':{value:'am'},
