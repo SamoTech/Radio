@@ -36,7 +36,20 @@ jobs:
           wc -c qa-deep-live.log | tee -a qa-deep-live.log || true
           ls -la artifacts/kiwi-audio-qa/ 2>&1 | tee -a qa-deep-live.log || true
           cat /tmp/server.log 2>&1 | tail -5 | tee -a qa-deep-live.log || true
-      - name: Publish evidence via Node + Contents API
+      - name: Commit evidence (git channel, rebase after commit)
+        if: always()
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add -A qa-deep-live.log api-debug.txt artifacts || true
+          git commit -m "chore(qa): أدلة القياس العميق الحي — دفعة جديدة" || true
+          git fetch origin feat/sdr11-qa-soak --depth=100 || true
+          git rebase origin/feat/sdr11-qa-soak || (git rebase --abort || true; true)
+          git push 2>&1 || (git pull --rebase origin feat/sdr11-qa-soak 2>&1 || true; git push 2>&1) || true
+          git log --oneline -2 || true
+      - name: Publish evidence via Node + Contents API (fallback)
+        if: always()
+        run: |
         if: always()
         run: |
           const { execSync } = require("child_process");
