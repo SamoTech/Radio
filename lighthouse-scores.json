@@ -1,12 +1,12 @@
 {
   "mobile": {
-    "performance": 64,
+    "performance": 50,
     "accessibility": 96,
     "bestPractices": 100,
     "fcp": "2.9 s",
     "lcp": "2.9 s",
-    "tbt": "1,520 ms",
-    "cls": "0.041",
+    "tbt": "1,560 ms",
+    "cls": "0.282",
     "si": "2.9 s"
   },
   "desktop": {
@@ -15,8 +15,8 @@
     "bestPractices": 100,
     "fcp": "0.7 s",
     "lcp": "0.8 s",
-    "tbt": "260 ms",
-    "cls": "0.241",
+    "tbt": "250 ms",
+    "cls": "0.25",
     "si": "0.7 s"
   }
 }
