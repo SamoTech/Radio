@@ -1,0 +1,31 @@
+name: CI Debug
+on:
+  push:
+    branches: [feat/sdr10-auto-recent]
+permissions:
+  contents: write
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax checks
+        run: |
+          node --check js/app.js 2>&1 | tee -a ci-debug.log || true
+          for f in js/modules/*.mjs; do node --check "$f" 2>&1 | tee -a ci-debug.log || true; done
+      - name: JS tests
+        run: |
+          node --test tests/*.test.cjs 2>&1 | tee -a ci-debug.log || true
+      - name: Docs sync
+        run: |
+          node tests/repo-link.test.cjs 2>&1 | tee -a ci-debug.log || true
+      - name: Commit log
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add ci-debug.log || true
+          git commit -m "chore(debug): تحديث سجل التشخيص" || true
+          git push || true
