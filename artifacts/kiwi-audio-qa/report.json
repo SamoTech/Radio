@@ -1,5 +1,5 @@
 {
-  "run": "2026-11-28T09:49:13.593Z",
+  "run": "2026-11-28T09:56:34.677Z",
   "mode": "live",
   "sessions": [
     {
@@ -17,42 +17,42 @@
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 39994
+            "remainingMs": 40015
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 42544
+            "remainingMs": 42579
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 45094
+            "remainingMs": 45132
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 47642
+            "remainingMs": 47688
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 50186
+            "remainingMs": 50244
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 52735
+            "remainingMs": 52808
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 55290
+            "remainingMs": 55360
           },
           "http://68.227.147.245:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 57841
+            "remainingMs": 57934
           }
         },
         "memoryCount": 0,
@@ -97,7 +97,7 @@
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 19602
+            "remainingMs": 19588
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
@@ -107,67 +107,67 @@
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 24702
+            "remainingMs": 24705
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 27250
+            "remainingMs": 27261
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 29794
+            "remainingMs": 29817
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 32343
+            "remainingMs": 32381
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 34898
+            "remainingMs": 34933
           },
           "http://68.227.147.245:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 37449
+            "remainingMs": 37507
           },
           "http://86.254.7.95:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 40027
+            "remainingMs": 40007
           },
           "http://home.k1htv.us:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 42602
+            "remainingMs": 42603
           },
           "http://191.37.241.167:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 45268
+            "remainingMs": 45248
           },
           "http://vu2cpl.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 47925
+            "remainingMs": 48064
           },
           "http://44.31.241.12:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 50872
+            "remainingMs": 50899
           },
           "http://44.31.241.13:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 54640
+            "remainingMs": 54334
           },
           "http://sdr1.ikara.vk1hf.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 57786
+            "remainingMs": 59019
           }
         },
         "memoryCount": 0,
@@ -201,97 +201,107 @@
       "status": "FAIL",
       "error": "page.waitForFunction: Timeout 20000ms exceeded.",
       "diagnostics": {
-        "contextState": "running",
+        "contextState": "closed",
         "retries": 0,
-        "receiver": "http://k9dxikiwi.proxy.kiwisdr.com/",
-        "failureCode": "",
-        "closeCode": null,
+        "receiver": "http://22545.proxy.kiwisdr.com/",
+        "failureCode": "transport",
+        "closeCode": 1006,
         "bufferTargetMs": 60,
         "cooldowns": {
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 1980
+            "remainingMs": 1946
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 4530
+            "remainingMs": 4499
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 7078
+            "remainingMs": 7055
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 9622
+            "remainingMs": 9611
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 12171
+            "remainingMs": 12175
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 104100
+            "remainingMs": 102752
           },
           "http://68.227.147.245:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 17277
+            "remainingMs": 17301
           },
           "http://86.254.7.95:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 19855
+            "remainingMs": 19801
           },
           "http://home.k1htv.us:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 22430
+            "remainingMs": 22397
           },
           "http://191.37.241.167:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 25096
+            "remainingMs": 25042
           },
           "http://vu2cpl.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 27753
+            "remainingMs": 27858
           },
           "http://44.31.241.12:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 30700
+            "remainingMs": 30693
           },
           "http://44.31.241.13:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 34468
+            "remainingMs": 34128
           },
           "http://sdr1.ikara.vk1hf.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 37614
+            "remainingMs": 38813
           },
           "http://21996.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 50034
+            "remainingMs": 46302
           },
           "http://21113.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 55164
+            "remainingMs": 50732
+          },
+          "http://k9dxikiwi.proxy.kiwisdr.com": {
+            "reason": "transport",
+            "failures": 1,
+            "remainingMs": 56227
+          },
+          "http://22545.proxy.kiwisdr.com": {
+            "reason": "transport",
+            "failures": 1,
+            "remainingMs": 59908
           }
         },
         "memoryCount": 0,
-        "baseLatency": 0.01,
-        "outputLatency": 0.032,
+        "baseLatency": null,
+        "outputLatency": null,
         "frames": 0,
         "samples": 0,
         "nonZeroSamples": 0,
@@ -299,11 +309,13 @@
         "signalDbm": null,
         "underruns": 0
       },
-      "uiStatus": "جاري الاتصال بالجهاز…",
+      "uiStatus": "تعذر فتح الاتصال — قد تكون الشبكة أو حد استخدام مؤقت؛ لا تكرر الضغط بسرعة",
       "sockets": [
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fea8bfk.ddns.net%3A8073%2F",
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F21996.proxy.kiwisdr.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F21113.proxy.kiwisdr.com%2F"
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F21113.proxy.kiwisdr.com%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fk9dxikiwi.proxy.kiwisdr.com%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F22545.proxy.kiwisdr.com%2F"
       ],
       "handshake": {
         "status": null,
@@ -324,7 +336,7 @@
       "diagnostics": {
         "contextState": "closed",
         "retries": 0,
-        "receiver": "http://182.59.98.42:8073/",
+        "receiver": "http://websdr.heppen.be:8073/",
         "failureCode": "transport",
         "closeCode": 1006,
         "bufferTargetMs": 60,
@@ -332,67 +344,77 @@
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 101579
+            "remainingMs": 102757
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 115469
+            "remainingMs": 109955
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 119940
+            "remainingMs": 114208
+          },
+          "http://websdr.heppen.be:8073": {
+            "reason": "transport",
+            "failures": 2,
+            "remainingMs": 119223
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 83933
+            "remainingMs": 82548
           },
           "http://home.k1htv.us:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 2263
+            "remainingMs": 2193
           },
           "http://191.37.241.167:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 4929
+            "remainingMs": 4838
           },
           "http://vu2cpl.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 7586
+            "remainingMs": 7654
           },
           "http://44.31.241.12:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 10533
+            "remainingMs": 10489
           },
           "http://44.31.241.13:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 14301
+            "remainingMs": 13924
           },
           "http://sdr1.ikara.vk1hf.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 17447
+            "remainingMs": 18609
           },
           "http://21996.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 29867
+            "remainingMs": 26098
           },
           "http://21113.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 34997
+            "remainingMs": 30528
           },
           "http://k9dxikiwi.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 49079
+            "remainingMs": 36023
+          },
+          "http://22545.proxy.kiwisdr.com": {
+            "reason": "transport",
+            "failures": 1,
+            "remainingMs": 39704
           }
         },
         "memoryCount": 0,
@@ -407,9 +429,9 @@
       },
       "sockets": [
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Ff4kiy.ddns.net%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fk9dxikiwi.proxy.kiwisdr.com%2F",
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fil38.ddns.net%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F182.59.98.42%3A8073%2F"
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F182.59.98.42%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fwebsdr.heppen.be%3A8073%2F"
       ]
     },
     {
@@ -419,7 +441,7 @@
       "diagnostics": {
         "contextState": "running",
         "retries": 0,
-        "receiver": "http://68.227.147.245:8073/",
+        "receiver": "http://home.k1htv.us:8073/",
         "failureCode": "",
         "closeCode": null,
         "bufferTargetMs": 60,
@@ -427,57 +449,67 @@
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 79945
+            "remainingMs": 81103
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 93835
+            "remainingMs": 88301
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 98306
+            "remainingMs": 92554
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 106559
+            "remainingMs": 97569
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 112330
+            "remainingMs": 105372
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 117178
+            "remainingMs": 111876
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 62299
+            "remainingMs": 60894
+          },
+          "http://68.227.147.245:8073": {
+            "reason": "transport",
+            "failures": 2,
+            "remainingMs": 117285
           },
           "http://21996.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 8233
+            "remainingMs": 4444
           },
           "http://21113.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 13363
+            "remainingMs": 8874
           },
           "http://k9dxikiwi.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 27445
+            "remainingMs": 14369
+          },
+          "http://22545.proxy.kiwisdr.com": {
+            "reason": "transport",
+            "failures": 1,
+            "remainingMs": 18050
           },
           "http://df4or.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 42199
+            "remainingMs": 41008
           }
         },
         "memoryCount": 0,
@@ -492,9 +524,9 @@
       },
       "sockets": [
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fdf4or.ddns.net%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fwebsdr.heppen.be%3A8073%2F",
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fkiwisdr.rigiremote.ch%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fkiwi.pt2fhc.org%2F"
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fkiwi.pt2fhc.org%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F68.227.147.245%3A8073%2F"
       ]
     },
     {
@@ -502,87 +534,77 @@
       "status": "FAIL",
       "error": "page.waitForFunction: Timeout 20000ms exceeded.",
       "diagnostics": {
-        "contextState": "closed",
+        "contextState": "running",
         "retries": 0,
         "receiver": "http://vu2cpl.ddns.net:8073/",
-        "failureCode": "transport",
-        "closeCode": 1006,
+        "failureCode": "",
+        "closeCode": null,
         "bufferTargetMs": 60,
         "cooldowns": {
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 58313
+            "remainingMs": 59458
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 72203
+            "remainingMs": 66656
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 76674
+            "remainingMs": 70909
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 84927
+            "remainingMs": 75924
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 90698
+            "remainingMs": 83727
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 95546
+            "remainingMs": 90231
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 40667
+            "remainingMs": 39249
           },
           "http://68.227.147.245:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 109189
+            "remainingMs": 95640
           },
           "http://home.k1htv.us:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 114121
+            "remainingMs": 111436
           },
           "http://191.37.241.167:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 116668
-          },
-          "http://vu2cpl.ddns.net:8073": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 119225
-          },
-          "http://k9dxikiwi.proxy.kiwisdr.com": {
-            "reason": "transport",
-            "failures": 1,
-            "remainingMs": 5813
+            "remainingMs": 116386
           },
           "http://df4or.ddns.net:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 20567
+            "remainingMs": 19363
           },
           "http://kiwisdr.areg.org.au:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 43907
+            "remainingMs": 44058
           }
         },
         "memoryCount": 0,
-        "baseLatency": null,
-        "outputLatency": null,
+        "baseLatency": 0.01,
+        "outputLatency": 0.032,
         "frames": 0,
         "samples": 0,
         "nonZeroSamples": 0,
@@ -592,10 +614,8 @@
       },
       "sockets": [
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fkiwisdr.areg.org.au%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F68.227.147.245%3A8073%2F",
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fhome.k1htv.us%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F191.37.241.167%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fvu2cpl.ddns.net%3A8073%2F"
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F191.37.241.167%3A8073%2F"
       ]
     },
     {
@@ -603,117 +623,87 @@
       "status": "FAIL",
       "error": "page.waitForFunction: Timeout 20000ms exceeded.",
       "diagnostics": {
-        "contextState": "closed",
+        "contextState": "running",
         "retries": 0,
-        "receiver": "http://22545.proxy.kiwisdr.com/",
-        "failureCode": "transport",
-        "closeCode": 1006,
+        "receiver": "http://44.31.241.13:8073/",
+        "failureCode": "",
+        "closeCode": null,
         "bufferTargetMs": 60,
         "cooldowns": {
           "http://f4kiy.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 36679
+            "remainingMs": 37810
           },
           "http://il38.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 50569
+            "remainingMs": 45008
           },
           "http://182.59.98.42:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 55040
+            "remainingMs": 49261
           },
           "http://websdr.heppen.be:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 63293
+            "remainingMs": 54276
           },
           "http://kiwisdr.rigiremote.ch": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 69064
+            "remainingMs": 62079
           },
           "http://kiwi.pt2fhc.org": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 73912
+            "remainingMs": 68583
           },
           "http://ea8bfk.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 19033
+            "remainingMs": 17601
           },
           "http://68.227.147.245:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 87555
+            "remainingMs": 73992
           },
           "http://home.k1htv.us:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 92487
+            "remainingMs": 89788
           },
           "http://191.37.241.167:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 95034
+            "remainingMs": 94738
           },
           "http://vu2cpl.ddns.net:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 97591
+            "remainingMs": 111460
           },
           "http://44.31.241.12:8073": {
             "reason": "transport",
             "failures": 2,
-            "remainingMs": 102584
-          },
-          "http://44.31.241.13:8073": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 105135
-          },
-          "http://sdr1.ikara.vk1hf.com": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 107681
-          },
-          "http://21996.proxy.kiwisdr.com": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 110236
-          },
-          "http://21113.proxy.kiwisdr.com": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 112807
-          },
-          "http://k9dxikiwi.proxy.kiwisdr.com": {
-            "reason": "transport",
-            "failures": 2,
-            "remainingMs": 115383
+            "remainingMs": 115942
           },
           "http://kiwisdr.areg.org.au:8073": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 22273
+            "remainingMs": 22410
           },
           "http://zl2wb2.proxy.kiwisdr.com": {
             "reason": "transport",
             "failures": 1,
-            "remainingMs": 40025
-          },
-          "http://22545.proxy.kiwisdr.com": {
-            "reason": "transport",
-            "failures": 1,
-            "remainingMs": 57972
+            "remainingMs": 44709
           }
         },
         "memoryCount": 0,
-        "baseLatency": null,
-        "outputLatency": null,
+        "baseLatency": 0.01,
+        "outputLatency": 0.032,
         "frames": 0,
         "samples": 0,
         "nonZeroSamples": 0,
@@ -723,13 +713,8 @@
       },
       "sockets": [
         "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fzl2wb2.proxy.kiwisdr.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F44.31.241.12%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F44.31.241.13%3A8073%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fsdr1.ikara.vk1hf.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F21996.proxy.kiwisdr.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F21113.proxy.kiwisdr.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fk9dxikiwi.proxy.kiwisdr.com%2F",
-        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F22545.proxy.kiwisdr.com%2F"
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2Fvu2cpl.ddns.net%3A8073%2F",
+        "wss://radio-atlas-kiwi-bridge.ossam-hashim.workers.dev/kiwi/ws?receiver=http%3A%2F%2F44.31.241.12%3A8073%2F"
       ]
     }
   ],
