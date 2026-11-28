@@ -15,13 +15,13 @@ jobs:
           node-version: "22"
       - name: Install Lighthouse (pinned, like the Validate a11y gate)
         run: |
+          set -x
           LIGHTHOUSE_QA_DIR="$RUNNER_TEMP/radio-atlas-lighthouse"
           mkdir -p "$LIGHTHOUSE_QA_DIR"
-          cat > "$LIGHTHOUSE_QA_DIR/package.json" <<'JSON'
-          {"private":true,"dependencies":{"lighthouse":"12.8.2"},"overrides":{"robots-parser":"3.0.1"}}
-          JSON
-          npm install --prefix "$LIGHTHOUSE_QA_DIR" --ignore-scripts --no-audit --no-fund
-          "$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse" --version
+          printf '%s\n' '{"private":true,"dependencies":{"lighthouse":"12.8.2"},"overrides":{"robots-parser":"3.0.1"}}' > "$LIGHTHOUSE_QA_DIR/package.json"
+          cat "$LIGHTHOUSE_QA_DIR/package.json" | tee -a lh-debug.log
+          npm install --prefix "$LIGHTHOUSE_QA_DIR" --ignore-scripts --no-audit --no-fund 2>&1 | tee -a lh-debug.log
+          "$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse" --version 2>&1 | tee -a lh-debug.log
       - name: Serve and audit (mobile + desktop)
         run: |
           python3 -m http.server 8765 >/dev/null 2>&1 &
@@ -30,16 +30,16 @@ jobs:
           sleep 2
           LH="$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse"
           FLAGS='--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage'
-          "$LH" http://localhost:8765/ --quiet --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-mobile.json
-          "$LH" http://localhost:8765/ --quiet --preset=desktop --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-desktop.json
+          "$LH" http://localhost:8765/ --quiet --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-mobile.json 2>&1 | tee -a lh-debug.log || true
+          "$LH" http://localhost:8765/ --quiet --preset=desktop --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-desktop.json 2>&1 | tee -a lh-debug.log || true
           jq '{mobile:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-mobile.json > /tmp/m.json
           jq '{desktop:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-desktop.json > /tmp/d.json
-          jq -s '.[0] + .[1]' /tmp/m.json /tmp/d.json > lighthouse-scores.json
-          cat lighthouse-scores.json
+          jq -s '.[0] + .[1]' /tmp/m.json /tmp/d.json | tee lighthouse-scores.json
       - name: Commit baseline
+        if: always()
         run: |
           git config user.name "OSSAMA2573-debug"
           git config user.email "samo.hossam@gmail.com"
-          git add lighthouse-scores.json || true
-          git commit -m "chore(qa): خط أساس Lighthouse للأداء (موبايل + سطح المكتب)" || true
+          git add -A lighthouse-scores.json lh-debug.log || true
+          git commit -m "chore(qa): خط أساس Lighthouse (محاولة 2 مع سجل التشخيص)" || true
           git push || true
