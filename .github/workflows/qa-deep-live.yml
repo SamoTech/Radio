@@ -33,24 +33,25 @@ jobs:
           RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs 2>&1 | tee qa-deep-live.log || true
           ls -la artifacts/kiwi-audio-qa/ 2>&1 | tee -a qa-deep-live.log || true
       - name: Publish evidence via Contents API (race-free)
+        env:
+          TARGET_BRANCH: feat/sdr11-qa-soak
         run: |
           set -x
-          BRANCH="feat/sdr11-qa-soak"
           API="https://api.github.com/repos/SamoTech/Radio/contents"
           AUTH="Authorization: Bearer $GITHUB_TOKEN"
           put_file() {
             FILE="$1"; MSG="$2"
             if [ ! -s "$FILE" ]; then echo "MISSING $FILE" | tee -a api-debug.txt; return 0; fi
-            SHA="$(curl -sS -H "$AUTH" "$API/$FILE?ref=$BRANCH" | jq -r ".sha // empty" 2>/dev/null || true)"
+            SHA="$(curl -sS -H "$AUTH" "$API/$FILE?ref=$TARGET_BRANCH" | jq -r ".sha // empty" 2>/dev/null || true)"
             if [ -n "$SHA" ]; then
-              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" --arg sha "$SHA" '{message:$msg,content:$c,sha:$sha,branch:$ENV.BRANCH}')"
+              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" --arg sha "$SHA" --arg br "$TARGET_BRANCH" '{message:$msg,content:$c,sha:$sha,branch:$br}')"
             else
-              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" '{message:$msg,content:$c,branch:$ENV.BRANCH}')"
+              BODY="$(jq -n --arg msg "$MSG" --arg c "$(base64 -w0 "$FILE")" --arg br "$TARGET_BRANCH" '{message:$msg,content:$c,branch:$br}')"
             fi
             CODE="$(printf '%s' "$BODY" | curl -sS -o /tmp/api-resp.json -w '%{http_code}' -X PUT -H "$AUTH" -H "Accept: application/vnd.github+json" "$API/$FILE" -d @- || true)"
             echo "$FILE -> HTTP $CODE $(head -c 120 /tmp/api-resp.json 2>/dev/null)" | tee -a api-debug.txt
           }
           rm -f api-debug.txt
-          put_file "qa-deep-live.log" "chore(qa): deep live log via API"
-          put_file "artifacts/kiwi-audio-qa/report.json" "chore(qa): deep live report via API"
-          put_file "api-debug.txt" "chore(qa): api debug"
+          put_file "qa-deep-live.log" "chore(qa): deep live log via API to feature branch"
+          put_file "artifacts/kiwi-audio-qa/report.json" "chore(qa): deep live report via API to feature branch"
+          put_file "api-debug.txt" "chore(qa): api debug to feature branch"
