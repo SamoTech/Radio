@@ -1,0 +1,45 @@
+name: Lighthouse Performance Baseline (temp)
+on:
+  push:
+    branches: [feat/sdr11-qa-soak]
+permissions:
+  contents: write
+jobs:
+  lighthouse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Lighthouse (pinned, like the Validate a11y gate)
+        run: |
+          LIGHTHOUSE_QA_DIR="$RUNNER_TEMP/radio-atlas-lighthouse"
+          mkdir -p "$LIGHTHOUSE_QA_DIR"
+          cat > "$LIGHTHOUSE_QA_DIR/package.json" <<'JSON'
+          {"private":true,"dependencies":{"lighthouse":"12.8.2"},"overrides":{"robots-parser":"3.0.1"}}
+          JSON
+          npm install --prefix "$LIGHTHOUSE_QA_DIR" --ignore-scripts --no-audit --no-fund
+          "$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse" --version
+      - name: Serve and audit (mobile + desktop)
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          sleep 2
+          LH="$LIGHTHOUSE_QA_DIR/node_modules/.bin/lighthouse"
+          FLAGS='--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage'
+          "$LH" http://localhost:8765/ --quiet --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-mobile.json
+          "$LH" http://localhost:8765/ --quiet --preset=desktop --only-categories=performance,accessibility,best-practices --chrome-flags="$FLAGS" --output=json --output-path=lh-desktop.json
+          jq '{mobile:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-mobile.json > /tmp/m.json
+          jq '{desktop:{performance:(.categories.performance.score*100|round),accessibility:(.categories.accessibility.score*100|round),bestPractices:(.categories["best-practices"].score*100|round),fcp:.audits["first-contentful-paint"].displayValue,lcp:.audits["largest-contentful-paint"].displayValue,tbt:.audits["total-blocking-time"].displayValue,cls:.audits["cumulative-layout-shift"].displayValue,si:.audits["speed-index"].displayValue}}' lh-desktop.json > /tmp/d.json
+          jq -s '.[0] + .[1]' /tmp/m.json /tmp/d.json > lighthouse-scores.json
+          cat lighthouse-scores.json
+      - name: Commit baseline
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add lighthouse-scores.json || true
+          git commit -m "chore(qa): خط أساس Lighthouse للأداء (موبايل + سطح المكتب)" || true
+          git push || true

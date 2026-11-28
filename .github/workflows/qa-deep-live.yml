@@ -1,0 +1,40 @@
+name: Deep Live QA (temp)
+on:
+  push:
+    branches: [feat/sdr11-qa-soak]
+permissions:
+  contents: write
+jobs:
+  deep-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Run deep live QA (survey + soak + scanner + offline)
+        env:
+          KIWI_QA_LIVE: '1'
+          KIWI_QA_SURVEY_COUNT: '8'
+          KIWI_QA_SOAK_MS: '300000'
+          KIWI_QA_SOAK_RECEIVERS: '["http://ea8bfk.ddns.net:8073/"]'
+          KIWI_QA_SCANNER: '1'
+          KIWI_QA_OFFLINE: '1'
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 15); do curl -fsS http://127.0.0.1:8765/ > /dev/null 2>&1 && break; sleep 1; done
+          RADIO_QA_BASE=http://127.0.0.1:8765/ node scripts/kiwi_audio_qa.cjs 2>&1 | tee qa-deep-live.log || true
+      - name: Commit evidence
+        run: |
+          git config user.name "OSSAMA2573-debug"
+          git config user.email "samo.hossam@gmail.com"
+          git add -A artifacts qa-deep-live.log || true
+          git commit -m "chore(qa): أدلة القياس العميق الحي (مسح + نقع + ماسح + انقطاع)" || true
+          git push || true
